@@ -1,0 +1,6 @@
+<Ui xmlns='http://www.blizzard.com/wow/ui/'>
+	<!--Constructor-->
+	<Script file = "Chat.lua" />
+	<!--Functions-->
+	<Script file = "Functions/chat.lua" />
+</Ui>

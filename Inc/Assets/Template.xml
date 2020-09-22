@@ -1,0 +1,147 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                    <Button name="SUIButtonMenu" registerForClicks="LeftButtonUp, RightButtonUp" virtual="true">
+                        <Layers>
+                            <Layer level="BACKGROUND">
+                                <Texture parentKey="Background" file="Interface\Common\bluemenu-main">
+                                    <Size x="0" y="50"/>
+                                    <Anchors>
+                                        <Anchor point="LEFT"/>
+                                        <Anchor point="RIGHT"/>
+                                    </Anchors>
+                                    <Color r="0.135" g="0.175" b="0.250" a="0.8"/>
+                                    <TexCoords left="0.00390625" right="0.87890625" top="0.75195313" bottom="0.83007813"/>
+                                </Texture>
+                            </Layer>
+                            <Layer level="BACKGROUND" textureSubLevel="1">
+                                <Texture parentKey="Selection" file="Interface\Common\bluemenu-main" hidden="true">
+                                    <Size x="0" y="50"/>
+                                    <Color r="0.265" g="0.320" b="0.410" a="0.6"/>
+                                    <TexCoords left="0.00390625" right="0.87890625" top="0.59179688" bottom="0.66992188"/>
+                                </Texture>
+			                </Layer>
+                            <Layer level="ARTWORK">
+                                <FontString parentKey="Text" font="Fonts\FRIZQT__.TTF">
+                                    <Color r="1" g="1" b="1" a="1"/>
+                                    <FontHeight val="12"/>
+                                    <Anchors>
+                                        <Anchor point="CENTER"/>
+                                    </Anchors>
+                                    <Shadow>
+                                        <Offset x="1" y="1" />
+                                        <Color r="0" g="0" b="0"/>
+                                    </Shadow>
+                                </FontString>
+                            </Layer>
+                            <Layer level="OVERLAY">
+                                <Texture parentKey="Icon" atlas="communities-icon-invitemail">
+                                    <Size x="25" y="25"/>
+                                    <Anchors>
+                                        <Anchor point="LEFT" x="15" y="0"/>
+                                    </Anchors>
+                                </Texture>
+                            </Layer>
+                        </Layers>
+                        <HighlightTexture parentKey="Highlight" file="Interface\Common\bluemenu-main" alphaMode="ADD" alpha="0.8">
+                            <Size x="0" y="50"/>
+                            <Color r="0.265" g="0.320" b="0.410" a="1"/>
+                            <TexCoords left="0.00390625" right="0.87890625" top="0.75195313" bottom="0.83007813"/>
+                            <Anchors>
+                                <Anchor point="LEFT"/>
+                                <Anchor point="RIGHT"/>
+                            </Anchors>
+                        </HighlightTexture>
+                    </Button>
+
+                    <Button name="SUIButtonEdit" registerForClicks="LeftButtonUp, RightButtonUp" virtual="true">
+                        <Layers>
+                            <Layer level="BACKGROUND">
+                                <Texture parentKey="Background" file="Interface\Common\bluemenu-main">
+                                    <Size x="0" y="30"/>
+                                    <Anchors>
+                                        <Anchor point="LEFT"/>
+                                        <Anchor point="RIGHT"/>
+                                    </Anchors>
+                                    <Color r="0.265" g="0.320" b="0.410" a="1"/>
+                                    <TexCoords left="0.00390625" right="0.87890625" top="0.75195313" bottom="0.83007813"/>
+                                </Texture>
+                            </Layer>
+                            <Layer level="ARTWORK">
+                                <FontString parentKey="Text" font="Fonts\FRIZQT__.TTF">
+                                    <Color r="1" g="1" b="1" a="1"/>
+                                    <FontHeight val="12"/>
+                                    <Anchors>
+                                        <Anchor point="CENTER"/>
+                                    </Anchors>
+                                    <Shadow>
+                                        <Offset x="1" y="1" />
+                                        <Color r="0" g="0" b="0"/>
+                                    </Shadow>
+                                </FontString>
+                            </Layer>
+                        </Layers>
+                        <HighlightTexture parentKey="Highlight" file="Interface\Common\bluemenu-main" alphaMode="ADD" alpha="0.8">
+                            <Size x="0" y="25"/>
+                            <Color r="0.265" g="0.320" b="0.410" a="1"/>
+                            <TexCoords left="0.00390625" right="0.87890625" top="0.75195313" bottom="0.83007813"/>
+                            <Anchors>
+                                <Anchor point="LEFT"/>
+                                <Anchor point="RIGHT"/>
+                            </Anchors>
+                        </HighlightTexture>
+                </Button>
+
+                <Button name="SUIButtonFollow" registerForClicks="LeftButtonUp, RightButtonUp" virtual="true">
+                        <Layers>
+                            <Layer level="BACKGROUND">
+                                <Texture parentKey="Background" file="Interface\Common\bluemenu-main">
+                                    <Size x="0" y="25"/>
+                                    <Anchors>
+                                        <Anchor point="LEFT"/>
+                                        <Anchor point="RIGHT"/>
+                                    </Anchors>
+                                    <Color r="0.265" g="0.320" b="0.410" a="1"/>
+                                    <TexCoords left="0.00390625" right="0.87890625" top="0.75195313" bottom="0.83007813"/>
+                                </Texture>
+                            </Layer>
+                            <Layer level="ARTWORK">
+                                <FontString parentKey="Text" font="Fonts\FRIZQT__.TTF">
+                                    <Color r="1" g="1" b="1" a="1"/>
+                                    <FontHeight val="12"/>
+                                    <Anchors>
+                                        <Anchor point="CENTER"/>
+                                    </Anchors>
+                                    <Shadow>
+                                        <Offset x="1" y="1" />
+                                        <Color r="0" g="0" b="0"/>
+                                    </Shadow>
+                                </FontString>
+                            </Layer>
+                            <Layer level="OVERLAY">
+                                <Texture parentKey="Icon" atlas="communities-icon-invitemail">
+                                    <Size x="15" y="15"/>
+                                    <Anchors>
+                                        <Anchor point="LEFT" x="15" y="0"/>
+                                    </Anchors>
+                                </Texture>
+                            </Layer>
+                        </Layers>
+                        <HighlightTexture parentKey="Highlight" file="Interface\Common\bluemenu-main" alphaMode="ADD" alpha="0.8">
+                            <Size x="0" y="25"/>
+                            <Color r="0.265" g="0.320" b="0.410" a="1"/>
+                            <TexCoords left="0.00390625" right="0.87890625" top="0.75195313" bottom="0.83007813"/>
+                            <Anchors>
+                                <Anchor point="LEFT"/>
+                                <Anchor point="RIGHT"/>
+                            </Anchors>
+                        </HighlightTexture>
+                </Button>
+
+                <Frame name="SUIDropdown" inherits="UIDropDownMenuTemplate" id="1">
+                    <Scripts>
+                        <OnLoad>
+                            UIDropDownMenu_Initialize(self, MyDropDownMenu_OnLoad, "MENU");
+                        </OnLoad>
+                    </Scripts>
+                </Frame>
+
+</Ui>

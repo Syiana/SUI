@@ -1,0 +1,10 @@
+<Ui xmlns='http://www.blizzard.com/wow/ui/'>
+	<!--Constructor-->
+	<Script file = "CastBars.lua" />
+	<!--Functions-->
+	<Script file = "Functions/Player.lua" />
+	<Script file = "Functions/Target.lua" />
+	<Script file = "Functions/Focus.lua" />
+	<Script file = "Functions/Icon.lua" />
+	<Script file = "Functions/Timer.lua" />
+</Ui>

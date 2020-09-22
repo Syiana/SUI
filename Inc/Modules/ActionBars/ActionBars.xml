@@ -1,0 +1,10 @@
+<Ui xmlns='http://www.blizzard.com/wow/ui/'>
+	<!--Constructor-->
+	<Script file = "ActionBars.lua" />
+	<!--Functions-->
+	<Script file = "Functions/Buttons.lua" />
+	<Script file = "Functions/Menu.lua" />
+	<Script file = "Functions/Gryphones.lua" />
+	<Script file = "Functions/Range.lua" />
+	<Script file = "Functions/Text.lua" />
+</Ui>

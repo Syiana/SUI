@@ -1,0 +1,17 @@
+## Interface: 90000
+## Author: Syiana
+## Version: 9.0
+## Title: |cfff58cbaS|r|cff009cffUI ALPHA|r
+## Notes: SUI v9.0 by Syiana-Aegwynn
+## SavedVariables: SUIDB
+
+## LIBS
+
+## CONFIG
+Inc\Config\Config.xml
+
+## MODULES
+Inc\Modules\Modules.xml
+
+## INIT
+Inc\Init.lua

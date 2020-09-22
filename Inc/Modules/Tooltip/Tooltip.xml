@@ -1,0 +1,6 @@
+<Ui xmlns='http://www.blizzard.com/wow/ui/'>
+	<!--Constructor-->
+	<Script file = "Tooltip.lua" />
+	<!--Functions-->
+	<Script file = "Functions/Tooltip.lua" />
+</Ui>
