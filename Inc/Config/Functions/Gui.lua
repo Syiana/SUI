@@ -20,7 +20,6 @@ SUI.CONFIG.GUI = function()
 			for i = 1, #key - 1 do
 				db = db[key[i]]
 			end
-			print(db[key[#key]])
 			return db[key[#key]]
 		end
 
@@ -150,6 +149,7 @@ SUI.CONFIG.GUI = function()
 			SUIConfig.Checkbox:SetScript("OnShow",function(frame)
 				frame:SetChecked(SUIGetDB(key))
 			end)
+			
 			SUIConfig.Checkbox:SetScript("OnClick",function(frame)
 				local check = frame:GetChecked()
 				PlaySound(check and SOUND_ON or SOUND_OFF)
@@ -163,12 +163,42 @@ SUI.CONFIG.GUI = function()
 			end)
 		end
 
-		local function SUICreateDrop(text, point1, anchor, point2, pos1, pos2)
-			SUIConfig.Dropdown = CreateFrame("frame", nil, _G[anchor], "UIDropDownMenuTemplate")
-			SUIConfig.Dropdown:SetPoint(point1, anchor, point2, pos1, pos2)
-			SUIConfig.Dropdown.text = SUIConfig.Dropdown:CreateFontString(nil, nil, "GameFontNormal")
-			SUIConfig.Dropdown.text:SetPoint("LEFT", SUIConfig.Dropdown, "RIGHT", -20, 24)
-			SUIConfig.Dropdown.text:SetText(text)
+		local function SUICreateDrop(text, point1, anchor, point2, pos1, pos2, key)
+			Dropdown = CreateFrame("frame", "dropdown" .. text, _G[anchor], "UIDropDownMenuTemplate")
+			Dropdown:SetPoint(point1, anchor, point2, pos1, pos2)
+			Dropdown.Title = Dropdown:CreateFontString(nil, nil, "GameFontNormal")
+			Dropdown.Title:SetPoint("LEFT", Dropdown, "RIGHT", -20, 24)
+			Dropdown.Title:SetText(text)
+
+
+			
+			Dropdown.Left:SetVertexColor(0.265, 0.320, 0.410, 1)
+			Dropdown.Middle:SetVertexColor(0.265, 0.320, 0.410, 1)
+			Dropdown.Right:SetVertexColor(0.265, 0.320, 0.410, 1)
+
+			Dropdown.Button:GetNormalTexture():SetVertexColor(0.265, 0.320, 0.410, 1)
+			Dropdown.Button:GetHighlightTexture():SetVertexColor(0.265, 0.320, 0.410, 1)
+			Dropdown.Button:GetPushedTexture():SetVertexColor(0.265, 0.320, 0.410, 1)
+
+			local db = SUIGetDB(key)
+
+			UIDropDownMenu_SetText(Dropdown, db.SELECTED)
+			--UIDropDownMenu_SetSelectedName(Dropdown, db.SELECTED)
+			UIDropDownMenu_Initialize(Dropdown, function(self, color)
+				local info = UIDropDownMenu_CreateInfo()
+				info.func = self.SetValue
+				for k,v in pairs(db.OPTIONS) do
+					info.text, info.arg1 = k, k
+					UIDropDownMenu_AddButton(info)
+				end
+			end)
+
+			function Dropdown:SetValue(value)
+				local self = _G["dropdown" .. text]
+				SUIChangeDB(key .. '.SELECTED', value)
+				self.Text:SetText(value);
+			end
+
 		end
 
 		local function SUICreateElements()
@@ -188,9 +218,7 @@ SUI.CONFIG.GUI = function()
 			
 			SUIConfig.Title = SUIConfig:CreateFontString(nil, SUIConfig, "GameFontNormalLarge")
 			SUIConfig.Title:SetPoint("TOP", 0, -35)
-			SUIConfig.Title:SetText("SUI BETA v" .. GetAddOnMetadata("SUI", "version"))
-			--SUIConfig.Title:SetTextColor(0.99,0.99,0.99,1)
-			
+			SUIConfig.Title:SetText("|cfff58cbaS|r|cff009cffUI|r v" .. GetAddOnMetadata("SUI", "version"))
 
 			SUIConfig.Twitch =  SUIConfig:CreateTexture()
 			SUIConfig.Twitch:SetTexture("Interface\\AddOns\\SUI\\Inc\\Assets\\Media\\Config\\twitch")
@@ -261,53 +289,12 @@ SUI.CONFIG.GUI = function()
 			--end)
 			SUICreateText('General', 'SUIConfig.View.General', 'TOPLEFT', 15, -20)
 
-			SUICreateDrop('Theme', 'TOPLEFT', 'SUIConfig.View.General', "TOPLEFT", 15, -65)
-			function SUIConfig.Dropdown:SetValue(value)
-				UIDropDownMenu_SetText(SUIConfig.Dropdown, value)
-			end
-			UIDropDownMenu_SetText(SUIConfig.Dropdown, "Test")
-			UIDropDownMenu_Initialize(SUIConfig.Dropdown, function(self,color)
-				local info = UIDropDownMenu_CreateInfo()
-				info.func = self.SetValue
-				info.text, info.arg1 = "SUI", "SUI"
-				UIDropDownMenu_AddButton(info)
-				info.text, info.arg1 = "Dark", "Dark"
-				UIDropDownMenu_AddButton(info)
-				info.text, info.arg1 = "Custom", "Custom"
-				UIDropDownMenu_AddButton(info)
-			end)
+			SUICreateDrop('Theme', 'TOPLEFT', 'SUIConfig.View.General', "TOPLEFT", 15, -65, 'THEMES')
 
-			SUICreateDrop('Texture', 'TOP', 'SUIConfig.View.General', "TOP", -60, -65)
-			function SUIConfig.Dropdown:SetValue(value)
-				UIDropDownMenu_SetText(SUIConfig.Dropdown, value)
-			end
-			UIDropDownMenu_SetText(SUIConfig.Dropdown, "Test")
-			UIDropDownMenu_Initialize(SUIConfig.Dropdown, function(self,color)
-				local info = UIDropDownMenu_CreateInfo()
-				info.func = self.SetValue
-				info.text, info.arg1 = "SUI", "SUI"
-				UIDropDownMenu_AddButton(info)
-				info.text, info.arg1 = "Dark", "Dark"
-				UIDropDownMenu_AddButton(info)
-				info.text, info.arg1 = "Custom", "Custom"
-				UIDropDownMenu_AddButton(info)
-			end)
 
-			SUICreateDrop('Font', 'TOPRIGHT', 'SUIConfig.View.General', "TOPRIGHT", -135, -65)
-			function SUIConfig.Dropdown:SetValue(value)
-				UIDropDownMenu_SetText(SUIConfig.Dropdown, value)
-			end
-			UIDropDownMenu_SetText(SUIConfig.Dropdown, "Test")
-			UIDropDownMenu_Initialize(SUIConfig.Dropdown, function(self,color)
-				local info = UIDropDownMenu_CreateInfo()
-				info.func = self.SetValue
-				info.text, info.arg1 = "SUI", "SUI"
-				UIDropDownMenu_AddButton(info)
-				info.text, info.arg1 = "Dark", "Dark"
-				UIDropDownMenu_AddButton(info)
-				info.text, info.arg1 = "Custom", "Custom"
-				UIDropDownMenu_AddButton(info)
-			end)
+			SUICreateDrop('Texture', 'TOP', 'SUIConfig.View.General', "TOP", -60, -65, 'TEXTURES')
+
+			SUICreateDrop('Font', 'TOPRIGHT', 'SUIConfig.View.General', "TOPRIGHT", -135, -65, 'FONTS')
 
 			SUICreateText('Automation', 'SUIConfig.View.General', 'TOPLEFT', 15, -110)
 			SUICreateCheck('AutoRepair', 'SUIConfig.View.General', 30,-130, 'test', 'MISC.STATE')
@@ -383,8 +370,8 @@ SUI.CONFIG.GUI = function()
 			SUICreateCheck('Stats', 'SUIConfig.View.Bars', 390,-95, 'test', 'ACTIONBAR.CONFIG.Stats')
 	
 			SUICreateText('Hide Elements', 'SUIConfig.View.Bars', 'TOPLEFT', 25, -130)
-			SUICreateCheck('Hotkeys', 'SUIConfig.View.Bars', 30,-150, 'test', 'ACTIONBAR.CONFIG.HotKeys')
-			SUICreateCheck('Macros', 'SUIConfig.View.Bars', 150,-150, 'test', 'ACTIONBAR.CONFIG.Macros')
+			SUICreateCheck('Hotkeys', 'SUIConfig.View.Bars', 30,-150, 'test', 'ACTIONBAR.CONFIG.HotKeys.Hide')
+			SUICreateCheck('Macros', 'SUIConfig.View.Bars', 150,-150, 'test', 'ACTIONBAR.CONFIG.Macros.Hide')
 			SUICreateCheck('Gryphones', 'SUIConfig.View.Bars', 270,-150, 'test', 'ACTIONBAR.CONFIG.Gryphones')
 			SUICreateCheck('Menu', 'SUIConfig.View.Bars', 390,-150, 'test', 'ACTIONBAR.CONFIG.Menu')
 
@@ -392,7 +379,7 @@ SUI.CONFIG.GUI = function()
 			SUICreateCheck('Enable', 'SUIConfig.View.Bars', 30,-210, 'test', 'CASTBARS.STATE')
 
 			SUICreateText('Options', 'SUIConfig.View.Bars', 'TOPLEFT', 25, -245)
-			SUICreateCheck('Icon', 'SUIConfig.View.Bars', 30,-265, 'test', 'CASTBARS.CONFIG.Icon')
+			SUICreateCheck('CastIcon', 'SUIConfig.View.Bars', 30,-265, 'test', 'CASTBARS.CONFIG.Icon')
 			SUICreateCheck('CastTimer', 'SUIConfig.View.Bars', 150,-265, 'test', 'CASTBARS.CONFIG.Timer')
 
 		--VIEW CHAT

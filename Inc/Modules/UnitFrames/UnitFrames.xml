@@ -1,6 +1,7 @@
 <Ui xmlns='http://www.blizzard.com/wow/ui/'>
+	<!--Constructor-->
 	<Script file="UnitFrames.lua"/>
-
+	<!--Functions-->
 	<Script file="Functions/Player.lua"/>
 	<Script file="Functions/Target.lua"/>
 	<Script file="Functions/Party.lua"/>

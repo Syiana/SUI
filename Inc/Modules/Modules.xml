@@ -7,5 +7,5 @@
 	<Include file='Chat\Chat.xml'/>
 	<Include file='Tooltip\Tooltip.xml'/>
 	<Include file='Maps\Minimap.xml'/>
-	<Include file='Skins\Blizzard.xml'/>
+	<Include file='Skins\Skins.xml'/>
 </Ui>

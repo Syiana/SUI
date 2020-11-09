@@ -600,6 +600,7 @@ SUI:SetScript("OnEvent", function(self, event)
 			OpenMailFrame.NineSlice.TopLeftCorner, }) do
 				v:SetVertexColor(.15, .15, .15)
 		end
+		
 		for i, v in pairs({ 
 			MailFrameInset.NineSlice.TopEdge,
 			MailFrameInset.NineSlice.TopRightCorner,

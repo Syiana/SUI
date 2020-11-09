@@ -17,16 +17,21 @@ LOGIN:SetScript("OnEvent", function(self, event)
             end
         end 
         if (SUI.MODULES) then
+            local MEDIA = {
+                color = SUIDB.THEMES.OPTIONS[SUIDB.THEMES.SELECTED],
+                font = SUIDB.FONTS.OPTIONS[SUIDB.FONTS.SELECTED],
+                tex = SUIDB.TEXTURES.OPTIONS[SUIDB.TEXTURES.SELECTED],
+            }
             for MODULE in pairs(SUI.MODULES) do local MODULE = SUI.MODULES[MODULE]
                 if MODULE then
                     if (type(MODULE) == "table" and MODULE['DB']) then DB = SUIDB[MODULE['DB']] else DB = nil end
                     if (type(MODULE) == "table") then
                         for FUNC in pairs(MODULE) do
                             FUNC = MODULE[FUNC]
-                            if (type(FUNC) == "function") then FUNC(DB) end
+                            if (type(FUNC) == "function") then FUNC(DB, MEDIA) end
                         end
                     else
-                        MODULE(DB)
+                        MODULE(DB, MEDIA)
                     end
                 end
             end 

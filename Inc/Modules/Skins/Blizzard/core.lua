@@ -1,8 +1,9 @@
 local ADDON, SUI = ...
-if (SUI.MODULES) then SUI.MODULES.SKIN = function(state, args) 
-	state = true
-	if (state) then
+SUI.MODULES.SKINS.Skin = function(DB, MEDIA) 
+	if (DB and MEDIA.color) then
 		--Frames
+		print(MEDIA.color)
+
 		for i, v in pairs({	
 			GameMenuFrame.Border.TopEdge,
 			GameMenuFrame.Border.RightEdge,
@@ -1997,4 +1998,4 @@ if (SUI.MODULES) then SUI.MODULES.SKIN = function(state, args)
 		end)
 
 	end
-end end
+end

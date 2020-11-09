@@ -175,14 +175,14 @@ SUI.MODULES.ACTIONBAR.Buttons = function(DB)
             ho:ClearAllPoints()
             ho:SetPoint("TOPRIGHT", bu)
             ho:SetPoint("TOPLEFT", bu)
-            if not dominos and not bartender4 and (SUIDB.ACTIONBAR.HotKeys) then
+            if not dominos and not bartender4 and (DB.CONFIG.HotKeys.Hide) then
                 ho:Hide()
             end
             --na:SetFont(FONT, 12, "OUTLINE")
             na:ClearAllPoints()
             na:SetPoint("BOTTOMLEFT", bu)
             na:SetPoint("BOTTOMRIGHT", bu)
-            if not dominos and not bartender4 and not SUIDB.ACTIONBAR.Macros == false then
+            if not dominos and not bartender4 and not (DB.CONFIG.Macros.Hide == false) then
                 na:Hide()
             end
             --co:SetFont(FONT, 12, "OUTLINE")
@@ -210,10 +210,7 @@ SUI.MODULES.ACTIONBAR.Buttons = function(DB)
                 nt:SetVertexColor(config.color.normal.r, config.color.normal.g, config.color.normal.b, 1)
             end
             nt:SetAllPoints(bu)
-            hooksecurefunc(
-                nt,
-                "SetVertexColor",
-                function(nt, r, g, b, a)
+            hooksecurefunc(nt, "SetVertexColor", function(nt, r, g, b, a)
                     local bu = nt:GetParent()
                     local action = bu.action
                     if r == 1 and g == 1 and b == 1 and action and (IsEquippedAction(action)) then

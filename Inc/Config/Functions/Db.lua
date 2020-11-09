@@ -54,11 +54,29 @@ SUI.CONFIG.DB = function()
         CONFIG = {
             DB = true
         },
+        THEMES = {
+            SELECTED = "Default",
+            OPTIONS = {
+                Default = {},
+                Dark = {r = 0.37, g = 0.3, b = 0.3},
+                Class = {r = 0.37, g = 0.3, b = 0.3},
+                Custom = {r = 0.37, g = 0.3, b = 0.3}
+            }
+        },
         FONTS = {
+            SELECTED = "Default",
+            OPTIONS = {
+                Default = "Interface\\AddOns\\SUI\\inc\\media\\fonts\\FRIZQT__.TTF",
+                Prototype = "Interface\\AddOns\\SUI\\inc\\media\\fonts\\FRIZQT__.TTF",
+            },
             NORMAL = "Interface\\AddOns\\SUI\\inc\\media\\fonts\\FRIZQT__.TTF"
         },
         TEXTURES = {
-
+            SELECTED = "Default",
+            OPTIONS = {
+                Default = "Interface\\AddOns\\SUI\\inc\\media\\fonts\\FRIZQT__.TTF",
+                Smooth = "Interface\\AddOns\\SUI\\inc\\media\\fonts\\FRIZQT__.TTF"
+            }
         },
         MISC = {
             TalkHead = false,
@@ -163,6 +181,15 @@ SUI.CONFIG.DB = function()
         NAMEPLATE = {
             STATE = true,
             CONFIG = {}
+        },
+        SKINS = {
+            STATE = true,
+            BLIZZARD = {
+                test = true
+            },
+            ADDONS = {
+                sArena = true
+            }
         },
         background = {
             showbg = true,
