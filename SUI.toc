@@ -1,8 +1,8 @@
-## Interface: 90000
+## Interface: 90002
 ## Author: Syiana
 ## Version: 9.0
 ## Title: |cfff58cbaS|r|cff009cffUI ALPHA|r
-## Notes: SUI v9.0 by Syiana-Aegwynn
+## Notes: SUI v9.0 by Syiana
 ## SavedVariables: SUIDB
 
 ## LIBS

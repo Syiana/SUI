@@ -2,8 +2,6 @@ local ADDON, SUI = ...
 SUI.MODULES.SKINS.Skin = function(DB, MEDIA) 
 	if (DB and MEDIA.color) then
 		--Frames
-		print(MEDIA.color)
-
 		for i, v in pairs({	
 			GameMenuFrame.Border.TopEdge,
 			GameMenuFrame.Border.RightEdge,
@@ -23,6 +21,43 @@ SUI.MODULES.SKINS.Skin = function(DB, MEDIA)
 			StaticPopup1.Border.BottomRightCorner}) do
 				v:SetVertexColor(.3, .3, .3)
 		end
+
+		-- Tooltip
+		local function styleTooltip(self,style)
+			backdrop = {
+				bgFile = "Interface\\Buttons\\WHITE8x8",
+				bgColor = {0.03,0.03,0.03, 0.9},
+				edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+				borderColor = {0.03,0.03,0.03, 0.9},
+				itemBorderColorAlpha = 0.9,
+				azeriteBorderColor = {1,0.3,0,0.9},
+				tile = false,
+				tileEdge = false,
+				tileSize = 16,
+				edgeSize = 16,
+				insets = {left=3, right=3, top=3, bottom=3}
+		  	}
+			self:SetBackdrop(backdrop)
+			self:SetBackdropColor(unpack(backdrop.bgColor))
+			local _, itemLink = self:GetItem()
+			if itemLink then
+				local azerite = C_AzeriteEmpoweredItem.IsAzeriteEmpoweredItemByID(itemLink) or C_AzeriteItem.IsAzeriteItemByID(itemLink) or false
+				local _, _, itemRarity = GetItemInfo(itemLink)
+				local r,g,b = 1,1,1
+				if itemRarity then r,g,b = GetItemQualityColor(itemRarity) end
+				if azerite and backdrop.azeriteBorderColor then
+					self:SetBackdropBorderColor(unpack(backdrop.azeriteBorderColor))
+				else
+					self:SetBackdropBorderColor(r,g,b, unpack(backdrop.itemBorderColorAlpha))
+				end
+			else
+			  	self:SetBackdropBorderColor(backdrop.borderColor)
+			end
+		end
+		hooksecurefunc("SharedTooltip_SetBackdropStyle", styleTooltip)
+		local tooltips = { GameTooltip,ShoppingTooltip1,ShoppingTooltip2,ItemRefTooltip,ItemRefShoppingTooltip1,ItemRefShoppingTooltip2,WorldMapTooltip,
+		WorldMapCompareTooltip1,WorldMapCompareTooltip2,SmallTextTooltip }
+		for i, tooltip in next, tooltips do styleTooltip(tooltip) end
 
 		-- Unitframes
 		for i, v in pairs(

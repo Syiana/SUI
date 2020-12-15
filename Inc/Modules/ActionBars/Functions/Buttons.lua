@@ -440,7 +440,23 @@ SUI.MODULES.ACTIONBAR.Buttons = function(DB)
             end
 
             if not dominos and not bartender and (SUIDB.ACTIONBAR.HotKeys) then
-                hooksecurefunc("ActionButton_UpdateHotkeys", updateHotkey)
+                local frame = CreateFrame("Frame")
+                frame:RegisterEvent("UPDATE_BINDINGS")
+                frame:RegisterEvent("PLAYER_ENTERING_WORLD")
+                frame:SetScript("OnEvent", function()
+                    for i = 1, 12 do
+                        updateHotkey(_G["ActionButton"..i])
+                        updateHotkey(_G["MultiBarBottomLeftButton"..i])
+                        updateHotkey(_G["MultiBarBottomRightButton"..i])
+                        updateHotkey(_G["MultiBarLeftButton"..i])
+                        updateHotkey(_G["MultiBarRightButton"..i])
+                    end
+                    for i = 1, 10 do
+                        updateHotkey(_G["StanceButton"..i])
+                        updateHotkey(_G["PetActionButton"..i])
+                    end
+                    updateHotkey(ExtraActionButton1)
+                end)     
             end
         end
 
