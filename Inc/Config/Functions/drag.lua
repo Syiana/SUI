@@ -16,30 +16,6 @@ BuffFrame:SetUserPlaced(true)
 BuffFrame:ClearAllPoints();
 BuffFrame:SetPoint("TOP", MinimapCluster, "BOTTOM", 98, -10)
 
-
-local MenuFrame = CreateFrame('Frame', "MenuFrame", MainMenuBar)
-MenuFrame:SetMovable(true)
-MenuFrame:SetUserPlaced(true)
-MenuFrame:SetPoint('BOTTOMRIGHT', UIParent, "BOTTOMRIGHT", 5, 3)
-MenuFrame:SetScript("OnDragStart", function(self) print('test') end)
-
-local BagsBarTexture = MenuFrame:CreateTexture()
-BagsBarTexture:SetAtlas('hud-MicroBagBar', true)
-BagsBarTexture:SetPoint('CENTER')
-BagsBarTexture:Show()
-
-local Width, Height = BagsBarTexture:GetSize()
-MenuFrame:SetSize(Width, Height)
-
-MainMenuBarBackpackButton:SetParent(MenuFrame)
-CharacterBag0Slot:SetParent(MenuFrame)
-CharacterBag1Slot:SetParent(MenuFrame)
-CharacterBag2Slot:SetParent(MenuFrame)
-CharacterBag3Slot:SetParent(MenuFrame)
-
-MainMenuBarBackpackButton:ClearAllPoints()
-MainMenuBarBackpackButton:SetPoint('TOPRIGHT', -4, -4)
-MicroButtonAndBagsBar:Hide()
   
 -- Drag
 function dragFrame(frame)

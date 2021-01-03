@@ -46,9 +46,9 @@ SUI.MODULES.SKINS.Skin = function(DB, MEDIA)
 				local r,g,b = 1,1,1
 				if itemRarity then r,g,b = GetItemQualityColor(itemRarity) end
 				if azerite and backdrop.azeriteBorderColor then
-					self:SetBackdropBorderColor(unpack(backdrop.azeriteBorderColor))
+					self:SetBackdropBorderColor(backdrop.azeriteBorderColor)
 				else
-					self:SetBackdropBorderColor(r,g,b, unpack(backdrop.itemBorderColorAlpha))
+					self:SetBackdropBorderColor(r,g,b, backdrop.itemBorderColorAlpha)
 				end
 			else
 			  	self:SetBackdropBorderColor(backdrop.borderColor)
@@ -203,7 +203,7 @@ SUI.MODULES.SKINS.Skin = function(DB, MEDIA)
 		-- Actionbar
 		for i, v in pairs(
 			{
-				MicroButtonAndBagsBar.MicroBagBar,
+				
 				MainMenuBarArtFrameBackground.BackgroundLarge,
 				MainMenuBarArtFrameBackground.BackgroundSmall,
 				StatusTrackingBarManager.SingleBarLarge,

@@ -1,43 +1,67 @@
+local MenuFrame = CreateFrame('Frame', "MenuFrame", MainMenuBar)
+MenuFrame:SetMovable(true)
+MenuFrame:SetUserPlaced(true)
+MenuFrame:SetPoint('BOTTOMRIGHT', UIParent, "BOTTOMRIGHT", 5, 3)
+MenuFrame:SetScript("OnDragStart", function(self) print('test') end)
+
+local BagsBarTexture = MenuFrame:CreateTexture("texture")
+BagsBarTexture:SetAtlas('hud-MicroBagBar', true)
+BagsBarTexture:SetPoint('CENTER')
+BagsBarTexture:Show()
+
+local Width, Height = BagsBarTexture:GetSize()
+MenuFrame:SetSize(Width, Height)
+
+MainMenuBarBackpackButton:SetParent(MenuFrame)
+CharacterBag0Slot:SetParent(MenuFrame)
+CharacterBag1Slot:SetParent(MenuFrame)
+CharacterBag2Slot:SetParent(MenuFrame)
+CharacterBag3Slot:SetParent(MenuFrame)
+
+MainMenuBarBackpackButton:ClearAllPoints()
+MainMenuBarBackpackButton:SetPoint('TOPRIGHT', -4, -4)
+MicroButtonAndBagsBar:Hide()
+
+MenuFrame:GetRegions():SetVertexColor(.15, .15, .15)
+
 local ADDON, SUI = ...
 SUI.MODULES.ACTIONBAR.Menu = function(DB) 
+
     if (DB.STATE) then
         if (DB.CONFIG.Menu) then
+
             local ignore
-            MicroButtonAndBagsBar:Hide()
-            
-            local function setAlpha(b, a)
+
+            frames = {BagsBarTexture, MainMenuBarBackpackButton, CharacterBag0Slot, 
+            CharacterBag1Slot, CharacterBag2Slot, CharacterBag3Slot}
+
+            MenuFrame:SetScript('OnEnter', function() 
+                for i,v in ipairs(frames) do
+                    v:Show()
+                end
+                for _, v in ipairs(MICRO_BUTTONS) do
+                    v = _G[v]
+                    v:SetAlpha(1)
+                end
+      
+            end)
+            MenuFrame:SetScript('OnLeave', function() 
                 if ignore then return end
-                ignore = true
-                if b:IsMouseOver() then
-                    b:SetAlpha(1)
-                else
-                    b:SetAlpha(0)
+                for i,v in ipairs(frames) do
+                    v:Hide()
                 end
-                ignore = nil
-            end
-            
-            local function showFoo(self)
                 for _, v in ipairs(MICRO_BUTTONS) do
-                    ignore = true
-                    _G[v]:SetAlpha(1)
-                    ignore = nil
+                    v = _G[v]
+                    v:SetAlpha(0)
                 end
-            end
-            
-            local function hideFoo(self)
-                for _, v in ipairs(MICRO_BUTTONS) do
-                    ignore = true
-                    _G[v]:SetAlpha(0)
-                    ignore = nil
-                end
-            end
-            
+      
+            end)
+
             for _, v in ipairs(MICRO_BUTTONS) do
                 v = _G[v]
-                hooksecurefunc(v, "SetAlpha", setAlpha)
-                v:HookScript("OnEnter", showFoo)
-                v:HookScript("OnLeave", hideFoo)
-                v:SetAlpha(0)
+
+                v:HookScript("OnEnter", function() ignore = true end)
+                v:HookScript("OnLeave", function() ignore = false end)
             end
         end
     end
