@@ -18,9 +18,7 @@ CharacterBag1Slot:SetParent(MenuFrame)
 CharacterBag2Slot:SetParent(MenuFrame)
 CharacterBag3Slot:SetParent(MenuFrame)
 
-
-for _, v in ipairs(MICRO_BUTTONS) do
-    v = _G[v]
+for _, v in ipairs(MICRO_BUTTONS) do v = _G[v]
     v:SetParent(MenuFrame)
 end
 
@@ -32,9 +30,9 @@ MenuFrame:GetRegions():SetVertexColor(.15, .15, .15)
 
 local ADDON, SUI = ...
 SUI.MODULES.ACTIONBAR.Menu = function(DB) 
-
     if (DB.STATE) then
         if (DB.CONFIG.Menu) then
+            MenuFrame:SetAlpha(0)
             MenuFrame:SetScript('OnEnter', function()
                 MenuFrame:SetAlpha(1)
             end)

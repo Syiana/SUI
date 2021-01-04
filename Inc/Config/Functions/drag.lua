@@ -7,15 +7,10 @@ local Frames = {
 	"MinimapCluster",
 	"MenuFrame",
 	"CastingBarFrame",
-	"TargetFrameSpellBar"
+	"TargetFrameSpellBar",
+	"BuffDragFrame",
+	"DebuffDragFrame"
 }
-
-
-BuffFrame:SetMovable(true)
-BuffFrame:SetUserPlaced(true)
-BuffFrame:ClearAllPoints();
-BuffFrame:SetPoint("TOP", MinimapCluster, "BOTTOM", 98, -10)
-
   
 -- Drag
 function dragFrame(frame)
@@ -39,7 +34,7 @@ function dragFrame(frame)
 	dragFrame.texture = dragFrame:CreateTexture("ARTWORK")
 	dragFrame.texture:SetAllPoints(dragFrame)
 	dragFrame.texture:SetTexture("Interface\\DialogFrame\\UI-DialogBox-Background")
-	dragFrame.texture:SetColorTexture(.035, .035, .035, .3)
+	dragFrame.texture:SetColorTexture(.035, .035, .035, .5)
 
     dragFrame.texture.text = dragFrame.text or dragFrame:CreateFontString(nil, "ARTWORK", "QuestMapRewardsFont")
 	dragFrame.texture.text:SetAllPoints(true)
@@ -95,6 +90,41 @@ local function unlockFrame(frame)
 	end
 end
 
+-- Grid
+local function showGrid()
+	if Locked then 
+		f:Hide()
+		f = nil
+	else
+		f = CreateFrame('Frame', nil, UIParent)
+		f:SetAllPoints(UIParent)
+		local w = GetScreenWidth() / 100
+		local h = GetScreenHeight() / 50
+		for i = 0, 100 do
+			local t = f:CreateTexture(nil, 'BACKGROUND')
+			if i == 50 then
+				t:SetColorTexture(1, 1, 0, 0.5)
+			else
+				t:SetColorTexture(1, 1, 1, 0.15)
+			end
+			t:SetPoint('TOPLEFT', f, 'TOPLEFT', i * w - 1, 0)
+			t:SetPoint('BOTTOMRIGHT', f, 'BOTTOMLEFT', i * w + 1, 0)
+			f:SetFrameStrata("HIGH")
+		end
+		for i = 0, 50 do
+			local t = f:CreateTexture(nil, 'BACKGROUND')
+			if i == 25 then
+				t:SetColorTexture(1, 1, 0, 0.5)
+			else
+				t:SetColorTexture(1, 1, 1, 0.15)
+			end
+			t:SetPoint('TOPLEFT', f, 'TOPLEFT', 0, -i * h + 1)
+			t:SetPoint('BOTTOMRIGHT', f, 'TOPRIGHT', 0, -i * h - 1)
+			f:SetFrameStrata("LOW")
+		end
+	end
+end
+
 -- Init
 for i , v in pairs (Frames) do 
 	print(v)
@@ -107,9 +137,11 @@ function SlashCmdList.DRAG()
 	if (Locked) then
 		for i , v in pairs (Frames) do unlockFrame(v) end
 		Locked = false
+		showGrid()
 	else 
 		for i , v in pairs (Frames) do unlockFrame(v) end
 		Locked = true
+		showGrid()
 	end
 end
 MoveMicroButtons('BOTTOMLEFT', MenuFrame, 'BOTTOMLEFT', 6, 3)

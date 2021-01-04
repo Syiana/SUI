@@ -1,4 +1,13 @@
 local ADDON, SUI = ...
+
+local bf = CreateFrame("Frame", "BuffDragFrame", UIParent)
+bf:SetSize(32, 32)
+bf:SetPoint("TOPRIGHT", "Minimap", "TOPLEFT", -35, 0)
+
+local df = CreateFrame("Frame", "DebuffDragFrame", UIParent)
+df:SetSize(34, 34)
+df:SetPoint("TOPRIGHT", "Minimap", "TOPLEFT", -35, -125)
+
 SUI.MODULES.BUFFS.Buffs = function(DB) 
 	if (DB and DB.STATE) then
         FONT = STANDARD_TEXT_FONT
@@ -198,11 +207,7 @@ SUI.MODULES.BUFFS.Buffs = function(DB)
 
             button:ClearAllPoints()
             if index == 1 then
-                if SUIDB.combineBuffsAndDebuffs then
-                    button:SetPoint("TOPRIGHT", rBFS_BuffDragFrame, "TOPRIGHT", 0, -buffFrameHeight)
-                else
-                    button:SetPoint("TOPRIGHT", rBFS_DebuffDragFrame, "TOPRIGHT", 0, 0)
-                end
+                button:SetPoint("TOPRIGHT", DebuffDragFrame, "TOPRIGHT", 0, 0)
             elseif index > 1 and mod(index, 10) == 1 then
                 button:SetPoint("TOPRIGHT", _G[buttonName..(index-10)], "BOTTOMRIGHT", 0, -10)
             else
@@ -219,7 +224,7 @@ SUI.MODULES.BUFFS.Buffs = function(DB)
             local realIndex, previousButton, aboveButton
 
             TempEnchant1:ClearAllPoints()
-            TempEnchant1:SetPoint("TOPRIGHT", rBFS_BuffDragFrame, "TOPRIGHT", 0, 0)
+            TempEnchant1:SetPoint("TOPRIGHT", BuffDragFrame, "TOPRIGHT", 0, 0)
 
             if BuffFrame.numEnchants > 0 then
                 previousButton = _G["TempEnchant"..numEnchants]
@@ -241,7 +246,7 @@ SUI.MODULES.BUFFS.Buffs = function(DB)
                     button:ClearAllPoints()
                     realIndex = buffCounter+offset
                     if realIndex == 1 then
-                        button:SetPoint("TOPRIGHT", rBFS_BuffDragFrame, "TOPRIGHT", 0, 0)
+                        button:SetPoint("TOPRIGHT", BuffDragFrame, "TOPRIGHT", 0, 0)
                         aboveButton = button
                     elseif realIndex > 1 and mod(realIndex, 10) == 1 then
                         button:SetPoint("TOPRIGHT", aboveButton, "BOTTOMRIGHT", 0, -10)
@@ -257,20 +262,6 @@ SUI.MODULES.BUFFS.Buffs = function(DB)
             local rows = ceil((buffCounter+offset)/10)
             local height = 32*rows + 10*rows + 30*min(1,rows)
             buffFrameHeight = height
-
-            if DebuffButton1 and SUIDB.combineBuffsAndDebuffs then
-                updateDebuffAnchors("DebuffButton", 1)
-            end
-        end
-
-        local bf = CreateFrame("Frame", "rBFS_BuffDragFrame", UIParent)
-        bf:SetSize(32, 32)
-        bf:SetPoint("TOPRIGHT", "Minimap", "TOPLEFT", -35, 0)
-
-        if not SUIDB.combineBuffsAndDebuffs then
-            local df = CreateFrame("Frame", "rBFS_DebuffDragFrame", UIParent)
-            df:SetSize(34, 34)
-            df:SetPoint("TOPRIGHT", "Minimap", "TOPLEFT", -35, -125)
         end
 
         applySkin(TempEnchant1)
@@ -278,7 +269,7 @@ SUI.MODULES.BUFFS.Buffs = function(DB)
         applySkin(TempEnchant3)
 
         TempEnchant1:ClearAllPoints()
-        TempEnchant1:SetPoint("TOPRIGHT", rBFS_BuffDragFrame, "TOPRIGHT", 0, 0)
+        TempEnchant1:SetPoint("TOPRIGHT", BuffDragFrame, "TOPRIGHT", 0, 0)
         TempEnchant2:ClearAllPoints()
         TempEnchant2:SetPoint("TOPRIGHT", TempEnchant1, "TOPLEFT", -7, 0)
         TempEnchant3:ClearAllPoints()
