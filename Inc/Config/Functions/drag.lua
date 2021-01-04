@@ -61,6 +61,7 @@ local function unlockFrame(frame)
 	if not self:IsUserPlaced() then return end
 	if (Locked) then
 		self:Show()
+		self:SetAlpha(1)
 		self.dragframe:Show()
 		self.dragframe:EnableMouse(true)
 		self.dragframe:RegisterForDrag("LeftButton")
