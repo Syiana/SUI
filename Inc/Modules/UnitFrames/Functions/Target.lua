@@ -2,7 +2,6 @@ local ADDON, SUI = ...
 SUI.MODULES.UNITFRAMES.Target = function(DB) 
     if (DB and DB.STATE) then
         function SUITargetFrame (self, forceNormalTexture)
-
             if (DB.CONFIG.BigFrames) then
                 local classification = UnitClassification(self.unit);
                 self.highLevelTexture:SetPoint("CENTER", self.levelText, "CENTER", 0,0);

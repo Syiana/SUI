@@ -2,7 +2,6 @@ local ADDON, SUI = ...
 SUI.MODULES.UNITFRAMES.Player = function(DB) 
     if (DB and DB.STATE) then
         function SUIPlayerFrame(self)
-        
             self.healthbar:SetStatusBarTexture("Interface\\Addons\\SUI\\Inc\\Assets\\Media\\UnitFrames\\UI-StatusBar");
             self.healthbar.AnimatedLossBar:SetStatusBarTexture("Interface\\Addons\\SUI\\Inc\\Assets\\Media\\UnitFrames\\UI-StatusBar");
             PlayerFrameMyHealPredictionBar:SetTexture("Interface\\Addons\\SUI\\Inc\\Assets\\Media\\UnitFrames\\UI-StatusBar");

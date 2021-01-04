@@ -36,9 +36,9 @@ LOGIN:SetScript("OnEvent", function(self, event)
                 end
             end 
         else 
-            print("SUI: NO MODULES FOUND.")
+            print("SUI: LOADING FAILED")
         end
     else
-        print("SUI: NO CONFIG FOUND.")
+        print("SUI: MISSING CONFIG")
     end
 end)

@@ -16,5 +16,5 @@ Inc\Modules\Modules.xml
 ## INIT
 Inc\Init.lua
 
-## DRAG
-Inc\Config\Functions\Drag.lua
+## EDIT
+Inc\Config\Functions\Edit.lua
