@@ -1,4 +1,4 @@
-local Locked = true;
+local Locked = true
 local Frames = { 
 	"PlayerFrame", 
 	"TargetFrame", 
@@ -11,7 +11,6 @@ local Frames = {
 	"BuffDragFrame",
 	"DebuffDragFrame"
 }
-
 local backdrop = {
 	bgFile = "Interface\\ChatFrame\\ChatFrameBackground",
 	edgeFile = "Interface\\ChatFrame\\ChatFrameBackground",
@@ -20,17 +19,30 @@ local backdrop = {
 	edgeSize = 1
 }
 
+local function SUICreateButton(text, point1, anchor, point2, pos1, pos2, width, height)
+	local Button = CreateFrame("Button", nil, _G[anchor], "UIPanelButtonTemplate")
+	Button:SetPoint(point1, anchor, point2, pos1, pos2)
+	Button:SetSize(width, height)
+	Button:SetText(text)
+
+	Button:SetNormalTexture("Interface\\Common\\bluemenu-main")
+	Button:GetNormalTexture():SetTexCoord(0.00390625, 0.87890625, 0.75195313, 0.83007813)
+	Button:GetNormalTexture():SetVertexColor(0.265, 0.320, 0.410, 1)
+	Button:SetHighlightTexture("Interface\\Common\\bluemenu-main")
+	Button:GetHighlightTexture():SetTexCoord(0.00390625, 0.87890625, 0.75195313, 0.83007813)
+	Button:GetHighlightTexture():SetVertexColor(0.265, 0.320, 0.410, 1)
+end
+
 -- Drag
-function dragFrame(frame)
+function dragFrame(frame) 
 	self = _G[frame]
 	local DragFrame = CreateFrame("Frame", "DragFrame", self, "BackdropTemplate")
+	DragFrame:SetBackdrop(backdrop)
+	DragFrame:SetBackdropColor(0.1, 0.1, 0.1, 0.5)
+	DragFrame:SetBackdropBorderColor(0, 0, 0, 0.8)
 	DragFrame:SetAllPoints(self)
 	DragFrame:SetFrameStrata("HIGH")
-	DragFrame:SetHitRectInsets(0,0,0,0)
-
-	DragFrame:SetBackdrop(backdrop);
-	DragFrame:SetBackdropColor(0.1, 0.1, 0.1, 0.5);
-	DragFrame:SetBackdropBorderColor(0, 0, 0, 0.8);
+	--DragFrame:SetHitRectInsets(0,0,0,0)
 	DragFrame:Hide()
 
 	DragFrame:SetScript("OnDragStart", function(self) if IsAltKeyDown() then self:GetParent():StartMoving() end end)
@@ -59,10 +71,11 @@ function dragFrame(frame)
 end
 
 -- Unlock
-local function unlockFrame(frame)	
+local function unlockFrame(frame) 
 	self = _G[frame]
 	if not self:IsUserPlaced() then return end
 	if (Locked) then
+		EditFrame:Show()
 		self:Show()
 		self:SetAlpha(1)
 		self.DragFrame:Show()
@@ -90,8 +103,8 @@ local function unlockFrame(frame)
 		end)
 
 	else
+		EditFrame:Hide()
 		self.DragFrame:Hide()
-
 		MenuFrame:SetScript("OnUpdate", nil)
 		CastingBarFrame:SetScript("OnUpdate", nil)
 		TargetFrameSpellBar:SetScript("OnUpdate", nil)
@@ -99,10 +112,10 @@ local function unlockFrame(frame)
 end
 
 -- Grid
-local function showGrid()
-	if Locked then 
+local function showGrid(hide)
+	if Grid or hide then 
 		Grid:Hide()
-		Gridf = nil
+		Grid = nil
 	else
 		Grid = CreateFrame('Frame', nil, UIParent)
 		Grid:SetAllPoints(UIParent)
@@ -136,6 +149,51 @@ end
 -- Init
 for i, v in pairs (Frames) do dragFrame(v) end
 
+-- Edit
+local EditFrame = CreateFrame("Frame", "EditFrame", UIParent, "BasicFrameTemplate")
+EditFrame:SetWidth(200)
+EditFrame:SetHeight(100)
+EditFrame:SetPoint("CENTER")
+EditFrame:Hide()
+EditFrame.text = EditFrame.text or EditFrame:CreateFontString(nil, "ARTWORK", "QuestMapRewardsFont")
+EditFrame.text:SetText("Edit")
+EditFrame.text:SetPoint("TOP",0,-4)
+EditFrame.text:SetFont(STANDARD_TEXT_FONT, 13, "OUTLINE")
+
+GridButton = CreateFrame("CheckButton", "GridButton", EditFrame, "ChatConfigCheckButtonTemplate");
+GridButton:SetPoint("BOTTOMRIGHT", -40, 0)
+GridButton:SetChecked(true)
+GridButton.text = GridButton:CreateFontString(nil,"GameFontHighlight")
+GridButton.text:SetFont(STANDARD_TEXT_FONT, 13, "OUTLINE")
+GridButton.text:SetPoint("LEFT", GridButton, "RIGHT", 0, 1)
+GridButton.text:SetText("Grid")
+GridButton.tooltip = "Show/Hide Background."
+GridButton:SetScript("OnClick", function(self) 
+	checked = self:GetChecked()
+	if checked then showGrid(true) else showGrid(false) end 
+end)
+
+
+
+for i, v in pairs({
+	EditFrame.Bg,
+	EditFrame.TitleBg}) 
+	do v:SetVertexColor(0.175, 0.2, 0.250)
+end
+for i, v in pairs({
+	EditFrame.TopBorder,
+	EditFrame.TopLeftCorner,
+	EditFrame.TopRightCorner,
+	EditFrame.BottomBorder,
+	EditFrame.BotLeftCorner,
+	EditFrame.BotRightCorner,
+	EditFrame.LeftBorder,
+	EditFrame.RightBorder}) 
+	do v:SetVertexColor(0.135, 0.175, 0.250)
+end
+
+SUICreateButton('Save', 'BOTTOMLEFT', 'EditFrame', "BOTTOMLEFT", 5, 5, 80, 25)
+
 -- Slash
 SLASH_SUIEDIT1 = '/suiedit'
 function SlashCmdList.SUIEDIT()
@@ -146,7 +204,6 @@ function SlashCmdList.SUIEDIT()
 	else 
 		for i , v in pairs (Frames) do unlockFrame(v) end
 		Locked = true
-		showGrid()
+		showGrid(true)
 	end
 end
-MoveMicroButtons('BOTTOMLEFT', MenuFrame, 'BOTTOMLEFT', 6, 3)
