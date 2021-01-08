@@ -2,21 +2,23 @@ local Locked = true
 local Frames = { 
 	"PlayerFrame", 
 	"TargetFrame", 
-	"FocusFrame", 
+	"FocusFrame",
+	"TooltipFrame",
 	"ObjectiveTrackerFrame", 
 	"MinimapCluster",
 	"MenuFrame",
 	"CastingBarFrame",
 	"TargetFrameSpellBar",
 	"BuffDragFrame",
-	"DebuffDragFrame"
+	"DebuffDragFrame",
+	"ChatFrame"
 }
 local backdrop = {
 	bgFile = "Interface\\ChatFrame\\ChatFrameBackground",
 	edgeFile = "Interface\\ChatFrame\\ChatFrameBackground",
 	tile = false,
 	tileSize = 0,
-	edgeSize = 1
+	edgeSize = 2
 }
 
 local function SUICreateButton(text, point1, anchor, point2, pos1, pos2, width, height)
@@ -38,11 +40,10 @@ function dragFrame(frame)
 	self = _G[frame]
 	local DragFrame = CreateFrame("Frame", "DragFrame", self, "BackdropTemplate")
 	DragFrame:SetBackdrop(backdrop)
-	DragFrame:SetBackdropColor(0.1, 0.1, 0.1, 0.5)
-	DragFrame:SetBackdropBorderColor(0, 0, 0, 0.8)
+	DragFrame:SetBackdropColor(0.01, 0.01, 0.01, 0.8)
+	DragFrame:SetBackdropBorderColor(0.135, 0.175, 0.250)
 	DragFrame:SetAllPoints(self)
-	DragFrame:SetFrameStrata("HIGH")
-	--DragFrame:SetHitRectInsets(0,0,0,0)
+	DragFrame:SetFrameStrata("TOOLTIP")
 	DragFrame:Hide()
 
 	DragFrame:SetScript("OnDragStart", function(self) if IsAltKeyDown() then self:GetParent():StartMoving() end end)
@@ -83,8 +84,9 @@ local function unlockFrame(frame)
 		self.DragFrame:RegisterForDrag("LeftButton")
 		self.DragFrame:SetScript("OnEnter", function(self)
 		  GameTooltip:SetOwner(self, "ANCHOR_TOP")
-		  GameTooltip:AddLine(self:GetParent():GetName(), 0, 1, 0.5, 1, 1, 1)
-		  GameTooltip:AddLine("Hold down ALT to drag!", 1, 1, 1, 1, 1, 1)
+		  GameTooltip:AddLine(self:GetParent():GetName(), 0, 1, 0.5)
+		  GameTooltip:AddLine("Hold ALT to move the Frame!", 1, 1, 1)
+		  GameTooltip:SetWidth(500)
 		  GameTooltip:Show()
 		end)
 		self.DragFrame:SetScript("OnLeave", function() GameTooltip:Hide() end)
@@ -130,7 +132,7 @@ local function showGrid(hide)
 			end
 			Texture:SetPoint('TOPLEFT', Grid, 'TOPLEFT', i * w - 1, 0)
 			Texture:SetPoint('BOTTOMRIGHT', Grid, 'BOTTOMLEFT', i * w + 1, 0)
-			Grid:SetFrameStrata("HIGH")
+			Grid:SetFrameStrata("BACKGROUND")
 		end
 		for i = 0, 50 do
 			local Texture = Grid:CreateTexture(nil, 'BACKGROUND')

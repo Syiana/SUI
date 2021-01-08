@@ -1,8 +1,9 @@
+local ADDON, SUI = ...
+
 local MenuFrame = CreateFrame('Frame', "MenuFrame", MainMenuBar)
 MenuFrame:SetMovable(true)
 MenuFrame:SetUserPlaced(true)
 MenuFrame:SetPoint("BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", 5, 3)
-MenuFrame:SetScript("OnDragStart", function(self) print('test') end)
 
 local BagsBarTexture = MenuFrame:CreateTexture("texture")
 BagsBarTexture:SetAtlas('hud-MicroBagBar', true)
@@ -28,7 +29,6 @@ MicroButtonAndBagsBar:Hide()
 
 MenuFrame:GetRegions():SetVertexColor(.15, .15, .15)
 
-local ADDON, SUI = ...
 SUI.MODULES.ACTIONBAR.Menu = function(DB) 
     if (DB.STATE) then
         if (DB.CONFIG.Menu) then

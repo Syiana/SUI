@@ -1,4 +1,20 @@
 local ADDON, SUI = ...
+
+local TooltipFrame = CreateFrame('Frame', "TooltipFrame", UIParent)
+TooltipFrame:SetMovable(true)
+TooltipFrame:SetUserPlaced(true)
+TooltipFrame:SetPoint("BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", 5, 3)
+
+local Width, Height = GameTooltip:GetSize()
+TooltipFrame:SetSize(150, 25)
+
+hooksecurefunc("GameTooltip_SetDefaultAnchor", function(tooltip, parent)
+  tooltip:SetOwner(parent, "ANCHOR_NONE")
+  tooltip:ClearAllPoints()
+  tooltip:SetPoint("BOTTOMRIGHT", TooltipFrame, "BOTTOMRIGHT")
+end)
+
+
 SUI.MODULES.TOOLTIP.Tip = function(DB, MEDIA)
 	if (DB.STATE) then
     FONT = STANDARD_TEXT_FONT
@@ -141,14 +157,9 @@ SUI.MODULES.TOOLTIP.Tip = function(DB, MEDIA)
       hooksecurefunc("GameTooltip_SetDefaultAnchor", function(tooltip, parent)
           if SUIDB.TOOLTIP.MOUSE then
               tooltip:SetOwner(parent, "ANCHOR_CURSOR")
-          else
-              tooltip:SetOwner(parent, "ANCHOR_NONE")
-              tooltip:ClearAllPoints()
-              tooltip:SetPoint(unpack(cfg.pos))
           end
       end)
-      
-      
+
       -----------------------------
       -- Init
       -----------------------------
