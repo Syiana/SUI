@@ -18,9 +18,9 @@ LOGIN:SetScript("OnEvent", function(self, event)
         end 
         if (SUI.MODULES) then
             local MEDIA = {
-                color = SUIDB.THEMES.OPTIONS[SUIDB.THEMES.SELECTED],
-                font = SUIDB.FONTS.OPTIONS[SUIDB.FONTS.SELECTED],
-                tex = SUIDB.TEXTURES.OPTIONS[SUIDB.TEXTURES.SELECTED],
+                Color = SUIDB.THEMES.OPTIONS[SUIDB.THEMES.SELECTED],
+                Font = SUIDB.FONTS.OPTIONS[SUIDB.FONTS.SELECTED],
+                Tex = SUIDB.TEXTURES.OPTIONS[SUIDB.TEXTURES.SELECTED],
             }
             for MODULE in pairs(SUI.MODULES) do local MODULE = SUI.MODULES[MODULE]
                 if MODULE then

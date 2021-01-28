@@ -1,0 +1,6 @@
+<Ui xmlns='http://www.blizzard.com/wow/ui/'>
+    <!--Constructor-->
+    <Script file = "Fonts.lua" />
+    <!--Functions-->
+	<Script file = "Functions/Fonts.lua" />
+</Ui>

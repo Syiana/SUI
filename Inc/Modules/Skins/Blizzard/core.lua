@@ -1,6 +1,6 @@
 local ADDON, SUI = ...
 SUI.MODULES.SKINS.Skin = function(DB, MEDIA) 
-	if (DB and MEDIA.color) then
+	if (DB and MEDIA.Color) then
 		--Frames
 		for i, v in pairs({	
 			GameMenuFrame.Border.TopEdge,

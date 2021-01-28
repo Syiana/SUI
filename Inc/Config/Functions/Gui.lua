@@ -215,6 +215,7 @@ SUI.CONFIG.GUI = function()
 			SUIConfig:RegisterForDrag("LeftButton")
 			SUIConfig:SetScript("OnDragStart",function(self)self:StartMoving()end)
 			SUIConfig:SetScript("OnDragStop",function(self)self:StopMovingOrSizing()end)
+			SUIConfig:SetFrameStrata("FULLSCREEN")
 			
 			SUIConfig.Title = SUIConfig:CreateFontString(nil, SUIConfig, "GameFontNormalLarge")
 			SUIConfig.Title:SetPoint("TOP", 0, -30)
@@ -222,7 +223,7 @@ SUI.CONFIG.GUI = function()
 			SUIConfig.Title:SetText("|cfff58cbaS|r|cff009cffUI|r")
 
 			SUIConfig.Version = SUIConfig:CreateFontString(nil, SUIConfig, "GameFontNormalLarge")
-			SUIConfig.Version:SetPoint("TOP", 32, -38)
+			SUIConfig.Version:SetPoint("TOP", 35, -37)
 			SUIConfig.Version:SetFont("Fonts\\FRIZQT__.TTF", 12)
 			SUIConfig.Version:SetText("v" .. GetAddOnMetadata("SUI", "version"))
 
@@ -408,11 +409,11 @@ SUI.CONFIG.GUI = function()
 			SUICreateCheck('Gestures', 'SUIConfig.View.Map', 90,-150, 'test', 'MINIMAP.CONFIG.CustomGestics')
 	
 		--VIEW MISC
-			SUICreateText('Misc', 'SUIConfig.View.Misc', 'TOPLEFT', 25, -20)
+			SUICreateText('Misc', 'SUIConfig.View.Misc', 'TOPLEFT', 15, -20)
 			SUICreateCheck('Enable', 'SUIConfig.View.Misc', 30,-40, 'test', 'MISC.STATE')
 
 		--VIEW FAQ
-			SUICreateText('Help', 'SUIConfig.View.FAQ', 'TOPLEFT', 25, -20)
+			SUICreateText('Help', 'SUIConfig.View.FAQ', 'TOPLEFT', 15, -20)
 			SUICreateButton('Reset', 'TOPRIGHT', 'SUIConfig.View.FAQ', "TOPRIGHT", -30, -40, 80, 25)
 			SUIConfig.Button:SetScript("OnClick",function(self, button, down)
 				SUIDB = nil

@@ -55,27 +55,26 @@ SUI.CONFIG.DB = function()
             DB = true
         },
         THEMES = {
-            SELECTED = "Default",
+            SELECTED = "Dark",
             OPTIONS = {
                 Default = false,
-                Class = true,
+                --Class = true,
                 Dark = {r = 0.37, g = 0.3, b = 0.3},
-                Custom = {r = 0.37, g = 0.3, b = 0.3}
+                --Custom = {r = 0.11, g = 0.13, b = 0.1}
             }
         },
         FONTS = {
-            SELECTED = "Default",
+            SELECTED = "Prototype",
             OPTIONS = {
                 Default = false,
-                Prototype = "Interface\\AddOns\\SUI\\inc\\media\\fonts\\FRIZQT__.TTF",
+                Prototype = "Interface\\AddOns\\SUI\\Inc\\Assets\\Fonts\\Prototype.ttf",
             },
-            NORMAL = "Interface\\AddOns\\SUI\\inc\\media\\fonts\\FRIZQT__.TTF"
         },
         TEXTURES = {
             SELECTED = "Default",
             OPTIONS = {
                 Default = false,
-                Smooth = "Interface\\AddOns\\SUI\\inc\\media\\fonts\\FRIZQT__.TTF"
+                Smooth = "Interface\\AddOns\\SUI\\Inc\\Assets\\Tex\\FRIZQT__.TTF"
             }
         },
         MISC = {

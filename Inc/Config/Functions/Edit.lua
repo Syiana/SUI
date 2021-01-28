@@ -13,6 +13,7 @@ local Frames = {
 	"DebuffDragFrame",
 	"ChatFrame"
 }
+
 local backdrop = {
 	bgFile = "Interface\\ChatFrame\\ChatFrameBackground",
 	edgeFile = "Interface\\ChatFrame\\ChatFrameBackground",
@@ -36,7 +37,7 @@ local function SUICreateButton(text, point1, anchor, point2, pos1, pos2, width, 
 end
 
 -- Drag
-function dragFrame(frame) 
+local function dragFrame(frame) 
 	self = _G[frame]
 	local DragFrame = CreateFrame("Frame", "DragFrame", self, "BackdropTemplate")
 	DragFrame:SetBackdrop(backdrop)
@@ -175,8 +176,6 @@ GridButton:SetScript("OnClick", function(self)
 	if checked then showGrid(true) else showGrid(false) end 
 end)
 
-
-
 for i, v in pairs({
 	EditFrame.Bg,
 	EditFrame.TitleBg}) 
@@ -196,9 +195,7 @@ end
 
 SUICreateButton('Save', 'BOTTOMLEFT', 'EditFrame', "BOTTOMLEFT", 5, 5, 80, 25)
 
--- Slash
-SLASH_SUIEDIT1 = '/suiedit'
-function SlashCmdList.SUIEDIT()
+function suitest()
 	if (Locked) then
 		for i , v in pairs (Frames) do unlockFrame(v) end
 		Locked = false
@@ -208,4 +205,10 @@ function SlashCmdList.SUIEDIT()
 		Locked = true
 		showGrid(true)
 	end
+end
+
+-- Slash
+SLASH_SUIEDIT1 = '/suiedit'
+function SlashCmdList.SUIEDIT()
+	suitest()
 end
