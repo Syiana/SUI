@@ -1,4 +1,0 @@
-<Ui xmlns='http://www.blizzard.com/wow/ui/'>
-	<Include file='Functions\Db.lua'/>
-	<Include file='Functions\Gui.lua'/>
-</Ui>

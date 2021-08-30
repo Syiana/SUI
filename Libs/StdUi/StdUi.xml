@@ -1,0 +1,30 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.blizzard.com/wow/ui/ ..\FrameXML\UI.xsd">
+	<Script file="StdUi.lua"/>
+	<!--Config-->
+	<Script file="StdUiConfig.lua"/>
+	<Script file="StdUiPosition.lua"/>
+	<Script file="StdUiUtil.lua"/>
+	<Script file="StdUiLayout.lua"/>
+	<Script file="StdUiGrid.lua"/>
+	<Script file="StdUiBuilder.lua"/>
+	<!--Widgets-->
+	<Script file="widgets\Basic.lua"/>
+	<Script file="widgets\Window.lua"/>
+	<Script file="widgets\Button.lua"/>
+	<Script file="widgets\EditBox.lua"/>
+	<Script file="widgets\CheckBox.lua"/>
+	<Script file="widgets\Dropdown.lua"/>
+	<Script file="widgets\Autocomplete.lua"/>
+	<Script file="widgets\Label.lua"/>
+	<Script file="widgets\Scroll.lua"/>
+	<Script file="widgets\ScrollTable.lua"/>
+	<Script file="widgets\Slider.lua"/>
+	<Script file="widgets\Tooltip.lua"/>
+	<Script file="widgets\Table.lua"/>
+	<Script file="widgets\ProgressBar.lua"/>
+	<Script file="widgets\ColorPicker.lua"/>
+	<Script file="widgets\Tab.lua"/>
+	<Script file="widgets\Spell.lua"/>
+	<Script file="widgets\ContextMenu.lua"/>
+</Ui>

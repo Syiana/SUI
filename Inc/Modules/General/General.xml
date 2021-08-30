@@ -1,8 +1,0 @@
-<Ui xmlns='http://www.blizzard.com/wow/ui/'>
-    <!--Constructor-->
-    <Script file = "General.lua" />
-    <!--Functions-->
-	<Script file = "Functions/Errors.lua" />
-    <Script file = "Functions/Cmds.lua" />
-    <Script file = "Functions/Talkhead.lua" />
-</Ui>

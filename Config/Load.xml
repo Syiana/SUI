@@ -1,0 +1,5 @@
+<Ui xmlns='http://www.blizzard.com/wow/ui/'>
+  <Include file='_Defaults.lua'/>
+  <Include file='_Edit.lua'/>
+	<Include file='_Gui.lua'/>
+</Ui>

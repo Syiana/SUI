@@ -1,4 +1,0 @@
-local ADDON, SUI = ...
-SUI.MODULES.UNITFRAMES = {
-    ['DB'] = 'UNITFRAMES'
-}
