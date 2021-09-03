@@ -47,23 +47,28 @@ function Edit:OnEnable()
 		padding = 10
 	  }
 	};
-	
+
   local db = SUI.db;
 	local Locked = true
-	local Frames = { 
-		"PlayerFrame", 
-		"TargetFrame", 
+	local Frames = {
+		"PlayerFrame",
+		"TargetFrame",
 		"FocusFrame",
 		"MinimapCluster",
 		"CastingBarFrame",
 		"TargetFrameSpellBar",
+		"MenuFrame",
+		"BuffDragFrame",
+		"DebuffDragFrame"
 	}
 
 	-- Create DragFrame for Elements
-	local function dragFrame(frame) 
+	local function dragFrame(frame)
     -- Frame
 		self = _G[frame]
     if not (self) then return end
+
+    print(frame)
 
 		self:SetClampedToScreen(true)
 		self:SetMovable(true)
@@ -74,16 +79,16 @@ function Edit:OnEnable()
 		self.DragFrame:SetAllPoints(self)
 		self.DragFrame:SetFrameStrata("TOOLTIP")
 		self.DragFrame:Hide()
-    
+
 		-- Label
 		StdUi:AddLabel(self.DragFrame, self.DragFrame, self:GetName(), 'TOP')
 		self.DragFrame.label:SetAllPoints(true)
 		self.DragFrame.label:SetJustifyH("TOP")
 		self.DragFrame.label:SetJustifyV("TOP")
-    
+
     -- Tooltip
     StdUi:FrameTooltip(self.DragFrame, 'Hold ALT to move the Frame!', 'Tooltip', 'TOP', true)
-    
+
     -- Config
     if not (db.profile.edit[frame]) then db.profile.edit[frame] = {} end
     local config = db.profile.edit[frame]
@@ -92,25 +97,25 @@ function Edit:OnEnable()
         self:SetPoint(unpack(config.position))
       end
     end
-    if (config.size) then  
+    if (config.size) then
       self:SetSize(config.size)
     end
-    
+
 
     -- Drag Function
-		self.DragFrame:SetScript("OnDragStart", function() if IsAltKeyDown() then _G[frame]:StartMoving() end end)
-		self.DragFrame:SetScript("OnDragStop", function() 
-      _G[frame]:StopMovingOrSizing() 
+	self.DragFrame:SetScript("OnDragStart", function() if IsAltKeyDown() then _G[frame]:StartMoving() end end)
+	self.DragFrame:SetScript("OnDragStop", function()
+      _G[frame]:StopMovingOrSizing()
       local from, anchor, to, x, y = _G[frame]:GetPoint()
-      db.profile.edit[frame].position = { 
+      db.profile.edit[frame].position = {
         from, "UIParent", to, x, y
       }
     end)
 
     -- Size Function
-		self.DragFrame:SetScript("OnMouseDown", function (self, button)
+	self.DragFrame:SetScript("OnMouseDown", function (self, button)
 			if IsShiftKeyDown() then
-				if (button == "LeftButton") then 
+				if (button == "LeftButton") then
 					self:GetParent():SetScale(self:GetParent():GetScale() + 0.1)
 				elseif (button == "RightButton") then
 					self:GetParent():SetScale(self:GetParent():GetScale() - 0.1)
@@ -118,9 +123,9 @@ function Edit:OnEnable()
 			end
 		end)
 	end
-	
+
 	-- Unlock
-	local function unlockFrame(frame) 
+	local function unlockFrame(frame)
     -- Frame
 		self = _G[frame]
 		if not (self and self:IsUserPlaced()) then return end
@@ -132,10 +137,10 @@ function Edit:OnEnable()
 			self.DragFrame:Hide()
 		end
 	end
-	
+
 	-- Grid
 	local function showGrid(hide)
-		if Grid or hide then 
+		if Grid or hide then
 			Grid:Hide()
 			Grid = nil
 		else
@@ -167,22 +172,22 @@ function Edit:OnEnable()
 			end
 		end
 	end
-	
+
 	-- Init
 	for i, v in pairs (Frames) do dragFrame(v) end
-	
+
 	-- Edit
 	local EditFrame = StdUi:PanelWithTitle(UIParent, 220, 100, 'Edit', 200, 32)
 	EditFrame:SetPoint('CENTER');
 	EditFrame.titlePanel:SetPoint('LEFT', 10, 0)
 	EditFrame.titlePanel:SetPoint('RIGHT', -10, 0)
-  EditFrame:Hide()
-	
+  	EditFrame:Hide()
+
 	local GridCheckbox = StdUi:Checkbox(EditFrame, 'Show Grid')
 	StdUi:GlueTop(GridCheckbox, EditFrame, 0, -40, 'CENTER')
-	GridCheckbox:SetScript("OnClick", function(self) 
+	GridCheckbox:SetScript("OnClick", function(self)
 		checked = self:GetChecked()
-		if checked then showGrid(true) else showGrid(false) end 
+		if checked then showGrid(true) else showGrid(false) end
 	end)
 
 	local SaveButton = StdUi:Button(EditFrame, 90, 20, 'Save')
@@ -190,21 +195,21 @@ function Edit:OnEnable()
 
 	local CancelButton = StdUi:Button(EditFrame, 90, 20, 'Cancel')
 	StdUi:GlueBottom(CancelButton, EditFrame, -10, 10, 'RIGHT')
-	
+
 	function suitest()
 		if (Locked) then
       EditFrame:Show()
 			for i , v in pairs (Frames) do unlockFrame(v) end
 			Locked = false
 			showGrid()
-		else 
+		else
       EditFrame:Hide()
 			for i , v in pairs (Frames) do unlockFrame(v) end
 			Locked = true
 			showGrid(true)
 		end
 	end
-	
+
 	-- Slash
 	SLASH_SUIEDIT1 = '/suiedit'
 	function SlashCmdList.SUIEDIT()

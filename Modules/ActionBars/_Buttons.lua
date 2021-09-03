@@ -6,14 +6,11 @@ function Buttons:OnEnable()
     color = SUI.db.profile.general.color
   }
 
+  --Check for other Addons
   local dominos = IsAddOnLoaded("Dominos")
   local bartender = IsAddOnLoaded("Bartender4")
+  if IsAddOnLoaded("Masque") and (dominos or bartender) then return end
 
-  if IsAddOnLoaded("Masque") and (dominos or bartender) then
-      return
-  end
-
-  --CONFIG
   local config = {
       font = STANDARD_TEXT_FONT,
       textures = {
@@ -180,14 +177,14 @@ function Buttons:OnEnable()
       ho:ClearAllPoints()
       ho:SetPoint("TOPRIGHT", bu)
       ho:SetPoint("TOPLEFT", bu)
-      if not dominos and not bartender4 and (db) then
+      if not dominos and not bartender4 and not (db.buttons.key) then
           ho:Hide()
       end
       --na:SetFont(FONT, 12, "OUTLINE")
       na:ClearAllPoints()
       na:SetPoint("BOTTOMLEFT", bu)
       na:SetPoint("BOTTOMRIGHT", bu)
-      if not dominos and not bartender4 and not (db) then
+      if not dominos and not bartender4 and not (db.buttons.macro) then
           na:Hide()
       end
       --co:SetFont(FONT, 12, "OUTLINE")
@@ -444,7 +441,7 @@ function Buttons:OnEnable()
           end
       end
 
-      if not dominos and not bartender and (db.buttons.key) then
+      if not dominos and not bartender and not (db.buttons.key) then
           local frame = CreateFrame("Frame")
           frame:RegisterEvent("UPDATE_BINDINGS")
           frame:RegisterEvent("PLAYER_ENTERING_WORLD")

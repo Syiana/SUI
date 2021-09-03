@@ -4,24 +4,27 @@ function Buffs:OnEnable()
     local db = SUI.db.profile.buffs
 
     if (db) then
+      print("TEST")
       FONT = STANDARD_TEXT_FONT
 
+      --Buffs
       local bf = CreateFrame("Frame", "BuffDragFrame", UIParent)
       bf:SetSize(32, 32)
       bf:SetPoint("TOPRIGHT", "Minimap", "TOPLEFT", -35, 0)
 
+      --Debuffs
       local df = CreateFrame("Frame", "DebuffDragFrame", UIParent)
       df:SetSize(34, 34)
       df:SetPoint("TOPRIGHT", "Minimap", "TOPLEFT", -35, -125)
 
       if (db) then
-            HOUR_ONELETTER_ABBR = "%dh"
-            DAY_ONELETTER_ABBR = "%dd"
-          MINUTE_ONELETTER_ABBR = "%dm"
-          SECOND_ONELETTER_ABBR = "%ds"
+        HOUR_ONELETTER_ABBR = "%dh"
+        DAY_ONELETTER_ABBR = "%dd"
+        MINUTE_ONELETTER_ABBR = "%dm"
+        SECOND_ONELETTER_ABBR = "%ds"
       end
 
-      local backdropDebuff = {
+      local backdrop = {
           bgFile = nil,
           edgeFile = "Interface\\Addons\\SUI\\Media\\Textures\\Core\\outer_shadow",
           tile = false,
@@ -35,19 +38,7 @@ function Buffs:OnEnable()
           },
       }
 
-      local backdropBuff = {
-          bgFile = nil,
-          edgeFile = "Interface\\Addons\\SUI\\Media\\Textures\\Core\\outer_shadow",
-          tile = false,
-          tileSize = 32,
-          edgeSize = 6,
-          insets = {
-              left = 6,
-              right = 6,
-              top = 6,
-              bottom = 6,
-          },
-      }
+      local settings
 
       local ceil, min, max = ceil, min, max
       local ShouldShowConsolidatedBuffFrame = ShouldShowConsolidatedBuffFrame
@@ -71,18 +62,18 @@ function Buffs:OnEnable()
           end
 
           if debuff then
-              SUI = {
+              settings = {
                   pos = {a1 = "TOPRIGHT", af = "Minimap", a2 = "TOPLEFT", x = -35, y = -125},
                   gap = 10,
                   userplaced = true,
                   rowSpacing = 10,
                   colSpacing = 7,
-                  buttonsPerRow = 10,
+                  buttonsPerRow = db.debuff.icons,
                   button = {
-                    size = 34
+                    size = db.debuff.size
                   },
                   icon = {
-                    padding = -2
+                    padding = -db.debuff.padding
                   },
                   border = {
                     texture = "Interface\\Addons\\SUI\\Media\\Textures\\Core\\gloss",
@@ -108,20 +99,19 @@ function Buffs:OnEnable()
                     pos = {a1 = "TOPRIGHT", x = 0, y = 0}
                   }
               }
-              backdrop = backdropDebuff
           else
-              SUI = {
+              settings = {
                   pos = {a1 = "TOPRIGHT", af = "Minimap", a2 = "TOPLEFT", x = -35, y = 0},
                   gap = 30,
                   userplaced = true,
                   rowSpacing = 10,
                   colSpacing = 7,
-                  buttonsPerRow = 10,
+                  buttonsPerRow = db.buff.icons,
                   button = {
-                    size = 32
+                    size = db.buff.size
                   },
                   icon = {
-                    padding = -2
+                    padding = -db.buff.padding
                   },
                   border = {
                     texture = "Interface\\Addons\\SUI\\Media\\Textures\\Core\\gloss",
@@ -147,10 +137,9 @@ function Buffs:OnEnable()
                     pos = {a1 = "TOPRIGHT", x = 0, y = 0}
                   }
               }
-              backdrop = backdropBuff
           end
 
-          b:SetSize(SUI.button.size, SUI.button.size)
+          b:SetSize(settings.button.size, settings.button.size)
 
           local icon = _G[name.."Icon"]
           if consolidated then
@@ -162,39 +151,39 @@ function Buffs:OnEnable()
           end
           icon:SetTexCoord(0.1,0.9,0.1,0.9)
           icon:ClearAllPoints()
-          icon:SetPoint("TOPLEFT", b, "TOPLEFT", -SUI.icon.padding, SUI.icon.padding)
-          icon:SetPoint("BOTTOMRIGHT", b, "BOTTOMRIGHT", SUI.icon.padding, -SUI.icon.padding)
+          icon:SetPoint("TOPLEFT", b, "TOPLEFT", -settings.icon.padding, settings.icon.padding)
+          icon:SetPoint("BOTTOMRIGHT", b, "BOTTOMRIGHT", settings.icon.padding, -settings.icon.padding)
           icon:SetDrawLayer("BACKGROUND",-8)
           b.icon = icon
 
           local border = _G[name.."Border"] or b:CreateTexture(name.."Border", "BACKGROUND", nil, -7)
-          border:SetTexture(SUI.border.texture)
+          border:SetTexture(settings.border.texture)
           border:SetTexCoord(0,1,0,1)
           border:SetDrawLayer("BACKGROUND",-7)
           if tempenchant then
               border:SetVertexColor(0.7,0,1)
           elseif not debuff then
-              border:SetVertexColor(SUI.border.color.r,SUI.border.color.g,SUI.border.color.b)
+              border:SetVertexColor(settings.border.color.r,settings.border.color.g,settings.border.color.b)
           end
           border:ClearAllPoints()
           border:SetAllPoints(b)
           b.border = border
 
-          b.duration:SetFont(FONT, SUI.duration.size, "THINOUTLINE")
+          b.duration:SetFont(FONT, settings.duration.size, "THINOUTLINE")
           b.duration:ClearAllPoints()
-          b.duration:SetPoint(SUI.duration.pos.a1,SUI.duration.pos.x,SUI.duration.pos.y)
+          b.duration:SetPoint(settings.duration.pos.a1,settings.duration.pos.x,settings.duration.pos.y)
 
-          b.count:SetFont(SUI.count.font, SUI.count.size, "THINOUTLINE")
+          b.count:SetFont(settings.count.font, settings.count.size, "THINOUTLINE")
           b.count:ClearAllPoints()
-          b.count:SetPoint(SUI.count.pos.a1,SUI.count.pos.x,SUI.count.pos.y)
+          b.count:SetPoint(settings.count.pos.a1,settings.count.pos.x,settings.count.pos.y)
 
-          if SUI.background.show then
+          if settings.background.show then
               local back = CreateFrame("Frame", nil, b, "BackdropTemplate")
-              back:SetPoint("TOPLEFT", b, "TOPLEFT", -SUI.background.padding, SUI.background.padding)
-              back:SetPoint("BOTTOMRIGHT", b, "BOTTOMRIGHT", SUI.background.padding, -SUI.background.padding)
+              back:SetPoint("TOPLEFT", b, "TOPLEFT", -settings.background.padding, settings.background.padding)
+              back:SetPoint("BOTTOMRIGHT", b, "BOTTOMRIGHT", settings.background.padding, -settings.background.padding)
               back:SetFrameLevel(b:GetFrameLevel() - 1)
               back:SetBackdrop(backdrop)
-              back:SetBackdropBorderColor(SUI.background.color.r,SUI.background.color.g,SUI.background.color.b,SUI.background.color.a)
+              back:SetBackdropBorderColor(settings.background.color.r,settings.background.color.g,settings.background.color.b,settings.background.color.a)
               b.bg = back
           end
 

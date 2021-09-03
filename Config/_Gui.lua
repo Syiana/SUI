@@ -522,6 +522,7 @@ function Gui:OnEnable()
     },
     Buffs = {
       layoutConfig = { padding = { top = 15 } },
+      database = db.profile.buffs,
       rows = {
         {
           header = {
@@ -531,13 +532,15 @@ function Gui:OnEnable()
         },
         {
           size = {
+            key = 'buff.size',
             type = 'slider',
             label = 'Size',
-            max = 5,
+            max = 100,
             column = 4,
             order = 1
           },
           padding = {
+            key = 'buff.padding',
             type = 'slider',
             label = 'Padding',
             max = 5,
@@ -547,9 +550,10 @@ function Gui:OnEnable()
         },
         {
           icons = {
+            key = 'buff.icons',
             type = 'slider',
             label = 'Icons Row',
-            max = 5,
+            max = 20,
             column = 8
           },
         },
@@ -561,13 +565,15 @@ function Gui:OnEnable()
         },
         {
           size = {
+            key = 'debuff.size',
             type = 'slider',
             label = 'Size',
-            max = 5,
+            max = 100,
             column = 4,
             order = 1
           },
           padding = {
+            key = 'debuff.padding',
             type = 'slider',
             label = 'Padding',
             max = 5,
@@ -577,9 +583,10 @@ function Gui:OnEnable()
         },
         {
           icons = {
+            key = 'debuff.icons',
             type = 'slider',
             label = 'Icons Row',
-            max = 5,
+            max = 20,
             column = 8
           },
         }
