@@ -51,9 +51,6 @@ function Edit:OnEnable()
   local db = SUI.db;
 	local Locked = true
 	local Frames = {
-		"PlayerFrame",
-		"TargetFrame",
-		"FocusFrame",
 		"MinimapCluster",
 		"CastingBarFrame",
 		"TargetFrameSpellBar",
@@ -196,7 +193,7 @@ function Edit:OnEnable()
 	local CancelButton = StdUi:Button(EditFrame, 90, 20, 'Cancel')
 	StdUi:GlueBottom(CancelButton, EditFrame, -10, 10, 'RIGHT')
 
-	function suitest()
+	function SUI:Edit()
 		if (Locked) then
       EditFrame:Show()
 			for i , v in pairs (Frames) do unlockFrame(v) end
@@ -210,9 +207,9 @@ function Edit:OnEnable()
 		end
 	end
 
-	-- Slash
+	-- Command
 	SLASH_SUIEDIT1 = '/suiedit'
 	function SlashCmdList.SUIEDIT()
-		suitest()
+		SUI:Edit()
 	end
 end

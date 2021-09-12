@@ -3,6 +3,7 @@ SUI = LibStub("AceAddon-3.0"):NewAddon("SUI", "AceEvent-3.0")
 local defaults = {
   profile = {
     general = {
+      theme = "Dark",
       font = "Fonts\\FRIZQT__.TTF",
       texture = "",
       color = "",

@@ -6,7 +6,7 @@ local Textures = SUI:GetModule("Data.Textures");
 local User = SUI:GetModule("Data.User");
 
 function Gui:OnEnable()
-  local StdUi = LibStub('StdUi');
+  local StdUi = LibStub('StdUi')
   StdUi.config = {
     font = {
         family    = "Interface\\AddOns\\SUI\\Media\\Fonts\\Prototype.ttf",
@@ -53,31 +53,54 @@ function Gui:OnEnable()
     }
   };
 
-  --db
-  local db = SUI.db;
+  --DB
+  local db = SUI.db
 
   --Config
-  local config = StdUi:Window(UIParent, 700, 400, '  |cfff58cbaSyiana|r|cff009cffUI|r');
+  local config = StdUi:Window(UIParent, 700, 400)
   config:SetPoint('CENTER');
-  config.titlePanel:SetPoint('LEFT', 10, 0);
-  config.titlePanel:SetPoint('RIGHT', -35, 0);
+  config:Hide()
+  config.titlePanel:SetPoint('LEFT', 10, 0)
+  config.titlePanel:SetPoint('RIGHT', -35, 0)
 
-  local version = StdUi:Label(config.titlePanel, 'v'.. GetAddOnMetadata("SUI", "version"));
-  StdUi:GlueLeft(version, config.titlePanel, 35, 0);
+  local version = StdUi:Label(config.titlePanel, 'v'.. GetAddOnMetadata("SUI", "version"))
+  StdUi:GlueLeft(version, config.titlePanel, 40, 0);
+
+  local logo = StdUi:Texture(config.titlePanel, 130, 35, "Interface\\AddOns\\SUI\\Media\\Textures\\Config\\Logo");
+  StdUi:GlueAbove(logo, config, 0, -36);
+
+  function SUI:Config()
+    if (config:IsVisible()) then config:Hide() else config:Show() end
+  end
+
+  GameMenuFrame.Header:Hide()
+  local frame = CreateFrame("Button", "UIPanelButtonTemplateTest",
+  GameMenuFrame, "UIPanelButtonTemplate")
+  frame:SetHeight(20)
+  frame:SetWidth(145)
+  frame:SetText("|cfff58cbaS|r|cff009cffUI|r")
+  frame:ClearAllPoints()
+  frame:SetPoint("TOP", 0, -11)
+  frame:RegisterForClicks("AnyUp")
+  frame:SetScript("OnClick", function()
+    SUI:Config()
+    ToggleGameMenu()
+  end)
 
   --Edit
-  local edit = StdUi:Button(config, 160, 25, 'Edit');
-  StdUi:GlueBottom(edit, config, 10, 36, 'LEFT');
+  local edit = StdUi:Button(config, 160, 25, 'Edit')
+  StdUi:GlueBottom(edit, config, 10, 36, 'LEFT')
   edit:SetScript('OnClick', function()
-    suitest();
-  end);
+    SUI:Config()
+    SUI:Edit()
+  end)
 
   --Save
-  local save = StdUi:Button(config, 160, 25, 'Save');
-  StdUi:GlueBottom(save, config, 10, 10, 'LEFT');
+  local save = StdUi:Button(config, 160, 25, 'Save')
+  StdUi:GlueBottom(save, config, 10, 10, 'LEFT')
   save:SetScript('OnClick', function()
-    ReloadUI();
-  end);
+    ReloadUI()
+  end)
 
   --Categories
   local categories = {
@@ -95,6 +118,7 @@ function Gui:OnEnable()
   local tabs = StdUi:TabPanel(config, nil, nil, categories, true, nil, 25);
   StdUi:GlueAcross(tabs, config, 10, -35, -10, 10);
 
+  --Options
   local options =  {
     General = {
       layoutConfig = { padding = { top = 15 } },
