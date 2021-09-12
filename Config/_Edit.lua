@@ -189,9 +189,17 @@ function Edit:OnEnable()
 
 	local SaveButton = StdUi:Button(EditFrame, 90, 20, 'Save')
 	StdUi:GlueBottom(SaveButton, EditFrame, 10, 10, 'LEFT')
+	SaveButton:SetScript('OnClick', function()
+		SUI:Edit()
+		SUI:Config()
+	end)
 
 	local CancelButton = StdUi:Button(EditFrame, 90, 20, 'Cancel')
 	StdUi:GlueBottom(CancelButton, EditFrame, -10, 10, 'RIGHT')
+	CancelButton:SetScript('OnClick', function()
+		SUI:Edit()
+		SUI:Config()
+	end)
 
 	function SUI:Edit()
 		if (Locked) then
