@@ -1,6 +1,6 @@
 local Menu = SUI:NewModule("ActionBars.Menu");
 
-local MenuFrame = CreateFrame('Frame', "MenuFrame", MainMenuBar)
+local MenuFrame = CreateFrame('Frame', "MenuFrame", UIParent)
 MenuFrame:SetPoint("BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", 0, 0)
 
 local BagsBarTexture = MenuFrame:CreateTexture("texture")

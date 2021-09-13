@@ -4,7 +4,6 @@ function Buffs:OnEnable()
     local db = SUI.db.profile.buffs
 
     if (db) then
-      print("TEST")
       FONT = STANDARD_TEXT_FONT
 
       --Buffs

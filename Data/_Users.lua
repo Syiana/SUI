@@ -10,11 +10,11 @@ Data.team = {
   {text = Colors.sup    .. 'Umren|r'}
 }
 
-Data.specials = { 
+Data.specials = {
   {text = Colors.rog    .. 'Stacy|r'},
   {text = Colors.warri  .. 'Candy|r'},
   {text = Colors.druid  .. 'Sivax|r'},
-  {text = Colors.priest .. 'Evlana|r'}, 
+  {text = Colors.priest .. 'Evlana|r'},
   {text = Colors.dk     .. 'Kyrea|r'},
   {text = Colors.sham   .. 'Nexter|r'},
   {text = Colors.druid  .. 'Xexexexexexe|r'},
@@ -41,11 +41,11 @@ Data.specials = {
   {text = Colors.rog    .. 'Avidance|r'},
   {text = Colors.pala   .. 'Aviwings|r'}
 }
-  
+
 Data.supporter = {
   {text = 'Lazy'}
 }
 
 Data.banned = {
-  
+
 }

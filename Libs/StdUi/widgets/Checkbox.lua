@@ -104,8 +104,9 @@ function StdUi:Checkbox(parent, text, width, height)
 	checkbox.text:SetPoint('RIGHT', checkbox, 'RIGHT', -5, 0);
 	checkbox.target.text = checkbox.text; -- reference for disabled
 
-	checkbox.checkedTexture = self:Texture(checkbox.target, nil, nil, [[Interface\Buttons\UI-CheckBox-Check]]);
+	checkbox.checkedTexture = self:Texture(checkbox.target, nil, nil, [[Interface\AddOns\SUI\Libs\StdUi\media\Checked]]);
 	checkbox.checkedTexture:SetAllPoints();
+	checkbox.checkedTexture:SetVertexColor(3, 2, 5)
 	checkbox.checkedTexture:Hide();
 
 	checkbox.disabledCheckedTexture = self:Texture(checkbox.target, nil, nil, [[Interface\Buttons\UI-CheckBox-Check-Disabled]]);

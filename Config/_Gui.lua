@@ -1,9 +1,10 @@
-local Gui = SUI:NewModule("Config.Gui");
+local Gui = SUI:NewModule("Config.Gui")
 
 --Imports
-local Fonts = SUI:GetModule("Data.Fonts");
-local Textures = SUI:GetModule("Data.Textures");
-local User = SUI:GetModule("Data.User");
+local Themes = SUI:GetModule("Data.Themes")
+local Fonts = SUI:GetModule("Data.Fonts")
+local Textures = SUI:GetModule("Data.Textures")
+local User = SUI:GetModule("Data.User")
 
 function Gui:OnEnable()
   local StdUi = LibStub('StdUi')
@@ -58,19 +59,35 @@ function Gui:OnEnable()
 
   --Config
   local config = StdUi:Window(UIParent, 700, 400)
-  config:SetPoint('CENTER');
+  config:SetPoint('CENTER')
   config:Hide()
   config.titlePanel:SetPoint('LEFT', 10, 0)
   config.titlePanel:SetPoint('RIGHT', -35, 0)
 
   local version = StdUi:Label(config.titlePanel, 'v'.. GetAddOnMetadata("SUI", "version"))
-  StdUi:GlueLeft(version, config.titlePanel, 40, 0);
+  StdUi:GlueLeft(version, config.titlePanel, 35, 0)
 
-  local logo = StdUi:Texture(config.titlePanel, 130, 35, "Interface\\AddOns\\SUI\\Media\\Textures\\Config\\Logo");
-  StdUi:GlueAbove(logo, config, 0, -36);
+  local logo = StdUi:Texture(config.titlePanel, 120, 35, "Interface\\AddOns\\SUI\\Media\\Textures\\Config\\Logo")
+  StdUi:GlueAbove(logo, config, 0, -35)
 
   function SUI:Config()
-    if (config:IsVisible()) then config:Hide() else config:Show() end
+    if (config:IsVisible()) then
+      local fadeInfo = {}
+      fadeInfo.mode = "OUT"
+      fadeInfo.timeToFade = 0.2
+      fadeInfo.finishedFunc = function()
+        config:Hide()
+      end
+      UIFrameFade(config, fadeInfo)
+    else
+      local fadeInfo = {}
+      fadeInfo.mode = "IN"
+      fadeInfo.timeToFade = 0.2
+      fadeInfo.finishedFunc = function()
+        config:Show()
+      end
+      UIFrameFade(config, fadeInfo)
+    end
   end
 
   GameMenuFrame.Header:Hide()
@@ -115,8 +132,8 @@ function Gui:OnEnable()
     {title = 'FAQ', name = 'FAQ'},
     {title = 'Profiles', name = 'Profiles'},
   }
-  local tabs = StdUi:TabPanel(config, nil, nil, categories, true, nil, 25);
-  StdUi:GlueAcross(tabs, config, 10, -35, -10, 10);
+  local tabs = StdUi:TabPanel(config, nil, nil, categories, true, nil, 25)
+  StdUi:GlueAcross(tabs, config, 10, -35, -10, 10)
 
   --Options
   local options =  {
@@ -132,10 +149,10 @@ function Gui:OnEnable()
         },
         {
           theme = {
-            key = 'texture',
+            key = 'theme',
             type = 'dropdown',
             label = 'Theme',
-            options = Textures.data,
+            options = Themes.data,
             column = 4,
             order = 1
           },
@@ -937,6 +954,6 @@ function Gui:OnEnable()
   }
 
   tabs:EnumerateTabs(function(tab)
-    StdUi:BuildWindow(tab.frame, options[tab.name]);
-  end);
+    StdUi:BuildWindow(tab.frame, options[tab.name])
+  end)
 end

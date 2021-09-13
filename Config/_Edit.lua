@@ -1,6 +1,7 @@
 local Edit = SUI:NewModule("Config.Edit");
 
 function Edit:OnEnable()
+	local Window = LibStub("LibWindow-1.1")
 	local StdUi = LibStub('StdUi');
 	StdUi.config = {
 	  font = {
@@ -48,24 +49,23 @@ function Edit:OnEnable()
 	  }
 	};
 
-  local db = SUI.db;
 	local Locked = true
-	local Frames = {
-		"MinimapCluster",
+	local Frames = { -- Only Frames with UIParent as Parent!
 		"CastingBarFrame",
 		"TargetFrameSpellBar",
 		"MenuFrame",
-		"BuffDragFrame",
-		"DebuffDragFrame"
+    "BuffDragFrame",
+		"DebuffDragFrame",
+    "PlayerFrame",
+    "TargetFrame",
+    "FocusFrame"
 	}
 
 	-- Create DragFrame for Elements
 	local function dragFrame(frame)
-    -- Frame
-		self = _G[frame]
-    if not (self) then return end
-
-    print(frame)
+		-- Frame
+		local self = _G[frame]
+		if not (self) then return end
 
 		self:SetClampedToScreen(true)
 		self:SetMovable(true)
@@ -83,42 +83,18 @@ function Edit:OnEnable()
 		self.DragFrame.label:SetJustifyH("TOP")
 		self.DragFrame.label:SetJustifyV("TOP")
 
-    -- Tooltip
-    StdUi:FrameTooltip(self.DragFrame, 'Hold ALT to move the Frame!', 'Tooltip', 'TOP', true)
+		-- Tooltip
+		StdUi:FrameTooltip(self.DragFrame, 'Hold ALT to move the Frame!', 'Tooltip', 'TOP', true)
 
-    -- Config
-    if not (db.profile.edit[frame]) then db.profile.edit[frame] = {} end
-    local config = db.profile.edit[frame]
-    if (config.position) then
-      if (table.getn(config.position) == 5) then
-        self:SetPoint(unpack(config.position))
-      end
-    end
-    if (config.size) then
-      self:SetSize(config.size)
-    end
-
-
-    -- Drag Function
-	self.DragFrame:SetScript("OnDragStart", function() if IsAltKeyDown() then _G[frame]:StartMoving() end end)
-	self.DragFrame:SetScript("OnDragStop", function()
-      _G[frame]:StopMovingOrSizing()
-      local from, anchor, to, x, y = _G[frame]:GetPoint()
-      db.profile.edit[frame].position = {
-        from, "UIParent", to, x, y
-      }
+    -- Create DB
+    if not (SUI.db.profile.edit[frame]) then SUI.db.profile.edit[frame] = {} end
+    Window.RegisterConfig(self,  SUI.db.profile.edit[frame])
+    if (SUI.db.profile.edit[frame].point) then Window.RestorePosition(self) end
+		self.DragFrame:SetScript("OnDragStart", function() if IsAltKeyDown() then _G[frame]:StartMoving() end end)
+		self.DragFrame:SetScript("OnDragStop", function()
+			_G[frame]:StopMovingOrSizing()
+      Window.SavePosition(self)
     end)
-
-    -- Size Function
-	self.DragFrame:SetScript("OnMouseDown", function (self, button)
-			if IsShiftKeyDown() then
-				if (button == "LeftButton") then
-					self:GetParent():SetScale(self:GetParent():GetScale() + 0.1)
-				elseif (button == "RightButton") then
-					self:GetParent():SetScale(self:GetParent():GetScale() - 0.1)
-				end
-			end
-		end)
 	end
 
 	-- Unlock
@@ -178,7 +154,7 @@ function Edit:OnEnable()
 	EditFrame:SetPoint('CENTER');
 	EditFrame.titlePanel:SetPoint('LEFT', 10, 0)
 	EditFrame.titlePanel:SetPoint('RIGHT', -10, 0)
-  	EditFrame:Hide()
+  EditFrame:Hide()
 
 	local GridCheckbox = StdUi:Checkbox(EditFrame, 'Show Grid')
 	StdUi:GlueTop(GridCheckbox, EditFrame, 0, -40, 'CENTER')
