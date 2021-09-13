@@ -77,11 +77,16 @@ local defaults = {
   }
 }
 
-function SUI:OnInitialize()
-  self.db = LibStub("AceDB-3.0"):New("SUIDB", defaults, true)
-  self.db.RegisterCallback(self, "OnProfileChanged", "RefreshConfig")
-  self.db.RegisterCallback(self, "OnProfileCopied", "RefreshConfig")
-  self.db.RegisterCallback(self, "OnProfileReset", "RefreshConfig")
+if (IsTestBuild) then
+  function SUI:OnInitialize()
+    self.db = LibStub("AceDB-3.0"):New("SUIDB", defaults, true)
+    self.db.RegisterCallback(self, "OnProfileChanged", "RefreshConfig")
+    self.db.RegisterCallback(self, "OnProfileCopied", "RefreshConfig")
+    self.db.RegisterCallback(self, "OnProfileReset", "RefreshConfig")
+  end
+else
+  print("SUI PREALPHA ONLY WORKS ON PTR!")
+  DisableAddOn("SUI")
 end
 
 function SUI:RefreshConfig()
