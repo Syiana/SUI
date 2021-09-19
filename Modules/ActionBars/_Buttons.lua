@@ -1,6 +1,6 @@
-﻿local Buttons = SUI:NewModule("ActionBars.Buttons");
+﻿local Module = SUI:NewModule("ActionBars.Buttons");
 
-function Buttons:OnEnable()
+function Module:OnEnable()
   local db = {
     buttons = SUI.db.profile.actionbar.buttons,
     color = SUI.db.profile.general.color
