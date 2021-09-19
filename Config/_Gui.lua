@@ -635,6 +635,7 @@ function Gui:OnEnable()
     },
     Map = {
       layoutConfig = { padding = { top = 15 } },
+	  database = db.profile.maps,
       rows = {
         {
           header = {
@@ -644,18 +645,21 @@ function Gui:OnEnable()
         },
         {
           small = {
+			key = 'maps.small',
             type = 'checkbox',
             label = 'Small Map',
             column = 4,
             order = 1
           },
           cords = {
+			key = 'maps.cords',			
             type = 'checkbox',
             label = 'Cords',
             column = 4,
             order = 2
           },
           opacity = {
+		  	key = 'maps.opacity',
             type = 'checkbox',
             label = 'Opacity',
             column = 4,
@@ -670,18 +674,21 @@ function Gui:OnEnable()
         },
         {
           showminimap = {
+			key = 'maps.showminimap',
             type = 'checkbox',
             label = 'Show Minimap',
             column = 4,
             order = 1
           },
           showclock = {
+			key = 'maps.showclock',
             type = 'checkbox',
             label = 'Show Clock',
             column = 4,
             order = 2
           },
           showdate = {
+			key = 'maps.showdate',
             type = 'checkbox',
             label = 'Show Date',
             column = 4,
@@ -690,18 +697,21 @@ function Gui:OnEnable()
         },
         {
           showgarrison = {
+			key = 'maps.showgarrison',
             type = 'checkbox',
             label = 'Garrison Symbol',
             column = 4,
             order = 1
           },
           showtracking = {
+			key = 'maps.showtracking',
             type = 'checkbox',
             label = 'Tracking Symbol',
             column = 4,
             order = 2
           },
           showworldmap = {
+			key = 'maps.showworldmap',
             type = 'checkbox',
             label = 'WorldMap Symbol',
             column = 4,
