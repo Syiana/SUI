@@ -777,6 +777,17 @@ function Gui:OnEnable()
             type = 'header',
             label = 'Misc'
           }
+        },
+        {
+          cvars = {
+            type = 'button',
+            text = 'CVars Browser',
+            onClick = function()
+              print("CVars");
+            end,
+            column = 3,
+            order = 3
+          }
         }
       },
     },
@@ -877,7 +888,17 @@ function Gui:OnEnable()
             type = 'button',
             text = 'Reset UI',
             onClick = function()
-              print("Reset");
+              local buttons = {
+                ok = {
+                  text    = 'Confirm',
+                  onClick = function() db:ResetProfile() end
+                },
+                cancel = {
+                  text    = 'Cancel',
+                  onClick = function() end
+                }
+              }
+              StdUi:Confirm('Reset UI', 'Confirm if u want to fully reset your UI', buttons)
             end,
             column = 3,
             order = 3

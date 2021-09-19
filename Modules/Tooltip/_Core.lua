@@ -3,20 +3,19 @@ local Module = SUI:NewModule("Tooltip.Core");
 function Module:OnEnable()
   local db = SUI.db.profile.tooltip
 
+  local TooltipFrame = CreateFrame('Frame', "TooltipFrame", UIParent)
+  TooltipFrame:SetMovable(true)
+  TooltipFrame:SetUserPlaced(true)
+  TooltipFrame:SetPoint("BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", 5, 3)
 
-local TooltipFrame = CreateFrame('Frame', "TooltipFrame", UIParent)
-TooltipFrame:SetMovable(true)
-TooltipFrame:SetUserPlaced(true)
-TooltipFrame:SetPoint("BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", 5, 3)
+  local Width, Height = GameTooltip:GetSize()
+  TooltipFrame:SetSize(150, 25)
 
-local Width, Height = GameTooltip:GetSize()
-TooltipFrame:SetSize(150, 25)
-
-hooksecurefunc("GameTooltip_SetDefaultAnchor", function(tooltip, parent)
-  tooltip:SetOwner(parent, "ANCHOR_NONE")
-  tooltip:ClearAllPoints()
-  tooltip:SetPoint("BOTTOMRIGHT", TooltipFrame, "BOTTOMRIGHT")
-end)
+  hooksecurefunc("GameTooltip_SetDefaultAnchor", function(tooltip, parent)
+    tooltip:SetOwner(parent, "ANCHOR_NONE")
+    tooltip:ClearAllPoints()
+    tooltip:SetPoint("BOTTOMRIGHT", TooltipFrame, "BOTTOMRIGHT")
+  end)
 
 	if (db) then
     FONT = STANDARD_TEXT_FONT

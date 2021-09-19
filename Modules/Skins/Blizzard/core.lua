@@ -2,8 +2,9 @@ local Core = SUI:NewModule("Skins.Core");
 
 function Core:OnEnable()
   local db = SUI.db.profile.general
+  local color = SUI:Color()
 
-	if (db) then
+	if (db and color) then
 		--Frames
 		for i, v in pairs({
 			GameMenuFrame.Border.TopEdge,
@@ -22,7 +23,7 @@ function Core:OnEnable()
 			StaticPopup1.Border.TopLeftCorner,
 			StaticPopup1.Border.BottomLeftCorner,
 			StaticPopup1.Border.BottomRightCorner}) do
-				v:SetVertexColor(.3, .3, .3)
+				v:SetVertexColor(color)
 		end
 
 		-- Tooltip
@@ -111,7 +112,7 @@ function Core:OnEnable()
 				StatusTrackingBarManager.SingleBarSmallUpper,
 			}
 		) do
-			v:SetVertexColor(.15, .15, .15)
+			v:SetVertexColor(color)
 		end
 
 		-- Raidframe

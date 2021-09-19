@@ -79,10 +79,30 @@ local defaults = {
 
 if (IsTestBuild) then
   function SUI:OnInitialize()
+    -- Database
     self.db = LibStub("AceDB-3.0"):New("SUIDB", defaults, true)
     self.db.RegisterCallback(self, "OnProfileChanged", "RefreshConfig")
     self.db.RegisterCallback(self, "OnProfileCopied", "RefreshConfig")
     self.db.RegisterCallback(self, "OnProfileReset", "RefreshConfig")
+
+    -- Color
+    function SUI:Color(sub)
+      local colors = {
+        Blizzard = nil,
+        Dark = {0.3, 0.3, 0.3},
+        Class = 'class',
+        Custom = self.db.profile.general.color,
+      }
+
+      local color = colors[self.db.profile.general.theme]
+      if (sub) then
+        for key, value in pairs(color) do
+          color[key] = value - sub
+        end
+      end
+
+      return color
+    end
   end
 else
   print("SUI PREALPHA ONLY WORKS ON PTR!")

@@ -58,7 +58,8 @@ function Edit:OnEnable()
 		"DebuffDragFrame",
     "PlayerFrame",
     "TargetFrame",
-    "FocusFrame"
+    "FocusFrame",
+    "TooltipFrame"
 	}
 
 	-- Create DragFrame for Elements
