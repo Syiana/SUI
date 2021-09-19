@@ -22,7 +22,7 @@ function Module:OnEnable()
             --if SUIDB.MODULES.DARKFRAMES == true then
                 hooksecurefunc("GarrisonLandingPageMinimapButton_UpdateIcon", function(self)
                     local garrisonType = C_Garrison.GetLandingPageGarrisonType();
-                    if not (SUIDB.MINIMAP.OLDSYMBOL) and (garrisonType == LE_GARRISON_TYPE_8_0) then
+                    if not (db.showgarrison) and (garrisonType == LE_GARRISON_TYPE_8_0) then
                         if select(1,UnitFactionGroup("player")) == "Horde" then
                             if not gb then
                                 gb = CreateFrame("Frame", nil, GarrisonLandingPageMinimapButton)

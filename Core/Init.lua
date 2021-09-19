@@ -72,7 +72,17 @@ local defaults = {
     chat = {
       style = 'Custom'
     },
-    maps = {},
+    maps = {
+		small = false,
+		cords = false,
+		opacity = false,
+		showminimap = true,
+		showclock = true,
+		showdate = true,
+		showgarrison = false,
+		showtracking = false,
+		showworldmap = false,
+	},
     edit = {}
   }
 }

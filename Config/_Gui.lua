@@ -645,21 +645,21 @@ function Gui:OnEnable()
         },
         {
           small = {
-			key = 'maps.small',
+			key = 'small',
             type = 'checkbox',
             label = 'Small Map',
             column = 4,
             order = 1
           },
           cords = {
-			key = 'maps.cords',			
+			key = 'cords',			
             type = 'checkbox',
             label = 'Cords',
             column = 4,
             order = 2
           },
           opacity = {
-		  	key = 'maps.opacity',
+		  	key = 'opacity',
             type = 'checkbox',
             label = 'Opacity',
             column = 4,
@@ -674,21 +674,21 @@ function Gui:OnEnable()
         },
         {
           showminimap = {
-			key = 'maps.showminimap',
+			key = 'showminimap',
             type = 'checkbox',
             label = 'Show Minimap',
             column = 4,
             order = 1
           },
           showclock = {
-			key = 'maps.showclock',
+			key = 'showclock',
             type = 'checkbox',
             label = 'Show Clock',
             column = 4,
             order = 2
           },
           showdate = {
-			key = 'maps.showdate',
+			key = 'showdate',
             type = 'checkbox',
             label = 'Show Date',
             column = 4,
@@ -697,21 +697,21 @@ function Gui:OnEnable()
         },
         {
           showgarrison = {
-			key = 'maps.showgarrison',
+			key = 'showgarrison',
             type = 'checkbox',
             label = 'Garrison Symbol',
             column = 4,
             order = 1
           },
           showtracking = {
-			key = 'maps.showtracking',
+			key = 'showtracking',
             type = 'checkbox',
             label = 'Tracking Symbol',
             column = 4,
             order = 2
           },
           showworldmap = {
-			key = 'maps.showworldmap',
+			key = 'showworldmap',
             type = 'checkbox',
             label = 'WorldMap Symbol',
             column = 4,
