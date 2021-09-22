@@ -3,6 +3,7 @@
   <Include file='Chat\Load.xml'/>
   <Include file='Maps\Load.xml'/>
   <Include file='Tooltip\Load.xml'/>
+  <Include file='NamePlates\Load.xml'/>
   <Include file='UnitFrames\Load.xml'/>
 	<Include file='ActionBars\Load.xml'/>
   <Include file='RaidFrames\Load.xml'/>
