@@ -154,7 +154,6 @@ function Module:OnEnable()
 
         _G.PaperDollFrame:HookScript("OnShow", function(self)
           f:RegisterEvent("PLAYER_EQUIPMENT_CHANGED")
-          --f:RegisterEvent("ITEM_UPGRADE_MASTER_UPDATE")
           f:RegisterEvent("ARTIFACT_UPDATE")
           f:RegisterEvent("SOCKET_INFO_UPDATE")
           f:RegisterEvent("COMBAT_RATING_UPDATE")
@@ -164,7 +163,6 @@ function Module:OnEnable()
 
         _G.PaperDollFrame:HookScript("OnHide", function(self)
           f:UnregisterEvent("PLAYER_EQUIPMENT_CHANGED")
-          --f:UnregisterEvent("ITEM_UPGRADE_MASTER_UPDATE")
           f:UnregisterEvent("ARTIFACT_UPDATE")
           f:UnregisterEvent("SOCKET_INFO_UPDATE")
           f:UnregisterEvent("COMBAT_RATING_UPDATE")
@@ -177,8 +175,6 @@ function Module:OnEnable()
           equiped[17] = nil
         end
         _updateItems("player", f)
-      elseif event == "INSPECT_READY" or event == "UNIT_INVENTORY_CHANGED" then
-        _updateItems("target", g)
       end
     end
     f:SetScript("OnEvent", OnEvent)

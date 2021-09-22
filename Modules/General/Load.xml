@@ -9,4 +9,5 @@
   <Script file="_Repair.lua"/>
   <Script file="_Stats.lua"/>
   <Script file="_Fonts.lua"/>
+  <Script file="_Inspect.lua"/>
 </Ui>
