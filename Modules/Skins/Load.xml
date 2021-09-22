@@ -1,3 +1,4 @@
 <Ui xmlns='http://www.blizzard.com/wow/ui/'>
-	<Script file="Blizzard/core.lua"/>
+  <Include file='_Core.lua'/>
+  <Include file='Blizzard\Load.xml'/>
 </Ui>

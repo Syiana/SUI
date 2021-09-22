@@ -1,4 +1,4 @@
-local Module = SUI:NewModule("Skins.Bags");
+local Module = SUI:NewModule("Skins.Guild");
 
 function Module:OnEnable()
   for i, v in pairs({	GuildRegistrarFrame.NineSlice.TopEdge,

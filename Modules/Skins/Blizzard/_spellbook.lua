@@ -1,7 +1,6 @@
-local Module = SUI:NewModule("Skins.Bags");
+local Module = SUI:NewModule("Skins.SpellBook");
 
 function Module:OnEnable()
-    -- SpellBook
     for i, v in pairs({ SpellBookFrame.NineSlice.TopEdge,
       SpellBookFrame.NineSlice.RightEdge,
       SpellBookFrame.NineSlice.LeftEdge,
@@ -13,13 +12,13 @@ function Module:OnEnable()
       SpellBookFrame.NineSlice.BottomLeftCorner,
       SpellBookFrame.NineSlice.BottomRightCorner,
       SpellBookFrameInset.NineSlice.BottomEdge, }) do
-        v:SetVertexColor(unpack(color.secondary))
+        v:SetVertexColor(unpack(SUI:Color(0.15)))
     end
     for i, v in pairs({
       SpellBookFrame.Bg,
       SpellBookFrame.TitleBg,
       SpellBookFrameInset.Bg }) do
-        v:SetVertexColor(unpack(color.primary))
+        v:SetVertexColor(unpack(SUI:Color()))
     end
     SpellBookFrameInset:SetAlpha(0)
 end

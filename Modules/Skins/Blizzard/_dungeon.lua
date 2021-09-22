@@ -1,4 +1,4 @@
-local Module = SUI:NewModule("Skins.Bags");
+local Module = SUI:NewModule("Skins.Dungeon");
 
 function Module:OnEnable()
   local frames = {

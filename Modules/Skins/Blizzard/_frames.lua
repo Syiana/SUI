@@ -1,7 +1,7 @@
 local Module = SUI:NewModule("Skins.Frames");
 
 function Module:OnEnable()
-  local frames = {
+  for i, v in ipairs({
     GameMenuFrame.Border.TopEdge,
     GameMenuFrame.Border.RightEdge,
     GameMenuFrame.Border.BottomEdge,
@@ -18,5 +18,7 @@ function Module:OnEnable()
     StaticPopup1.Border.TopLeftCorner,
     StaticPopup1.Border.BottomLeftCorner,
     StaticPopup1.Border.BottomRightCorner
-  } SUI:Skin(frames, color.secondary)
+  }) do
+    v:SetVertexColor(unpack(SUI:Color(0.15)))
+  end
 end

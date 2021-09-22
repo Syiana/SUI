@@ -1,7 +1,7 @@
 local Module = SUI:NewModule("Skins.UnitFrames");
 
 function Module:OnEnable()
-  local unitframes = {
+  for i, v in ipairs({
     PlayerFrameTexture,
     TargetFrameTextureFrameTexture,
     PlayerFrameAlternateManaBarBorder,
@@ -46,5 +46,26 @@ function Module:OnEnable()
     TargetFrameSpellBar.Border,
     StatusTrackingBarManager.SingleBarLargeUpper,
     StatusTrackingBarManager.SingleBarSmallUpper,
-  } SUI:Skin(unitframes, color.secondary)
+  }) do
+    v:SetVertexColor(unpack(SUI:Color(0.15)))
+  end
+
+  -- SUI:SetScript("OnEvent", function(self, event)
+  --   ColorRaid()
+  --   PlayerFrameGroupIndicator:SetAlpha(0)
+  --   PlayerHitIndicator:SetText(nil)
+  --   PlayerHitIndicator.SetText = function()
+  --   end
+  --   PetHitIndicator:SetText(nil)
+  --   PetHitIndicator.SetText = function()
+  --   end
+  --   for _, child in pairs({WarlockPowerFrame:GetChildren()}) do
+  --     for _, region in pairs({child:GetRegions()}) do
+  --       if region:GetDrawLayer() == "BORDER" then
+  --         region:SetVertexColor(unpack(color.secondary))
+  --       end
+  --     end
+  --   end
+
+  -- end)
 end

@@ -3,6 +3,7 @@ local Colors = SUI:GetModule('Data.Colors');
 
 Data.team = {
   {text = Colors.aut    .. 'Syiana|r'},
+  {text = Colors.dev    .. 'Baine|r'},
   {text = Colors.mod    .. 'Obscurrium|r'},
   {text = Colors.mod    .. 'SuperTkle|r'},
   {text = Colors.mod    .. 'Proxy|r'},
@@ -15,11 +16,12 @@ Data.specials = {
   {text = Colors.warri  .. 'Candy|r'},
   {text = Colors.druid  .. 'Sivax|r'},
   {text = Colors.priest .. 'Evlana|r'},
+  {text = Colors.warri  .. 'Nano|r'},
   {text = Colors.dk     .. 'Kyrea|r'},
-  {text = Colors.sham   .. 'Nexter|r'},
   {text = Colors.druid  .. 'Xexexexexexe|r'},
   {text = Colors.rog    .. 'Ghandance|r'},
   {text = Colors.druid  .. 'Aproffis|r'},
+  {text = Colors.sham   .. 'Nexter|r'},
   {text = Colors.sham   .. 'Caccie|r'},
   {text = Colors.hunter .. 'Yazo|r'},
   {text = Colors.lock   .. 'Reko|r'},
@@ -30,9 +32,6 @@ Data.specials = {
   {text = Colors.warri  .. 'Beiskaldi|r'},
   {text = Colors.dh     .. 'Instababe|r'},
   {text = Colors.rog    .. 'Citney|r'},
-  {text = Colors.priest .. 'Jojo|r'},
-  {text = Colors.priest .. 'Woogo|r'},
-  {text = Colors.pala   .. 'Akna|r'},
   {text = Colors.pala   .. 'Lerthas|r'},
   {text = Colors.druid  .. 'Dary|r'},
   {text = Colors.pala   .. 'Lolaei|r'},
@@ -43,7 +42,9 @@ Data.specials = {
 }
 
 Data.supporter = {
-  {text = 'Lazy'}
+  {text = Colors.pala   .. 'Akna|r'},
+  {text = Colors.priest .. 'Jojo|r'},
+  {text = Colors.priest .. 'Woogo|r'}
 }
 
 Data.banned = {

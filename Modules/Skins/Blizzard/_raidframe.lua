@@ -1,17 +1,15 @@
 local Module = SUI:NewModule("Skins.RaidFrame");
 
 function Module:OnEnable()
-  local SUI = CreateFrame("Frame")
-  SUI:RegisterEvent("PLAYER_ENTERING_WORLD")
-  SUI:RegisterEvent("GROUP_ROSTER_UPDATE")
-
-  function ColorRaid()
+  local frame = CreateFrame("Frame")
+  frame:RegisterEvent("GROUP_ROSTER_UPDATE")
+  frame:SetScript("OnEvent", function(self, event)
     for g = 1, NUM_RAID_GROUPS do
       local group = _G["CompactRaidGroup" .. g .. "BorderFrame"]
       if group then
         for _, region in pairs({group:GetRegions()}) do
           if region:IsObjectType("Texture") then
-            region:SetVertexColor(unpack(color.secondary))
+            region:SetVertexColor(unpack(SUI:Color(0.15)))
           end
         end
       end
@@ -21,7 +19,7 @@ function Module:OnEnable()
           groupcolored = true
           for _, region in pairs({frame:GetRegions()}) do
             if region:GetName():find("Border") then
-              region:SetVertexColor(unpack(color.secondary))
+              region:SetVertexColor(unpack(SUI:Color(0.15)))
             end
           end
         end
@@ -30,7 +28,7 @@ function Module:OnEnable()
           singlecolored = true
           for _, region in pairs({frame:GetRegions()}) do
             if region:GetName():find("Border") then
-              region:SetVertexColor(unpack(color.secondary))
+              region:SetVertexColor(unpack(SUI:Color(0.15)))
             end
           end
         end
@@ -38,38 +36,19 @@ function Module:OnEnable()
     end
     for _, region in pairs({CompactRaidFrameContainerBorderFrame:GetRegions()}) do
       if region:IsObjectType("Texture") then
-        region:SetVertexColor(unpack(color.secondary))
+        region:SetVertexColor(unpack(SUI:Color(0.15)))
       end
     end
-  end
-
-  SUI:SetScript("OnEvent", function(self, event)
-    ColorRaid()
-    PlayerFrameGroupIndicator:SetAlpha(0)
-    PlayerHitIndicator:SetText(nil)
-    PlayerHitIndicator.SetText = function()
-    end
-    PetHitIndicator:SetText(nil)
-    PetHitIndicator.SetText = function()
-    end
-    for _, child in pairs({WarlockPowerFrame:GetChildren()}) do
-      for _, region in pairs({child:GetRegions()}) do
-        if region:GetDrawLayer() == "BORDER" then
-          region:SetVertexColor(unpack(color.secondary))
-        end
-      end
-    end
-
   end)
 
   for _, region in pairs({CompactRaidFrameManager:GetRegions()}) do
     if region:IsObjectType("Texture") then
-      region:SetVertexColor(unpack(color.secondary))
+      region:SetVertexColor(unpack(SUI:Color(0.15)))
     end
   end
   for _, region in pairs({CompactRaidFrameManagerContainerResizeFrame:GetRegions()}) do
     if region:GetName():find("Border") then
-      region:SetVertexColor(unpack(color.secondary))
+      region:SetVertexColor(unpack(SUI:Color(0.15)))
     end
   end
   CompactRaidFrameManagerToggleButton:SetNormalTexture("Interface\\Addons\\SUI\\Media\\Textures\\RaidFrames\\RaidPanel-Toggle")

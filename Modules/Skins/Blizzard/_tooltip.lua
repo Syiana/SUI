@@ -1,7 +1,8 @@
-local Module = SUI:NewModule("Skins.Frames");
+local Module = SUI:NewModule("Skins.Tooltip");
 
 function Module:OnEnable()
   local function styleTooltip(self,style)
+    SUI:AddMixin(self)
     backdrop = {
       bgFile = "Interface\\Buttons\\WHITE8x8",
       bgColor = {0.03,0.03,0.03, 0.9},

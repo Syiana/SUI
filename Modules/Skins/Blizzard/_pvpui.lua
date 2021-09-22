@@ -1,4 +1,4 @@
-local Module = SUI:NewModule("Skins.Bags");
+local Module = SUI:NewModule("Skins.PvPUI");
 
 function Module:OnEnable()
   local f = CreateFrame("Frame")

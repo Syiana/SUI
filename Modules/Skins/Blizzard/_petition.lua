@@ -1,22 +1,20 @@
-local Module = SUI:NewModule("Skins.Bags");
+local Module = SUI:NewModule("Skins.Petition");
 
 function Module:OnEnable()
-  local frames = {
-    GameMenuFrame.Border.TopEdge,
-    GameMenuFrame.Border.RightEdge,
-    GameMenuFrame.Border.BottomEdge,
-    GameMenuFrame.Border.LeftEdge,
-    GameMenuFrame.Border.TopRightCorner,
-    GameMenuFrame.Border.TopLeftCorner,
-    GameMenuFrame.Border.BottomLeftCorner,
-    GameMenuFrame.Border.BottomRightCorner,
-    StaticPopup1.Border.TopEdge,
-    StaticPopup1.Border.RightEdge,
-    StaticPopup1.Border.BottomEdge,
-    StaticPopup1.Border.LeftEdge,
-    StaticPopup1.Border.TopRightCorner,
-    StaticPopup1.Border.TopLeftCorner,
-    StaticPopup1.Border.BottomLeftCorner,
-    StaticPopup1.Border.BottomRightCorner
-  } SUI:Skin(frames, color.secondary)
+  for i, v in pairs({	PetitionFrame.NineSlice.TopEdge,
+  PetitionFrame.NineSlice.RightEdge,
+  PetitionFrame.NineSlice.BottomEdge,
+  PetitionFrame.NineSlice.LeftEdge,
+  PetitionFrame.NineSlice.TopRightCorner,
+  PetitionFrame.NineSlice.TopLeftCorner,
+  PetitionFrame.NineSlice.BottomLeftCorner,
+  PetitionFrame.NineSlice.BottomRightCorner, }) do
+    v:SetVertexColor(.15, .15, .15)
+  end
+  for i, v in pairs({
+    PetitionFrame.Bg,
+    PetitionFrame.TitleBg,
+    PetitionFrameInset.Bg }) do
+      v:SetVertexColor(.3, .3, .3)
+  end
 end
