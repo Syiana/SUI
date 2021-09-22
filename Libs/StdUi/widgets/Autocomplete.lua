@@ -252,7 +252,7 @@ function StdUi:Autocomplete(parent, width, height, text, validator, transformer,
 	validator = validator or StdUi.Util.autocompleteValidator;
 
 	local autocomplete = self:EditBox(parent, width, height, text, validator);
-	---@type StdUi
+	--@type StdUi
 	autocomplete.stdUi = self;
 	autocomplete.transformer = transformer;
 	autocomplete.items = items;

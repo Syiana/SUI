@@ -83,7 +83,7 @@ local CheckboxEvents = {
 	end
 }
 
----@return CheckButton
+--@return CheckButton
 function StdUi:Checkbox(parent, text, width, height)
 	local checkbox = CreateFrame('Button', nil, parent);
 	checkbox.stdUi = self;
@@ -161,7 +161,7 @@ local RadioEvents = {
 	end
 };
 
----@return CheckButton
+--@return CheckButton
 function StdUi:Radio(parent, text, groupName, width, height)
 	local radio = self:Checkbox(parent, text, width, height);
 
@@ -190,7 +190,7 @@ end
 StdUi.radioGroups = {};
 StdUi.radioGroupValues = {};
 
----@return CheckButton[]
+--@return CheckButton[]
 function StdUi:RadioGroup(groupName)
 	if not self.radioGroups[groupName] then
 		self.radioGroups[groupName] = {};

@@ -44,7 +44,7 @@ local TooltipEvents = {
 }
 
 --- Standard blizzard tooltip
----@return GameTooltip
+--@return GameTooltip
 function StdUi:Tooltip(owner, text, tooltipName, anchor, automatic)
 	--- @type GameTooltip
 	local tip;

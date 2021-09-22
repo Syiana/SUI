@@ -47,11 +47,11 @@ local function getDatabaseValue(db, key)
 end
 
 ---BuildElement
----@param frame Frame
----@param row EasyLayoutRow
----@param info table
----@param dataKey string
----@param db table
+--@param frame Frame
+--@param row EasyLayoutRow
+--@param info table
+--@param dataKey string
+--@param db table
 function StdUi:BuildElement(frame, row, info, dataKey, db)
 	local element;
 
@@ -226,9 +226,9 @@ function StdUi:BuildElement(frame, row, info, dataKey, db)
 end
 
 ---BuildRow
----@param frame Frame
----@param info table
----@param db table
+--@param frame Frame
+--@param info table
+--@param db table
 function StdUi:BuildRow(frame, info, db)
 	local row = frame:AddRow();
 
@@ -247,8 +247,8 @@ function StdUi:BuildRow(frame, info, db)
 end
 
 ---BuildWindow
----@param frame Frame
----@param info table
+--@param frame Frame
+--@param info table
 function StdUi:BuildWindow(frame, info)
 	local db = info.database or nil;
 

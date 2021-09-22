@@ -157,8 +157,8 @@ local EasyLayoutRow = {
 }
 
 ---EasyLayoutRow
----@param parent Frame
----@param config table
+--@param parent Frame
+--@param config table
 function StdUi:EasyLayoutRow(parent, config)
 	---@class EasyLayoutRow
 	local row = {

@@ -190,8 +190,7 @@ local LFG_LIST_SEARCH_ENTRY_MENU = {
         end,
         notCheckable = true,
         arg1 = nil,
-        disabled = nil,
-        notCheckable = true
+        disabled = nil
       },
       {
         text = "XunaMate",
@@ -201,7 +200,6 @@ local LFG_LIST_SEARCH_ENTRY_MENU = {
         notCheckable = true,
         arg1 = nil,
         disabled = nil,
-        notCheckable = true
       },
       {
         text = "CheckPvP",
@@ -211,7 +209,6 @@ local LFG_LIST_SEARCH_ENTRY_MENU = {
         notCheckable = true,
         arg1 = nil,
         disabled = nil,
-        notCheckable = true
       },
       {
         text = "Mythic Plus",
@@ -221,7 +218,6 @@ local LFG_LIST_SEARCH_ENTRY_MENU = {
         notCheckable = true,
         arg1 = nil,
         disabled = nil,
-        notCheckable = true
       },
       {
         text = "Raider.IO",
@@ -231,7 +227,6 @@ local LFG_LIST_SEARCH_ENTRY_MENU = {
         notCheckable = true,
         arg1 = nil,
         disabled = nil,
-        notCheckable = true
       },
       {
         text = "Warcraft Logs",
@@ -241,7 +236,6 @@ local LFG_LIST_SEARCH_ENTRY_MENU = {
         notCheckable = true,
         arg1 = nil,
         disabled = nil,
-        notCheckable = true
       },
       {
         text = "WoWProgress",
@@ -251,7 +245,6 @@ local LFG_LIST_SEARCH_ENTRY_MENU = {
         notCheckable = true,
         arg1 = nil,
         disabled = nil,
-        notCheckable = true
       }
     }
   },
@@ -373,7 +366,6 @@ local LFG_LIST_APPLICANT_MEMBER_MENU = {
         notCheckable = true,
         arg1 = nil,
         disabled = nil,
-        notCheckable = true
       },
       {
         text = "XunaMate",
@@ -383,7 +375,6 @@ local LFG_LIST_APPLICANT_MEMBER_MENU = {
         notCheckable = true,
         arg1 = nil,
         disabled = nil,
-        notCheckable = true
       },
       {
         text = "CheckPvP",
@@ -393,7 +384,6 @@ local LFG_LIST_APPLICANT_MEMBER_MENU = {
         notCheckable = true,
         arg1 = nil,
         disabled = nil,
-        notCheckable = true
       },
       {
         text = "Mythic Plus",
@@ -403,7 +393,6 @@ local LFG_LIST_APPLICANT_MEMBER_MENU = {
         notCheckable = true,
         arg1 = nil,
         disabled = nil,
-        notCheckable = true
       },
       {
         text = "Raider.IO",
@@ -413,7 +402,6 @@ local LFG_LIST_APPLICANT_MEMBER_MENU = {
         notCheckable = true,
         arg1 = nil,
         disabled = nil,
-        notCheckable = true
       },
       {
         text = "Warcraft Logs",
@@ -423,7 +411,6 @@ local LFG_LIST_APPLICANT_MEMBER_MENU = {
         notCheckable = true,
         arg1 = nil,
         disabled = nil,
-        notCheckable = true
       },
       {
         text = "WoWProgress",
@@ -433,7 +420,6 @@ local LFG_LIST_APPLICANT_MEMBER_MENU = {
         notCheckable = true,
         arg1 = nil,
         disabled = nil,
-        notCheckable = true
       }
     }
   },
