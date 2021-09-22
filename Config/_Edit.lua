@@ -113,10 +113,10 @@ function Edit:OnEnable()
 	end
 
 	-- Grid
+  local Grid
 	local function showGrid(hide)
-		if Grid or hide then
+		if hide then
 			Grid:Hide()
-			Grid = nil
 		else
 			Grid = CreateFrame('Frame', nil, UIParent)
 			Grid:SetAllPoints(UIParent)
@@ -127,7 +127,7 @@ function Edit:OnEnable()
 				if i == 50 then
 					Texture:SetColorTexture(1, 1, 0, 0.5)
 				else
-					Texture:SetColorTexture(1, 1, 1, 0.1)
+					Texture:SetColorTexture(1, 1, 1, 0.2)
 				end
 				Texture:SetPoint('TOPLEFT', Grid, 'TOPLEFT', i * w - 1, 0)
 				Texture:SetPoint('BOTTOMRIGHT', Grid, 'BOTTOMLEFT', i * w + 1, 0)
@@ -138,7 +138,7 @@ function Edit:OnEnable()
 				if i == 25 then
 					Texture:SetColorTexture(1, 1, 0, 0.5)
 				else
-					Texture:SetColorTexture(1, 1, 1, 0.15)
+					Texture:SetColorTexture(1, 1, 1, 0.2)
 				end
 				Texture:SetPoint('TOPLEFT', Grid, 'TOPLEFT', 0, -i * h + 1)
 				Texture:SetPoint('BOTTOMRIGHT', Grid, 'TOPRIGHT', 0, -i * h - 1)
@@ -159,9 +159,11 @@ function Edit:OnEnable()
 
 	local GridCheckbox = StdUi:Checkbox(EditFrame, 'Show Grid')
 	StdUi:GlueTop(GridCheckbox, EditFrame, 0, -40, 'CENTER')
+  GridCheckbox:SetChecked(true)
 	GridCheckbox:SetScript("OnClick", function(self)
-		checked = self:GetChecked()
+		local checked = self:GetChecked()
 		if checked then showGrid(true) else showGrid(false) end
+    self:SetChecked(not checked)
 	end)
 
 	local SaveButton = StdUi:Button(EditFrame, 90, 20, 'Save')
