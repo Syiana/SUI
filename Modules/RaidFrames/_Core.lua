@@ -53,7 +53,7 @@ function Module:OnEnable()
 			until not bar
 		end
 
-		if (db) then
+		if (SUI:Color()) then
 			if CompactRaidFrameContainer_AddUnitFrame then
 				--self:UnregisterAllEvents()
 				hooksecurefunc("CompactRaidFrameContainer_AddUnitFrame", update)

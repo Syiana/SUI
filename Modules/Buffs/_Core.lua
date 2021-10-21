@@ -45,6 +45,7 @@ function Buffs:OnEnable()
       local buffFrameHeight = 0
 
       local function applySkin(b)
+        if (SUI:Color()) then
           if not b or (b and b.styled) then return end
 
           local name = b:GetName()
@@ -187,6 +188,7 @@ function Buffs:OnEnable()
           end
 
           b.styled = true
+        end
       end
 
       local function updateDebuffAnchors(buttonName,index)

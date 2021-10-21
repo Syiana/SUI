@@ -28,10 +28,12 @@ MainMenuBarBackpackButton:ClearAllPoints()
 MainMenuBarBackpackButton:SetPoint('TOPRIGHT', -4, -4)
 MicroButtonAndBagsBar:Hide()
 
-MenuFrame:GetRegions():SetVertexColor(.15, .15, .15)
 
 function Menu:OnEnable()
   local db = SUI.db.profiles.actionbar
+  if (SUI:Color()) then
+    MenuFrame:GetRegions():SetVertexColor(.15, .15, .15)
+  end
   if (db) then
     MenuFrame:SetAlpha(0)
     MenuFrame:SetScript('OnEnter', function()

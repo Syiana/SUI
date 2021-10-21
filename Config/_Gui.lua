@@ -123,7 +123,7 @@ function Gui:OnEnable()
   local categories = {
     {title = 'General', name = 'General'},
     {title = 'Unitframes', name = 'Unitframes'},
-    {title = 'Nameplates', name = 'Nameplates'},
+    -- {title = 'Nameplates', name = 'Nameplates'},
     {title = 'Actionbar', name = 'Actionbar'},
     {title = 'Buffs', name = 'Buffs'},
     {title = 'Map', name = 'Map'},

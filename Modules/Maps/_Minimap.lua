@@ -5,7 +5,7 @@ function Module:OnEnable()
 
 	if (db) then
         if not (IsAddOnLoaded("SexyMap")) then
-            --if SUIDB.MODULES.DARKFRAMES == true then
+            if (SUI:Color()) then
                 for i, v in pairs(
                     {
                         MinimapBorder,
@@ -16,10 +16,10 @@ function Module:OnEnable()
                 ) do
                     v:SetVertexColor(.15, .15, .15)
                 end
-            --end
+            end
             select(2, TimeManagerClockButton:GetRegions()):SetVertexColor(1, 1, 1)
 
-            --if SUIDB.MODULES.DARKFRAMES == true then
+            if (SUI:Color()) then
                 hooksecurefunc("GarrisonLandingPageMinimapButton_UpdateIcon", function(self)
                     local garrisonType = C_Garrison.GetLandingPageGarrisonType();
                     if not (db.showgarrison) and (garrisonType == LE_GARRISON_TYPE_8_0) then
@@ -92,7 +92,7 @@ function Module:OnEnable()
                         end
                     end
                 end)
-            --end
+            end
 
             if (db) == true then
                 GarrisonLandingPageMinimapButton:UnregisterAllEvents()
