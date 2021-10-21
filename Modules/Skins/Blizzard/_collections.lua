@@ -1,6 +1,7 @@
 local Module = SUI:NewModule("Skins.Collections");
 
 function Module:OnEnable()
+  if (SUI:Color()) then
     local f = CreateFrame("Frame")
     f:RegisterEvent("ADDON_LOADED")
     f:SetScript("OnEvent", function(self, event, name)
@@ -105,5 +106,5 @@ function Module:OnEnable()
         end
       end
     end)
-
+  end
 end

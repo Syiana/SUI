@@ -1,6 +1,7 @@
 local Module = SUI:NewModule("Skins.SpellBook");
 
 function Module:OnEnable()
+  if (SUI:Color()) then
     for i, v in pairs({ SpellBookFrame.NineSlice.TopEdge,
       SpellBookFrame.NineSlice.RightEdge,
       SpellBookFrame.NineSlice.LeftEdge,
@@ -21,4 +22,5 @@ function Module:OnEnable()
         v:SetVertexColor(unpack(SUI:Color()))
     end
     SpellBookFrameInset:SetAlpha(0)
+  end
 end

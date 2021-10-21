@@ -105,7 +105,7 @@ if (IsTestBuild) then
       }
 
       local color = colors[self.db.profile.general.theme]
-      if (sub) then
+      if (color and sub) then
         for key, value in pairs(color) do
           color[key] = value - sub
         end
