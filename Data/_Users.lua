@@ -15,7 +15,6 @@ Data.specials = {
   {text = Colors.rog    .. 'Stacy|r'},
   {text = Colors.warri  .. 'Candy|r'},
   {text = Colors.druid  .. 'Sivax|r'},
-  {text = Colors.priest .. 'Evlana|r'},
   {text = Colors.warri  .. 'Nano|r'},
   {text = Colors.dk     .. 'Kyrea|r'},
   {text = Colors.druid  .. 'Xexexexexexe|r'},
