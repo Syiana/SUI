@@ -22,7 +22,6 @@ function Module:OnEnable()
     local classColorHex, factionColorHex = {}, {}
 
     local cfg = {
-        pos = {"BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", SUIDB.TOOLTIP.X, SUIDB.TOOLTIP.Y},
         textColor = {0.4,0.4,0.4},
         bossColor = {1,0,0},
         eliteColor = {1,0,0.5},
@@ -40,8 +39,8 @@ function Module:OnEnable()
       -----------------------------
       -- Functions
       -----------------------------
-      if (SUIDB.A_TEXTURES) then
-          GameTooltipStatusBar:SetStatusBarTexture("Interface\\Addons\\SUI\\Media\\Textures\\Tooltip\\UI-TargetingFrame-BarFill_test")
+      if (db) then
+        GameTooltipStatusBar:SetStatusBarTexture("Interface\\Addons\\SUI\\Media\\Textures\\Tooltip\\UI-TargetingFrame-BarFill_test")
       end
 
       local function GetHexColor(color)
@@ -155,12 +154,11 @@ function Module:OnEnable()
       end
 
       --hooksecurefunc GameTooltip_SetDefaultAnchor
-      hooksecurefunc("GameTooltip_SetDefaultAnchor", function(tooltip, parent)
-          if SUIDB.TOOLTIP.MOUSE then
-              tooltip:SetOwner(parent, "ANCHOR_CURSOR")
-          end
-      end)
-
+      if db.mouseanchor then
+        hooksecurefunc("GameTooltip_SetDefaultAnchor", function(tooltip, parent)
+          tooltip:SetOwner(parent, "ANCHOR_CURSOR")
+        end)
+      end
       -----------------------------
       -- Init
       -----------------------------
@@ -188,7 +186,7 @@ function Module:OnEnable()
       Tooltip_Small:SetShadowOffset(1,-2)
       Tooltip_Small:SetShadowColor(0,0,0,0.75)
 
-      if (DB.CONFIG.LifeTop) then
+      if (db.lifeontop) then
         GameTooltipStatusBar:ClearAllPoints()
         GameTooltipStatusBar:SetPoint("LEFT", 4.5,0)
         GameTooltipStatusBar:SetPoint("RIGHT", -4.5,0)

@@ -57,6 +57,11 @@ local defaults = {
       },
       gryphones = true,
     },
+    tooltip = {
+      style = 'Custom',
+      lifeontop = true,
+      mouseanchor = false
+    },
     buffs = {
       buff = {
         size = 32,
@@ -74,8 +79,8 @@ local defaults = {
     },
     maps = {
 		small = false,
-		cords = false,
 		opacity = false,
+		coordinates = false,
 		showminimap = true,
 		showclock = true,
 		showdate = true,
@@ -112,6 +117,16 @@ if (IsTestBuild) then
       end
 
       return color
+    end
+
+    -- Textures
+    function SUI:Texture()
+      return
+    end
+
+    local profiles = self.db:GetProfiles()
+    for i, v in ipairs(profiles) do
+      print(v)
     end
   end
 else

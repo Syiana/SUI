@@ -125,6 +125,7 @@ function Gui:OnEnable()
     {title = 'Unitframes', name = 'Unitframes'},
     -- {title = 'Nameplates', name = 'Nameplates'},
     {title = 'Actionbar', name = 'Actionbar'},
+    {title = 'Tooltip', name = 'Tooltip'},
     {title = 'Buffs', name = 'Buffs'},
     {title = 'Map', name = 'Map'},
     {title = 'Chat', name = 'Chat'},
@@ -374,20 +375,20 @@ function Gui:OnEnable()
             order = 2
           }
         },
-        {
-          header = {
-            type = 'header',
-            label = 'Raid'
-          },
-        },
-        {
-          top = {
-            key = 'raid.alwaysontop',
-            type = 'checkbox',
-            label = 'Always on Top',
-            column = 4
-          }
-        }
+        -- {
+        --   header = {
+        --     type = 'header',
+        --     label = 'Raid'
+        --   },
+        -- },
+        -- {
+        --   top = {
+        --     key = 'raid.alwaysontop',
+        --     type = 'checkbox',
+        --     label = 'Always on Top',
+        --     column = 4
+        --   }
+        -- }
       },
     },
     Nameplates = {
@@ -555,7 +556,53 @@ function Gui:OnEnable()
         {
           mouseover = {
             type = 'checkbox',
-            label = 'Mouseover',
+            label = 'Show on Mouseover',
+            column = 4
+          }
+        }
+      },
+    },
+    Tooltip = {
+      layoutConfig = { padding = { top = 15 } },
+      database = db.profile.tooltip,
+      rows = {
+        {
+          header = {
+            type = 'header',
+            label = 'Tooltip'
+          }
+        },
+        {
+          style = {
+            key = 'style',
+            type = 'dropdown',
+            label = 'Style',
+            options = {
+              { value = 'Default', text = 'Default' },
+              { value = 'Custom', text = 'Custom' }
+            },
+            initialValue = 1,
+            column = 5,
+            order = 1
+          }
+        },
+        {
+          header = {
+            type = 'header',
+            label = 'Settings'
+          },
+        },
+        {
+          mouseanchor = {
+            key = 'mouseanchor',
+            type = 'checkbox',
+            label = 'Mouseanchor',
+            column = 4
+          },
+          lifeontop = {
+            key = 'lifeontop',
+            type = 'checkbox',
+            label = 'Life on Top',
             column = 4
           }
         }
@@ -635,7 +682,7 @@ function Gui:OnEnable()
     },
     Map = {
       layoutConfig = { padding = { top = 15 } },
-	  database = db.profile.maps,
+	    database = db.profile.maps,
       rows = {
         {
           header = {
@@ -645,21 +692,21 @@ function Gui:OnEnable()
         },
         {
           small = {
-			key = 'small',
+		      	key = 'small',
             type = 'checkbox',
             label = 'Small Map',
             column = 4,
             order = 1
           },
           cords = {
-			key = 'cords',			
+		      	key = 'coordinates',
             type = 'checkbox',
-            label = 'Cords',
+            label = 'Coords',
             column = 4,
             order = 2
           },
           opacity = {
-		  	key = 'opacity',
+		  	    key = 'opacity',
             type = 'checkbox',
             label = 'Opacity',
             column = 4,
@@ -674,21 +721,21 @@ function Gui:OnEnable()
         },
         {
           showminimap = {
-			key = 'showminimap',
+			      key = 'showminimap',
             type = 'checkbox',
             label = 'Show Minimap',
             column = 4,
             order = 1
           },
           showclock = {
-			key = 'showclock',
+			      key = 'showclock',
             type = 'checkbox',
             label = 'Show Clock',
             column = 4,
             order = 2
           },
           showdate = {
-			key = 'showdate',
+			      key = 'showdate',
             type = 'checkbox',
             label = 'Show Date',
             column = 4,
@@ -697,21 +744,21 @@ function Gui:OnEnable()
         },
         {
           showgarrison = {
-			key = 'showgarrison',
+			      key = 'showgarrison',
             type = 'checkbox',
             label = 'Garrison Symbol',
             column = 4,
             order = 1
           },
           showtracking = {
-			key = 'showtracking',
+			      key = 'showtracking',
             type = 'checkbox',
             label = 'Tracking Symbol',
             column = 4,
             order = 2
           },
           showworldmap = {
-			key = 'showworldmap',
+			      key = 'showworldmap',
             type = 'checkbox',
             label = 'WorldMap Symbol',
             column = 4,
