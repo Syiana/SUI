@@ -63,24 +63,26 @@ function Module:OnEnable()
         b.styled = true
     end
 
-    hooksecurefunc("TargetFrame_UpdateAuras", function(self)
-        for i = 1, MAX_TARGET_BUFFS do
-            b = _G["TargetFrameBuff"..i]
-            applySkin(b)
-        end
-        for i = 1, MAX_TARGET_DEBUFFS do
-            b = _G["TargetFrameDebuff"..i]
-            applySkin(b)
-        end
-        for i = 1, MAX_TARGET_BUFFS do
-            b = _G["FocusFrameBuff"..i]
-            applySkin(b)
-        end
-        for i = 1, MAX_TARGET_DEBUFFS do
-            b = _G["FocusFrameDebuff"..i]
-            applySkin(b)
-        end
-    end)
+    if(SUI:Color()) then
+        hooksecurefunc("TargetFrame_UpdateAuras", function(self)
+            for i = 1, MAX_TARGET_BUFFS do
+                b = _G["TargetFrameBuff"..i]
+                applySkin(b)
+            end
+            for i = 1, MAX_TARGET_DEBUFFS do
+                b = _G["TargetFrameDebuff"..i]
+                applySkin(b)
+            end
+            for i = 1, MAX_TARGET_BUFFS do
+                b = _G["FocusFrameBuff"..i]
+                applySkin(b)
+            end
+            for i = 1, MAX_TARGET_DEBUFFS do
+                b = _G["FocusFrameDebuff"..i]
+                applySkin(b)
+            end
+        end)
+    end
 
 
     function SUIAuraResize(self, auraName, numAuras, numOppositeAuras, largeAuraList, updateFunc, maxRowWidth, offsetX, mirrorAurasVertically)
