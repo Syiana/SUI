@@ -21,19 +21,19 @@ function Module:OnEnable()
       if t == "Transparent" then
         local balpha = 1
         if t == "Transparent" then balpha = 0.7 end
-        borderr, borderg, borderb = { .125, .125, .125 }
-        backdropr, backdropg, backdropb = { .05, .05, .05 }
-        backdropa = balpha
+        local borderr, borderg, borderb = { .125, .125, .125 }
+        local backdropr, backdropg, backdropb = { .05, .05, .05 }
+        local backdropa = balpha
       end
 
-      template = t
+      local template = t
     end
 
     local function SetTemplate(f, t, tex)
       if tex then
-        texture = normTex
+        local texture = normTex
       else
-        texture = blank
+        local texture = blank
       end
 
       UpdateColor(t)
@@ -210,13 +210,13 @@ function Module:OnEnable()
     end )
 
     function SpinStart()
-      spinning = true
+      local spinning = true
       MoveViewRightStart( 0.1 )
     end
 
     function SpinStop()
       if( not spinning ) then return end
-      spinning = nil
+      local spinning = nil
       MoveViewRightStop()
     end
   end

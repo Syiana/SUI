@@ -15,39 +15,39 @@ function Module:OnEnable()
 			local i, bar = 1
 			repeat
 			bar = _G["CompactRaidFrame" .. i .. "HealthBar"]
-			rbar = _G["CompactRaidFrame" .. i .. "PowerBar"]
-			Divider = _G["CompactRaidFrame" .. i .. "HorizDivider"]
-			vleftseparator = _G["CompactRaidFrame" .. i .. "VertLeftBorder"]
-			vrightseparator = _G["CompactRaidFrame" .. i .. "VertRightBorder"]
-			htopseparator = _G["CompactRaidFrame" .. i .. "HorizTopBorder"]
-			hbotseparator = _G["CompactRaidFrame" .. i .. "HorizBottomBorder"]
-			bordertopleft = _G["CompactRaidFrameContainerBorderFrameBorderTopLeft"]
-			bordertop = _G["CompactRaidFrameContainerBorderFrameBorderTop"]
-			bordertopright = _G["CompactRaidFrameContainerBorderFrameBorderTopRight"]
-			borderleft = _G["CompactRaidFrameContainerBorderFrameBorderLeft"]
-			borderright = _G["CompactRaidFrameContainerBorderFrameBorderRight"]
-			borderbottomleft = _G["CompactRaidFrameContainerBorderFrameBorderBottomLeft"]
-			borderbottom = _G["CompactRaidFrameContainerBorderFrameBorderBottom"]
-			borderbottomright = _G["CompactRaidFrameContainerBorderFrameBorderBottomRight"]
+			local rbar = _G["CompactRaidFrame" .. i .. "PowerBar"]
+			local Divider = _G["CompactRaidFrame" .. i .. "HorizDivider"]
+			local vleftseparator = _G["CompactRaidFrame" .. i .. "VertLeftBorder"]
+			local vrightseparator = _G["CompactRaidFrame" .. i .. "VertRightBorder"]
+			local htopseparator = _G["CompactRaidFrame" .. i .. "HorizTopBorder"]
+			local hbotseparator = _G["CompactRaidFrame" .. i .. "HorizBottomBorder"]
+			local bordertopleft = _G["CompactRaidFrameContainerBorderFrameBorderTopLeft"]
+			local bordertop = _G["CompactRaidFrameContainerBorderFrameBorderTop"]
+			local bordertopright = _G["CompactRaidFrameContainerBorderFrameBorderTopRight"]
+			local borderleft = _G["CompactRaidFrameContainerBorderFrameBorderLeft"]
+			local borderright = _G["CompactRaidFrameContainerBorderFrameBorderRight"]
+			local borderbottomleft = _G["CompactRaidFrameContainerBorderFrameBorderBottomLeft"]
+			local borderbottom = _G["CompactRaidFrameContainerBorderFrameBorderBottom"]
+			local borderbottomright = _G["CompactRaidFrameContainerBorderFrameBorderBottomRight"]
 			if bar then
-			--STATUSBAR
-			bar:SetStatusBarTexture("Interface\\Addons\\SUI\\Media\\Textures\\RaidFrames\\Raid-Bar-Hp-Fill")
-			rbar:SetStatusBarTexture("Interface\\Addons\\SUI\\Media\\Textures\\RaidFrames\\Raid-Bar-Resource-Fill")
-			--DARK
-			bordertopleft:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\RaidFrames\\RaidBorder-UpperLeft")
-			bordertop:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\RaidFrames\\RaidBorder-UpperMiddle")
-			bordertopright:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\RaidFrames\\RaidBorder-UpperRight")
-			borderleft:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\RaidFrames\\RaidBorder-Left")
-			borderright:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\RaidFrames\\RaidBorder-Right")
-			borderbottomleft:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\RaidFrames\\RaidBorder-BottomLeft")
-			borderbottom:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\RaidFrames\\RaidBorder-BottomMiddle")
-			borderbottomright:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\RaidFrames\\RaidBorder-BottomRight")
-			vleftseparator:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\RaidFrames\\Raid-VSeparator")
-			vrightseparator:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\RaidFrames\\Raid-VSeparator")
-			htopseparator:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\RaidFrames\\Raid-HSeparator")
-			hbotseparator:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\RaidFrames\\Raid-HSeparator")
+				--STATUSBAR
+				bar:SetStatusBarTexture("Interface\\Addons\\SUI\\Media\\Textures\\RaidFrames\\Raid-Bar-Hp-Fill")
+				rbar:SetStatusBarTexture("Interface\\Addons\\SUI\\Media\\Textures\\RaidFrames\\Raid-Bar-Resource-Fill")
+				--DARK
+				bordertopleft:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\RaidFrames\\RaidBorder-UpperLeft")
+				bordertop:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\RaidFrames\\RaidBorder-UpperMiddle")
+				bordertopright:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\RaidFrames\\RaidBorder-UpperRight")
+				borderleft:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\RaidFrames\\RaidBorder-Left")
+				borderright:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\RaidFrames\\RaidBorder-Right")
+				borderbottomleft:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\RaidFrames\\RaidBorder-BottomLeft")
+				borderbottom:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\RaidFrames\\RaidBorder-BottomMiddle")
+				borderbottomright:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\RaidFrames\\RaidBorder-BottomRight")
+				vleftseparator:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\RaidFrames\\Raid-VSeparator")
+				vrightseparator:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\RaidFrames\\Raid-VSeparator")
+				htopseparator:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\RaidFrames\\Raid-HSeparator")
+				hbotseparator:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\RaidFrames\\Raid-HSeparator")
 
-			Divider:SetVertexColor(.3, .3, .3)
+				Divider:SetVertexColor(.3, .3, .3)
 			end
 			i = i + 1
 			until not bar

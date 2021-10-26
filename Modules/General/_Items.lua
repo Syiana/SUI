@@ -224,9 +224,9 @@ function Module:OnEnable()
             return
         end
         if ItemLink then
-            itemName, itemLink, itemRarity, itemLevel, itemMinLevel, itemType, itemSubType, itemStackCount, itemEquipLoc, itemTexture, itemSellPrice = GetItemInfo(ItemLink)
-            name, _ = GetItemSpell(ItemLink)
-        _, equipped, _ = GetAverageItemLevel()
+            local itemName, itemLink, itemRarity, itemLevel, itemMinLevel, itemType, itemSubType, itemStackCount, itemEquipLoc, itemTexture, itemSellPrice = GetItemInfo(ItemLink)
+            local name, _ = GetItemSpell(ItemLink)
+            local _, equipped, _ = GetAverageItemLevel()
         if itemLevel == nil then return end
             if itemLevel >= (98 * equipped / 100) then
                 button.levelString:SetTextColor(0, 1, 0)
