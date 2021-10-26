@@ -1,13 +1,13 @@
 StatsFrame = CreateFrame("Frame", "StatsFrame", UIParent)
-local movable = true --false/true
+local movable = false
 
 if movable == false then
   StatsFrame:ClearAllPoints()
   StatsFrame:SetPoint('BOTTOMLEFT', UIParent, "BOTTOMLEFT", 5, 5)
 end
-StatsFrame:EnableMouse(true)
 
 if movable == true then
+  StatsFrame:EnableMouse(true)
   StatsFrame:ClearAllPoints()
   StatsFrame:SetPoint('BOTTOMLEFT', UIParent, "BOTTOMLEFT", 5, 3)
   StatsFrame:SetClampedToScreen(true)
@@ -29,7 +29,7 @@ function Module:OnEnable()
   local db = SUI.db.profile.general
   if (db) then
     local font = STANDARD_TEXT_FONT
-    local fontSize = 12
+    local fontSize = 13
     local fontFlag = "THINOUTLINE"
     local textAlign = "CENTER"
     local customColor = db.color
