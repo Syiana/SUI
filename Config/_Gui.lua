@@ -555,6 +555,7 @@ function Gui:OnEnable()
         },
         {
           mouseover = {
+            key = 'menu.mouseover',
             type = 'checkbox',
             label = 'Show on Mouseover',
             column = 4

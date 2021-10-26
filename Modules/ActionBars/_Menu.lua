@@ -28,13 +28,12 @@ MainMenuBarBackpackButton:ClearAllPoints()
 MainMenuBarBackpackButton:SetPoint('TOPRIGHT', -4, -4)
 MicroButtonAndBagsBar:Hide()
 
-
 function Menu:OnEnable()
-  local db = SUI.db.profiles.actionbar
+  local db = SUI.db.profile.actionbar
   if (SUI:Color()) then
     MenuFrame:GetRegions():SetVertexColor(.15, .15, .15)
   end
-  if (db) then
+  if (db.menu.mouseover) then
     MenuFrame:SetAlpha(0)
     MenuFrame:SetScript('OnEnter', function()
         MenuFrame:SetAlpha(1)

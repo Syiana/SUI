@@ -55,6 +55,9 @@ local defaults = {
         size = 1,
         padding = 1
       },
+      menu = {
+        mouseover = false
+      },
       gryphones = true,
     },
     tooltip = {
