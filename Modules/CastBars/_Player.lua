@@ -2,7 +2,7 @@ local Module = SUI:NewModule("CastBars.Player");
 
 function Module:OnEnable()
   local db = SUI.db.profile.castbars
-    if (db) then
+  if (db.style == 'Custom') then
         if not InCombatLockdown() then
             CastingBarFrame.ignoreFramePositionManager = true
             CastingBarFrame:SetMovable(true)

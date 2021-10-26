@@ -125,11 +125,12 @@ function Gui:OnEnable()
     {title = 'Unitframes', name = 'Unitframes'},
     -- {title = 'Nameplates', name = 'Nameplates'},
     {title = 'Actionbar', name = 'Actionbar'},
+    {title = 'Castbars', name = 'Castbars'},
     {title = 'Tooltip', name = 'Tooltip'},
     {title = 'Buffs', name = 'Buffs'},
     {title = 'Map', name = 'Map'},
     {title = 'Chat', name = 'Chat'},
-    {title = 'Misc', name = 'Misc'},
+    -- {title = 'Misc', name = 'Misc'},
     {title = 'FAQ', name = 'FAQ'},
     {title = 'Profiles', name = 'Profiles'},
   }
@@ -479,6 +480,7 @@ function Gui:OnEnable()
         },
         {
           style = {
+            key = 'style',
             type = 'dropdown',
             label = 'Style',
             options = {
@@ -565,6 +567,52 @@ function Gui:OnEnable()
             key = 'menu.mouseover',
             type = 'checkbox',
             label = 'Show on Mouseover',
+            column = 4
+          }
+        }
+      },
+    },
+    Castbars = {
+      layoutConfig = { padding = { top = 15 } },
+      database = db.profile.castbars,
+      rows = {
+        {
+          header = {
+            type = 'header',
+            label = 'Chastbars'
+          }
+        },
+        {
+          style = {
+            key = 'style',
+            type = 'dropdown',
+            label = 'Style',
+            options = {
+              { value = 'Default', text = 'Default' },
+              { value = 'Custom', text = 'Custom' }
+            },
+            initialValue = 1,
+            column = 5,
+            order = 1
+          }
+        },
+        {
+          header = {
+            type = 'header',
+            label = 'Settings'
+          },
+        },
+        {
+          mouseanchor = {
+            key = 'icon',
+            type = 'checkbox',
+            label = 'Icons',
+            column = 4
+          },
+          lifeontop = {
+            key = 'timer',
+            type = 'checkbox',
+            label = 'Timer',
             column = 4
           }
         }

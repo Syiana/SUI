@@ -2,7 +2,7 @@ local Module = SUI:NewModule("CastBars.Target");
 
 function Module:OnEnable()
   local db = SUI.db.profile.castbars
-    if (db) then
+    if (db.style == 'Custom') then
         if not InCombatLockdown() then
           TargetFrameSpellBar.ignoreFramePositionManager = true
           TargetFrameSpellBar:SetMovable(true)

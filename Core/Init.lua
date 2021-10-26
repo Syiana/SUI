@@ -29,7 +29,7 @@ local defaults = {
       }
     },
     unitframes = {
-      style = 'Default',
+      style = 'Big',
       classcolor = true,
       factioncolor = true,
       statusglow = false,
@@ -47,6 +47,7 @@ local defaults = {
     },
     raiframes = {},
     actionbar = {
+      style = 'Default',
       buttons = {
         key = true,
         macro = false,
@@ -61,7 +62,9 @@ local defaults = {
       gryphones = true,
     },
     castbars = {
-      timer = true
+      style = 'Custom',
+      timer = true,
+      icon = true
     },
     tooltip = {
       style = 'Custom',

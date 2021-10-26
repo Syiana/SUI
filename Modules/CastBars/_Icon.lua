@@ -2,7 +2,7 @@ local Module = SUI:NewModule("CastBars.Icon");
 
 function Module:OnEnable()
   local db = SUI.db.profile.castbars
-    if (db) then
+  if (db.style == 'Custom') then
       if not InCombatLockdown() then
         local function IconSkin(b)
             if not b or (b and b.styled) then return end
