@@ -11,13 +11,20 @@ function Module:OnEnable()
   local Width, Height = GameTooltip:GetSize()
   TooltipFrame:SetSize(150, 25)
 
-  hooksecurefunc("GameTooltip_SetDefaultAnchor", function(tooltip, parent)
-    tooltip:SetOwner(parent, "ANCHOR_NONE")
-    tooltip:ClearAllPoints()
-    tooltip:SetPoint("BOTTOMRIGHT", TooltipFrame, "BOTTOMRIGHT")
-  end)
+  --hooksecurefunc GameTooltip_SetDefaultAnchor
+  if db.mouseanchor then
+    hooksecurefunc("GameTooltip_SetDefaultAnchor", function(tooltip, parent)
+      tooltip:SetOwner(parent, "ANCHOR_CURSOR")
+    end)
+  else
+    hooksecurefunc("GameTooltip_SetDefaultAnchor", function(tooltip, parent)
+      tooltip:SetOwner(parent, "ANCHOR_NONE")
+      tooltip:ClearAllPoints()
+      tooltip:SetPoint("BOTTOMRIGHT", TooltipFrame, "BOTTOMRIGHT")
+    end)
+  end
 
-	if (db) then
+	if (db.style == "Custom") then
     FONT = STANDARD_TEXT_FONT
     local classColorHex, factionColorHex = {}, {}
 
@@ -153,12 +160,6 @@ function Module:OnEnable()
         self:SetStatusBarColor(cfg.barColor.r,cfg.barColor.g,cfg.barColor.b)
       end
 
-      --hooksecurefunc GameTooltip_SetDefaultAnchor
-      if db.mouseanchor then
-        hooksecurefunc("GameTooltip_SetDefaultAnchor", function(tooltip, parent)
-          tooltip:SetOwner(parent, "ANCHOR_CURSOR")
-        end)
-      end
       -----------------------------
       -- Init
       -----------------------------
