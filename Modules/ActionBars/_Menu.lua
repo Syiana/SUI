@@ -17,9 +17,9 @@ CharacterBag1Slot:SetParent(MenuFrame)
 CharacterBag2Slot:SetParent(MenuFrame)
 CharacterBag3Slot:SetParent(MenuFrame)
 
--- for _, v in ipairs(MICRO_BUTTONS) do v = _G[v]
---   v:SetParent(MenuFrame)
--- end
+for _, v in ipairs(MICRO_BUTTONS) do v = _G[v]
+  v:SetParent(MenuFrame)
+end
 
 CharacterMicroButton:ClearAllPoints()
 CharacterMicroButton:SetPoint("BOTTOMLEFT", MenuFrame, 5, 3)
