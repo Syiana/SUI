@@ -92,48 +92,31 @@ local defaults = {
   }
 }
 
-if (IsTestBuild) then
-  function SUI:OnInitialize()
-    -- Database
-    self.db = LibStub("AceDB-3.0"):New("SUIDB", defaults, true)
-    self.db.RegisterCallback(self, "OnProfileChanged", "RefreshConfig")
-    self.db.RegisterCallback(self, "OnProfileCopied", "RefreshConfig")
-    self.db.RegisterCallback(self, "OnProfileReset", "RefreshConfig")
+function SUI:OnInitialize()
+  -- Database
+  self.db = LibStub("AceDB-3.0"):New("SUIDB", defaults, true)
 
-    -- Color
-    function SUI:Color(sub)
-      local colors = {
-        Blizzard = nil,
-        Dark = {0.3, 0.3, 0.3},
-        Class = 'class',
-        Custom = self.db.profile.general.color,
-      }
+  -- Color
+  function SUI:Color(sub)
+    local colors = {
+      Blizzard = nil,
+      Dark = {0.3, 0.3, 0.3},
+      Class = 'class',
+      Custom = self.db.profile.general.color,
+    }
 
-      local color = colors[self.db.profile.general.theme]
-      if (color and sub) then
-        for key, value in pairs(color) do
-          color[key] = value - sub
-        end
+    local color = colors[self.db.profile.general.theme]
+    if (color and sub) then
+      for key, value in pairs(color) do
+        color[key] = value - sub
       end
-
-      return color
     end
 
-    -- Textures
-    function SUI:Texture()
-      return
-    end
-
-    local profiles = self.db:GetProfiles()
-    for i, v in ipairs(profiles) do
-      print(v)
-    end
+    return color
   end
-else
-  print("SUI PREALPHA ONLY WORKS ON PTR!")
-  DisableAddOn("SUI")
-end
 
-function SUI:RefreshConfig()
-  print("db changed");
+  -- Textures
+  function SUI:Texture()
+    return
+  end
 end
