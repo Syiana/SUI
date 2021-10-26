@@ -1,7 +1,9 @@
-local ADDON, SUI = ...
-SUI.MODULES.CASTBARS.Timer = function(DB) 
-    if (DB and DB.STATE) then
-        if (DB.CONFIG.Timer) then
+local Module = SUI:NewModule("CastBars.Timer");
+
+function Module:OnEnable()
+  local db = SUI.db.profile.castbars
+    if (db) then
+        if (db.timer) then
             local format = string.format
             local max = math.max
             local FONT = STANDARD_TEXT_FONT

@@ -209,6 +209,13 @@ function Gui:OnEnable()
             label = 'Delete',
             column = 3,
             order = 3
+          },
+          duel = {
+            key = 'automation.decline',
+            type = 'checkbox',
+            label = 'Duel',
+            column = 3,
+            order = 3
           }
         },
         {

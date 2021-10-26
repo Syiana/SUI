@@ -22,7 +22,7 @@ function Module:OnEnable()
             if (SUI:Color()) then
                 hooksecurefunc("GarrisonLandingPageMinimapButton_UpdateIcon", function(self)
                     local garrisonType = C_Garrison.GetLandingPageGarrisonType();
-                    if not (db.showgarrison) and (garrisonType == LE_GARRISON_TYPE_8_0) then
+                    if (db.showgarrison) and (garrisonType == LE_GARRISON_TYPE_8_0) then
                         if select(1,UnitFactionGroup("player")) == "Horde" then
                             if not gb then
                                 gb = CreateFrame("Frame", nil, GarrisonLandingPageMinimapButton)
@@ -59,6 +59,7 @@ function Module:OnEnable()
                             end
                         end
                     else
+                      if (db.classstyle) then
                         self:GetNormalTexture():SetTexture(nil)
                         self:GetPushedTexture():SetTexture(nil)
                         if not gb then
@@ -90,6 +91,7 @@ function Module:OnEnable()
                             gb.icon:SetTexture("Interface\\TargetingFrame\\UI-Classes-Circles")
                             gb.icon:SetTexCoord(unpack(t))
                         end
+                      end
                     end
                 end)
             end

@@ -1,6 +1,8 @@
-local ADDON, SUI = ...
-SUI.MODULES.CASTBARS.Player = function(DB) 
-    if (DB and DB.STATE) then
+local Module = SUI:NewModule("CastBars.Player");
+
+function Module:OnEnable()
+  local db = SUI.db.profile.castbars
+    if (db) then
         if not InCombatLockdown() then
             CastingBarFrame.ignoreFramePositionManager = true
             CastingBarFrame:SetMovable(true)
@@ -22,7 +24,6 @@ SUI.MODULES.CASTBARS.Player = function(DB)
             CastingBarFrame.Border:SetPoint("TOP", 0, 26)
             CastingBarFrame.Flash:SetPoint("TOP", 0, 26)
             CastingBarFrame.BorderShield:SetPoint("TOP", 0, 26)
-
             --Texture
             CastingBarFrame:SetStatusBarTexture("Interface\\Addons\\SUI\\Media\\Textures\\Unitframes\\UI-StatusBar")
         end

@@ -37,8 +37,8 @@ local defaults = {
       combaticon = false,
       links = true,
       buffs = {
-        small = 21,
-        large = 17,
+        small = 26,
+        large = 26,
         purgeborder = true
       },
       raid = {
@@ -59,6 +59,9 @@ local defaults = {
         mouseover = false
       },
       gryphones = true,
+    },
+    castbars = {
+      timer = true
     },
     tooltip = {
       style = 'Custom',
@@ -81,16 +84,17 @@ local defaults = {
       style = 'Custom'
     },
     maps = {
-		small = false,
-		opacity = false,
-		coordinates = false,
-		showminimap = true,
-		showclock = true,
-		showdate = true,
-		showgarrison = false,
-		showtracking = false,
-		showworldmap = false,
-	},
+      small = false,
+      opacity = false,
+      coordinates = false,
+      showminimap = true,
+      showclock = true,
+      showdate = true,
+      showgarrison = true,
+      showtracking = false,
+      showworldmap = false,
+      classstyle = false
+	  },
     edit = {}
   }
 }

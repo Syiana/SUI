@@ -1,5 +1,7 @@
 local Module = SUI:NewModule("Chat.Core");
 
+ChatFrame1:SetClampRectInsets(0, 0, 0, 0)
+
 function Module:OnEnable()
   local db = SUI.db.profile.chat
   if (db) then
@@ -124,8 +126,6 @@ function Module:OnEnable()
       for i = 1, NUM_CHAT_WINDOWS do
           ProcessFrame(_G["ChatFrame" .. i])
           local chatWindowName = _G["ChatFrame" .. i]:GetName()
-          local name, size, r, g, b, alpha, shown, locked, docked, uninteractable = GetChatWindowInfo(i)
-
           local chatTab = _G[chatWindowName .. "Tab"]
           _G[chatWindowName .. "TabLeft"]:SetTexture(nil)
           _G[chatWindowName .. "TabMiddle"]:SetTexture(nil)

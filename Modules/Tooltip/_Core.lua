@@ -4,9 +4,7 @@ function Module:OnEnable()
   local db = SUI.db.profile.tooltip
 
   local TooltipFrame = CreateFrame('Frame', "TooltipFrame", UIParent)
-  TooltipFrame:SetMovable(true)
-  TooltipFrame:SetUserPlaced(true)
-  TooltipFrame:SetPoint("BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", 5, 3)
+  TooltipFrame:SetPoint("BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", -50, 120)
 
   local Width, Height = GameTooltip:GetSize()
   TooltipFrame:SetSize(150, 25)
