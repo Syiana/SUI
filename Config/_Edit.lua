@@ -54,12 +54,13 @@ function Edit:OnEnable()
 		"CastingBarFrame",
 		"TargetFrameSpellBar",
 		"MenuFrame",
-    "BuffDragFrame",
+		"BuffDragFrame",
 		"DebuffDragFrame",
-    "PlayerFrame",
-    "TargetFrame",
-    "FocusFrame",
-    "TooltipFrame"
+		"PlayerFrame",
+		"TargetFrame",
+		"FocusFrame",
+		"TooltipFrame",
+    "StatsFrame"
 	}
 
 	-- Create DragFrame for Elements
