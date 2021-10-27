@@ -98,12 +98,18 @@ local defaults = {
       showworldmap = false,
       classstyle = false
 	  },
+    misc = {
+      safequeue = true,
+      losecontrol = true,
+      tabbinder = false,
+      pulltimer = false,
+      interrupt = false
+    },
     edit = {}
   }
 }
 
 function SUI:OnInitialize()
-  -- Database
   self.db = LibStub("AceDB-3.0"):New("SUIDB", defaults, true)
 
   -- Color

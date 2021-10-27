@@ -10,7 +10,7 @@ function Gui:OnEnable()
   local StdUi = LibStub('StdUi')
   StdUi.config = {
     font = {
-        family    = "Interface\\AddOns\\SUI\\Media\\Fonts\\Prototype.ttf",
+        family    = STANDARD_TEXT_FONT,
         size      = 12,
         titleSize = 16,
         effect    = 'NONE',
@@ -60,9 +60,9 @@ function Gui:OnEnable()
   --Config
   local config = StdUi:Window(UIParent, 700, 400)
   config:SetPoint('CENTER')
-  config:Hide()
   config.titlePanel:SetPoint('LEFT', 10, 0)
   config.titlePanel:SetPoint('RIGHT', -35, 0)
+  config:Hide()
 
   local version = StdUi:Label(config.titlePanel, 'v'.. GetAddOnMetadata("SUI", "version"))
   StdUi:GlueLeft(version, config.titlePanel, 35, 0)
@@ -130,7 +130,7 @@ function Gui:OnEnable()
     {title = 'Buffs', name = 'Buffs'},
     {title = 'Map', name = 'Map'},
     {title = 'Chat', name = 'Chat'},
-    -- {title = 'Misc', name = 'Misc'},
+    {title = 'Misc', name = 'Misc'},
     {title = 'FAQ', name = 'FAQ'},
     {title = 'Profiles', name = 'Profiles'},
   }
@@ -884,6 +884,7 @@ function Gui:OnEnable()
     },
     Misc = {
       layoutConfig = { padding = { top = 15 } },
+      database = db.profile.misc,
       rows = {
         {
           header = {
@@ -901,6 +902,42 @@ function Gui:OnEnable()
             column = 3,
             order = 3
           }
+        },
+        {
+          header = {
+            type = 'header',
+            label = 'General'
+          }
+        },
+        {
+          safequeue = {
+            key = 'safequeue',
+            type = 'checkbox',
+            label = 'Safequeue',
+            column = 3,
+            order = 1
+          },
+          tabbinder = {
+            key = 'tabbinder',
+            type = 'checkbox',
+            label = 'Tabbinder',
+            column = 3,
+            order = 1
+          },
+          losecontrol = {
+            key = 'losecontrol',
+            type = 'checkbox',
+            label = 'Losecontrol',
+            column = 3,
+            order = 1
+          },
+          interrupt = {
+            key = 'interrupt',
+            type = 'checkbox',
+            label = 'Interrupt',
+            column = 3,
+            order = 1
+          },
         }
       },
     },

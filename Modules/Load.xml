@@ -10,4 +10,5 @@
   <Include file='RaidFrames\Load.xml'/>
 	<Include file='Skins\Load.xml'/>
   <Include file='Buffs\Load.xml'/>
+  <Include file='Misc\Load.xml'/>
 </Ui>
