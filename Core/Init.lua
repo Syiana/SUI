@@ -5,7 +5,7 @@ local defaults = {
     install = false,
     general = {
       theme = "Dark",
-      font = "Fonts\\FRIZQT__.TTF",
+      font = nil,
       texture = nil,
       color = "",
       automation = {
@@ -129,6 +129,11 @@ function SUI:OnInitialize()
     end
 
     return color
+  end
+
+  -- Font
+  function SUI:Font()
+
   end
 
   -- Textures
