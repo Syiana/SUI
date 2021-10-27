@@ -224,6 +224,13 @@ function Module:OnEnable()
       --func TooltipAddSpellID
       local function TooltipAddSpellID(self,spellid)
         if not spellid then return end
+        if type(spellid) == "table" and #spellid == 1 then spellid = spellid[1] end
+        local frame, text
+            for i = 1,15 do
+            frame = _G[self:GetName() .. "TextLeft" .. i]
+            if frame then text = frame:GetText() end
+            if text and string.find(text, "|cff0099ffID|r") then return end
+        end
         self:AddDoubleLine("|cff0099ffID|r",spellid)
         self:Show()
       end
