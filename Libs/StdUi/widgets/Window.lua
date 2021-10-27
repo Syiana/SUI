@@ -13,6 +13,7 @@ function StdUi:Window(parent, width, height, title)
 	local frame = self:PanelWithTitle(parent, width, height, title);
 	frame:SetClampedToScreen(true);
 	frame.titlePanel.isWidget = false;
+	frame:SetFrameStrata('DIALOG');
 	self:MakeDraggable(frame); -- , frame.titlePanel
 
 	local closeBtn = self:Button(frame, 20, 20, 'X');
