@@ -234,6 +234,14 @@ function Module:OnEnable()
         self:AddDoubleLine("|cff0099ffID|r",spellid)
         self:Show()
       end
+	  
+	  local function TooltipAddBuffSource(self, caster)
+		local name = caster and UnitName(caster)
+		if name then
+			self:AddDoubleLine("|cff0099ffCast by|r", name, nil, nil, nil, 1, 1, 1)
+			self:Show()
+		end
+	  end
 
       --hooksecurefunc GameTooltip SetUnitBuff
       hooksecurefunc(GameTooltip, "SetUnitBuff", function(self,...)
@@ -245,9 +253,14 @@ function Module:OnEnable()
         TooltipAddSpellID(self,select(10,UnitDebuff(...)))
       end)
 
-      --hooksecurefunc GameTooltip SetUnitAura
+      --hooksecurefunc GameTooltip SetUnitAura	
       hooksecurefunc(GameTooltip, "SetUnitAura", function(self,...)
         TooltipAddSpellID(self,select(10,UnitAura(...)))
+      end)
+
+      --hooksecurefunc GameTooltip SetUnitAura	
+      hooksecurefunc(GameTooltip, "SetUnitAura", function(self,...)
+		TooltipAddBuffSource(self,select(7,UnitAura(...)))
       end)
 
       --hooksecurefunc SetItemRef
