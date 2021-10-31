@@ -132,7 +132,7 @@ function Gui:OnEnable()
     {title = 'Chat', name = 'Chat'},
     {title = 'Misc', name = 'Misc'},
     {title = 'FAQ', name = 'FAQ'},
-    {title = 'Profiles', name = 'Profiles'},
+    -- {title = 'Profiles', name = 'Profiles'},
   }
   local tabs = StdUi:TabPanel(config, nil, nil, categories, true, nil, 25)
   StdUi:GlueAcross(tabs, config, 10, -35, -10, 10)
