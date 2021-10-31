@@ -37,7 +37,6 @@ Data.specials = {
   {text = Colors.monk   .. 'Tizi|r'},
   {text = Colors.druid  .. 'Dary|r'},
   {text = Colors.pala   .. 'Ayro|r'},
-  {text = Colors.pala   .. 'Lolaei|r'},
   {text = Colors.rog    .. 'Avidance|r'},
   {text = Colors.pala   .. 'Aviwings|r'}
 }
@@ -45,9 +44,8 @@ Data.specials = {
 Data.supporter = {
   {text = Colors.pala   .. 'Akna|r'},
   {text = Colors.priest .. 'Jojo|r'},
-  {text = Colors.priest .. 'Woogo|r'}
+  {text = Colors.priest .. 'Woogo|r'},
+  {text = Colors.druid  .. 'Shimaya|r'}
 }
 
-Data.banned = {
-
-}
+Data.banned = {}
