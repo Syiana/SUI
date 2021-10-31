@@ -312,7 +312,6 @@ function Gui:OnEnable()
             label = 'Style',
             options = {
               { value = 'Default', text = 'Default' },
-              { value = 'Small', text = 'Small' },
               { value = 'Big', text = 'Big' }
             },
             column = 5
