@@ -1033,14 +1033,14 @@ function Gui:OnEnable()
               local buttons = {
                 ok = {
                   text    = 'Confirm',
-                  onClick = function() db:ResetProfile() end
+                  onClick = function() db:ResetProfile() ReloadUI() end
                 },
                 cancel = {
                   text    = 'Cancel',
                   onClick = function() end
                 }
               }
-              StdUi:Confirm('Reset UI', 'Confirm if u want to fully reset your UI', buttons)
+              StdUi:Confirm('Reset UI', 'This will reset your profile', buttons)
             end,
             column = 3,
             order = 3
