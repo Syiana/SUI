@@ -11,7 +11,7 @@ function Module:OnEnable()
         local useCompact = GetCVarBool("useCompactPartyFrames");
         if IsInGroup(player) and (not IsInRaid(player)) and (not useCompact) then
             for i = 1, 4 do
-              if (db.texture) then
+              if (db.texture ~= 'Default') then
                   _G["PartyMemberFrame"..i.."HealthBar"]:SetStatusBarTexture(db.texture);
                   _G["PartyMemberFrame"..i.."ManaBar"]:SetStatusBarTexture(db.texture);
               end

@@ -86,7 +86,7 @@ function Module:OnEnable()
           self.healthbar.lockColor = true;
       end
 
-      if (db.texture) then
+      if (db.texture ~= 'Default') then
         self.healthbar:SetStatusBarTexture(db.texture);
         TargetFrameMyHealPredictionBar:SetTexture(db.texture);
       end
@@ -94,7 +94,7 @@ function Module:OnEnable()
 
     function SUIToTFrame()
       --textures
-      if (db.texture) then
+      if (db.texture ~= 'Default') then
         TargetFrameToTHealthBar:SetStatusBarTexture(db.texture);
         TargetFrameToTManaBar:SetStatusBarTexture(db.texture);
       end

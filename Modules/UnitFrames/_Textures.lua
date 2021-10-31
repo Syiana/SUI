@@ -5,7 +5,7 @@ function Module:OnEnable()
     texture = SUI.db.profile.general.texture
   }
 
-  if (db.texture) then
+  if (db.texture ~= 'Default') then
     function SUIManaTexture (manaBar)
       local powerType, powerToken, altR, altG, altB = UnitPowerType(manaBar.unit);
       local info = PowerBarColor[powerToken];

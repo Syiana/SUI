@@ -5,7 +5,7 @@ function Module:OnEnable()
       unitframes = SUI.db.profile.unitframes,
       texture = SUI.db.profile.general.texture
     }
-    if (db.texture) then
+    if (db.texture ~= 'Default') then
       PetFrameHealthBar:SetStatusBarTexture(db.texture);
       PetFrameManaBar:SetStatusBarTexture(db.texture);
     end

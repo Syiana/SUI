@@ -8,7 +8,7 @@ function Module:OnEnable()
 
   if (db) then
     function SUIPlayerFrame(self)
-      if (db.texture) then
+      if (db.texture ~= 'Default') then
         self.healthbar:SetStatusBarTexture(db.texture);
         self.healthbar.AnimatedLossBar:SetStatusBarTexture(db.texture);
         PlayerFrameMyHealPredictionBar:SetTexture(db.texture);
