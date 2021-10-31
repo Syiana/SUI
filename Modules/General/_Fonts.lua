@@ -2,7 +2,7 @@ local Module = SUI:NewModule("General.Fonts");
 
 function Module:OnInitialize()
   local font = SUI.db.profile.general.font
-  if (font) then
+  if (font ~= 'Default') then
     local ForcedFontSize = {10, 14, 20, 64, 64}
 
     STANDARD_TEXT_FONT          = font
