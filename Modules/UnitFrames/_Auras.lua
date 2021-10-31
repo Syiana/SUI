@@ -6,23 +6,23 @@ function Module:OnEnable()
 	if (db) then
     local AURA_START_X = 5
     local AURA_START_Y = 28
-    local LARGE_AURA_SIZE = db.large	--	Default 21.
-    local SMALL_AURA_SIZE = db.small  --	Default 17.
+    local LARGE_AURA_SIZE = db.size	--	Default 21.
+    local SMALL_AURA_SIZE = db.size  --	Default 17.
     local AURA_OFFSET_Y = 3
     local AURA_ROW_WIDTH = 122
     local NUM_TOT_AURA_ROWS = 2
     local backdrop = {
-        bgFile = nil,
-        edgeFile = "Interface\\Addons\\SUI\\Media\\Textures\\Core\\outer_shadow",
-        tile = false,
-        tileSize = 32,
-        edgeSize = 4,
-        insets = {
-            left = 4,
-            right = 4,
-            top = 4,
-            bottom = 4,
-        },
+      bgFile = nil,
+      edgeFile = "Interface\\Addons\\SUI\\Media\\Textures\\Core\\outer_shadow",
+      tile = false,
+      tileSize = 32,
+      edgeSize = 4,
+      insets = {
+        left = 4,
+        right = 4,
+        top = 4,
+        bottom = 4,
+      },
     }
 
     local function applySkin(b)

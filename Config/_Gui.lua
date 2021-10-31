@@ -359,20 +359,12 @@ function Gui:OnEnable()
           },
         },
         {
-          smallsize = {
-            key = 'buffs.small',
+          size = {
+            key = 'buffs.size',
             type = 'slider',
-            label = 'Smallbuff Size',
-            max = 100,
-            column = 4,
-            order = 1
-          },
-          largesize = {
-            key = 'buffs.large',
-            type = 'slider',
-            label = 'Largebuff Size',
-            max = 100,
-            column = 4,
+            label = 'Icon Size',
+            max = 50,
+            column = 5,
             order = 1
           },
           border = {
@@ -484,9 +476,9 @@ function Gui:OnEnable()
             type = 'dropdown',
             label = 'Style',
             options = {
-              { value = 1, text = 'Default' },
-              { value = 2, text = 'Small' },
-              { value = 3, text = 'Classic' }
+              { value = 'Default', text = 'Default' },
+              { value = 'Small', text = 'Small' },
+              { value = 'Classic', text = 'Classic' }
             },
             initialValue = 1,
             column = 5,

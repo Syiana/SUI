@@ -37,8 +37,7 @@ local defaults = {
       combaticon = false,
       links = true,
       buffs = {
-        small = 26,
-        large = 26,
+        size = 26,
         purgeborder = true
       },
       raid = {
