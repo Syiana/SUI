@@ -1,6 +1,6 @@
 local Module = SUI:NewModule("General.Fonts");
 
-function Module:OnEnable()
+function Module:OnInitialize()
   local font = SUI.db.profile.general.font
   if (font) then
     local ForcedFontSize = {10, 14, 20, 64, 64}
@@ -22,13 +22,13 @@ function Module:OnEnable()
       Game60Font, Game72Font, Game11Font_o1, Game12Font_o1, Game13Font_o1, Game15Font_o1, QuestFont_Enormous, DestinyFontLarge,
       CoreAbilityFont, DestinyFontHuge, QuestFont_Shadow_Small, MailFont_Large, SpellFont_Small, InvoiceFont_Med, InvoiceFont_Small,
       Tooltip_Med, Tooltip_Small, AchievementFont_Small, ReputationDetailFont, FriendsFont_Normal, FriendsFont_Small, FriendsFont_Large,
-      FriendsFont_UserText, GameFont_Gigantic, ChatBubbleFont, Fancy16Font, Fancy18Font, Fancy20Font, Fancy24Font, Fancy27Font, Fancy30Font,
+      FriendsFont_UserText, GameFont_Gigantic, GameFontNormalMed3, ChatBubbleFont, Fancy16Font, Fancy18Font, Fancy20Font, Fancy24Font, Fancy27Font, Fancy30Font,
       Fancy32Font, Fancy48Font, SystemFont_NamePlate, SystemFont_LargeNamePlate,
       SystemFont_Tiny2, SystemFont_Tiny, SystemFont_Shadow_Small, SystemFont_Small, SystemFont_Small2, SystemFont_Shadow_Small2, SystemFont_Shadow_Med1_Outline,
       SystemFont_Shadow_Med1, QuestFont_Large, SystemFont_Large, SystemFont_Shadow_Large_Outline, SystemFont_Shadow_Med2, SystemFont_Shadow_Large,
       SystemFont_Shadow_Large2, SystemFont_Shadow_Huge1, SystemFont_Huge2, SystemFont_Shadow_Huge2, SystemFont_Shadow_Huge3, SystemFont_Shadow_Outline_Huge3,
       SystemFont_Shadow_Outline_Huge2, SystemFont_Med1, SystemFont_WTF2, SystemFont_Outline_WTF2,
-      GameTooltipHeader, System_IME,
+      GameTooltipHeader, System_IME, Number12Font_o1
     }
 
     for i, FontObject in pairs(BlizFontObjects) do
