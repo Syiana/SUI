@@ -1,19 +1,24 @@
 local Module = SUI:NewModule("UnitFrames.Player");
 
 function Module:OnEnable()
-  local db = SUI.db.profile.unitframes
+  local db = {
+    unitframes = SUI.db.profile.unitframes,
+    texture = SUI.db.profile.general.texture
+  }
 
   if (db) then
     function SUIPlayerFrame(self)
-      self.healthbar:SetStatusBarTexture("Interface\\Addons\\SUI\\Media\\Textures\\UnitFrames\\UI-StatusBar");
-      self.healthbar.AnimatedLossBar:SetStatusBarTexture("Interface\\Addons\\SUI\\Media\\Textures\\UnitFrames\\UI-StatusBar");
-      PlayerFrameMyHealPredictionBar:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\UnitFrames\\UI-StatusBar");
-      PlayerFrameAlternateManaBar:SetStatusBarTexture("Interface\\Addons\\SUI\\Media\\Textures\\UnitFrames\\UI-StatusBar");
-      PlayerFrameManaBar.FeedbackFrame.BarTexture:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\UnitFrames\\UI-StatusBar");
-      PlayerFrameManaBar.FeedbackFrame.LossGlowTexture:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\UnitFrames\\UI-StatusBar");
-      PlayerFrameManaBar.FeedbackFrame.GainGlowTexture:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\UnitFrames\\UI-StatusBar");
+      if (db.texture) then
+        self.healthbar:SetStatusBarTexture(db.texture);
+        self.healthbar.AnimatedLossBar:SetStatusBarTexture(db.texture);
+        PlayerFrameMyHealPredictionBar:SetTexture(db.texture);
+        PlayerFrameAlternateManaBar:SetStatusBarTexture(db.texture);
+        PlayerFrameManaBar.FeedbackFrame.BarTexture:SetTexture(db.texture);
+        PlayerFrameManaBar.FeedbackFrame.LossGlowTexture:SetTexture(db.texture);
+        PlayerFrameManaBar.FeedbackFrame.GainGlowTexture:SetTexture(db.texture);
+      end
 
-      if (db.style == "Big") then
+      if (db.unitframes.style == "Big") then
         PlayerFrameTexture:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\UnitFrames\\UI-TargetingFrame");
         self.name:Hide();
         self.name:ClearAllPoints();
