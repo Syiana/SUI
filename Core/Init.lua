@@ -6,8 +6,8 @@ local defaults = {
     general = {
       theme = "Dark",
       font = nil,
-      texture = nil,
-      color = "",
+      texture = 'Interface\\AddOns\\SUI\\Media\\Textures\\Status\\Smooth',
+      color = {},
       automation = {
         delete = true,
         decline = false,
@@ -129,15 +129,5 @@ function SUI:OnInitialize()
     end
 
     return color
-  end
-
-  -- Font
-  function SUI:Font()
-
-  end
-
-  -- Textures
-  function SUI:Texture()
-    return
   end
 end

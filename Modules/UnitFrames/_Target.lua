@@ -1,10 +1,14 @@
 local Module = SUI:NewModule("UnitFrames.Target");
 
 function Module:OnEnable()
-  local db = SUI.db.profile.unitframes
+  local db = {
+    unitframes = SUI.db.profile.unitframes,
+    texture = SUI.db.profile.general.texture
+  }
+
   if (db) then
     function SUITargetFrame (self, forceNormalTexture)
-      if (db.style == 'Big') then
+      if (db.unitframes.style == 'Big') then
           local classification = UnitClassification(self.unit);
           self.highLevelTexture:SetPoint("CENTER", self.levelText, "CENTER", 0,0);
           self.deadText:SetPoint("CENTER", self.healthbar, "CENTER",0,0);
@@ -23,38 +27,38 @@ function Module:OnEnable()
           self.manabar.RightText:SetPoint("RIGHT", self.manabar, "RIGHT", -5, 0);
           self.manabar.TextString:SetPoint("CENTER", self.manabar, "CENTER", 0, 0);
           if TargetFrame.threatNumericIndicator:IsShown() then
-              TargetFrame.threatNumericIndicator:SetPoint("BOTTOM", PlayerFrame, "TOP", 72, -21);
+            TargetFrame.threatNumericIndicator:SetPoint("BOTTOM", PlayerFrame, "TOP", 72, -21);
           end
           FocusFrame.threatNumericIndicator:SetAlpha(0);
-          if ( forceNormalTexture ) then
-              self.borderTexture:SetTexture("Interface\\TargetingFrame\\UI-TargetingFrame");
+          if (forceNormalTexture) then
+            self.borderTexture:SetTexture("Interface\\TargetingFrame\\UI-TargetingFrame");
           elseif ( classification == "minus" ) then
               self.borderTexture:SetTexture("Interface\\TargetingFrame\\UI-TargetingFrame-Minus");
-              forceNormalTexture = true;
+            forceNormalTexture = true;
           elseif ( classification == "worldboss" or classification == "elite" ) then
-              self.borderTexture:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\UnitFrames\\UI-TargetingFrame-Elite");
+            self.borderTexture:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\UnitFrames\\UI-TargetingFrame-Elite");
           elseif ( classification == "rareelite" ) then
-              self.borderTexture:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\UnitFrames\\UI-TargetingFrame-Rare-Elite");
+            self.borderTexture:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\UnitFrames\\UI-TargetingFrame-Rare-Elite");
           elseif ( classification == "rare" ) then
-              self.borderTexture:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\UnitFrames\\UI-TargetingFrame-Rare");
+            self.borderTexture:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\UnitFrames\\UI-TargetingFrame-Rare");
           else
-              self.borderTexture:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\UnitFrames\\UI-TargetingFrame");
-              forceNormalTexture = true;
+            self.borderTexture:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\UnitFrames\\UI-TargetingFrame");
+            forceNormalTexture = true;
           end
-          if ( forceNormalTexture ) then
+          if (forceNormalTexture) then
               self.haveElite = nil;
-              if ( classification == "minus" ) then
-                  self.Background:SetSize(119,12);
-                  self.Background:SetPoint("BOTTOMLEFT", self, "BOTTOMLEFT", 7, 47);
-                  self.name:SetPoint("LEFT", self, 16, 19);
-                  self.healthbar:ClearAllPoints();
-                  self.healthbar:SetPoint("LEFT", 5, 3);
-                  self.healthbar:SetHeight(12);
-                  self.healthbar.LeftText:SetPoint("LEFT", self.healthbar, "LEFT", 3, 0);
-                  self.healthbar.RightText:SetPoint("RIGHT", self.healthbar, "RIGHT", -2, 0);
+              if (classification == "minus") then
+                self.Background:SetSize(119,12);
+                self.Background:SetPoint("BOTTOMLEFT", self, "BOTTOMLEFT", 7, 47);
+                self.name:SetPoint("LEFT", self, 16, 19);
+                self.healthbar:ClearAllPoints();
+                self.healthbar:SetPoint("LEFT", 5, 3);
+                self.healthbar:SetHeight(12);
+                self.healthbar.LeftText:SetPoint("LEFT", self.healthbar, "LEFT", 3, 0);
+                self.healthbar.RightText:SetPoint("RIGHT", self.healthbar, "RIGHT", -2, 0);
               else
-                  self.Background:SetSize(119,42);
-                  self.Background:SetPoint("BOTTOMLEFT", self, "BOTTOMLEFT", 7, 35);
+                self.Background:SetSize(119,42);
+                self.Background:SetPoint("BOTTOMLEFT", self, "BOTTOMLEFT", 7, 35);
               end
               if ( self.threatIndicator ) then
                   if ( classification == "minus" ) then
@@ -82,14 +86,18 @@ function Module:OnEnable()
           self.healthbar.lockColor = true;
       end
 
-      self.healthbar:SetStatusBarTexture("Interface\\Addons\\SUI\\Media\\Textures\\UnitFrames\\UI-StatusBar");
-      TargetFrameMyHealPredictionBar:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\UnitFrames\\UI-StatusBar");
+      if (db.texture) then
+        self.healthbar:SetStatusBarTexture(db.texture);
+        TargetFrameMyHealPredictionBar:SetTexture(db.texture);
+      end
     end
 
     function SUIToTFrame()
       --textures
-      TargetFrameToTHealthBar:SetStatusBarTexture("Interface\\Addons\\SUI\\Media\\Textures\\unitframes\\UI-StatusBar");
-      TargetFrameToTManaBar:SetStatusBarTexture("Interface\\Addons\\SUI\\Media\\Textures\\unitframes\\UI-StatusBar");
+      if (db.texture) then
+        TargetFrameToTHealthBar:SetStatusBarTexture(db.texture);
+        TargetFrameToTManaBar:SetStatusBarTexture(db.texture);
+      end
 
       TargetFrameToTTextureFrameDeadText:ClearAllPoints();
       TargetFrameToTTextureFrameDeadText:SetPoint("CENTER", "TargetFrameToTHealthBar","CENTER",1, 0);
@@ -113,7 +121,6 @@ function Module:OnEnable()
       FocusFrameToTManaBar:SetHeight(5);
     end
 
-    --hooks
     hooksecurefunc("TargetFrame_CheckClassification", SUITargetFrame)
     hooksecurefunc("TargetFrame_CheckClassification", SUIToTFrame)
   end

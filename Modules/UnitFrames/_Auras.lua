@@ -64,96 +64,96 @@ function Module:OnEnable()
     end
 
     if(SUI:Color()) then
-        hooksecurefunc("TargetFrame_UpdateAuras", function(self)
-            for i = 1, MAX_TARGET_BUFFS do
-                b = _G["TargetFrameBuff"..i]
-                applySkin(b)
-            end
-            for i = 1, MAX_TARGET_DEBUFFS do
-                b = _G["TargetFrameDebuff"..i]
-                applySkin(b)
-            end
-            for i = 1, MAX_TARGET_BUFFS do
-                b = _G["FocusFrameBuff"..i]
-                applySkin(b)
-            end
-            for i = 1, MAX_TARGET_DEBUFFS do
-                b = _G["FocusFrameDebuff"..i]
-                applySkin(b)
-            end
-        end)
+      hooksecurefunc("TargetFrame_UpdateAuras", function(self)
+          for i = 1, MAX_TARGET_BUFFS do
+              b = _G["TargetFrameBuff"..i]
+              applySkin(b)
+          end
+          for i = 1, MAX_TARGET_DEBUFFS do
+              b = _G["TargetFrameDebuff"..i]
+              applySkin(b)
+          end
+          for i = 1, MAX_TARGET_BUFFS do
+              b = _G["FocusFrameBuff"..i]
+              applySkin(b)
+          end
+          for i = 1, MAX_TARGET_DEBUFFS do
+              b = _G["FocusFrameDebuff"..i]
+              applySkin(b)
+          end
+      end)
     end
 
 
     function SUIAuraResize(self, auraName, numAuras, numOppositeAuras, largeAuraList, updateFunc, maxRowWidth, offsetX, mirrorAurasVertically)
-        local size;
-        local offsetY = AURA_OFFSET_Y;
-        local rowWidth = 0;
-        local firstBuffOnRow = 1;
-        for i=1, numAuras do
-            if ( largeAuraList[i] ) then
-                size = LARGE_AURA_SIZE;
-                offsetY = AURA_OFFSET_Y + AURA_OFFSET_Y;
-            else
-                size = SMALL_AURA_SIZE;
-            end
-            if ( i == 1 ) then
-                rowWidth = size;
-                self.auraRows = self.auraRows + 1;
-            else
-                rowWidth = rowWidth + size + offsetX;
-            end
-            if ( rowWidth > maxRowWidth ) then
-                updateFunc(self, auraName, i, numOppositeAuras, firstBuffOnRow, size, offsetX, offsetY, mirrorAurasVertically);
-                rowWidth = size;
-                self.auraRows = self.auraRows + 1;
-                firstBuffOnRow = i;
-                offsetY = AURA_OFFSET_Y;
-                if ( self.auraRows > NUM_TOT_AURA_ROWS ) then
-                    maxRowWidth = AURA_ROW_WIDTH;
-                end
-            else
-                updateFunc(self, auraName, i, numOppositeAuras, i - 1, size, offsetX, offsetY, mirrorAurasVertically);
-            end
+      local size;
+      local offsetY = AURA_OFFSET_Y;
+      local rowWidth = 0;
+      local firstBuffOnRow = 1;
+      for i=1, numAuras do
+        if ( largeAuraList[i] ) then
+          size = LARGE_AURA_SIZE;
+          offsetY = AURA_OFFSET_Y + AURA_OFFSET_Y;
+        else
+          size = SMALL_AURA_SIZE;
         end
+        if ( i == 1 ) then
+          rowWidth = size;
+          self.auraRows = self.auraRows + 1;
+        else
+          rowWidth = rowWidth + size + offsetX;
+        end
+        if ( rowWidth > maxRowWidth ) then
+          updateFunc(self, auraName, i, numOppositeAuras, firstBuffOnRow, size, offsetX, offsetY, mirrorAurasVertically);
+          rowWidth = size;
+          self.auraRows = self.auraRows + 1;
+          firstBuffOnRow = i;
+          offsetY = AURA_OFFSET_Y;
+          if ( self.auraRows > NUM_TOT_AURA_ROWS ) then
+              maxRowWidth = AURA_ROW_WIDTH;
+          end
+        else
+            updateFunc(self, auraName, i, numOppositeAuras, i - 1, size, offsetX, offsetY, mirrorAurasVertically);
+        end
+      end
     end
     hooksecurefunc("TargetFrame_UpdateAuraPositions", SUIAuraResize)
 
     --BUFF ANCHOR
     function SUIBuffAnchor(self, buffName, index, numDebuffs, anchorIndex, size, offsetX, offsetY, mirrorVertically)
-        local point, relativePoint
-        local startY, auraOffsetY
+      local point, relativePoint
+      local startY, auraOffsetY
 
-        if (mirrorVertically) then
-            point = "BOTTOM"
-            relativePoint = "TOP"
-            startY = -6
-            offsetY = -offsetY
-            auraOffsetY = -AURA_OFFSET_Y
-        else
-            point = "TOP"
-            relativePoint = "BOTTOM"
-            startY = AURA_START_Y
-            auraOffsetY = AURA_OFFSET_Y
-        end
+      if (mirrorVertically) then
+        point = "BOTTOM"
+        relativePoint = "TOP"
+        startY = -6
+        offsetY = -offsetY
+        auraOffsetY = -AURA_OFFSET_Y
+      else
+        point = "TOP"
+        relativePoint = "BOTTOM"
+        startY = AURA_START_Y
+        auraOffsetY = AURA_OFFSET_Y
+      end
 
-        local buff = _G[buffName .. index]
-        if (index == 1) then
-            if (UnitIsFriend("player", self.unit) or numDebuffs == 0) then
-                buff:SetPoint(point .. "LEFT", self, relativePoint .. "LEFT", AURA_START_X, startY)
-            else
-                buff:SetPoint(point .. "LEFT", self.debuffs, relativePoint .. "LEFT", 0, -offsetY)
-            end
-            self.buffs:SetPoint(point .. "LEFT", buff, point .. "LEFT", 0, 0)
-            self.buffs:SetPoint(relativePoint .. "LEFT", buff, relativePoint .. "LEFT", 0, -auraOffsetY)
-            self.spellbarAnchor = buff
-        elseif (anchorIndex ~= (index - 1)) then
-            buff:SetPoint(point .. "LEFT", _G[buffName .. anchorIndex], relativePoint .. "LEFT", 0, -offsetY)
-            self.buffs:SetPoint(relativePoint .. "LEFT", buff, relativePoint .. "LEFT", 0, -auraOffsetY)
-            self.spellbarAnchor = buff
+      local buff = _G[buffName .. index]
+      if (index == 1) then
+        if (UnitIsFriend("player", self.unit) or numDebuffs == 0) then
+            buff:SetPoint(point .. "LEFT", self, relativePoint .. "LEFT", AURA_START_X, startY)
         else
-            buff:SetPoint(point .. "LEFT", _G[buffName .. anchorIndex], point .. "RIGHT", offsetX, 0)
+            buff:SetPoint(point .. "LEFT", self.debuffs, relativePoint .. "LEFT", 0, -offsetY)
         end
+        self.buffs:SetPoint(point .. "LEFT", buff, point .. "LEFT", 0, 0)
+        self.buffs:SetPoint(relativePoint .. "LEFT", buff, relativePoint .. "LEFT", 0, -auraOffsetY)
+        self.spellbarAnchor = buff
+      elseif (anchorIndex ~= (index - 1)) then
+        buff:SetPoint(point .. "LEFT", _G[buffName .. anchorIndex], relativePoint .. "LEFT", 0, -offsetY)
+        self.buffs:SetPoint(relativePoint .. "LEFT", buff, relativePoint .. "LEFT", 0, -auraOffsetY)
+        self.spellbarAnchor = buff
+      else
+        buff:SetPoint(point .. "LEFT", _G[buffName .. anchorIndex], point .. "RIGHT", offsetX, 0)
+      end
     end
     hooksecurefunc("TargetFrame_UpdateBuffAnchor", SUIBuffAnchor)
 
@@ -162,17 +162,17 @@ function Module:OnEnable()
         local buff = _G[debuffName .. index]
         local isFriend = UnitIsFriend("player", self.unit)
 
+        local point = "TOP"
+        local relativePoint = "BOTTOM"
+        local startY = AURA_START_Y
+        local auraOffsetY = AURA_OFFSET_Y
+
         if (mirrorVertically) then
-            point = "BOTTOM"
-            relativePoint = "TOP"
-            startY = -8
-            offsetY = -offsetY
-            auraOffsetY = -AURA_OFFSET_Y
-        else
-            point = "TOP"
-            relativePoint = "BOTTOM"
-            startY = AURA_START_Y
-            auraOffsetY = AURA_OFFSET_Y
+          point = "BOTTOM"
+          relativePoint = "TOP"
+          startY = -8
+          offsetY = -offsetY
+          auraOffsetY = -AURA_OFFSET_Y
         end
 
         if (index == 1) then

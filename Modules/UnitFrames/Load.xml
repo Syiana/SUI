@@ -1,4 +1,5 @@
 <Ui xmlns='http://www.blizzard.com/wow/ui/'>
+	<Script file="_Textures.lua"/>
 	<Script file="_Player.lua"/>
 	<Script file="_Target.lua"/>
 	<Script file="_Party.lua"/>
