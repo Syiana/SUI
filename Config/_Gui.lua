@@ -1018,7 +1018,7 @@ function Gui:OnEnable()
             type = 'button',
             text = 'Discord',
             onClick = function()
-              print("Discord");
+              StdUi:Dialog('Discord', 'discord.gg/yBWkxxR')
             end,
             column = 3,
             order = 1
@@ -1027,7 +1027,7 @@ function Gui:OnEnable()
             type = 'button',
             text = 'Twitch',
             onClick = function()
-              print("Twitch");
+              StdUi:Dialog('Twitch', 'twitch.tv/syiana')
             end,
             column = 3,
             order = 2
