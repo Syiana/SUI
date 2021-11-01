@@ -113,20 +113,20 @@ function SUI:OnInitialize()
 
   -- Color
   function SUI:Color(sub)
-    local colors = {
+    local custom = self.db.profile.general.color
+    local themes = {
       Blizzard = nil,
       Dark = {0.3, 0.3, 0.3},
       Class = 'class',
-      Custom = self.db.profile.general.color,
+      Custom = {custom.r, custom.g, custom.b},
     }
-
-    local color = colors[self.db.profile.general.theme]
-    if (color and sub) then
-      for key, value in pairs(color) do
-        color[key] = value - sub
+    local theme = themes[self.db.profile.general.theme]
+    local color = {}
+    if (theme) then
+      for key, value in pairs(theme) do
+        if (sub) then color[key] = value - sub else color[key] = value end
       end
     end
-
     return color
   end
 end

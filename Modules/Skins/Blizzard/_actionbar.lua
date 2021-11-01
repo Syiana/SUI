@@ -39,10 +39,21 @@ function Module:OnEnable()
       StanceBarLeft,
       StanceBarMiddle,
       StanceBarRight,
+    }) do
+      v:SetVertexColor(unpack(SUI:Color()))
+    end
+
+    for i, v in pairs({
       ActionBarUpButton:GetRegions(),
+    }) do
+      v:SetVertexColor(unpack(SUI:Color()))
+    end
+
+    for i, v in pairs({
       ActionBarDownButton:GetRegions()
     }) do
       v:SetVertexColor(unpack(SUI:Color()))
     end
+
   end
 end
