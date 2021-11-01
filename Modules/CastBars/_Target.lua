@@ -7,7 +7,7 @@ function Module:OnEnable()
           TargetFrameSpellBar.ignoreFramePositionManager = true
           TargetFrameSpellBar:SetMovable(true)
           TargetFrameSpellBar:ClearAllPoints()
-          TargetFrameSpellBar:SetScale(1.3)
+          TargetFrameSpellBar:SetScale(1.32)
           TargetFrameSpellBar:SetPoint("CENTER", MainMenuBar, "CENTER", 0, 150)
           TargetFrameSpellBar:SetUserPlaced(false)
           TargetFrameSpellBar:SetMovable(false)
