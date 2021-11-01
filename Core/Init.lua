@@ -111,13 +111,17 @@ local defaults = {
 function SUI:OnInitialize()
   self.db = LibStub("AceDB-3.0"):New("SUIDB", defaults, true)
 
+  -- Class
+  local _, class = UnitClass("player")
+  local classColor = RAID_CLASS_COLORS[class]
+
   -- Color
   function SUI:Color(sub)
     local custom = self.db.profile.general.color
     local themes = {
       Blizzard = nil,
       Dark = {0.3, 0.3, 0.3},
-      Class = 'class',
+      Class = {classColor.r, classColor.g, classColor.b},
       Custom = {custom.r, custom.g, custom.b},
     }
     local theme = themes[self.db.profile.general.theme]
