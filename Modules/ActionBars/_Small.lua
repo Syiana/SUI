@@ -5,6 +5,7 @@ function Module:OnEnable()
 
   if (db.style == 'Small') then
     local size = db.buttons.size
+    local spacing = 5
 
     local invisible = CreateFrame("Frame", nil)
     invisible:EnableMouse(false)
@@ -34,8 +35,8 @@ function Module:OnEnable()
       StatusTrackingBarManager:SetAlpha(0)
     end
 
-    local holder = CreateFrame("Frame", "MainMenuBarHolderFrame", UIParent, "SecureHandlerStateTemplate")
-    holder:SetSize(size * 12 * 11, size)
+    local holder = CreateFrame("Frame", "MainMenuBarHolderFrame", UIParent)
+    holder:SetSize(size * 12 + spacing * 11, size)
     holder:SetPoint("BOTTOM", UIParent, 0, 22)
 
     ActionButton1:ClearAllPoints()

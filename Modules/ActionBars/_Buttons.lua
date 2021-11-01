@@ -82,25 +82,15 @@ function Module:OnEnable()
         bu.bg:SetPoint("BOTTOMRIGHT", bu, "BOTTOMRIGHT", 4, -4)
         bu.bg:SetFrameLevel(bu:GetFrameLevel() - 1)
         if config.background.showbg and not config.background.useflatbackground then
-            local t = bu.bg:CreateTexture(nil, "BACKGROUND", -8)
-            t:SetTexture(config.textures.buttonback)
-
-            t:SetVertexColor(
-                config.background.backgroundcolor.r,
-                config.background.backgroundcolor.g,
-                config.background.backgroundcolor.b,
-                config.background.backgroundcolor.a
-            )
+          local t = bu.bg:CreateTexture(nil, "BACKGROUND", -8)
+          t:SetTexture(config.textures.buttonback)
+          t:SetVertexColor(unpack(SUI:Color()))
         end
         bu.bg:SetBackdrop(config.backdrop)
 
         if config.background.showshadow then
-            bu.bg:SetBackdropBorderColor(
-                config.background.shadowcolor.r,
-                config.background.shadowcolor.g,
-                config.background.shadowcolor.b,
-                config.background.shadowcolor.a
-            )
+          bu.bg:SetBackdropBorderColor(unpack(SUI:Color(0.25)))
+          bu.bg:SetAlpha(0.9)
         end
     end
 

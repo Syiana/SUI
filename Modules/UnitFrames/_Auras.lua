@@ -41,6 +41,7 @@ function Module:OnEnable()
         b.icon = icon
 
         local border = _G[name.."Border"] or b:CreateTexture(name.."Border", "BACKGROUND", nil, -7)
+        --gloss default color is black
         border:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\Core\\gloss")
         border:SetTexCoord(0, 1, 0, 1)
         border:SetDrawLayer("BACKGROUND",- 7)
@@ -57,7 +58,7 @@ function Module:OnEnable()
         back:SetPoint("BOTTOMRIGHT", b, "BOTTOMRIGHT", 4, -4)
         back:SetFrameLevel(b:GetFrameLevel() - 1)
         back:SetBackdrop(backdrop)
-        back:SetBackdropBorderColor(0, 0, 0, 0.9)
+        back:SetBackdropBorderColor(unpack(SUI:Color(0.25, 0.9)))
         b.bg = back
 
         b.styled = true

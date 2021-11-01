@@ -183,7 +183,7 @@ function Buffs:OnEnable()
               back:SetPoint("BOTTOMRIGHT", b, "BOTTOMRIGHT", settings.background.padding, -settings.background.padding)
               back:SetFrameLevel(b:GetFrameLevel() - 1)
               back:SetBackdrop(backdrop)
-              back:SetBackdropBorderColor(settings.background.color.r,settings.background.color.g,settings.background.color.b,settings.background.color.a)
+              back:SetBackdropBorderColor(unpack(SUI:Color(0.25, 0.9)))
               b.bg = back
           end
 

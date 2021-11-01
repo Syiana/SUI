@@ -4,7 +4,7 @@ function Module:OnEnable()
   if (SUI:Color()) then
     local function styleTooltip(self,style)
       SUI:AddMixin(self)
-      backdrop = {
+      local backdrop = {
         bgFile = "Interface\\Buttons\\WHITE8x8",
         bgColor = {0.03,0.03,0.03, 0.9},
         edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
@@ -18,7 +18,7 @@ function Module:OnEnable()
         insets = {left=3, right=3, top=3, bottom=3}
         }
       self:SetBackdrop(backdrop)
-      self:SetBackdropColor(unpack(backdrop.bgColor))
+      self:SetBackdropColor(unpack(SUI:Color(0.3, 0.9)))
       local _, itemLink = self:GetItem()
       if itemLink then
         local azerite = C_AzeriteEmpoweredItem.IsAzeriteEmpoweredItemByID(itemLink) or C_AzeriteItem.IsAzeriteItemByID(itemLink) or false
