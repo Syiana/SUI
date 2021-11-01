@@ -13,9 +13,9 @@ local defaults = {
         decline = false,
         repair = true,
         sell = true,
-        invite = true,
-        release = true,
-        resurrect = true,
+        invite = false,
+        release = false,
+        resurrect = false,
         cinematic = false
       },
       cosmetic = {

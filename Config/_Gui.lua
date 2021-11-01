@@ -260,8 +260,15 @@ function Gui:OnEnable()
             key = 'cosmetic.afkscreen',
             type = 'checkbox',
             label = 'AFK Screen',
-            column = 4,
+            column = 3,
             order = 1
+          },
+          talkhead = {
+            key = 'cosmetic.talkinghead',
+            type = 'checkbox',
+            label = 'Talkinghead',
+            column = 3,
+            order = 2
           }
         },
         {

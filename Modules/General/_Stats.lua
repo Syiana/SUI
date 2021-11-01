@@ -1,3 +1,5 @@
+local Module = SUI:NewModule("General.Stats");
+
 StatsFrame = CreateFrame("Frame", "StatsFrame", UIParent)
 local movable = false
 
@@ -23,19 +25,17 @@ if movable == true then
   end)
 end
 
-local Module = SUI:NewModule("General.Stats");
-
 function Module:OnEnable()
   local db = SUI.db.profile.general
-  if (db) then
+  if (db.display.fps or db.display.ms) then
     local font = STANDARD_TEXT_FONT
     local fontSize = 13
     local fontFlag = "THINOUTLINE"
     local textAlign = "CENTER"
     local customColor = db.color
     local useShadow = true
-
     local color
+
     if customColor == false then
       color = {r = 1, g = 1, b = 1}
     else
@@ -43,16 +43,17 @@ function Module:OnEnable()
       color = (CUSTOM_CLASS_COLORS or RAID_CLASS_COLORS)[class]
     end
 
-    local function getFPS()
-      return "|c00ffffff" .. floor(GetFramerate()) .. "|r fps"
-    end
-
-    local function getLatencyWorld()
-      return "|c00ffffff" .. select(4, GetNetStats()) .. "|r ms"
-    end
-
-    local function getLatency()
-      return "|c00ffffff" .. select(3, GetNetStats()) .. "|r ms"
+    local function status()
+      local function getFPS() return "|c00ffffff" .. floor(GetFramerate()) .. "|r fps" end
+      local function getLatencyWorld() return "|c00ffffff" .. select(4, GetNetStats()) .. "|r ms" end
+      local function getLatency() return "|c00ffffff" .. select(3, GetNetStats()) .. "|r ms" end
+      if (db.display.fps and db.display.ms) then
+        return getFPS() .. " " .. getLatency()
+      elseif (db.display.fps)  then
+        return getFPS()
+      elseif (db.display.ms) then
+        return getLatency()
+      end
     end
 
     StatsFrame:SetWidth(50)
@@ -72,17 +73,12 @@ function Module:OnEnable()
       lastUpdate = lastUpdate + elapsed
       if lastUpdate > 1 then
         lastUpdate = 0
-        if showClock == true then
-          StatsFrame.text:SetText(getFPS() .. " " .. getLatency())
-        else
-          StatsFrame.text:SetText(getFPS() .. " " .. getLatency())
-        end
+        StatsFrame.text:SetText(status())
         self:SetWidth(StatsFrame.text:GetStringWidth())
         self:SetHeight(StatsFrame.text:GetStringHeight())
       end
     end
 
     StatsFrame:SetScript("OnUpdate", update)
-
   end
 end

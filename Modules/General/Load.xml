@@ -10,4 +10,5 @@
   <Script file="_Stats.lua"/>
   <Script file="_Fonts.lua"/>
   <Script file="_Inspect.lua"/>
+  <Script file="_Cinematic.lua"/>
 </Ui>
