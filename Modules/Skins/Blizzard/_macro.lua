@@ -14,7 +14,7 @@ function Module:OnEnable()
           MacroFrame.NineSlice.TopLeftCorner,
           MacroFrame.NineSlice.BottomLeftCorner,
           MacroFrame.NineSlice.BottomRightCorner }) do
-            v:SetVertexColor(.15, .15, .15)
+            v:SetVertexColor(unpack(SUI:Color(0.15)))
         end
         for i, v in pairs({
           MacroFrameInset.NineSlice.TopEdge,
@@ -25,12 +25,12 @@ function Module:OnEnable()
           MacroFrameInset.NineSlice.BottomLeftCorner,
           MacroFrameInset.NineSlice.LeftEdge,
           MacroFrameInset.NineSlice.TopLeftCorner, }) do
-            v:SetVertexColor(.3, .3, .3)
+            v:SetVertexColor(unpack(SUI:Color()))
         end
         for i, v in pairs({
           MacroFrame.Bg,
           MacroFrame.TitleBg }) do
-            v:SetVertexColor(.3, .3, .3)
+            v:SetVertexColor(unpack(SUI:Color()))
         end
         for i, v in pairs({
           MacroButtonScrollFrameTop,
@@ -42,7 +42,7 @@ function Module:OnEnable()
           MacroButtonScrollFrameScrollBarScrollUpButton.Disabled,
           MacroButtonScrollFrameScrollBarScrollDownButton.Disabled,
           }) do
-          v:SetVertexColor(.4, .4, .4)
+          v:SetVertexColor(unpack(SUI:Color()))
         end
         MacroHorizontalBarLeft:Hide();
         --fix

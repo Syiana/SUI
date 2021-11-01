@@ -6,16 +6,14 @@ function Module:OnEnable()
 	if (db) then
         if not (IsAddOnLoaded("SexyMap")) then
             if (SUI:Color()) then
-                for i, v in pairs(
-                    {
-                        MinimapBorder,
-                        MiniMapMailBorder,
-                        QueueStatusMinimapButtonBorder,
-                        select(1, TimeManagerClockButton:GetRegions())
-                    }
-                ) do
-                    v:SetVertexColor(.15, .15, .15)
-                end
+              for i, v in pairs({
+                MinimapBorder,
+                MiniMapMailBorder,
+                QueueStatusMinimapButtonBorder,
+                select(1, TimeManagerClockButton:GetRegions())
+              }) do
+                v:SetVertexColor(unpack(SUI:Color(0.15)))
+              end
             end
             select(2, TimeManagerClockButton:GetRegions()):SetVertexColor(1, 1, 1)
 
@@ -87,9 +85,9 @@ function Module:OnEnable()
                                 SetPortraitToTexture(gb.icon, select(3,GetSpellInfo(61574)))
                             end
                         else
-                            local t = CLASS_ICON_TCOORDS[select(2,UnitClass("player"))]
-                            gb.icon:SetTexture("Interface\\TargetingFrame\\UI-Classes-Circles")
-                            gb.icon:SetTexCoord(unpack(t))
+                          local t = CLASS_ICON_TCOORDS[select(2,UnitClass("player"))]
+                          gb.icon:SetTexture("Interface\\TargetingFrame\\UI-Classes-Circles")
+                          gb.icon:SetTexCoord(unpack(t))
                         end
                       end
                     end
@@ -97,8 +95,8 @@ function Module:OnEnable()
             end
 
             if (db) == true then
-                GarrisonLandingPageMinimapButton:UnregisterAllEvents()
-                GarrisonLandingPageMinimapButton:ClearAllPoints()
+              GarrisonLandingPageMinimapButton:UnregisterAllEvents()
+              GarrisonLandingPageMinimapButton:ClearAllPoints()
             end
 
             MinimapBorderTop:Hide()
@@ -113,29 +111,24 @@ function Module:OnEnable()
             MiniMapTracking.Show = kill
             MiniMapTracking:UnregisterAllEvents()
             Minimap:EnableMouseWheel(true)
-            Minimap:SetScript(
-                "OnMouseWheel",
-                function(self, z)
-                    local c = Minimap:GetZoom()
-                    if (z > 0 and c < 5) then
-                        Minimap:SetZoom(c + 1)
-                    elseif (z < 0 and c > 0) then
-                        Minimap:SetZoom(c - 1)
-                    end
-                end
-            )
-            Minimap:SetScript(
-                "OnMouseUp",
-                function(self, btn)
-                    if btn == "RightButton" then
-                        _G.GameTimeFrame:Click()
-                    elseif btn == "MiddleButton" then
-                        _G.ToggleDropDownMenu(1, nil, _G.MiniMapTrackingDropDown, self)
-                    else
-                        _G.Minimap_OnClick(self)
-                    end
-                end
-            )
+            Minimap:SetScript("OnMouseWheel", function(self, z)
+              local c = Minimap:GetZoom()
+              if (z > 0 and c < 5) then
+                Minimap:SetZoom(c + 1)
+              elseif (z < 0 and c > 0) then
+                Minimap:SetZoom(c - 1)
+              end
+            end)
+
+            Minimap:SetScript("OnMouseUp", function(self, btn)
+              if btn == "RightButton" then
+                _G.GameTimeFrame:Click()
+              elseif btn == "MiddleButton" then
+                _G.ToggleDropDownMenu(1, nil, _G.MiniMapTrackingDropDown, self)
+              else
+                _G.Minimap_OnClick(self)
+              end
+            end)
         end
     end
 end

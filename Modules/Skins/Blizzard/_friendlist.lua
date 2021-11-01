@@ -20,7 +20,7 @@ function Module:OnEnable()
       FriendsFriendsFrame.Border.TopLeftCorner,
       FriendsFriendsFrame.Border.BottomLeftCorner,
       FriendsFriendsFrame.Border.BottomRightCorner, }) do
-        v:SetVertexColor(.15, .15, .15)
+        v:SetVertexColor(unpack(SUI:Color(0.15)))
     end
     for i, v in pairs({
       FriendsFrame.Bg,
@@ -34,7 +34,7 @@ function Module:OnEnable()
       FriendsFrameInset.NineSlice.BottomLeftCorner,
       FriendsFrameInset.NineSlice.LeftEdge,
       FriendsFrameInset.NineSlice.TopLeftCorner }) do
-        v:SetVertexColor(.3, .3, .3)
+        v:SetVertexColor(unpack(SUI:Color()))
     end
     for i, v in pairs({
       FriendsListFrameScrollFrameTop,
@@ -47,7 +47,7 @@ function Module:OnEnable()
       FriendsListFrameScrollFrameScrollDownButton.Disabled,
 
     }) do
-      v:SetVertexColor(.4, .4, .4)
+      v:SetVertexColor(unpack(SUI:Color()))
     end
   end
 end
