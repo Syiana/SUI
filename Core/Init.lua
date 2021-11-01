@@ -123,12 +123,12 @@ function SUI:OnInitialize()
   }
   local theme = themes[self.db.profile.general.theme]
   function SUI:Color(sub)
-    local color = {}
     if (theme) then
+      local color = {}
       for key, value in pairs(theme) do
         if (sub) then color[key] = value - sub else color[key] = value end
       end
+      return color
     end
-    return color
   end
 end
