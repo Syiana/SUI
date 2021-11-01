@@ -52,8 +52,8 @@ local defaults = {
         macro = false,
         range = true,
         flash = false,
-        size = 1,
-        padding = 1
+        size = 38,
+        padding = 5
       },
       menu = {
         mouseover = false

@@ -541,7 +541,7 @@ function Gui:OnEnable()
             key = 'buttons.size',
             type = 'slider',
             label = 'Size',
-            max = 5,
+            max = 50,
             column = 4,
             order = 1
           },
@@ -549,7 +549,7 @@ function Gui:OnEnable()
             key = 'buttons.padding',
             type = 'slider',
             label = 'Padding',
-            max = 5,
+            max = 50,
             column = 4,
             order = 2
           }
