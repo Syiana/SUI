@@ -111,20 +111,18 @@ local defaults = {
 function SUI:OnInitialize()
   self.db = LibStub("AceDB-3.0"):New("SUIDB", defaults, true)
 
-  -- Class
+  -- Colors
   local _, class = UnitClass("player")
   local classColor = RAID_CLASS_COLORS[class]
-
-  -- Color
+  local customColor = self.db.profile.general.color
+  local themes = {
+    Blizzard = nil,
+    Dark = {0.3, 0.3, 0.3},
+    Class = {classColor.r, classColor.g, classColor.b},
+    Custom = {customColor.r, customColor.g, customColor.b},
+  }
+  local theme = themes[self.db.profile.general.theme]
   function SUI:Color(sub)
-    local custom = self.db.profile.general.color
-    local themes = {
-      Blizzard = nil,
-      Dark = {0.3, 0.3, 0.3},
-      Class = {classColor.r, classColor.g, classColor.b},
-      Custom = {custom.r, custom.g, custom.b},
-    }
-    local theme = themes[self.db.profile.general.theme]
     local color = {}
     if (theme) then
       for key, value in pairs(theme) do
