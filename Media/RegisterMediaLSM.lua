@@ -1,25 +1,23 @@
-if IsAddOnLoaded("SharedMedia") then
-	local LSM = LibStub("LibSharedMedia-3.0") 
+local LSM = LibStub("LibSharedMedia-3.0") 
 
-	-- ----- 
-	-- BACKGROUND 
-	-- ----- 
+-- ----- 
+-- BACKGROUND 
+-- ----- 
 
-	-- ----- 
-	--  BORDER 
-	-- ---- 
+-- ----- 
+--  BORDER 
+-- ---- 
 
-	-- -----
-	--   FONT
-	-- -----
-	LSM:Register("font", "SUI", [[Interface\Addons\SUI\Media\Fonts\Prototype.ttf]]) 
+-- -----
+--   FONT
+-- -----
+LSM:Register("font", "SUI", [[Interface\Addons\SUI\Media\Fonts\Prototype.ttf]]) 
 
-	-- -----
-	--   SOUND
-	-- -----
+-- -----
+--   SOUND
+-- -----
 
-	-- -----
-	--   STATUSBAR
-	-- -----
-	LSM:Register("statusbar", "SUI", [[Interface\Addons\SUI\Media\Textures\Status\Smooth.blp]]) 
-end
+-- -----
+--   STATUSBAR
+-- -----
+LSM:Register("statusbar", "SUI", [[Interface\Addons\SUI\Media\Textures\Status\Smooth.blp]]) 
