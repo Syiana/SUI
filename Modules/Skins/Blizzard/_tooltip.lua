@@ -19,16 +19,17 @@ function Module:OnEnable()
         }
       self:SetBackdrop(backdrop)
       self:SetBackdropColor(unpack(SUI:Color(0.3, 0.9)))
+      self:SetBackdropBorderColor(0.3, 0.3, 0.3)
       local _, itemLink = self:GetItem()
       if itemLink then
         local azerite = C_AzeriteEmpoweredItem.IsAzeriteEmpoweredItemByID(itemLink) or C_AzeriteItem.IsAzeriteItemByID(itemLink) or false
         local _, _, itemRarity = GetItemInfo(itemLink)
-        local r,g,b = 1,1,1
-        if itemRarity then r,g,b = GetItemQualityColor(itemRarity) end
+        local r, g, b = 1, 1, 1
+        if itemRarity then r, g, b = GetItemQualityColor(itemRarity) end
         if azerite and backdrop.azeriteBorderColor then
           self:SetBackdropBorderColor(backdrop.azeriteBorderColor)
         else
-          self:SetBackdropBorderColor(r,g,b, backdrop.itemBorderColorAlpha)
+          self:SetBackdropBorderColor(r, g, b, backdrop.itemBorderColorAlpha)
         end
       else
           self:SetBackdropBorderColor(backdrop.borderColor)
