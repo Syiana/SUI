@@ -1043,7 +1043,7 @@ function Gui:OnEnable()
                 },
                 cancel = {
                   text    = 'Cancel',
-                  onClick = function() end
+                  onClick = function(self) self:GetParent():Hide() end
                 }
               }
               StdUi:Confirm('Reset UI', 'This will reset your profile', buttons)

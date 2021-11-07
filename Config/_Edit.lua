@@ -174,11 +174,20 @@ function Edit:OnEnable()
 		SUI:Config()
 	end)
 
-	local CancelButton = StdUi:Button(EditFrame, 90, 20, 'Cancel')
-	StdUi:GlueBottom(CancelButton, EditFrame, -10, 10, 'RIGHT')
-	CancelButton:SetScript('OnClick', function()
-		SUI:Edit()
-		SUI:Config()
+	local ResetButton = StdUi:Button(EditFrame, 90, 20, 'Reset')
+	StdUi:GlueBottom(ResetButton, EditFrame, -10, 10, 'RIGHT')
+	ResetButton:SetScript('OnClick', function()
+    local buttons = {
+      ok = {
+        text    = 'Confirm',
+        onClick = function() SUI.db.profile.edit = {} ReloadUI() end
+      },
+      cancel = {
+        text    = 'Cancel',
+        onClick = function(self) self:GetParent():Hide(); end
+      }
+    }
+    StdUi:Confirm('Reset Frames', 'This will reset your frames', buttons)
 	end)
 
 	function SUI:Edit()
