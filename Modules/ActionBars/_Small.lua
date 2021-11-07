@@ -22,7 +22,6 @@ function Module:OnEnable()
       MainMenuBarArtFrame.RightEndCap,
       ActionBarUpButton,
       ActionBarDownButton,
-      StanceBarFrame,
       ReputationWatchBar,
       MainMenuExpBar,
       ArtifactWatchBar,
@@ -39,30 +38,43 @@ function Module:OnEnable()
     holder:SetSize(size * 12 + spacing * 11, size)
     holder:SetPoint("BOTTOM", UIParent, 0, 22)
 
-    ActionButton1:ClearAllPoints()
-    ActionButton1:SetPoint("BOTTOMLEFT", holder, 0, 0)
+    local function updatePositions()
+      ActionButton1:ClearAllPoints()
+      ActionButton1:SetPoint("BOTTOMLEFT", holder, 0, 0)
 
-    MultiBarBottomLeftButton1:ClearAllPoints()
-    MultiBarBottomLeftButton1:SetPoint("BOTTOMLEFT", ActionButton1, "TOPLEFT", 0, 5)
+      MultiBarBottomLeftButton1:ClearAllPoints()
+      MultiBarBottomLeftButton1:SetPoint("BOTTOMLEFT", ActionButton1, "TOPLEFT", 0, 5)
 
-    MultiBarBottomRightButton1:ClearAllPoints()
-    MultiBarBottomRightButton1:SetPoint("BOTTOMLEFT", MultiBarBottomLeftButton1, "TOPLEFT", 0, 6)
+      MultiBarBottomRightButton1:ClearAllPoints()
+      MultiBarBottomRightButton1:SetPoint("BOTTOMLEFT", MultiBarBottomLeftButton1, "TOPLEFT", 0, 6)
 
-    MultiBarBottomRightButton7:ClearAllPoints()
-    MultiBarBottomRightButton7:SetPoint("BOTTOMLEFT", MultiBarBottomLeftButton7, "TOPLEFT", 0, 6)
+      MultiBarBottomRightButton7:ClearAllPoints()
+      MultiBarBottomRightButton7:SetPoint("BOTTOMLEFT", MultiBarBottomLeftButton7, "TOPLEFT", 0, 6)
 
-    MultiBarLeftButton1:ClearAllPoints()
-    MultiBarLeftButton1:SetPoint("TOPLEFT", MultiBarRightButton1, "TOPLEFT", -43, 0)
+      MultiBarLeftButton1:ClearAllPoints()
+      MultiBarLeftButton1:SetPoint("TOPLEFT", MultiBarRightButton1, "TOPLEFT", -43, 0)
 
-    MultiBarRightButton1:ClearAllPoints()
-    MultiBarRightButton1:SetPoint("RIGHT", UIParent, "RIGHT", -2, 150)
+      MultiBarRightButton1:ClearAllPoints()
+      MultiBarRightButton1:SetPoint("RIGHT", UIParent, "RIGHT", -2, 150)
 
-    PetActionButton1:ClearAllPoints()
-    PetActionButton1:SetPoint("BOTTOMLEFT", MultiBarBottomRightButton1, "TOPLEFT", 25, 15)
-    PetActionBarFrame:SetFrameStrata("HIGH")
+      PetActionButton1:ClearAllPoints()
+      PetActionButton1:SetPoint("BOTTOMLEFT", MultiBarBottomRightButton1, "TOPLEFT", 25, 15)
+      PetActionBarFrame:SetFrameStrata("HIGH")
 
-    PossessButton1:ClearAllPoints()
-    PossessButton1:SetPoint("BOTTOMLEFT", MultiBarBottomRightButton1, "TOPLEFT", 25, 30)
+      PossessButton1:ClearAllPoints()
+      PossessButton1:SetPoint("BOTTOMLEFT", MultiBarBottomRightButton1, "TOPLEFT", 25, 30)
+
+      StanceBarFrame:SetMovable(true)
+      StanceBarFrame:ClearAllPoints()
+      StanceBarFrame:SetUserPlaced(true)
+      if (SHOW_MULTI_ACTIONBAR_2) then
+        StanceBarFrame:SetPoint("TOPLEFT", MultiBarBottomRightButton1, "TOPLEFT", 0, 35)
+      else
+        StanceBarFrame:SetPoint("TOPLEFT", MultiBarBottomRightButton1, "TOPLEFT", 0, -5)
+      end
+    end
+    updatePositions()
+    hooksecurefunc("SetActionBarToggles", updatePositions)
 
     for i = 1, NUM_ACTIONBAR_BUTTONS do
       local ab = _G["ActionButton" .. i]
