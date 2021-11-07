@@ -52,7 +52,6 @@ function Edit:OnEnable()
 	local Locked = true
 	local Frames = { -- Only Frames with UIParent as Parent!
 		"CastingBarFrame",
-		"TargetFrameSpellBar",
 		"MenuFrame",
 		"BuffDragFrame",
 		"DebuffDragFrame",
@@ -60,7 +59,8 @@ function Edit:OnEnable()
 		"TargetFrame",
 		"FocusFrame",
 		"TooltipFrame",
-    "StatsFrame"
+    "StatsFrame",
+    "TargetFrameDragFrame"
 	}
 
 	-- Create DragFrame for Elements
