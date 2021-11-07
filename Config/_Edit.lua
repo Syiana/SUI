@@ -60,8 +60,8 @@ function Edit:OnEnable()
     "FocusFrame",
     "TooltipFrame",
     "StatsFrame",
-    "TargetFrameDragFrame"
-    --{"TargetFrameDragFrame", "Target Castbar"},
+    "TargetFrameDragFrame",
+    --{ name = "TargetFrameDragFrame", label = "Target Castbar" },
 	}
 
 	-- Create DragFrame for Elements
@@ -69,10 +69,13 @@ function Edit:OnEnable()
 		-- Frame
     local self = nil
     if (type(frame) == 'table') then
-      self = _G[frame[1]]
+      --print(frame.name)
+      self = _G[frame.name]
     else
       self = _G[frame]
     end
+
+    --print(self)
 		if not (self) then return end
 
 		self:SetClampedToScreen(true)
