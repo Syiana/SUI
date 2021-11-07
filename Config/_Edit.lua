@@ -51,22 +51,28 @@ function Edit:OnEnable()
 
 	local Locked = true
 	local Frames = { -- Only Frames with UIParent as Parent!
-		"CastingBarFrame",
-		"MenuFrame",
-		"BuffDragFrame",
-		"DebuffDragFrame",
-		"PlayerFrame",
-		"TargetFrame",
-		"FocusFrame",
-		"TooltipFrame",
+    "CastingBarFrame",
+    "MenuFrame",
+    "BuffDragFrame",
+    "DebuffDragFrame",
+    "PlayerFrame",
+    "TargetFrame",
+    "FocusFrame",
+    "TooltipFrame",
     "StatsFrame",
     "TargetFrameDragFrame"
+    --{"TargetFrameDragFrame", "Target Castbar"},
 	}
 
 	-- Create DragFrame for Elements
 	local function dragFrame(frame)
 		-- Frame
-		local self = _G[frame]
+    local self = nil
+    if (type(frame) == 'table') then
+      self = _G[frame[1]]
+    else
+      self = _G[frame]
+    end
 		if not (self) then return end
 
 		self:SetClampedToScreen(true)
