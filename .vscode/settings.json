@@ -3,6 +3,7 @@
         "undefined-global",
         "undefined-field",
         "deprecated",
-        "redundant-parameter"
+        "redundant-parameter",
+        "ambiguity-1"
     ]
 }

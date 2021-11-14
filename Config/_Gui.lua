@@ -194,6 +194,7 @@ function Gui:OnEnable()
             key = 'automation.repair',
             type = 'checkbox',
             label = 'Repair',
+            tooltip = 'Repairs your gear automatic',
             column = 3,
             order = 1
           },
@@ -208,6 +209,7 @@ function Gui:OnEnable()
             key = 'automation.delete',
             type = 'checkbox',
             label = 'Delete',
+            tooltip = 'Sells automatic',
             column = 3,
             order = 3
           },
@@ -215,6 +217,7 @@ function Gui:OnEnable()
             key = 'automation.decline',
             type = 'checkbox',
             label = 'Duel',
+            tooltip = 'Declines duels automatic',
             column = 3,
             order = 3
           }
@@ -227,7 +230,7 @@ function Gui:OnEnable()
             column = 3,
             order = 1
           },
-          sell = {
+          resurrect = {
             key = 'automation.resurrect',
             type = 'checkbox',
             label = 'Resurrect',
