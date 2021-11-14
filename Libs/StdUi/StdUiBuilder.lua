@@ -64,7 +64,7 @@ function StdUi:BuildElement(frame, row, info, dataKey, db)
 
 	local hasLabel = false;
 	if info.type == 'checkbox' then
-		element = self:Checkbox(frame, info.label);
+		element = self:Checkbox(frame, info.label, nil, nil, info.tooltip);
 	elseif info.type == 'editBox' then
 		element = self:EditBox(frame, nil, 20);
 	elseif info.type == 'multiLineBox' then

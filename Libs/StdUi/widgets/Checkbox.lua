@@ -84,7 +84,7 @@ local CheckboxEvents = {
 }
 
 --@return CheckButton
-function StdUi:Checkbox(parent, text, width, height)
+function StdUi:Checkbox(parent, text, width, height, tooltip)
 	local checkbox = CreateFrame('Button', nil, parent);
 	checkbox.stdUi = self;
 
@@ -128,6 +128,8 @@ function StdUi:Checkbox(parent, text, width, height)
 	for k, v in pairs(CheckboxEvents) do
 		checkbox:SetScript(k, v);
 	end
+
+	if (tooltip) then self:FrameTooltip(checkbox, tooltip, 'simp_tooltip2', 'TOPRIGHT', true) end
 
 	return checkbox;
 end
