@@ -129,7 +129,7 @@ function StdUi:Checkbox(parent, text, width, height, tooltip)
 		checkbox:SetScript(k, v);
 	end
 
-	if (tooltip) then self:FrameTooltip(checkbox, tooltip, 'simp_tooltip2', 'TOPRIGHT', true) end
+	if (tooltip) then self:FrameTooltip(checkbox, tooltip, 'simp_tooltip', 'TOP', true) end
 
 	return checkbox;
 end
