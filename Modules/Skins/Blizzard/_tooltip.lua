@@ -7,7 +7,8 @@ function Module:OnEnable()
       local backdrop = {
         bgFile = "Interface\\Buttons\\WHITE8x8",
         bgColor = {0.03,0.03,0.03, 0.9},
-        edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+		-- texture courtesy of MiirGui (https://wowinterface.com/downloads/info20292-MiirGuiTexturePackBlue.html)
+        edgeFile = "Interface\\AddOns\\SUI\\Media\\Textures\\Tooltip\\UI-Tooltip-Border",
         borderColor = {0.03,0.03,0.03, 0.9},
         itemBorderColorAlpha = 0.9,
         azeriteBorderColor = {1,0.3,0,0.9},
@@ -38,6 +39,11 @@ function Module:OnEnable()
     hooksecurefunc("SharedTooltip_SetBackdropStyle", styleTooltip)
     local tooltips = { GameTooltip,ShoppingTooltip1,ShoppingTooltip2,ItemRefTooltip,ItemRefShoppingTooltip1,ItemRefShoppingTooltip2,WorldMapTooltip,
     WorldMapCompareTooltip1,WorldMapCompareTooltip2,SmallTextTooltip }
-    for i, tooltip in next, tooltips do styleTooltip(tooltip) end
+	for i, tooltip in next, tooltips do 
+		styleTooltip(tooltip) 
+		if tooltip:HasScript("OnTooltipCleared") then
+			tooltip:HookScript("OnTooltipCleared", styleTooltip)
+		end
+	end
   end
 end
