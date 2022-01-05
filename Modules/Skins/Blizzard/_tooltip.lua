@@ -2,7 +2,9 @@ local Module = SUI:NewModule("Skins.Tooltip");
 
 function Module:OnEnable()
   if (SUI:Color()) then
-    hooksecurefunc("SharedTooltip_SetBackdropStyle", function(self, style)
+    local theme = SUI.db.profile.general.theme
+
+    local function styleTooltip(self, style)
       SUI:AddMixin(self)
       local backdrop = {
         bgFile = "Interface\\Buttons\\WHITE8x8",
@@ -17,8 +19,12 @@ function Module:OnEnable()
         insets = {left=3, right=3, top=3, bottom=3}
       }
       self:SetBackdrop(backdrop)
-      self:SetBackdropColor(unpack(SUI:Color(0.3, 0.9)))
-      self:SetBackdropBorderColor(0.03, 0.03, 0.03, 0)
+      self:SetBackdropBorderColor(0.1, 0.1, 0.1, 0)
+      if (theme == 'Dark') then
+        self:SetBackdropColor(unpack(backdrop.bgColor))
+      else
+        self:SetBackdropColor(unpack(SUI:Color(0.3, 0.3)))
+      end
       if (self.NineSlice) then
         local _, itemLink = self:GetItem()
         if itemLink then
@@ -32,9 +38,20 @@ function Module:OnEnable()
             self.NineSlice:SetBorderColor(r, g, b, 0.9)
           end
         else
-          self.NineSlice:SetBorderColor(unpack(backdrop.borderColor))
+          if (theme == 'Dark') then
+            self.NineSlice:SetBorderColor(unpack(backdrop.borderColor))
+          else
+            self.NineSlice:SetBorderColor(unpack(SUI:Color(0.35, 1)))
+          end
         end
       end
-    end)
+    end
+
+    hooksecurefunc("SharedTooltip_SetBackdropStyle", styleTooltip)
+    local tooltips = { GameTooltip,ShoppingTooltip1,ShoppingTooltip2,ItemRefTooltip,ItemRefShoppingTooltip1,ItemRefShoppingTooltip2,WorldMapTooltip,
+    WorldMapCompareTooltip1,WorldMapCompareTooltip2,SmallTextTooltip }
+    for i, tooltip in next, tooltips do
+      styleTooltip(tooltip)
+    end
   end
 end
