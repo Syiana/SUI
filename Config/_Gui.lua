@@ -180,7 +180,9 @@ function Gui:OnEnable()
             key = 'color',
             type = 'color',
             label = 'Custom Color',
-            column = 3
+            column = 3,
+            update = function() print("custom") end,
+            cancel = function() print("cancel") end
           }
         },
         {

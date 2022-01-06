@@ -96,7 +96,7 @@ function StdUi:BuildElement(frame, row, info, dataKey, db)
 			element:SetPrecision(info.precision);
 		end
 	elseif info.type == 'color' then
-		element = self:ColorInput(frame, info.label, 100, 20, info.color);
+		element = self:ColorInput(frame, info.label, 100, 20, info.color, info.update, info.cancel);
 	elseif info.type == 'button' then
 		element = self:Button(frame, nil, 20, info.text or '');
 

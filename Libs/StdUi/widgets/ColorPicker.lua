@@ -220,8 +220,20 @@ local ColorPickerFrameCancelCallback = function(self)
 end
 
 -- placeholder
-function StdUi:ColorPickerFrame(r, g, b, a, okCallback, cancelCallback, alphaSliderTexture)
-	local colorPickerFrame = self.colorPickerFrame;
+function StdUi:ColorPickerFrame(r, g, b, a, okCallback, cancelCallback, alphaSliderTexture, updateCallback)
+    if (updateCallback) then
+        local function hook(...)
+            updateCallback()
+            return ...;
+        end
+        local ColorPickerValueChanged = OnColorPickerValueChanged;
+        function OnColorPickerValueChanged(...)
+            local self = ...;
+            return hook(self, ColorPickerValueChanged(self, ...));
+        end
+    end
+
+    local colorPickerFrame = self.colorPickerFrame;
 	if not colorPickerFrame then
 		colorPickerFrame = self:ColorPicker(UIParent, alphaSliderTexture);
 		colorPickerFrame:SetFrameStrata('FULLSCREEN_DIALOG');
@@ -268,21 +280,8 @@ local ColorInputMethods = {
 	end
 };
 
-local ColorInputEvents = {
-	OnClick = function(self)
-		self.stdUi:ColorPickerFrame(
-			self.color.r,
-			self.color.g,
-			self.color.b,
-			self.color.a,
-			function(cpf)
-				self:SetColor(cpf:GetColor());
-			end
-		);
-	end
-};
 
-function StdUi:ColorInput(parent, label, width, height, color)
+function StdUi:ColorInput(parent, label, width, height, color, update, cancel)
 	local button = CreateFrame('Button', nil, parent);
 	button.stdUi = self;
 	button:EnableMouse(true);
@@ -309,9 +308,18 @@ function StdUi:ColorInput(parent, label, width, height, color)
 		button[k] = v;
 	end
 
-	for k, v in pairs(ColorInputEvents) do
-		button:SetScript(k, v);
-	end
+	button:SetScript("OnClick", function(self)
+		self.stdUi:ColorPickerFrame(
+			self.color.r,
+			self.color.g,
+			self.color.b,
+			self.color.a,
+			function(cpf) self:SetColor(cpf:GetColor()) end,
+			cancel,
+			nil,
+			update
+		);
+	end);
 
 	if color then
 		button:SetColor(color);
