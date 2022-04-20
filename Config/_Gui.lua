@@ -851,18 +851,21 @@ function Gui:OnEnable()
         },
         {
           hotkeys = {
+            key = 'top',
             type = 'checkbox',
             label = 'Input on Top',
             column = 4,
             order = 1
           },
-          macros = {
+          link = {
+            key = 'link',
             type = 'checkbox',
-            label = 'Friend Symbol',
+            label = 'Link copy',
             column = 4,
             order = 2
           },
-          gryphones = {
+          copy = {
+            key = 'copy',
             type = 'checkbox',
             label = 'Copy Symbol',
             column = 4,
@@ -876,9 +879,10 @@ function Gui:OnEnable()
           }
         },
         {
-          hotkeys = {
+          friendlist = {
+            key = 'friendlist',
             type = 'checkbox',
-            label = 'Classcolors',
+            label = 'Class-Friendlist',
             column = 4,
             order = 1
           }

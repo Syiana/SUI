@@ -83,7 +83,11 @@ local defaults = {
       }
     },
     chat = {
-      style = 'Custom'
+      style = 'Custom',
+      top = false,
+      link = true,
+      copy = false,
+      friendlist = true
     },
     maps = {
       small = false,
@@ -122,7 +126,39 @@ function SUI:OnInitialize()
     Custom = {customColor.r, customColor.g, customColor.b},
   }
   local theme = themes[self.db.profile.general.theme]
-  function SUI:Color(sub, alpha)
+
+
+  self.Theme = {
+    Register = function(n, f)
+      print('register')
+      --if (self.Theme.Frames[n]) then f(true, self.Theme.Data) end
+    end,
+    Update = function()
+      print("update")
+      for n, f in pairs(self.Theme.Frames) do
+        print(n)
+        f(false, self.Theme.Data)
+      end
+    end,
+    Data = function()
+      local themes = {
+        Blizzard = nil,
+        Dark = {0.3, 0.3, 0.3},
+        Class = {classColor.r, classColor.g, classColor.b},
+        Custom = {customColor.r, customColor.g, customColor.b},
+      }
+      local theme = themes[self.db.profile.general.theme]
+      return {
+        style = self.db.profile.general.theme,
+        color = self.db.profile.general.color
+      }
+    end,
+    Frames = {
+      Tooltip = function() end
+    }
+  }
+
+  function self:Color(sub, alpha)
     if (theme) then
       if not (alpha) then alpha = 1 end
       local color = {0, 0, 0, alpha}
