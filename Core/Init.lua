@@ -91,16 +91,15 @@ local defaults = {
       friendlist = true
     },
     maps = {
+      style = 'Default',
       small = false,
       opacity = false,
-      coordinates = false,
-      showminimap = true,
-      showclock = true,
-      showdate = true,
-      showgarrison = true,
-      showtracking = false,
-      showworldmap = false,
-      classstyle = false
+      coords = true,
+      minimap = true,
+      clock = true,
+      date = false,
+      garrison = true,
+      tracking = false,
 	  },
     misc = {
       safequeue = true,

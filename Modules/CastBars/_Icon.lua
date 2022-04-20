@@ -2,7 +2,7 @@ local Module = SUI:NewModule("CastBars.Icon");
 
 function Module:OnEnable()
   local db = SUI.db.profile.castbars
-  if (db.style == 'Custom') then
+  if (db.style == 'Custom' and SUI:Color()) then
       if not InCombatLockdown() then
         local backdrop = {
           bgFile = nil,
@@ -51,7 +51,6 @@ function Module:OnEnable()
             back:SetBackdropBorderColor(unpack(SUI:Color(0.25)))
             back:SetAlpha(0.9)
             b.bg = back
-
             b.styled = true
           end
 

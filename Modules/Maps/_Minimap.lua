@@ -57,12 +57,12 @@ function Module:OnEnable()
                             end
                         end
                     else
-                      if (db.classstyle) then
+                      if (db.style == "Legion") then
                         self:GetNormalTexture():SetTexture(nil)
                         self:GetPushedTexture():SetTexture(nil)
                         if not gb then
                             gb = CreateFrame("Frame", nil, GarrisonLandingPageMinimapButton)
-                            gb:SetFrameLevel(GarrisonLandingPageMinimapButton:GetFrameLevel() - 1)
+                            gb:SetFrameLevel(GarrisonLandingPageMinimapButton:GetFrameLevel())
                             gb:SetPoint("CENTER", 0, 0)
                             gb:SetSize(36,36)
                             gb.icon = gb:CreateTexture(nil, "ARTWORK")
@@ -98,18 +98,7 @@ function Module:OnEnable()
               GarrisonLandingPageMinimapButton:UnregisterAllEvents()
               GarrisonLandingPageMinimapButton:ClearAllPoints()
             end
-
-            MinimapBorderTop:Hide()
-            MinimapZoomIn:Hide()
-            MinimapZoomOut:Hide()
-            MiniMapWorldMapButton:Hide()
             MinimapZoneText:SetPoint("CENTER", Minimap, 0, 80)
-            GameTimeFrame:Hide()
-            GameTimeFrame:UnregisterAllEvents()
-            GameTimeFrame.Show = kill
-            MiniMapTracking:Hide()
-            MiniMapTracking.Show = kill
-            MiniMapTracking:UnregisterAllEvents()
             Minimap:EnableMouseWheel(true)
             Minimap:SetScript("OnMouseWheel", function(self, z)
               local c = Minimap:GetZoom()

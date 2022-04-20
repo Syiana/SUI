@@ -755,11 +755,12 @@ function Gui:OnEnable()
 		      	key = 'small',
             type = 'checkbox',
             label = 'Small Map',
+            tooltip = 'coming soon.',
             column = 4,
             order = 1
           },
           cords = {
-		      	key = 'coordinates',
+		      	key = 'coords',
             type = 'checkbox',
             label = 'Coords',
             column = 4,
@@ -769,6 +770,7 @@ function Gui:OnEnable()
 		  	    key = 'opacity',
             type = 'checkbox',
             label = 'Opacity',
+            tooltip = 'coming soon.',
             column = 4,
             order = 3
           }
@@ -795,21 +797,21 @@ function Gui:OnEnable()
         },
         {
           showminimap = {
-			      key = 'showminimap',
+			      key = 'minimap',
             type = 'checkbox',
             label = 'Show Minimap',
             column = 4,
             order = 1
           },
           showclock = {
-			      key = 'showclock',
+			      key = 'clock',
             type = 'checkbox',
             label = 'Show Clock',
             column = 4,
             order = 2
           },
           showdate = {
-			      key = 'showdate',
+			      key = 'date',
             type = 'checkbox',
             label = 'Show Date',
             column = 4,
@@ -818,25 +820,18 @@ function Gui:OnEnable()
         },
         {
           showgarrison = {
-			      key = 'showgarrison',
+			      key = 'garrison',
             type = 'checkbox',
             label = 'Garrison Symbol',
             column = 4,
             order = 1
           },
           showtracking = {
-			      key = 'showtracking',
+			      key = 'tracking',
             type = 'checkbox',
             label = 'Tracking Symbol',
             column = 4,
             order = 2
-          },
-          showworldmap = {
-			      key = 'showworldmap',
-            type = 'checkbox',
-            label = 'WorldMap Symbol',
-            column = 4,
-            order = 3
           }
         }
       },
