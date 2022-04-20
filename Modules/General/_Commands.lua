@@ -1,11 +1,12 @@
 local Module = SUI:NewModule("General.Commands");
 
 function Module:OnEnable()
-  local db = SUI.db.profile.general
-  if (db) then
-      SlashCmdList["RELOAD"] = function()
-          ReloadUI()
-      end
-      SLASH_RELOAD1 = "/rl"
+  SlashCmdList["RELOAD"] = function()
+    ReloadUI()
   end
+  SLASH_RELOAD1 = "/rl"
+  SlashCmdList["SUI"] = function()
+    SUI:Config()
+  end
+  SLASH_SUI1 = "/sui"
 end
