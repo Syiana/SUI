@@ -31,7 +31,7 @@ function Module:OnEnable()
     Author:SetPoint("CENTER", Subtittle, 0, -15)
     Author.text = Author:CreateFontString(Author, "ARTWORK", "QuestMapRewardsFont")
     Author.text:SetPoint("CENTER", 0, 0)
-    Author.text:SetText("created by |cfff58cbaSyiana|r")
+    Author.text:SetText("created by |cfff58cbaSyiana|r @2015")
     Author.text:SetScale(0.9)
 
     local Button = CreateFrame("Button", "Start", Install, "UIPanelButtonTemplate")
