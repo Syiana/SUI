@@ -73,12 +73,12 @@ function Module:OnEnable()
   local function CreateCopyButton(self)
       self.Copy = CreateFrame("Button", nil, self)
       self.Copy:SetSize(20, 20)
-      self.Copy:SetPoint("TOPRIGHT", self, -5, -5)
+      self.Copy:SetPoint("TOPRIGHT", self, 15, -5)
 
-      self.Copy:SetNormalTexture("Interface\\AddOns\\nChat\\media\\textureCopyNormal")
+      self.Copy:SetNormalTexture("Interface\\AddOns\\SUI\\Media\\Textures\\Chat\\copynormal")
       self.Copy:GetNormalTexture():SetSize(20, 20)
 
-      self.Copy:SetHighlightTexture("Interface\\AddOns\\nChat\\media\\textureCopyHighlight")
+      self.Copy:SetHighlightTexture("Interface\\AddOns\\SUI\\Media\\Textures\\Chat\\copyhighlight")
       self.Copy:GetHighlightTexture():SetAllPoints(self.Copy:GetNormalTexture())
 
       local tab = _G[self:GetName().."Tab"]

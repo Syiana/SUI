@@ -131,7 +131,7 @@ function SUI:OnInitialize()
 
   self.Theme = {
     Register = function(n, f)
-      print('register')
+      --print('register')
       --if (self.Theme.Frames[n]) then f(true, self.Theme.Data) end
     end,
     Update = function()

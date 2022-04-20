@@ -64,7 +64,7 @@ function Gui:OnEnable()
   config.titlePanel:SetPoint('RIGHT', -35, 0)
   config:Hide()
 
-  local version = StdUi:Label(config.titlePanel, 'v'.. GetAddOnMetadata("SUI", "version"))
+  local version = StdUi:Label(config.titlePanel, GetAddOnMetadata("SUI", "version"))
   StdUi:GlueLeft(version, config.titlePanel, 35, 0)
 
   local logo = StdUi:Texture(config.titlePanel, 120, 35, "Interface\\AddOns\\SUI\\Media\\Textures\\Config\\Logo")
@@ -181,8 +181,8 @@ function Gui:OnEnable()
             type = 'color',
             label = 'Custom Color',
             column = 3,
-            update = function() print("custom") end,
-            cancel = function() print("cancel") end
+            update = function() end,
+            cancel = function() end
           }
         },
         {
@@ -777,6 +777,20 @@ function Gui:OnEnable()
           header = {
             type = 'header',
             label = 'Minimap'
+          }
+        },
+        {
+          style = {
+            key = 'style',
+            type = 'dropdown',
+            label = 'Style',
+            options = {
+              { value = 'Default', text = 'Default' },
+              { value = 'Legion', text = 'Legion' }
+            },
+            initialValue = 1,
+            column = 5,
+            order = 1
           }
         },
         {
