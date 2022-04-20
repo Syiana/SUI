@@ -265,6 +265,7 @@ function Gui:OnEnable()
             key = 'cosmetic.afkscreen',
             type = 'checkbox',
             label = 'AFK Screen',
+            tooltip = 'coming soon',
             column = 3,
             order = 1
           },
@@ -904,7 +905,7 @@ function Gui:OnEnable()
             type = 'button',
             text = 'CVars Browser',
             onClick = function()
-              print("CVars");
+              print("coming soon...");
             end,
             column = 3,
             order = 3
@@ -1103,7 +1104,7 @@ function Gui:OnEnable()
             type = 'button',
             text = 'New',
             onClick = function()
-              print("test");
+              print("new profile");
             end,
             column = 3,
             order = 1

@@ -13,6 +13,7 @@ local defaults = {
         decline = false,
         repair = true,
         sell = true,
+        stackbuy = true,
         invite = false,
         release = false,
         resurrect = false,
@@ -35,7 +36,7 @@ local defaults = {
       statusglow = false,
       pvpbadge = false,
       combaticon = false,
-      links = true,
+      links = false,
       buffs = {
         size = 26,
         purgeborder = true
@@ -134,9 +135,9 @@ function SUI:OnInitialize()
       --if (self.Theme.Frames[n]) then f(true, self.Theme.Data) end
     end,
     Update = function()
-      print("update")
+      -- print("update")
       for n, f in pairs(self.Theme.Frames) do
-        print(n)
+        -- print(n)
         f(false, self.Theme.Data)
       end
     end,

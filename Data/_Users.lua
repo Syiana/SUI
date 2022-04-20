@@ -4,10 +4,10 @@ local Colors = SUI:GetModule('Data.Colors');
 Data.team = {
   {text = Colors.aut    .. 'Syiana|r'},
   {text = Colors.dev    .. 'Baine|r'},
+  {text = Colors.dev    .. 'Rulez|r'},
   {text = Colors.mod    .. 'Obscurrium|r'},
   {text = Colors.mod    .. 'SuperTkle|r'},
   {text = Colors.mod    .. 'Proxy|r'},
-  {text = Colors.mod    .. 'Rulez|r'},
   {text = Colors.sup    .. 'Marcelian|r'},
   {text = Colors.sup    .. 'Umren|r'}
 }
@@ -20,6 +20,7 @@ Data.specials = {
   {text = Colors.druid  .. 'Xexexexexexe|r'},
   {text = Colors.rog    .. 'Ghandance|r'},
   {text = Colors.druid  .. 'Aproffis|r'},
+  {text = Colors.druid  .. 'Shimaya|r'},
   {text = Colors.sham   .. 'Nexter|r'},
   {text = Colors.sham   .. 'Caccie|r'},
   {text = Colors.hunter .. 'Yazo|r'},
@@ -44,8 +45,7 @@ Data.specials = {
 Data.supporter = {
   {text = Colors.pala   .. 'Akna|r'},
   {text = Colors.priest .. 'Jojo|r'},
-  {text = Colors.priest .. 'Woogo|r'},
-  {text = Colors.druid  .. 'Shimaya|r'}
+  {text = Colors.priest .. 'Woogo|r'}
 }
 
 Data.banned = {}

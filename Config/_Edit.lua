@@ -69,13 +69,11 @@ function Edit:OnEnable()
 		-- Frame
     local self = nil
     if (type(frame) == 'table') then
-      --print(frame.name)
       self = _G[frame.name]
     else
       self = _G[frame]
     end
 
-    --print(self)
 		if not (self) then return end
 
 		self:SetClampedToScreen(true)
