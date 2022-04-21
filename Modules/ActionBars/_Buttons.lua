@@ -429,6 +429,12 @@ function Module:OnEnable()
   end
   if not dominos and not bartender and not (db.buttons.key) then
     local function updateHotkey(self, actionButtonType)
+        if not (db.buttons.macro) then
+            local na = _G[self:GetName() .. "Name"]
+            if na and na:IsShown() then
+                na:Hide()
+            end
+        end
         local ho = _G[self:GetName() .. "HotKey"]
         if ho and ho:IsShown() then
             ho:Hide()
