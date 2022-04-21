@@ -42,6 +42,7 @@ function Module:OnEnable()
         server = GetRealmName()
       end
       server = FixRealmName(server)
+      serverArmory = server
       serverArmory = string.gsub(serverArmory, "'", "")
       serverArmory = string.gsub(serverArmory, "’", "")
       serverMythicPlusHelper = server
