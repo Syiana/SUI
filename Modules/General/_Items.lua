@@ -35,6 +35,7 @@ function Module:OnEnable()
 
     local function _updateItems(unit, frame)
       for i = 1, 17 do
+        local color = '|cFFFFFF00'
         local itemLink = GetInventoryItemLink(unit, i)
         if i ~= 4 and ((frame == f and (equiped[i] ~= itemLink or frame[i]:GetText() == nil or itemLink == nil and frame[i]:GetText() ~= "")) or frame == g) then
           if frame == f then
@@ -44,7 +45,6 @@ function Module:OnEnable()
           local delay = false
           if itemLink then
             local _, _, quality = GetItemInfo(itemLink)
-
             if (quality == 6) and (i == 16 or i == 17) then
               local relics = {select(4, strsplit(":", itemLink))}
               for i = 1, 3 do
@@ -58,7 +58,7 @@ function Module:OnEnable()
                 C_Timer.After(0.1, function()
                   local realItemLevel = _getRealItemLevel(i, unit)
                   realItemLevel = realItemLevel or ""
-                  frame[i]:SetText("|cFFFFFF00"..realItemLevel)
+                  frame[i]:SetText(color .. realItemLevel)
                 end)
               end
             end
@@ -69,7 +69,7 @@ function Module:OnEnable()
           if realItemLevel and realItemLevel == 1 then
             realItemLevel = ""
           end
-          frame[i]:SetText("|cFFFFFF00"..realItemLevel)
+          frame[i]:SetText(color .. realItemLevel)
         end
       end
     end
