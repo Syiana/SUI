@@ -46,7 +46,10 @@ Data.supporter = {
   {text = Colors.pala   .. 'Akna|r'},
   {text = Colors.priest .. 'Jojo|r'},
   {text = Colors.priest .. 'Woogo|r'},
-  {text = Colors.pala .. 'Muleyo|r'}
+  {text = Colors.pala .. 'Muleyo|r'},
+  {text = Colors.druid .. 'OwldTV|r'},
+  {text = Colors.rog .. 'Dartakiront|r'},
+  {text = Colors.druid .. 'Oldsoul74|r'}
 }
 
 Data.banned = {}
