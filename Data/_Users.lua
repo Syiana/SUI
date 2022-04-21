@@ -61,7 +61,8 @@ Data.supporter = {
   {text = Colors.warri .. 'Arestoniix|r'},
   {text = Colors.monk .. 'TrippyCat423|r'},
   {text = Colors.warri .. 'Ghargatuloth|r'},
-  {text = Colors.mage .. 'Remgax|r'}
+  {text = Colors.mage .. 'Remgax|r'},
+  {text = Colors.mage .. 'dream_witch2020|r'},
 }
 
 Data.banned = {}
