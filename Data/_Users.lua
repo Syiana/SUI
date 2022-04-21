@@ -5,6 +5,7 @@ Data.team = {
   {text = Colors.aut    .. 'Syiana|r'},
   {text = Colors.dev    .. 'Baine|r'},
   {text = Colors.dev    .. 'Rulez|r'},
+  {text = Colors.dev    .. 'Muleyo|r'},
   {text = Colors.mod    .. 'Obscurrium|r'},
   {text = Colors.mod    .. 'SuperTkle|r'},
   {text = Colors.mod    .. 'Proxy|r'},
@@ -63,6 +64,8 @@ Data.supporter = {
   {text = Colors.warri .. 'Ghargatuloth|r'},
   {text = Colors.mage .. 'Remgax|r'},
   {text = Colors.mage .. 'dream_witch2020|r'},
+  {text = Colors.monk .. 'DustyPiink|r'},
+  {text = Colors.monk .. 'Raknesso|r'}
 }
 
 Data.banned = {}
