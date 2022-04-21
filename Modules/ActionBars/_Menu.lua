@@ -44,4 +44,13 @@ function Menu:OnEnable()
           end
     end)
   end
+
+  if (db.menu.bagbuttons) then
+    BagsBarTexture:Hide()
+    MainMenuBarBackpackButton:Hide()
+    CharacterBag0Slot:Hide()
+    CharacterBag1Slot:Hide()
+    CharacterBag2Slot:Hide()
+    CharacterBag3Slot:Hide()
+  end
 end
