@@ -6,7 +6,7 @@ function Module:OnEnable()
     texture = SUI.db.profile.general.texture
   }
 
-  if (db) then
+  if (db.unitframes) then
     function SUIPlayerFrame(self)
       if (db.texture ~= 'Default') then
         self.healthbar:SetStatusBarTexture(db.texture);
@@ -50,6 +50,12 @@ function Module:OnEnable()
         PlayerFrameGroupIndicatorLeft:Hide();
         PlayerFrameGroupIndicatorMiddle:Hide();
         PlayerFrameGroupIndicatorRight:Hide();
+      end
+
+      if (db.unitframes.style == "Small") then
+        hooksecurefunc('TargetFrame_CheckFaction', function(self)
+          self.nameBackground:SetVertexColor(0.0, 0.0, 0.0, 0.5);
+        end)
       end
     end
     hooksecurefunc("PlayerFrame_ToPlayerArt", SUIPlayerFrame)
