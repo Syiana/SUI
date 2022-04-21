@@ -8,7 +8,6 @@ function Module:OnEnable()
   local dominos = IsAddOnLoaded("Dominos")
   local bartender = IsAddOnLoaded("Bartender4")
   if (SUI:Color()) then
-    --Check for other Addons
     if IsAddOnLoaded("Masque") and (dominos or bartender) then return end
 
     local config = {
@@ -425,20 +424,22 @@ function Module:OnEnable()
 
     end
 
-        init()
+    init()
   end
-  if not dominos and not bartender and not (db.buttons.key) then
+  if not dominos and not bartender then
     local function updateHotkey(self, actionButtonType)
-        if not (db.buttons.macro) then
-            local na = _G[self:GetName() .. "Name"]
-            if na and na:IsShown() then
-                na:Hide()
-            end
-        end
+      if not (db.buttons.key) then
         local ho = _G[self:GetName() .. "HotKey"]
         if ho and ho:IsShown() then
-            ho:Hide()
+          ho:Hide()
         end
+      end
+      if not (db.buttons.macro) then
+        local na = _G[self:GetName() .. "Name"]
+        if na and na:IsShown() then
+            na:Hide()
+        end
+      end
     end
     local frame = CreateFrame("Frame")
     frame:RegisterEvent("UPDATE_BINDINGS")
