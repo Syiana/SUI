@@ -1,5 +1,8 @@
 local Menu = SUI:NewModule("ActionBars.Menu");
 
+local ClassicUI = IsAddOnLoaded("ClassicUI")
+if (ClassicUI) then return end
+
 local MenuFrame = CreateFrame('Frame', "MenuFrame", UIParent)
 MenuFrame:SetPoint("BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", 0, 0)
 
