@@ -42,12 +42,11 @@ function Module:OnEnable()
         server = GetRealmName()
       end
       server = FixRealmName(server)
+      serverArmory = string.gsub(serverArmory, "'", "")
+      serverArmory = string.gsub(serverArmory, "’", "")
       serverMythicPlusHelper = server
       server = string.gsub(server, "(%l)(%u)", "%1-%2")
       server = string.gsub(server, " ", "-")
-      serverArmory = server
-      serverArmory = string.gsub(server, "'", "")
-      serverArmory = string.gsub(server, "’", "")
       serverWarcraftLogs = server
       server = string.gsub(server, "'", "-")
       server = string.gsub(server, "’", "-")
