@@ -42,10 +42,12 @@ function Module:OnEnable()
         server = GetRealmName()
       end
       server = FixRealmName(server)
+      serverArmory = server
+      serverArmory = string.gsub(serverArmory, "'", "")
+      serverArmory = string.gsub(serverArmory, "’", "")
       serverMythicPlusHelper = server
       server = string.gsub(server, "(%l)(%u)", "%1-%2")
       server = string.gsub(server, " ", "-")
-      serverArmory = server
       serverWarcraftLogs = server
       server = string.gsub(server, "'", "-")
       server = string.gsub(server, "’", "-")
@@ -58,7 +60,11 @@ function Module:OnEnable()
         local url = ""
         local role = UnitGroupRolesAssigned(char)
         if site == "armory" then
-          url = "https://" .. region .. ".battle.net/wow/en/character/" .. serverArmory .. "/" .. char .. "/advanced" .. "/"
+          if region == "eu" then
+            url = "https://worldofwarcraft.com/en-gb/character/" .. serverArmory .. "/" .. char .. "/"
+          else
+            url = "https://worldofwarcraft.com/en-us/character/" .. serverArmory .. "/" .. char .. "/"
+          end
         elseif site == "mythicplusshelper" then
           url = '{"region": "' .. region .. '"},\n'
           if IsInRaid() == true then
@@ -71,9 +77,9 @@ function Module:OnEnable()
           url = url .. '"playerType": "groupMember",'
           url = url .. '"role": "' .. role .. '"}\n'
         elseif site == "xunamate" then
-          url = "http://xunamate.com/player/" .. server .. "/" .. char .. "/"
+          url = "https://xunamate.com/#/character/" .. region .. "/" .. server .. "/" .. char .. "/"
         elseif site == "checkpvp" then
-          url = "http://check-pvp.fr/database/character/?q=" .. char .. "-" .. server .. ""
+          url = "https://check-pvp.fr/".. region .. "/" .. server .. "/" .. char .. "/"
         elseif site == "warcraftlogs" then
           url = "https://www.warcraftlogs.com/character/" .. region .. "/" .. serverWarcraftLogs .. "/" .. char .. "/"
         elseif site == "wowprogress" then

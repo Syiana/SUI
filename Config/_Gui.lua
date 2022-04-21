@@ -196,7 +196,7 @@ function Gui:OnEnable()
             key = 'automation.repair',
             type = 'checkbox',
             label = 'Repair',
-            tooltip = 'Repairs your gear automatic',
+            tooltip = 'Repairs your gear automatically',
             column = 3,
             order = 1
           },
@@ -204,6 +204,7 @@ function Gui:OnEnable()
             key = 'automation.sell',
             type = 'checkbox',
             label = 'Sell',
+            tooltip = 'Sells grey items automatically',
             column = 3,
             order = 2
           },
@@ -211,7 +212,7 @@ function Gui:OnEnable()
             key = 'automation.delete',
             type = 'checkbox',
             label = 'Delete',
-            tooltip = 'Sells automatic',
+            tooltip = 'Inserts "DELETE" when deleting Rare+ items',
             column = 3,
             order = 3
           },
@@ -219,16 +220,17 @@ function Gui:OnEnable()
             key = 'automation.decline',
             type = 'checkbox',
             label = 'Duel',
-            tooltip = 'Declines duels automatic',
+            tooltip = 'Declines duels automatically',
             column = 3,
             order = 3
           }
         },
         {
-          repair = {
+          release  = {
             key = 'automation.release',
             type = 'checkbox',
             label = 'Release',
+            tooltip = 'Release automatically when you died',
             column = 3,
             order = 1
           },
@@ -236,6 +238,7 @@ function Gui:OnEnable()
             key = 'automation.resurrect',
             type = 'checkbox',
             label = 'Resurrect',
+            tooltip = 'Accept ress automatically',
             column = 3,
             order = 2
           },
@@ -243,6 +246,7 @@ function Gui:OnEnable()
             key = 'automation.invite',
             type = 'checkbox',
             label = 'Invite',
+            tooltip = 'Accept group invite automatically',
             column = 3,
             order = 3
           },
@@ -250,6 +254,7 @@ function Gui:OnEnable()
             key = 'automation.cinematic',
             type = 'checkbox',
             label = 'Cinematic',
+            tooltip = 'Skip cinematics automatically',
             column = 3,
             order = 4
           },
@@ -273,6 +278,7 @@ function Gui:OnEnable()
             key = 'cosmetic.talkinghead',
             type = 'checkbox',
             label = 'Talkinghead',
+            tooltip = 'Hide Talkinghead frame',
             column = 3,
             order = 2
           }
@@ -563,7 +569,7 @@ function Gui:OnEnable()
         {
           header = {
             type = 'header',
-            label = 'Menu'
+            label = 'Micro Menu'
           },
         },
         {
@@ -572,8 +578,14 @@ function Gui:OnEnable()
             type = 'checkbox',
             label = 'Show on Mouseover',
             column = 4
+          },
+          bagbuttons = {
+            key = 'menu.bagbuttons',
+            type = 'checkbox',
+            label = 'Hide bag buttons',
+            column = 4
           }
-        }
+        },
       },
     },
     Castbars = {
