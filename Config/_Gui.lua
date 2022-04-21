@@ -316,7 +316,7 @@ function Gui:OnEnable()
     },
     Unitframes = {
       layoutConfig = { padding = { top = 15 } },
-      database = db.profile.unitframes,
+      database = db.profile,
       rows = {
         {
           header = {
@@ -326,48 +326,58 @@ function Gui:OnEnable()
         },
         {
           style = {
-            key = 'style',
+            key = 'unitframes.style',
             type = 'dropdown',
             label = 'Style',
             options = {
               { value = 'Default', text = 'Default' },
-              { value = 'Big', text = 'Big' }
+              { value = 'Big', text = 'Big' },
+              { value = 'Small', text = 'Small' }
             },
             column = 5
           }
         },
         {
           class = {
-            key = 'classcolor',
+            key = 'unitframes.classcolor',
             type = 'checkbox',
             label = 'ClassColor',
             column = 4,
           },
           pvp = {
-            key = 'pvpbadge',
+            key = 'unitframes.pvpbadge',
             type = 'checkbox',
             label = 'PvP Badge',
             column = 4,
           },
           glow = {
-            key = 'statusglow',
+            key = 'unitframes.statusglow',
             type = 'checkbox',
             label = 'Status Glow',
             column = 4,
           }
         },
         {
+          hitindicator = {
+            key = 'unitframes.hitindicator',
+            type = 'checkbox',
+            label = 'Hitindicator',
+            column = 4,
+            order = 1
+          },
           combat = {
-            key = 'combaticon',
+            key = 'unitframes.combaticon',
             type = 'checkbox',
             label = 'Combat Icon',
             column = 4,
+            order = 2
           },
           link = {
-            key = 'links',
+            key = 'unitframes.links',
             type = 'checkbox',
             label = 'Char Links',
             column = 4,
+            order = 3
           }
         },
         {
@@ -377,36 +387,37 @@ function Gui:OnEnable()
           },
         },
         {
+          border = {
+            key = 'unitframes.buffs.purgeborder',
+            type = 'checkbox',
+            label = 'Purge Border',
+            column = 4,
+            order = 1
+          },
           size = {
-            key = 'buffs.size',
+            key = 'unitframes.buffs.size',
             type = 'slider',
             label = 'Icon Size',
             max = 50,
             column = 5,
-            order = 1
-          },
-          border = {
-            key = 'buffs.purgeborder',
-            type = 'checkbox',
-            label = 'Purge Border',
-            column = 4,
             order = 2
           }
         },
-        -- {
-        --   header = {
-        --     type = 'header',
-        --     label = 'Raid'
-        --   },
-        -- },
-        -- {
-        --   top = {
-        --     key = 'raid.alwaysontop',
-        --     type = 'checkbox',
-        --     label = 'Always on Top',
-        --     column = 4
-        --   }
-        -- }
+        {
+          header = {
+            type = 'header',
+            label = 'Raidframes'
+          },
+        },
+        {
+          style = {
+            key = 'raidframes.texture',
+            type = 'dropdown',
+            label = 'Texture',
+            options = Textures.data,
+            column = 5
+          }
+        },
       },
     },
     Nameplates = {

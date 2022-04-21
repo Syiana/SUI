@@ -49,7 +49,19 @@ Data.supporter = {
   {text = Colors.pala .. 'Muleyo|r'},
   {text = Colors.druid .. 'OwldTV|r'},
   {text = Colors.rog .. 'Dartakiront|r'},
-  {text = Colors.druid .. 'Oldsoul74|r'}
+  {text = Colors.pala .. 'Oldsoul74|r'},
+  {text = Colors.rog .. 'neaR_qt|r'},
+  {text = Colors.dk .. 'Samsabal|r'},
+  {text = Colors.dh .. 'Breezyy999|r'},
+  {text = Colors.priest .. 'j4yqtx|r'},
+  {text = Colors.dk .. 'Smolley|r'},
+  {text = Colors.priest .. 'nyccQT|r'},
+  {text = Colors.druid .. 'Shimaya|r'},
+  {text = Colors.priest .. 'Kivancxo|r'},
+  {text = Colors.warri .. 'Arestoniix|r'},
+  {text = Colors.monk .. 'TrippyCat423|r'},
+  {text = Colors.warri .. 'Ghargatuloth|r'},
+  {text = Colors.mage .. 'Remgax|r'}
 }
 
 Data.banned = {}

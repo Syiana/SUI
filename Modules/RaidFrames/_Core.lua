@@ -1,8 +1,7 @@
 local Module = SUI:NewModule("RaidFrames.Core");
 
 function Module:OnEnable()
-  local db = SUI.db.profile.maps
-
+  local db = SUI.db.profile.raidframes
 	if (db) then
 		-- HIDE RAIDFRAMERESIZE
 		local n, w, h = "CompactUnitFrameProfilesGeneralOptionsFrame"
@@ -31,8 +30,10 @@ function Module:OnEnable()
 			local borderbottomright = _G["CompactRaidFrameContainerBorderFrameBorderBottomRight"]
 			if bar then
 				--STATUSBAR
-				bar:SetStatusBarTexture("Interface\\Addons\\SUI\\Media\\Textures\\RaidFrames\\Raid-Bar-Hp-Fill")
-				rbar:SetStatusBarTexture("Interface\\Addons\\SUI\\Media\\Textures\\RaidFrames\\Raid-Bar-Resource-Fill")
+				if (db.texture ~= 'Default') then
+					bar:SetStatusBarTexture(db.texture)
+					rbar:SetStatusBarTexture(db.texture)
+				end
 				--DARK
 				bordertopleft:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\RaidFrames\\RaidBorder-UpperLeft")
 				bordertop:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\RaidFrames\\RaidBorder-UpperMiddle")

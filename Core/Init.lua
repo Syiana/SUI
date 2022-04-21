@@ -36,6 +36,7 @@ local defaults = {
       statusglow = false,
       pvpbadge = false,
       combaticon = false,
+      hitindicator = false,
       links = false,
       buffs = {
         size = 26,
@@ -45,7 +46,9 @@ local defaults = {
         alwaysontop = false
       }
     },
-    raiframes = {},
+    raidframes = {
+      texture = 'Interface\\AddOns\\SUI\\Media\\Textures\\Status\\Flat',
+    },
     actionbar = {
       style = 'Default',
       buttons = {
@@ -85,9 +88,9 @@ local defaults = {
     },
     chat = {
       style = 'Custom',
-      top = false,
+      top = true,
       link = true,
-      copy = false,
+      copy = true,
       friendlist = true
     },
     maps = {
