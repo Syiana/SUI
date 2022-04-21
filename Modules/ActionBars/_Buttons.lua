@@ -1,15 +1,14 @@
 ﻿local Module = SUI:NewModule("ActionBars.Buttons");
 
 function Module:OnEnable()
+  local db = {
+    buttons = SUI.db.profile.actionbar.buttons,
+    color = SUI.db.profile.general.color
+  }
+  local dominos = IsAddOnLoaded("Dominos")
+  local bartender = IsAddOnLoaded("Bartender4")
   if (SUI:Color()) then
-    local db = {
-      buttons = SUI.db.profile.actionbar.buttons,
-      color = SUI.db.profile.general.color
-    }
-
     --Check for other Addons
-    local dominos = IsAddOnLoaded("Dominos")
-    local bartender = IsAddOnLoaded("Bartender4")
     if IsAddOnLoaded("Masque") and (dominos or bartender) then return end
 
     local config = {
@@ -372,86 +371,85 @@ function Module:OnEnable()
         bu.Back:SetBackdropBorderColor(0, 0, 0, 0.9)
     end
 
+    local function init()
+      for i = 1, NUM_ACTIONBAR_BUTTONS do
+        styleActionButton(_G["ActionButton" .. i])
+        styleActionButton(_G["MultiBarBottomLeftButton" .. i])
+        styleActionButton(_G["MultiBarBottomRightButton" .. i])
+        styleActionButton(_G["MultiBarRightButton" .. i])
+        styleActionButton(_G["MultiBarLeftButton" .. i])
+      end
+      for i = 0, 3 do
+        styleBag(_G["CharacterBag" .. i .. "Slot"])
+      end
+      styleBag(MainMenuBarBackpackButton)
+      for i = 1, 6 do
+        styleActionButton(_G["OverrideActionBarButton" .. i])
+      end
+      styleLeaveButton(MainMenuBarVehicleLeaveButton)
+      styleLeaveButton(rABS_LeaveVehicleButton)
+      for i = 1, NUM_PET_ACTION_SLOTS do
+            stylePetButton(_G["PetActionButton" .. i])
+          end
+          for i = 1, NUM_STANCE_SLOTS do
+            styleStanceButton(_G["StanceButton" .. i])
+          end
+          for i = 1, NUM_POSSESS_SLOTS do
+            stylePossessButton(_G["PossessButton" .. i])
+          end
+
+          styleExtraActionButton(ExtraActionButton1)
+          styleExtraActionButton(ZoneAbilityFrame.SpellButton)
+          SpellFlyoutBackgroundEnd:SetTexture(nil)
+          SpellFlyoutHorizontalBackground:SetTexture(nil)
+          SpellFlyoutVerticalBackground:SetTexture(nil)
+          local function checkForFlyoutButtons(self)
+            local NUM_FLYOUT_BUTTONS = 10
+            for i = 1, NUM_FLYOUT_BUTTONS do
+              styleActionButton(_G["SpellFlyoutButton" .. i])
+            end
+          end
+          SpellFlyout:HookScript("OnShow", checkForFlyoutButtons)
+
+          if dominos then
+            for i = 1, 60 do
+              styleActionButton(_G["DominosActionButton" .. i])
+            end
+          end
+          if bartender then
+            for i = 1, 120 do
+              styleActionButton(_G["BT4Button" .. i])
+              stylePetButton(_G["BT4PetButton" .. i])
+            end
+          end
+
+    end
+
+        init()
+  end
+  if not dominos and not bartender and not (db.buttons.key) then
     local function updateHotkey(self, actionButtonType)
         local ho = _G[self:GetName() .. "HotKey"]
         if ho and ho:IsShown() then
             ho:Hide()
         end
     end
-
-    local function init()
-        for i = 1, NUM_ACTIONBAR_BUTTONS do
-            styleActionButton(_G["ActionButton" .. i])
-            styleActionButton(_G["MultiBarBottomLeftButton" .. i])
-            styleActionButton(_G["MultiBarBottomRightButton" .. i])
-            styleActionButton(_G["MultiBarRightButton" .. i])
-            styleActionButton(_G["MultiBarLeftButton" .. i])
-        end
-        for i = 0, 3 do
-            styleBag(_G["CharacterBag" .. i .. "Slot"])
-        end
-        styleBag(MainMenuBarBackpackButton)
-        for i = 1, 6 do
-            styleActionButton(_G["OverrideActionBarButton" .. i])
-        end
-        styleLeaveButton(MainMenuBarVehicleLeaveButton)
-        styleLeaveButton(rABS_LeaveVehicleButton)
-        for i = 1, NUM_PET_ACTION_SLOTS do
-            stylePetButton(_G["PetActionButton" .. i])
-        end
-        for i = 1, NUM_STANCE_SLOTS do
-            styleStanceButton(_G["StanceButton" .. i])
-        end
-        for i = 1, NUM_POSSESS_SLOTS do
-            stylePossessButton(_G["PossessButton" .. i])
-        end
-
-        styleExtraActionButton(ExtraActionButton1)
-        styleExtraActionButton(ZoneAbilityFrame.SpellButton)
-        SpellFlyoutBackgroundEnd:SetTexture(nil)
-        SpellFlyoutHorizontalBackground:SetTexture(nil)
-        SpellFlyoutVerticalBackground:SetTexture(nil)
-        local function checkForFlyoutButtons(self)
-            local NUM_FLYOUT_BUTTONS = 10
-            for i = 1, NUM_FLYOUT_BUTTONS do
-                styleActionButton(_G["SpellFlyoutButton" .. i])
-            end
-        end
-        SpellFlyout:HookScript("OnShow", checkForFlyoutButtons)
-
-        if dominos then
-            for i = 1, 60 do
-                styleActionButton(_G["DominosActionButton" .. i])
-            end
-        end
-        if bartender then
-            for i = 1, 120 do
-                styleActionButton(_G["BT4Button" .. i])
-                stylePetButton(_G["BT4PetButton" .. i])
-            end
-        end
-
-        if not dominos and not bartender and not (db.buttons.key) then
-            local frame = CreateFrame("Frame")
-            frame:RegisterEvent("UPDATE_BINDINGS")
-            frame:RegisterEvent("PLAYER_ENTERING_WORLD")
-            frame:SetScript("OnEvent", function()
-                for i = 1, 12 do
-                    updateHotkey(_G["ActionButton"..i])
-                    updateHotkey(_G["MultiBarBottomLeftButton"..i])
-                    updateHotkey(_G["MultiBarBottomRightButton"..i])
-                    updateHotkey(_G["MultiBarLeftButton"..i])
-                    updateHotkey(_G["MultiBarRightButton"..i])
-                end
-                for i = 1, 10 do
-                    updateHotkey(_G["StanceButton"..i])
-                    updateHotkey(_G["PetActionButton"..i])
-                end
-                updateHotkey(ExtraActionButton1)
-            end)
-        end
-    end
-
-    init()
+    local frame = CreateFrame("Frame")
+    frame:RegisterEvent("UPDATE_BINDINGS")
+    frame:RegisterEvent("PLAYER_ENTERING_WORLD")
+    frame:SetScript("OnEvent", function()
+      for i = 1, 12 do
+        updateHotkey(_G["ActionButton"..i])
+        updateHotkey(_G["MultiBarBottomLeftButton"..i])
+        updateHotkey(_G["MultiBarBottomRightButton"..i])
+        updateHotkey(_G["MultiBarLeftButton"..i])
+        updateHotkey(_G["MultiBarRightButton"..i])
+      end
+      for i = 1, 10 do
+        updateHotkey(_G["StanceButton"..i])
+        updateHotkey(_G["PetActionButton"..i])
+      end
+      updateHotkey(ExtraActionButton1)
+    end)
   end
 end
