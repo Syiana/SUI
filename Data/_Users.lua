@@ -45,7 +45,8 @@ Data.specials = {
 Data.supporter = {
   {text = Colors.pala   .. 'Akna|r'},
   {text = Colors.priest .. 'Jojo|r'},
-  {text = Colors.priest .. 'Woogo|r'}
+  {text = Colors.priest .. 'Woogo|r'},
+  {text = Colors.pala .. 'Muleyo|r'}
 }
 
 Data.banned = {}
