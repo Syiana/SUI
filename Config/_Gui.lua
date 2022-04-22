@@ -294,6 +294,7 @@ function Gui:OnEnable()
             key = 'display.ilvl',
             type = 'checkbox',
             label = 'Item Infos',
+            tooltip = 'Display item level on item icons',
             column = 3,
             order = 1
           },
@@ -309,6 +310,7 @@ function Gui:OnEnable()
             key = 'display.fps',
             type = 'checkbox',
             label = 'FPS',
+            tooltip = 'Show current FPS',
             column = 2,
             order = 2
           },
@@ -316,6 +318,7 @@ function Gui:OnEnable()
             key = 'display.ms',
             type = 'checkbox',
             label = 'MS',
+            tooltip = 'Show current ping',
             column = 2,
             order = 3
           }
@@ -349,19 +352,22 @@ function Gui:OnEnable()
           class = {
             key = 'unitframes.classcolor',
             type = 'checkbox',
-            label = 'ClassColor',
+            label = 'Class Color',
+            tooltip = 'Change healthcolor to class color',
             column = 4,
           },
           pvp = {
             key = 'unitframes.pvpbadge',
             type = 'checkbox',
             label = 'PvP Badge',
+            tooltip = 'Display PVP icon on Unit frames',
             column = 4,
           },
           glow = {
             key = 'unitframes.statusglow',
             type = 'checkbox',
             label = 'Status Glow',
+            tooltip = 'Enable glow on Unit frames when in resting area',
             column = 4,
           }
         },
@@ -369,7 +375,7 @@ function Gui:OnEnable()
           hitindicator = {
             key = 'unitframes.hitindicator',
             type = 'checkbox',
-            label = 'Hitindicator',
+            label = 'Hit indicator',
             column = 4,
             order = 1
           },
@@ -377,6 +383,7 @@ function Gui:OnEnable()
             key = 'unitframes.combaticon',
             type = 'checkbox',
             label = 'Combat Icon',
+            tooltip = 'Display combat icon on Unit frames',
             column = 4,
             order = 2
           },
@@ -384,6 +391,7 @@ function Gui:OnEnable()
             key = 'unitframes.links',
             type = 'checkbox',
             label = 'Char Links',
+            tooltip = 'Extra menu to generate character-links for Check-PVP, Raider.io, etc.',
             column = 4,
             order = 3
           }
@@ -514,6 +522,7 @@ function Gui:OnEnable()
             label = 'Style',
             options = {
               { value = 'Default', text = 'Default' },
+              { value = 'DefaultNoBg', text = 'Default (hide background)'},
               { value = 'Small', text = 'Small' },
               { value = 'Classic', text = 'Classic' }
             },
@@ -533,6 +542,7 @@ function Gui:OnEnable()
             key = 'buttons.key',
             type = 'checkbox',
             label = 'Hotkeys Text',
+            tooltip = 'Show Hotkeys text',
             column = 4,
             order = 1
           },
@@ -540,6 +550,7 @@ function Gui:OnEnable()
             key = 'buttons.macro',
             type = 'checkbox',
             label = 'Macro Text',
+            tooltip = 'Show Macro text',
             column = 4,
             order = 2
           },
@@ -547,6 +558,7 @@ function Gui:OnEnable()
             key = 'gryphones',
             type = 'checkbox',
             label = 'Gryphones',
+            tooltip = 'Show actionbar gryphones',
             column = 4,
             order = 3
           }
@@ -556,6 +568,7 @@ function Gui:OnEnable()
             key = 'buttons.range',
             type = 'checkbox',
             label = 'Range Color',
+            tooltip = 'Show spell-color in red if out of range',
             column = 4,
             order = 1
           },
@@ -563,6 +576,7 @@ function Gui:OnEnable()
             key = 'buttons.flash',
             type = 'checkbox',
             label = 'Flash Animation',
+            tooltip = 'Flash spell-icon when pressing it',
             column = 4,
             order = 2
           }
@@ -596,12 +610,21 @@ function Gui:OnEnable()
             key = 'menu.mouseover',
             type = 'checkbox',
             label = 'Show on Mouseover',
+            tooltip = 'Show micromenu on mouseover',
             column = 4
           },
           bagbuttons = {
             key = 'menu.bagbuttons',
             type = 'checkbox',
             label = 'Hide bag buttons',
+            tooltip = 'Hide background & bag buttons in the micromenu',
+            column = 4
+          },
+          menutexture = {
+            key = 'menu.texture',
+            type = 'checkbox',
+            label = 'Hide texture',
+            tooltip = 'Hide only background of the micromenu',
             column = 4
           }
         },
@@ -694,6 +717,12 @@ function Gui:OnEnable()
             key = 'lifeontop',
             type = 'checkbox',
             label = 'Life on Top',
+            column = 4
+          },
+          hideincombat = {
+            key = 'hideincombat',
+            type = 'checkbox',
+            label = 'Hide in Combat',
             column = 4
           }
         }

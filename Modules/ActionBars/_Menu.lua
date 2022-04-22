@@ -56,4 +56,8 @@ function Menu:OnEnable()
     CharacterBag2Slot:Hide()
     CharacterBag3Slot:Hide()
   end
+
+  if (db.menu.texture) then
+    BagsBarTexture:Hide()
+  end
 end

@@ -261,4 +261,17 @@ function Module:OnEnable()
       TooltipAddSpellID(self,select(2,self:GetSpell()))
     end)
   end
+
+  if (db.hideincombat) then
+    local f = CreateFrame("Frame")
+    f:RegisterEvent("PLAYER_REGEN_DISABLED")
+    f:RegisterEvent("PLAYER_REGEN_ENABLED")
+    f:SetScript("OnEvent", function(self, event, ...)
+      if event == "PLAYER_REGEN_DISABLED" then
+        GameTooltip:SetScript('OnShow', GameTooltip.Hide)
+      else
+        GameTooltip:SetScript('OnShow', GameTooltip.Show)
+      end
+    end)
+  end
 end
