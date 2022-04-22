@@ -8,8 +8,6 @@ function Module:OnEnable()
   local dominos = IsAddOnLoaded("Dominos")
   local bartender = IsAddOnLoaded("Bartender4")
   if (SUI:Color()) then
-    if IsAddOnLoaded("Masque") and (dominos or bartender) then return end
-
     local config = {
         font = STANDARD_TEXT_FONT,
         textures = {
@@ -65,6 +63,8 @@ function Module:OnEnable()
             end
         end
     end)
+
+    if IsAddOnLoaded("Masque") and (dominos or bartender4) then return end
 
     local function applyBackground(bu)
         if not bu or (bu and bu.bg) then
