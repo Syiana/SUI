@@ -35,6 +35,9 @@ Data.specials = {
   {text = Colors.pala   .. 'Suqi|r'},
   {text = Colors.dh     .. 'Instababe|r'},
   {text = Colors.rog    .. 'Citney|r'},
+  {text = Colors.dk     .. 'Eyu|r'},
+  {text = Colors.mage   .. 'JosefeVerdi|r'},
+  {text = Colors.druid   .. 'Zonsy|r'},
   {text = Colors.pala   .. 'Lerthas|r'},
   {text = Colors.monk   .. 'Tizi|r'},
   {text = Colors.druid  .. 'Dary|r'},
@@ -65,7 +68,11 @@ Data.supporter = {
   {text = Colors.mage .. 'Remgax|r'},
   {text = Colors.mage .. 'dream_witch2020|r'},
   {text = Colors.monk .. 'DustyPiink|r'},
-  {text = Colors.monk .. 'Raknesso|r'}
+  {text = Colors.monk .. 'Raknesso|r'},
+  {text = Colors.druid .. 'PHIL741|r'},
+  {text = Colors.pala .. 'Koreanhammer|r'},
+  {text = Colors.monk .. 'Rulez|r'},
+  {text = Colors.druid .. 'Sonsi Gladiator|r'},
 }
 
 Data.banned = {}

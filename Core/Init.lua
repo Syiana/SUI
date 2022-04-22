@@ -60,6 +60,7 @@ local defaults = {
         padding = 5
       },
       menu = {
+        style = 'Default',
         mouseover = false
       },
       gryphones = true,

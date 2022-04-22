@@ -523,8 +523,7 @@ function Gui:OnEnable()
             options = {
               { value = 'Default', text = 'Default' },
               { value = 'DefaultNoBg', text = 'Default (hide background)'},
-              { value = 'Small', text = 'Small' },
-              { value = 'Classic', text = 'Classic' }
+              { value = 'Small', text = 'Small' }
             },
             initialValue = 1,
             column = 5,
@@ -606,27 +605,35 @@ function Gui:OnEnable()
           },
         },
         {
+          style = {
+            key = 'style',
+            type = 'dropdown',
+            label = 'Style',
+            options = {
+              { value = 'Default', text = 'Default' },
+              { value = 'Custom', text = 'Custom' },
+              { value = 'Hide', text = 'Custom (hide background)' },
+            },
+            initialValue = 1,
+            column = 4,
+            order = 1
+          },
           mouseover = {
             key = 'menu.mouseover',
             type = 'checkbox',
             label = 'Show on Mouseover',
             tooltip = 'Show micromenu on mouseover',
-            column = 4
+            column = 4,
+            order = 2
           },
           bagbuttons = {
             key = 'menu.bagbuttons',
             type = 'checkbox',
             label = 'Hide bag buttons',
             tooltip = 'Hide background & bag buttons in the micromenu',
-            column = 4
+            column = 4,
+            order = 3
           },
-          menutexture = {
-            key = 'menu.texture',
-            type = 'checkbox',
-            label = 'Hide texture',
-            tooltip = 'Hide only background of the micromenu',
-            column = 4
-          }
         },
       },
     },
