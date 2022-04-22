@@ -64,7 +64,7 @@ function Module:OnEnable()
         end
     end)
 
-    if IsAddOnLoaded("Masque") and (dominos or bartender4) then return end
+    if IsAddOnLoaded("Masque") and (dominos or bartender) then return end
 
     local function applyBackground(bu)
         if not bu or (bu and bu.bg) then
@@ -166,20 +166,20 @@ function Module:OnEnable()
         ho:ClearAllPoints()
         ho:SetPoint("TOPRIGHT", bu)
         ho:SetPoint("TOPLEFT", bu)
-        if not dominos and not bartender4 and not (db.buttons.key) then
-            ho:Hide()
+        if not dominos and not bartender and not (db.buttons.key) then
+          ho:Hide()
         end
         --na:SetFont(FONT, 12, "OUTLINE")
         na:ClearAllPoints()
         na:SetPoint("BOTTOMLEFT", bu)
         na:SetPoint("BOTTOMRIGHT", bu)
-        if not dominos and not bartender4 and not (db.buttons.macro) then
-            na:Hide()
+        if not dominos and not bartender and not (db.buttons.macro) then
+          na:Hide()
         end
         --co:SetFont(FONT, 12, "OUTLINE")
         co:ClearAllPoints()
         co:SetPoint("BOTTOMRIGHT", bu)
-        if not dominos and not bartender4 then
+        if not dominos and not bartender then
             --co:Hide()
         end
 
@@ -229,14 +229,10 @@ function Module:OnEnable()
             applyBackground(bu)
         end
         bu.rabs_styled = true
-        if bartender4 then
-            nt:SetTexCoord(0, 1, 0, 1)
-            nt.SetTexCoord = function()
-                return
-            end
-            bu.SetNormalTexture = function()
-                return
-            end
+        if bartender then
+          nt:SetTexCoord(0, 1, 0, 1)
+          nt.SetTexCoord = function() return end
+          bu.SetNormalTexture = function() return end
         end
     end
 
@@ -409,7 +405,6 @@ function Module:OnEnable()
             end
           end
           SpellFlyout:HookScript("OnShow", checkForFlyoutButtons)
-
           if dominos then
             for i = 1, 60 do
               styleActionButton(_G["DominosActionButton" .. i])
@@ -421,9 +416,7 @@ function Module:OnEnable()
               stylePetButton(_G["BT4PetButton" .. i])
             end
           end
-
     end
-
     init()
   end
   if not dominos and not bartender then
