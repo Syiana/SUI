@@ -5,12 +5,16 @@ function Skin:OnEnable()
   if not (Bartender) then return end
   if (SUI:Color()) then
     for i, v in pairs({
-      BT4StatusTrackingBarManager.SingleBarLarge,
-      BT4StatusTrackingBarManager.SingleBarSmall,
-      BT4StatusTrackingBarManager.SingleBarLargeUpper,
-      BT4StatusTrackingBarManager.SingleBarSmallUpper,
+      BT4StatusBarTrackingManager.SingleBarLarge,
+      BT4StatusBarTrackingManager.SingleBarSmall,
+      BT4StatusBarTrackingManager.SingleBarLargeUpper,
+      BT4StatusBarTrackingManager.SingleBarSmallUpper,
       BlizzardArtRightCap,
       BlizzardArtLeftCap,
+      BlizzardArtTex0,
+      BlizzardArtTex1,
+      BlizzardArtTex2,
+      BlizzardArtTex3,
     }) do
       v:SetVertexColor(unpack(SUI:Color(0.15)))
     end
