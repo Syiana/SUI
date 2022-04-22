@@ -695,6 +695,12 @@ function Gui:OnEnable()
             type = 'checkbox',
             label = 'Life on Top',
             column = 4
+          },
+          hideincombat = {
+            key = 'hideincombat',
+            type = 'checkbox',
+            label = 'Hide in Combat',
+            column = 4
           }
         }
       },
