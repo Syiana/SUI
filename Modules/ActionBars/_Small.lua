@@ -61,7 +61,6 @@ function Module:OnEnable()
 
       PetActionButton1:ClearAllPoints()
       PetActionButton1:SetPoint("BOTTOMLEFT", MultiBarBottomRightButton1, "TOPLEFT", 25, 15)
-      PetActionBarFrame:SetFrameStrata("HIGH")
 
       PossessButton1:ClearAllPoints()
       PossessButton1:SetPoint("BOTTOMLEFT", MultiBarBottomRightButton1, "TOPLEFT", 25, 30)
