@@ -339,7 +339,6 @@ function Gui:OnEnable()
           style = {
             key = 'unitframes.style',
             type = 'dropdown',
-            label = 'Style',
             options = {
               { value = 'Default', text = 'Default' },
               { value = 'Big', text = 'Big' },
@@ -519,7 +518,6 @@ function Gui:OnEnable()
           style = {
             key = 'style',
             type = 'dropdown',
-            label = 'Style',
             options = {
               { value = 'Default', text = 'Default' },
               { value = 'DefaultNoBg', text = 'Default (hide background)'},
@@ -606,9 +604,8 @@ function Gui:OnEnable()
         },
         {
           style = {
-            key = 'style',
+            key = 'menu.style',
             type = 'dropdown',
-            label = 'Style',
             options = {
               { value = 'Default', text = 'Default' },
               { value = 'Custom', text = 'Custom' },
@@ -651,7 +648,6 @@ function Gui:OnEnable()
           style = {
             key = 'style',
             type = 'dropdown',
-            label = 'Style',
             options = {
               { value = 'Default', text = 'Default' },
               { value = 'Custom', text = 'Custom' }
@@ -697,7 +693,6 @@ function Gui:OnEnable()
           style = {
             key = 'style',
             type = 'dropdown',
-            label = 'Style',
             options = {
               { value = 'Default', text = 'Default' },
               { value = 'Custom', text = 'Custom' }
@@ -917,7 +912,6 @@ function Gui:OnEnable()
           style = {
             key = 'style',
             type = 'dropdown',
-            label = 'Style',
             options = {
               { value = 'Default', text = 'Default' },
               { value = 'Custom', text = 'Custom' }
@@ -994,6 +988,21 @@ function Gui:OnEnable()
           }
         },
         {
+          interrupt = {
+            key = 'interrupt',
+            type = 'checkbox',
+            label = 'Interrupt',
+            column = 3,
+            order = 1
+          }
+        },
+        {
+          header = {
+            type = 'header',
+            label = 'PvP'
+          }
+        },
+        {
           safequeue = {
             key = 'safequeue',
             type = 'checkbox',
@@ -1014,14 +1023,7 @@ function Gui:OnEnable()
             label = 'Losecontrol',
             column = 3,
             order = 1
-          },
-          interrupt = {
-            key = 'interrupt',
-            type = 'checkbox',
-            label = 'Interrupt',
-            column = 3,
-            order = 1
-          },
+          }
         }
       },
     },

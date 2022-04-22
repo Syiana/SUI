@@ -18,7 +18,6 @@ MenuFrame:SetSize(Width, Height)
 function Menu:OnEnable()
   local db = SUI.db.profile.actionbar
   if (db.menu.style == 'Custom' or db.menu.style == 'Hide') then
-    print('Menu:OnEnable')
     MainMenuBarBackpackButton:SetParent(MenuFrame)
     CharacterBag0Slot:SetParent(MenuFrame)
     CharacterBag1Slot:SetParent(MenuFrame)
