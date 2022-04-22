@@ -5,5 +5,8 @@ function Module:OnEnable()
 
   if (db.style == 'DefaultNoBg') then
     MainMenuBarArtFrameBackground:Hide()
+    MainMenuBarArtFrame.PageNumber:Hide()
+    ActionBarUpButton:Hide()
+    ActionBarDownButton:Hide()
   end
 end
