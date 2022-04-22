@@ -1,13 +1,16 @@
-local Skin = SUI:NewModule("Skins.ClassicUI.Background");
+local Skin = SUI:NewModule("Skins.Bartender");
 
 function Skin:OnEnable()
-  local ClassicUI = IsAddOnLoaded("ClassicUI")
-  if not (ClassicUI) then return end
+  local Bartender = IsAddOnLoaded("Bartender4")
+  if not (Bartender) then return end
   if (SUI:Color()) then
     for i, v in pairs({
-      MainMenuBarArtFrameBackground.BackgroundLarge2,
-      MainMenuBarArtFrameBackground.BagsArt,
-      MainMenuBarArtFrameBackground.MicroButtonArt,
+      BT4StatusTrackingBarManager.SingleBarLarge,
+      BT4StatusTrackingBarManager.SingleBarSmall,
+      BT4StatusTrackingBarManager.SingleBarLargeUpper,
+      BT4StatusTrackingBarManager.SingleBarSmallUpper,
+      BlizzardArtRightCap,
+      BlizzardArtLeftCap,
     }) do
       v:SetVertexColor(unpack(SUI:Color(0.15)))
     end

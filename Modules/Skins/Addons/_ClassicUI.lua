@@ -1,4 +1,4 @@
-local Skin = SUI:NewModule("Skins.ClassicUI.Background");
+local Skin = SUI:NewModule("Skins.ClassicUI");
 
 function Skin:OnEnable()
   local ClassicUI = IsAddOnLoaded("ClassicUI")
