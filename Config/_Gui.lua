@@ -1,3 +1,4 @@
+local L = LibStub("AceLocale-3.0"):GetLocale("SUILocale")
 local Gui = SUI:NewModule("Config.Gui")
 
 --Imports
@@ -121,17 +122,17 @@ function Gui:OnEnable()
 
   --Categories
   local categories = {
-    {title = 'General', name = 'General'},
-    {title = 'Unitframes', name = 'Unitframes'},
+    { title = L['General'], name = 'General' },
+    {title = L['Unitframes'], name = 'Unitframes'},
     -- {title = 'Nameplates', name = 'Nameplates'},
-    {title = 'Actionbar', name = 'Actionbar'},
-    {title = 'Castbars', name = 'Castbars'},
-    {title = 'Tooltip', name = 'Tooltip'},
-    {title = 'Buffs', name = 'Buffs'},
-    {title = 'Map', name = 'Map'},
-    {title = 'Chat', name = 'Chat'},
-    {title = 'Misc', name = 'Misc'},
-    {title = 'FAQ', name = 'FAQ'},
+    {title = L['Actionbar'], name = 'Actionbar'},
+    {title = L['Castbars'], name = 'Castbars'},
+    {title = L['Tooltip'], name = 'Tooltip'},
+    {title = L['Buffs'], name = 'Buffs'},
+    {title = L['Map'], name = 'Map'},
+    {title = L['Chat'], name = 'Chat'},
+    {title = L['Misc'], name = 'Misc'},
+    {title = L['FAQ'], name = 'FAQ'},
     -- {title = 'Profiles', name = 'Profiles'},
   }
   local tabs = StdUi:TabPanel(config, nil, nil, categories, true, nil, 25)
@@ -146,14 +147,14 @@ function Gui:OnEnable()
         {
           header = {
             type = 'header',
-            label = 'General'
+            label = L['General']
           }
         },
         {
           theme = {
             key = 'theme',
             type = 'dropdown',
-            label = 'Theme',
+            label = L['Theme'],
             options = Themes.data,
             column = 4,
             order = 1
@@ -161,7 +162,7 @@ function Gui:OnEnable()
           font = {
             key = 'font',
             type = 'dropdown',
-            label = 'Font',
+            label = L['Font'],
             options = Fonts.data,
             column = 4,
             order = 2
@@ -169,7 +170,7 @@ function Gui:OnEnable()
           texture = {
             key = 'texture',
             type = 'dropdown',
-            label = 'Texture',
+            label = L['Texture'],
             options = Textures.data,
             column = 4,
             order = 3
@@ -179,7 +180,7 @@ function Gui:OnEnable()
           color = {
             key = 'color',
             type = 'color',
-            label = 'Custom Color',
+            label = L['Custom Color'],
             column = 3,
             update = function() end,
             cancel = function() end
@@ -188,39 +189,39 @@ function Gui:OnEnable()
         {
           header = {
             type = 'header',
-            label = 'Automation'
+            label = L['Automation']
           },
         },
         {
           repair = {
             key = 'automation.repair',
             type = 'checkbox',
-            label = 'Repair',
-            tooltip = 'Repairs your gear automatically',
+            label = L['Repair'],
+            tooltip = L['Repairs your gear automatically'],
             column = 3,
             order = 1
           },
           sell = {
             key = 'automation.sell',
             type = 'checkbox',
-            label = 'Sell',
-            tooltip = 'Sells grey items automatically',
+            label = L['Sell'],
+            tooltip = L['Sells grey items automatically'],
             column = 3,
             order = 2
           },
           delete = {
             key = 'automation.delete',
             type = 'checkbox',
-            label = 'Delete',
-            tooltip = 'Inserts "DELETE" when deleting Rare+ items',
+            label = L['Delete'],
+            tooltip = L['Inserts "DELETE" when deleting Rare+ items'],
             column = 3,
             order = 3
           },
           duel = {
             key = 'automation.decline',
             type = 'checkbox',
-            label = 'Duel',
-            tooltip = 'Declines duels automatically',
+            label = L['Duel'],
+            tooltip = L['Declines duels automatically'],
             column = 3,
             order = 3
           }
@@ -229,32 +230,32 @@ function Gui:OnEnable()
           release  = {
             key = 'automation.release',
             type = 'checkbox',
-            label = 'Release',
-            tooltip = 'Release automatically when you died',
+            label = L['Release'],
+            tooltip = L['Release automatically when you died'],
             column = 3,
             order = 1
           },
           resurrect = {
             key = 'automation.resurrect',
             type = 'checkbox',
-            label = 'Resurrect',
-            tooltip = 'Accept ress automatically',
+            label = L['Resurrect'],
+            tooltip = L['Accept ress automatically'],
             column = 3,
             order = 2
           },
           invite = {
             key = 'automation.invite',
             type = 'checkbox',
-            label = 'Invite',
-            tooltip = 'Accept group invite automatically',
+            label = L['Invite'],
+            tooltip = L['Accept group invite automatically'],
             column = 3,
             order = 3
           },
           cinematic = {
             key = 'automation.cinematic',
             type = 'checkbox',
-            label = 'Cinematic',
-            tooltip = 'Skip cinematics automatically',
+            label = L['Cinematic'],
+            tooltip = L['Skip cinematics automatically'],
             column = 3,
             order = 4
           },
@@ -262,23 +263,23 @@ function Gui:OnEnable()
         {
           header = {
             type = 'header',
-            label = 'Cosmetic'
+            label = L['Cosmetic']
           },
         },
         {
           afk = {
             key = 'cosmetic.afkscreen',
             type = 'checkbox',
-            label = 'AFK Screen',
-            tooltip = 'coming soon',
+            label = L['AFK Screen'],
+            tooltip = L['coming soon'],
             column = 3,
             order = 1
           },
           talkhead = {
             key = 'cosmetic.talkinghead',
             type = 'checkbox',
-            label = 'Talkinghead',
-            tooltip = 'Hide Talkinghead frame',
+            label = L['Talkinghead'],
+            tooltip = L['Hide Talkinghead frame'],
             column = 3,
             order = 2
           }
@@ -286,36 +287,36 @@ function Gui:OnEnable()
         {
           header = {
             type = 'header',
-            label = 'Display'
+            label = L['Display']
           },
         },
         {
           items = {
             key = 'display.ilvl',
             type = 'checkbox',
-            label = 'Item Infos',
+            label = L['Item Infos'],
             column = 3,
             order = 1
           },
           avgilvl = {
             key = 'display.avgilvl',
             type = 'checkbox',
-            label = 'Average iLvl',
-            tooltip = 'Display average item level on inspected players',
+            label = L['Average iLvl'],
+            tooltip = L['Display average item level on inspected players'],
             column = 3,
             order = 1
           },
           fps = {
             key = 'display.fps',
             type = 'checkbox',
-            label = 'FPS',
+            label = L['FPS'],
             column = 2,
             order = 2
           },
           ms = {
             key = 'display.ms',
             type = 'checkbox',
-            label = 'MS',
+            label = L['MS'],
             column = 2,
             order = 3
           }
@@ -329,18 +330,18 @@ function Gui:OnEnable()
         {
           header = {
             type = 'header',
-            label = 'Unitframes'
+            label = L['Unitframes']
           },
         },
         {
           style = {
             key = 'unitframes.style',
             type = 'dropdown',
-            label = 'Style',
+            label = L['Style'],
             options = {
-              { value = 'Default', text = 'Default' },
-              { value = 'Big', text = 'Big' },
-              { value = 'Small', text = 'Small' }
+              { value = 'Default', text = L['Default'] },
+              { value = 'Big', text = L['Big'] },
+              { value = 'Small', text = L['Small'] }
             },
             column = 5
           }
@@ -349,19 +350,19 @@ function Gui:OnEnable()
           class = {
             key = 'unitframes.classcolor',
             type = 'checkbox',
-            label = 'ClassColor',
+            label = L['ClassColor'],
             column = 4,
           },
           pvp = {
             key = 'unitframes.pvpbadge',
             type = 'checkbox',
-            label = 'PvP Badge',
+            label = L['PvP Badge'],
             column = 4,
           },
           glow = {
             key = 'unitframes.statusglow',
             type = 'checkbox',
-            label = 'Status Glow',
+            label = L['Status Glow'],
             column = 4,
           }
         },
@@ -369,21 +370,21 @@ function Gui:OnEnable()
           hitindicator = {
             key = 'unitframes.hitindicator',
             type = 'checkbox',
-            label = 'Hitindicator',
+            label = L['Hitindicator'],
             column = 4,
             order = 1
           },
           combat = {
             key = 'unitframes.combaticon',
             type = 'checkbox',
-            label = 'Combat Icon',
+            label = L['Combat Icon'],
             column = 4,
             order = 2
           },
           link = {
             key = 'unitframes.links',
             type = 'checkbox',
-            label = 'Char Links',
+            label = L['Char Links'],
             column = 4,
             order = 3
           }
@@ -391,21 +392,21 @@ function Gui:OnEnable()
         {
           header = {
             type = 'header',
-            label = 'Buffs'
+            label = L['Buffs']
           },
         },
         {
           border = {
             key = 'unitframes.buffs.purgeborder',
             type = 'checkbox',
-            label = 'Purge Border',
+            label = L['Purge Border'],
             column = 4,
             order = 1
           },
           size = {
             key = 'unitframes.buffs.size',
             type = 'slider',
-            label = 'Icon Size',
+            label = L['Icon Size'],
             max = 50,
             column = 5,
             order = 2
@@ -414,14 +415,14 @@ function Gui:OnEnable()
         {
           header = {
             type = 'header',
-            label = 'Raidframes'
+            label = L['Raidframes']
           },
         },
         {
           style = {
             key = 'raidframes.texture',
             type = 'dropdown',
-            label = 'Texture',
+            label = L['Texture'],
             options = Textures.data,
             column = 5
           }
@@ -434,16 +435,16 @@ function Gui:OnEnable()
         {
           header = {
             type = 'header',
-            label = 'Nameplates'
+            label = L['Nameplates']
           }
         },
         {
           style = {
             type = 'dropdown',
-            label = 'Style',
+            label = L['Style'],
             options = {
-              { value = 1, text = 'Default' },
-              { value = 2, text = 'Custom' }
+              { value = 1, text = L['Default'] },
+              { value = 2, text = L['Custom'] }
             },
             initialValue = 1,
             column = 5,
@@ -451,10 +452,10 @@ function Gui:OnEnable()
           },
           texture = {
             type = 'dropdown',
-            label = 'Texture',
+            label = L['Texture'],
             options = {
-              { value = 1, text = 'Stack' },
-              { value = 2, text = 'Overlap' },
+              { value = 1, text = L['Stack'] },
+              { value = 2, text = L['Overlap'] },
             },
             initialValue = 1,
             column = 5,
@@ -464,17 +465,17 @@ function Gui:OnEnable()
         {
           size = {
             type = 'slider',
-            label = 'Size',
+            label = L['Size'],
             max = 5,
             column = 5,
             order = 1
           },
           typ = {
             type = 'dropdown',
-            label = 'Typ',
+            label = L['Typ'],
             options = {
-              { value = 1, text = 'Stack' },
-              { value = 2, text = 'Overlap' },
+              { value = 1, text = L['Stack'] },
+              { value = 2, text = L['Overlap'] },
             },
             initialValue = 1,
             column = 5,
@@ -484,13 +485,13 @@ function Gui:OnEnable()
         {
           header = {
             type = 'header',
-            label = 'Extras'
+            label = L['Extras']
           }
         },
         {
           arena = {
             type = 'checkbox',
-            label = 'Arena Number',
+            label = L['Arena Number'],
             column = 4,
             order = 1
           },
@@ -504,18 +505,18 @@ function Gui:OnEnable()
         {
           header = {
             type = 'header',
-            label = 'Actionbar'
+            label = L['Actionbar']
           }
         },
         {
           style = {
             key = 'style',
             type = 'dropdown',
-            label = 'Style',
+            label = L['Style'],
             options = {
-              { value = 'Default', text = 'Default' },
-              { value = 'Small', text = 'Small' },
-              { value = 'Classic', text = 'Classic' }
+              { value = 'Default', text = L['Default'] },
+              { value = 'Small', text = L['Small'] },
+              { value = 'Classic', text = L['Classic'] }
             },
             initialValue = 1,
             column = 5,
@@ -525,28 +526,28 @@ function Gui:OnEnable()
         {
           header = {
             type = 'header',
-            label = 'Buttons'
+            label = L['Buttons']
           },
         },
         {
           hotkeys = {
             key = 'buttons.key',
             type = 'checkbox',
-            label = 'Hotkeys Text',
+            label = L['Hotkeys Text'],
             column = 4,
             order = 1
           },
           macros = {
             key = 'buttons.macro',
             type = 'checkbox',
-            label = 'Macro Text',
+            label = L['Macro Text'],
             column = 4,
             order = 2
           },
           gryphones = {
             key = 'gryphones',
             type = 'checkbox',
-            label = 'Gryphones',
+            label = L['Gryphones'],
             column = 4,
             order = 3
           }
@@ -555,14 +556,14 @@ function Gui:OnEnable()
           range = {
             key = 'buttons.range',
             type = 'checkbox',
-            label = 'Range Color',
+            label = L['Range Color'],
             column = 4,
             order = 1
           },
           flash = {
             key = 'buttons.flash',
             type = 'checkbox',
-            label = 'Flash Animation',
+            label = L['Flash Animation'],
             column = 4,
             order = 2
           }
@@ -571,7 +572,7 @@ function Gui:OnEnable()
           size = {
             key = 'buttons.size',
             type = 'slider',
-            label = 'Size',
+            label = L['Size'],
             max = 50,
             column = 4,
             order = 1
@@ -579,7 +580,7 @@ function Gui:OnEnable()
           padding = {
             key = 'buttons.padding',
             type = 'slider',
-            label = 'Padding',
+            label = L['Padding'],
             max = 50,
             column = 4,
             order = 2
@@ -588,20 +589,20 @@ function Gui:OnEnable()
         {
           header = {
             type = 'header',
-            label = 'Micro Menu'
+            label = L['Micro Menu']
           },
         },
         {
           mouseover = {
             key = 'menu.mouseover',
             type = 'checkbox',
-            label = 'Show on Mouseover',
+            label = L['Show on Mouseover'],
             column = 4
           },
           bagbuttons = {
             key = 'menu.bagbuttons',
             type = 'checkbox',
-            label = 'Hide bag buttons',
+            label = L['Hide bag buttons'],
             column = 4
           }
         },
@@ -614,17 +615,17 @@ function Gui:OnEnable()
         {
           header = {
             type = 'header',
-            label = 'Chastbars'
+            label = L['Castbars']
           }
         },
         {
           style = {
             key = 'style',
             type = 'dropdown',
-            label = 'Style',
+            label = L['Style'],
             options = {
-              { value = 'Default', text = 'Default' },
-              { value = 'Custom', text = 'Custom' }
+              { value = 'Default', text = L['Default'] },
+              { value = 'Custom', text = L['Custom'] }
             },
             initialValue = 1,
             column = 5,
@@ -634,20 +635,20 @@ function Gui:OnEnable()
         {
           header = {
             type = 'header',
-            label = 'Settings'
+            label = L['Settings']
           },
         },
         {
           mouseanchor = {
             key = 'icon',
             type = 'checkbox',
-            label = 'Icons',
+            label = L['Icons'],
             column = 4
           },
           lifeontop = {
             key = 'timer',
             type = 'checkbox',
-            label = 'Timer',
+            label = L['Timer'],
             column = 4
           }
         }
@@ -660,17 +661,17 @@ function Gui:OnEnable()
         {
           header = {
             type = 'header',
-            label = 'Tooltip'
+            label = L['Tooltip']
           }
         },
         {
           style = {
             key = 'style',
             type = 'dropdown',
-            label = 'Style',
+            label = L['Style'],
             options = {
-              { value = 'Default', text = 'Default' },
-              { value = 'Custom', text = 'Custom' }
+              { value = 'Default', text = L['Default'] },
+              { value = 'Custom', text = L['Custom'] }
             },
             initialValue = 1,
             column = 5,
@@ -680,20 +681,20 @@ function Gui:OnEnable()
         {
           header = {
             type = 'header',
-            label = 'Settings'
+            label = L['Settings']
           },
         },
         {
           mouseanchor = {
             key = 'mouseanchor',
             type = 'checkbox',
-            label = 'Mouseanchor',
+            label = L['Mouseanchor'],
             column = 4
           },
           lifeontop = {
             key = 'lifeontop',
             type = 'checkbox',
-            label = 'Life on Top',
+            label = L['Life on Top'],
             column = 4
           }
         }
@@ -706,14 +707,14 @@ function Gui:OnEnable()
         {
           header = {
             type = 'header',
-            label = 'Buffs'
+            label = L['Buffs']
           }
         },
         {
           size = {
             key = 'buff.size',
             type = 'slider',
-            label = 'Size',
+            label = L['Size'],
             max = 100,
             column = 4,
             order = 1
@@ -721,7 +722,7 @@ function Gui:OnEnable()
           padding = {
             key = 'buff.padding',
             type = 'slider',
-            label = 'Padding',
+            label = L['Padding'],
             max = 5,
             column = 4,
             order = 3
@@ -731,7 +732,7 @@ function Gui:OnEnable()
           icons = {
             key = 'buff.icons',
             type = 'slider',
-            label = 'Icons Row',
+            label = L['Icons Row'],
             max = 20,
             column = 8
           },
@@ -739,14 +740,14 @@ function Gui:OnEnable()
         {
           header = {
             type = 'header',
-            label = 'Debuffs'
+            label = L['Debuffs']
           }
         },
         {
           size = {
             key = 'debuff.size',
             type = 'slider',
-            label = 'Size',
+            label = L['Size'],
             max = 100,
             column = 4,
             order = 1
@@ -754,7 +755,7 @@ function Gui:OnEnable()
           padding = {
             key = 'debuff.padding',
             type = 'slider',
-            label = 'Padding',
+            label = L['Padding'],
             max = 5,
             column = 4,
             order = 3
@@ -764,7 +765,7 @@ function Gui:OnEnable()
           icons = {
             key = 'debuff.icons',
             type = 'slider',
-            label = 'Icons Row',
+            label = L['Icons Row'],
             max = 20,
             column = 8
           },
@@ -778,30 +779,30 @@ function Gui:OnEnable()
         {
           header = {
             type = 'header',
-            label = 'Worldmap'
+            label = L['Worldmap']
           }
         },
         {
           small = {
 		      	key = 'small',
             type = 'checkbox',
-            label = 'Small Map',
-            tooltip = 'coming soon.',
+            label = L['Small Map'],
+            tooltip = L['coming soon'],
             column = 4,
             order = 1
           },
           cords = {
 		      	key = 'coords',
             type = 'checkbox',
-            label = 'Coords',
+            label = L['Coords'],
             column = 4,
             order = 2
           },
           opacity = {
 		  	    key = 'opacity',
             type = 'checkbox',
-            label = 'Opacity',
-            tooltip = 'coming soon.',
+            label = L['Opacity'],
+            tooltip = L['coming soon'],
             column = 4,
             order = 3
           }
@@ -809,17 +810,17 @@ function Gui:OnEnable()
         {
           header = {
             type = 'header',
-            label = 'Minimap'
+            label = L['Minimap']
           }
         },
         {
           style = {
             key = 'style',
             type = 'dropdown',
-            label = 'Style',
+            label = L['Style'],
             options = {
-              { value = 'Default', text = 'Default' },
-              { value = 'Legion', text = 'Legion' }
+              { value = 'Default', text = L['Default'] },
+              { value = 'Legion', text = L['Legion'] }
             },
             initialValue = 1,
             column = 5,
@@ -830,21 +831,21 @@ function Gui:OnEnable()
           showminimap = {
 			      key = 'minimap',
             type = 'checkbox',
-            label = 'Show Minimap',
+            label = L['Show Minimap'],
             column = 4,
             order = 1
           },
           showclock = {
 			      key = 'clock',
             type = 'checkbox',
-            label = 'Show Clock',
+            label = L['Show Clock'],
             column = 4,
             order = 2
           },
           showdate = {
 			      key = 'date',
             type = 'checkbox',
-            label = 'Show Date',
+            label = L['Show Date'],
             column = 4,
             order = 3
           }
@@ -853,14 +854,14 @@ function Gui:OnEnable()
           showgarrison = {
 			      key = 'garrison',
             type = 'checkbox',
-            label = 'Garrison Symbol',
+            label = L['Garrison Symbol'],
             column = 4,
             order = 1
           },
           showtracking = {
 			      key = 'tracking',
             type = 'checkbox',
-            label = 'Tracking Symbol',
+            label = L['Tracking Symbol'],
             column = 4,
             order = 2
           }
@@ -874,17 +875,17 @@ function Gui:OnEnable()
         {
           header = {
             type = 'header',
-            label = 'Chat'
+            label = L['Chat']
           }
         },
         {
           style = {
             key = 'style',
             type = 'dropdown',
-            label = 'Style',
+            label = L['Style'],
             options = {
-              { value = 'Default', text = 'Default' },
-              { value = 'Custom', text = 'Custom' }
+              { value = 'Default', text = L['Default'] },
+              { value = 'Custom', text = L['Custom'] }
             },
             column = 5,
             order = 1
@@ -894,21 +895,21 @@ function Gui:OnEnable()
           hotkeys = {
             key = 'top',
             type = 'checkbox',
-            label = 'Input on Top',
+            label = L['Input on Top'],
             column = 4,
             order = 1
           },
           link = {
             key = 'link',
             type = 'checkbox',
-            label = 'Link copy',
+            label = L['Link copy'],
             column = 4,
             order = 2
           },
           copy = {
             key = 'copy',
             type = 'checkbox',
-            label = 'Copy Symbol',
+            label = L['Copy Symbol'],
             column = 4,
             order = 3
           }
@@ -916,14 +917,14 @@ function Gui:OnEnable()
         {
           header = {
             type = 'header',
-            label = 'Friendlist'
+            label = L['Friendlist']
           }
         },
         {
           friendlist = {
             key = 'friendlist',
             type = 'checkbox',
-            label = 'Class-Friendlist',
+            label = L['Class-Friendlist'],
             column = 4,
             order = 1
           }
@@ -937,15 +938,15 @@ function Gui:OnEnable()
         {
           header = {
             type = 'header',
-            label = 'Misc'
+            label = L['Misc']
           }
         },
         {
           cvars = {
             type = 'button',
-            text = 'CVars Browser',
+            text = L['CVars Browser'],
             onClick = function()
-              print("coming soon...");
+              print(L['coming soon...']);
             end,
             column = 3,
             order = 3
@@ -954,35 +955,35 @@ function Gui:OnEnable()
         {
           header = {
             type = 'header',
-            label = 'General'
+            label = L['General']
           }
         },
         {
           safequeue = {
             key = 'safequeue',
             type = 'checkbox',
-            label = 'Safequeue',
+            label = L['Safequeue'],
             column = 3,
             order = 1
           },
           tabbinder = {
             key = 'tabbinder',
             type = 'checkbox',
-            label = 'Tabbinder',
+            label = L['Tabbinder'],
             column = 3,
             order = 1
           },
           losecontrol = {
             key = 'losecontrol',
             type = 'checkbox',
-            label = 'Losecontrol',
+            label = L['Losecontrol'],
             column = 3,
             order = 1
           },
           interrupt = {
             key = 'interrupt',
             type = 'checkbox',
-            label = 'Interrupt',
+            label = L['Interrupt'],
             column = 3,
             order = 1
           },
@@ -995,13 +996,13 @@ function Gui:OnEnable()
         {
           header = {
             type = 'header',
-            label = 'Credits'
+            label = L['Credits']
           }
         },
         {
           team = {
             type = 'scroll',
-            label = 'Team',
+            label = L['Team'],
             scrollChild = function(self)
               local items = {};
               local function update(parent, label, data)
@@ -1020,7 +1021,7 @@ function Gui:OnEnable()
           },
           special = {
             type = 'scroll',
-            label = 'Specials',
+            label = L['Specials'],
             scrollChild = function(self)
               local items = {};
               local function update(parent, label, data)
@@ -1039,7 +1040,7 @@ function Gui:OnEnable()
           },
           supporter = {
             type = 'scroll',
-            label = 'Supporter',
+            label = L['Supporter'],
             scrollChild = function(self)
               local items = {};
               local function update(parent, label, data)
@@ -1060,43 +1061,43 @@ function Gui:OnEnable()
         {
           header = {
             type = 'header',
-            label = 'Help'
+            label = L['Help']
           }
         },
         {
           discord = {
             type = 'button',
-            text = 'Discord',
+            text = L['Discord'],
             onClick = function()
-              StdUi:Dialog('Discord', 'discord.gg/yBWkxxR')
+              StdUi:Dialog(L['Discord'], L['discord.gg/yBWkxxR'])
             end,
             column = 3,
             order = 1
           },
           twitch = {
             type = 'button',
-            text = 'Twitch',
+            text = L['Twitch'],
             onClick = function()
-              StdUi:Dialog('Twitch', 'twitch.tv/syiana')
+              StdUi:Dialog(L['Twitch'], L['twitch.tv/syiana'])
             end,
             column = 3,
             order = 2
           },
           reset = {
             type = 'button',
-            text = 'Reset UI',
+            text = L['Reset UI'],
             onClick = function()
               local buttons = {
                 ok = {
-                  text    = 'Confirm',
+                  text    = L['Confirm'],
                   onClick = function() db:ResetProfile() ReloadUI() end
                 },
                 cancel = {
-                  text    = 'Cancel',
+                  text    = L['Cancel'],
                   onClick = function(self) self:GetParent():Hide() end
                 }
               }
-              StdUi:Confirm('Reset UI', 'This will reset your profile', buttons)
+              StdUi:Confirm(L['Reset UI'], L['This will reset your profile'], buttons)
             end,
             column = 3,
             order = 3
@@ -1110,16 +1111,16 @@ function Gui:OnEnable()
         {
           header = {
             type = 'header',
-            label = 'Profiles'
+            label = L['Profiles']
           }
         },
         {
           profile = {
             type = 'dropdown',
-            label = 'Profile',
+            label = L['Profile'],
             options = {
-              { value = 1, text = 'Default' },
-              { value = 2, text = 'Custom' }
+              { value = 1, text = L['Default'] },
+              { value = 2, text = L['Custom'] }
             },
             initialValue = 1,
             column = 6,
@@ -1129,10 +1130,10 @@ function Gui:OnEnable()
         {
           copy = {
             type = 'dropdown',
-            label = 'Copy from',
+            label = L['Copy from'],
             options = {
-              { value = 1, text = 'Default' },
-              { value = 2, text = 'Custom' }
+              { value = 1, text = L['Default'] },
+              { value = 2, text = L['Custom'] }
             },
             initialValue = 1,
             column = 6,
@@ -1142,28 +1143,28 @@ function Gui:OnEnable()
         {
           new = {
             type = 'button',
-            text = 'New',
+            text = L['New'],
             onClick = function()
-              print("new profile");
+              print(L['new profile']);
             end,
             column = 3,
             order = 1
           },
           delete = {
             type = 'button',
-            text = 'Delete',
+            text = L['Delete'],
             column = 3,
             order = 2
           },
           export = {
             type = 'button',
-            text = 'Export',
+            text = L['Export'],
             column = 3,
             order = 3
           },
           import = {
             type = 'button',
-            text = 'Import',
+            text = L['Import'],
             column = 3,
             order = 4
           }

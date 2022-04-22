@@ -4,6 +4,9 @@
 ## Title: |cfff58cbaS|r|cff009cffUI|r BETA
 ## SavedVariables: SUIDB
 
+## Locale
+Locale\Load.xml
+
 ## LIBS
 Libs\Load.xml
 ## MEDIA
@@ -16,3 +19,4 @@ Data\Load.xml
 Modules\Load.xml
 ## CONFIG
 Config\Load.xml
+

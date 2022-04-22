@@ -1,3 +1,4 @@
+local L = LibStub("AceLocale-3.0"):GetLocale("SUILocale")
 local Edit = SUI:NewModule("Config.Edit");
 
 function Edit:OnEnable()
@@ -93,7 +94,7 @@ function Edit:OnEnable()
 		self.DragFrame.label:SetJustifyV("TOP")
 
 		-- Tooltip
-		StdUi:FrameTooltip(self.DragFrame, 'Hold ALT to move the Frame!', 'Tooltip', 'TOP', true)
+		StdUi:FrameTooltip(self.DragFrame, L['Hold ALT to move the Frame!'], 'Tooltip', 'TOP', true)
 
     -- Create DB
     if not (SUI.db.profile.edit[frame]) then SUI.db.profile.edit[frame] = {} end
@@ -165,7 +166,7 @@ function Edit:OnEnable()
 	EditFrame.titlePanel:SetPoint('RIGHT', -10, 0)
   EditFrame:Hide()
 
-	local GridCheckbox = StdUi:Checkbox(EditFrame, 'Show Grid')
+	local GridCheckbox = StdUi:Checkbox(EditFrame, L['Show Grid'])
 	StdUi:GlueTop(GridCheckbox, EditFrame, 0, -40, 'CENTER')
   GridCheckbox:SetChecked(true)
 	GridCheckbox:SetScript("OnClick", function(self)
@@ -174,27 +175,27 @@ function Edit:OnEnable()
     self:SetChecked(not checked)
 	end)
 
-	local SaveButton = StdUi:Button(EditFrame, 90, 20, 'Save')
+	local SaveButton = StdUi:Button(EditFrame, 90, 20, L['Save'])
 	StdUi:GlueBottom(SaveButton, EditFrame, 10, 10, 'LEFT')
 	SaveButton:SetScript('OnClick', function()
 		SUI:Edit()
 		SUI:Config()
 	end)
 
-	local ResetButton = StdUi:Button(EditFrame, 90, 20, 'Reset')
+	local ResetButton = StdUi:Button(EditFrame, 90, 20, L['Reset'])
 	StdUi:GlueBottom(ResetButton, EditFrame, -10, 10, 'RIGHT')
 	ResetButton:SetScript('OnClick', function()
     local buttons = {
       ok = {
-        text    = 'Confirm',
+        text    = L['Confirm'],
         onClick = function() SUI.db.profile.edit = {} ReloadUI() end
       },
       cancel = {
-        text    = 'Cancel',
+        text    = L['Cancel'],
         onClick = function(self) self:GetParent():Hide(); end
       }
     }
-    StdUi:Confirm('Reset Frames', 'This will reset your frames', buttons)
+    StdUi:Confirm(L['Reset Frames'], L['This will reset your frames'], buttons)
 	end)
 
 	function SUI:Edit()
