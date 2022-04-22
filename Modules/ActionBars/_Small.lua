@@ -27,6 +27,8 @@ function Module:OnEnable()
       ArtifactWatchBar,
       HonorWatchBar,
       MainMenuBarArtFrame.PageNumber,
+      SlidingActionBarTexture0,
+      SlidingActionBarTexture1,
     }
 
     for _, frame in pairs(BlizzArt) do
