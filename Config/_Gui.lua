@@ -522,6 +522,7 @@ function Gui:OnEnable()
             label = 'Style',
             options = {
               { value = 'Default', text = 'Default' },
+              { value = 'DefaultNoBg', text = 'Default (hide background)'},
               { value = 'Small', text = 'Small' },
               { value = 'Classic', text = 'Classic' }
             },
