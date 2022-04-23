@@ -2,7 +2,6 @@ local Buffs = SUI:NewModule("Buffs.Core");
 
 function Buffs:OnEnable()
     local db = SUI.db.profile.buffs
-
     if (db) then
       FONT = STANDARD_TEXT_FONT
 
@@ -24,17 +23,12 @@ function Buffs:OnEnable()
       end
 
       local backdrop = {
-          bgFile = nil,
-          edgeFile = "Interface\\Addons\\SUI\\Media\\Textures\\Core\\outer_shadow",
-          tile = false,
-          tileSize = 32,
-          edgeSize = 6,
-          insets = {
-              left = 6,
-              right = 6,
-              top = 6,
-              bottom = 6,
-          },
+        bgFile = nil,
+        edgeFile = "Interface\\Addons\\SUI\\Media\\Textures\\Core\\outer_shadow",
+        tile = false,
+        tileSize = 32,
+        edgeSize = 6,
+        insets = { left = 6, right = 6, top = 6, bottom = 6 },
       }
 
       local settings
@@ -52,13 +46,13 @@ function Buffs:OnEnable()
 
           local tempenchant, consolidated, debuff, buff = false, false, false, false
           if (name:match("TempEnchant")) then
-              tempenchant = true
+            tempenchant = true
           elseif (name:match("Consolidated")) then
-              consolidated = true
+            consolidated = true
           elseif (name:match("Debuff")) then
-              debuff = true
+            debuff = true
           else
-              buff = true
+            buff = true
           end
 
           if debuff then
@@ -100,54 +94,54 @@ function Buffs:OnEnable()
                   }
               }
           else
-              settings = {
-                  pos = {a1 = "TOPRIGHT", af = "Minimap", a2 = "TOPLEFT", x = -35, y = 0},
-                  gap = 30,
-                  userplaced = true,
-                  rowSpacing = 10,
-                  colSpacing = 7,
-                  buttonsPerRow = db.buff.icons,
-                  button = {
-                    size = db.buff.size
-                  },
-                  icon = {
-                    padding = -db.buff.padding
-                  },
-                  border = {
-                    texture = "Interface\\Addons\\SUI\\Media\\Textures\\Core\\gloss",
-                    color = {r = 0.4, g = 0.35, b = 0.35},
-                    classcolored = false
-                  },
-                  background = {
-                    show = true,
-                    edgeFile = "Interface\\Addons\\SUI\\Media\\Textures\\Core\\outer_shadow",
-                    color = {r = 0, g = 0, b = 0, a = 0.9},
-                    classcolored = false,
-                    inset = 6,
-                    padding = 4
-                  },
-                  duration = {
-                    font = STANDARD_TEXT_FONT,
-                    size = 12,
-                    pos = {a1 = "BOTTOM", x = 0, y = 0}
-                  },
-                  count = {
-                    font = STANDARD_TEXT_FONT,
-                    size = 11,
-                    pos = {a1 = "TOPRIGHT", x = 0, y = 0}
-                  }
-              }
+            settings = {
+                pos = {a1 = "TOPRIGHT", af = "Minimap", a2 = "TOPLEFT", x = -35, y = 0},
+                gap = 30,
+                userplaced = true,
+                rowSpacing = 10,
+                colSpacing = 7,
+                buttonsPerRow = db.buff.icons,
+                button = {
+                  size = db.buff.size
+                },
+                icon = {
+                  padding = -db.buff.padding
+                },
+                border = {
+                  texture = "Interface\\Addons\\SUI\\Media\\Textures\\Core\\gloss",
+                  color = {r = 0.4, g = 0.35, b = 0.35},
+                  classcolored = false
+                },
+                background = {
+                  show = true,
+                  edgeFile = "Interface\\Addons\\SUI\\Media\\Textures\\Core\\outer_shadow",
+                  color = {r = 0, g = 0, b = 0, a = 0.9},
+                  classcolored = false,
+                  inset = 6,
+                  padding = 4
+                },
+                duration = {
+                  font = STANDARD_TEXT_FONT,
+                  size = 12,
+                  pos = {a1 = "BOTTOM", x = 0, y = 0}
+                },
+                count = {
+                  font = STANDARD_TEXT_FONT,
+                  size = 11,
+                  pos = {a1 = "TOPRIGHT", x = 0, y = 0}
+                }
+            }
           end
 
           b:SetSize(settings.button.size, settings.button.size)
 
           local icon = _G[name.."Icon"]
           if consolidated then
-              if select(1,UnitFactionGroup("player")) == "Alliance" then
-                  icon:SetTexture(select(3,GetSpellInfo(61573)))
-              elseif select(1,UnitFactionGroup("player")) == "Horde" then
-                  icon:SetTexture(select(3,GetSpellInfo(61574)))
-              end
+            if select(1,UnitFactionGroup("player")) == "Alliance" then
+              icon:SetTexture(select(3,GetSpellInfo(61573)))
+            elseif select(1,UnitFactionGroup("player")) == "Horde" then
+              icon:SetTexture(select(3,GetSpellInfo(61574)))
+            end
           end
           icon:SetTexCoord(0.1,0.9,0.1,0.9)
           icon:ClearAllPoints()
@@ -161,9 +155,9 @@ function Buffs:OnEnable()
           border:SetTexCoord(0,1,0,1)
           border:SetDrawLayer("BACKGROUND",-7)
           if tempenchant then
-              border:SetVertexColor(0.7,0,1)
+            border:SetVertexColor(0.7,0,1)
           elseif not debuff then
-              border:SetVertexColor(settings.border.color.r,settings.border.color.g,settings.border.color.b)
+            border:SetVertexColor(settings.border.color.r,settings.border.color.g,settings.border.color.b)
           end
           border:ClearAllPoints()
           border:SetAllPoints(b)
@@ -178,13 +172,13 @@ function Buffs:OnEnable()
           b.count:SetPoint(settings.count.pos.a1,settings.count.pos.x,settings.count.pos.y)
 
           if settings.background.show then
-              local back = CreateFrame("Frame", nil, b, "BackdropTemplate")
-              back:SetPoint("TOPLEFT", b, "TOPLEFT", -settings.background.padding, settings.background.padding)
-              back:SetPoint("BOTTOMRIGHT", b, "BOTTOMRIGHT", settings.background.padding, -settings.background.padding)
-              back:SetFrameLevel(b:GetFrameLevel() - 1)
-              back:SetBackdrop(backdrop)
-              back:SetBackdropBorderColor(unpack(SUI:Color(0.25, 0.9)))
-              b.bg = back
+            local back = CreateFrame("Frame", nil, b, "BackdropTemplate")
+            back:SetPoint("TOPLEFT", b, "TOPLEFT", -settings.background.padding, settings.background.padding)
+            back:SetPoint("BOTTOMRIGHT", b, "BOTTOMRIGHT", settings.background.padding, -settings.background.padding)
+            back:SetFrameLevel(b:GetFrameLevel() - 1)
+            back:SetBackdrop(backdrop)
+            back:SetBackdropBorderColor(unpack(SUI:Color(0.25, 0.9)))
+            b.bg = back
           end
 
           b.styled = true
@@ -192,23 +186,20 @@ function Buffs:OnEnable()
       end
 
       local function updateDebuffAnchors(buttonName,index)
-          local button = _G[buttonName..index]
-          if not button then return end
-
-          if not button.styled then applySkin(button) end
-
-          button:ClearAllPoints()
-          if index == 1 then
-              button:SetPoint("TOPRIGHT", DebuffDragFrame, "TOPRIGHT", 0, 0)
-          elseif index > 1 and mod(index, 10) == 1 then
-              button:SetPoint("TOPRIGHT", _G[buttonName..(index-10)], "BOTTOMRIGHT", 0, -10)
-          else
-              button:SetPoint("TOPRIGHT", _G[buttonName..(index-1)], "TOPLEFT", -7, 0)
-          end
+        local button = _G[buttonName..index]
+        if not button then return end
+        if not button.styled then applySkin(button) end
+        button:ClearAllPoints()
+        if index == 1 then
+          button:SetPoint("TOPRIGHT", DebuffDragFrame, "TOPRIGHT", 0, 0)
+        elseif index > 1 and mod(index, settings.buttonsPerRow) == 1 then
+          button:SetPoint("TOPRIGHT", _G[buttonName..(index-settings.buttonsPerRow)], "BOTTOMRIGHT", 0, -settings.rowSpacing)
+        else
+          button:SetPoint("TOPRIGHT", _G[buttonName..(index-1)], "TOPLEFT", -settings.colSpacing, 0)
+        end
       end
 
       local function updateAllBuffAnchors()
-
           local buttonName  = "BuffButton"
           local numEnchants = BuffFrame.numEnchants
           local numBuffs    = BUFF_ACTUAL_DISPLAY
@@ -222,37 +213,30 @@ function Buffs:OnEnable()
               previousButton = _G["TempEnchant"..numEnchants]
           end
 
-          if numEnchants > 0 then
-              aboveButton = TempEnchant1
-          end
-
+          if numEnchants > 0 then aboveButton = TempEnchant1 end
           local buffCounter = 0
           for index = 1, numBuffs do
-              local button = _G[buttonName..index]
-              if not button then return end
-              if not button.consolidated then
-                  buffCounter = buffCounter + 1
-
-                  if not button.styled then applySkin(button) end
-
-                  button:ClearAllPoints()
-                  realIndex = buffCounter+offset
-                  if realIndex == 1 then
-                      button:SetPoint("TOPRIGHT", BuffDragFrame, "TOPRIGHT", 0, 0)
-                      aboveButton = button
-                  elseif realIndex > 1 and mod(realIndex, 10) == 1 then
-                      button:SetPoint("TOPRIGHT", aboveButton, "BOTTOMRIGHT", 0, -10)
-                      aboveButton = button
-                  else
-                      button:SetPoint("TOPRIGHT", previousButton, "TOPLEFT", -7, 0)
-                  end
-                  previousButton = button
-
+            local button = _G[buttonName..index]
+            if not button then return end
+            if not button.consolidated then
+              buffCounter = buffCounter + 1
+              if not button.styled then applySkin(button) end
+              button:ClearAllPoints()
+              realIndex = buffCounter+offset
+              if realIndex == 1 then
+                  button:SetPoint("TOPRIGHT", BuffDragFrame, "TOPRIGHT", 0, 0)
+                  aboveButton = button
+              elseif realIndex > 1 and mod(realIndex, settings.buttonsPerRow) == 1 then
+                  button:SetPoint("TOPRIGHT", aboveButton, "BOTTOMRIGHT", 0, -10)
+                  aboveButton = button
+              else
+                  button:SetPoint("TOPRIGHT", previousButton, "TOPLEFT", -7, 0)
               end
+              previousButton = button
+            end
           end
-
-          local rows = ceil((buffCounter+offset)/10)
-          local height = 32*rows + 10*rows + 30*min(1,rows)
+          local rows = ceil((buffCounter+offset) / settings.buttonsPerRow)
+          local height = settings.button.size*rows+10*rows+settings.gap* min(1, rows)
           buffFrameHeight = height
       end
 
@@ -270,5 +254,4 @@ function Buffs:OnEnable()
       hooksecurefunc("BuffFrame_UpdateAllBuffAnchors", updateAllBuffAnchors)
       hooksecurefunc("DebuffButton_UpdateAnchors", updateDebuffAnchors)
   end
-
 end
