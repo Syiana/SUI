@@ -106,7 +106,7 @@ function Gui:OnEnable()
   end)
 
   --Edit
-  local edit = StdUi:Button(config, 160, 25, 'Edit')
+  local edit = StdUi:Button(config, 160, 25, L['Edit'])
   StdUi:GlueBottom(edit, config, 10, 36, 'LEFT')
   edit:SetScript('OnClick', function()
     SUI:Config()
@@ -114,7 +114,7 @@ function Gui:OnEnable()
   end)
 
   --Save
-  local save = StdUi:Button(config, 160, 25, 'Save')
+  local save = StdUi:Button(config, 160, 25, L['Save'])
   StdUi:GlueBottom(save, config, 10, 10, 'LEFT')
   save:SetScript('OnClick', function()
     ReloadUI()
@@ -610,9 +610,9 @@ function Gui:OnEnable()
             key = 'menu.style',
             type = 'dropdown',
             options = {
-              { value = 'Default', text = 'Default' },
-              { value = 'Custom', text = 'Custom' },
-              { value = 'Hide', text = 'Custom (hide background)' },
+              { value = 'Default', text = L['Default'] },
+              { value = 'Custom', text = L['Custom'] },
+              { value = 'Hide', text = L['Custom (hide background)'] },
             },
             initialValue = 1,
             column = 4,
@@ -729,7 +729,7 @@ function Gui:OnEnable()
           hideincombat = {
             key = 'hideincombat',
             type = 'checkbox',
-            label = 'Hide in Combat',
+            label = L['Hide in Combat'],
             column = 4
           }
         }
@@ -997,7 +997,7 @@ function Gui:OnEnable()
           interrupt = {
             key = 'interrupt',
             type = 'checkbox',
-            label = 'Interrupt',
+            label = L['Interrupt'],
             column = 3,
             order = 1
           }
@@ -1005,7 +1005,7 @@ function Gui:OnEnable()
         {
           header = {
             type = 'header',
-            label = 'PvP'
+            label = L['PvP']
           }
         },
         {
@@ -1030,16 +1030,9 @@ function Gui:OnEnable()
             column = 3,
             order = 1
           },
-          interrupt = {
-            key = 'interrupt',
-            type = 'checkbox',
-            label = L['Interrupt'],
-            column = 3,
-            order = 1
-          },
-          }
         }
-      },
+      }
+    },
     FAQ = {
       layoutConfig = { padding = { top = 15 } },
       rows = {
