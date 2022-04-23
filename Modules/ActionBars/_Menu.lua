@@ -17,7 +17,7 @@ MenuFrame:SetSize(Width, Height)
 
 function Menu:OnEnable()
   local db = SUI.db.profile.actionbar
-  if (db.menu.style == 'Custom' or db.menu.style == 'Hide') then
+  if (db.menu.style == 'Custom') then
     MainMenuBarBackpackButton:SetParent(MenuFrame)
     CharacterBag0Slot:SetParent(MenuFrame)
     CharacterBag1Slot:SetParent(MenuFrame)
@@ -54,16 +54,13 @@ function Menu:OnEnable()
     end)
   end
 
-  if (db.menu.bagbuttons) then
+  if (db.menu.hidebag) then
     BagsBarTexture:Hide()
+    MicroButtonAndBagsBar.MicroBagBar:Hide()
     MainMenuBarBackpackButton:Hide()
     CharacterBag0Slot:Hide()
     CharacterBag1Slot:Hide()
     CharacterBag2Slot:Hide()
     CharacterBag3Slot:Hide()
-  end
-
-  if (db.menu.texture) then
-    BagsBarTexture:Hide()
   end
 end

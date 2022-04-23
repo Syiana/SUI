@@ -608,8 +608,7 @@ function Gui:OnEnable()
             type = 'dropdown',
             options = {
               { value = 'Default', text = 'Default' },
-              { value = 'Custom', text = 'Custom' },
-              { value = 'Hide', text = 'Custom (hide background)' },
+              { value = 'Custom', text = 'Custom' }
             },
             initialValue = 1,
             column = 4,
@@ -624,7 +623,7 @@ function Gui:OnEnable()
             order = 2
           },
           bagbuttons = {
-            key = 'menu.bagbuttons',
+            key = 'menu.hidebag',
             type = 'checkbox',
             label = 'Hide bag buttons',
             tooltip = 'Hide background & bag buttons in the micromenu',

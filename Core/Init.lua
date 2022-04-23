@@ -61,7 +61,8 @@ local defaults = {
       },
       menu = {
         style = 'Default',
-        mouseover = false
+        mouseover = false,
+        hidebag = false,
       },
       gryphones = true,
     },
