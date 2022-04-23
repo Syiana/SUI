@@ -7,19 +7,16 @@ function Module:OnEnable()
       local max = math.max
       local FONT = STANDARD_TEXT_FONT
 
+      local castbars = { 'CastingBarFrame', 'TargetFrameSpellBar', 'FocusFrameSpellBar' }
+
       if not InCombatLockdown() then
-        CastingBarFrame.timer = CastingBarFrame:CreateFontString(nil)
-        CastingBarFrame.timer:SetFont(FONT, 14, "THINOUTLINE")
-        CastingBarFrame.timer:SetPoint("LEFT", CastingBarFrame, "RIGHT", 5, 0)
-        CastingBarFrame.update = 0.1
-        TargetFrameSpellBar.timer = TargetFrameSpellBar:CreateFontString(nil)
-        TargetFrameSpellBar.timer:SetFont(FONT, 11, "THINOUTLINE")
-        TargetFrameSpellBar.timer:SetPoint("LEFT", TargetFrameSpellBar, "RIGHT", 4, 0)
-        TargetFrameSpellBar.update = 0.1
-        FocusFrameSpellBar.timer = FocusFrameSpellBar:CreateFontString(nil)
-        FocusFrameSpellBar.timer:SetFont(FONT, 11, "THINOUTLINE")
-        FocusFrameSpellBar.timer:SetPoint("LEFT", FocusFrameSpellBar, "RIGHT", 4, 0)
-        FocusFrameSpellBar.update = 0.1
+        for key, value in pairs(castbars) do
+          local castbar = _G[value]
+          castbar.timer = castbar:CreateFontString(nil)
+          castbar.timer:SetFont(FONT, 14, "THINOUTLINE")
+          castbar.timer:SetPoint("LEFT", castbar, "RIGHT", 5, 0)
+          castbar.update = 0.1
+        end
       end
 
       local function CastingBarFrame_OnUpdate_Hook(self, elapsed)
