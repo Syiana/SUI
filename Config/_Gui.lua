@@ -295,8 +295,7 @@ function Gui:OnEnable()
             key = 'display.ilvl',
             type = 'checkbox',
             label = L['Item Infos'],
-            label = 'Item Infos',
-            tooltip = 'Display item level on item icons',
+            tooltip = L['Display item level on item icons'],
             column = 3,
             order = 1
           },
@@ -312,8 +311,7 @@ function Gui:OnEnable()
             key = 'display.fps',
             type = 'checkbox',
             label = L['FPS'],
-            label = 'FPS',
-            tooltip = 'Show current FPS',
+            tooltip = L['Show current FPS'],
             column = 2,
             order = 2
           },
@@ -321,8 +319,7 @@ function Gui:OnEnable()
             key = 'display.ms',
             type = 'checkbox',
             label = L['MS'],
-            label = 'MS',
-            tooltip = 'Show current ping',
+            tooltip = L['Show current ping'],
             column = 2,
             order = 3
           }
@@ -357,24 +354,21 @@ function Gui:OnEnable()
             key = 'unitframes.classcolor',
             type = 'checkbox',
             label = L['ClassColor'],
-            label = 'Class Color',
-            tooltip = 'Change healthcolor to class color',
+            tooltip = L['Change healthcolor to class color'],
             column = 4,
           },
           pvp = {
             key = 'unitframes.pvpbadge',
             type = 'checkbox',
             label = L['PvP Badge'],
-            label = 'PvP Badge',
-            tooltip = 'Display PVP icon on Unit frames',
+            tooltip = L['Display PVP icon on Unit frames'],
             column = 4,
           },
           glow = {
             key = 'unitframes.statusglow',
             type = 'checkbox',
             label = L['Status Glow'],
-            label = 'Status Glow',
-            tooltip = 'Enable glow on Unit frames when in resting area',
+            tooltip = L['Enable glow on Unit frames when in resting area'],
             column = 4,
           }
         },
@@ -382,8 +376,7 @@ function Gui:OnEnable()
           hitindicator = {
             key = 'unitframes.hitindicator',
             type = 'checkbox',
-            label = L['Hitindicator'],
-            label = 'Hit indicator',
+            label = L['Hit indicator'],
             column = 4,
             order = 1
           },
@@ -391,8 +384,7 @@ function Gui:OnEnable()
             key = 'unitframes.combaticon',
             type = 'checkbox',
             label = L['Combat Icon'],
-            label = 'Combat Icon',
-            tooltip = 'Display combat icon on Unit frames',
+            tooltip = L['Display combat icon on Unit frames'],
             column = 4,
             order = 2
           },
@@ -400,8 +392,7 @@ function Gui:OnEnable()
             key = 'unitframes.links',
             type = 'checkbox',
             label = L['Char Links'],
-            label = 'Char Links',
-            tooltip = 'Extra menu to generate character-links for Check-PVP, Raider.io, etc.',
+            tooltip = L['Extra menu to generate character-links for Check-PVP, Raider.io, etc.'],
             column = 4,
             order = 3
           }
@@ -532,12 +523,8 @@ function Gui:OnEnable()
             label = L['Style'],
             options = {
               { value = 'Default', text = L['Default'] },
-              { value = 'Small', text = L['Small'] },
-              { value = 'Classic', text = L['Classic'] }
-            options = {
-              { value = 'Default', text = 'Default' },
-              { value = 'DefaultNoBg', text = 'Default (hide background)'},
-              { value = 'Small', text = 'Small' }
+              { value = 'DefaultNoBg', text = L['Default (hide background)']},
+              { value = 'Small', text = L['Small'] }
             },
             initialValue = 1,
             column = 5,
@@ -555,8 +542,7 @@ function Gui:OnEnable()
             key = 'buttons.key',
             type = 'checkbox',
             label = L['Hotkeys Text'],
-            label = 'Hotkeys Text',
-            tooltip = 'Show Hotkeys text',
+            tooltip = L['Show Hotkeys text'],
             column = 4,
             order = 1
           },
@@ -564,8 +550,7 @@ function Gui:OnEnable()
             key = 'buttons.macro',
             type = 'checkbox',
             label = L['Macro Text'],
-            label = 'Macro Text',
-            tooltip = 'Show Macro text',
+            tooltip = L['Show Macro text'],
             column = 4,
             order = 2
           },
@@ -573,8 +558,7 @@ function Gui:OnEnable()
             key = 'gryphones',
             type = 'checkbox',
             label = L['Gryphones'],
-            label = 'Gryphones',
-            tooltip = 'Show actionbar gryphones',
+            tooltip = L['Show actionbar gryphones'],
             column = 4,
             order = 3
           }
@@ -584,8 +568,7 @@ function Gui:OnEnable()
             key = 'buttons.range',
             type = 'checkbox',
             label = L['Range Color'],
-            label = 'Range Color',
-            tooltip = 'Show spell-color in red if out of range',
+            tooltip = L['Show spell-color in red if out of range'],
             column = 4,
             order = 1
           },
@@ -593,8 +576,7 @@ function Gui:OnEnable()
             key = 'buttons.flash',
             type = 'checkbox',
             label = L['Flash Animation'],
-            label = 'Flash Animation',
-            tooltip = 'Flash spell-icon when pressing it',
+            tooltip = L['Flash spell-icon when pressing it'],
             column = 4,
             order = 2
           }
@@ -640,9 +622,7 @@ function Gui:OnEnable()
             key = 'menu.mouseover',
             type = 'checkbox',
             label = L['Show on Mouseover'],
-            column = 4
-            label = 'Show on Mouseover',
-            tooltip = 'Show micromenu on mouseover',
+            tooltip = L['Show micromenu on mouseover'],
             column = 4,
             order = 2
           },
@@ -650,10 +630,7 @@ function Gui:OnEnable()
             key = 'menu.bagbuttons',
             type = 'checkbox',
             label = L['Hide bag buttons'],
-            column = 4
-          }
-            label = 'Hide bag buttons',
-            tooltip = 'Hide background & bag buttons in the micromenu',
+            tooltip = L['Hide background & bag buttons in the micromenu'],
             column = 4,
             order = 3
           },
@@ -1063,7 +1040,6 @@ function Gui:OnEnable()
           }
         }
       },
-    },
     FAQ = {
       layoutConfig = { padding = { top = 15 } },
       rows = {
@@ -1244,9 +1220,8 @@ function Gui:OnEnable()
           }
         }
       },
-    },
+    }
   }
-
   tabs:EnumerateTabs(function(tab)
     StdUi:BuildWindow(tab.frame, options[tab.name])
   end)
