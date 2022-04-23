@@ -120,7 +120,7 @@ function StdUi:Slider(parent, width, height, value, vertical, min, max)
 	self:SetObjSize(slider, width, height);
 
 	slider.vertical = vertical;
-	slider.precision = 1;
+	slider.precision = 0;
 
 	local thumbWidth = vertical and width or 20;
 	local thumbHeight = vertical and 20 or height;
