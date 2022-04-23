@@ -74,6 +74,7 @@ Data.supporter = {
   {text = Colors.monk .. 'Rulez|r'},
   {text = Colors.druid .. 'Sonsi Gladiator|r'},
   {text = Colors.druid .. 'xHukk|r'},
+  {text = Colors.mage .. 'Lyonersalat|r'},
 }
 
 Data.banned = {}
