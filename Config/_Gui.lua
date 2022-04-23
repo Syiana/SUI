@@ -763,6 +763,7 @@ function Gui:OnEnable()
             key = 'buff.icons',
             type = 'slider',
             label = 'Icons Row',
+            min = 2,
             max = 20,
             column = 8
           },
@@ -796,6 +797,7 @@ function Gui:OnEnable()
             key = 'debuff.icons',
             type = 'slider',
             label = 'Icons Row',
+            min = 2,
             max = 20,
             column = 8
           },
