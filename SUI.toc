@@ -4,11 +4,11 @@
 ## Title: |cfff58cbaS|r|cff009cffUI|r
 ## SavedVariables: SUIDB
 
-## Locale
-Locale\Load.xml
 
 ## LIBS
 Libs\Load.xml
+## Locale
+Locale\Load.xml
 ## MEDIA
 Media\Load.xml
 ## CORE

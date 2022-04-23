@@ -1,5 +1,4 @@
 local L = LibStub("AceLocale-3.0"):NewLocale("SUILocale", "zhCN")
-if not L then return end
 
 L['General']           = "一般"
 L['Unitframes']        = "单元框架"
