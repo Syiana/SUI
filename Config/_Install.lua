@@ -2,7 +2,6 @@ local Module = SUI:NewModule("Config.Install");
 
 function Module:OnEnable()
   if not (SUI.db.profile.install) then
-    SUI.db:ResetProfile()
     local Install = CreateFrame("Frame", UIParent)
     Install:SetWidth(GetScreenWidth())
     Install:SetHeight(GetScreenHeight())
