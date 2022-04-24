@@ -3,7 +3,7 @@ local Module = SUI:NewModule("General.Fonts");
 function Module:OnInitialize()
   local font = SUI.db.profile.general.font
   if (font ~= 'Default') then
-    local ForcedFontSize = {10, 14, 20, 64, 64}
+    local ForcedFontSize = {9, 9, 20, 64, 64}
 
     STANDARD_TEXT_FONT          = font
     UNIT_NAME_FONT              = font
@@ -11,7 +11,7 @@ function Module:OnInitialize()
     NAMEPLATE_FONT              = font
     NAMEPLATE_SPELLCAST_FONT    = font
 
-    local BlizFontObjects = {
+    local FontObjects = {
       SystemFont_NamePlateCastBar, SystemFont_NamePlateFixed, SystemFont_LargeNamePlateFixed, SystemFont_World, SystemFont_World_ThickOutline,
       SystemFont_Outline_Small, SystemFont_Outline, SystemFont_InverseShadow_Small, SystemFont_Med2, SystemFont_Med3, SystemFont_Shadow_Med3,
       SystemFont_Huge1, SystemFont_Huge1_Outline, SystemFont_OutlineThick_Huge2, SystemFont_OutlineThick_Huge4, SystemFont_OutlineThick_WTF,
@@ -31,7 +31,7 @@ function Module:OnInitialize()
       GameTooltipHeader, System_IME, Number12Font_o1
     }
 
-    for i, FontObject in pairs(BlizFontObjects) do
+    for i, FontObject in pairs(FontObjects) do
       local _, oldSize, oldStyle  = FontObject:GetFont()
       FontObject:SetFont(font, ForcedFontSize[i] or oldSize, oldStyle)
     end
