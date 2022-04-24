@@ -2,6 +2,7 @@ local Module = SUI:NewModule("Config.Install");
 
 function Module:OnEnable()
   if not (SUI.db.profile.install) then
+    SUI.db:ResetProfile()
     local Install = CreateFrame("Frame", UIParent)
     Install:SetWidth(GetScreenWidth())
     Install:SetHeight(GetScreenHeight())
@@ -45,15 +46,15 @@ function Module:OnEnable()
     Button:GetHighlightTexture():SetTexCoord(0.00390625, 0.87890625, 0.75195313, 0.83007813)
     Button:GetHighlightTexture():SetVertexColor(0.265, 0.320, 0.410, 1)
     Button:SetScript("OnClick",function()
-        SUI.db.profile.install = true
-        local fadeInfo = {};
-        fadeInfo.mode = "OUT";
-        fadeInfo.timeToFade = 0.4;
-        fadeInfo.finishedFunc = function()
-          Install:Hide()
-          SUI:Config()
-        end
-        UIFrameFade(Install, fadeInfo);
+      SUI.db.profile.install = true
+      local fadeInfo = {};
+      fadeInfo.mode = "OUT";
+      fadeInfo.timeToFade = 0.4;
+      fadeInfo.finishedFunc = function()
+        Install:Hide()
+        SUI:Config()
+      end
+      UIFrameFade(Install, fadeInfo);
     end)
   end
 end

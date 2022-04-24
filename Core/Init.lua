@@ -122,6 +122,10 @@ local defaults = {
 
 function SUI:OnInitialize()
   self.db = LibStub("AceDB-3.0"):New("SUIDB", defaults, true)
+  -- SUI 8.0
+  if (self.db.A_DEFAULTS) then
+    print('SUI: broken database detected, please reset your database /sui reset')
+  end
 
   -- Colors
   local _, class = UnitClass("player")
