@@ -121,8 +121,15 @@ local defaults = {
 }
 
 function SUI:OnInitialize()
-  if (SUIDB.A_DEFAULTS) then SUIDB = {} end
+  local oldversion = SUIDB.A_DEFAULTS
+  if (oldversion) then SUIDB = {} end
   self.db = LibStub("AceDB-3.0"):New("SUIDB", defaults, true)
+
+  if (oldversion) then
+    print (self.db.profile)
+    self.db.profile = self.db.profile
+    print('|cfff58cbaS|r|cff009cffUI|r: |cffff0000You had a broken database, db got resetet and profile reimportet.|r')
+  end
 
   -- Colors
   local _, class = UnitClass("player")
