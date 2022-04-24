@@ -39,150 +39,148 @@ function Buffs:OnEnable()
       local buffFrameHeight = 0
 
       local function applySkin(b)
-        if (SUI:Color()) then
-          if not b or (b and b.styled) then return end
+        if not b or (b and b.styled) then return end
 
-          local name = b:GetName()
+        local name = b:GetName()
+        local tempenchant, consolidated, debuff = false, false, false
 
-          local tempenchant, consolidated, debuff, buff = false, false, false, false
-          if (name:match("TempEnchant")) then
-            tempenchant = true
-          elseif (name:match("Consolidated")) then
-            consolidated = true
-          elseif (name:match("Debuff")) then
-            debuff = true
-          else
-            buff = true
-          end
-
-          if debuff then
-              settings = {
-                  pos = {a1 = "TOPRIGHT", af = "Minimap", a2 = "TOPLEFT", x = -35, y = -125},
-                  gap = 10,
-                  userplaced = true,
-                  rowSpacing = 10,
-                  colSpacing = 7,
-                  buttonsPerRow = db.debuff.icons,
-                  button = {
-                    size = db.debuff.size
-                  },
-                  icon = {
-                    padding = -db.debuff.padding
-                  },
-                  border = {
-                    texture = "Interface\\Addons\\SUI\\Media\\Textures\\Core\\gloss",
-                    color = {r = 0.4, g = 0.35, b = 0.35},
-                    classcolored = false
-                  },
-                  background = {
-                    show = true,
-                    edgeFile = "Interface\\Addons\\SUI\\Media\\Textures\\Core\\outer_shadow",
-                    color = {r = 0, g = 0, b = 0, a = 0.9},
-                    classcolored = false,
-                    inset = 6,
-                    padding = 4
-                  },
-                  duration = {
-                    font = STANDARD_TEXT_FONT,
-                    size = 12,
-                    pos = {a1 = "BOTTOM", x = 0, y = 0}
-                  },
-                  count = {
-                    font = STANDARD_TEXT_FONT,
-                    size = 11,
-                    pos = {a1 = "TOPRIGHT", x = 0, y = 0}
-                  }
-              }
-          else
-            settings = {
-                pos = {a1 = "TOPRIGHT", af = "Minimap", a2 = "TOPLEFT", x = -35, y = 0},
-                gap = 30,
-                userplaced = true,
-                rowSpacing = 10,
-                colSpacing = 7,
-                buttonsPerRow = db.buff.icons,
-                button = {
-                  size = db.buff.size
-                },
-                icon = {
-                  padding = -db.buff.padding
-                },
-                border = {
-                  texture = "Interface\\Addons\\SUI\\Media\\Textures\\Core\\gloss",
-                  color = {r = 0.4, g = 0.35, b = 0.35},
-                  classcolored = false
-                },
-                background = {
-                  show = true,
-                  edgeFile = "Interface\\Addons\\SUI\\Media\\Textures\\Core\\outer_shadow",
-                  color = {r = 0, g = 0, b = 0, a = 0.9},
-                  classcolored = false,
-                  inset = 6,
-                  padding = 4
-                },
-                duration = {
-                  font = STANDARD_TEXT_FONT,
-                  size = 12,
-                  pos = {a1 = "BOTTOM", x = 0, y = 0}
-                },
-                count = {
-                  font = STANDARD_TEXT_FONT,
-                  size = 11,
-                  pos = {a1 = "TOPRIGHT", x = 0, y = 0}
-                }
-            }
-          end
-
-          b:SetSize(settings.button.size, settings.button.size)
-
-          local icon = _G[name.."Icon"]
-          if consolidated then
-            if select(1,UnitFactionGroup("player")) == "Alliance" then
-              icon:SetTexture(select(3,GetSpellInfo(61573)))
-            elseif select(1,UnitFactionGroup("player")) == "Horde" then
-              icon:SetTexture(select(3,GetSpellInfo(61574)))
-            end
-          end
-          icon:SetTexCoord(0.1,0.9,0.1,0.9)
-          icon:ClearAllPoints()
-          icon:SetPoint("TOPLEFT", b, "TOPLEFT", -settings.icon.padding, settings.icon.padding)
-          icon:SetPoint("BOTTOMRIGHT", b, "BOTTOMRIGHT", settings.icon.padding, -settings.icon.padding)
-          icon:SetDrawLayer("BACKGROUND",-8)
-          b.icon = icon
-
-          local border = _G[name.."Border"] or b:CreateTexture(name.."Border", "BACKGROUND", nil, -7)
-          border:SetTexture(settings.border.texture)
-          border:SetTexCoord(0,1,0,1)
-          border:SetDrawLayer("BACKGROUND",-7)
-          if tempenchant then
-            border:SetVertexColor(0.7,0,1)
-          elseif not debuff then
-            border:SetVertexColor(settings.border.color.r,settings.border.color.g,settings.border.color.b)
-          end
-          border:ClearAllPoints()
-          border:SetAllPoints(b)
-          b.border = border
-
-          b.duration:SetFont(FONT, settings.duration.size, "THINOUTLINE")
-          b.duration:ClearAllPoints()
-          b.duration:SetPoint(settings.duration.pos.a1,settings.duration.pos.x,settings.duration.pos.y)
-
-          b.count:SetFont(settings.count.font, settings.count.size, "THINOUTLINE")
-          b.count:ClearAllPoints()
-          b.count:SetPoint(settings.count.pos.a1,settings.count.pos.x,settings.count.pos.y)
-
-          if settings.background.show then
-            local back = CreateFrame("Frame", nil, b, "BackdropTemplate")
-            back:SetPoint("TOPLEFT", b, "TOPLEFT", -settings.background.padding, settings.background.padding)
-            back:SetPoint("BOTTOMRIGHT", b, "BOTTOMRIGHT", settings.background.padding, -settings.background.padding)
-            back:SetFrameLevel(b:GetFrameLevel() - 1)
-            back:SetBackdrop(backdrop)
-            back:SetBackdropBorderColor(unpack(SUI:Color(0.25, 0.9)))
-            b.bg = back
-          end
-
-          b.styled = true
+        if (name:match("TempEnchant")) then
+          tempenchant = true
+        elseif (name:match("Consolidated")) then
+          consolidated = true
+        elseif (name:match("Debuff")) then
+          debuff = true
         end
+
+        if debuff then
+          settings = {
+              pos = {a1 = "TOPRIGHT", af = "Minimap", a2 = "TOPLEFT", x = -35, y = -125},
+              gap = 10,
+              userplaced = true,
+              rowSpacing = 10,
+              colSpacing = 7,
+              buttonsPerRow = db.debuff.icons,
+              button = {
+                size = db.debuff.size
+              },
+              icon = {
+                padding = -2
+              },
+              border = {
+                texture = "Interface\\Addons\\SUI\\Media\\Textures\\Core\\gloss",
+                color = {r = 0.4, g = 0.35, b = 0.35},
+                classcolored = false
+              },
+              background = {
+                show = true,
+                edgeFile = "Interface\\Addons\\SUI\\Media\\Textures\\Core\\outer_shadow",
+                color = {r = 0, g = 0, b = 0, a = 0.9},
+                classcolored = false,
+                inset = 6,
+                padding = 4
+              },
+              duration = {
+                font = STANDARD_TEXT_FONT,
+                size = 12,
+                pos = {a1 = "BOTTOM", x = 0, y = 0}
+              },
+              count = {
+                font = STANDARD_TEXT_FONT,
+                size = 11,
+                pos = {a1 = "TOPRIGHT", x = 0, y = 0}
+              }
+          }
+        else
+          settings = {
+              pos = {a1 = "TOPRIGHT", af = "Minimap", a2 = "TOPLEFT", x = -35, y = 0},
+              gap = 30,
+              userplaced = true,
+              rowSpacing = 10,
+              colSpacing = 7,
+              buttonsPerRow = db.buff.icons,
+              button = {
+                size = db.buff.size
+              },
+              icon = {
+                padding = -2
+              },
+              border = {
+                texture = "Interface\\Addons\\SUI\\Media\\Textures\\Core\\gloss",
+                color = {r = 0.4, g = 0.35, b = 0.35},
+                classcolored = false
+              },
+              background = {
+                show = true,
+                edgeFile = "Interface\\Addons\\SUI\\Media\\Textures\\Core\\outer_shadow",
+                color = {r = 0, g = 0, b = 0, a = 0.9},
+                classcolored = false,
+                inset = 6,
+                padding = 4
+              },
+              duration = {
+                font = STANDARD_TEXT_FONT,
+                size = 12,
+                pos = {a1 = "BOTTOM", x = 0, y = 0}
+              },
+              count = {
+                font = STANDARD_TEXT_FONT,
+                size = 11,
+                pos = {a1 = "TOPRIGHT", x = 0, y = 0}
+              }
+          }
+        end
+
+        b:SetSize(settings.button.size, settings.button.size)
+
+
+        if not (SUI:Color()) then return end
+        local icon = _G[name.."Icon"]
+        if consolidated then
+          if select(1,UnitFactionGroup("player")) == "Alliance" then
+            icon:SetTexture(select(3, GetSpellInfo(61573)))
+          elseif select(1, UnitFactionGroup("player")) == "Horde" then
+            icon:SetTexture(select(3, GetSpellInfo(61574)))
+          end
+        end
+        icon:SetTexCoord(0.1,0.9,0.1,0.9)
+        icon:ClearAllPoints()
+        icon:SetPoint("TOPLEFT", b, "TOPLEFT", -settings.icon.padding, settings.icon.padding)
+        icon:SetPoint("BOTTOMRIGHT", b, "BOTTOMRIGHT", settings.icon.padding, -settings.icon.padding)
+        icon:SetDrawLayer("BACKGROUND",-8)
+        b.icon = icon
+
+        local border = _G[name.."Border"] or b:CreateTexture(name.."Border", "BACKGROUND", nil, -7)
+        border:SetTexture(settings.border.texture)
+        border:SetTexCoord(0,1,0,1)
+        border:SetDrawLayer("BACKGROUND",-7)
+        if tempenchant then
+          border:SetVertexColor(0.7,0,1)
+        elseif not debuff then
+          border:SetVertexColor(settings.border.color.r,settings.border.color.g,settings.border.color.b)
+        end
+        border:ClearAllPoints()
+        border:SetAllPoints(b)
+        b.border = border
+
+        b.duration:SetFont(FONT, settings.duration.size, "THINOUTLINE")
+        b.duration:ClearAllPoints()
+        b.duration:SetPoint(settings.duration.pos.a1,settings.duration.pos.x,settings.duration.pos.y)
+
+        b.count:SetFont(settings.count.font, settings.count.size, "THINOUTLINE")
+        b.count:ClearAllPoints()
+        b.count:SetPoint(settings.count.pos.a1,settings.count.pos.x,settings.count.pos.y)
+
+        if settings.background.show then
+          local back = CreateFrame("Frame", nil, b, "BackdropTemplate")
+          back:SetPoint("TOPLEFT", b, "TOPLEFT", -settings.background.padding, settings.background.padding)
+          back:SetPoint("BOTTOMRIGHT", b, "BOTTOMRIGHT", settings.background.padding, -settings.background.padding)
+          back:SetFrameLevel(b:GetFrameLevel() - 1)
+          back:SetBackdrop(backdrop)
+          back:SetBackdropBorderColor(unpack(SUI:Color(0.25, 0.9)))
+          b.bg = back
+        end
+
+        b.styled = true
       end
 
       local function updateDebuffAnchors(buttonName,index)
