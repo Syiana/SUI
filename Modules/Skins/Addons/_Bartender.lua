@@ -16,7 +16,7 @@ function Skin:OnEnable()
       BlizzardArtTex2,
       BlizzardArtTex3,
     }) do
-      v:SetVertexColor(unpack(SUI:Color(0.15)))
+      if (v) then v:SetVertexColor(unpack(SUI:Color(0.15))) end
     end
   end
 end
