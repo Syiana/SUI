@@ -121,12 +121,14 @@ local defaults = {
 }
 
 function SUI:OnInitialize()
-  local olddb = SUIDB.A_DEFAULTS
-  if (olddb) then SUIDB = {} end
-  self.db = LibStub("AceDB-3.0"):New("SUIDB", defaults, true)
+  -- SUI 8.0
+  if (SUIDB and SUIDB.A_DEFAULTS) then
+    SUIDB = {}
+    print('|cfff58cbaS|r|cff009cffUI|r: |cffff0000You had a broken database from a previous version of SUI, unfortunately we had to reset the profile.|r')
+  end
 
-  -- SUI 8.0 fix
-  if (olddb) then print('|cfff58cbaS|r|cff009cffUI|r: |cffff0000You had a broken database from a previous version of SUI, unfortunately we had to reset the profile.|r') end
+  -- Database
+  self.db = LibStub("AceDB-3.0"):New("SUIDB", defaults, true)
 
   -- Colors
   local _, class = UnitClass("player")
