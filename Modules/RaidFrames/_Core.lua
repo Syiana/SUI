@@ -92,30 +92,29 @@ function Module:OnEnable()
 					c:SetPoint("LEFT", _G[l .. (j - 1)], "RIGHT")
 				end
 			end
-		end
-
-		for i = 1, 4 do
-			local f = _G["PartyMemberFrame" .. i]
-			f:UnregisterEvent("UNIT_AURA")
-			local g = CreateFrame("Frame")
-			g:RegisterEvent("UNIT_AURA")
-			g:SetScript(
-				"OnEvent",
-				function(self, event, a1)
-					if a1 == f.unit then
-						RefreshBuffs(f, a1, 20, nil, 1)
+			for i = 1, 4 do
+				local f = _G["PartyMemberFrame" .. i]
+				f:UnregisterEvent("UNIT_AURA")
+				local g = CreateFrame("Frame")
+				g:RegisterEvent("UNIT_AURA")
+				g:SetScript(
+					"OnEvent",
+					function(self, event, a1)
+						if a1 == f.unit then
+							RefreshBuffs(f, a1, 20, nil, 1)
+						end
 					end
-				end
-			)
-			for j = 1, 20 do
-				local l = f:GetName() .. "Buff"
-				local n = l .. j
-				local c = CreateFrame("Frame", n, f, "TargetBuffFrameTemplate")
-				c:EnableMouse(false)
-				if j == 1 then
-					c:SetPoint("TOPLEFT", 48, -32)
-				else
-					c:SetPoint("LEFT", _G[l .. (j - 1)], "RIGHT", 1, 0)
+				)
+				for j = 1, 20 do
+					local l = f:GetName() .. "Buff"
+					local n = l .. j
+					local c = CreateFrame("Frame", n, f, "TargetBuffFrameTemplate")
+					c:EnableMouse(false)
+					if j == 1 then
+						c:SetPoint("TOPLEFT", 48, -32)
+					else
+						c:SetPoint("LEFT", _G[l .. (j - 1)], "RIGHT", 1, 0)
+					end
 				end
 			end
 		end
