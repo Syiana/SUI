@@ -278,7 +278,7 @@ function Gui:OnEnable()
             key = 'cosmetic.talkinghead',
             type = 'checkbox',
             label = 'Talkinghead',
-            tooltip = 'Hide Talkinghead frame',
+            tooltip = 'Show Talkinghead frame',
             column = 3,
             order = 2
           }
@@ -748,24 +748,16 @@ function Gui:OnEnable()
             column = 4,
             order = 1
           },
-          padding = {
-            key = 'buff.padding',
-            type = 'slider',
-            label = 'Padding',
-            max = 5,
-            column = 4,
-            order = 3
-          }
-        },
-        {
           icons = {
             key = 'buff.icons',
             type = 'slider',
-            label = 'Icons Row',
+            label = 'Icons',
+            tooltip = 'Icons per row',
             min = 2,
             max = 20,
-            column = 8
-          },
+            column = 5,
+            order = 2
+          }
         },
         {
           header = {
@@ -782,24 +774,16 @@ function Gui:OnEnable()
             column = 4,
             order = 1
           },
-          padding = {
-            key = 'debuff.padding',
-            type = 'slider',
-            label = 'Padding',
-            max = 5,
-            column = 4,
-            order = 3
-          }
-        },
-        {
           icons = {
             key = 'debuff.icons',
             type = 'slider',
-            label = 'Icons Row',
+            label = 'Icons',
+            tooltip = 'Icons per row',
             min = 2,
             max = 20,
-            column = 8
-          },
+            column = 5,
+            order = 2
+          }
         }
       },
     },
