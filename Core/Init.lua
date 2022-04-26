@@ -112,12 +112,12 @@ local defaults = {
 	  },
     misc = {
       safequeue = true,
-      classportrait = true,
+      classportrait = false,
       losecontrol = true,
       tabbinder = false,
       pulltimer = false,
       interrupt = false,
-      dampening = false,
+      dampening = true,
       arenanameplate = false,
       surrender = false
     },
