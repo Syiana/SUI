@@ -51,6 +51,11 @@ function Module:OnEnable()
             editbox:SetPoint("BOTTOMLEFT", ChatFrame1, "TOPLEFT", -7, 25)
             editbox:SetPoint("BOTTOMRIGHT", ChatFrame1, "TOPRIGHT", 10, 25)
           end
+
+          if (not db.top) then
+            editbox:SetPoint("TOPLEFT", ChatFrame1, "BOTTOMLEFT", -7, -5)
+            editbox:SetPoint("TOPRIGHT", ChatFrame1, "BOTTOMRIGHT", 10, -5)
+          end
           editbox:SetAltArrowKeyMode(false)
 
           local cf = _G[name]

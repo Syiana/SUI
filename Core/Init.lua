@@ -96,7 +96,8 @@ local defaults = {
       top = true,
       link = true,
       copy = true,
-      friendlist = true
+      friendlist = true,
+      quickjoin = true
     },
     maps = {
       style = 'Default',
@@ -111,10 +112,14 @@ local defaults = {
 	  },
     misc = {
       safequeue = true,
+      classportrait = true,
       losecontrol = true,
       tabbinder = false,
       pulltimer = false,
-      interrupt = false
+      interrupt = false,
+      dampening = false,
+      arenanameplate = false,
+      surrender = false
     },
     edit = {}
   }

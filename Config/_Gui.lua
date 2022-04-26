@@ -1004,6 +1004,14 @@ function Gui:OnEnable()
             tooltip = 'Announce successful interrupts party',
             column = 3,
             order = 1
+          },
+          classportrait = {
+            key = 'classportrait',
+            type = 'checkbox',
+            label = 'Classicon Portraits',
+            tooltip = 'Display Classicons in Unit frame portraits',
+            column = 3,
+            order = 1
           }
         },
         {
@@ -1016,7 +1024,7 @@ function Gui:OnEnable()
           safequeue = {
             key = 'safequeue',
             type = 'checkbox',
-            label = 'Safequeue',
+            label = 'SafeQueue',
             tooltip = 'Show time left to join and remove leave-button on queuepop-window',
             column = 3,
             order = 1
@@ -1024,7 +1032,7 @@ function Gui:OnEnable()
           tabbinder = {
             key = 'tabbinder',
             type = 'checkbox',
-            label = 'Tabbinder',
+            label = 'Tab Binder',
             tooltip = 'Only target players with TAB in PVP-Combat',
             column = 3,
             order = 1
@@ -1034,6 +1042,32 @@ function Gui:OnEnable()
             type = 'checkbox',
             label = 'Losecontrol',
             tooltip = 'Shows crowd-control icons with timer for yourself',
+            column = 3,
+            order = 1
+          },
+          dampening = {
+            key = 'dampening',
+            type = 'checkbox',
+            label = 'Show Dampening',
+            tooltip = 'Shows dampening right below the arena timer',
+            column = 3,
+            order = 1
+          }
+        },
+        {
+          arenanameplate = {
+            key = 'arenanameplate',
+            type = 'checkbox',
+            label = 'Arena Nameplate',
+            tooltip = 'Shows Arena number instead of name over nameplate',
+            column = 3,
+            order = 1
+          },
+          surrender = {
+            key = 'surrender',
+            type = 'checkbox',
+            label = 'Surrender',
+            tooltip = 'Allows you to surrender by typing /gg',
             column = 3,
             order = 1
           }
