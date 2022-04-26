@@ -1,10 +1,13 @@
 local Gui = SUI:NewModule("Config.Gui")
 
---Imports
+-- Imports
 local Themes = SUI:GetModule("Data.Themes")
 local Fonts = SUI:GetModule("Data.Fonts")
 local Textures = SUI:GetModule("Data.Textures")
 local User = SUI:GetModule("Data.User")
+
+-- Components
+local CvarsBrowser = SUI:GetModule("Config.Components.CvarsBrowser")
 
 function Gui:OnEnable()
   local SUIConfig = LibStub('SUIConfig')
@@ -54,10 +57,10 @@ function Gui:OnEnable()
     }
   };
 
-  --DB
+  -- Database
   local db = SUI.db
 
-  --Config
+  -- Config
   local config = SUIConfig:Window(UIParent, 700, 400)
   config:SetPoint('CENTER')
   config.titlePanel:SetPoint('LEFT', 10, 0)
@@ -984,7 +987,7 @@ function Gui:OnEnable()
             type = 'button',
             text = 'CVars Browser',
             onClick = function()
-              print("coming soon...");
+              CvarsBrowser.Show()
             end,
             column = 3,
             order = 3
