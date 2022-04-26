@@ -1,32 +1,32 @@
-local MAJOR, MINOR = 'StdUi', 10;
---- @class StdUi
-local StdUi = LibStub:NewLibrary(MAJOR, MINOR);
+local MAJOR, MINOR = 'SUIConfig', 10;
+--- @class SUIConfig
+local SUIConfig = LibStub:NewLibrary(MAJOR, MINOR);
 
-if not StdUi then
+if not SUIConfig then
 	return
 end
 
 local TableInsert = tinsert;
 
-StdUi.moduleVersions = {};
-if not StdUiInstances then
-	StdUiInstances = {StdUi};
+SUIConfig.moduleVersions = {};
+if not SUIConfigInstances then
+	SUIConfigInstances = {SUIConfig};
 else
-	TableInsert(StdUiInstances, StdUi);
+	TableInsert(SUIConfigInstances, SUIConfig);
 end
 
-function StdUi:NewInstance()
+function SUIConfig:NewInstance()
 	local instance = CopyTable(self);
 	instance:ResetConfig();
-	TableInsert(StdUiInstances, instance);
+	TableInsert(SUIConfigInstances, instance);
 	return instance;
 end
 
-function StdUi:RegisterModule(module, version)
+function SUIConfig:RegisterModule(module, version)
 	self.moduleVersions[module] = version;
 end
 
-function StdUi:UpgradeNeeded(module, version)
+function SUIConfig:UpgradeNeeded(module, version)
 	if not self.moduleVersions[module] then
 		return true;
 	end
@@ -34,7 +34,7 @@ function StdUi:UpgradeNeeded(module, version)
 	return self.moduleVersions[module] < version;
 end
 
-function StdUi:RegisterWidget(name, func)
+function SUIConfig:RegisterWidget(name, func)
 	if not self[name] then
 		self[name] = func;
 		return true;
@@ -43,7 +43,7 @@ function StdUi:RegisterWidget(name, func)
 	return false;
 end
 
-function StdUi:InitWidget(widget)
+function SUIConfig:InitWidget(widget)
 	widget.isWidget = true;
 
 	function widget:GetChildrenWidgets()
@@ -60,7 +60,7 @@ function StdUi:InitWidget(widget)
 	end
 end
 
-function StdUi:SetObjSize(obj, width, height)
+function SUIConfig:SetObjSize(obj, width, height)
 	if width then
 		obj:SetWidth(width);
 	end
@@ -70,7 +70,7 @@ function StdUi:SetObjSize(obj, width, height)
 	end
 end
 
-function StdUi:SetTextColor(fontString, colorType)
+function SUIConfig:SetTextColor(fontString, colorType)
 	colorType = colorType or 'normal';
 	if fontString.SetTextColor then
 		local c = self.config.font.color[colorType];
@@ -78,7 +78,7 @@ function StdUi:SetTextColor(fontString, colorType)
 	end
 end
 
-StdUi.SetHighlightBorder = function(self)
+SUIConfig.SetHighlightBorder = function(self)
 	if self.target then
 		self = self.target;
 	end
@@ -87,14 +87,14 @@ StdUi.SetHighlightBorder = function(self)
 		return
 	end
 
-	local hc = self.stdUi.config.highlight.color;
+	local hc = self.SUIConfig.config.highlight.color;
 	if not self.origBackdropBorderColor then
 		self.origBackdropBorderColor = {self:GetBackdropBorderColor()};
 	end
 	self:SetBackdropBorderColor(hc.r, hc.g, hc.b, 1);
 end
 
-StdUi.ResetHighlightBorder = function(self)
+SUIConfig.ResetHighlightBorder = function(self)
 	if self.target then
 		self = self.target;
 	end
@@ -109,7 +109,7 @@ StdUi.ResetHighlightBorder = function(self)
 	end
 end
 
-function StdUi:HookHoverBorder(object)
+function SUIConfig:HookHoverBorder(object)
 	if not object.SetBackdrop then
 		Mixin(object, BackdropTemplateMixin)
 	end
@@ -117,7 +117,7 @@ function StdUi:HookHoverBorder(object)
 	object:HookScript('OnLeave', self.ResetHighlightBorder);
 end
 
-function StdUi:ApplyBackdrop(frame, type, border, insets)
+function SUIConfig:ApplyBackdrop(frame, type, border, insets)
 	local config = frame.config or self.config;
 	local backdrop = {
 		bgFile   = config.backdrop.texture,
@@ -154,14 +154,14 @@ function StdUi:ApplyBackdrop(frame, type, border, insets)
 	end
 end
 
-function StdUi:ClearBackdrop(frame)
+function SUIConfig:ClearBackdrop(frame)
 	if not frame.SetBackdrop then
 		Mixin(frame, BackdropTemplateMixin)
 	end
 	frame:SetBackdrop(nil);
 end
 
-function StdUi:ApplyDisabledBackdrop(frame, enabled)
+function SUIConfig:ApplyDisabledBackdrop(frame, enabled)
 	if frame.target then
 		frame = frame.target;
 	end
@@ -191,7 +191,7 @@ function StdUi:ApplyDisabledBackdrop(frame, enabled)
 	end
 end
 
-function StdUi:HookDisabledBackdrop(frame)
+function SUIConfig:HookDisabledBackdrop(frame)
 	local this = self;
 	hooksecurefunc(frame, 'Disable', function(self)
 		this:ApplyDisabledBackdrop(self, false);
@@ -202,7 +202,7 @@ function StdUi:HookDisabledBackdrop(frame)
 	end);
 end
 
-function StdUi:StripTextures(frame)
+function SUIConfig:StripTextures(frame)
 	for i = 1, frame:GetNumRegions() do
 		local region = select(i, frame:GetRegions());
 
@@ -212,7 +212,7 @@ function StdUi:StripTextures(frame)
 	end
 end
 
-function StdUi:MakeDraggable(frame, handle)
+function SUIConfig:MakeDraggable(frame, handle)
 	frame:SetMovable(true);
 	frame:EnableMouse(true);
 	frame:RegisterForDrag('LeftButton');
@@ -235,7 +235,7 @@ function StdUi:MakeDraggable(frame, handle)
 end
 
 -- Make a frame resizable
-function StdUi:MakeResizable(frame, direction)
+function SUIConfig:MakeResizable(frame, direction)
 	-- Possible resize directions and handle rotation values
 	local anchorDirections = {
 		["TOP"] = 0,

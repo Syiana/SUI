@@ -1,17 +1,17 @@
---- @type StdUi
-local StdUi = LibStub and LibStub('StdUi', true);
-if not StdUi then
+--- @type SUIConfig
+local SUIConfig = LibStub and LibStub('SUIConfig', true);
+if not SUIConfig then
 	return
 end
 
 local module, version = 'Slider', 7;
-if not StdUi:UpgradeNeeded(module, version) then return end
+if not SUIConfig:UpgradeNeeded(module, version) then return end
 
 ----------------------------------------------------
 --- SliderButton
 ----------------------------------------------------
 
-function StdUi:SliderButton(parent, width, height, direction)
+function SUIConfig:SliderButton(parent, width, height, direction)
 	local button = self:Button(parent, width, height);
 
 	local texture = self:ArrowTexture(button, direction);
@@ -31,11 +31,11 @@ end
 --- StyleScrollBar
 ----------------------------------------------------
 
---- This is only useful for scrollBars not created using StdUi
-function StdUi:StyleScrollBar(scrollBar)
+--- This is only useful for scrollBars not created using SUIConfig
+function SUIConfig:StyleScrollBar(scrollBar)
 	local buttonUp, buttonDown = scrollBar:GetChildren();
 
-	scrollBar.background = StdUi:Panel(scrollBar);
+	scrollBar.background = SUIConfig:Panel(scrollBar);
 	scrollBar.background:SetFrameLevel(scrollBar:GetFrameLevel() - 1);
 	scrollBar.background:SetWidth(scrollBar:GetWidth());
 	self:GlueAcross(scrollBar.background, scrollBar, 0, 1, 0, -1);
@@ -94,7 +94,7 @@ local SliderMethods = {
 
 	GetValue = function(self)
 		local minimum, maximum = self:GetMinMaxValues();
-		return Clamp(StdUi.Util.roundPrecision(self:OriginalGetValue(), self.precision), minimum, maximum);
+		return Clamp(SUIConfig.Util.roundPrecision(self:OriginalGetValue(), self.precision), minimum, maximum);
 	end
 };
 
@@ -113,7 +113,7 @@ local SliderEvents = {
 	end
 }
 
-function StdUi:Slider(parent, width, height, value, vertical, min, max)
+function SUIConfig:Slider(parent, width, height, value, vertical, min, max)
 	local slider = CreateFrame('Slider', nil, parent);
 	self:InitWidget(slider);
 	self:ApplyBackdrop(slider, 'panel');
@@ -209,7 +209,7 @@ local SliderWithBoxOnValueChanged = function(self, val)
 	self.widget:SetValue(val);
 end
 
-function StdUi:SliderWithBox(parent, width, height, value, min, max)
+function SUIConfig:SliderWithBox(parent, width, height, value, min, max)
 	local widget = CreateFrame('Frame', nil, parent);
 	self:SetObjSize(widget, width, height);
 
@@ -247,7 +247,7 @@ end
 --- ScrollBar
 ----------------------------------------------------
 
-function StdUi:ScrollBar(parent, width, height, horizontal)
+function SUIConfig:ScrollBar(parent, width, height, horizontal)
 	local panel = self:Panel(parent, width, height);
 	local scrollBar = self:Slider(parent, width, height, 0, not horizontal);
 
@@ -286,4 +286,4 @@ function StdUi:ScrollBar(parent, width, height, horizontal)
 	return scrollBar, panel;
 end
 
-StdUi:RegisterModule(module, version);
+SUIConfig:RegisterModule(module, version);

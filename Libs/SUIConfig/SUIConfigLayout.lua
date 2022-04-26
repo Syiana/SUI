@@ -1,12 +1,12 @@
---- @type StdUi
-local StdUi = LibStub and LibStub('StdUi', true);
+--- @type SUIConfig
+local SUIConfig = LibStub and LibStub('SUIConfig', true);
 
-if not StdUi then
+if not SUIConfig then
 	return
 end
 
 local module, version = 'Layout', 3;
-if not StdUi:UpgradeNeeded(module, version) then
+if not SUIConfig:UpgradeNeeded(module, version) then
 	return
 end
 
@@ -48,9 +48,9 @@ local defaultElementConfig = {
 local EasyLayoutRow = {
 	AddElement      = function(self, frame, config)
 		if not frame.layoutConfig then
-			frame.layoutConfig = StdUi.Util.tableMerge(defaultElementConfig, config or {});
+			frame.layoutConfig = SUIConfig.Util.tableMerge(defaultElementConfig, config or {});
 		elseif config then
-			frame.layoutConfig = StdUi.Util.tableMerge(frame.layoutConfig, config or {});
+			frame.layoutConfig = SUIConfig.Util.tableMerge(frame.layoutConfig, config or {});
 		end
 
 		TableInsert(self.elements, frame);
@@ -65,7 +65,7 @@ local EasyLayoutRow = {
 		end
 
 		for i = 1, #r do
-			self:AddElement(r[i], StdUi.Util.tableMerge(defaultElementConfig, cfg));
+			self:AddElement(r[i], SUIConfig.Util.tableMerge(defaultElementConfig, cfg));
 		end
 	end,
 
@@ -106,7 +106,7 @@ local EasyLayoutRow = {
 
 			-- take full size
 			if lc.fullSize then
-				StdUi:GlueAcross(
+				SUIConfig:GlueAcross(
 					frame,
 					self.parent,
 					l.padding.left,
@@ -159,7 +159,7 @@ local EasyLayoutRow = {
 ---EasyLayoutRow
 --@param parent Frame
 --@param config table
-function StdUi:EasyLayoutRow(parent, config)
+function SUIConfig:EasyLayoutRow(parent, config)
 	---@class EasyLayoutRow
 	local row = {
 		parent   = parent,
@@ -181,7 +181,7 @@ local EasyLayout = {
 			self.rows = {};
 		end
 
-		local row = self.stdUi:EasyLayoutRow(self, config);
+		local row = self.SUIConfig:EasyLayoutRow(self, config);
 		TableInsert(self.rows, row);
 
 		return row;
@@ -199,8 +199,8 @@ local EasyLayout = {
 	end
 };
 
-function StdUi:EasyLayout(parent, config)
-	parent.stdUi = self;
+function SUIConfig:EasyLayout(parent, config)
+	parent.SUIConfig = self;
 	parent.layout = self.Util.tableMerge(defaultLayoutConfig, config or {});
 
 	for k, v in pairs(EasyLayout) do
@@ -208,4 +208,4 @@ function StdUi:EasyLayout(parent, config)
 	end
 end
 
-StdUi:RegisterModule(module, version);
+SUIConfig:RegisterModule(module, version);

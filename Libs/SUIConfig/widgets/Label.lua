@@ -1,11 +1,11 @@
---- @type StdUi
-local StdUi = LibStub and LibStub('StdUi', true);
-if not StdUi then
+--- @type SUIConfig
+local SUIConfig = LibStub and LibStub('SUIConfig', true);
+if not SUIConfig then
 	return
 end
 
 local module, version = 'Label', 3;
-if not StdUi:UpgradeNeeded(module, version) then return end;
+if not SUIConfig:UpgradeNeeded(module, version) then return end;
 
 ----------------------------------------------------
 --- FontString
@@ -18,7 +18,7 @@ local FontStringMethods = {
 }
 
 --- @return FontString
-function StdUi:FontString(parent, text, inherit)
+function SUIConfig:FontString(parent, text, inherit)
 	local fs = parent:CreateFontString(nil, self.config.font.strata, inherit or 'GameFontNormal');
 
 	fs:SetText(text);
@@ -38,7 +38,7 @@ end
 ----------------------------------------------------
 
 --- @return FontString
-function StdUi:Label(parent, text, size, inherit, width, height)
+function SUIConfig:Label(parent, text, size, inherit, width, height)
 	local fs = self:FontString(parent, text, inherit);
 	fs:SetFont(self.config.font.family, self.config.font.size);
 	if size then
@@ -55,7 +55,7 @@ end
 ----------------------------------------------------
 
 --- @return FontString
-function StdUi:Header(parent, text, size, inherit, width, height)
+function SUIConfig:Header(parent, text, size, inherit, width, height)
 	local fs = self:Label(parent, text, size, inherit or 'GameFontNormalLarge', width, height);
 
 	self:SetTextColor(fs, 'header');
@@ -68,7 +68,7 @@ end
 ----------------------------------------------------
 
 --- @return FontString
-function StdUi:AddLabel(parent, object, text, labelPosition, labelWidth)
+function SUIConfig:AddLabel(parent, object, text, labelPosition, labelWidth)
 	local labelHeight = (self.config.font.size) + 4;
 	local label = self:Label(parent, text, self.config.font.size, nil, labelWidth, labelHeight);
 
@@ -86,4 +86,4 @@ function StdUi:AddLabel(parent, object, text, labelPosition, labelWidth)
 	return label;
 end
 
-StdUi:RegisterModule(module, version);
+SUIConfig:RegisterModule(module, version);

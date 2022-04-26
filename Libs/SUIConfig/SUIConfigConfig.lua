@@ -1,19 +1,19 @@
---- @type StdUi
-local StdUi = LibStub and LibStub('StdUi', true);
-if not StdUi then
+--- @type SUIConfig
+local SUIConfig = LibStub and LibStub('SUIConfig', true);
+if not SUIConfig then
 	return
 end
 
 local module, version = 'Config', 4;
-if not StdUi:UpgradeNeeded(module, version) then
+if not SUIConfig:UpgradeNeeded(module, version) then
 	return
 end
 
 local IsAddOnLoaded = IsAddOnLoaded;
 
-StdUi.config = {};
+SUIConfig.config = {};
 
-function StdUi:ResetConfig()
+function SUIConfig:ResetConfig()
 	local font, fontSize = GameFontNormal:GetFont();
 	local _, largeFontSize = GameFontNormalLarge:GetFont();
 
@@ -83,13 +83,13 @@ function StdUi:ResetConfig()
 		self.config.backdrop.panel = { r = eb[1], g = eb[2], b = eb[3], a = eb[4] };
 	end
 end
-StdUi:ResetConfig();
+SUIConfig:ResetConfig();
 
-function StdUi:SetDefaultFont(font, size, effect, strata)
+function SUIConfig:SetDefaultFont(font, size, effect, strata)
 	self.config.font.family = font;
 	self.config.font.size = size;
 	self.config.font.effect = effect;
 	self.config.font.strata = strata;
 end
 
-StdUi:RegisterModule(module, version);
+SUIConfig:RegisterModule(module, version);

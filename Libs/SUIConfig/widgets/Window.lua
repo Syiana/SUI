@@ -1,14 +1,14 @@
---- @type StdUi
-local StdUi = LibStub and LibStub('StdUi', true);
-if not StdUi then
+--- @type SUIConfig
+local SUIConfig = LibStub and LibStub('SUIConfig', true);
+if not SUIConfig then
 	return
 end
 
 local module, version = 'Window', 5;
-if not StdUi:UpgradeNeeded(module, version) then return end;
+if not SUIConfig:UpgradeNeeded(module, version) then return end;
 
 --- @return Frame
-function StdUi:Window(parent, width, height, title)
+function SUIConfig:Window(parent, width, height, title)
 	parent = parent or UIParent;
 	local frame = self:PanelWithTitle(parent, width, height, title);
 	frame:SetClampedToScreen(true);
@@ -34,7 +34,7 @@ function StdUi:Window(parent, width, height, title)
 
 	-- Resizable window shortcut
 	function frame:MakeResizable(direction)
-		StdUi:MakeResizable(frame, direction);
+		SUIConfig:MakeResizable(frame, direction);
 		return frame;
 	end
 
@@ -42,9 +42,9 @@ function StdUi:Window(parent, width, height, title)
 end
 
 -- Reusing dialogs
-StdUi.dialogs = {};
+SUIConfig.dialogs = {};
 --- @return Frame
-function StdUi:Dialog(title, message, dialogId)
+function SUIConfig:Dialog(title, message, dialogId)
 	local window;
 	if dialogId and self.dialogs[dialogId] then
 		window = self.dialogs[dialogId];
@@ -83,7 +83,7 @@ end
 ---		}
 --- }
 --- @return Frame
-function StdUi:Confirm(title, message, buttons, dialogId)
+function SUIConfig:Confirm(title, message, buttons, dialogId)
 	local window = self:Dialog(title, message, dialogId);
 
 	if buttons and not window.buttons then
@@ -120,4 +120,4 @@ function StdUi:Confirm(title, message, buttons, dialogId)
 	return window;
 end
 
-StdUi:RegisterModule(module, version);
+SUIConfig:RegisterModule(module, version);

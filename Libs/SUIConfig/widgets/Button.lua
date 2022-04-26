@@ -1,11 +1,11 @@
---- @type StdUi
-local StdUi = LibStub and LibStub('StdUi', true);
-if not StdUi then
+--- @type SUIConfig
+local SUIConfig = LibStub and LibStub('SUIConfig', true);
+if not SUIConfig then
 	return
 end
 
 local module, version = 'Button', 6;
-if not StdUi:UpgradeNeeded(module, version) then return end;
+if not SUIConfig:UpgradeNeeded(module, version) then return end;
 
 local SquareButtonCoords = {
 	UP = {     0.45312500,    0.64062500,     0.01562500,     0.20312500};
@@ -17,7 +17,7 @@ local SquareButtonCoords = {
 
 local SquareButtonMethods = {
 	SetIconDisabled = function(self, texture, iconWidth, iconHeight)
-		self.iconDisabled = self.stdUi:Texture(self, iconWidth, iconHeight, texture);
+		self.iconDisabled = self.SUIConfig:Texture(self, iconWidth, iconHeight, texture);
 		self.iconDisabled:SetDesaturated(true);
 		self.iconDisabled:SetPoint('CENTER', 0, 0);
 
@@ -25,7 +25,7 @@ local SquareButtonMethods = {
 	end,
 
 	SetIcon = function(self, texture, iconWidth, iconHeight, alsoDisabled)
-		self.icon = self.stdUi:Texture(self, iconWidth, iconHeight, texture);
+		self.icon = self.SUIConfig:Texture(self, iconWidth, iconHeight, texture);
 		self.icon:SetPoint('CENTER', 0, 0);
 
 		self:SetNormalTexture(self.icon);
@@ -36,9 +36,9 @@ local SquareButtonMethods = {
 	end
 };
 
-function StdUi:SquareButton(parent, width, height, icon)
+function SUIConfig:SquareButton(parent, width, height, icon)
 	local button = CreateFrame('Button', nil, parent);
-	button.stdUi = self;
+	button.SUIConfig = self;
 
 	self:InitWidget(button);
 	self:SetObjSize(button, width, height);
@@ -61,7 +61,7 @@ function StdUi:SquareButton(parent, width, height, icon)
 	return button;
 end
 
-function StdUi:ButtonLabel(parent, text)
+function SUIConfig:ButtonLabel(parent, text)
 	local label = self:Label(parent, text);
 	label:SetJustifyH('CENTER');
 	self:GlueAcross(label, parent, 2, -2, -2, 2);
@@ -71,7 +71,7 @@ function StdUi:ButtonLabel(parent, text)
 	return label;
 end
 
-function StdUi:HighlightButtonTexture(button)
+function SUIConfig:HighlightButtonTexture(button)
 	local hTex = self:Texture(button, nil, nil, nil);
 	hTex:SetColorTexture(
 		self.config.highlight.color.r,
@@ -86,7 +86,7 @@ end
 
 --- Creates a button with only a highlight
 --- @return Button
-function StdUi:HighlightButton(parent, width, height, text, inherit)
+function SUIConfig:HighlightButton(parent, width, height, text, inherit)
 	local button = CreateFrame('Button', nil, parent, inherit);
 	self:InitWidget(button);
 	self:SetObjSize(button, width, height);
@@ -106,9 +106,9 @@ function StdUi:HighlightButton(parent, width, height, text, inherit)
 end
 
 --- @return Button
-function StdUi:Button(parent, width, height, text, inherit)
+function SUIConfig:Button(parent, width, height, text, inherit)
 	local button = self:HighlightButton(parent, width, height, text, inherit)
-	button.stdUi = self;
+	button.SUIConfig = self;
 
 	button:SetHighlightTexture(nil);
 
@@ -119,9 +119,9 @@ function StdUi:Button(parent, width, height, text, inherit)
 	return button;
 end
 
-function StdUi:ButtonAutoWidth(button, padding)
+function SUIConfig:ButtonAutoWidth(button, padding)
 	padding = padding or 5;
 	button:SetWidth(button.text:GetStringWidth() + padding * 2);
 end
 
-StdUi:RegisterModule(module, version);
+SUIConfig:RegisterModule(module, version);

@@ -1,11 +1,11 @@
---- @type StdUi
-local StdUi = LibStub and LibStub('StdUi', true);
-if not StdUi then
+--- @type SUIConfig
+local SUIConfig = LibStub and LibStub('SUIConfig', true);
+if not SUIConfig then
 	return
 end
 
 local module, version = 'ContextMenu', 3;
-if not StdUi:UpgradeNeeded(module, version) then
+if not SUIConfig:UpgradeNeeded(module, version) then
 	return
 end
 
@@ -53,7 +53,7 @@ local ContextMenuOnMouseUp = function(self, button)
 end
 
 ---@type ContextMenu
-StdUi.ContextMenuMethods = {
+SUIConfig.ContextMenuMethods = {
 
 	CloseMenu         = function(self)
 		self:CloseSubMenus();
@@ -86,22 +86,22 @@ StdUi.ContextMenuMethods = {
 		local itemFrame;
 
 		if data.title then
-			itemFrame = parent.stdUi:Frame(parent, nil, 20);
-			itemFrame.text = parent.stdUi:Label(itemFrame);
-			parent.stdUi:GlueLeft(itemFrame.text, itemFrame, 0, 0, true);
+			itemFrame = parent.SUIConfig:Frame(parent, nil, 20);
+			itemFrame.text = parent.SUIConfig:Label(itemFrame);
+			parent.SUIConfig:GlueLeft(itemFrame.text, itemFrame, 0, 0, true);
 		elseif data.isSeparator then
-			itemFrame = parent.stdUi:Frame(parent, nil, 20);
-			itemFrame.texture = parent.stdUi:Texture(itemFrame, nil, 8,
+			itemFrame = parent.SUIConfig:Frame(parent, nil, 20);
+			itemFrame.texture = parent.SUIConfig:Texture(itemFrame, nil, 8,
 				[[Interface\COMMON\UI-TooltipDivider-Transparent]]);
 			itemFrame.texture:SetPoint('CENTER');
 			itemFrame.texture:SetPoint('LEFT');
 			itemFrame.texture:SetPoint('RIGHT');
 		elseif data.checkbox then
-			itemFrame = parent.stdUi:Checkbox(parent, '');
+			itemFrame = parent.SUIConfig:Checkbox(parent, '');
 		elseif data.radio then
-			itemFrame = parent.stdUi:Radio(parent, '', data.radioGroup);
+			itemFrame = parent.SUIConfig:Radio(parent, '', data.radioGroup);
 		elseif data.text then
-			itemFrame = parent.stdUi:HighlightButton(parent, nil, 20);
+			itemFrame = parent.SUIConfig:HighlightButton(parent, nil, 20);
 		end
 
 		itemFrame.contextMenuData = data;
@@ -117,11 +117,11 @@ StdUi.ContextMenuMethods = {
 		end
 
 		if not data.isSeparator and data.children then
-			itemFrame.icon = parent.stdUi:Texture(itemFrame, 10, 10, [[Interface\Buttons\SquareButtonTextures]]);
+			itemFrame.icon = parent.SUIConfig:Texture(itemFrame, 10, 10, [[Interface\Buttons\SquareButtonTextures]]);
 			itemFrame.icon:SetTexCoord(0.42187500, 0.23437500, 0.01562500, 0.20312500);
-			parent.stdUi:GlueRight(itemFrame.icon, itemFrame, -4, 0, true);
+			parent.SUIConfig:GlueRight(itemFrame.icon, itemFrame, -4, 0, true);
 
-			itemFrame.childContext = parent.stdUi:ContextMenu(parent, data.children, true, parent.level + 1);
+			itemFrame.childContext = parent.SUIConfig:ContextMenu(parent, data.children, true, parent.level + 1);
 			itemFrame.parentContext = parent;
 
 			itemFrame:HookScript('OnEnter', ContextMenuItemOnEnter);
@@ -150,7 +150,7 @@ StdUi.ContextMenuMethods = {
 
 		if data.title then
 			itemFrame.text:SetText(data.title);
-			parent.stdUi:ButtonAutoWidth(itemFrame);
+			parent.SUIConfig:ButtonAutoWidth(itemFrame);
 		elseif data.checkbox or data.radio then
 			itemFrame.text:SetText(data.checkbox or data.radio);
 			itemFrame:AutoWidth();
@@ -159,7 +159,7 @@ StdUi.ContextMenuMethods = {
 			end
 		elseif data.text then
 			itemFrame:SetText(data.text);
-			parent.stdUi:ButtonAutoWidth(itemFrame);
+			parent.SUIConfig:ButtonAutoWidth(itemFrame);
 		end
 
 		if data.children then
@@ -184,7 +184,7 @@ StdUi.ContextMenuMethods = {
 			self.optionFrames = {};
 		end
 
-		local _, totalHeight = self.stdUi:ObjectList(
+		local _, totalHeight = self.SUIConfig:ObjectList(
 			self,
 			self.optionFrames,
 			self.CreateItem,
@@ -210,7 +210,7 @@ StdUi.ContextMenuMethods = {
 	end
 };
 
-StdUi.ContextMenuEvents = {
+SUIConfig.ContextMenuEvents = {
 	OnEnter = function(self)
 
 	end,
@@ -219,10 +219,10 @@ StdUi.ContextMenuEvents = {
 	end
 };
 
-function StdUi:ContextMenu(parent, options, stopHook, level)
+function SUIConfig:ContextMenu(parent, options, stopHook, level)
 	---@class ContextMenu
 	local panel = self:Panel(parent);
-	panel.stdUi = self;
+	panel.SUIConfig = self;
 	panel.level = level or 1;
 	panel.padding = 16;
 
@@ -254,4 +254,4 @@ function StdUi:ContextMenu(parent, options, stopHook, level)
 	return panel;
 end
 
-StdUi:RegisterModule(module, version);
+SUIConfig:RegisterModule(module, version);

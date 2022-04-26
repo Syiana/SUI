@@ -1,11 +1,11 @@
---- @type StdUi
-local StdUi = LibStub and LibStub('StdUi', true);
-if not StdUi then
+--- @type SUIConfig
+local SUIConfig = LibStub and LibStub('SUIConfig', true);
+if not SUIConfig then
 	return
 end
 
 local module, version = 'ProgressBar', 3;
-if not StdUi:UpgradeNeeded(module, version) then return end;
+if not SUIConfig:UpgradeNeeded(module, version) then return end;
 
 ----------------------------------------------------
 --- ProgressBar
@@ -37,7 +37,7 @@ local ProgressBarEvents = {
 }
 
 --- @return StatusBar
-function StdUi:ProgressBar(parent, width, height, vertical)
+function SUIConfig:ProgressBar(parent, width, height, vertical)
 	vertical = vertical or false;
 
 	local progressBar = CreateFrame('StatusBar', nil, parent);
@@ -74,4 +74,4 @@ function StdUi:ProgressBar(parent, width, height, vertical)
 	return progressBar;
 end
 
-StdUi:RegisterModule(module, version);
+SUIConfig:RegisterModule(module, version);

@@ -1,11 +1,11 @@
---- @type StdUi
-local StdUi = LibStub and LibStub('StdUi', true);
-if not StdUi then
+--- @type SUIConfig
+local SUIConfig = LibStub and LibStub('SUIConfig', true);
+if not SUIConfig then
 	return
 end
 
 local module, version = 'Position', 2;
-if not StdUi:UpgradeNeeded(module, version) then return end;
+if not SUIConfig:UpgradeNeeded(module, version) then return end;
 
 -- Points
 local Center = 'CENTER';
@@ -20,7 +20,7 @@ local TopRight = 'TOPRIGHT';
 local BottomLeft = 'BOTTOMLEFT';
 local BottomRight = 'BOTTOMRIGHT';
 
-StdUi.Anchors = {
+SUIConfig.Anchors = {
 	Center = Center,
 
 	Top = Top,
@@ -35,7 +35,7 @@ StdUi.Anchors = {
 }
 
 --- Glues object below referenced object
-function StdUi:GlueBelow(object, referencedObject, x, y, align)
+function SUIConfig:GlueBelow(object, referencedObject, x, y, align)
 	if align == Left then
 		object:SetPoint(TopLeft, referencedObject, BottomLeft, x, y);
 	elseif align == Right then
@@ -46,7 +46,7 @@ function StdUi:GlueBelow(object, referencedObject, x, y, align)
 end
 
 --- Glues object above referenced object
-function StdUi:GlueAbove(object, referencedObject, x, y, align)
+function SUIConfig:GlueAbove(object, referencedObject, x, y, align)
 	if align == Left then
 		object:SetPoint(BottomLeft, referencedObject, TopLeft, x, y);
 	elseif align == Right then
@@ -56,7 +56,7 @@ function StdUi:GlueAbove(object, referencedObject, x, y, align)
 	end
 end
 
-function StdUi:GlueTop(object, referencedObject, x, y, align)
+function SUIConfig:GlueTop(object, referencedObject, x, y, align)
 	if align == Left then
 		object:SetPoint(TopLeft, referencedObject, TopLeft, x, y);
 	elseif align == Right then
@@ -66,7 +66,7 @@ function StdUi:GlueTop(object, referencedObject, x, y, align)
 	end
 end
 
-function StdUi:GlueBottom(object, referencedObject, x, y, align)
+function SUIConfig:GlueBottom(object, referencedObject, x, y, align)
 	if align == Left then
 		object:SetPoint(BottomLeft, referencedObject, BottomLeft, x, y);
 	elseif align == Right then
@@ -76,7 +76,7 @@ function StdUi:GlueBottom(object, referencedObject, x, y, align)
 	end
 end
 
-function StdUi:GlueRight(object, referencedObject, x, y, inside)
+function SUIConfig:GlueRight(object, referencedObject, x, y, inside)
 	if inside then
 		object:SetPoint(Right, referencedObject, Right, x, y);
 	else
@@ -84,7 +84,7 @@ function StdUi:GlueRight(object, referencedObject, x, y, inside)
 	end
 end
 
-function StdUi:GlueLeft(object, referencedObject, x, y, inside)
+function SUIConfig:GlueLeft(object, referencedObject, x, y, inside)
 	if inside then
 		object:SetPoint(Left, referencedObject, Left, x, y);
 	else
@@ -92,7 +92,7 @@ function StdUi:GlueLeft(object, referencedObject, x, y, inside)
 	end
 end
 
-function StdUi:GlueAfter(object, referencedObject, topX, topY, bottomX, bottomY)
+function SUIConfig:GlueAfter(object, referencedObject, topX, topY, bottomX, bottomY)
 	if topX and topY then
 		object:SetPoint(TopLeft, referencedObject, TopRight, topX, topY);
 	end
@@ -101,7 +101,7 @@ function StdUi:GlueAfter(object, referencedObject, topX, topY, bottomX, bottomY)
 	end
 end
 
-function StdUi:GlueBefore(object, referencedObject, topX, topY, bottomX, bottomY)
+function SUIConfig:GlueBefore(object, referencedObject, topX, topY, bottomX, bottomY)
 	if topX and topY then
 		object:SetPoint(TopRight, referencedObject, TopLeft, topX, topY);
 	end
@@ -111,13 +111,13 @@ function StdUi:GlueBefore(object, referencedObject, topX, topY, bottomX, bottomY
 end
 
 -- More advanced positioning functions
-function StdUi:GlueAcross(object, referencedObject, topLeftX, topLeftY, bottomRightX, bottomRightY)
+function SUIConfig:GlueAcross(object, referencedObject, topLeftX, topLeftY, bottomRightX, bottomRightY)
 	object:SetPoint(TopLeft, referencedObject, TopLeft, topLeftX, topLeftY);
 	object:SetPoint(BottomRight, referencedObject, BottomRight, bottomRightX, bottomRightY);
 end
 
 -- Glues object to opposite side of anchor
-function StdUi:GlueOpposite(object, referencedObject, x, y, anchor)
+function SUIConfig:GlueOpposite(object, referencedObject, x, y, anchor)
 	if anchor == 'TOP' then 			object:SetPoint('BOTTOM', referencedObject, anchor, x, y);
 	elseif anchor == 'BOTTOM' then		object:SetPoint('TOP', referencedObject, anchor, x, y);
 	elseif anchor == 'LEFT' then		object:SetPoint('RIGHT', referencedObject, anchor, x, y);
@@ -130,4 +130,4 @@ function StdUi:GlueOpposite(object, referencedObject, x, y, anchor)
 	end
 end
 
-StdUi:RegisterModule(module, version);
+SUIConfig:RegisterModule(module, version);

@@ -15,5 +15,5 @@
   <Include file='AceSerializer-3.0\AceSerializer-3.0.xml'/>
   <Include file='LibWindow-1.1\Libwindow.lua'/>
   <Include file='LibSharedMedia-3.0\LibSharedMedia-3.0.xml'/>
-  <Include file='StdUi\StdUi.xml'/>
+  <Include file='SUIConfig\SUIConfig.xml'/>
 </Ui>

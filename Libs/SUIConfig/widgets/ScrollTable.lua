@@ -1,11 +1,11 @@
---- @type StdUi
-local StdUi = LibStub and LibStub('StdUi', true);
-if not StdUi then
+--- @type SUIConfig
+local SUIConfig = LibStub and LibStub('SUIConfig', true);
+if not SUIConfig then
 	return
 end
 
 local module, version = 'ScrollTable', 6;
-if not StdUi:UpgradeNeeded(module, version) then
+if not SUIConfig:UpgradeNeeded(module, version) then
 	return
 end
 
@@ -70,10 +70,10 @@ local methods = {
 			local column = self.columns[i];
 			local columnFrame = columnHeadFrame.columns[i];
 			if not columnHeadFrame.columns[i] then
-				columnFrame = self.stdUi:HighlightButton(columnHeadFrame);
+				columnFrame = self.SUIConfig:HighlightButton(columnHeadFrame);
 				columnFrame:SetPushedTextOffset(0, 0);
 
-				columnFrame.arrow = self.stdUi:Texture(columnFrame, 8, 8, [[Interface\Buttons\UI-SortArrow]]);
+				columnFrame.arrow = self.SUIConfig:Texture(columnFrame, 8, 8, [[Interface\Buttons\UI-SortArrow]]);
 				columnFrame.arrow:Hide();
 
 				if self.headerEvents then
@@ -99,10 +99,10 @@ local methods = {
 
 			if align == 'LEFT' then
 				columnFrame.arrow:ClearAllPoints();
-				self.stdUi:GlueRight(columnFrame.arrow, columnFrame, 0, 0, true);
+				self.SUIConfig:GlueRight(columnFrame.arrow, columnFrame, 0, 0, true);
 			else
 				columnFrame.arrow:ClearAllPoints();
-				self.stdUi:GlueLeft(columnFrame.arrow, columnFrame, 5, 0, true);
+				self.SUIConfig:GlueLeft(columnFrame.arrow, columnFrame, 5, 0, true);
 			end
 
 			if columns[i].sortable == false and columns[i].sortable ~= nil then
@@ -180,7 +180,7 @@ local methods = {
 				local cell = rowFrame.columns[j];
 				if not cell then
 					cell = CreateFrame('Button', nil, rowFrame);
-					cell.text = self.stdUi:FontString(cell, '');
+					cell.text = self.SUIConfig:FontString(cell, '');
 
 					rowFrame.columns[j] = cell;
 
@@ -463,10 +463,10 @@ local methods = {
 			if type(format) == 'function' then
 				cellFrame.text:SetText(format(value, rowData, columnData));
 			elseif format == 'money' then
-				value = table.stdUi.Util.formatMoney(value);
+				value = table.SUIConfig.Util.formatMoney(value);
 				cellFrame.text:SetText(value);
 			elseif format == 'moneyShort' then
-				value = table.stdUi.Util.formatMoney(value, true);
+				value = table.SUIConfig.Util.formatMoney(value, true);
 				cellFrame.text:SetText(value);
 			elseif format == 'number' then
 				value = tostring(value);
@@ -476,7 +476,7 @@ local methods = {
 					cellFrame.texture:SetTexture(value);
 				else
 					local iconSize = columnData.iconSize or table.rowHeight;
-					cellFrame.texture = table.stdUi:Texture(cellFrame, iconSize, iconSize, value);
+					cellFrame.texture = table.SUIConfig:Texture(cellFrame, iconSize, iconSize, value);
 					cellFrame.texture:SetPoint('CENTER', 0, 0);
 				end
 			elseif format == 'custom' then
@@ -499,18 +499,18 @@ local methods = {
 			if color then
 				cellFrame.text:SetTextColor(color.r, color.g, color.b, color.a);
 			else
-				table.stdUi:SetTextColor(cellFrame.text, 'normal');
+				table.SUIConfig:SetTextColor(cellFrame.text, 'normal');
 			end
 
 			if table.selectionEnabled then
 				if table.selected == rowIndex then
-					table:SetHighLightColor(rowFrame, table.stdUi.config.highlight.color);
+					table:SetHighLightColor(rowFrame, table.SUIConfig.config.highlight.color);
 				else
 					table:SetHighLightColor(rowFrame, nil);
 				end
 			else
 				if tContains(table.highlightedRows, rowIndex) then
-					table:SetHighLightColor(rowFrame, table.stdUi.config.highlight.color);
+					table:SetHighLightColor(rowFrame, table.SUIConfig.config.highlight.color);
 				else
 					table:SetHighLightColor(rowFrame, nil);
 				end
@@ -677,7 +677,7 @@ local methods = {
 
 local cellEvents = {
 	OnEnter = function(table, cellFrame, rowFrame, rowData, columnData, rowIndex)
-		table:SetHighLightColor(rowFrame, table.stdUi.config.highlight.color);
+		table:SetHighLightColor(rowFrame, table.SUIConfig.config.highlight.color);
 		return true;
 	end,
 
@@ -744,11 +744,11 @@ local ScrollTableOnVerticalScroll = function(self, offset)
 	scrollTable:DoVerticalScroll(offset, scrollTable.rowHeight, ScrollTableUpdateFn);
 end
 
-function StdUi:ScrollTable(parent, columns, numRows, rowHeight)
+function SUIConfig:ScrollTable(parent, columns, numRows, rowHeight)
 	local scrollTable = self:FauxScrollFrame(parent, 100, 100, rowHeight or 15);
 	local scrollFrame = scrollTable.scrollFrame;
 
-	scrollTable.stdUi = self;
+	scrollTable.SUIConfig = self;
 	scrollTable.numberOfRows = numRows or 12;
 	scrollTable.rowHeight = rowHeight or 15;
 	scrollTable.columns = columns;
@@ -772,4 +772,4 @@ function StdUi:ScrollTable(parent, columns, numRows, rowHeight)
 	return scrollTable;
 end
 
-StdUi:RegisterModule(module, version);
+SUIConfig:RegisterModule(module, version);

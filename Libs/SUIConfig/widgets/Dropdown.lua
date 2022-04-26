@@ -1,17 +1,17 @@
---- @type StdUi
-local StdUi = LibStub and LibStub('StdUi', true);
-if not StdUi then
+--- @type SUIConfig
+local SUIConfig = LibStub and LibStub('SUIConfig', true);
+if not SUIConfig then
 	return
 end
 
 local module, version = 'Dropdown', 4;
-if not StdUi:UpgradeNeeded(module, version) then return end;
+if not SUIConfig:UpgradeNeeded(module, version) then return end;
 
 local TableInsert = tinsert;
 
 -- reference to all other dropdowns to close them when new one opens
-local dropdowns = StdUiDropdowns or {};
-StdUiDropdowns = dropdowns;
+local dropdowns = SUIConfigDropdowns or {};
+SUIConfigDropdowns = dropdowns;
 
 local DropdownItemOnClick = function(self)
 	self.dropdown:SetValue(self.value, self:GetText());
@@ -28,9 +28,9 @@ local DropdownMethods = {
 		local optionButton;
 
 		if dropdown.multi then
-			optionButton = dropdown.stdUi:Checkbox(parent, '', parent:GetWidth(), 20);
+			optionButton = dropdown.SUIConfig:Checkbox(parent, '', parent:GetWidth(), 20);
 		else
-			optionButton = dropdown.stdUi:HighlightButton(parent, parent:GetWidth(), 20, '');
+			optionButton = dropdown.SUIConfig:HighlightButton(parent, parent:GetWidth(), 20, '');
 			optionButton.text:SetJustifyH('LEFT');
 		end
 
@@ -89,7 +89,7 @@ local DropdownMethods = {
 
 	RepaintOptions = function(self)
 		local scrollChild = self.optsFrame.scrollChild;
-		self.stdUi:ObjectList(
+		self.SUIConfig:ObjectList(
 			scrollChild,
 			scrollChild.items,
 			self.buttonCreate,
@@ -229,10 +229,10 @@ local DropdownEvents = {
 ---		{text = 'some text3', value = 12},
 --- }
 --- @return Dropdown
-function StdUi:Dropdown(parent, width, height, options, value, multi, assoc)
+function SUIConfig:Dropdown(parent, width, height, options, value, multi, assoc)
 	--- @class Dropdown
 	local dropdown = self:Button(parent, width, height, '');
-	dropdown.stdUi = self;
+	dropdown.SUIConfig = self;
 
 	dropdown.text:SetJustifyH('LEFT');
 	-- make it shorter because of arrow
@@ -282,4 +282,4 @@ function StdUi:Dropdown(parent, width, height, options, value, multi, assoc)
 	return dropdown;
 end
 
-StdUi:RegisterModule(module, version);
+SUIConfig:RegisterModule(module, version);

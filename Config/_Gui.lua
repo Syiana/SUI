@@ -7,8 +7,8 @@ local Textures = SUI:GetModule("Data.Textures")
 local User = SUI:GetModule("Data.User")
 
 function Gui:OnEnable()
-  local StdUi = LibStub('StdUi')
-  StdUi.config = {
+  local SUIConfig = LibStub('SUIConfig')
+  SUIConfig.config = {
     font = {
         family    = STANDARD_TEXT_FONT,
         size      = 12,
@@ -58,17 +58,17 @@ function Gui:OnEnable()
   local db = SUI.db
 
   --Config
-  local config = StdUi:Window(UIParent, 700, 400)
+  local config = SUIConfig:Window(UIParent, 700, 400)
   config:SetPoint('CENTER')
   config.titlePanel:SetPoint('LEFT', 10, 0)
   config.titlePanel:SetPoint('RIGHT', -35, 0)
   config:Hide()
 
-  local version = StdUi:Label(config.titlePanel, GetAddOnMetadata("SUI", "version"))
-  StdUi:GlueLeft(version, config.titlePanel, 35, 0)
+  local version = SUIConfig:Label(config.titlePanel, GetAddOnMetadata("SUI", "version"))
+  SUIConfig:GlueLeft(version, config.titlePanel, 35, 0)
 
-  local logo = StdUi:Texture(config.titlePanel, 120, 35, "Interface\\AddOns\\SUI\\Media\\Textures\\Config\\Logo")
-  StdUi:GlueAbove(logo, config, 0, -35)
+  local logo = SUIConfig:Texture(config.titlePanel, 120, 35, "Interface\\AddOns\\SUI\\Media\\Textures\\Config\\Logo")
+  SUIConfig:GlueAbove(logo, config, 0, -35)
 
   function SUI:Config()
     if (config:IsVisible()) then
@@ -105,16 +105,16 @@ function Gui:OnEnable()
   end)
 
   --Edit
-  local edit = StdUi:Button(config, 160, 25, 'Edit')
-  StdUi:GlueBottom(edit, config, 10, 36, 'LEFT')
+  local edit = SUIConfig:Button(config, 160, 25, 'Edit')
+  SUIConfig:GlueBottom(edit, config, 10, 36, 'LEFT')
   edit:SetScript('OnClick', function()
     SUI:Config()
     SUI:Edit()
   end)
 
   --Save
-  local save = StdUi:Button(config, 160, 25, 'Save')
-  StdUi:GlueBottom(save, config, 10, 10, 'LEFT')
+  local save = SUIConfig:Button(config, 160, 25, 'Save')
+  SUIConfig:GlueBottom(save, config, 10, 10, 'LEFT')
   save:SetScript('OnClick', function()
     ReloadUI()
   end)
@@ -134,8 +134,8 @@ function Gui:OnEnable()
     {title = 'FAQ', name = 'FAQ'},
     -- {title = 'Profiles', name = 'Profiles'},
   }
-  local tabs = StdUi:TabPanel(config, nil, nil, categories, true, nil, 25)
-  StdUi:GlueAcross(tabs, config, 10, -35, -10, 10)
+  local tabs = SUIConfig:TabPanel(config, nil, nil, categories, true, nil, 25)
+  SUIConfig:GlueAcross(tabs, config, 10, -35, -10, 10)
 
   --Options
   local options =  {
@@ -1092,12 +1092,12 @@ function Gui:OnEnable()
               local function update(parent, label, data)
                 label.data = data;
                 label:SetText(data.text);
-                StdUi:SetObjSize(label, 60, 20);
+                SUIConfig:SetObjSize(label, 60, 20);
                 label:SetPoint('RIGHT');
                 label:SetPoint('LEFT');
                 return label;
               end
-              StdUi:ObjectList(self.scrollChild, items, 'Label', update, User.team);
+              SUIConfig:ObjectList(self.scrollChild, items, 'Label', update, User.team);
             end,
             height = 220,
             column = 4,
@@ -1111,12 +1111,12 @@ function Gui:OnEnable()
               local function update(parent, label, data)
                 label.data = data;
                 label:SetText(data.text);
-                StdUi:SetObjSize(label, 60, 20);
+                SUIConfig:SetObjSize(label, 60, 20);
                 label:SetPoint('RIGHT');
                 label:SetPoint('LEFT');
                 return label;
               end
-              StdUi:ObjectList(self.scrollChild, items, 'Label', update, User.specials);
+              SUIConfig:ObjectList(self.scrollChild, items, 'Label', update, User.specials);
             end,
             height = 220,
             column = 4,
@@ -1130,12 +1130,12 @@ function Gui:OnEnable()
               local function update(parent, label, data)
                 label.data = data;
                 label:SetText(data.text);
-                StdUi:SetObjSize(label, 60, 20);
+                SUIConfig:SetObjSize(label, 60, 20);
                 label:SetPoint('RIGHT');
                 label:SetPoint('LEFT');
                 return label;
               end
-              StdUi:ObjectList(self.scrollChild, items, 'Label', update, User.supporter);
+              SUIConfig:ObjectList(self.scrollChild, items, 'Label', update, User.supporter);
             end,
             height = 220,
             column = 4,
@@ -1153,7 +1153,7 @@ function Gui:OnEnable()
             type = 'button',
             text = 'Discord',
             onClick = function()
-              StdUi:Dialog('Discord', 'discord.gg/yBWkxxR')
+              SUIConfig:Dialog('Discord', 'discord.gg/yBWkxxR')
             end,
             column = 3,
             order = 1
@@ -1162,7 +1162,7 @@ function Gui:OnEnable()
             type = 'button',
             text = 'Twitch',
             onClick = function()
-              StdUi:Dialog('Twitch', 'twitch.tv/syiana')
+              SUIConfig:Dialog('Twitch', 'twitch.tv/syiana')
             end,
             column = 3,
             order = 2
@@ -1181,7 +1181,7 @@ function Gui:OnEnable()
                   onClick = function(self) self:GetParent():Hide() end
                 }
               }
-              StdUi:Confirm('Reset UI', 'This will reset your profile', buttons)
+              SUIConfig:Confirm('Reset UI', 'This will reset your profile', buttons)
             end,
             column = 3,
             order = 3
@@ -1258,6 +1258,6 @@ function Gui:OnEnable()
   }
 
   tabs:EnumerateTabs(function(tab)
-    StdUi:BuildWindow(tab.frame, options[tab.name])
+    SUIConfig:BuildWindow(tab.frame, options[tab.name])
   end)
 end

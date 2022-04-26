@@ -1,11 +1,11 @@
---- @type StdUi
-local StdUi = LibStub and LibStub('StdUi', true);
-if not StdUi then
+--- @type SUIConfig
+local SUIConfig = LibStub and LibStub('SUIConfig', true);
+if not SUIConfig then
 	return
 end
 
 local module, version = 'Tab', 4;
-if not StdUi:UpgradeNeeded(module, version) then
+if not SUIConfig:UpgradeNeeded(module, version) then
 	return
 end
 
@@ -48,7 +48,7 @@ local TabPanelMethods = {
 			local btnContainer = self.buttonContainer;
 
 			if not btn then
-				btn = self.stdUi:Button(btnContainer, nil, self.buttonHeight);
+				btn = self.SUIConfig:Button(btnContainer, nil, self.buttonHeight);
 				tab.button = btn;
 				btn.tabFrame = self;
 
@@ -64,20 +64,20 @@ local TabPanelMethods = {
 			if self.vertical then
 				btn:SetWidth(self.buttonWidth);
 			else
-				self.stdUi:ButtonAutoWidth(btn);
+				self.SUIConfig:ButtonAutoWidth(btn);
 			end
 
 			if self.vertical then
 				if not prevBtn then
-					self.stdUi:GlueTop(btn, btnContainer, 0, 0, 'CENTER');
+					self.SUIConfig:GlueTop(btn, btnContainer, 0, 0, 'CENTER');
 				else
-					self.stdUi:GlueBelow(btn, prevBtn, 0, -1);
+					self.SUIConfig:GlueBelow(btn, prevBtn, 0, -1);
 				end
 			else
 				if not prevBtn then
-					self.stdUi:GlueTop(btn, btnContainer, 0, 0, 'LEFT');
+					self.SUIConfig:GlueTop(btn, btnContainer, 0, 0, 'LEFT');
 				else
-					self.stdUi:GlueRight(btn, prevBtn, 5, 0);
+					self.SUIConfig:GlueRight(btn, prevBtn, 5, 0);
 				end
 			end
 
@@ -89,15 +89,15 @@ local TabPanelMethods = {
 	DrawFrames = function(self)
 		for _, tab in pairs(self.tabs) do
 			if not tab.frame then
-				tab.frame = self.stdUi:Frame(self.container);
+				tab.frame = self.SUIConfig:Frame(self.container);
 			end
 
 			tab.frame:ClearAllPoints();
 			tab.frame:SetAllPoints();
 
 			if tab.layout then
-				self.stdUi:BuildWindow(tab.frame, tab.layout);
-				self.stdUi:EasyLayout(tab.frame, { padding = { top = 10 } });
+				self.SUIConfig:BuildWindow(tab.frame, tab.layout);
+				self.SUIConfig:EasyLayout(tab.frame, { padding = { top = 10 } });
 
 				tab.frame:SetScript('OnShow', function(of)
 					of:DoLayout();
@@ -173,13 +173,13 @@ local TabPanelMethods = {
 ---        title = 'Third'
 ---    }
 ---}
-function StdUi:TabPanel(parent, width, height, tabs, vertical, buttonWidth, buttonHeight)
+function SUIConfig:TabPanel(parent, width, height, tabs, vertical, buttonWidth, buttonHeight)
 	vertical = vertical or false;
 	buttonWidth = buttonWidth or 160;
 	buttonHeight = buttonHeight or 20;
 
 	local tabFrame = self:Frame(parent, width, height);
-	tabFrame.stdUi = self;
+	tabFrame.SUIConfig = self;
 	tabFrame.tabs = tabs;
 	tabFrame.vertical = vertical;
 	tabFrame.buttonWidth = buttonWidth;
@@ -220,4 +220,4 @@ function StdUi:TabPanel(parent, width, height, tabs, vertical, buttonWidth, butt
 	return tabFrame;
 end
 
-StdUi:RegisterModule(module, version);
+SUIConfig:RegisterModule(module, version);

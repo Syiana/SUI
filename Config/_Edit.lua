@@ -2,8 +2,8 @@ local Edit = SUI:NewModule("Config.Edit");
 
 function Edit:OnEnable()
 	local Window = LibStub("LibWindow-1.1")
-	local StdUi = LibStub('StdUi');
-	StdUi.config = {
+	local SUIConfig = LibStub('SUIConfig');
+	SUIConfig.config = {
 	  font = {
 		  family    = "Interface\\AddOns\\SUI_Config\\Media\\Fonts\\Prototype.ttf",
 		  size      = 12,
@@ -81,19 +81,19 @@ function Edit:OnEnable()
 		self:SetUserPlaced(true)
 
 		-- Panel
-		self.DragFrame = StdUi:Panel(UIParent)
+		self.DragFrame = SUIConfig:Panel(UIParent)
 		self.DragFrame:SetAllPoints(self)
 		self.DragFrame:SetFrameStrata("TOOLTIP")
 		self.DragFrame:Hide()
 
 		-- Label
-		StdUi:AddLabel(self.DragFrame, self.DragFrame, self:GetName(), 'TOP')
+		SUIConfig:AddLabel(self.DragFrame, self.DragFrame, self:GetName(), 'TOP')
 		self.DragFrame.label:SetAllPoints(true)
 		self.DragFrame.label:SetJustifyH("TOP")
 		self.DragFrame.label:SetJustifyV("TOP")
 
 		-- Tooltip
-		StdUi:FrameTooltip(self.DragFrame, 'Hold ALT to move the Frame!', 'Tooltip', 'TOP', true)
+		SUIConfig:FrameTooltip(self.DragFrame, 'Hold ALT to move the Frame!', 'Tooltip', 'TOP', true)
 
     -- Create DB
     if not (SUI.db.profile.edit[frame]) then SUI.db.profile.edit[frame] = {} end
@@ -159,14 +159,14 @@ function Edit:OnEnable()
 	for i, v in pairs (Frames) do dragFrame(v) end
 
 	-- Edit
-	local EditFrame = StdUi:PanelWithTitle(UIParent, 220, 100, 'Edit', 200, 32)
+	local EditFrame = SUIConfig:PanelWithTitle(UIParent, 220, 100, 'Edit', 200, 32)
 	EditFrame:SetPoint('CENTER');
 	EditFrame.titlePanel:SetPoint('LEFT', 10, 0)
 	EditFrame.titlePanel:SetPoint('RIGHT', -10, 0)
   EditFrame:Hide()
 
-	local GridCheckbox = StdUi:Checkbox(EditFrame, 'Show Grid')
-	StdUi:GlueTop(GridCheckbox, EditFrame, 0, -40, 'CENTER')
+	local GridCheckbox = SUIConfig:Checkbox(EditFrame, 'Show Grid')
+	SUIConfig:GlueTop(GridCheckbox, EditFrame, 0, -40, 'CENTER')
   GridCheckbox:SetChecked(true)
 	GridCheckbox:SetScript("OnClick", function(self)
 		local checked = self:GetChecked()
@@ -174,15 +174,15 @@ function Edit:OnEnable()
     self:SetChecked(not checked)
 	end)
 
-	local SaveButton = StdUi:Button(EditFrame, 90, 20, 'Save')
-	StdUi:GlueBottom(SaveButton, EditFrame, 10, 10, 'LEFT')
+	local SaveButton = SUIConfig:Button(EditFrame, 90, 20, 'Save')
+	SUIConfig:GlueBottom(SaveButton, EditFrame, 10, 10, 'LEFT')
 	SaveButton:SetScript('OnClick', function()
 		SUI:Edit()
 		SUI:Config()
 	end)
 
-	local ResetButton = StdUi:Button(EditFrame, 90, 20, 'Reset')
-	StdUi:GlueBottom(ResetButton, EditFrame, -10, 10, 'RIGHT')
+	local ResetButton = SUIConfig:Button(EditFrame, 90, 20, 'Reset')
+	SUIConfig:GlueBottom(ResetButton, EditFrame, -10, 10, 'RIGHT')
 	ResetButton:SetScript('OnClick', function()
     local buttons = {
       ok = {
@@ -194,7 +194,7 @@ function Edit:OnEnable()
         onClick = function(self) self:GetParent():Hide(); end
       }
     }
-    StdUi:Confirm('Reset Frames', 'This will reset your frames', buttons)
+    SUIConfig:Confirm('Reset Frames', 'This will reset your frames', buttons)
 	end)
 
 	function SUI:Edit()

@@ -1,11 +1,11 @@
---- @type StdUi
-local StdUi = LibStub and LibStub('StdUi', true);
-if not StdUi then
+--- @type SUIConfig
+local SUIConfig = LibStub and LibStub('SUIConfig', true);
+if not SUIConfig then
 	return
 end
 
 local module, version = 'Util', 10;
-if not StdUi:UpgradeNeeded(module, version) then
+if not SUIConfig:UpgradeNeeded(module, version) then
 	return
 end
 
@@ -14,7 +14,7 @@ local TableInsert = tinsert;
 local TableSort = table.sort;
 
 --- @param frame Frame
-function StdUi:MarkAsValid(frame, valid)
+function SUIConfig:MarkAsValid(frame, valid)
 	if not frame.SetBackdrop then
 		Mixin(frame, BackdropTemplateMixin)
 	end
@@ -32,12 +32,12 @@ function StdUi:MarkAsValid(frame, valid)
 	end
 end
 
-StdUi.Util = {
+SUIConfig.Util = {
 	--- @param self EditBox
 	editBoxValidator    = function(self)
 		self.value = self:GetText();
 
-		self.stdUi:MarkAsValid(self, true);
+		self.SUIConfig:MarkAsValid(self, true);
 		return true;
 	end,
 
@@ -45,17 +45,17 @@ StdUi.Util = {
 	moneyBoxValidator   = function(self)
 		local text = self:GetText();
 		text = text:trim();
-		local total, gold, silver, copper, isValid = StdUi.Util.parseMoney(text);
+		local total, gold, silver, copper, isValid = SUIConfig.Util.parseMoney(text);
 
 		if not isValid or total == 0 then
-			self.stdUi:MarkAsValid(self, false);
+			self.SUIConfig:MarkAsValid(self, false);
 			return false;
 		end
 
-		self:SetText(StdUi.Util.formatMoney(total));
+		self:SetText(SUIConfig.Util.formatMoney(total));
 		self.value = total;
 
-		self.stdUi:MarkAsValid(self, true);
+		self.SUIConfig:MarkAsValid(self, true);
 		return true;
 	end,
 
@@ -63,17 +63,17 @@ StdUi.Util = {
 	moneyBoxValidatorExC   = function(self)
 		local text = self:GetText();
 		text = text:trim();
-		local total, gold, silver, copper, isValid = StdUi.Util.parseMoney(text);
+		local total, gold, silver, copper, isValid = SUIConfig.Util.parseMoney(text);
 
 		if not isValid or total == 0 or (copper and tonumber(copper) > 0) then
-			self.stdUi:MarkAsValid(self, false);
+			self.SUIConfig:MarkAsValid(self, false);
 			return false;
 		end
 
-		self:SetText(StdUi.Util.formatMoney(total, true));
+		self:SetText(SUIConfig.Util.formatMoney(total, true));
 		self.value = total;
 
-		self.stdUi:MarkAsValid(self, true);
+		self.SUIConfig:MarkAsValid(self, true);
 		return true;
 	end,
 
@@ -85,23 +85,23 @@ StdUi.Util = {
 		local value = tonumber(text);
 
 		if value == nil then
-			self.stdUi:MarkAsValid(self, false);
+			self.SUIConfig:MarkAsValid(self, false);
 			return false;
 		end
 
 		if self.maxValue and self.maxValue < value then
-			self.stdUi:MarkAsValid(self, false);
+			self.SUIConfig:MarkAsValid(self, false);
 			return false;
 		end
 
 		if self.minValue and self.minValue > value then
-			self.stdUi:MarkAsValid(self, false);
+			self.SUIConfig:MarkAsValid(self, false);
 			return false;
 		end
 
 		self.value = value;
 
-		self.stdUi:MarkAsValid(self, true);
+		self.SUIConfig:MarkAsValid(self, true);
 
 		return true;
 	end,
@@ -113,7 +113,7 @@ StdUi.Util = {
 		local name, _, icon, _, _, _, spellId = GetSpellInfo(text);
 
 		if not name then
-			self.stdUi:MarkAsValid(self, false);
+			self.SUIConfig:MarkAsValid(self, false);
 			return false;
 		end
 
@@ -121,12 +121,12 @@ StdUi.Util = {
 		self.value = spellId;
 		self.icon:SetTexture(icon);
 
-		self.stdUi:MarkAsValid(self, true);
+		self.SUIConfig:MarkAsValid(self, true);
 		return true;
 	end,
 
 	parseMoney          = function(text)
-		text = StdUi.Util.stripColors(text);
+		text = SUIConfig.Util.stripColors(text);
 		local total = 0;
 		local cFound, _, copper = string.find(text, '(%d+)c$');
 		if cFound then
@@ -221,7 +221,7 @@ StdUi.Util = {
 		for k, v in pairs(default) do
 			if type(v) == 'table' then
 				if new[k] then
-					result[k] = StdUi.Util.tableMerge(v, new[k]);
+					result[k] = SUIConfig.Util.tableMerge(v, new[k]);
 				else
 					result[k] = v;
 				end
@@ -268,7 +268,7 @@ StdUi.Util = {
 
 		if state == nil then
 			-- the first time, generate the index
-			t.__orderedIndex = StdUi.Util.__genOrderedIndex(t);
+			t.__orderedIndex = SUIConfig.Util.__genOrderedIndex(t);
 			key = t.__orderedIndex[1];
 		else
 			-- fetch the next value
@@ -289,7 +289,7 @@ StdUi.Util = {
 	end,
 
 	orderedPairs        = function(t)
-		return StdUi.Util.orderedNext, t, nil;
+		return SUIConfig.Util.orderedNext, t, nil;
 	end,
 
 	roundPrecision      = function(value, precision)
@@ -298,4 +298,4 @@ StdUi.Util = {
 	end
 };
 
-StdUi:RegisterModule(module, version);
+SUIConfig:RegisterModule(module, version);

@@ -1,19 +1,19 @@
---- @type StdUi
-local StdUi = LibStub and LibStub('StdUi', true);
-if not StdUi then
+--- @type SUIConfig
+local SUIConfig = LibStub and LibStub('SUIConfig', true);
+if not SUIConfig then
 	return
 end
 
 local module, version = 'Builder', 6;
-if not StdUi:UpgradeNeeded(module, version) then
+if not SUIConfig:UpgradeNeeded(module, version) then
 	return
 end
 
-local util = StdUi.Util;
+local util = SUIConfig.Util;
 
 local function setDatabaseValue(db, key, value)
 	if key:find('.') then
-		local accessor = StdUi.Util.stringSplit('.', key);
+		local accessor = SUIConfig.Util.stringSplit('.', key);
 		local startPos = db;
 
 		for i, subKey in pairs(accessor) do
@@ -31,7 +31,7 @@ end
 
 local function getDatabaseValue(db, key)
 	if key:find('.') then
-		local accessor = StdUi.Util.stringSplit('.', key);
+		local accessor = SUIConfig.Util.stringSplit('.', key);
 		local startPos = db;
 
 		for i, subKey in pairs(accessor) do
@@ -52,7 +52,7 @@ end
 --@param info table
 --@param dataKey string
 --@param db table
-function StdUi:BuildElement(frame, row, info, dataKey, db)
+function SUIConfig:BuildElement(frame, row, info, dataKey, db)
 	local element;
 
 	local genericChangeEvent = function(el, value)
@@ -229,7 +229,7 @@ end
 --@param frame Frame
 --@param info table
 --@param db table
-function StdUi:BuildRow(frame, info, db)
+function SUIConfig:BuildRow(frame, info, db)
 	local row = frame:AddRow();
 
 	for key, element in util.orderedPairs(info) do
@@ -249,7 +249,7 @@ end
 ---BuildWindow
 --@param frame Frame
 --@param info table
-function StdUi:BuildWindow(frame, info)
+function SUIConfig:BuildWindow(frame, info)
 	local db = info.database or nil;
 
 	assert(info.rows, 'Rows are required in order to build table');
@@ -264,4 +264,4 @@ function StdUi:BuildWindow(frame, info)
 	frame:DoLayout();
 end
 
-StdUi:RegisterModule(module, version);
+SUIConfig:RegisterModule(module, version);

@@ -1,11 +1,11 @@
---- @type StdUi
-local StdUi = LibStub and LibStub('StdUi', true);
-if not StdUi then
+--- @type SUIConfig
+local SUIConfig = LibStub and LibStub('SUIConfig', true);
+if not SUIConfig then
 	return
 end
 
 local module, version = 'ColorPicker', 6;
-if not StdUi:UpgradeNeeded(module, version) then
+if not SUIConfig:UpgradeNeeded(module, version) then
 	return
 end
 
@@ -87,8 +87,8 @@ local function OnColorPickerValueChanged(self)
 	cpf.skipTextUpdate = false;
 end
 
---- alphaSliderTexture = [[Interface\AddOns\YourAddon\Libs\StdUi\media\Checkers.tga]]
-function StdUi:ColorPicker(parent, alphaSliderTexture)
+--- alphaSliderTexture = [[Interface\AddOns\YourAddon\Libs\SUIConfig\media\Checkers.tga]]
+function SUIConfig:ColorPicker(parent, alphaSliderTexture)
 	local wheelWidth = 128;
 	local thumbWidth = 10;
 	local barWidth = 16;
@@ -168,8 +168,8 @@ function StdUi:ColorPicker(parent, alphaSliderTexture)
 	self:GlueBelow(cpf.bEdit, cpf.gEdit, 0, -10);
 	self:GlueBelow(cpf.aEdit, cpf.bEdit, 0, -10);
 
-	cpf.okButton = StdUi:Button(cpf, 100, 20, OKAY);
-	cpf.cancelButton = StdUi:Button(cpf, 100, 20, CANCEL);
+	cpf.okButton = SUIConfig:Button(cpf, 100, 20, OKAY);
+	cpf.cancelButton = SUIConfig:Button(cpf, 100, 20, CANCEL);
 	self:GlueBottom(cpf.okButton, cpf, 40, 20, 'LEFT');
 	self:GlueBottom(cpf.cancelButton, cpf, -40, 20, 'RIGHT');
 
@@ -220,7 +220,7 @@ local ColorPickerFrameCancelCallback = function(self)
 end
 
 -- placeholder
-function StdUi:ColorPickerFrame(r, g, b, a, okCallback, cancelCallback, alphaSliderTexture, updateCallback)
+function SUIConfig:ColorPickerFrame(r, g, b, a, okCallback, cancelCallback, alphaSliderTexture, updateCallback)
     if (updateCallback) then
         local function hook(...)
             updateCallback()
@@ -281,15 +281,15 @@ local ColorInputMethods = {
 };
 
 
-function StdUi:ColorInput(parent, label, width, height, color, update, cancel)
+function SUIConfig:ColorInput(parent, label, width, height, color, update, cancel)
 	local button = CreateFrame('Button', nil, parent);
-	button.stdUi = self;
+	button.SUIConfig = self;
 	button:EnableMouse(true);
 	self:SetObjSize(button, width, height or 20);
 	self:InitWidget(button);
 
 	button.target = self:Panel(button, 16, 16);
-	button.target.stdUi = self;
+	button.target.SUIConfig = self;
 	button.target:SetPoint('LEFT', 0, 0);
 
 	button.text = self:Label(button, label);
@@ -309,7 +309,7 @@ function StdUi:ColorInput(parent, label, width, height, color, update, cancel)
 	end
 
 	button:SetScript("OnClick", function(self)
-		self.stdUi:ColorPickerFrame(
+		self.SUIConfig:ColorPickerFrame(
 			self.color.r,
 			self.color.g,
 			self.color.b,
@@ -328,4 +328,4 @@ function StdUi:ColorInput(parent, label, width, height, color, update, cancel)
 	return button;
 end
 
-StdUi:RegisterModule(module, version);
+SUIConfig:RegisterModule(module, version);

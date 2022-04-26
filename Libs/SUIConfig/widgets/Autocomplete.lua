@@ -1,24 +1,24 @@
---- @type StdUi
-local StdUi = LibStub and LibStub('StdUi', true);
-if not StdUi then
+--- @type SUIConfig
+local SUIConfig = LibStub and LibStub('SUIConfig', true);
+if not SUIConfig then
 	return
 end
 
 local module, version = 'Autocomplete', 4;
-if not StdUi:UpgradeNeeded(module, version) then return end;
+if not SUIConfig:UpgradeNeeded(module, version) then return end;
 
 local TableInsert = tinsert;
 
-StdUi.Util.autocompleteTransformer = function(_, value)
+SUIConfig.Util.autocompleteTransformer = function(_, value)
 	return value;
 end
 
-StdUi.Util.autocompleteValidator = function(self)
-	self.stdUi:MarkAsValid(self, true);
+SUIConfig.Util.autocompleteValidator = function(self)
+	self.SUIConfig:MarkAsValid(self, true);
 	return true;
 end
 
-StdUi.Util.autocompleteItemTransformer = function(_, value)
+SUIConfig.Util.autocompleteItemTransformer = function(_, value)
 	if not value or value == '' then
 		return value;
 	end
@@ -27,7 +27,7 @@ StdUi.Util.autocompleteItemTransformer = function(_, value)
 	return itemName;
 end
 
-StdUi.Util.autocompleteItemValidator = function(ac)
+SUIConfig.Util.autocompleteItemValidator = function(ac)
 	local itemName, itemId;
 	local t = ac:GetText();
 	local v = ac:GetValue();
@@ -48,11 +48,11 @@ StdUi.Util.autocompleteItemValidator = function(ac)
 	if itemId then
 		ac.value = itemId;
 		ac:SetText(itemName);
-		self.stdUi:MarkAsValid(ac, true);
+		self.SUIConfig:MarkAsValid(ac, true);
 
 		return true;
 	else
-		self.stdUi:MarkAsValid(ac, false);
+		self.SUIConfig:MarkAsValid(ac, false);
 		return false;
 	end
 end
@@ -62,8 +62,8 @@ local AutocompleteMethods = {
 	buttonCreate = function(panel)
 		local optionButton;
 
-		optionButton = StdUi:HighlightButton(panel, panel:GetWidth(), 20, '');
-		optionButton.highlight = StdUi:HighlightButtonTexture(optionButton);
+		optionButton = SUIConfig:HighlightButton(panel, panel:GetWidth(), 20, '');
+		optionButton.highlight = SUIConfig:HighlightButtonTexture(optionButton);
 		optionButton.highlight:Hide();
 		optionButton.text:SetJustifyH('LEFT');
 		optionButton.autocomplete = panel.autocomplete;
@@ -123,7 +123,7 @@ local AutocompleteMethods = {
 		local dropdownHeight = 20 * #self.filteredItems;
 		self.dropdown:SetHeight(dropdownHeight);
 
-		self.stdUi:ObjectList(
+		self.SUIConfig:ObjectList(
 			self.dropdown,
 			self.itemTable,
 			self.buttonCreate,
@@ -197,7 +197,7 @@ local AutocompleteEvents = {
 	end,
 
 	OnTextChanged = function(ac, isUserInput)
-		local plainText = StdUi.Util.stripColors(ac:GetText());
+		local plainText = SUIConfig.Util.stripColors(ac:GetText());
 		ac.selectedItem = nil;
 
 		if isUserInput then
@@ -247,13 +247,13 @@ local AutocompleteEvents = {
 
 --- Very similar to dropdown except it has the ability to create new records and filters results
 --- @return EditBox
-function StdUi:Autocomplete(parent, width, height, text, validator, transformer, items)
-	transformer = transformer or StdUi.Util.autocompleteTransformer;
-	validator = validator or StdUi.Util.autocompleteValidator;
+function SUIConfig:Autocomplete(parent, width, height, text, validator, transformer, items)
+	transformer = transformer or SUIConfig.Util.autocompleteTransformer;
+	validator = validator or SUIConfig.Util.autocompleteValidator;
 
 	local autocomplete = self:EditBox(parent, width, height, text, validator);
-	--@type StdUi
-	autocomplete.stdUi = self;
+	--@type SUIConfig
+	autocomplete.SUIConfig = self;
 	autocomplete.transformer = transformer;
 	autocomplete.items = items;
 	autocomplete.filteredItems = {};
@@ -282,4 +282,4 @@ function StdUi:Autocomplete(parent, width, height, text, validator, transformer,
 	return autocomplete;
 end
 
-StdUi:RegisterModule(module, version);
+SUIConfig:RegisterModule(module, version);

@@ -1,11 +1,11 @@
---- @type StdUi
-local StdUi = LibStub and LibStub('StdUi', true);
-if not StdUi then
+--- @type SUIConfig
+local SUIConfig = LibStub and LibStub('SUIConfig', true);
+if not SUIConfig then
 	return
 end
 
 local module, version = 'EditBox', 9;
-if not StdUi:UpgradeNeeded(module, version) then return end;
+if not SUIConfig:UpgradeNeeded(module, version) then return end;
 
 local pairs = pairs;
 local strlen = strlen;
@@ -16,7 +16,7 @@ local strlen = strlen;
 
 local SimpleEditBoxMethods = {
 	SetFontSize = function(self, newSize)
-		self:SetFont(self:GetFont(), newSize, self.stdUi.config.font.effect);
+		self:SetFont(self:GetFont(), newSize, self.SUIConfig.config.font.effect);
 	end
 };
 
@@ -27,10 +27,10 @@ local SimpleEditBoxEvents = {
 }
 
 --- @return EditBox
-function StdUi:SimpleEditBox(parent, width, height, text)
+function SUIConfig:SimpleEditBox(parent, width, height, text)
 	--- @type EditBox
 	local editBox = CreateFrame('EditBox', nil, parent);
-	editBox.stdUi = self;
+	editBox.SUIConfig = self;
 	self:InitWidget(editBox);
 
 	editBox:SetTextInsets(3, 3, 3, 3);
@@ -71,7 +71,7 @@ local ApplyPlaceholderOnTextChanged = function(self)
 	end
 end
 
-function StdUi:ApplyPlaceholder(widget, placeholderText, icon, iconColor)
+function SUIConfig:ApplyPlaceholder(widget, placeholderText, icon, iconColor)
 	widget.placeholder = {};
 
 	local label = self:Label(widget, placeholderText);
@@ -103,7 +103,7 @@ local SearchEditBoxOnTextChanged = function(self)
 	end
 end
 
-function StdUi:SearchEditBox(parent, width, height, placeholderText)
+function SUIConfig:SearchEditBox(parent, width, height, placeholderText)
 	local editBox = self:SimpleEditBox(parent, width, height, '');
 
 	editBox:SetScript('OnTextChanged', SearchEditBoxOnTextChanged);
@@ -162,7 +162,7 @@ local EditBoxEvents = {
 	end,
 
 	OnTextChanged = function(self, isUserInput)
-		local value = StdUi.Util.stripColors(self:GetText());
+		local value = SUIConfig.Util.stripColors(self:GetText());
 		if tostring(value) ~= tostring(self.value) then
 			if not self.isValidated and self.button and isUserInput then
 				self.button:Show();
@@ -174,8 +174,8 @@ local EditBoxEvents = {
 }
 
 --- @return EditBox
-function StdUi:EditBox(parent, width, height, text, validator)
-	validator = validator or StdUi.Util.editBoxValidator;
+function SUIConfig:EditBox(parent, width, height, text, validator)
+	validator = validator or SUIConfig.Util.editBoxValidator;
 
 	local editBox = self:SimpleEditBox(parent, width, height, text);
 	editBox.validator = validator;
@@ -221,7 +221,7 @@ local NumericBoxMethods = {
 	end
 }
 
-function StdUi:NumericBox(parent, width, height, text, validator)
+function SUIConfig:NumericBox(parent, width, height, text, validator)
 	validator = validator or self.Util.numericBoxValidator;
 
 	local editBox = self:EditBox(parent, width, height, text, validator);
@@ -241,14 +241,14 @@ end
 local MoneyBoxMethods = {
 	SetValue = function(self, value)
 		self.value = value;
-		local formatted = self.stdUi.Util.formatMoney(value);
+		local formatted = self.SUIConfig.Util.formatMoney(value);
 		self:SetText(formatted);
 		self:Validate();
 		self.button:Hide();
 	end;
 };
 
-function StdUi:MoneyBox(parent, width, height, text, validator, excludeCopper)
+function SUIConfig:MoneyBox(parent, width, height, text, validator, excludeCopper)
 	if excludeCopper then
 		validator = validator or self.Util.moneyBoxValidatorExC;
 	else
@@ -256,7 +256,7 @@ function StdUi:MoneyBox(parent, width, height, text, validator, excludeCopper)
 	end
 
 	local editBox = self:EditBox(parent, width, height, text, validator);
-	editBox.stdUi = self;
+	editBox.SUIConfig = self;
 	editBox:SetMaxLetters(20);
 
 	for k, v in pairs(MoneyBoxMethods) do
@@ -336,10 +336,10 @@ local MultiLineBoxScrollOnVerticalScroll = function(self, offset)
 	self.scrollChild:SetHitRectInsets(0, 0, offset, self.scrollChild:GetHeight() - offset - self:GetHeight());
 end
 
-function StdUi:MultiLineBox(parent, width, height, text, readOnly)
+function SUIConfig:MultiLineBox(parent, width, height, text, readOnly)
 	local editBox = CreateFrame('EditBox');
 	local widget = self:ScrollFrame(parent, width, height, editBox);
-	editBox.stdUi = self;
+	editBox.SUIConfig = self;
 
 	local scrollFrame = widget.scrollFrame;
 	scrollFrame.editBox = editBox;
@@ -387,4 +387,4 @@ function StdUi:MultiLineBox(parent, width, height, text, readOnly)
 	return widget;
 end
 
-StdUi:RegisterModule(module, version);
+SUIConfig:RegisterModule(module, version);

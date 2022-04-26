@@ -1,11 +1,11 @@
---- @type StdUi
-local StdUi = LibStub and LibStub('StdUi', true);
-if not StdUi then
+--- @type SUIConfig
+local SUIConfig = LibStub and LibStub('SUIConfig', true);
+if not SUIConfig then
 	return
 end
 
 local module, version = 'Spell', 2;
-if not StdUi:UpgradeNeeded(module, version) then
+if not SUIConfig:UpgradeNeeded(module, version) then
 	return
 end
 
@@ -29,7 +29,7 @@ local SpellBoxEvents = {
 	end
 };
 
-function StdUi:SpellBox(parent, width, height, iconSize, spellValidator)
+function SUIConfig:SpellBox(parent, width, height, iconSize, spellValidator)
 	iconSize = iconSize or 16;
 	local editBox = self:EditBox(parent, width, height, '', spellValidator or self.Util.spellValidator);
 	editBox:SetTextInsets(iconSize + 7, 3, 3, 3);
@@ -76,7 +76,7 @@ local SpellInfoEvents = {
 	end
 };
 
-function StdUi:SpellInfo(parent, width, height, iconSize)
+function SUIConfig:SpellInfo(parent, width, height, iconSize)
 	iconSize = iconSize or 16;
 	local frame = self:Panel(parent, width, height);
 
@@ -87,7 +87,7 @@ function StdUi:SpellInfo(parent, width, height, iconSize)
 	icon:SetAllPoints();
 
 	local btn = self:SquareButton(frame, iconSize, iconSize, 'DELETE');
-	StdUi:GlueRight(btn, frame, -3, 0, true);
+	SUIConfig:GlueRight(btn, frame, -3, 0, true);
 
 	local text = self:Label(frame);
 	text:SetPoint('LEFT', icon, 'RIGHT', 3, 0);
@@ -143,7 +143,7 @@ local SpellCheckboxEvents = {
 	end
 };
 
-function StdUi:SpellCheckbox(parent, width, height, iconSize)
+function SUIConfig:SpellCheckbox(parent, width, height, iconSize)
 	iconSize = iconSize or 16;
 	local checkbox = self:Checkbox(parent, '', width, height);
 	checkbox.spellId = nil;
@@ -170,4 +170,4 @@ function StdUi:SpellCheckbox(parent, width, height, iconSize)
 	return checkbox;
 end;
 
-StdUi:RegisterModule(module, version);
+SUIConfig:RegisterModule(module, version);

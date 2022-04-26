@@ -1,11 +1,11 @@
---- @type StdUi
-local StdUi = LibStub and LibStub('StdUi', true);
-if not StdUi then
+--- @type SUIConfig
+local SUIConfig = LibStub and LibStub('SUIConfig', true);
+if not SUIConfig then
 	return
 end
 
 local module, version = 'Table', 2;
-if not StdUi:UpgradeNeeded(module, version) then
+if not SUIConfig:UpgradeNeeded(module, version) then
 	return
 end
 
@@ -56,7 +56,7 @@ local TableMethods = {
 			if col.header and StringLength(col.header) > 0 then
 				if not self.headers[i] then
 					self.headers[i] = {
-						text = self.stdUi:FontString(self, ''),
+						text = self.SUIConfig:FontString(self, ''),
 					};
 				end
 
@@ -70,7 +70,7 @@ local TableMethods = {
 					column.text:SetJustifyH(col.align);
 				end
 
-				self.stdUi:GlueTop(column.text, self, marginLeft, 0, 'LEFT');
+				self.SUIConfig:GlueTop(column.text, self, marginLeft, 0, 'LEFT');
 				marginLeft = marginLeft + col.width;
 
 				column.index = col.index
@@ -98,7 +98,7 @@ local TableMethods = {
 
 				if not self.rows[y][x] then
 					self.rows[y][x] = {
-						text = self.stdUi:FontString(self, '');
+						text = self.SUIConfig:FontString(self, '');
 					};
 				end
 
@@ -112,7 +112,7 @@ local TableMethods = {
 					cell.text:SetJustifyH(col.align);
 				end
 
-				self.stdUi:GlueTop(cell.text, self, marginLeft, marginTop, 'LEFT');
+				self.SUIConfig:GlueTop(cell.text, self, marginLeft, marginTop, 'LEFT');
 				marginLeft = marginLeft + col.width;
 			end
 
@@ -126,9 +126,9 @@ local TableMethods = {
 	end
 };
 
-function StdUi:Table(parent, width, height, rowHeight, columns, data)
+function SUIConfig:Table(parent, width, height, rowHeight, columns, data)
 	local panel = self:Panel(parent, width, height);
-	panel.stdUi = self;
+	panel.SUIConfig = self;
 	panel.rowHeight = rowHeight;
 
 	for k, v in pairs(TableMethods) do
@@ -142,4 +142,4 @@ function StdUi:Table(parent, width, height, rowHeight, columns, data)
 	return panel;
 end
 
-StdUi:RegisterModule(module, version);
+SUIConfig:RegisterModule(module, version);

@@ -1,11 +1,11 @@
---- @type StdUi
-local StdUi = LibStub and LibStub('StdUi', true);
-if not StdUi then
+--- @type SUIConfig
+local SUIConfig = LibStub and LibStub('SUIConfig', true);
+if not SUIConfig then
 	return
 end
 
 local module, version = 'Grid', 4;
-if not StdUi:UpgradeNeeded(module, version) then return end;
+if not SUIConfig:UpgradeNeeded(module, version) then return end;
 
 --- Creates frame list that reuses frames and is based on array data
 --- @param parent Frame
@@ -16,7 +16,7 @@ if not StdUi:UpgradeNeeded(module, version) then return end;
 --- @param oX number
 --- @param oY number
 --- @param limitFn function
-function StdUi:ObjectList(parent, itemsTable, create, update, data, padding, oX, oY, limitFn)
+function SUIConfig:ObjectList(parent, itemsTable, create, update, data, padding, oX, oY, limitFn)
 	local this = self;
 	oX = oX or 1;
 	oY = oY or -1;
@@ -79,7 +79,7 @@ end
 --- @param paddingY number
 --- @param oX number
 --- @param oY number
-function StdUi:ObjectGrid(parent, itemsMatrix, create, update, data, paddingX, paddingY, oX, oY)
+function SUIConfig:ObjectGrid(parent, itemsMatrix, create, update, data, paddingX, paddingY, oX, oY)
 	oX = oX or 1;
 	oY = oY or -1;
 	paddingX = paddingX or 0;
@@ -136,4 +136,4 @@ function StdUi:ObjectGrid(parent, itemsMatrix, create, update, data, paddingX, p
 	end
 end
 
-StdUi:RegisterModule(module, version);
+SUIConfig:RegisterModule(module, version);

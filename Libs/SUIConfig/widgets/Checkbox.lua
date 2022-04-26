@@ -1,11 +1,11 @@
---- @type StdUi
-local StdUi = LibStub and LibStub('StdUi', true);
-if not StdUi then
+--- @type SUIConfig
+local SUIConfig = LibStub and LibStub('SUIConfig', true);
+if not SUIConfig then
 	return
 end
 
 local module, version = 'Checkbox', 5;
-if not StdUi:UpgradeNeeded(module, version) then
+if not SUIConfig:UpgradeNeeded(module, version) then
 	return
 end
 
@@ -84,16 +84,16 @@ local CheckboxEvents = {
 }
 
 --@return CheckButton
-function StdUi:Checkbox(parent, text, width, height, tooltip)
+function SUIConfig:Checkbox(parent, text, width, height, tooltip)
 	local checkbox = CreateFrame('Button', nil, parent);
-	checkbox.stdUi = self;
+	checkbox.SUIConfig = self;
 
 	checkbox:EnableMouse(true);
 	self:SetObjSize(checkbox, width, height or 20);
 	self:InitWidget(checkbox);
 
 	checkbox.target = self:Panel(checkbox, 16, 16);
-	checkbox.target.stdUi = self;
+	checkbox.target.SUIConfig = self;
 	checkbox.target:SetPoint('LEFT', 0, 0);
 
 	checkbox.value = true;
@@ -104,7 +104,7 @@ function StdUi:Checkbox(parent, text, width, height, tooltip)
 	checkbox.text:SetPoint('RIGHT', checkbox, 'RIGHT', -5, 0);
 	checkbox.target.text = checkbox.text; -- reference for disabled
 
-	checkbox.checkedTexture = self:Texture(checkbox.target, nil, nil, [[Interface\AddOns\SUI\Libs\StdUi\media\Checked]]);
+	checkbox.checkedTexture = self:Texture(checkbox.target, nil, nil, [[Interface\AddOns\SUI\Libs\SUIConfig\media\Checked]]);
 	checkbox.checkedTexture:SetAllPoints();
 	checkbox.checkedTexture:SetVertexColor(3, 2, 5)
 	checkbox.checkedTexture:Hide();
@@ -138,7 +138,7 @@ end
 --- IconCheckbox
 ----------------------------------------------------
 
-function StdUi:IconCheckbox(parent, icon, text, width, height, iconSize)
+function SUIConfig:IconCheckbox(parent, icon, text, width, height, iconSize)
 	iconSize = iconSize or 16
 	local checkbox = self:Checkbox(parent, text, width, height);
 	checkbox.icon = self:Texture(checkbox, iconSize, iconSize, icon);
@@ -164,7 +164,7 @@ local RadioEvents = {
 };
 
 --@return CheckButton
-function StdUi:Radio(parent, text, groupName, width, height)
+function SUIConfig:Radio(parent, text, groupName, width, height)
 	local radio = self:Checkbox(parent, text, width, height);
 
 	radio.checkedTexture = self:Texture(radio.target, nil, nil, [[Interface\Buttons\UI-RadioButton]]);
@@ -189,11 +189,11 @@ function StdUi:Radio(parent, text, groupName, width, height)
 	return radio;
 end
 
-StdUi.radioGroups = {};
-StdUi.radioGroupValues = {};
+SUIConfig.radioGroups = {};
+SUIConfig.radioGroupValues = {};
 
 --@return CheckButton[]
-function StdUi:RadioGroup(groupName)
+function SUIConfig:RadioGroup(groupName)
 	if not self.radioGroups[groupName] then
 		self.radioGroups[groupName] = {};
 	end
@@ -205,7 +205,7 @@ function StdUi:RadioGroup(groupName)
 	return self.radioGroups[groupName];
 end
 
-function StdUi:GetRadioGroupValue(groupName)
+function SUIConfig:GetRadioGroupValue(groupName)
 	local group = self:RadioGroup(groupName);
 
 	for i = 1, #group do
@@ -218,7 +218,7 @@ function StdUi:GetRadioGroupValue(groupName)
 	return nil;
 end
 
-function StdUi:SetRadioGroupValue(groupName, value)
+function SUIConfig:SetRadioGroupValue(groupName, value)
 	local group = self:RadioGroup(groupName);
 
 	for i = 1, #group do
@@ -241,18 +241,18 @@ local radioGroupOnValueChanged = function(radio)
 		end
 	end
 
-	local newValue = radio.stdUi:GetRadioGroupValue(groupName);
-	if radio.stdUi.radioGroupValues[groupName] ~= newValue then
+	local newValue = radio.SUIConfig:GetRadioGroupValue(groupName);
+	if radio.SUIConfig.radioGroupValues[groupName] ~= newValue then
 		radio.OnValueChangedCallback(newValue, groupName);
 	end
-	radio.stdUi.radioGroupValues[groupName] = newValue;
+	radio.SUIConfig.radioGroupValues[groupName] = newValue;
 
 	for i = 1, #group do
 		group[i].notified = false;
 	end
 end
 
-function StdUi:OnRadioGroupValueChanged(groupName, callback)
+function SUIConfig:OnRadioGroupValueChanged(groupName, callback)
 	local group = self:RadioGroup(groupName);
 
 	for i = 1, #group do
@@ -276,7 +276,7 @@ local RadioGroupEvents = {
 	end
 };
 
-function StdUi:AddToRadioGroup(radio, groupName)
+function SUIConfig:AddToRadioGroup(radio, groupName)
 	local group = self:RadioGroup(groupName);
 	tinsert(group, radio);
 	radio.radioGroup = group;
@@ -287,4 +287,4 @@ function StdUi:AddToRadioGroup(radio, groupName)
 	end
 end
 
-StdUi:RegisterModule(module, version);
+SUIConfig:RegisterModule(module, version);

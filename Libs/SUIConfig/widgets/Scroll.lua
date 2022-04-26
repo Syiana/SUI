@@ -1,11 +1,11 @@
---- @type StdUi
-local StdUi = LibStub and LibStub('StdUi', true);
-if not StdUi then
+--- @type SUIConfig
+local SUIConfig = LibStub and LibStub('SUIConfig', true);
+if not SUIConfig then
 	return
 end
 
 local module, version = 'Scroll', 6;
-if not StdUi:UpgradeNeeded(module, version) then
+if not SUIConfig:UpgradeNeeded(module, version) then
 	return
 end
 
@@ -17,7 +17,7 @@ end
 --- ScrollFrame
 ----------------------------------------------------
 
-StdUi.ScrollBarEvents = {
+SUIConfig.ScrollBarEvents = {
 
 	UpDownButtonOnClick = function(self)
 		local scrollBar = self.scrollBar;
@@ -36,7 +36,7 @@ StdUi.ScrollBarEvents = {
 	end
 };
 
-StdUi.ScrollFrameEvents = {
+SUIConfig.ScrollFrameEvents = {
 	OnMouseWheel         = function(self, value, scrollBar)
 		scrollBar = scrollBar or self.scrollBar;
 		local scrollStep = scrollBar.scrollStep or scrollBar:GetHeight() / 2;
@@ -107,7 +107,7 @@ StdUi.ScrollFrameEvents = {
 	end
 }
 
-StdUi.ScrollFrameMethods = {
+SUIConfig.ScrollFrameMethods = {
 	SetScrollStep = function(self, scrollStep)
 		scrollStep = round(scrollStep);
 		self.scrollBar.scrollStep = scrollStep;
@@ -124,7 +124,7 @@ StdUi.ScrollFrameMethods = {
 
 		-- scrollbar width and margins
 		self.scrollFrame:SetSize(newWidth - self.scrollBarWidth - 5, newHeight - 4);
-		self.stdUi:GlueAcross(self.scrollFrame, self, 2, -2, -self.scrollBarWidth - 2, 2);
+		self.SUIConfig:GlueAcross(self.scrollFrame, self, 2, -2, -self.scrollBarWidth - 2, 2);
 
 		-- panel of scrollBar
 		self.scrollBar.panel:SetPoint('TOPRIGHT', self, 'TOPRIGHT', -2, -2);
@@ -137,9 +137,9 @@ StdUi.ScrollFrameMethods = {
 	end
 };
 
-function StdUi:ScrollFrame(parent, width, height, scrollChild)
+function SUIConfig:ScrollFrame(parent, width, height, scrollChild)
 	local panel = self:Panel(parent, width, height);
-	panel.stdUi = self;
+	panel.SUIConfig = self;
 	panel.offset = 0;
 	panel.scrollBarWidth = 16;
 
@@ -203,7 +203,7 @@ end
 --- FauxScrollFrame
 ----------------------------------------------------
 
-StdUi.FauxScrollFrameMethods = {
+SUIConfig.FauxScrollFrameMethods = {
 	GetOffset        = function(self)
 		return self.offset or 0;
 	end,
@@ -300,7 +300,7 @@ local OnVerticalScrollUpdate = function(self)
 	self:Redraw();
 end;
 
-StdUi.FauxScrollFrameEvents = {
+SUIConfig.FauxScrollFrameEvents = {
 	OnVerticalScroll = function(self, value)
 		value = round(value);
 		local panel = self.panel;
@@ -315,7 +315,7 @@ StdUi.FauxScrollFrameEvents = {
 
 --- Works pretty much the same as scroll frame however it does not have smooth scroll and only display a certain amount
 --- of items
-function StdUi:FauxScrollFrame(parent, width, height, displayCount, lineHeight, scrollChild)
+function SUIConfig:FauxScrollFrame(parent, width, height, displayCount, lineHeight, scrollChild)
 	local panel = self:ScrollFrame(parent, width, height, scrollChild);
 
 	panel.lineHeight = lineHeight;
@@ -335,7 +335,7 @@ end
 ----------------------------------------------------
 --- HybridScrollFrame
 ----------------------------------------------------
-StdUi.HybridScrollFrameMethods = {
+SUIConfig.HybridScrollFrameMethods = {
 	Update                = function(self, totalHeight)
 		local range = floor(totalHeight - self.scrollChild:GetHeight() + 0.5);
 
@@ -464,7 +464,7 @@ StdUi.HybridScrollFrameMethods = {
 		self.updateFn = update;
 		self.itemPadding = padding;
 
-		self.stdUi:ObjectList(scrollChild, self.items, create, update, data, padding, oX, oY,
+		self.SUIConfig:ObjectList(scrollChild, self.items, create, update, data, padding, oX, oY,
 			function (i, totalHeight, lih)
 			return totalHeight > self:GetHeight() + lih;
 		end);
@@ -575,7 +575,7 @@ local HybridScrollBarOnValueChanged = function(self, value)
 	widget:UpdateScrollBarState(value);
 end
 
-function StdUi:HybridScrollFrame(parent, width, height, scrollChild)
+function SUIConfig:HybridScrollFrame(parent, width, height, scrollChild)
 	local panel = self:ScrollFrame(parent, width, height, scrollChild);
 
 	panel.scrollBar:SetScript('OnValueChanged', HybridScrollBarOnValueChanged);
@@ -595,4 +595,4 @@ function StdUi:HybridScrollFrame(parent, width, height, scrollChild)
 	return panel;
 end
 
-StdUi:RegisterModule(module, version);
+SUIConfig:RegisterModule(module, version);

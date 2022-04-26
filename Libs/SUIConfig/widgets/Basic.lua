@@ -1,13 +1,13 @@
---- @type StdUi
-local StdUi = LibStub and LibStub('StdUi', true);
-if not StdUi then
+--- @type SUIConfig
+local SUIConfig = LibStub and LibStub('SUIConfig', true);
+if not SUIConfig then
 	return
 end
 
 local module, version = 'Basic', 3;
-if not StdUi:UpgradeNeeded(module, version) then return end;
+if not SUIConfig:UpgradeNeeded(module, version) then return end;
 
-function StdUi:Frame(parent, width, height, inherits)
+function SUIConfig:Frame(parent, width, height, inherits)
 	local frame = CreateFrame('Frame', nil, parent, inherits);
 	self:InitWidget(frame);
 	self:SetObjSize(frame, width, height);
@@ -15,14 +15,14 @@ function StdUi:Frame(parent, width, height, inherits)
 	return frame;
 end
 
-function StdUi:Panel(parent, width, height, inherits)
+function SUIConfig:Panel(parent, width, height, inherits)
 	local frame = self:Frame(parent, width, height, inherits);
 	self:ApplyBackdrop(frame, 'panel');
 
 	return frame;
 end
 
-function StdUi:PanelWithLabel(parent, width, height, inherits, text)
+function SUIConfig:PanelWithLabel(parent, width, height, inherits, text)
 	local frame = self:Panel(parent, width, height, inherits);
 
 	frame.label = self:Header(frame, text, 18);
@@ -32,7 +32,7 @@ function StdUi:PanelWithLabel(parent, width, height, inherits, text)
 	return frame;
 end
 
-function StdUi:PanelWithTitle(parent, width, height, text)
+function SUIConfig:PanelWithTitle(parent, width, height, text)
 	local frame = self:Panel(parent, width, height);
 
 	frame.titlePanel = self:PanelWithLabel(frame, 100, 20, nil, text);
@@ -45,7 +45,7 @@ function StdUi:PanelWithTitle(parent, width, height, text)
 end
 
 --- @return Texture
-function StdUi:Texture(parent, width, height, texture)
+function SUIConfig:Texture(parent, width, height, texture)
 	local tex = parent:CreateTexture(nil, 'ARTWORK');
 
 	self:SetObjSize(tex, width, height);
@@ -57,7 +57,7 @@ function StdUi:Texture(parent, width, height, texture)
 end
 
 --- @return Texture
-function StdUi:ArrowTexture(parent, direction)
+function SUIConfig:ArrowTexture(parent, direction)
 	local texture = self:Texture(parent, 16, 8, [[Interface\Buttons\Arrow-Up-Down]]);
 
 	if direction == 'UP' then
@@ -69,4 +69,4 @@ function StdUi:ArrowTexture(parent, direction)
 	return texture;
 end
 
-StdUi:RegisterModule(module, version);
+SUIConfig:RegisterModule(module, version);
