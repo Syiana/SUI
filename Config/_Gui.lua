@@ -406,6 +406,7 @@ function Gui:OnEnable()
             key = 'unitframes.buffs.purgeborder',
             type = 'checkbox',
             label = 'Purge Border',
+            tooltip = 'Highlight purgable buffs',
             column = 4,
             order = 1
           },
@@ -663,16 +664,18 @@ function Gui:OnEnable()
           },
         },
         {
-          mouseanchor = {
+          casticons = {
             key = 'icon',
             type = 'checkbox',
             label = 'Icons',
+            tooltip = 'Display spell icons on castbar',
             column = 4
           },
-          lifeontop = {
+          casttime = {
             key = 'timer',
             type = 'checkbox',
             label = 'Timer',
+            tooltip = 'Display cast time on castbar',
             column = 4
           }
         }
@@ -712,17 +715,20 @@ function Gui:OnEnable()
             key = 'mouseanchor',
             type = 'checkbox',
             label = 'Mouseanchor',
+            tooltip = 'Attach tooltip to mouse cursor',
             column = 4
           },
           lifeontop = {
             key = 'lifeontop',
             type = 'checkbox',
             label = 'Life on Top',
+            tooltip = 'Show HP bar in tooltip on top',
             column = 4
           },
           hideincombat = {
             key = 'hideincombat',
             type = 'checkbox',
+            tooltip = 'Hide tooltips while in combat',
             label = 'Hide in Combat',
             column = 4
           }
@@ -810,6 +816,7 @@ function Gui:OnEnable()
 		      	key = 'coords',
             type = 'checkbox',
             label = 'Coords',
+            tooltip = 'Display coordinates on map',
             column = 4,
             order = 2
           },
@@ -847,6 +854,7 @@ function Gui:OnEnable()
 			      key = 'minimap',
             type = 'checkbox',
             label = 'Show Minimap',
+            tooltip = 'Show/Hide minimap',
             column = 4,
             order = 1
           },
@@ -854,6 +862,7 @@ function Gui:OnEnable()
 			      key = 'clock',
             type = 'checkbox',
             label = 'Show Clock',
+            tooltip = 'Show/Hide clock on minimap',
             column = 4,
             order = 2
           },
@@ -861,6 +870,7 @@ function Gui:OnEnable()
 			      key = 'date',
             type = 'checkbox',
             label = 'Show Date',
+            tooltip = 'Show/Hide calendar icon on minimap',
             column = 4,
             order = 3
           }
@@ -870,6 +880,7 @@ function Gui:OnEnable()
 			      key = 'garrison',
             type = 'checkbox',
             label = 'Garrison Symbol',
+            tooltip = 'Show/Hide covenant icon on minimap',
             column = 4,
             order = 1
           },
@@ -877,6 +888,7 @@ function Gui:OnEnable()
 			      key = 'tracking',
             type = 'checkbox',
             label = 'Tracking Symbol',
+            tooltip = 'Show/Hide tracking icon on minimap',
             column = 4,
             order = 2
           }
@@ -906,10 +918,11 @@ function Gui:OnEnable()
           }
         },
         {
-          hotkeys = {
+          chatinput = {
             key = 'top',
             type = 'checkbox',
             label = 'Input on Top',
+            tooltip = 'Move chat input field to top of chat',
             column = 4,
             order = 1
           },
@@ -917,6 +930,7 @@ function Gui:OnEnable()
             key = 'link',
             type = 'checkbox',
             label = 'Link copy',
+            tooltip = 'Make links clickable to copy them',
             column = 4,
             order = 2
           },
@@ -924,8 +938,17 @@ function Gui:OnEnable()
             key = 'copy',
             type = 'checkbox',
             label = 'Copy Symbol',
+            tooltip = 'Show/Hide copy chat-history icon',
             column = 4,
             order = 3
+          },
+        },
+        {
+          quickjoin = {
+            key = 'quickjoin',
+            type = 'checkbox',
+            label = 'Friendlist Button',
+            tooltip = 'Show/Hide friendlist button'
           }
         },
         {
@@ -939,6 +962,7 @@ function Gui:OnEnable()
             key = 'friendlist',
             type = 'checkbox',
             label = 'Class-Friendlist',
+            tooltip = 'Show character names in class color in friendlist',
             column = 4,
             order = 1
           }
@@ -977,6 +1001,7 @@ function Gui:OnEnable()
             key = 'interrupt',
             type = 'checkbox',
             label = 'Interrupt',
+            tooltip = 'Announce successful interrupts party',
             column = 3,
             order = 1
           }
@@ -992,6 +1017,7 @@ function Gui:OnEnable()
             key = 'safequeue',
             type = 'checkbox',
             label = 'Safequeue',
+            tooltip = 'Show time left to join and remove leave-button on queuepop-window',
             column = 3,
             order = 1
           },
@@ -999,6 +1025,7 @@ function Gui:OnEnable()
             key = 'tabbinder',
             type = 'checkbox',
             label = 'Tabbinder',
+            tooltip = 'Only target players with TAB in PVP-Combat',
             column = 3,
             order = 1
           },
@@ -1006,6 +1033,7 @@ function Gui:OnEnable()
             key = 'losecontrol',
             type = 'checkbox',
             label = 'Losecontrol',
+            tooltip = 'Shows crowd-control icons with timer for yourself',
             column = 3,
             order = 1
           }

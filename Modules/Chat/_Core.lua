@@ -25,10 +25,8 @@ function Module:OnEnable()
 
       ChatFrameMenuButton:HookScript("OnShow", ChatFrameMenuButton.Hide)
       ChatFrameMenuButton:Hide()
+      
 
-      QuickJoinToastButton:Hide()
-      QuickJoinToastButton.Show = function()
-      end
 
       local frames = {}
 
