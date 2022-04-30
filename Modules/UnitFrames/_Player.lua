@@ -8,6 +8,7 @@ function Module:OnEnable()
 
   if (db.unitframes) then
     function SUIPlayerFrame(self)
+      PlayerFrame:SetScale(db.unitframes.size)
       if (db.texture ~= 'Default') then
         self.healthbar:SetStatusBarTexture(db.texture);
         self.healthbar.AnimatedLossBar:SetStatusBarTexture(db.texture);

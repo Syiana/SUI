@@ -6,8 +6,10 @@ function Module:OnEnable()
     texture = SUI.db.profile.general.texture
   }
 
-  if (db) then
+  if (db.unitframes) then
     function SUITargetFrame (self, forceNormalTexture)
+      TargetFrame:SetScale(db.unitframes.size)
+      FocusFrame:SetScale(db.unitframes.size)
       if (db.unitframes.style == 'Big') then
           local classification = UnitClassification(self.unit);
           self.highLevelTexture:SetPoint("CENTER", self.levelText, "CENTER", 0,0);

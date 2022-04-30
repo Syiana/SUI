@@ -3,7 +3,6 @@
 	<Script file="_Tabbinder.lua"/>
 	<Script file="_Losecontrol.lua"/>
   <Script file="_Interrupt.lua"/>
-	<Script file="_Classportrait.lua"/>
 	<Script file="_Dampening.lua"/>
 	<Script file="_Arenanameplate.lua"/>
 	<Script file="_Surrender.lua"/>

@@ -34,6 +34,7 @@ local defaults = {
     },
     unitframes = {
       style = 'Big',
+      portrait = 'Default',
       classcolor = true,
       factioncolor = true,
       statusglow = false,
@@ -41,16 +42,24 @@ local defaults = {
       combaticon = false,
       hitindicator = false,
       links = false,
+      size = 1,
+      player = {
+        size = 1
+      },
+      target = {
+        size = 1
+      },
       buffs = {
         size = 26,
         purgeborder = true
       },
-      raid = {
-        alwaysontop = false
+      debuffs = {
+        size = 20
       }
     },
     raidframes = {
       texture = 'Interface\\AddOns\\SUI\\Media\\Textures\\Status\\Flat',
+      alwaysontop = false
     },
     actionbar = {
       style = 'Default',
@@ -112,7 +121,6 @@ local defaults = {
 	  },
     misc = {
       safequeue = true,
-      classportrait = false,
       losecontrol = true,
       tabbinder = false,
       pulltimer = false,

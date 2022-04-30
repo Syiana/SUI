@@ -342,12 +342,40 @@ function Gui:OnEnable()
           style = {
             key = 'unitframes.style',
             type = 'dropdown',
+            label  = 'Style',
             options = {
               { value = 'Default', text = 'Default' },
               { value = 'Big', text = 'Big' },
-              { value = 'Small', text = 'Small' }
+              { value = 'Small', text = 'Transparent' }
             },
-            column = 5
+            column = 4,
+            order = 1
+          },
+          portrait = {
+            key = 'unitframes.portrait',
+            type = 'dropdown',
+            label = 'Portrait',
+            options = {
+              { value = 'Default', text = 'Default' },
+              { value = 'ClassIcon', text = 'ClassIcon' },
+            },
+            column = 4,
+            order = 2
+          },
+          size = {
+            key = 'unitframes.size',
+            type = 'slider',
+            label = 'Frame Size',
+            precision = 1,
+            min = 0.1,
+            max = 5,
+            column = 4,
+            order = 3,
+            onChange = function(slider)
+              PlayerFrame:SetScale(slider.value)
+              TargetFrame:SetScale(slider.value)
+              FocusFrame:SetScale(slider.value)
+            end,
           }
         },
         {
@@ -396,30 +424,6 @@ function Gui:OnEnable()
             tooltip = 'Extra menu to generate character-links for Check-PVP, Raider.io, etc.',
             column = 4,
             order = 3
-          }
-        },
-        {
-          header = {
-            type = 'header',
-            label = 'Buffs'
-          },
-        },
-        {
-          border = {
-            key = 'unitframes.buffs.purgeborder',
-            type = 'checkbox',
-            label = 'Purge Border',
-            tooltip = 'Highlight purgable buffs',
-            column = 4,
-            order = 1
-          },
-          size = {
-            key = 'unitframes.buffs.size',
-            type = 'slider',
-            label = 'Icon Size',
-            max = 50,
-            column = 5,
-            order = 2
           }
         },
         {
@@ -740,27 +744,47 @@ function Gui:OnEnable()
     },
     Buffs = {
       layoutConfig = { padding = { top = 15 } },
-      database = db.profile.buffs,
+      database = db.profile,
       rows = {
         {
           header = {
             type = 'header',
-            label = 'Buffs'
+            label = 'Minimap'
           }
         },
         {
-          size = {
-            key = 'buff.size',
+          buffsize = {
+            key = 'buffs.buff.size',
             type = 'slider',
-            label = 'Size',
+            label = 'Buff Size',
             max = 100,
             column = 4,
             order = 1
           },
-          icons = {
-            key = 'buff.icons',
+          bufficons = {
+            key = 'buffs.buff.icons',
             type = 'slider',
-            label = 'Icons',
+            label = 'Buff Icons per row',
+            tooltip = 'Icons per row',
+            min = 2,
+            max = 20,
+            column = 5,
+            order = 2
+          }
+        },
+        {
+          debuffsize = {
+            key = 'buffs.debuff.size',
+            type = 'slider',
+            label = 'Debuff Size',
+            max = 100,
+            column = 4,
+            order = 1
+          },
+          debufficons = {
+            key = 'buffs.debuff.icons',
+            type = 'slider',
+            label = 'Debuff Icons per row',
             tooltip = 'Icons per row',
             min = 2,
             max = 20,
@@ -771,27 +795,35 @@ function Gui:OnEnable()
         {
           header = {
             type = 'header',
-            label = 'Debuffs'
+            label = 'Unitframes'
+          },
+        },
+        {
+          border = {
+            key = 'unitframes.buffs.purgeborder',
+            type = 'checkbox',
+            label = 'Purge Border',
+            tooltip = 'Highlight purgable buffs',
+            column = 3,
+            order = 1
           }
         },
         {
-          size = {
-            key = 'debuff.size',
+          big = {
+            key = 'unitframes.buffs.size',
             type = 'slider',
-            label = 'Size',
-            max = 100,
+            label = 'Big Buff Size',
+            max = 50,
             column = 4,
-            order = 1
-          },
-          icons = {
-            key = 'debuff.icons',
-            type = 'slider',
-            label = 'Icons',
-            tooltip = 'Icons per row',
-            min = 2,
-            max = 20,
-            column = 5,
             order = 2
+          },
+          small = {
+            key = 'unitframes.debuffs.size',
+            type = 'slider',
+            label = 'Small Buff Size',
+            max = 50,
+            column = 4,
+            order = 3
           }
         }
       },
@@ -1005,14 +1037,6 @@ function Gui:OnEnable()
             type = 'checkbox',
             label = 'Interrupt',
             tooltip = 'Announce successful interrupts party',
-            column = 3,
-            order = 1
-          },
-          classportrait = {
-            key = 'classportrait',
-            type = 'checkbox',
-            label = 'Classicon Portraits',
-            tooltip = 'Display Classicons in Unit frame portraits',
             column = 3,
             order = 1
           }

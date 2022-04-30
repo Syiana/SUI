@@ -1,6 +1,6 @@
 ## Interface: 90200
 ## Author: Syiana
-## Version: 9.0.4
+## Version: 9.0.5
 ## Title: |cfff58cbaS|r|cff009cffUI|r
 ## SavedVariables: SUIDB
 

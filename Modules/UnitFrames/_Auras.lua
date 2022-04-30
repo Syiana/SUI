@@ -1,13 +1,13 @@
 ﻿local Module = SUI:NewModule("UnitFrames.Auras");
 
 function Module:OnEnable()
-  local db = SUI.db.profile.unitframes.buffs
+  local db = SUI.db.profile.unitframes
 
 	if (db) then
     local AURA_START_X = 5
     local AURA_START_Y = 28
-    local LARGE_AURA_SIZE = db.size	--	Default 21.
-    local SMALL_AURA_SIZE = db.size  --	Default 17.
+    local LARGE_AURA_SIZE = db.buffs.size	--	Default 21.
+    local SMALL_AURA_SIZE = db.debuffs.size  --	Default 17.
     local AURA_OFFSET_Y = 3
     local AURA_ROW_WIDTH = 122
     local NUM_TOT_AURA_ROWS = 2
