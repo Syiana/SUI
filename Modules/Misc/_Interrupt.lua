@@ -8,7 +8,7 @@ function Module:OnEnable()
     frame:SetScript("OnEvent", function()
       local _, event, _, sourceGUID, _, _, _, _, destName, _, _, _, _, _, spellID = CombatLogGetCurrentEventInfo()
       if not (event == "SPELL_INTERRUPT" and sourceGUID == UnitGUID("player")) then return end
-      SendChatMessage("INTERRUPTED".." "..destName..": "..GetSpellLink(spellID), "PARTY")
+      SendChatMessage("INTERRUPTED".." "..destName..": "..GetSpellLink(spellID), "SAY")
     end)
   end
 end
