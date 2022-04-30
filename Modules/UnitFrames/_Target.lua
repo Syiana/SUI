@@ -7,9 +7,7 @@ function Module:OnEnable()
   }
 
   if (db.unitframes) then
-    function SUITargetFrame (self, forceNormalTexture)
-      TargetFrame:SetScale(db.unitframes.size)
-      FocusFrame:SetScale(db.unitframes.size)
+    local function SUITargetFrame (self, forceNormalTexture)
       if (db.unitframes.style == 'Big') then
           local classification = UnitClassification(self.unit);
           self.highLevelTexture:SetPoint("CENTER", self.levelText, "CENTER", 0,0);
@@ -94,7 +92,7 @@ function Module:OnEnable()
       end
     end
 
-    function SUIToTFrame()
+    local function SUIToTFrame()
       --textures
       if (db.texture ~= 'Default') then
         TargetFrameToTHealthBar:SetStatusBarTexture(db.texture);
@@ -122,6 +120,13 @@ function Module:OnEnable()
       FocusFrameToTManaBar:SetPoint("TOPLEFT", 43, -25);
       FocusFrameToTManaBar:SetHeight(5);
     end
+
+    local Size = CreateFrame("Frame")
+    Size:RegisterEvent("ADDON_LOADED")
+    Size:SetScript("OnEvent", function()
+      TargetFrame:SetScale(db.unitframes.size)
+      FocusFrame:SetScale(db.unitframes.size)
+    end)
 
     hooksecurefunc("TargetFrame_CheckClassification", SUITargetFrame)
     hooksecurefunc("TargetFrame_CheckClassification", SUIToTFrame)

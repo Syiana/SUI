@@ -7,8 +7,7 @@ function Module:OnEnable()
   }
 
   if (db.unitframes) then
-    function SUIPlayerFrame(self)
-      PlayerFrame:SetScale(db.unitframes.size)
+    local function SUIPlayerFrame(self)
       if (db.texture ~= 'Default') then
         self.healthbar:SetStatusBarTexture(db.texture);
         self.healthbar.AnimatedLossBar:SetStatusBarTexture(db.texture);
@@ -59,6 +58,13 @@ function Module:OnEnable()
         end)
       end
     end
+
+    local Size = CreateFrame("Frame")
+    Size:RegisterEvent("ADDON_LOADED")
+    Size:SetScript("OnEvent", function()
+      PlayerFrame:SetScale(db.unitframes.size)
+    end)
+
     hooksecurefunc("PlayerFrame_ToPlayerArt", SUIPlayerFrame)
   end
 end
