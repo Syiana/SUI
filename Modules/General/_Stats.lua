@@ -45,7 +45,7 @@ function Module:OnEnable()
 
     local function status()
       local function getFPS() return "|c00ffffff" .. floor(GetFramerate()) .. "|r fps" end
-      local function getLatencyWorld() return "|c00ffffff" .. select(4, GetNetStats()) .. "|r ms" end
+      -- local function getLatencyWorld() return "|c00ffffff" .. select(4, GetNetStats()) .. "|r ms" end
       local function getLatency() return "|c00ffffff" .. select(3, GetNetStats()) .. "|r ms" end
       if (db.display.fps and db.display.ms) then
         return getFPS() .. " " .. getLatency()
