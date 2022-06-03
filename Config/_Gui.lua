@@ -329,7 +329,7 @@ function Gui:OnEnable()
     {title = 'Chat', name = 'Chat', layout = options['Chat']},
     {title = 'Misc', name = 'Misc', layout = options['Misc']},
     {title = 'FAQ', name = 'FAQ', layout = options['FAQ']},
-    {title = 'Profiles', name = 'Profiles', layout = options['Profiles']},
+    --{title = 'Profiles', name = 'Profiles', layout = options['Profiles']},
   }
 
   -- Tabs
