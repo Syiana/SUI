@@ -3,6 +3,7 @@
     "undefined-global",
     "undefined-field",
     "unbalanced-assignments",
-    "redundant-parameter"
+    "redundant-parameter",
+    "deprecated"
   ]
 }
