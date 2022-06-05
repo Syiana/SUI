@@ -109,11 +109,10 @@ end
 function SUIConfig:Button(parent, width, height, text, inherit)
 	local button = self:HighlightButton(parent, width, height, text, inherit)
 	button.SUIConfig = self;
-
 	button:SetHighlightTexture(nil);
 
 	self:ApplyBackdrop(button);
-	self:HookDisabledBackdrop(button);
+	if not (parent.scrollBarWidth) then self:HookDisabledBackdrop(button) end;
 	self:HookHoverBorder(button);
 
 	return button;

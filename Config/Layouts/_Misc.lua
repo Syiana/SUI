@@ -4,6 +4,9 @@ function Layout:OnEnable()
   -- Database
   local db = SUI.db
 
+  -- Components
+  local CvarsBrowser = SUI:GetModule("Config.Components.CvarsBrowser")
+
   -- Layout
   Layout.layout = {
     layoutConfig = { padding = { top = 15 } },

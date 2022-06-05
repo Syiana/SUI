@@ -1,9 +1,6 @@
 local Gui = SUI:NewModule("Config.Gui")
 
 -- Imports
-local Themes = SUI:GetModule("Data.Themes")
-local Fonts = SUI:GetModule("Data.Fonts")
-local Textures = SUI:GetModule("Data.Textures")
 local User = SUI:GetModule("Data.User")
 
 local General = SUI:GetModule("Config.Layout.General")
@@ -18,9 +15,6 @@ local Tooltip = SUI:GetModule("Config.Layout.Tooltip")
 local Chat = SUI:GetModule("Config.Layout.Chat")
 local Buffs = SUI:GetModule("Config.Layout.Buffs")
 local Profiles = SUI:GetModule("Config.Layout.Profiles")
-
--- Components
-local CvarsBrowser = SUI:GetModule("Config.Components.CvarsBrowser")
 
 function Gui:OnEnable()
   local SUIConfig = LibStub('SUIConfig')
