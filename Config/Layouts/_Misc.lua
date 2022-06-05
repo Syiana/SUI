@@ -79,21 +79,13 @@ function Layout:OnEnable()
         dampening = {
           key = 'dampening',
           type = 'checkbox',
-          label = 'Show Dampening',
+          label = 'Dampening',
           tooltip = 'Shows dampening right below the arena timer',
           column = 3,
           order = 1
         }
       },
       {
-        arenanameplate = {
-          key = 'arenanameplate',
-          type = 'checkbox',
-          label = 'Arena Nameplate',
-          tooltip = 'Shows Arena number instead of name over nameplate',
-          column = 3,
-          order = 1
-        },
         surrender = {
           key = 'surrender',
           type = 'checkbox',

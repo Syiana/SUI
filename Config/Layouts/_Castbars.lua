@@ -12,12 +12,13 @@ function Layout:OnEnable()
       {
         header = {
           type = 'header',
-          label = 'Chastbars'
+          label = 'Castbars'
         }
       },
       {
         style = {
           key = 'style',
+          label = 'Style',
           type = 'dropdown',
           options = {
             { value = 'Default', text = 'Default' },

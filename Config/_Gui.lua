@@ -68,7 +68,7 @@ function Gui:OnEnable()
   local db = SUI.db
 
   -- Config
-  local config = SUIConfig:Window(UIParent, 700, 400)
+  local config = SUIConfig:Window(UIParent, 700, 395)
   config:SetPoint('CENTER')
   config.titlePanel:SetPoint('LEFT', 10, 0)
   config.titlePanel:SetPoint('RIGHT', -35, 0)
@@ -242,72 +242,7 @@ function Gui:OnEnable()
         }
       },
     },
-    Profiles = {
-      layoutConfig = { padding = { top = 15 } },
-      rows = {
-        {
-          header = {
-            type = 'header',
-            label = 'Profiles'
-          }
-        },
-        {
-          profile = {
-            type = 'dropdown',
-            label = 'Profile',
-            options = {
-              { value = 1, text = 'Default' },
-              { value = 2, text = 'Custom' }
-            },
-            initialValue = 1,
-            column = 6,
-            order = 1
-          }
-        },
-        {
-          copy = {
-            type = 'dropdown',
-            label = 'Copy from',
-            options = {
-              { value = 1, text = 'Default' },
-              { value = 2, text = 'Custom' }
-            },
-            initialValue = 1,
-            column = 6,
-            order = 1
-          }
-        },
-        {
-          new = {
-            type = 'button',
-            text = 'New',
-            onClick = function()
-              print("new profile");
-            end,
-            column = 3,
-            order = 1
-          },
-          delete = {
-            type = 'button',
-            text = 'Delete',
-            column = 3,
-            order = 2
-          },
-          export = {
-            type = 'button',
-            text = 'Export',
-            column = 3,
-            order = 3
-          },
-          import = {
-            type = 'button',
-            text = 'Import',
-            column = 3,
-            order = 4
-          }
-        }
-      },
-    },
+    Profiles = Profiles.layout
   }
 
   --Categories
@@ -323,17 +258,17 @@ function Gui:OnEnable()
     {title = 'Chat', name = 'Chat', layout = options['Chat']},
     {title = 'Misc', name = 'Misc', layout = options['Misc']},
     {title = 'FAQ', name = 'FAQ', layout = options['FAQ']},
-    --{title = 'Profiles', name = 'Profiles', layout = options['Profiles']},
+    {title = 'Profiles', name = 'Profiles', layout = options['Profiles']}
   }
 
   -- Tabs
   local tabs = SUIConfig:TabPanel(config, nil, nil, categories, true, 139, 25)
   SUIConfig:GlueAcross(tabs, config, 10, -35, -10, 10)
 
-  local scrollTabs = SUIConfig:ScrollFrame(config,  160, 280, tabs.buttonContainer);
+  local scrollTabs = SUIConfig:ScrollFrame(config,  160, 288, tabs.buttonContainer);
   SUIConfig:GlueTop(scrollTabs, config, 10, -35, 'LEFT')
 
-  local scrollContainer = SUIConfig:ScrollFrame(config, 515, 355, tabs.container);
+  local scrollContainer = SUIConfig:ScrollFrame(config, 515, 350, tabs.container);
   SUIConfig:GlueTop(scrollContainer, config, -10, -35, 'RIGHT')
 
   --Edit

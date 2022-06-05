@@ -18,6 +18,7 @@ function Layout:OnEnable()
       {
         style = {
           key = 'style',
+          label = 'Style',
           type = 'dropdown',
           options = {
             { value = 'Default', text = 'Default' },

@@ -51,7 +51,7 @@ function Layout:OnEnable()
         style = {
           key = 'style',
           type = 'dropdown',
-          label = 'Style',
+          label = 'Garrison Style',
           options = {
             { value = 'Default', text = 'Default' },
             { value = 'Legion', text = 'Legion' }

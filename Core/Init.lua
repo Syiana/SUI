@@ -57,6 +57,13 @@ local defaults = {
         size = 20
       }
     },
+    nameplates = {
+      style = 'Default',
+      texture = 'Interface\\AddOns\\SUI\\Media\\Textures\\Status\\Smooth',
+      size = 1,
+      arenanumber = true,
+      totemicons = true
+    },
     raidframes = {
       texture = 'Interface\\AddOns\\SUI\\Media\\Textures\\Status\\Flat',
       alwaysontop = false
