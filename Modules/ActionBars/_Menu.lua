@@ -1,66 +1,184 @@
-local Menu = SUI:NewModule("ActionBars.Menu");
+local Module = SUI:NewModule("ActionBars.Menu");
 
-local ClassicUI = IsAddOnLoaded("ClassicUI")
-if (ClassicUI) then return end
-
-local MenuFrame = CreateFrame('Frame', "MenuFrame", UIParent)
-MenuFrame:SetPoint("BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", 0, 0)
-MenuFrame:Hide()
-
-local BagsBarTexture = MenuFrame:CreateTexture("texture")
-BagsBarTexture:SetAtlas('hud-MicroBagBar', true)
-BagsBarTexture:SetPoint('CENTER')
-BagsBarTexture:Show()
-
-local Width, Height = BagsBarTexture:GetSize()
-MenuFrame:SetSize(Width, Height)
-
-function Menu:OnEnable()
+function Module:OnEnable()
   local db = SUI.db.profile.actionbar
-  if (db.menu.style == 'Custom') then
-    MainMenuBarBackpackButton:SetParent(MenuFrame)
-    CharacterBag0Slot:SetParent(MenuFrame)
-    CharacterBag1Slot:SetParent(MenuFrame)
-    CharacterBag2Slot:SetParent(MenuFrame)
-    CharacterBag3Slot:SetParent(MenuFrame)
-
-    for _, v in ipairs(MICRO_BUTTONS) do v = _G[v]
-      v:SetParent(MenuFrame)
+  if (db.style == 'Small') then
+    -- MicroMenu
+    if UnitLevel("player") < SHOW_SPEC_LEVEL then
+      CharacterMicroButton:ClearAllPoints()
+      CharacterMicroButton:SetPoint("CENTER", 680, 5.5)
+    else
+      CharacterMicroButton:ClearAllPoints()
+      CharacterMicroButton:SetPoint("CENTER", 654, 5.5)
     end
 
-    CharacterMicroButton:ClearAllPoints()
-    CharacterMicroButton:SetPoint("BOTTOMLEFT", MenuFrame, 5, 3)
-
+    -- Bag buttons
     MainMenuBarBackpackButton:ClearAllPoints()
-    MainMenuBarBackpackButton:SetPoint('TOPRIGHT', -4, -4)
-    MicroButtonAndBagsBar:Hide()
-    MenuFrame:Show()
-  end
+    MainMenuBarBackpackButton:SetPoint("CENTER", 830, 35)
 
+    local BagButtons = {
+      MainMenuBarBackpackButton,
+      CharacterBag0Slot,
+      CharacterBag1Slot,
+      CharacterBag2Slot,
+      CharacterBag3Slot,
+      KeyRingButton,
+    }
 
-  if (SUI:Color()) then
-    MicroButtonAndBagsBar.MicroBagBar:SetVertexColor(unpack(SUI:Color(0.15)))
-    MenuFrame:GetRegions():SetVertexColor(unpack(SUI:Color(0.15)))
-  end
-  if (db.menu.mouseover) then
-    MenuFrame:SetAlpha(0)
-    MenuFrame:SetScript('OnEnter', function()
-      MenuFrame:SetAlpha(1)
-    end)
-    MenuFrame:SetScript('OnLeave', function()
-      if not (MouseIsOver(MenuFrame)) then
-        MenuFrame:SetAlpha(0)
+    -- Show/Hide on Mouseover
+    if (db.menu.mouseovermicro) then
+      -- MicroMenu
+      local ignore
+
+      local function setAlphaMicroMenu(b, a)
+        if ignore then return end
+        ignore = true
+        if b:IsMouseOver() then
+          b:SetAlpha(1)
+        else
+          b:SetAlpha(0)
         end
-    end)
+        ignore = nil
+      end
+
+      local function showMicroMenu(self)
+          for _, v in ipairs(MICRO_BUTTONS) do
+              ignore = true
+              _G[v]:SetAlpha(1)
+              ignore = nil
+          end
+      end
+      
+      local function hideMicroMenu(self)
+          for _, v in ipairs(MICRO_BUTTONS) do
+              ignore = true
+              _G[v]:SetAlpha(0)
+              ignore = nil
+          end
+      end
+      
+      for _, v in ipairs(MICRO_BUTTONS) do
+          v = _G[v]
+          hooksecurefunc(v, "SetAlpha", setAlphaMicroMenu)
+          v:HookScript("OnEnter", showMicroMenu)
+          v:HookScript("OnLeave", hideMicroMenu)
+          v:SetAlpha(0)
+      end
+    end
+
+    if (db.menu.mouseoverbags) then
+      -- Bags bar
+      for _, frame in pairs(BagButtons) do
+        frame:SetAlpha(0)
+        frame:SetScript('OnEnter', function()
+        MainMenuBarBackpackButton:SetAlpha(1)
+        CharacterBag0Slot:SetAlpha(1)
+        CharacterBag1Slot:SetAlpha(1)
+        CharacterBag2Slot:SetAlpha(1)
+        CharacterBag3Slot:SetAlpha(1)
+        KeyRingButton:SetAlpha(1)
+      end)
+      frame:SetScript('OnLeave', function()
+        if not (MouseIsOver(frame)) then
+          MainMenuBarBackpackButton:SetAlpha(0)
+          CharacterBag0Slot:SetAlpha(0)
+          CharacterBag1Slot:SetAlpha(0)
+          CharacterBag2Slot:SetAlpha(0)
+          CharacterBag3Slot:SetAlpha(0)
+          KeyRingButton:SetAlpha(0)
+          end
+        end)
+      end
+    end
   end
 
-  if (db.menu.hidebag) then
-    BagsBarTexture:Hide()
-    MicroButtonAndBagsBar.MicroBagBar:Hide()
-    MainMenuBarBackpackButton:Hide()
-    CharacterBag0Slot:Hide()
-    CharacterBag1Slot:Hide()
-    CharacterBag2Slot:Hide()
-    CharacterBag3Slot:Hide()
+  if (db.style == 'Shadowlands') then
+    -- MicroMenu
+    if UnitLevel("player") < SHOW_SPEC_LEVEL then
+      CharacterMicroButton:ClearAllPoints()
+      CharacterMicroButton:SetPoint("CENTER", 680, -7.5)
+    else
+      CharacterMicroButton:ClearAllPoints()
+      CharacterMicroButton:SetPoint("CENTER", 654, 5.5)
+    end
+
+    -- Bag buttons
+    MainMenuBarBackpackButton:ClearAllPoints()
+    MainMenuBarBackpackButton:SetPoint("CENTER", 830, 35)
+
+    local BagButtons = {
+      MainMenuBarBackpackButton,
+      CharacterBag0Slot,
+      CharacterBag1Slot,
+      CharacterBag2Slot,
+      CharacterBag3Slot,
+      KeyRingButton,
+    }
+
+    -- Show/Hide on Mouseover
+    if (db.menu.mouseovermicro) then
+      -- MicroMenu
+      local ignore
+
+      local function setAlphaMicroMenu(b, a)
+        if ignore then return end
+        ignore = true
+        if b:IsMouseOver() then
+          b:SetAlpha(1)
+        else
+          b:SetAlpha(0)
+        end
+        ignore = nil
+      end
+
+      local function showMicroMenu(self)
+          for _, v in ipairs(MICRO_BUTTONS) do
+              ignore = true
+              _G[v]:SetAlpha(1)
+              ignore = nil
+          end
+      end
+      
+      local function hideMicroMenu(self)
+          for _, v in ipairs(MICRO_BUTTONS) do
+              ignore = true
+              _G[v]:SetAlpha(0)
+              ignore = nil
+          end
+      end
+      
+      for _, v in ipairs(MICRO_BUTTONS) do
+          v = _G[v]
+          hooksecurefunc(v, "SetAlpha", setAlphaMicroMenu)
+          v:HookScript("OnEnter", showMicroMenu)
+          v:HookScript("OnLeave", hideMicroMenu)
+          v:SetAlpha(0)
+      end
+    end
+
+    if (db.menu.mouseoverbags) then
+      -- Bags bar
+      for _, frame in pairs(BagButtons) do
+        frame:SetAlpha(0)
+        frame:SetScript('OnEnter', function()
+        MainMenuBarBackpackButton:SetAlpha(1)
+        CharacterBag0Slot:SetAlpha(1)
+        CharacterBag1Slot:SetAlpha(1)
+        CharacterBag2Slot:SetAlpha(1)
+        CharacterBag3Slot:SetAlpha(1)
+        KeyRingButton:SetAlpha(1)
+      end)
+      frame:SetScript('OnLeave', function()
+        if not (MouseIsOver(frame)) then
+          MainMenuBarBackpackButton:SetAlpha(0)
+          CharacterBag0Slot:SetAlpha(0)
+          CharacterBag1Slot:SetAlpha(0)
+          CharacterBag2Slot:SetAlpha(0)
+          CharacterBag3Slot:SetAlpha(0)
+          KeyRingButton:SetAlpha(0)
+          end
+        end)
+      end
+    end
   end
 end

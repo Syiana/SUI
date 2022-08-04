@@ -3,8 +3,8 @@ local Colors = SUI:GetModule('Data.Colors');
 
 Data.team = {
   {text = Colors.aut    .. 'Syiana|r'},
-  {text = Colors.dev    .. 'Rulez|r'},
   {text = Colors.dev    .. 'Baine|r'},
+  {text = Colors.dev    .. 'Rulez|r'},
   {text = Colors.dev    .. 'Muleyo|r'},
   {text = Colors.mod    .. 'Obscurrium|r'},
   {text = Colors.mod    .. 'SuperTkle|r'},
@@ -39,7 +39,6 @@ Data.specials = {
   {text = Colors.rog    .. 'Citney|r'},
   {text = Colors.dk     .. 'Eyu|r'},
   {text = Colors.mage   .. 'JosefeVerdi|r'},
-  {text = Colors.rog    .. 'Trimaz67|r'},
   {text = Colors.druid  .. 'Zonsy|r'},
   {text = Colors.pala   .. 'Lerthas|r'},
   {text = Colors.monk   .. 'Tizi|r'},
@@ -62,7 +61,7 @@ Data.supporter = {
   {text = Colors.dh .. 'Breezyy999|r'},
   {text = Colors.priest .. 'j4yqtx|r'},
   {text = Colors.dk .. 'Smolley|r'},
-  {text = Colors.mage .. 'nyccQT|r'},
+  {text = Colors.priest .. 'nyccQT|r'},
   {text = Colors.druid .. 'Shimaya|r'},
   {text = Colors.priest .. 'Kivancxo|r'},
   {text = Colors.warri .. 'Arestoniix|r'},
@@ -80,10 +79,6 @@ Data.supporter = {
   {text = Colors.mage .. 'Lyonersalat|r'},
   {text = Colors.sham .. 'hindbarry|r'},
   {text = Colors.priest .. 'benkenobi|r'},
-  {text = Colors.druid .. 'Puzzlebox|r'},
-  {text = Colors.warri .. 'Tafsiri|r'},
-  {text = Colors.mage .. 'thoserats|r'},
-  {text = Colors.priest .. 'Xentaria|r'},
 }
 
 Data.banned = {}

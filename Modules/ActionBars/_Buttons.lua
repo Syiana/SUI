@@ -50,7 +50,7 @@ function Module:OnEnable()
     local StatusTexture = CreateFrame("frame")
     StatusTexture:RegisterEvent("PLAYER_ENTERING_WORLD")
     StatusTexture:SetScript("OnEvent", function(self,event)
-        local st = { StatusTrackingBarManager:GetChildren() }
+        local st = {  }
         for _,s in pairs(st) do
             for k,v in pairs(s) do
               if k == "StatusBar" then
@@ -349,22 +349,22 @@ function Module:OnEnable()
       for i = 1, NUM_STANCE_SLOTS do
         styleStanceButton(_G["StanceButton" .. i])
       end
-      for i = 1, NUM_POSSESS_SLOTS do
-        stylePossessButton(_G["PossessButton" .. i])
-      end
+      --for i = 1, NUM_POSSESS_SLOTS do
+        --stylePossessButton(_G["PossessButton" .. i])
+      --end
 
-      styleExtraActionButton(ExtraActionButton1)
-      styleExtraActionButton(ZoneAbilityFrame.SpellButton)
-      SpellFlyoutBackgroundEnd:SetTexture(nil)
-      SpellFlyoutHorizontalBackground:SetTexture(nil)
-      SpellFlyoutVerticalBackground:SetTexture(nil)
+      --styleExtraActionButton(ExtraActionButton1)
+      --styleExtraActionButton(ZoneAbilityFrame.SpellButton)
+      --SpellFlyoutBackgroundEnd:SetTexture(nil)
+      --SpellFlyoutHorizontalBackground:SetTexture(nil)
+      --SpellFlyoutVerticalBackground:SetTexture(nil)
       local function checkForFlyoutButtons(self)
         local NUM_FLYOUT_BUTTONS = 10
         for i = 1, NUM_FLYOUT_BUTTONS do
           styleActionButton(_G["SpellFlyoutButton" .. i])
         end
       end
-      SpellFlyout:HookScript("OnShow", checkForFlyoutButtons)
+      --SpellFlyout:HookScript("OnShow", checkForFlyoutButtons)
       if dominos then
         for i = 1, 60 do
           styleActionButton(_G["DominosActionButton" .. i])
@@ -410,7 +410,6 @@ function Module:OnEnable()
         updateHotkey(_G["StanceButton"..i])
         updateHotkey(_G["PetActionButton"..i])
       end
-      updateHotkey(ExtraActionButton1)
     end)
   end
 end

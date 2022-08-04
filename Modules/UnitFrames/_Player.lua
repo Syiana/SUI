@@ -10,12 +10,6 @@ function Module:OnEnable()
     local function SUIPlayerFrame(self)
       if (db.texture ~= 'Default') then
         self.healthbar:SetStatusBarTexture(db.texture);
-        self.healthbar.AnimatedLossBar:SetStatusBarTexture(db.texture);
-        PlayerFrameMyHealPredictionBar:SetTexture(db.texture);
-        PlayerFrameAlternateManaBar:SetStatusBarTexture(db.texture);
-        PlayerFrameManaBar.FeedbackFrame.BarTexture:SetTexture(db.texture);
-        PlayerFrameManaBar.FeedbackFrame.LossGlowTexture:SetTexture(db.texture);
-        PlayerFrameManaBar.FeedbackFrame.GainGlowTexture:SetTexture(db.texture);
       end
 
       if (db.unitframes.style == "Big") then
@@ -37,14 +31,14 @@ function Module:OnEnable()
         self.manabar.RightText:ClearAllPoints();
         self.manabar.RightText:SetPoint("RIGHT",self.manabar,"RIGHT",-5,0);
         self.manabar.TextString:SetPoint("CENTER",self.manabar,"CENTER",0,0);
-        self.manabar.FullPowerFrame.SpikeFrame.AlertSpikeStay:ClearAllPoints();
-        self.manabar.FullPowerFrame.SpikeFrame.AlertSpikeStay:SetPoint("CENTER", self.manabar.FullPowerFrame, "RIGHT", -6, -3);
-        self.manabar.FullPowerFrame.SpikeFrame.AlertSpikeStay:SetSize(30,29);
-        self.manabar.FullPowerFrame.PulseFrame:ClearAllPoints();
-        self.manabar.FullPowerFrame.PulseFrame:SetPoint("CENTER", self.manabar.FullPowerFrame,"CENTER",-6,-2);
-        self.manabar.FullPowerFrame.SpikeFrame.BigSpikeGlow:ClearAllPoints();
-        self.manabar.FullPowerFrame.SpikeFrame.BigSpikeGlow:SetPoint("CENTER",self.manabar.FullPowerFrame,"RIGHT",5,-4);
-        self.manabar.FullPowerFrame.SpikeFrame.BigSpikeGlow:SetSize(30,50);
+        --self.manabar.FullPowerFrame.SpikeFrame.AlertSpikeStay:ClearAllPoints();
+        --self.manabar.FullPowerFrame.SpikeFrame.AlertSpikeStay:SetPoint("CENTER", self.manabar.FullPowerFrame, "RIGHT", -6, -3);
+        --self.manabar.FullPowerFrame.SpikeFrame.AlertSpikeStay:SetSize(30,29);
+        --self.manabar.FullPowerFrame.PulseFrame:ClearAllPoints();
+        --self.manabar.FullPowerFrame.PulseFrame:SetPoint("CENTER", self.manabar.FullPowerFrame,"CENTER",-6,-2);
+        --self.manabar.FullPowerFrame.SpikeFrame.BigSpikeGlow:ClearAllPoints();
+       -- self.manabar.FullPowerFrame.SpikeFrame.BigSpikeGlow:SetPoint("CENTER",self.manabar.FullPowerFrame,"RIGHT",5,-4);
+        --self.manabar.FullPowerFrame.SpikeFrame.BigSpikeGlow:SetSize(30,50);
         PlayerFrameGroupIndicatorText:ClearAllPoints();
         PlayerFrameGroupIndicatorText:SetPoint("BOTTOMLEFT", PlayerFrame,"TOP",0,-20);
         PlayerFrameGroupIndicatorLeft:Hide();

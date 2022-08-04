@@ -6,15 +6,16 @@ function Module:OnEnable()
     f:RegisterEvent("ADDON_LOADED")
     f:SetScript("OnEvent", function(self, event, name)
       if name == "Blizzard_InspectUI" then
-        for i, v in pairs({ InspectFrame.NineSlice.TopEdge,
-          InspectFrame.NineSlice.RightEdge,
-          InspectFrame.NineSlice.BottomEdge,
-          InspectFrame.NineSlice.LeftEdge,
-          InspectFrame.NineSlice.TopRightCorner,
-          InspectFrame.NineSlice.TopLeftCorner,
-          InspectFrame.NineSlice.BottomLeftCorner,
-          InspectFrame.NineSlice.BottomRightCorner,
-          InspectFrameInset.NineSlice.BottomEdge, }) do
+        for i, v in pairs({ 
+          InspectFrameTopEdge,
+          InspectFrameRightEdge,
+          InspectFrameBottomEdge,
+          InspectFrameLeftEdge,
+          InspectFrameTopRightCorner,
+          InspectFrameTopLeftCorner,
+          InspectFrameBottomLeftCorner,
+          InspectFrameBottomRightCorner,
+          InspectFrameInsetBottomEdge, }) do
             v:SetVertexColor(.15, .15, .15)
         end
         for i, v in pairs({
@@ -23,15 +24,15 @@ function Module:OnEnable()
             v:SetVertexColor(.3, .3, .3)
         end
         for i, v in pairs({
-          InspectFrameInset.NineSlice.RightEdge,
-          InspectFrameInset.NineSlice.LeftEdge,
-          InspectFrameInset.NineSlice.TopEdge,
-          InspectFrameInset.NineSlice.BottomEdge,
-          InspectFrameInset.NineSlice.PortraitFrame,
-          InspectFrameInset.NineSlice.TopRightCorner,
-          InspectFrameInset.NineSlice.TopLeftCorner,
-          InspectFrameInset.NineSlice.BottomLeftCorner,
-          InspectFrameInset.NineSlice.BottomRightCorner,
+          InspectFrameInsetRightEdge,
+          InspectFrameInsetLeftEdge,
+          InspectFrameInsetTopEdge,
+          InspectFrameInsetBottomEdge,
+          InspectFrameInsetPortraitFrame,
+          InspectFrameInsetTopRightCorner,
+          InspectFrameInsetTopLeftCorner,
+          InspectFrameInsetBottomLeftCorner,
+          InspectFrameInsetBottomRightCorner,
           InspectModelFrameBorderLeft,
           InspectModelFrameBorderRight,
           InspectModelFrameBorderTop,

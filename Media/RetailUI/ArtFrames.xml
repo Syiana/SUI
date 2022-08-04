@@ -1,0 +1,97 @@
+<Ui>
+
+<!-- Art bars -->
+<Frame name="RetailUIArtFrame" parent="UIParent">
+    <Size x="549" y="88"/>
+    <Anchors>
+        <Anchor point="BOTTOM" relativeTo="$parent"/>
+    </Anchors>
+    <Layers>
+        <Layer level="OVERLAY">
+            <!-- Actionbar Background (small) -->
+            <Texture parentKey="BackgroundSmall" atlas="hud-MainMenuBar-small" useAtlasSize="true" hidden="true">
+                <Anchors>
+                    <Anchor point="BOTTOM" relativeTo="$parent" y="10"/>
+                </Anchors>
+            </Texture>
+            <!-- Actionbar Background (large) -->
+            <Texture parentKey="BackgroundLarge" atlas="hud-MainMenuBar-large" useAtlasSize="true" hidden="true">
+                <Anchors>
+                    <Anchor point="BOTTOM" relativeTo="$parent" y="10"/>
+                </Anchors>
+            </Texture>
+        </Layer>
+    </Layers>
+</Frame>
+
+<!-- Status bars -->
+<Frame name="RetailUIStatusBars" frameStrata="MEDIUM" parent="UIParent">
+    <Size x="804" y="11"/>
+    <Anchors>
+        <Anchor point="BOTTOM" y="1"/>
+    </Anchors>
+    <KeyValues>
+        <KeyValue key="endCapWidth" value="4" type="number"/>
+        <KeyValue key="smallBarSeparatorWidth" value="24" type="number"/>
+        <KeyValue key="largeBarSeparatorWidth" value="30" type="number"/>
+    </KeyValues>
+    <Layers>
+        <Layer level="OVERLAY">
+            <!-- Small repuration bar -->
+            <Texture parentKey="SingleBarSmallUpper" atlas="hud-MainMenuBar-experiencebar-small-single" useAtlasSize="true" hidden="true">
+                <Anchors>
+                    <Anchor point="TOP" relativeKey="$parent.SingleBarSmall" y="9"/>
+                </Anchors>
+            </Texture>
+            <!-- Large repuration bar -->
+            <Texture parentKey="SingleBarLargeUpper" atlas="hud-MainMenuBar-experiencebar-large-single" useAtlasSize="true" hidden="true">
+                <Anchors>
+                    <Anchor point="TOP" relativeKey="$parent.SingleBarLarge" y="9"/>
+                </Anchors>
+            </Texture>
+            <!-- Small experience bar -->
+            <Texture parentKey="SingleBarSmall" atlas="hud-MainMenuBar-experiencebar-small-single" useAtlasSize="true" hidden="true">
+                <Anchors>
+                    <Anchor point="CENTER"/>
+                </Anchors>
+            </Texture>
+            <!-- Large experience bar -->
+            <Texture parentKey="SingleBarLarge" atlas="hud-MainMenuBar-experiencebar-large-single" useAtlasSize="true" hidden="true">
+                <Anchors>
+                    <Anchor point="CENTER"/>
+                </Anchors>
+            </Texture>
+        </Layer>
+    </Layers>
+</Frame>
+
+<!-- Status bars background -->
+<Frame parentKey="Background" parent="RetailUIStatusBars" frameStrata="BACKGROUND">
+    <Size y="20"/>
+    <Anchors>
+        <Anchor point="BOTTOM">
+        </Anchor>
+    </Anchors>
+    <Layers>
+        <Layer level="BACKGROUND">
+            <Texture file="Interface/ChatFrame/ChatFrameBackground">
+                <Color r="0" g="0" b="0" a=".75"/>
+            </Texture>
+        </Layer>
+    </Layers>
+</Frame>
+
+<!-- Micro button and bags bar background -->
+<Frame name="MicroButtonAndBagsBar" parent="UIParent">
+    <Size x="512" y="128"/>
+    <Anchors>
+        <Anchor point="BOTTOMRIGHT"/>
+    </Anchors>
+    <Layers>
+        <Layer level="BACKGROUND">
+            <Texture name="$parentTexture" file="Interface/AddOns/RetailUI/art/MicroMenuArt"/>
+        </Layer>
+    </Layers>
+</Frame>
+
+</Ui>

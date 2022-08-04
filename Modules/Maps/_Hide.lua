@@ -15,10 +15,8 @@ function Module:OnEnable()
   if not (db.clock) then
     TimeManagerClockButton:Hide()
   end
-  if not (db.garrison) then
-    GarrisonLandingPageMinimapButton:Hide()
-  end
-  MiniMapWorldMapButton:Hide()
+  MiniMapWorldMapButton:SetAlpha(0)
+  MiniMapWorldMapButton:EnableMouse(false)
   MinimapBorderTop:Hide()
   MinimapZoomIn:Hide()
   MinimapZoomOut:Hide()

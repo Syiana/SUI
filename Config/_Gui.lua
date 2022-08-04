@@ -1,20 +1,13 @@
 local Gui = SUI:NewModule("Config.Gui")
 
 -- Imports
+local Themes = SUI:GetModule("Data.Themes")
+local Fonts = SUI:GetModule("Data.Fonts")
+local Textures = SUI:GetModule("Data.Textures")
 local User = SUI:GetModule("Data.User")
 
-local General = SUI:GetModule("Config.Layout.General")
-local Unitframes = SUI:GetModule("Config.Layout.Unitframes")
-local Nameplates = SUI:GetModule("Config.Layout.Nameplates")
-local Actionbar = SUI:GetModule("Config.Layout.Actionbar")
-local Castbars = SUI:GetModule("Config.Layout.Castbars")
-local Map = SUI:GetModule("Config.Layout.Map")
-local Misc = SUI:GetModule("Config.Layout.Misc")
-local FAQ = SUI:GetModule("Config.Layout.FAQ")
-local Tooltip = SUI:GetModule("Config.Layout.Tooltip")
-local Chat = SUI:GetModule("Config.Layout.Chat")
-local Buffs = SUI:GetModule("Config.Layout.Buffs")
-local Profiles = SUI:GetModule("Config.Layout.Profiles")
+-- Components
+local CvarsBrowser = SUI:GetModule("Config.Components.CvarsBrowser")
 
 function Gui:OnEnable()
   local SUIConfig = LibStub('SUIConfig')
@@ -62,13 +55,13 @@ function Gui:OnEnable()
     tooltip = {
       padding = 10
     }
-  }
+  };
 
   -- Database
   local db = SUI.db
 
   -- Config
-  local config = SUIConfig:Window(UIParent, 700, 395)
+  local config = SUIConfig:Window(UIParent, 700, 400)
   config:SetPoint('CENTER')
   config.titlePanel:SetPoint('LEFT', 10, 0)
   config.titlePanel:SetPoint('RIGHT', -35, 0)
@@ -100,8 +93,7 @@ function Gui:OnEnable()
     end
   end
 
-  -- GameMenu
-  GameMenuFrame.Header:Hide()
+  GameMenuFrameHeader:Hide()
   local frame = CreateFrame("Button", "UIPanelButtonTemplateTest",
   GameMenuFrame, "UIPanelButtonTemplate")
   frame:SetHeight(20)
@@ -115,18 +107,895 @@ function Gui:OnEnable()
     ToggleGameMenu()
   end)
 
+  --Edit
+  local edit = SUIConfig:Button(config, 160, 25, 'Edit')
+  SUIConfig:GlueBottom(edit, config, 10, 36, 'LEFT')
+  edit:SetScript('OnClick', function()
+    SUI:Config()
+    SUI:Edit()
+  end)
+
+  --Save
+  local save = SUIConfig:Button(config, 160, 25, 'Save')
+  SUIConfig:GlueBottom(save, config, 10, 10, 'LEFT')
+  save:SetScript('OnClick', function()
+    ReloadUI()
+  end)
+
+  --Categories
+  local categories = {
+    {title = 'General', name = 'General'},
+    {title = 'Unitframes', name = 'Unitframes'},
+    -- {title = 'Nameplates', name = 'Nameplates'},
+    {title = 'Actionbar', name = 'Actionbar'},
+    {title = 'Castbars', name = 'Castbars'},
+    {title = 'Tooltip', name = 'Tooltip'},
+    {title = 'Buffs', name = 'Buffs'},
+    {title = 'Map', name = 'Map'},
+    {title = 'Chat', name = 'Chat'},
+    {title = 'Misc', name = 'Misc'},
+    {title = 'FAQ', name = 'FAQ'},
+    -- {title = 'Profiles', name = 'Profiles'},
+  }
+  local tabs = SUIConfig:TabPanel(config, nil, nil, categories, true, nil, 25)
+  SUIConfig:GlueAcross(tabs, config, 10, -35, -10, 10)
+
   --Options
   local options =  {
-    General = General.layout,
-    Unitframes = Unitframes.layout,
-    Nameplates = Nameplates.layout,
-    Actionbar = Actionbar.layout,
-    Castbars =  Castbars.layout,
-    Tooltip = Tooltip.layout,
-    Buffs = Buffs.layout,
-    Map = Map.layout,
-    Chat = Chat.layout,
-    Misc = Misc.layout,
+    General = {
+      layoutConfig = { padding = { top = 15 } },
+      database = db.profile.general,
+      rows = {
+        {
+          header = {
+            type = 'header',
+            label = 'General'
+          }
+        },
+        {
+          theme = {
+            key = 'theme',
+            type = 'dropdown',
+            label = 'Theme',
+            options = Themes.data,
+            column = 4,
+            order = 1
+          },
+          font = {
+            key = 'font',
+            type = 'dropdown',
+            label = 'Font',
+            options = Fonts.data,
+            column = 4,
+            order = 2
+          },
+          texture = {
+            key = 'texture',
+            type = 'dropdown',
+            label = 'Texture',
+            options = Textures.data,
+            column = 4,
+            order = 3
+          }
+        },
+        {
+          color = {
+            key = 'color',
+            type = 'color',
+            label = 'Custom Color',
+            column = 3,
+            update = function() end,
+            cancel = function() end
+          }
+        },
+        {
+          header = {
+            type = 'header',
+            label = 'Automation'
+          },
+        },
+        {
+          repair = {
+            key = 'automation.repair',
+            type = 'checkbox',
+            label = 'Repair',
+            tooltip = 'Repairs your gear automatically',
+            column = 3,
+            order = 1
+          },
+          sell = {
+            key = 'automation.sell',
+            type = 'checkbox',
+            label = 'Sell',
+            tooltip = 'Sells grey items automatically',
+            column = 3,
+            order = 2
+          },
+          delete = {
+            key = 'automation.delete',
+            type = 'checkbox',
+            label = 'Delete',
+            tooltip = 'Inserts "DELETE" when deleting Rare+ items',
+            column = 3,
+            order = 3
+          },
+          duel = {
+            key = 'automation.decline',
+            type = 'checkbox',
+            label = 'Duel',
+            tooltip = 'Declines duels automatically',
+            column = 3,
+            order = 3
+          }
+        },
+        {
+          release  = {
+            key = 'automation.release',
+            type = 'checkbox',
+            label = 'Release',
+            tooltip = 'Release automatically when you died',
+            column = 3,
+            order = 1
+          },
+          resurrect = {
+            key = 'automation.resurrect',
+            type = 'checkbox',
+            label = 'Resurrect',
+            tooltip = 'Accept ress automatically',
+            column = 3,
+            order = 2
+          },
+          invite = {
+            key = 'automation.invite',
+            type = 'checkbox',
+            label = 'Invite',
+            tooltip = 'Accept group invite automatically',
+            column = 3,
+            order = 3
+          },
+          cinematic = {
+            key = 'automation.cinematic',
+            type = 'checkbox',
+            label = 'Cinematic',
+            tooltip = 'Skip cinematics automatically',
+            column = 3,
+            order = 4
+          },
+        },
+        {
+          header = {
+            type = 'header',
+            label = 'Cosmetic'
+          },
+        },
+        {
+          afk = {
+            key = 'cosmetic.afkscreen',
+            type = 'checkbox',
+            label = 'AFK Screen',
+            tooltip = 'coming soon',
+            column = 3,
+            order = 1
+          }
+        },
+        {
+          header = {
+            type = 'header',
+            label = 'Display'
+          },
+        },
+        {
+          fps = {
+            key = 'display.fps',
+            type = 'checkbox',
+            label = 'FPS',
+            tooltip = 'Show current FPS',
+            column = 2,
+            order = 2
+          },
+          ms = {
+            key = 'display.ms',
+            type = 'checkbox',
+            label = 'MS',
+            tooltip = 'Show current ping',
+            column = 2,
+            order = 3
+          }
+        }
+      },
+    },
+    Unitframes = {
+      layoutConfig = { padding = { top = 15 } },
+      database = db.profile,
+      rows = {
+        {
+          header = {
+            type = 'header',
+            label = 'Unitframes'
+          },
+        },
+        {
+          style = {
+            key = 'unitframes.style',
+            type = 'dropdown',
+            label  = 'Style',
+            options = {
+              { value = 'Default', text = 'Default' },
+              { value = 'Big', text = 'Big' },
+              { value = 'Small', text = 'Transparent' }
+            },
+            column = 4,
+            order = 1
+          },
+          portrait = {
+            key = 'unitframes.portrait',
+            type = 'dropdown',
+            label = 'Portrait',
+            options = {
+              { value = 'Default', text = 'Default' },
+              { value = 'ClassIcon', text = 'ClassIcon' },
+            },
+            column = 4,
+            order = 2
+          },
+          size = {
+            key = 'unitframes.size',
+            type = 'slider',
+            label = 'Frame Size',
+            precision = 1,
+            min = 0.1,
+            max = 5,
+            column = 4,
+            order = 3,
+            onChange = function(slider)
+              PlayerFrame:SetScale(slider.value)
+              TargetFrame:SetScale(slider.value)
+              FocusFrame:SetScale(slider.value)
+            end,
+          }
+        },
+        {
+          class = {
+            key = 'unitframes.classcolor',
+            type = 'checkbox',
+            label = 'Class Color',
+            tooltip = 'Change healthcolor to class color',
+            column = 4,
+          },
+          pvp = {
+            key = 'unitframes.pvpbadge',
+            type = 'checkbox',
+            label = 'PvP Badge',
+            tooltip = 'Display PVP icon on Unit frames',
+            column = 4,
+          },
+          glow = {
+            key = 'unitframes.statusglow',
+            type = 'checkbox',
+            label = 'Status Glow',
+            tooltip = 'Enable glow on Unit frames when in resting area',
+            column = 4,
+          }
+        },
+        {
+          hitindicator = {
+            key = 'unitframes.hitindicator',
+            type = 'checkbox',
+            label = 'Hit indicator',
+            column = 4,
+            order = 1
+          },
+          combat = {
+            key = 'unitframes.combaticon',
+            type = 'checkbox',
+            label = 'Combat Icon',
+            tooltip = 'Display combat icon on Unit frames',
+            column = 4,
+            order = 2
+          }
+        },
+        {
+          header = {
+            type = 'header',
+            label = 'Raidframes'
+          },
+        },
+        {
+          style = {
+            key = 'raidframes.texture',
+            type = 'dropdown',
+            label = 'Texture',
+            options = Textures.data,
+            column = 5
+          }
+        },
+      },
+    },
+    Nameplates = {
+      layoutConfig = { padding = { top = 15 } },
+      rows = {
+        {
+          header = {
+            type = 'header',
+            label = 'Nameplates'
+          }
+        },
+        {
+          style = {
+            type = 'dropdown',
+            label = 'Style',
+            options = {
+              { value = 1, text = 'Default' },
+              { value = 2, text = 'Custom' }
+            },
+            initialValue = 1,
+            column = 5,
+            order = 1
+          },
+          texture = {
+            type = 'dropdown',
+            label = 'Texture',
+            options = {
+              { value = 1, text = 'Stack' },
+              { value = 2, text = 'Overlap' },
+            },
+            initialValue = 1,
+            column = 5,
+            order = 1
+          }
+        },
+        {
+          size = {
+            type = 'slider',
+            label = 'Size',
+            max = 5,
+            column = 5,
+            order = 1
+          },
+          typ = {
+            type = 'dropdown',
+            label = 'Typ',
+            options = {
+              { value = 1, text = 'Stack' },
+              { value = 2, text = 'Overlap' },
+            },
+            initialValue = 1,
+            column = 5,
+            order = 1
+          }
+        },
+        {
+          header = {
+            type = 'header',
+            label = 'Extras'
+          }
+        },
+        {
+          arena = {
+            type = 'checkbox',
+            label = 'Arena Number',
+            column = 4,
+            order = 1
+          },
+        }
+      },
+    },
+    Actionbar = {
+      layoutConfig = { padding = { top = 15 } },
+      database = db.profile.actionbar,
+      rows = {
+        {
+          header = {
+            type = 'header',
+            label = 'Actionbar'
+          }
+        },
+        {
+          style = {
+            key = 'style',
+            type = 'dropdown',
+            options = {
+              { value = 'Default', text = 'Default' },
+              { value = 'Shadowlands', text = 'Shadowlands'},
+              { value = 'Small', text = 'Small' }
+            },
+            initialValue = 1,
+            column = 5,
+            order = 1
+          }
+        },
+        {
+          header = {
+            type = 'header',
+            label = 'Buttons'
+          },
+        },
+        {
+          hotkeys = {
+            key = 'buttons.key',
+            type = 'checkbox',
+            label = 'Hotkeys Text',
+            tooltip = 'Show Hotkeys text',
+            column = 4,
+            order = 1
+          },
+          macros = {
+            key = 'buttons.macro',
+            type = 'checkbox',
+            label = 'Macro Text',
+            tooltip = 'Show Macro text',
+            column = 4,
+            order = 2
+          },
+          gryphones = {
+            key = 'gryphones',
+            type = 'checkbox',
+            label = 'Gryphones',
+            tooltip = 'Show actionbar gryphones',
+            column = 4,
+            order = 3
+          }
+        },
+        {
+          range = {
+            key = 'buttons.range',
+            type = 'checkbox',
+            label = 'Range Color',
+            tooltip = 'Show spell-color in red if out of range',
+            column = 4,
+            order = 1
+          },
+          flash = {
+            key = 'buttons.flash',
+            type = 'checkbox',
+            label = 'Flash Animation',
+            tooltip = 'Flash spell-icon when pressing it',
+            column = 4,
+            order = 2
+          }
+        },
+        {
+          size = {
+            key = 'buttons.size',
+            type = 'slider',
+            label = 'Size',
+            max = 50,
+            column = 4,
+            order = 1
+          },
+          padding = {
+            key = 'buttons.padding',
+            type = 'slider',
+            label = 'Padding',
+            max = 50,
+            column = 4,
+            order = 2
+          }
+        },
+        {
+          header = {
+            type = 'header',
+            label = 'Show on Mouseover'
+          },
+        },
+        {
+          mouseover = {
+            key = 'menu.mouseovermicro',
+            type = 'checkbox',
+            label = 'Micro Menu',
+            tooltip = 'Show micromenu on mouseover',
+            column = 4,
+            order = 2
+          },
+          bagbuttons = {
+            key = 'menu.mouseoverbags',
+            type = 'checkbox',
+            label = 'Bag Buttons',
+            tooltip = 'Hide background & bag buttons in the micromenu',
+            column = 4,
+            order = 3
+          },
+        },
+      },
+    },
+    Castbars = {
+      layoutConfig = { padding = { top = 15 } },
+      database = db.profile.castbars,
+      rows = {
+        {
+          header = {
+            type = 'header',
+            label = 'Chastbars'
+          }
+        },
+        {
+          style = {
+            key = 'style',
+            type = 'dropdown',
+            options = {
+              { value = 'Default', text = 'Default' },
+              { value = 'Custom', text = 'Custom' }
+            },
+            initialValue = 1,
+            column = 5,
+            order = 1
+          }
+        },
+        {
+          header = {
+            type = 'header',
+            label = 'Settings'
+          },
+        },
+        {
+          casticons = {
+            key = 'icon',
+            type = 'checkbox',
+            label = 'Icons',
+            tooltip = 'Display spell icons on castbar',
+            column = 4
+          },
+          casttime = {
+            key = 'timer',
+            type = 'checkbox',
+            label = 'Timer',
+            tooltip = 'Display cast time on castbar',
+            column = 4
+          }
+        }
+      },
+    },
+    Tooltip = {
+      layoutConfig = { padding = { top = 15 } },
+      database = db.profile.tooltip,
+      rows = {
+        {
+          header = {
+            type = 'header',
+            label = 'Tooltip'
+          }
+        },
+        {
+          style = {
+            key = 'style',
+            type = 'dropdown',
+            options = {
+              { value = 'Default', text = 'Default' },
+              { value = 'Custom', text = 'Custom' }
+            },
+            initialValue = 1,
+            column = 5,
+            order = 1
+          }
+        },
+        {
+          header = {
+            type = 'header',
+            label = 'Settings'
+          },
+        },
+        {
+          mouseanchor = {
+            key = 'mouseanchor',
+            type = 'checkbox',
+            label = 'Mouseanchor',
+            tooltip = 'Attach tooltip to mouse cursor',
+            column = 4
+          },
+          lifeontop = {
+            key = 'lifeontop',
+            type = 'checkbox',
+            label = 'Life on Top',
+            tooltip = 'Show HP bar in tooltip on top',
+            column = 4
+          },
+          hideincombat = {
+            key = 'hideincombat',
+            type = 'checkbox',
+            tooltip = 'Hide tooltips while in combat',
+            label = 'Hide in Combat',
+            column = 4
+          }
+        }
+      },
+    },
+    Buffs = {
+      layoutConfig = { padding = { top = 15 } },
+      database = db.profile,
+      rows = {
+        {
+          header = {
+            type = 'header',
+            label = 'Minimap'
+          }
+        },
+        {
+          buffsize = {
+            key = 'buffs.buff.size',
+            type = 'slider',
+            label = 'Buff Size',
+            max = 100,
+            column = 4,
+            order = 1
+          },
+          bufficons = {
+            key = 'buffs.buff.icons',
+            type = 'slider',
+            label = 'Buff Icons per row',
+            tooltip = 'Icons per row',
+            min = 2,
+            max = 20,
+            column = 5,
+            order = 2
+          }
+        },
+        {
+          debuffsize = {
+            key = 'buffs.debuff.size',
+            type = 'slider',
+            label = 'Debuff Size',
+            max = 100,
+            column = 4,
+            order = 1
+          },
+          debufficons = {
+            key = 'buffs.debuff.icons',
+            type = 'slider',
+            label = 'Debuff Icons per row',
+            tooltip = 'Icons per row',
+            min = 2,
+            max = 20,
+            column = 5,
+            order = 2
+          }
+        },
+        {
+          header = {
+            type = 'header',
+            label = 'Unitframes'
+          },
+        },
+        {
+          border = {
+            key = 'unitframes.buffs.purgeborder',
+            type = 'checkbox',
+            label = 'Purge Border',
+            tooltip = 'Highlight purgable buffs',
+            column = 3,
+            order = 1
+          }
+        },
+        {
+          big = {
+            key = 'unitframes.buffs.size',
+            type = 'slider',
+            label = 'Big Buff Size',
+            max = 50,
+            column = 4,
+            order = 2
+          },
+          small = {
+            key = 'unitframes.debuffs.size',
+            type = 'slider',
+            label = 'Small Buff Size',
+            max = 50,
+            column = 4,
+            order = 3
+          }
+        }
+      },
+    },
+    Map = {
+      layoutConfig = { padding = { top = 15 } },
+	    database = db.profile.maps,
+      rows = {
+        {
+          header = {
+            type = 'header',
+            label = 'Minimap'
+          }
+        },
+        {
+          showminimap = {
+			      key = 'minimap',
+            type = 'checkbox',
+            label = 'Show Minimap',
+            tooltip = 'Show/Hide minimap',
+            column = 4,
+            order = 1
+          },
+          showclock = {
+			      key = 'clock',
+            type = 'checkbox',
+            label = 'Show Clock',
+            tooltip = 'Show/Hide clock on minimap',
+            column = 4,
+            order = 2
+          },
+          showdate = {
+			      key = 'date',
+            type = 'checkbox',
+            label = 'Show Date',
+            tooltip = 'Show/Hide calendar icon on minimap',
+            column = 4,
+            order = 3
+          }
+        },
+        {
+          showtracking = {
+			      key = 'tracking',
+            type = 'checkbox',
+            label = 'Tracking Symbol',
+            tooltip = 'Show/Hide tracking icon on minimap',
+            column = 4,
+            order = 2
+          }
+        }
+      },
+    },
+    Chat = {
+      layoutConfig = { padding = { top = 15 } },
+      database = db.profile.chat,
+      rows = {
+        {
+          header = {
+            type = 'header',
+            label = 'Chat'
+          }
+        },
+        {
+          style = {
+            key = 'style',
+            type = 'dropdown',
+            options = {
+              { value = 'Default', text = 'Default' },
+              { value = 'Custom', text = 'Custom' }
+            },
+            column = 5,
+            order = 1
+          }
+        },
+        {
+          chatinput = {
+            key = 'top',
+            type = 'checkbox',
+            label = 'Input on Top',
+            tooltip = 'Move chat input field to top of chat',
+            column = 4,
+            order = 1
+          },
+          link = {
+            key = 'link',
+            type = 'checkbox',
+            label = 'Link copy',
+            tooltip = 'Make links clickable to copy them',
+            column = 4,
+            order = 2
+          },
+          copy = {
+            key = 'copy',
+            type = 'checkbox',
+            label = 'Copy Symbol',
+            tooltip = 'Show/Hide copy chat-history icon',
+            column = 4,
+            order = 3
+          },
+        },
+        {
+          header = {
+            type = 'header',
+            label = 'Friendlist'
+          }
+        },
+        {
+          friendlist = {
+            key = 'friendlist',
+            type = 'checkbox',
+            label = 'Class-Friendlist',
+            tooltip = 'Show character names in class color in friendlist',
+            column = 4,
+            order = 1
+          }
+        }
+      },
+    },
+    Misc = {
+      layoutConfig = { padding = { top = 15 } },
+      database = db.profile.misc,
+      rows = {
+        {
+          header = {
+            type = 'header',
+            label = 'Misc'
+          }
+        },
+        {
+          cvars = {
+            type = 'button',
+            text = 'CVars Browser',
+            onClick = function()
+              CvarsBrowser.Show()
+            end,
+            column = 3,
+            order = 3
+          }
+        },
+        {
+          header = {
+            type = 'header',
+            label = 'General'
+          }
+        },
+        {
+          interrupt = {
+            key = 'interrupt',
+            type = 'checkbox',
+            label = 'Interrupt',
+            tooltip = 'Announce successful interrupts party',
+            column = 3,
+            order = 1
+          },
+          vendorprice = {
+            key = 'vendorprice',
+            type = 'checkbox',
+            label = 'Vendor Price',
+            tooltip = 'Show Vendor price on items',
+            column = 3,
+            order = 1
+          },
+          fastloot = {
+            key = 'fastloot',
+            type = 'checkbox',
+            label = 'Fast Loot',
+            tooltip = 'Fast loot mobs without delay',
+            column = 3,
+            order = 1
+          }
+        },
+        {
+          header = {
+            type = 'header',
+            label = 'PvP'
+          }
+        },
+        {
+          safequeue = {
+            key = 'safequeue',
+            type = 'checkbox',
+            label = 'SafeQueue',
+            tooltip = 'Show time left to join and remove leave-button on queuepop-window',
+            column = 3,
+            order = 1
+          },
+          tabbinder = {
+            key = 'tabbinder',
+            type = 'checkbox',
+            label = 'Tab Binder',
+            tooltip = 'Only target players with TAB in PVP-Combat',
+            column = 3,
+            order = 1
+          },
+          losecontrol = {
+            key = 'losecontrol',
+            type = 'checkbox',
+            label = 'LoseControl',
+            tooltip = 'Shows crowd-control icons with timer for yourself',
+            column = 3,
+            order = 1
+          }
+        },
+        {
+          arenanameplate = {
+            key = 'arenanameplate',
+            type = 'checkbox',
+            label = 'Arena Nameplate',
+            tooltip = 'Shows Arena number instead of name above nameplate',
+            column = 3,
+            order = 1
+          }
+        }
+      },
+    },
     FAQ = {
       layoutConfig = { padding = { top = 15 } },
       rows = {
@@ -242,47 +1111,75 @@ function Gui:OnEnable()
         }
       },
     },
-    Profiles = Profiles.layout
+    Profiles = {
+      layoutConfig = { padding = { top = 15 } },
+      rows = {
+        {
+          header = {
+            type = 'header',
+            label = 'Profiles'
+          }
+        },
+        {
+          profile = {
+            type = 'dropdown',
+            label = 'Profile',
+            options = {
+              { value = 1, text = 'Default' },
+              { value = 2, text = 'Custom' }
+            },
+            initialValue = 1,
+            column = 6,
+            order = 1
+          }
+        },
+        {
+          copy = {
+            type = 'dropdown',
+            label = 'Copy from',
+            options = {
+              { value = 1, text = 'Default' },
+              { value = 2, text = 'Custom' }
+            },
+            initialValue = 1,
+            column = 6,
+            order = 1
+          }
+        },
+        {
+          new = {
+            type = 'button',
+            text = 'New',
+            onClick = function()
+              print("new profile");
+            end,
+            column = 3,
+            order = 1
+          },
+          delete = {
+            type = 'button',
+            text = 'Delete',
+            column = 3,
+            order = 2
+          },
+          export = {
+            type = 'button',
+            text = 'Export',
+            column = 3,
+            order = 3
+          },
+          import = {
+            type = 'button',
+            text = 'Import',
+            column = 3,
+            order = 4
+          }
+        }
+      },
+    },
   }
 
-  --Categories
-  local categories = {
-    {title = 'General', name = 'General', layout = options['General']},
-    {title = 'Unitframes', name = 'Unitframes', layout = options['Unitframes']},
-    {title = 'Nameplates', name = 'Nameplates', layout = options['Nameplates']},
-    {title = 'Actionbar', name = 'Actionbar', layout = options['Actionbar']},
-    {title = 'Castbars', name = 'Castbars', layout = options['Castbars']},
-    {title = 'Tooltip', name = 'Tooltip', layout = options['Tooltip']},
-    {title = 'Buffs', name = 'Buffs', layout = options['Buffs']},
-    {title = 'Map', name = 'Map', layout = options['Map']},
-    {title = 'Chat', name = 'Chat', layout = options['Chat']},
-    {title = 'Misc', name = 'Misc', layout = options['Misc']},
-    {title = 'FAQ', name = 'FAQ', layout = options['FAQ']},
-    {title = 'Profiles', name = 'Profiles', layout = options['Profiles']}
-  }
-
-  -- Tabs
-  local tabs = SUIConfig:TabPanel(config, nil, nil, categories, true, 139, 25)
-  SUIConfig:GlueAcross(tabs, config, 10, -35, -10, 10)
-
-  local scrollTabs = SUIConfig:ScrollFrame(config,  160, 288, tabs.buttonContainer);
-  SUIConfig:GlueTop(scrollTabs, config, 10, -35, 'LEFT')
-
-  local scrollContainer = SUIConfig:ScrollFrame(config, 515, 350, tabs.container);
-  SUIConfig:GlueTop(scrollContainer, config, -10, -35, 'RIGHT')
-
-  --Edit
-  local edit = SUIConfig:Button(config, 160, 25, 'Edit')
-  SUIConfig:GlueBottom(edit, config, 10, 36, 'LEFT')
-  edit:SetScript('OnClick', function()
-    SUI:Config()
-    SUI:Edit()
-  end)
-
-  --Save
-  local save = SUIConfig:Button(config, 160, 25, 'Save')
-  SUIConfig:GlueBottom(save, config, 10, 10, 'LEFT')
-  save:SetScript('OnClick', function()
-    ReloadUI()
+  tabs:EnumerateTabs(function(tab)
+    SUIConfig:BuildWindow(tab.frame, options[tab.name])
   end)
 end

@@ -11,12 +11,8 @@ function Module:OnEnable()
     end
     -- pvpbadge
     if not (db.pvpbadge) then
-      PlayerPrestigeBadge:SetAlpha(0)
-      PlayerPrestigePortrait:SetAlpha(0)
-      TargetFrameTextureFramePrestigeBadge:SetAlpha(0)
-      TargetFrameTextureFramePrestigePortrait:SetAlpha(0)
-      FocusFrameTextureFramePrestigeBadge:SetAlpha(0)
-      FocusFrameTextureFramePrestigePortrait:SetAlpha(0)
+      PlayerPVPIcon:SetAlpha(0)
+      TargetFrameTextureFramePVPIcon:SetAlpha(0)
     end
   end)
 

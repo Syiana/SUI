@@ -10,13 +10,13 @@ function Module:OnEnable()
       PlayerFrameAlternateManaBarRightBorder,
       PaladinPowerBarFrameBG,
       PaladinPowerBarFrameBankBG,
-      ComboPointPlayerFrame.Background,
-      ComboPointPlayerFrame.Combo1.PointOff,
-      ComboPointPlayerFrame.Combo2.PointOff,
-      ComboPointPlayerFrame.Combo3.PointOff,
-      ComboPointPlayerFrame.Combo4.PointOff,
-      ComboPointPlayerFrame.Combo5.PointOff,
-      ComboPointPlayerFrame.Combo6.PointOff,
+      ComboPointPlayerFrameBackground,
+      ComboPointPlayerFrameCombo1PointOff,
+      ComboPointPlayerFrameCombo2PointOff,
+      ComboPointPlayerFrameCombo3PointOff,
+      ComboPointPlayerFrameCombo4PointOff,
+      ComboPointPlayerFrameCombo5PointOff,
+      ComboPointPlayerFrameCombo6PointOff,
       PetFrameTexture,
       PartyMemberFrame1Texture,
       PartyMemberFrame2Texture,
@@ -34,20 +34,37 @@ function Module:OnEnable()
       Boss3TargetFrameTextureFrameTexture,
       Boss4TargetFrameTextureFrameTexture,
       Boss5TargetFrameTextureFrameTexture,
-      Boss1TargetFrameSpellBar.Border,
-      Boss2TargetFrameSpellBar.Border,
-      Boss3TargetFrameSpellBar.Border,
-      Boss4TargetFrameSpellBar.Border,
-      Boss5TargetFrameSpellBar.Border,
+      Boss1TargetFrameSpellBarBorder,
+      Boss2TargetFrameSpellBarBorder,
+      Boss3TargetFrameSpellBarBorder,
+      Boss4TargetFrameSpellBarBorder,
+      Boss5TargetFrameSpellBarBorder,
       CastingBarFrame.Border,
-      FocusFrameSpellBar.Border,
-      TargetFrameSpellBar.Border,
-      StatusTrackingBarManager.SingleBarLargeUpper,
-      StatusTrackingBarManager.SingleBarSmallUpper,
+      FocusFrameSpellBarBorder,
+      TargetFrameSpellBarBorder,
+      StatusTrackingBarManagerSingleBarLargeUpper,
+      StatusTrackingBarManagerSingleBarSmallUpper,
     }) do
       v:SetVertexColor(unpack(SUI:Color(0.15)))
     end
 
-    -- ROG COMBOPOINTS KYRIAN
+    -- SUI:SetScript("OnEvent", function(self, event)
+    --   ColorRaid()
+    --   PlayerFrameGroupIndicator:SetAlpha(0)
+    --   PlayerHitIndicator:SetText(nil)
+    --   PlayerHitIndicator.SetText = function()
+    --   end
+    --   PetHitIndicator:SetText(nil)
+    --   PetHitIndicator.SetText = function()
+    --   end
+    --   for _, child in pairs({WarlockPowerFrame:GetChildren()}) do
+    --     for _, region in pairs({child:GetRegions()}) do
+    --       if region:GetDrawLayer() == "BORDER" then
+    --         region:SetVertexColor(unpack(color.secondary))
+    --       end
+    --     end
+    --   end
+
+    -- end)
   end
 end

@@ -1,3 +1,4 @@
 <Ui xmlns='http://www.blizzard.com/wow/ui/'>
   <Include file='RegisterMediaLSM.lua'/>
+  <Include file='RetailUI\ArtFrames.xml'/>
 </Ui>

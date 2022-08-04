@@ -3,39 +3,31 @@ local Module = SUI:NewModule("Skins.ActionBar");
 function Module:OnEnable()
   if (SUI:Color()) then
     for i, v in pairs({
-      MainMenuBarArtFrameBackground.BackgroundLarge,
-      MainMenuBarArtFrameBackground.BackgroundSmall,
-      StatusTrackingBarManager.SingleBarLarge,
-      StatusTrackingBarManager.SingleBarSmall,
-      StatusTrackingBarManager.SingleBarLargeUpper,
-      StatusTrackingBarManager.SingleBarSmallUpper,
-      SlidingActionBarTexture0,
-      SlidingActionBarTexture1,
-      MainMenuBarTexture0,
-      MainMenuBarTexture1,
-      MainMenuBarTexture2,
-      MainMenuBarTexture3,
-      MainMenuMaxLevelBar0,
-      MainMenuMaxLevelBar1,
-      MainMenuMaxLevelBar2,
-      MainMenuMaxLevelBar3,
-      MainMenuXPBarTextureLeftCap,
-      MainMenuXPBarTextureRightCap,
-      MainMenuXPBarTextureMid,
-      ReputationWatchBarTexture0,
-      ReputationWatchBarTexture1,
-      ReputationWatchBarTexture2,
-      ReputationWatchBarTexture3,
-      ReputationXPBarTexture0,
-      ReputationXPBarTexture1,
-      ReputationXPBarTexture2,
-      ReputationXPBarTexture3,
+    SlidingActionBarTexture0,
+    SlidingActionBarTexture1,
+    MainMenuBarTexture0,
+    MainMenuBarTexture1,
+    MainMenuBarTexture2,
+    MainMenuBarTexture3,
+    MainMenuMaxLevelBar0,
+    MainMenuMaxLevelBar1,
+    MainMenuMaxLevelBar2,
+    MainMenuMaxLevelBar3,
+	  MainMenuXPBarTexture0,
+    MainMenuXPBarTexture1,
+	  MainMenuXPBarTexture2,
+	  MainMenuXPBarTexture3,
+	  MainMenuXPBarTexture4,
+	  ReputationWatchBar.StatusBar.WatchBarTexture0,
+    ReputationWatchBar.StatusBar.WatchBarTexture1,
+    ReputationWatchBar.StatusBar.WatchBarTexture2,
+    ReputationWatchBar.StatusBar.WatchBarTexture3,
     }) do
       v:SetVertexColor(unpack(SUI:Color(0.15)))
     end
     for i, v in pairs({
-      MainMenuBarArtFrame.LeftEndCap,
-      MainMenuBarArtFrame.RightEndCap,
+      MainMenuBarLeftEndCap,
+      MainMenuBarRightEndCap,
       StanceBarLeft,
       StanceBarMiddle,
       StanceBarRight,
@@ -55,5 +47,16 @@ function Module:OnEnable()
       v:SetVertexColor(unpack(SUI:Color()))
     end
 
+    if (SUI.db.profile.actionbar.style == 'Shadowlands') then
+      if (SUI:Color()) then
+        for i, v in pairs({
+          RetailUIArtFrame.BackgroundLarge,
+          RetailUIArtFrame.BackgroundSmall,
+          MicroButtonAndBagsBarTexture,
+        }) do
+        v:SetVertexColor(unpack(SUI:Color(0.15)))
+        end
+      end
+    end
   end
 end

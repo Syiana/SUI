@@ -16,32 +16,27 @@ local defaults = {
         decline = false,
         repair = true,
         sell = true,
-        stackbuy = true,
         invite = false,
         release = false,
         resurrect = false,
         cinematic = false
       },
       cosmetic = {
-        afkscreen = true,
-        talkhead = false,
+        afkscreen = true
       },
       display = {
-        ilvl = true,
         fps = true,
         ms = true
       }
     },
     unitframes = {
-      style = 'Big',
-      portrait = 'Default',
+      style = 'Default',
+      portrait = 'ClassIcon',
       classcolor = true,
-      factioncolor = true,
       statusglow = false,
-      pvpbadge = false,
+      pvpbadge = true,
       combaticon = false,
       hitindicator = false,
-      links = false,
       size = 1,
       player = {
         size = 1
@@ -57,13 +52,6 @@ local defaults = {
         size = 20
       }
     },
-    nameplates = {
-      style = 'Default',
-      texture = 'Interface\\AddOns\\SUI\\Media\\Textures\\Status\\Smooth',
-      size = 1,
-      arenanumber = true,
-      totemicons = true
-    },
     raidframes = {
       texture = 'Interface\\AddOns\\SUI\\Media\\Textures\\Status\\Flat',
       alwaysontop = false
@@ -71,19 +59,19 @@ local defaults = {
     actionbar = {
       style = 'Default',
       buttons = {
-        key = true,
+        key = false,
         macro = false,
-        range = true,
+        range = false,
         flash = false,
         size = 38,
         padding = 5
       },
       menu = {
         style = 'Default',
-        mouseover = false,
-        hidebag = false,
+        mouseovermicro = false,
+        mouseoverbags = false
       },
-      gryphones = true,
+      gryphones = false,
     },
     castbars = {
       style = 'Custom',
@@ -92,6 +80,7 @@ local defaults = {
     },
     tooltip = {
       style = 'Custom',
+      hideincombat = false,
       lifeontop = true,
       mouseanchor = false
     },
@@ -112,29 +101,22 @@ local defaults = {
       top = true,
       link = true,
       copy = true,
-      friendlist = true,
-      quickjoin = true
+      friendlist = true
     },
     maps = {
-      style = 'Default',
-      small = false,
-      opacity = false,
-      coords = true,
       minimap = true,
       clock = true,
       date = false,
-      garrison = true,
       tracking = false,
 	  },
     misc = {
       safequeue = true,
       losecontrol = true,
       tabbinder = false,
-      pulltimer = false,
       interrupt = false,
-      dampening = true,
       arenanameplate = false,
-      surrender = false
+      fastloot = true,
+      vendorprice = true
     },
     edit = {}
   }

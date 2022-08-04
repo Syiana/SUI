@@ -13,7 +13,6 @@ function Module:OnEnable()
           self.highLevelTexture:SetPoint("CENTER", self.levelText, "CENTER", 0,0);
           self.deadText:SetPoint("CENTER", self.healthbar, "CENTER",0,0);
           self.nameBackground:Hide();
-          self.threatIndicator:SetTexture("Interface\\TargetingFrame\\UI-TargetingFrame-Flash");
           self.name:SetPoint("LEFT", self, 15, 36);
           self.healthbar:SetSize(119, 26);
           self.healthbar:SetPoint("TOPLEFT", 5, -24);
@@ -26,10 +25,6 @@ function Module:OnEnable()
           self.manabar.RightText:ClearAllPoints();
           self.manabar.RightText:SetPoint("RIGHT", self.manabar, "RIGHT", -5, 0);
           self.manabar.TextString:SetPoint("CENTER", self.manabar, "CENTER", 0, 0);
-          if TargetFrame.threatNumericIndicator:IsShown() then
-            TargetFrame.threatNumericIndicator:SetPoint("BOTTOM", PlayerFrame, "TOP", 72, -21);
-          end
-          FocusFrame.threatNumericIndicator:SetAlpha(0);
           if (forceNormalTexture) then
             self.borderTexture:SetTexture("Interface\\TargetingFrame\\UI-TargetingFrame");
           elseif ( classification == "minus" ) then
