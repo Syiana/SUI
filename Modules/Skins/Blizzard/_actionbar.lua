@@ -53,6 +53,8 @@ function Module:OnEnable()
           RetailUIArtFrame.BackgroundLarge,
           RetailUIArtFrame.BackgroundSmall,
           MicroButtonAndBagsBarTexture,
+          RetailUIStatusBars.SingleBarLarge,
+          RetailUIStatusBars.SingleBarSmall,
         }) do
         v:SetVertexColor(unpack(SUI:Color(0.15)))
         end
