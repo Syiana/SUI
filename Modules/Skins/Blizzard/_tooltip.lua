@@ -25,7 +25,7 @@ function Module:OnEnable()
         self:SetBackdropColor(unpack(SUI:Color(0.3, 0.3)))
       end
       if (self.NineSlice) then
-        local _, itemLink = self:GetItem()
+        local _, itemLink = GameTooltip:GetItem()
         if itemLink then
           local azerite = C_AzeriteEmpoweredItem.IsAzeriteEmpoweredItemByID(itemLink) or C_AzeriteItem.IsAzeriteItemByID(itemLink) or false
           local _, _, itemRarity = GetItemInfo(itemLink)

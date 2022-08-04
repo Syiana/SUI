@@ -2,6 +2,7 @@
   <Include file='_Achievment.lua'/>
   <Include file='_Actionbar.lua'/>
   <Include file='_Actionhouse.lua'/>
+  <Include file='_Addonlist.lua'/>
   <Include file='_Alliedraces.lua'/>
   <Include file='_Archaeology.lua'/>
   <Include file='_Arena.lua'/>
