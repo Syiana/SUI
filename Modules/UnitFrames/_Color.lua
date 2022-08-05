@@ -4,7 +4,6 @@ function Module:OnEnable()
     local db = SUI.db.profile.unitframes
 
     if (db) then
-
         if (db.classcolor) then
             function SUIUnitClass(healthbar, unit)
                 if UnitIsPlayer(unit) and UnitIsConnected(unit) and UnitClass(unit) then
@@ -32,7 +31,7 @@ function Module:OnEnable()
                         elseif (not UnitIsTapDenied(unit)) then
                             local reaction = FACTION_BAR_COLORS[UnitReaction(unit,"player")];
                             if reaction then
-                                healthbar:SetStatusBarColor(reaction.r, reaction.g, reaction.b);
+                                healthbar:SetStatusBarColor(.8, .1, .1);
                             else
                                 healthbar:SetStatusBarColor(0,0.6,0.1)
                             end

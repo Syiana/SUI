@@ -74,6 +74,7 @@ function Module:OnEnable()
 
 		-- Status bars background
 		RetailUIStatusBars.Background:SetWidth(540)
+		RetailUIStatusBars.Background:Hide()
 	end
 
 	local function ActivateLongBar()
@@ -130,12 +131,12 @@ function Module:OnEnable()
 
 	local function Toggle_StatusBars(SmallUpper, Small, LargeUpper, Large)
 		if SmallUpper then
-			RetailUIStatusBars.SingleBarSmallUpper:Show()
+			RetailUIStatusBars.SingleBarSmallUpper:Hide()
 		else
 			RetailUIStatusBars.SingleBarSmallUpper:Hide()
 		end
 		if Small then
-			RetailUIStatusBars.SingleBarSmall:Show()
+			RetailUIStatusBars.SingleBarSmall:Hide()
 		else
 			RetailUIStatusBars.SingleBarSmall:Hide()
 		end
