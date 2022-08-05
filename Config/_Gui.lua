@@ -496,7 +496,8 @@ function Gui:OnEnable()
             type = 'dropdown',
             options = {
               { value = 'Default', text = 'Default' },
-              { value = 'Shadowlands', text = 'Shadowlands'},
+              { value = 'Retail', text = 'Retail'},
+              { value = 'RetailTransparent', text = 'Retail Transparent'},
               { value = 'Small', text = 'Small' }
             },
             initialValue = 1,

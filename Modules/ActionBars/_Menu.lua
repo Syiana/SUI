@@ -120,7 +120,7 @@ function Module:OnEnable()
     end
   end
 
-  if (db.style == 'Shadowlands') then
+  if (db.style == 'Retail' or db.style == 'RetailTransparent') then
     -- MicroMenu
     if UnitLevel("player") < SHOW_SPEC_LEVEL then
       CharacterMicroButton:ClearAllPoints()

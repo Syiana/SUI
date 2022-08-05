@@ -25,7 +25,7 @@
 </Frame>
 
 <!-- Status bars -->
-<Frame name="RetailUIStatusBars" frameStrata="MEDIUM" parent="UIParent">
+<Frame name="RetailUIStatusBars" frameStrata="MEDIUM" parent="UIParent" hidden="true">
     <Size x="804" y="11"/>
     <Anchors>
         <Anchor point="BOTTOM" y="1"/>

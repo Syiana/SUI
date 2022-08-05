@@ -47,7 +47,7 @@ function Module:OnEnable()
       v:SetVertexColor(unpack(SUI:Color()))
     end
 
-    if (SUI.db.profile.actionbar.style == 'Shadowlands') then
+    if (SUI.db.profile.actionbar.style == 'Retail' or SUI.db.profile.actionbar.style == 'RetailTransparent') then
       if (SUI:Color()) then
         for i, v in pairs({
           RetailUIArtFrame.BackgroundLarge,
