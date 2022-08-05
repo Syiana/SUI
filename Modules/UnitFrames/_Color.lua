@@ -12,6 +12,8 @@ function Module:OnEnable()
                     healthbar:SetStatusBarColor(c.r, c.g, c.b);
                 elseif UnitIsPlayer(unit) and (not UnitIsConnected(unit)) then
                     healthbar:SetStatusBarColor(0.5,0.5,0.5);
+                elseif not UnitIsPlayer("target") and UnitIsEnemy("player", "target") then
+                    TargetFrameHealthBar:SetStatusBarColor(1, .1, .1)
                 else
                     healthbar:SetStatusBarColor(0,0.9,0);
                 end

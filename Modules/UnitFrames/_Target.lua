@@ -55,35 +55,16 @@ function Module:OnEnable()
                 self.Background:SetSize(119,42);
                 self.Background:SetPoint("BOTTOMLEFT", self, "BOTTOMLEFT", 7, 35);
               end
-              if ( self.threatIndicator ) then
-                  if ( classification == "minus" ) then
-                      self.threatIndicator:SetTexture("Interface\\TargetingFrame\\UI-TargetingFrame-Minus-Flash");
-                      self.threatIndicator:SetTexCoord(0, 1, 0, 1);
-                      self.threatIndicator:SetWidth(256);
-                      self.threatIndicator:SetHeight(128);
-                      self.threatIndicator:SetPoint("TOPLEFT", self, "TOPLEFT", -24, 0);
-                  else
-                      self.threatIndicator:SetTexCoord(0, 0.9453125, 0, 0.181640625);
-                      self.threatIndicator:SetWidth(242);
-                      self.threatIndicator:SetHeight(93);
-                      self.threatIndicator:SetPoint("TOPLEFT", self, "TOPLEFT", -24, 0);
-                  end
-              end
           else
               self.haveElite = true;
               self.Background:SetSize(119,42);
-              if ( self.threatIndicator ) then
-                  self.threatIndicator:SetTexCoord(0, 0.9453125, 0.181640625, 0.400390625);
-                  self.threatIndicator:SetWidth(242);
-                  self.threatIndicator:SetHeight(112);
-              end
           end
           self.healthbar.lockColor = true;
       end
 
       if (db.texture ~= 'Default') then
         self.healthbar:SetStatusBarTexture(db.texture);
-        --TargetFrameMyHealPredictionBar:SetTexture(db.texture);
+        TargetFrameMyHealPredictionBar:SetTexture(db.texture);
       end
     end
 
