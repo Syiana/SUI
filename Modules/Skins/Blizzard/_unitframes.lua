@@ -39,13 +39,13 @@ function Module:OnEnable()
 			self.manabar.RightText:Hide();
 			forceNormalTexture = true;
 		elseif ( classification == "worldboss" or classification == "elite" ) then
-			self.borderTexture:SetTexture("Interface\\AddOns\\SUI\\Media\\Textures\\\\UnitFrames\\Target\\elite")
+			self.borderTexture:SetTexture("Interface\\AddOns\\SUI\\Media\\Textures\\UnitFrames\\Target\\elite")
 			self.borderTexture:SetVertexColor(1, 1, 1)
 		elseif ( classification == "rareelite" ) then
-			self.borderTexture:SetTexture("Interface\\AddOns\\SUI\\Media\\Textures\\\\UnitFrames\\Target\\rare-elite")
+			self.borderTexture:SetTexture("Interface\\AddOns\\SUI\\Media\\Textures\\UnitFrames\\Target\\rare-elite")
 			self.borderTexture:SetVertexColor(1, 1, 1)
 		elseif ( classification == "rare" ) then
-			self.borderTexture:SetTexture("Interface\\AddOns\\SUI\\Media\\Textures\\\\UnitFrames\\Target\\rare")
+			self.borderTexture:SetTexture("Interface\\AddOns\\SUI\\Media\\Textures\\UnitFrames\\Target\\rare")
 			self.borderTexture:SetVertexColor(1, 1, 1)
 		else
 			self.borderTexture:SetTexture("Interface\\TargetingFrame\\UI-TargetingFrame")
@@ -149,7 +149,7 @@ function Module:OnEnable()
 				end
 			end
 
-			CompactRaidFrameManagerToggleButton:SetNormalTexture("Interface\\AddOns\\Lorti-UI-TBC\\textures\\raid\\RaidPanel-Toggle")
+			CompactRaidFrameManagerToggleButton:SetNormalTexture("Interface\\AddOns\\SUI\\Media\\Textures\\UnitFrames\\Raid\\RaidPanel-Toggle")
 
 			hooksecurefunc("GameTooltip_ShowCompareItem", function(self, anchorFrame)
 				if self then
@@ -434,7 +434,7 @@ for _, v in pairs({a, b, c, d}) do
 end
 
 SpellBookFrame.Material = SpellBookFrame:CreateTexture(nil, 'OVERLAY', nil, 7)
-SpellBookFrame.Material:SetTexture[[Interface\AddOns\Lorti-UI-TBC\textures\quest\QuestBG.tga]]
+SpellBookFrame.Material:SetTexture[[Interface\AddOns\SUI\Media\Textures\UnitFrames\Quest\QuestBG.tga]]
 SpellBookFrame.Material:SetWidth(547)
 SpellBookFrame.Material:SetHeight(541)
 SpellBookFrame.Material:SetPoint('TOPLEFT', SpellBookFrame, 22, -74)
