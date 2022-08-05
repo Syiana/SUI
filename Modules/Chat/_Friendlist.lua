@@ -54,7 +54,7 @@ function Friendlist:OnEnable()
     function FriendColor_BNetFriend(i, friendOffset, numOnline)
       --print("friendOffsetBnet = " .. friendOffset)
       local bnetIDAccount, accountName, battleTag, isBattleTagPresence, characterName, bnetIDGameAccount, client, isOnline, lastOnline, isAFK, isDND, messageText, noteText, isRIDFriend, messageTime, canSoR, isReferAFriend, canSummonFriend = BNGetFriendInfo(i);
-      
+
       if isOnline == false then
         return;
       end

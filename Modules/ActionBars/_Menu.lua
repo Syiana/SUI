@@ -6,15 +6,15 @@ function Module:OnEnable()
     -- MicroMenu
     if UnitLevel("player") < SHOW_SPEC_LEVEL then
       CharacterMicroButton:ClearAllPoints()
-      CharacterMicroButton:SetPoint("CENTER", 680, 5.5)
+      CharacterMicroButton:SetPoint("BOTTOMRIGHT", MicroButtonAndBagsBar, -160, 5.5)
     else
       CharacterMicroButton:ClearAllPoints()
-      CharacterMicroButton:SetPoint("CENTER", 654, 5.5)
+      CharacterMicroButton:SetPoint("BOTTOMRIGHT", MicroButtonAndBagsBar, -185, 5.5)
     end
 
     -- Bag buttons
     MainMenuBarBackpackButton:ClearAllPoints()
-    MainMenuBarBackpackButton:SetPoint("CENTER", 830, 35)
+    MainMenuBarBackpackButton:SetPoint("BOTTOMRIGHT", MicroButtonAndBagsBar, -5, 50)
 
     local BagButtons = {
       MainMenuBarBackpackButton,
@@ -22,8 +22,36 @@ function Module:OnEnable()
       CharacterBag1Slot,
       CharacterBag2Slot,
       CharacterBag3Slot,
+      MainMenuBarBackpackButton.Back,
+      CharacterBag0Slot.Back,
+      CharacterBag1Slot.Back,
+      CharacterBag2Slot.Back,
+      CharacterBag3Slot.Back,
       KeyRingButton,
+      KeyRingButton.Back,
     }
+
+    for _, frame in pairs(BagButtons) do
+      frame:SetScale(0.75)
+    end
+
+    local MicroMenu = {
+      CharacterMicroButton,
+      SpellbookMicroButton,
+      TalentMicroButton,
+      QuestLogMicroButton,
+      SocialsMicroButton,
+      LFGMicroButton,
+      MainMenuMicroButton,
+      HelpMicroButton
+    }
+
+    for _, frame in pairs(MicroMenu) do
+      frame:SetScale(0.75)
+      LFGMicroButton:SetPoint("BOTTOMRIGHT", SocialsMicroButton, 26, 0)
+      MainMenuMicroButton:ClearAllPoints()
+      MainMenuMicroButton:SetPoint("BOTTOMRIGHT", LFGMicroButton, 26, 0)
+    end
 
     -- Show/Hide on Mouseover
     if (db.menu.mouseovermicro) then
@@ -96,15 +124,15 @@ function Module:OnEnable()
     -- MicroMenu
     if UnitLevel("player") < SHOW_SPEC_LEVEL then
       CharacterMicroButton:ClearAllPoints()
-      CharacterMicroButton:SetPoint("CENTER", 680, -7.5)
+      CharacterMicroButton:SetPoint("BOTTOMRIGHT", MicroButtonAndBagsBar, -160, 5.5)
     else
       CharacterMicroButton:ClearAllPoints()
-      CharacterMicroButton:SetPoint("CENTER", 654, 5.5)
+      CharacterMicroButton:SetPoint("BOTTOMRIGHT", MicroButtonAndBagsBar, -185, 5.5)
     end
 
     -- Bag buttons
     MainMenuBarBackpackButton:ClearAllPoints()
-    MainMenuBarBackpackButton:SetPoint("CENTER", 830, 35)
+    MainMenuBarBackpackButton:SetPoint("BOTTOMRIGHT", MicroButtonAndBagsBar, -5, 50)  
 
     local BagButtons = {
       MainMenuBarBackpackButton,
@@ -112,8 +140,36 @@ function Module:OnEnable()
       CharacterBag1Slot,
       CharacterBag2Slot,
       CharacterBag3Slot,
+      MainMenuBarBackpackButton.Back,
+      CharacterBag0Slot.Back,
+      CharacterBag1Slot.Back,
+      CharacterBag2Slot.Back,
+      CharacterBag3Slot.Back,
       KeyRingButton,
+      KeyRingButton.Back,
     }
+
+    for _, frame in pairs(BagButtons) do
+      frame:SetScale(0.75)
+    end
+
+    local MicroMenu = {
+      CharacterMicroButton,
+      SpellbookMicroButton,
+      TalentMicroButton,
+      QuestLogMicroButton,
+      SocialsMicroButton,
+      LFGMicroButton,
+      MainMenuMicroButton,
+      HelpMicroButton
+    }
+
+    for _, frame in pairs(MicroMenu) do
+      frame:SetScale(0.75)
+      LFGMicroButton:SetPoint("BOTTOMRIGHT", SocialsMicroButton, 26, 0)
+      MainMenuMicroButton:ClearAllPoints()
+      MainMenuMicroButton:SetPoint("BOTTOMRIGHT", LFGMicroButton, 26, 0)
+    end
 
     -- Show/Hide on Mouseover
     if (db.menu.mouseovermicro) then

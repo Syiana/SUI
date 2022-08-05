@@ -111,7 +111,6 @@ local defaults = {
 	  },
     misc = {
       safequeue = true,
-      losecontrol = true,
       tabbinder = false,
       interrupt = false,
       arenanameplate = false,

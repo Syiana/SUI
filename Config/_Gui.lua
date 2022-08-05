@@ -975,16 +975,6 @@ function Gui:OnEnable()
             column = 3,
             order = 1
           },
-          losecontrol = {
-            key = 'losecontrol',
-            type = 'checkbox',
-            label = 'LoseControl',
-            tooltip = 'Shows crowd-control icons with timer for yourself',
-            column = 3,
-            order = 1
-          }
-        },
-        {
           arenanameplate = {
             key = 'arenanameplate',
             type = 'checkbox',

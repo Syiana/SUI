@@ -9,12 +9,8 @@ function Module:OnEnable()
     local remaining = 0
     SafeQueueDB = SafeQueueDB or {announce = "self"}
 
-    PVPReadyDialog.leaveButton:Hide()
-    PVPReadyDialog.leaveButton.Show = function()
-    end
-    PVPReadyDialog.enterButton:ClearAllPoints()
-    PVPReadyDialog.enterButton:SetPoint("BOTTOM", PVPReadyDialog, "BOTTOM", 0, 25)
-    PVPReadyDialog.label:SetPoint("TOP", 0, -22)
+    local PVPReadyDialog = PVPReadyDialog
+    local PVPReadyDialog_Display = PVPReadyDialog_Display
 
     local function Print(msg)
       DEFAULT_CHAT_FRAME:AddMessage("|cff33ff99SafeQueue|r: " .. msg)
@@ -85,5 +81,18 @@ function Module:OnEnable()
         end
       end
     end)
+
+    if PVPReadyDialog_Display then
+      if PVPReadyDialog.label then PVPReadyDialog.label:SetWidth(250) end
+      hooksecurefunc("PVPReadyDialog_Display", function(self, i)
+          self = self or PVPReadyDialog
+          if self.hideButton then self.hideButton:Hide() end
+          if self.leaveButton then self.leaveButton:Hide() end
+          self.enterButton:ClearAllPoints()
+          self.enterButton:SetPoint("BOTTOM", self, "BOTTOM", 0, 25)
+          SafeQueue.battlefieldId = i
+          if SafeQueue.ShowPopup then SafeQueue:ShowPopup() end
+      end)
+    end
 	end
 end

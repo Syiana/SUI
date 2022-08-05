@@ -4,122 +4,130 @@ function Range:OnEnable()
   local db = SUI.db.profile.actionbar
 
   if (db.buttons.range) then
-    local Module = CreateFrame('Frame')
-    local _G = _G
-    local next = _G.next
-    local pairs = _G.pairs
-    local unpack = _G.unpack
+    local _G = _G;
 
-    local HasAction = _G.HasAction
-    local IsActionInRange = _G.IsActionInRange
-    local IsUsableAction = _G.IsUsableAction
-
-    local UPDATE_DELAY = .2
-    local buttonColors, buttonsToUpdate = {}, {}
-    local updater = CreateFrame("Frame")
-
-    local colors = {
-        ["normal"] = {1, 1, 1},
-        ["oor"] = {.8, .1, .1},
-        ["oom"] = {.5, .5, 1},
-        ["unusable"] = {.3, .3, .3}
-    }
-
-    function Module:OnUpdateRange(elapsed)
-        self.elapsed = (self.elapsed or UPDATE_DELAY) - elapsed
-        if self.elapsed <= 0 then
-            self.elapsed = UPDATE_DELAY
-
-            if not Module:UpdateButtons() then
-                self:Hide()
+    function RedRange_ActionButton_UpdateUsable(actionBarButton)
+        if (actionBarButton.UpdateUsable ~= nil) then
+            hooksecurefunc(actionBarButton, "UpdateUsable", function(self)
+                local action = self.action;
+                local icon = self.icon;
+                local isUsable, notEnoughMana = IsUsableAction(action)
+                local normalTexture = self.NormalTexture;
+                if ( not normalTexture ) then
+                    return;
+                end
+                if (ActionHasRange(action) and IsActionInRange(action) == false) then
+                    icon:SetVertexColor(.8, .1, .1);
+                    normalTexture:SetVertexColor(.8, .1, .1);
+                    self.redRangeRed = true;
+                elseif (self.redRangeRed) then
+                    if (isUsable) then
+                        icon:SetVertexColor(1, 1, 1);
+                        normalTexture:SetVertexColor(1, 1, 1);
+                        self.redRangeRed = false;
+                    elseif (notEnoughMana) then
+                        icon:SetVertexColor(.5, .5, 1);
+                        normalTexture:SetVertexColor(.5, .5, 1);
+                        self.redRangeRed = false;
+                    else
+                        icon:SetVertexColor(.4, .4, .4);
+                        normalTexture:SetVertexColor(1, 1, 1);
+                        self.redRangeRed = false;
+                    end
+                end
+            end)
+        end
+    end
+    
+    function RedRange_ActionButton_UpdateRangeIndicator(self, checksRange, inRange)
+        if ( checksRange and not inRange ) then
+            local icon = self.icon;
+            local normalTexture = self.NormalTexture;
+            icon:SetVertexColor(.8, .1, .1);
+            if (normalTexture ~= nil) and (next(normalTexture) ~= nil) then
+                normalTexture:SetVertexColor(.8, .1, .1);
             end
-        end
-    end
-    updater:SetScript("OnUpdate", Module.OnUpdateRange)
-
-    function Module:UpdateButtons()
-        if next(buttonsToUpdate) then
-            for button in pairs(buttonsToUpdate) do
-                self.UpdateButtonUsable(button)
-            end
-            return true
-        end
-
-        return false
-    end
-
-    function Module:UpdateButtonStatus()
-        local action = self.action
-
-        if action and self:IsVisible() and HasAction(action) then
-            buttonsToUpdate[self] = true
-        else
-            buttonsToUpdate[self] = nil
-        end
-
-        if next(buttonsToUpdate) then
-            updater:Show()
-        end
-    end
-
-    function Module:UpdateButtonUsable(force)
-        if force then
-            buttonColors[self] = nil
-        end
-
-        local action = self.action
-        local isUsable, notEnoughMana = IsUsableAction(action)
-
-        if isUsable then
-            local inRange = IsActionInRange(action)
-            if inRange == false then
-                Module.SetButtonColor(self, "oor")
+            self.redRangeRed = true;
+        elseif (self.redRangeRed) then
+            local icon = self.icon;
+            local normalTexture = self.NormalTexture;
+            local action = self.action;
+            if (action) then
+                local isUsable, notEnoughMana = IsUsableAction(action)
+                if (isUsable) then
+                    icon:SetVertexColor(1, 1, 1);
+                    if (normalTexture ~= nil) and (next(normalTexture) ~= nil) then
+                        normalTexture:SetVertexColor(1, 1, 1);
+                    end
+                elseif (notEnoughMana) then
+                    icon:SetVertexColor(.5, .5, 1);
+                    if (normalTexture ~= nil) and (next(normalTexture) ~= nil) then
+                        normalTexture:SetVertexColor(.5, .5, 1);
+                    end
+                else
+                    icon:SetVertexColor(.3, .3, .3);
+                    if (normalTexture ~= nil) and (next(normalTexture) ~= nil) then
+                        normalTexture:SetVertexColor(1, 1, 1);
+                    end
+                end
             else
-                Module.SetButtonColor(self, "normal")
+                icon:SetVertexColor(1, 1, 1);
+                if (normalTexture ~= nil) and (next(normalTexture) ~= nil) then
+                    normalTexture:SetVertexColor(1, 1, 1);
+                end
             end
-        elseif notEnoughMana then
-            Module.SetButtonColor(self, "oom")
-        else
-            Module.SetButtonColor(self, "unusable")
+            self.redRangeRed = false;
         end
     end
-
-    function Module:SetButtonColor(colorIndex)
-        if buttonColors[self] == colorIndex then
-            return
+    
+    if (not REDRANGEICONS_HOOKED) then
+        hooksecurefunc("ActionButton_UpdateRangeIndicator", RedRange_ActionButton_UpdateRangeIndicator);
+        for i = 1, 12 do
+            local actionButton
+            actionButton = _G["ExtraActionButton"..i]
+            if (actionButton) then
+                RedRange_ActionButton_UpdateUsable(actionButton)
+            end
+            actionButton = _G["ActionButton"..i]
+            if (actionButton) then
+                RedRange_ActionButton_UpdateUsable(actionButton)
+            end
+            actionButton = _G["MultiBarBottomLeftButton"..i]
+            if (actionButton) then
+                RedRange_ActionButton_UpdateUsable(actionButton)
+            end
+            actionButton = _G["MultiBarBottomRightButton"..i]
+            if (actionButton) then
+                RedRange_ActionButton_UpdateUsable(actionButton)
+            end
+            actionButton = _G["MultiBarLeftButton"..i]
+            if (actionButton) then
+                RedRange_ActionButton_UpdateUsable(actionButton)
+            end
+            actionButton = _G["MultiBarRightButton"..i]
+            if (actionButton) then
+                RedRange_ActionButton_UpdateUsable(actionButton)
+            end
+            actionButton = _G["PetActionButton"..i]
+            if (actionButton) then
+                RedRange_ActionButton_UpdateUsable(actionButton)
+            end
+            actionButton = _G["StanceButton"..i]
+            if (actionButton) then
+                RedRange_ActionButton_UpdateUsable(actionButton)
+            end
+            actionButton =  _G["PossessButton"..i]
+            if (actionButton) then
+                RedRange_ActionButton_UpdateUsable(actionButton)
+            end
+            actionButton =  _G["OverrideActionBarButton"..i]
+            if (actionButton) then
+                RedRange_ActionButton_UpdateUsable(actionButton)
+            end
         end
-        buttonColors[self] = colorIndex
-
-        local r, g, b = unpack(colors[colorIndex])
-        self.icon:SetVertexColor(r, g, b)
+        REDRANGEICONS_HOOKED = true
     end
-
-    function Module:Register()
-        self:HookScript("OnShow", Module.UpdateButtonStatus)
-        self:HookScript("OnHide", Module.UpdateButtonStatus)
-        self:SetScript("OnUpdate", nil)
-        Module.UpdateButtonStatus(self)
-    end
-
-    local function button_UpdateUsable(button)
-        Module.UpdateButtonUsable(button, true)
-    end
-
-    function Module:RegisterButtonRange(button)
-        if button.Update then
-            Module.Register(button)
-            hooksecurefunc(button, "Update", Module.UpdateButtonStatus)
-            hooksecurefunc(button, "UpdateUsable", button_UpdateUsable)
-        end
-    end
-
-    for i = 1, NUM_ACTIONBAR_BUTTONS do
-        Module:RegisterButtonRange(_G["ActionButton" .. i])
-        Module:RegisterButtonRange(_G["MultiBarBottomLeftButton" .. i])
-        Module:RegisterButtonRange(_G["MultiBarBottomRightButton" .. i])
-        Module:RegisterButtonRange(_G["MultiBarRightButton" .. i])
-        Module:RegisterButtonRange(_G["MultiBarLeftButton" .. i])
-    end
+    
   end
 
 end
