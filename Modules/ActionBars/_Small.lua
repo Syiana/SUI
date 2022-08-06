@@ -34,6 +34,17 @@ function Module:OnEnable()
       MainMenuMaxLevelBar1,
       MainMenuMaxLevelBar2,
       MainMenuMaxLevelBar3,
+      StanceButton1.bg,
+      StanceButton2.bg,
+      StanceButton3.bg,
+      StanceButton4.bg,
+      StanceButton5.bg,
+      StanceButton6.bg,
+      StanceButton7.bg,
+      StanceButton8.bg,
+      StanceBarLeft,
+      StanceBarMiddle,
+      StanceBarRight,
     }
 
     for _, frame in pairs(BlizzArt) do
@@ -63,16 +74,36 @@ function Module:OnEnable()
       MultiBarRightButton1:ClearAllPoints()
       MultiBarRightButton1:SetPoint("RIGHT", UIParent, "RIGHT", -2, 150)
 
-      PetActionButton1:ClearAllPoints()
-      PetActionButton1:SetPoint("BOTTOMLEFT", MultiBarBottomRightButton1, "TOPLEFT", 25, 15)
+      -- Pet Action Bar
+      if (SHOW_MULTI_ACTIONBAR_2) then
+        PetActionButton1:ClearAllPoints()
+        PetActionButton1:SetPoint("BOTTOMLEFT", MultiBarBottomRightButton1, "TOPLEFT", 3, 11)
+      elseif (SHOW_MULTI_ACTIONBAR_1) then
+        PetActionButton1:ClearAllPoints()
+        PetActionButton1:SetPoint("BOTTOMLEFT", MultiBarBottomRightButton1, "TOPLEFT", 3, -33)
+      else
+        PetActionButton1:ClearAllPoints()
+        PetActionButton1:SetPoint("BOTTOMLEFT", MultiBarBottomRightButton1, "TOPLEFT", 3, -77)
+      end
+
+      -- Stance Bar
+      StanceButton2:SetPoint("TOPLEFT", StanceButton1, 32.5, 0)
+      StanceButton3:SetPoint("TOPLEFT", StanceButton1, 65, 0)
+      StanceButton4:SetPoint("TOPLEFT", StanceButton1, 97.5, 0)
+      StanceButton5:SetPoint("TOPLEFT", StanceButton1, 130, 0)
+      StanceButton6:SetPoint("TOPLEFT", StanceButton1, 162.5, 0)
+      StanceButton7:SetPoint("TOPLEFT", StanceButton1, 195, 0)
+      StanceButton8:SetPoint("TOPLEFT", StanceButton1, 227.5, 0)
 
       StanceBarFrame:SetMovable(true)
       StanceBarFrame:ClearAllPoints()
       StanceBarFrame:SetUserPlaced(true)
       if (SHOW_MULTI_ACTIONBAR_2) then
-      StanceBarFrame:SetPoint("TOPLEFT", MultiBarBottomRightButton1, "TOPLEFT", -8, 35)
+        StanceBarFrame:SetPoint("TOPLEFT", MultiBarBottomRightButton1, "TOPLEFT", -8, 35)
+      elseif (SHOW_MULTI_ACTIONBAR_1) then
+        StanceBarFrame:SetPoint("TOPLEFT", MultiBarBottomRightButton1, "TOPLEFT", -8, -5)
       else
-      StanceBarFrame:SetPoint("TOPLEFT", MultiBarBottomRightButton1, "TOPLEFT", -8, -5)
+        StanceBarFrame:SetPoint("TOPLEFT", MultiBarBottomRightButton1, "TOPLEFT", -8, -45)
       end
     end
     updatePositions()

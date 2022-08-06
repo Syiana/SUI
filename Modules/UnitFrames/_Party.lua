@@ -24,18 +24,18 @@ function Module:OnEnable()
               _G["PartyMemberFrame"..i.."ManaBar"]:ClearAllPoints();
               _G["PartyMemberFrame"..i.."ManaBar"]:SetPoint("TOPLEFT", 45, -26);
               _G["PartyMemberFrame"..i.."ManaBar"]:SetHeight(5);
-              _G["PartyMemberFrame"..i.."HealthBarTextLeft"]:ClearAllPoints();
-              _G["PartyMemberFrame"..i.."HealthBarTextLeft"]:SetPoint("LEFT", _G["PartyMemberFrame"..i.."HealthBar"], "LEFT", 0, 0);
-              _G["PartyMemberFrame"..i.."HealthBarTextRight"]:ClearAllPoints();
-              _G["PartyMemberFrame"..i.."HealthBarTextRight"]:SetPoint("RIGHT", _G["PartyMemberFrame"..i.."HealthBar"], "RIGHT", 0, 0);
-              _G["PartyMemberFrame"..i.."ManaBarTextLeft"]:ClearAllPoints();
-              _G["PartyMemberFrame"..i.."ManaBarTextLeft"]:SetPoint("LEFT", _G["PartyMemberFrame"..i.."ManaBar"], "LEFT", 0, 0);
-              _G["PartyMemberFrame"..i.."ManaBarTextRight"]:ClearAllPoints();
-              _G["PartyMemberFrame"..i.."ManaBarTextRight"]:SetPoint("RIGHT", _G["PartyMemberFrame"..i.."ManaBar"], "RIGHT", 0, 0);
-              _G["PartyMemberFrame"..i.."HealthBarText"]:ClearAllPoints();
-              _G["PartyMemberFrame"..i.."HealthBarText"]:SetPoint("CENTER", _G["PartyMemberFrame"..i.."HealthBar"], "CENTER", 0, 0);
-              _G["PartyMemberFrame"..i.."ManaBarText"]:ClearAllPoints();
-              _G["PartyMemberFrame"..i.."ManaBarText"]:SetPoint("CENTER", _G["PartyMemberFrame"..i.."ManaBar"], "CENTER", 0, 0);
+              --_G["PartyMemberFrame"..i.."HealthBarTextLeft"]:ClearAllPoints();
+              --_G["PartyMemberFrame"..i.."HealthBarTextLeft"]:SetPoint("LEFT", _G["PartyMemberFrame"..i.."HealthBar"], "LEFT", 0, 0);
+              --_G["PartyMemberFrame"..i.."HealthBarTextRight"]:ClearAllPoints();
+              --_G["PartyMemberFrame"..i.."HealthBarTextRight"]:SetPoint("RIGHT", _G["PartyMemberFrame"..i.."HealthBar"], "RIGHT", 0, 0);
+              --_G["PartyMemberFrame"..i.."ManaBarTextLeft"]:SetPoint("LEFT", _G["PartyMemberFrame"..i.."ManaBar"], "LEFT", 0, 0);
+              --_G["PartyMemberFrame"..i.."ManaBarTextLeft"]:ClearAllPoints();
+              --_G["PartyMemberFrame"..i.."ManaBarTextRight"]:ClearAllPoints();
+              --_G["PartyMemberFrame"..i.."ManaBarTextRight"]:SetPoint("RIGHT", _G["PartyMemberFrame"..i.."ManaBar"], "RIGHT", 0, 0);
+              --_G["PartyMemberFrame"..i.."HealthBarText"]:ClearAllPoints();
+              --_G["PartyMemberFrame"..i.."HealthBarText"]:SetPoint("CENTER", _G["PartyMemberFrame"..i.."HealthBar"], "CENTER", 0, 0);
+              --_G["PartyMemberFrame"..i.."ManaBarText"]:ClearAllPoints();
+              --_G["PartyMemberFrame"..i.."ManaBarText"]:SetPoint("CENTER", _G["PartyMemberFrame"..i.."ManaBar"], "CENTER", 0, 0);
             end
         end
       end

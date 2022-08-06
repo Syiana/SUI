@@ -6,30 +6,33 @@ function Module:OnEnable()
     f:RegisterEvent("ADDON_LOADED")
     f:SetScript("OnEvent", function(self, event, name)
       if name == "Blizzard_MacroUI" then
-        for i, v in pairs({ MacroFrame.NineSlice.TopEdge,
-          MacroFrame.NineSlice.RightEdge,
-          MacroFrame.NineSlice.BottomEdge,
-          MacroFrame.NineSlice.LeftEdge,
-          MacroFrame.NineSlice.TopRightCorner,
-          MacroFrame.NineSlice.TopLeftCorner,
-          MacroFrame.NineSlice.BottomLeftCorner,
-          MacroFrame.NineSlice.BottomRightCorner }) do
+        for i, v in pairs({
+          MacroFrameTopEdge,
+          MacroFrameRightEdge,
+          MacroFrameBottomEdge,
+          MacroFrameLeftEdge,
+          MacroFrameTopRightCorner,
+          MacroFrameTopLeftCorner,
+          MacroFrameBottomLeftCorner,
+          MacroFrameBottomRightCorner
+        }) do
             v:SetVertexColor(unpack(SUI:Color(0.15)))
         end
         for i, v in pairs({
-          MacroFrameInset.NineSlice.TopEdge,
-          MacroFrameInset.NineSlice.TopRightCorner,
-          MacroFrameInset.NineSlice.RightEdge,
-          MacroFrameInset.NineSlice.BottomRightCorner,
-          MacroFrameInset.NineSlice.BottomEdge,
-          MacroFrameInset.NineSlice.BottomLeftCorner,
-          MacroFrameInset.NineSlice.LeftEdge,
-          MacroFrameInset.NineSlice.TopLeftCorner, }) do
+          MacroFrameInsetTopEdge,
+          MacroFrameInsetTopRightCorner,
+          MacroFrameInsetRightEdge,
+          MacroFrameInsetBottomRightCorner,
+          MacroFrameInsetBottomEdge,
+          MacroFrameInsetBottomLeftCorner,
+          MacroFrameInsetLeftEdge,
+          MacroFrameInsetTopLeftCorner, }) do
             v:SetVertexColor(unpack(SUI:Color()))
         end
         for i, v in pairs({
-          MacroFrame.Bg,
-          MacroFrame.TitleBg }) do
+          MacroFrameBg,
+          MacroFrameTitleBg
+        }) do
             v:SetVertexColor(unpack(SUI:Color()))
         end
         for i, v in pairs({
@@ -37,10 +40,10 @@ function Module:OnEnable()
           MacroButtonScrollFrameMiddle,
           MacroButtonScrollFrameBottom,
           MacroButtonScrollFrameScrollBarThumbTexture,
-          MacroButtonScrollFrameScrollBarScrollUpButton.Normal,
-          MacroButtonScrollFrameScrollBarScrollDownButton.Normal,
-          MacroButtonScrollFrameScrollBarScrollUpButton.Disabled,
-          MacroButtonScrollFrameScrollBarScrollDownButton.Disabled,
+          MacroButtonScrollFrameScrollBarScrollUpButtonNormal,
+          MacroButtonScrollFrameScrollBarScrollDownButtonNormal,
+          MacroButtonScrollFrameScrollBarScrollUpButtonDisabled,
+          MacroButtonScrollFrameScrollBarScrollDownButtonDisabled,
           }) do
           v:SetVertexColor(unpack(SUI:Color()))
         end
