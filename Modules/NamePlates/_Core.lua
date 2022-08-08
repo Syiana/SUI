@@ -204,8 +204,6 @@ local function UpdateHealthColor(self)
             elseif ( SUI.db.profile.nameplates.options.RaidMarkerColoring and raidMarker ) then
                 local markerColor = nPlates.markerColors[raidMarker]
                 r, g, b = markerColor.r, markerColor.g, markerColor.b
-            elseif ( SUI.db.profile.nameplates.options.FelExplosives and nPlates:IsPriority(self.displayedUnit) ) then
-                r, g, b = SUI.db.profile.nameplates.options.FelExplosivesColor.r, SUI.db.profile.nameplates.options.FelExplosivesColor.g, SUI.db.profile.nameplates.options.FelExplosivesColor.b
             elseif ( self.optionTable.colorHealthBySelection ) then
                 if ( self.optionTable.considerSelectionInCombatAsHostile and nPlates:IsOnThreatListWithPlayer(self.displayedUnit) ) then
                     if ( SUI.db.profile.nameplates.options.TankMode ) then
@@ -376,14 +374,14 @@ local function FrameSetup(self, options)
         -- Spell Name
 
     self.castBar.Text:ClearAllPoints()
-    self.castBar.Text:SetFontObject("nPlate_CastbarFont")
+    self.castBar.Text:SetFontObject(GameFontNormal)
     self.castBar.Text:SetPoint("LEFT", self.castBar, 2, 0)
 
         -- Set Castbar Timer
 
     if ( not self.castBar.CastTime ) then
         self.castBar.CastTime = self.castBar:CreateFontString(nil, "OVERLAY")
-        self.castBar.CastTime:SetFontObject("nPlate_CastbarTimerFont")
+        self.castBar.CastTime:SetFontObject(GameFontNormal)
         self.castBar.CastTime:SetPoint("BOTTOMRIGHT", self.castBar.Icon)
     end
 

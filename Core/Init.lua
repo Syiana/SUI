@@ -73,8 +73,6 @@ local defaults = {
         ShowEnemyClassColors =  true,
         WhiteSelectionColor =  false,
         RaidMarkerColoring =  false,
-        FelExplosives =  true,
-        FelExplosivesColor =  { r = 197/255, g = 1, b = 0},
         ShowExecuteRange =  false,
         ExecuteValue =  35,
         ExecuteColor =  { r = 0, g = 71/255, b = 126/255},
