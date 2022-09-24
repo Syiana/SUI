@@ -227,3 +227,19 @@ function SUI:OnInitialize()
     end
   end
 end
+
+function SUI:LSB_Helper(LSBList, LSBHash)
+  local list = {}
+  for index, name in pairs(LSBList) do
+    list[index] = {}
+    for k, v in pairs(LSBHash) do
+      if(name == k) then
+        list[index] = {
+          text = name,
+          value = v
+        }
+      end
+    end
+  end
+  return list
+end
