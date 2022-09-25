@@ -678,7 +678,7 @@ function Module:OnEnable()
 	
 		local vectors = {QuestLogFrame:GetRegions()}
 		for i = 2, 3 do
-			vectors[i]:SetVertexColor(unpack(SUI:Color(0.15)))
+			vectors[i]:SetVertexColor(0.35,0.35,0.35)
 		end
 	
 		if IsAddOnLoaded("Leatrix_Plus") and LeaPlusDB["EnhanceQuestLog"] == "On" and not QuestLogFrame.Material then
@@ -705,11 +705,11 @@ function Module:OnEnable()
 	
 		if not GossipFrameGreetingPanel.Material then 
 			GossipFrameGreetingPanel.Material = GossipFrameGreetingPanel:CreateTexture(nil, 'OVERLAY', nil, 7)
-			GossipFrameGreetingPanel.Material:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\UnitFrames\\Quest\\QuestBG")
+			GossipFrameGreetingPanel.Material:SetTexture("Interface\\AddOns\\Lorti-UI-Classic\\textures\\quest\\QuestBG")
 			GossipFrameGreetingPanel.Material:SetWidth(514)
 			GossipFrameGreetingPanel.Material:SetHeight(522)
 			GossipFrameGreetingPanel.Material:SetPoint('TOPLEFT', GossipFrameGreetingPanel, 22, -74)
-			--QuestFrameRewardPanel.Material:SetVertexColor(0.7,0.7,0.7)
+			GossipFrameGreetingPanel.Material:SetVertexColor(0.7,0.7,0.7)
 		end
 	
 		-- Quest Frame Reward panel
@@ -720,11 +720,11 @@ function Module:OnEnable()
 	
 		if not QuestFrameRewardPanel.Material then
 			QuestFrameRewardPanel.Material = QuestFrameRewardPanel:CreateTexture(nil, 'OVERLAY', nil, 7)
-			QuestFrameRewardPanel.Material:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\UnitFrames\\Quest\\QuestBG")
+			QuestFrameRewardPanel.Material:SetTexture("Interface\\AddOns\\Lorti-UI-Classic\\textures\\quest\\QuestBG")
 			QuestFrameRewardPanel.Material:SetWidth(514)
 			QuestFrameRewardPanel.Material:SetHeight(522)
 			QuestFrameRewardPanel.Material:SetPoint('TOPLEFT', QuestFrameRewardPanel, 22, -74)
-			--QuestFrameRewardPanel.Material:SetVertexColor(0.7,0.7,0.7)
+			QuestFrameRewardPanel.Material:SetVertexColor(0.7,0.7,0.7)
 		end
 		
 		--Mailbox
@@ -825,7 +825,7 @@ function Module:OnEnable()
 			QuestFrameDetailPanel.Material:SetWidth(514)
 			QuestFrameDetailPanel.Material:SetHeight(522)
 			QuestFrameDetailPanel.Material:SetPoint('TOPLEFT', QuestFrameDetailPanel, 22, -74)
-			QuestFrameDetailPanel.Material:SetVertexColor(unpack(SUI:Color(0.15)))
+			QuestFrameDetailPanel.Material:SetVertexColor(0.7,0.7,0.7)
 		end
 	
 		local a, b, c, d, e, f, g, h, i = QuestFrameProgressPanel:GetRegions()
@@ -838,7 +838,7 @@ function Module:OnEnable()
 		QuestFrameProgressPanel.Material:SetWidth(514)
 		QuestFrameProgressPanel.Material:SetHeight(522)
 		QuestFrameProgressPanel.Material:SetPoint('TOPLEFT', QuestFrameProgressPanel, 22, -74)
-		QuestFrameProgressPanel.Material:SetVertexColor(unpack(SUI:Color(0.15)))
+		QuestFrameProgressPanel.Material:SetVertexColor(0.7,0.7,0.7)
 																						
 		-- LFG/LFM Frame
 		if(LFGFrame ~= nil) then
