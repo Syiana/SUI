@@ -76,15 +76,31 @@ function Module:OnEnable()
 
       -- Pet Action Bar
       if (SHOW_MULTI_ACTIONBAR_2) then
-        PetActionButton1:ClearAllPoints()
-        PetActionButton1:SetPoint("BOTTOMLEFT", MultiBarBottomRightButton1, "TOPLEFT", 3, 11)
+        if (StanceButton1) then
+          PetActionButton1:ClearAllPoints()
+          PetActionButton1:SetPoint("BOTTOMLEFT", MultiBarBottomRightButton1, "TOPLEFT", 150, 5)
+        else
+          PetActionButton1:ClearAllPoints()
+          PetActionButton1:SetPoint("BOTTOMLEFT", MultiBarBottomRightButton1, "TOPLEFT", 3, 11)
+        end
       elseif (SHOW_MULTI_ACTIONBAR_1) then
-        PetActionButton1:ClearAllPoints()
-        PetActionButton1:SetPoint("BOTTOMLEFT", MultiBarBottomRightButton1, "TOPLEFT", 3, -33)
+        if (StanceButton1) then
+          PetActionButton1:ClearAllPoints()
+          PetActionButton1:SetPoint("BOTTOMLEFT", MultiBarBottomRightButton1, "TOPLEFT", 150, -35)
+        else
+          PetActionButton1:ClearAllPoints()
+          PetActionButton1:SetPoint("BOTTOMLEFT", MultiBarBottomRightButton1, "TOPLEFT", 3, -33)
+        end
       else
-        PetActionButton1:ClearAllPoints()
-        PetActionButton1:SetPoint("BOTTOMLEFT", MultiBarBottomRightButton1, "TOPLEFT", 3, -77)
+        if (StanceButton1) then
+          PetActionButton1:ClearAllPoints()
+          PetActionButton1:SetPoint("BOTTOMLEFT", MultiBarBottomRightButton1, "TOPLEFT", 150, -73)
+        else
+          PetActionButton1:ClearAllPoints()
+          PetActionButton1:SetPoint("BOTTOMLEFT", MultiBarBottomRightButton1, "TOPLEFT", 3, -77)
+        end
       end
+
 
       -- Stance Bar
       StanceButton2:SetPoint("TOPLEFT", StanceButton1, 32.5, 0)
@@ -108,6 +124,31 @@ function Module:OnEnable()
     end
     updatePositions()
     hooksecurefunc("SetActionBarToggles", updatePositions)
+
+    -- Shaman Totem Bar
+
+    local fixing -- flag to prevent infinite looping
+    hooksecurefunc(MultiCastActionBarFrame, "SetPoint", function()
+        -- if this call came from your hook, or you're in combat, exit:
+        if fixing or InCombatLockdown() then
+              return
+        end
+        -- set the flag so our SetPoint call doesn't trigger an infinite loop:
+        fixing = true
+        -- move the frame as desired:
+        if (SHOW_MULTI_ACTIONBAR_2) then
+          MultiCastActionBarFrame:ClearAllPoints()
+          MultiCastActionBarFrame:SetPoint("TOPLEFT", MultiBarBottomRightButton1, "TOPLEFT", 0, 45)
+        elseif (SHOW_MULTI_ACTIONBAR_1) then
+          MultiCastActionBarFrame:ClearAllPoints()
+          MultiCastActionBarFrame:SetPoint("TOPLEFT", MultiBarBottomRightButton1, "TOPLEFT", 0, 0)
+        else
+          MultiCastActionBarFrame:ClearAllPoints()
+          MultiCastActionBarFrame:SetPoint("TOPLEFT", MultiBarBottomRightButton1, "TOPLEFT", 0, -45)
+        end
+        -- unset the flag so the next call from Blizzard code will trigger your hook:
+        fixing = nil
+    end)
 
     for i = 1, NUM_ACTIONBAR_BUTTONS do
       local ab = _G["ActionButton" .. i]

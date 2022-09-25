@@ -893,7 +893,7 @@ function Gui:OnEnable()
             key = 'friendlist',
             type = 'checkbox',
             label = 'Class-Friendlist',
-            tooltip = 'Show character names in class color in friendlist',
+            tooltip = 'Currently disabled due to bugs',
             column = 4,
             order = 1
           }

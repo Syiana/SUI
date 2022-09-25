@@ -5,19 +5,25 @@ function Module:OnEnable()
 
     if (db) then
         if (db.classcolor) then
-            function SUIUnitClass(healthbar, unit)
-                if UnitIsPlayer(unit) and UnitIsConnected(unit) and UnitClass(unit) then
+            function SUIUnitClass(statusbar, unit)
+                if UnitIsPlayer(unit) and UnitClass(unit) then
                     _, class = UnitClass(unit);
                     local c = RAID_CLASS_COLORS[class];
-                    healthbar:SetStatusBarColor(c.r, c.g, c.b);
+                    statusbar:SetStatusBarColor(c.r, c.g, c.b);
+                    if c then statusbar:SetStatusBarColor(c.r, c.g, c.b) end
                 elseif UnitIsPlayer(unit) and (not UnitIsConnected(unit)) then
-                    healthbar:SetStatusBarColor(0.5,0.5,0.5);
-                elseif not UnitIsPlayer(unit) and UnitIsEnemy("player", "target") then
-                    TargetFrameHealthBar:SetStatusBarColor(1, .1, .1)
-                elseif not UnitIsPlayer(unit) and UnitReaction("player", "target") == 4 and UnitCanAttack("player", "target") then
-                    TargetFrameHealthBar:SetStatusBarColor(1, .8, .1)
+                    statusbar:SetStatusBarColor(0.5,0.5,0.5);
+                elseif not UnitIsPlayer(unit) then
+                    local red, green = UnitSelectionColor("target")
+                    if red == 0 then
+                        statusbar:SetStatusBarColor(0, .9, 0)
+                    elseif green == 0 then
+                        statusbar:SetStatusBarColor(1, .1, .1)
+                    else
+                        statusbar:SetStatusBarColor(1, .8, .1)
+                    end
                 else
-                    healthbar:SetStatusBarColor(0,0.9,0);
+                    statusbar:SetStatusBarColor(0,0.9,0);
                 end
             end
             hooksecurefunc("UnitFrameHealthBar_Update", SUIUnitClass)
@@ -25,42 +31,5 @@ function Module:OnEnable()
                 SUIUnitClass(self, self.unit)
             end)
         end
-
-        if (db.factioncolor) then
-            function SUIUnitReaction(healthbar, unit)
-                if (db.classcolor) then
-                    if UnitExists(unit) and (not UnitIsPlayer(unit)) then
-                        if (UnitIsTapDenied(unit)) and not UnitPlayerControlled(unit) then
-                            healthbar:SetStatusBarColor(0.5, 0.5, 0.5)
-                        elseif (not UnitIsTapDenied(unit)) then
-                            local reaction = FACTION_BAR_COLORS[UnitReaction(unit,"player")];
-                            if reaction then
-                                healthbar:SetStatusBarColor(.8, .1, .1);
-                            else
-                                healthbar:SetStatusBarColor(0,0.6,0.1)
-                            end
-                        end
-                    end
-                else
-                    if UnitExists(unit) then
-                        if (UnitIsTapDenied(unit)) and not UnitPlayerControlled(unit) then
-                            healthbar:SetStatusBarColor(0.5, 0.5, 0.5)
-                        elseif (not UnitIsTapDenied(unit)) then
-                            local reaction = FACTION_BAR_COLORS[UnitReaction(unit,"player")];
-                            if reaction then
-                                healthbar:SetStatusBarColor(reaction.r, reaction.g, reaction.b);
-                            else
-                                healthbar:SetStatusBarColor(0,0.6,0.1)
-                            end
-                        end
-                    end
-                end
-            end
-            hooksecurefunc("UnitFrameHealthBar_Update", SUIUnitReaction)
-            hooksecurefunc("HealthBar_OnValueChanged", function(self)
-                SUIUnitReaction(self, self.unit)
-            end)
-        end
-
     end
 end
