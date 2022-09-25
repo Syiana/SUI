@@ -705,7 +705,7 @@ function Module:OnEnable()
 	
 		if not GossipFrameGreetingPanel.Material then 
 			GossipFrameGreetingPanel.Material = GossipFrameGreetingPanel:CreateTexture(nil, 'OVERLAY', nil, 7)
-			GossipFrameGreetingPanel.Material:SetTexture("Interface\\AddOns\\Lorti-UI-Classic\\textures\\quest\\QuestBG")
+			GossipFrameGreetingPanel.Material:SetTexture("Interface\\AddOns\\SUI\\Media\\Textures\\UnitFrames\\Quest\\QuestBG")
 			GossipFrameGreetingPanel.Material:SetWidth(514)
 			GossipFrameGreetingPanel.Material:SetHeight(522)
 			GossipFrameGreetingPanel.Material:SetPoint('TOPLEFT', GossipFrameGreetingPanel, 22, -74)
