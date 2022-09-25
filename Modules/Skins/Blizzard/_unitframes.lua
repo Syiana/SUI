@@ -897,7 +897,7 @@ function Module:OnEnable()
 	
 		local a, b, c, d = KeyRingButton:GetRegions()
 			for _, v in pairs({b}) do
-				v:SetVertexColor(unpack(SUI:Color(0.15)))
+				v:SetVertexColor(0.55,0.55,0.55)
 		end
 	
 		-- Action Bar Arrows

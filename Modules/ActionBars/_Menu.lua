@@ -126,10 +126,10 @@ function Module:OnEnable()
     -- MicroMenu
     if UnitLevel("player") < SHOW_SPEC_LEVEL then
       CharacterMicroButton:ClearAllPoints()
-      CharacterMicroButton:SetPoint("BOTTOMRIGHT", MicroButtonAndBagsBar, -160, 5.5)
+      CharacterMicroButton:SetPoint("BOTTOMRIGHT", MicroButtonAndBagsBar, -205, 5.5)
     else
       CharacterMicroButton:ClearAllPoints()
-      CharacterMicroButton:SetPoint("BOTTOMRIGHT", MicroButtonAndBagsBar, -185, 5.5)
+      CharacterMicroButton:SetPoint("BOTTOMRIGHT", MicroButtonAndBagsBar, -230, 5.5)
     end
 
     -- Bag buttons
@@ -159,8 +159,10 @@ function Module:OnEnable()
       CharacterMicroButton,
       SpellbookMicroButton,
       TalentMicroButton,
+      AchievementMicroButton,
       QuestLogMicroButton,
       SocialsMicroButton,
+      PVPMicroButton,
       LFGMicroButton,
       MainMenuMicroButton,
       HelpMicroButton
@@ -168,7 +170,7 @@ function Module:OnEnable()
 
     for _, frame in pairs(MicroMenu) do
       frame:SetScale(0.75)
-      LFGMicroButton:SetPoint("BOTTOMRIGHT", SocialsMicroButton, 26, 0)
+      LFGMicroButton:SetPoint("BOTTOMRIGHT", PVPMicroButton, 26, 0)
       MainMenuMicroButton:ClearAllPoints()
       MainMenuMicroButton:SetPoint("BOTTOMRIGHT", LFGMicroButton, 26, 0)
     end
