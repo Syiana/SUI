@@ -13,4 +13,4 @@ Edit File `Media\RegisterMediaLSM.lua`
 
 **Adding Font**
 
-       LSM:Register("font",  "YourFontName",  [[Interface\Addons\SUI\Media\Textures\Fonts\YourFontName.blp]])
+    LSM:Register("font",  "YourFontName",  [[Interface\Addons\SUI\Media\Textures\Fonts\YourFontName.blp]])
