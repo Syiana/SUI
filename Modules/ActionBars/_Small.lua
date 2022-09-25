@@ -59,8 +59,10 @@ function Module:OnEnable()
       MultiBarRightButton1:ClearAllPoints()
       MultiBarRightButton1:SetPoint("RIGHT", UIParent, "RIGHT", -2, 150)
 
+      local PetActionBarFrame = SHOW_MULTI_ACTIONBAR_2 and MultiBarBottomRightButton1 or MultiBarBottomLeftButton1
+
       PetActionButton1:ClearAllPoints()
-      PetActionButton1:SetPoint("BOTTOMLEFT", MultiBarBottomRightButton1, "TOPLEFT", 25, 15)
+      PetActionButton1:SetPoint("BOTTOMLEFT", PetActionBarFrame, "TOPLEFT", 25, 15)
 
       PossessButton1:ClearAllPoints()
       PossessButton1:SetPoint("BOTTOMLEFT", MultiBarBottomRightButton1, "TOPLEFT", 25, 30)
