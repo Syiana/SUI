@@ -108,6 +108,112 @@ function Friendlist:OnEnable()
       end
     end
     
+    function GuildColor_Class(i, numGuildOnline)
+      --print("GuildColor_Class i = " .. i)
+      local name, rankName, rankIndex, level, classDisplayName, zone, publicNote, officerNote, isOnline, status, class, achievementPoints, achievementRank, isMobile, canSoR, repStanding, GUID = GetGuildRosterInfo(i)
+      --print(name, rankName, rankIndex, level, classDisplayName, zone, publicNote, officerNote, isOnline, status, class, achievementPoints, achievementRank, isMobile, canSoR, repStanding, GUID)	
+    
+      --print("The class from guild info is ***** " .. class)
+      local classc = FriendColor_ClassColor(class);
+      --print("classc = " .. classc)
+      if not classc then
+        return;
+      end	
+      
+      index = i + numGuildOnline
+      --print("guild i = " .. i .. " / numGuildOnline = " .. numGuildOnline)
+      
+      local nameString = _G["GuildFrameButton"..(i).."Name"];
+      if nameString and name then
+        nameString:SetTextColor(classc.r, classc.g, classc.b);
+      end
+      
+      local classString = _G["GuildFrameButton"..(i).."Class"];
+      if classString and name then
+        classString:SetTextColor(classc.r, classc.g, classc.b);
+      end
+    end
+    
+    function GuildColor_Class()
+      local playerzone = GetRealZoneText()
+        local off = FauxScrollFrame_GetOffset(GuildListScrollFrame)
+      --print("Inside GuildColor_ClassBlah()")
+      --print("playerzone = " .. playerzone)
+      --print("FauxScrollFrame_GetOffset(GuildListScrollFrame) = " .. off)
+      --print("GUILDMEMBERS_TO_DISPLAY = " .. GUILDMEMBERS_TO_DISPLAY)
+        for i=1, GUILDMEMBERS_TO_DISPLAY, 1 do
+          local name, _, _, level, class, zone, _, _, online = GetGuildRosterInfo(off + i)
+        --print(name, level, class, zone, online)
+          --class = L["class"][class]
+        
+    
+          if name then
+        --print("name = " .. name);
+            if class then
+          --print("class = " .. class);
+              local classc = FriendColor_ClassColor(class);
+              if online then
+          --print(name .. " is online");
+          --print("*****************");
+                --_G["GuildFrameButton"..i.."Class"]:SetTextColor(color.r,color.g,color.b,1)
+          _G['GuildFrameGuildStatusButton'..i..'Name']:SetTextColor(classc.r, classc.g, classc.b);
+          local onlineString = _G['GuildFrameGuildStatusButton'..i..'Online'];
+          if onlineString then
+            if onlineString:GetText() == 'Online' then
+              onlineString:SetTextColor(.5, 1, 1, 1)
+            end
+            if onlineString:GetText() == '<AFK>' then
+              onlineString:SetTextColor(1, 1, .4)
+            end
+          end
+          -- Online
+          -- Rank
+          local nameString = _G["GuildFrameButton"..(i).."Name"];
+          if nameString and name then
+            nameString:SetTextColor(classc.r, classc.g, classc.b);
+          end
+          
+          local classString = _G["GuildFrameButton"..(i).."Class"];
+          if classString and name then
+            classString:SetTextColor(classc.r, classc.g, classc.b);
+          end
+              else
+          _G['GuildFrameGuildStatusButton'..i..'Name']:SetTextColor(classc.r, classc.g, classc.b, .5);
+          local nameString = _G["GuildFrameButton"..(i).."Name"];
+          if nameString and name then
+            nameString:SetTextColor(classc.r, classc.g, classc.b, .5);
+          end
+          
+          local classString = _G["GuildFrameButton"..(i).."Class"];
+          if classString and name then
+            classString:SetTextColor(classc.r, classc.g, classc.b, .5);
+          end
+              end
+            end
+    
+            if level then--[[
+              local color = GetDifficultyColor(level)
+              if online then
+                _G["GuildFrameButton"..i.."Level"]:SetTextColor(color.r + .2, color.g + .2, color.b + .2, 1)
+              else
+                _G["GuildFrameButton"..i.."Level"]:SetTextColor(color.r + .2, color.g + .2, color.b + .2, .5)
+              end]]
+            end
+    
+            if zone and zone == playerzone then
+              if online then
+                _G["GuildFrameButton"..i.."Zone"]:SetTextColor(.5, 1, 1, 1)
+              else
+                _G["GuildFrameButton"..i.."Zone"]:SetTextColor(.5, 1, 1, .5)
+              end
+            end
+        
+    
+          end
+        end
+    
+    end
+    
     function FriendColor_GetFriendOffset()
       local friendOffset = HybridScrollFrame_GetOffset(FriendsFrameFriendsScrollFrame);
       if not friendOffset then
@@ -232,6 +338,6 @@ function Friendlist:OnEnable()
     hooksecurefunc("FriendsList_Update", FriendColor_Hook_FriendsList_Update);
     hooksecurefunc("HybridScrollFrame_Update", FriendColor_Hook_FriendsList_Update);
     hooksecurefunc("GuildStatus_Update", FriendColor_Hook_FriendsList_Update);
-    hooksecurefunc("WhoList_Update", FriendColor_Hook_FriendsList_Update); 
+    hooksecurefunc("WhoList_Update", FriendColor_Hook_FriendsList_Update);    
   end
 end
