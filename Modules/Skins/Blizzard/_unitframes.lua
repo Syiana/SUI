@@ -720,7 +720,7 @@ function Module:OnEnable()
 	
 		if not QuestFrameRewardPanel.Material then
 			QuestFrameRewardPanel.Material = QuestFrameRewardPanel:CreateTexture(nil, 'OVERLAY', nil, 7)
-			QuestFrameRewardPanel.Material:SetTexture("Interface\\AddOns\\Lorti-UI-Classic\\textures\\quest\\QuestBG")
+			QuestFrameRewardPanel.Material:SetTexture("Interface\\AddOns\\SUI\\Media\\Textures\\UnitFrames\\Quest\\QuestBG")
 			QuestFrameRewardPanel.Material:SetWidth(514)
 			QuestFrameRewardPanel.Material:SetHeight(522)
 			QuestFrameRewardPanel.Material:SetPoint('TOPLEFT', QuestFrameRewardPanel, 22, -74)

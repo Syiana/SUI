@@ -1,7 +1,7 @@
 ﻿local Friendlist = SUI:NewModule("Chat.Friendlist");
 
 function Friendlist:OnEnable()
-  local db = SUI.db.profile.chat.friendlistDeactivated
+  local db = SUI.db.profile.chat.friendlist
   if (db) then
     function FriendColor_ClassColor(class)
       local localClass;
