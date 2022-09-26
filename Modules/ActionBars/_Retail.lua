@@ -9,6 +9,9 @@ function Module:OnEnable()
     MicroButtonAndBagsBar:Hide()
   end
 
+  -- Get Player class
+  local playerClass = UnitClass("player")
+
   if (db.style == 'Retail') then
 	MicroButtonAndBagsBar:Hide()
     --------------------==≡≡[ HIDE DEFAULT BLIZZARD ART ]≡≡==-----------------------------------
@@ -46,7 +49,9 @@ function Module:OnEnable()
 			ActionBarDownButton:SetPoint("CENTER", ActionBarUpButton, "BOTTOM", 0, -3)
 
 			-- Pet bar texture Position (Visibility when bottom left bar is hidden)
-			SlidingActionBarTexture0:SetPoint("TOPLEFT", PetActionBarFrame, 1, -5)
+			--SlidingActionBarTexture0:SetPoint("TOPLEFT", PetActionBarFrame, 1, -5)
+			SlidingActionBarTexture0:SetAlpha(0)
+			SlidingActionBarTexture1:SetAlpha(0)
 		end
 	end
 
@@ -101,17 +106,45 @@ function Module:OnEnable()
 	local function Update_ActionBars()
 		if not InCombatLockdown() then
 			if MultiBarBottomLeft:IsShown() then
-				PetActionButton1:SetPoint("BOTTOMLEFT", PetActionButton1:GetParent(), "BOTTOMLEFT", 36, 2)
-				StanceBarFrame:SetPoint("BOTTOMLEFT", MainMenuBar, "TOPLEFT", 21, 41)
+				if (playerClass == "Druid") then
+					PetActionButton1:SetPoint("BOTTOMLEFT", MainMenuBar, "BOTTOMLEFT", 10.5, 98)
+					StanceBarFrame:SetPoint("BOTTOMLEFT", MainMenuBar, "TOPLEFT", 0, 80)
+				elseif (playerClass == "Death Knight") then
+					PetActionButton1:SetPoint("BOTTOMLEFT", MainMenuBar, "BOTTOMLEFT", 175, 98)
+					StanceBarFrame:SetPoint("BOTTOMLEFT", MainMenuBar, "TOPLEFT", 0, 41)
+				else
+					PetActionButton1:SetPoint("BOTTOMLEFT", MainMenuBar, "BOTTOMLEFT", 10.5, 98)
+					StanceBarFrame:SetPoint("BOTTOMLEFT", MainMenuBar, "TOPLEFT", 0, 41)
+				end
 			else
-				PetActionButton1:SetPoint("BOTTOMLEFT", PetActionButton1:GetParent(), "BOTTOMLEFT", 36, -2)
-				StanceBarFrame:SetPoint("BOTTOMLEFT", MainMenuBar, "TOPLEFT", 30, -5)
+				if (playerClass == "Druid") then
+					PetActionButton1:SetPoint("BOTTOMLEFT", MainMenuBar, "BOTTOMLEFT", 10.5, 52)
+					StanceBarFrame:SetPoint("BOTTOMLEFT", MainMenuBar, "TOPLEFT", 0, 32)
+				elseif (playerClass == "Death Knight") then
+					PetActionButton1:SetPoint("BOTTOMLEFT", MainMenuBar, "BOTTOMLEFT", 175, 52)
+					StanceBarFrame:SetPoint("BOTTOMLEFT", MainMenuBar, "TOPLEFT", 0, -5)
+				else
+					PetActionButton1:SetPoint("BOTTOMLEFT", MainMenuBar, "BOTTOMLEFT", 10.5, 52)
+					StanceBarFrame:SetPoint("BOTTOMLEFT", MainMenuBar, "TOPLEFT", 0, -5)
+				end
 			end
 
 			if MultiBarBottomRight:IsShown() then
 				ActivateLongBar()
+				PetActionButton1:SetPoint("BOTTOMLEFT", MainMenuBar, "BOTTOMLEFT", 425, 97)
+				StanceBarFrame:SetPoint("BOTTOMLEFT", MainMenuBar, "TOPLEFT", 0, 41)
+				SlidingActionBarTexture0:SetAlpha(0)
+				SlidingActionBarTexture1:SetAlpha(0)
+				StanceBarLeft:SetAlpha(0)
+				StanceBarRight:SetAlpha(0)
+				StanceBarMiddle:SetAlpha(0)
 			else
 				ActivateShortBar()
+				SlidingActionBarTexture0:SetAlpha(0)
+				SlidingActionBarTexture1:SetAlpha(0)
+				StanceBarLeft:SetAlpha(0)
+				StanceBarRight:SetAlpha(0)
+				StanceBarMiddle:SetAlpha(0)
 			end
 
 			Update_StatusBars()

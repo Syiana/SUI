@@ -74,9 +74,15 @@ function Module:OnEnable()
       MultiBarRightButton1:ClearAllPoints()
       MultiBarRightButton1:SetPoint("RIGHT", UIParent, "RIGHT", -2, 150)
 
+      -- Get Player class
+      local playerClass = UnitClass("player")
+
       -- Pet Action Bar
       if (SHOW_MULTI_ACTIONBAR_2) then
-        if (StanceButton1) then
+        if (playerClass == "Druid") then
+          PetActionButton1:ClearAllPoints()
+          PetActionButton1:SetPoint("BOTTOMLEFT", MultiBarBottomRightButton1, "TOPLEFT", 3, 11)
+        elseif (playerClass == "Death Knight") then
           PetActionButton1:ClearAllPoints()
           PetActionButton1:SetPoint("BOTTOMLEFT", MultiBarBottomRightButton1, "TOPLEFT", 150, 5)
         else
@@ -84,7 +90,10 @@ function Module:OnEnable()
           PetActionButton1:SetPoint("BOTTOMLEFT", MultiBarBottomRightButton1, "TOPLEFT", 3, 11)
         end
       elseif (SHOW_MULTI_ACTIONBAR_1) then
-        if (StanceButton1) then
+        if (playerClass == "Druid") then
+          PetActionButton1:ClearAllPoints()
+          PetActionButton1:SetPoint("BOTTOMLEFT", MultiBarBottomRightButton1, "TOPLEFT", 3, -33)
+        elseif (playerClass == "Death Knight") then
           PetActionButton1:ClearAllPoints()
           PetActionButton1:SetPoint("BOTTOMLEFT", MultiBarBottomRightButton1, "TOPLEFT", 150, -35)
         else
@@ -92,15 +101,17 @@ function Module:OnEnable()
           PetActionButton1:SetPoint("BOTTOMLEFT", MultiBarBottomRightButton1, "TOPLEFT", 3, -33)
         end
       else
-        if (StanceButton1) then
+        if (playerClass == "Druid") then
+          PetActionButton1:ClearAllPoints()
+          PetActionButton1:SetPoint("BOTTOMLEFT", MultiBarBottomRightButton1, "TOPLEFT", 3, -75)
+        elseif (playerClass == "Death Knight") then
           PetActionButton1:ClearAllPoints()
           PetActionButton1:SetPoint("BOTTOMLEFT", MultiBarBottomRightButton1, "TOPLEFT", 150, -73)
         else
           PetActionButton1:ClearAllPoints()
-          PetActionButton1:SetPoint("BOTTOMLEFT", MultiBarBottomRightButton1, "TOPLEFT", 3, -77)
+          PetActionButton1:SetPoint("BOTTOMLEFT", MultiBarBottomRightButton1, "TOPLEFT", 3, -75)
         end
       end
-
 
       -- Stance Bar
       StanceButton2:SetPoint("TOPLEFT", StanceButton1, 32.5, 0)
@@ -115,18 +126,29 @@ function Module:OnEnable()
       StanceBarFrame:ClearAllPoints()
       StanceBarFrame:SetUserPlaced(true)
       if (SHOW_MULTI_ACTIONBAR_2) then
-        StanceBarFrame:SetPoint("TOPLEFT", MultiBarBottomRightButton1, "TOPLEFT", -8, 35)
+        if (playerClass == "Druid") then
+          StanceBarFrame:SetPoint("TOPLEFT", MultiBarBottomRightButton1, "TOPLEFT", -8, 75)
+        else
+          StanceBarFrame:SetPoint("TOPLEFT", MultiBarBottomRightButton1, "TOPLEFT", -8, 35)
+        end
       elseif (SHOW_MULTI_ACTIONBAR_1) then
-        StanceBarFrame:SetPoint("TOPLEFT", MultiBarBottomRightButton1, "TOPLEFT", -8, -5)
+        if (playerClass == "Druid") then
+          StanceBarFrame:SetPoint("TOPLEFT", MultiBarBottomRightButton1, "TOPLEFT", -8, 30)
+        else
+          StanceBarFrame:SetPoint("TOPLEFT", MultiBarBottomRightButton1, "TOPLEFT", -8, -5)
+        end
       else
-        StanceBarFrame:SetPoint("TOPLEFT", MultiBarBottomRightButton1, "TOPLEFT", -8, -45)
+        if (playerClass == "Druid") then
+          StanceBarFrame:SetPoint("TOPLEFT", MultiBarBottomRightButton1, "TOPLEFT", -8, -12)
+        else
+          StanceBarFrame:SetPoint("TOPLEFT", MultiBarBottomRightButton1, "TOPLEFT", -8, -45)
+        end
       end
     end
     updatePositions()
     hooksecurefunc("SetActionBarToggles", updatePositions)
 
     -- Shaman Totem Bar
-
     local fixing -- flag to prevent infinite looping
     hooksecurefunc(MultiCastActionBarFrame, "SetPoint", function()
         -- if this call came from your hook, or you're in combat, exit:
