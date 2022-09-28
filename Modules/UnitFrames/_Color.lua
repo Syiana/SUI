@@ -16,11 +16,23 @@ function Module:OnEnable()
                 elseif not UnitIsPlayer(unit) then
                     local red, green = UnitSelectionColor("target")
                     if red == 0 then
-                        statusbar:SetStatusBarColor(0, .9, 0)
+                        if (UnitIsTapDenied("target")) then
+                            statusbar:SetStatusBarColor(.5, .5, .5)
+                        else
+                            statusbar:SetStatusBarColor(0, .9, 0)
+                        end
                     elseif green == 0 then
-                        statusbar:SetStatusBarColor(1, .1, .1)
+                        if (UnitIsTapDenied("target")) then
+                            statusbar:SetStatusBarColor(.5, .5, .5)
+                        else
+                            statusbar:SetStatusBarColor(1, .1, .1)
+                        end
                     else
-                        statusbar:SetStatusBarColor(1, .8, .1)
+                        if (UnitIsTapDenied("target")) then
+                            statusbar:SetStatusBarColor(.5, .5, .5)
+                        else
+                            statusbar:SetStatusBarColor(1, .8, .1)
+                        end
                     end
                 else
                     statusbar:SetStatusBarColor(0,0.9,0);
