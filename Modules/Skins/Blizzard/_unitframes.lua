@@ -363,12 +363,6 @@ function Module:OnEnable()
 			}) do
 					v:SetVertexColor(unpack(SUI:Color(0.15)))
 			end
-
-			local BackpackToken = CreateFrame("frame")
-			BackpackToken:RegisterEvent("CURRENCY_DISPLAY_UPDATE")
-			BackpackToken:SetScript("OnEvent", function(self, event)
-				BackpackTokenFrame:SetVertexColor(unpack(SUI:Color(0.15)))
-			end)
 		
 		-- PlayerFrame:SetScale(1.3) 
 		-- TargetFrame:SetScale(1.3) 
