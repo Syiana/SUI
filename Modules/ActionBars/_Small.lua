@@ -93,7 +93,7 @@ function Module:OnEnable()
         if (playerClass == "Druid") then
           PetActionButton1:ClearAllPoints()
           PetActionButton1:SetPoint("BOTTOMLEFT", MultiBarBottomRightButton1, "TOPLEFT", 3, -33)
-        elseif (playerClass == "Death Knight") then
+        elseif (playerClass == "Death Knight" or playerClass == "Paladin") then
           PetActionButton1:ClearAllPoints()
           PetActionButton1:SetPoint("BOTTOMLEFT", MultiBarBottomRightButton1, "TOPLEFT", 150, -35)
         else
