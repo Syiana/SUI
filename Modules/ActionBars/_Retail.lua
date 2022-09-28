@@ -131,8 +131,16 @@ function Module:OnEnable()
 
 			if MultiBarBottomRight:IsShown() then
 				ActivateLongBar()
-				PetActionButton1:SetPoint("BOTTOMLEFT", MainMenuBar, "BOTTOMLEFT", 425, 97)
-				StanceBarFrame:SetPoint("BOTTOMLEFT", MainMenuBar, "TOPLEFT", 0, 41)
+				if (playerClass == "Druid") then
+					PetActionButton1:SetPoint("BOTTOMLEFT", MainMenuBar, "BOTTOMLEFT", 425, 97)
+					StanceBarFrame:SetPoint("BOTTOMLEFT", MainMenuBar, "TOPLEFT", 0, 41)
+				elseif (playerClass == "Death Knight") then
+					PetActionButton1:SetPoint("BOTTOMLEFT", MainMenuBar, "BOTTOMLEFT", 425, 97)
+					StanceBarFrame:SetPoint("BOTTOMLEFT", MainMenuBar, "TOPLEFT", 0, 41)
+				else
+					PetActionButton1:SetPoint("BOTTOMLEFT", MainMenuBar, "BOTTOMLEFT", 10, 97)
+					StanceBarFrame:SetPoint("BOTTOMLEFT", MainMenuBar, "TOPLEFT", 0, 41)
+				end
 				SlidingActionBarTexture0:SetAlpha(0)
 				SlidingActionBarTexture1:SetAlpha(0)
 				StanceBarLeft:SetAlpha(0)

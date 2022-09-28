@@ -227,6 +227,7 @@ function Module:OnEnable()
 			PartyMemberFrame4PetFrameTexture,
 			CastingBarFrame.Border,
 			FocusFrameToTTextureFrameTexture,
+			FocusFrameTextureFrameTexture,
 			TargetFrameSpellBar.Border,
 			FocusFrameSpellBar.Border,
 			MirrorTimer1Border,
