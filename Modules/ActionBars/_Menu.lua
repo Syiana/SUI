@@ -145,9 +145,27 @@ function Module:OnEnable()
     if UnitLevel("player") < SHOW_SPEC_LEVEL then
       CharacterMicroButton:ClearAllPoints()
       CharacterMicroButton:SetPoint("BOTTOMRIGHT", MicroButtonAndBagsBar, -205, 5.5)
+
+      local moving
+      hooksecurefunc(CharacterMicroButton, "SetPoint", function(self)
+        if moving or InCombatLockdown() then return end
+        moving = true
+        self:ClearAllPoints()
+        self:SetPoint("BOTTOMRIGHT", MicroButtonAndBagsBar, -205, 5.5)
+        moving = nil
+      end)
     else
       CharacterMicroButton:ClearAllPoints()
       CharacterMicroButton:SetPoint("BOTTOMRIGHT", MicroButtonAndBagsBar, -230, 5.5)
+
+      local moving
+      hooksecurefunc(CharacterMicroButton, "SetPoint", function(self)
+        if moving or InCombatLockdown() then return end
+        moving = true
+        self:ClearAllPoints()
+        self:SetPoint("BOTTOMRIGHT", MicroButtonAndBagsBar, -230, 5.5)
+        moving = nil
+      end)
     end
 
     -- Bag buttons
