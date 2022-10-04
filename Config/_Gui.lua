@@ -954,6 +954,24 @@ function Gui:OnEnable()
           }
         },
         {
+          searchbags = {
+            key = 'searchbags',
+            type = 'checkbox',
+            label = 'Search Bags',
+            tooltip = 'Adds a searchbox to the bags.',
+            column = 3,
+            order = 1
+          },
+          sortbags = {
+            key = 'sortbags',
+            type = 'checkbox',
+            label = 'Sort Bags',
+            tooltip = 'Adds a sort button to the bags.',
+            column = 3,
+            order = 1
+          },
+        },
+        {
           header = {
             type = 'header',
             label = 'PvP'

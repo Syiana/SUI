@@ -6,14 +6,14 @@ function Module:OnEnable()
     f:RegisterEvent("ADDON_LOADED")
     f:SetScript("OnEvent", function(self, event, name)
       if name == "Blizzard_TradeSkillUI" then
-        for i, v in pairs({ TradeSkillFrame.NineSlice.TopEdge,
-          TradeSkillFrame.NineSlice.RightEdge,
-          TradeSkillFrame.NineSlice.BottomEdge,
-          TradeSkillFrame.NineSlice.LeftEdge,
-          TradeSkillFrame.NineSlice.TopRightCorner,
-          TradeSkillFrame.NineSlice.TopLeftCorner,
-          TradeSkillFrame.NineSlice.BottomLeftCorner,
-          TradeSkillFrame.NineSlice.BottomRightCorner, }) do
+        for i, v in pairs({ TradeSkillFrame.TopEdge,
+          TradeSkillFrame.RightEdge,
+          TradeSkillFrame.BottomEdge,
+          TradeSkillFrame.LeftEdge,
+          TradeSkillFrame.TopRightCorner,
+          TradeSkillFrame.TopLeftCorner,
+          TradeSkillFrame.BottomLeftCorner,
+          TradeSkillFrame.BottomRightCorner, }) do
             v:SetVertexColor(.15, .15, .15)
         end
         for i, v in pairs({

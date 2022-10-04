@@ -414,8 +414,8 @@ function Module:OnEnable()
 			-- GameTimeFrame
 			local vectors = {GameTimeFrame:GetRegions()}
 			for i = 6, 6 do
-				vectors[i]:SetVertexColor(unpack(SUI:Color(0.15)))
-			end		
+				vectors[i]:SetVertexColor(unpack(SUI:Color(0.01)))
+			end
 			-- GameMenuFrame
 			local vectors = {GameMenuFrame:GetRegions()}
 			for i = 1, 1 do
@@ -1046,7 +1046,7 @@ function Module:OnEnable()
 		if addon == "Blizzard_Calendar" then
 			local vectors = {CalendarFrame:GetRegions()}
 			for i = 1, 13 do
-				vectors[i]:SetVertexColor(unpack(SUI:Color(0.15)))
+				vectors[i]:SetVertexColor(unpack(SUI:Color(0.35)))
 			end
 		end
 	

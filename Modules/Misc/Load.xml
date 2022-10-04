@@ -5,4 +5,7 @@
 	<Script file="_Arenanameplate.lua"/>
 	<Script file="_Vendorprice.lua"/>
 	<Script file="_Fastloot.lua"/>
+	<Script file="_Searchbags.lua"/>
+	<Script file="_Sortbags.lua"/>
+	<Include file = "_Searchbox.xml" />
 </Ui>
