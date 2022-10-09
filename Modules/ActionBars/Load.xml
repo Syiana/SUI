@@ -7,4 +7,5 @@
   	<Script file = "_Small.lua"/>
 	<Script file = "_Retail.lua" />
 	<Script file = "_RetailTransparent.lua" />
+	<Script file = "_Bindings.lua" />
 </Ui>

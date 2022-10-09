@@ -561,7 +561,7 @@ function Gui:OnEnable()
             tooltip = 'Show actionbar gryphones',
             column = 4,
             order = 3
-          }
+          },
         },
         {
           range = {
@@ -579,7 +579,15 @@ function Gui:OnEnable()
             tooltip = 'Flash spell-icon when pressing it',
             column = 4,
             order = 2
-          }
+          },
+          bindings = {
+            key = 'bindings',
+            type = 'checkbox',
+            label = 'Quick Binds',
+            tooltip = 'Use /hb to quick bind your actionbar abilities',
+            column = 4,
+            order = 3
+          },
         },
         {
           size = {

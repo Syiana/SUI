@@ -76,6 +76,7 @@ local defaults = {
         mouseoverbags = false
       },
       gryphones = false,
+      bindings = true,
     },
     castbars = {
       style = 'Custom',
