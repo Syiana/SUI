@@ -3,4 +3,5 @@
   <Script file = "_Friendlist.lua" />
   <Script file = "_Copy.lua" />
   <Script file = "_Url.lua" />
+  <Script file = "_Shortchannels.lua" />
 </Ui>

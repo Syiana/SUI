@@ -917,6 +917,16 @@ function Gui:OnEnable()
           },
         },
         {
+          shortchannels = {
+            key = 'shortchannels',
+            type = 'checkbox',
+            label = 'Short Channelnames',
+            tooltip = 'Shortens the names of chat channels',
+            column = 4,
+            order = 3
+          },
+        },
+        {
           header = {
             type = 'header',
             label = 'Friendlist'
