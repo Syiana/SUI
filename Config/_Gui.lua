@@ -94,6 +94,8 @@ function Gui:OnEnable()
   end
 
   GameMenuFrameHeader:Hide()
+  GameMenuFrameMover:Hide()
+  GameMenuFrameHeader:SetPoint("TOP", 0, 25)
   local frame = CreateFrame("Button", "UIPanelButtonTemplateTest",
   GameMenuFrame, "UIPanelButtonTemplate")
   frame:SetHeight(20)
@@ -337,8 +339,10 @@ function Gui:OnEnable()
             },
             column = 4,
             order = 2
-          },
-          size = {
+          }
+        },
+        {
+          framesize = {
             key = 'unitframes.size',
             type = 'slider',
             label = 'Frame Size',
@@ -351,6 +355,26 @@ function Gui:OnEnable()
               PlayerFrame:SetScale(slider.value)
               TargetFrame:SetScale(slider.value)
               FocusFrame:SetScale(slider.value)
+            end,
+          },
+          fontsize = {
+            key = 'unitframes.font.size',
+            type = 'slider',
+            label = 'Font Size',
+            precision = 1,
+            min = 0.1,
+            max = 30,
+            column = 4,
+            order = 3,
+            onChange = function(slider)
+              local frames = { PlayerFrame, TargetFrame, FocusFrame }
+
+              for _, frame in pairs(frames) do
+                frame.healthbar.LeftText:SetFont(STANDARD_TEXT_FONT, slider.value, 'OUTLINE')
+                frame.healthbar.RightText:SetFont(STANDARD_TEXT_FONT, slider.value, 'OUTLINE')
+                frame.manabar.LeftText:SetFont(STANDARD_TEXT_FONT, slider.value, 'OUTLINE')
+                frame.manabar.RightText:SetFont(STANDARD_TEXT_FONT, slider.value, 'OUTLINE')
+              end
             end,
           }
         },
@@ -606,7 +630,7 @@ function Gui:OnEnable()
         {
           header = {
             type = 'header',
-            label = 'Chastbars'
+            label = 'Castbars'
           }
         },
         {

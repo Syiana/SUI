@@ -8,6 +8,13 @@ function Module:OnEnable()
 
   if (db.unitframes) then
     local function SUITargetFrame (self, forceNormalTexture)
+
+      local fontSize = db.unitframes.font.size
+      self.healthbar.LeftText:SetFont(STANDARD_TEXT_FONT, fontSize, "OUTLINE")
+      self.healthbar.RightText:SetFont(STANDARD_TEXT_FONT, fontSize, "OUTLINE")
+      self.manabar.LeftText:SetFont(STANDARD_TEXT_FONT, fontSize, "OUTLINE")
+      self.manabar.RightText:SetFont(STANDARD_TEXT_FONT, fontSize, "OUTLINE")
+
       if (db.unitframes.style == 'Big') then
           local classification = UnitClassification(self.unit);
           self.highLevelTexture:SetPoint("CENTER", self.levelText, "CENTER", 0,0);

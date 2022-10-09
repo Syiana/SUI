@@ -8,6 +8,13 @@ function Module:OnEnable()
 
   if (db.unitframes) then
     local function SUIPlayerFrame(self)
+
+      local fontSize = db.unitframes.font.size
+      self.healthbar.LeftText:SetFont(STANDARD_TEXT_FONT, fontSize, "OUTLINE")
+      self.healthbar.RightText:SetFont(STANDARD_TEXT_FONT, fontSize, "OUTLINE")
+      self.manabar.LeftText:SetFont(STANDARD_TEXT_FONT, fontSize, "OUTLINE")
+      self.manabar.RightText:SetFont(STANDARD_TEXT_FONT, fontSize, "OUTLINE")
+
       if (db.texture ~= 'Default') then
         self.healthbar:SetStatusBarTexture(db.texture);
       end

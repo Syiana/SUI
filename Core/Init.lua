@@ -38,6 +38,9 @@ local defaults = {
       combaticon = false,
       hitindicator = false,
       size = 1,
+      font = {
+        size = 11
+      },
       player = {
         size = 1
       },
