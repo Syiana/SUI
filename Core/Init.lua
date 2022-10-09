@@ -33,6 +33,7 @@ local defaults = {
       style = 'Default',
       portrait = 'ClassIcon',
       classcolor = true,
+      factioncolor = true,
       statusglow = false,
       pvpbadge = true,
       combaticon = false,

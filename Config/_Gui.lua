@@ -94,7 +94,9 @@ function Gui:OnEnable()
   end
 
   GameMenuFrameHeader:Hide()
-  GameMenuFrameMover:Hide()
+  if (GameMenuFrameMover) then
+    GameMenuFrameMover:Hide()
+  end
   GameMenuFrameHeader:SetPoint("TOP", 0, 25)
   local frame = CreateFrame("Button", "UIPanelButtonTemplateTest",
   GameMenuFrame, "UIPanelButtonTemplate")
