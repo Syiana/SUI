@@ -107,7 +107,7 @@ local defaults = {
       link = true,
       copy = true,
       friendlist = true,
-      shortchannels = true,
+      shortchannels = false,
     },
     maps = {
       minimap = true,
