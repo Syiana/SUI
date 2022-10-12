@@ -1,4 +1,4 @@
-## Interface: 10000
+## Interface: 100000
 ## Author: Syiana
 ## Version: 10.0.0
 ## Title: |cfff58cbaS|r|cff009cffUI|r
@@ -13,6 +13,6 @@ Core\Load.xml
 ## DATA
 Data\Load.xml
 ## MODULES
-Modules\Load.xml
+
 ## CONFIG
 Config\Load.xml
