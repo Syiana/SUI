@@ -1,6 +1,36 @@
 ﻿local Module = SUI:NewModule("ActionBars.Buttons");
 
 function Module:OnEnable()
+
+  function SUIStyleActionButton(self)
+    local name = self:GetName()
+    local normalTexture = _G[name .. "NormalTexture"]
+
+    hooksecurefunc(self, "Update", function(_)
+      normalTexture:SetVertexColor(0,0,0,1)
+    end)
+  end
+
+  for i = 1, NUM_ACTIONBAR_BUTTONS do
+    SUIStyleActionButton(_G["ActionButton" .. i])
+    SUIStyleActionButton(_G["MultiBarBottomLeftButton" .. i])
+    SUIStyleActionButton(_G["MultiBarBottomRightButton" .. i])
+    SUIStyleActionButton(_G["MultiBarRightButton" .. i])
+    SUIStyleActionButton(_G["MultiBarLeftButton" .. i])
+  end
+end
+
+-- Update Stance & Pet Bar
+hooksecurefunc(BaseActionButtonMixin, "UpdateButtonArt", function(self)
+  local name = self:GetName()
+  local normalTexture = _G[name .. "NormalTexture"]
+  normalTexture:SetVertexColor(0,0,0,1)
+end)
+
+
+--[[local Module = SUI:NewModule("ActionBars.Buttons");
+
+function Module:OnEnable()
   local db = {
     buttons = SUI.db.profile.actionbar.buttons,
     color = SUI.db.profile.general.color
@@ -414,3 +444,4 @@ function Module:OnEnable()
     end)
   end
 end
+]]

@@ -1,6 +1,30 @@
 local Module = SUI:NewModule("UnitFrames.Target");
 
 function Module:OnEnable()
+
+  local function SUIColorRepBar(self)
+    local reputationBar = self.TargetFrameContent.TargetFrameContentMain.ReputationColor
+    reputationBar:SetVertexColor(unpack(SUI:Color(0.15)))
+  end
+
+  -- On Update Target Frame
+  hooksecurefunc(TargetFrame, "Update", SUIColorRepBar)
+
+  -- On Update Focus Frame
+  hooksecurefunc(FocusFrame, "Update", SUIColorRepBar)
+end
+
+
+
+
+
+
+
+
+
+--[[local Module = SUI:NewModule("UnitFrames.Target");
+
+function Module:OnEnable()
   local db = {
     unitframes = SUI.db.profile.unitframes,
     texture = SUI.db.profile.general.texture
@@ -132,3 +156,4 @@ function Module:OnEnable()
     hooksecurefunc("TargetFrame_CheckClassification", SUIToTFrame)
   end
 end
+]]

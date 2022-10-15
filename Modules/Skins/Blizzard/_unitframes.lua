@@ -3,7 +3,7 @@ local Module = SUI:NewModule("Skins.UnitFrames");
 function Module:OnEnable()
   if (SUI:Color()) then
     for i, v in ipairs({
-      PlayerFrameTexture,
+      --[[PlayerFrameTexture,
       TargetFrameTextureFrameTexture,
       PlayerFrameAlternateManaBarBorder,
       PlayerFrameAlternateManaBarLeftBorder,
@@ -43,7 +43,17 @@ function Module:OnEnable()
       FocusFrameSpellBar.Border,
       TargetFrameSpellBar.Border,
       StatusTrackingBarManager.SingleBarLargeUpper,
-      StatusTrackingBarManager.SingleBarSmallUpper,
+      StatusTrackingBarManager.SingleBarSmallUpper,]]
+      PlayerFrame.PlayerFrameContainer.FrameTexture,
+      TargetFrame.TargetFrameContainer.FrameTexture,
+      FocusFrame.TargetFrameContainer.FrameTexture,
+      TargetFrameToT.FrameTexture,
+      FocusFrameToT.FrameTexture,
+      PaladinPowerBarFrameBG,
+      PaladinPowerBarFrameBankBG,
+      PlayerCastingBarFrame.Border,
+      PlayerCastingBarFrame.Background,
+      PetFrameTexture
     }) do
       v:SetVertexColor(unpack(SUI:Color(0.15)))
     end

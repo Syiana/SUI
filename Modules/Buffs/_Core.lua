@@ -1,6 +1,15 @@
 local Buffs = SUI:NewModule("Buffs.Core");
 
 function Buffs:OnEnable()
+
+end
+
+
+
+--[[
+local Buffs = SUI:NewModule("Buffs.Core");
+
+function Buffs:OnEnable()
     local db = SUI.db.profile.buffs
     if (db) then
       FONT = STANDARD_TEXT_FONT
@@ -253,3 +262,4 @@ function Buffs:OnEnable()
       hooksecurefunc("DebuffButton_UpdateAnchors", updateDebuffAnchors)
   end
 end
+]]

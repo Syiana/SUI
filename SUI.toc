@@ -13,6 +13,6 @@ Core\Load.xml
 ## DATA
 Data\Load.xml
 ## MODULES
-
+Modules\Load.xml
 ## CONFIG
 Config\Load.xml

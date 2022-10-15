@@ -16,4 +16,5 @@
   <Include file='LibWindow-1.1\Libwindow.lua'/>
   <Include file='LibSharedMedia-3.0\LibSharedMedia-3.0.xml'/>
   <Include file='SUIConfig\SUIConfig.xml'/>
+  <Include file='TPrint\TPrint.lua'/>
 </Ui>

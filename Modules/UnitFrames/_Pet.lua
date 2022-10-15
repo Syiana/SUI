@@ -1,6 +1,13 @@
 local Module = SUI:NewModule("UnitFrames.Pet");
 
 function Module:OnEnable()
+  
+end
+
+--[[
+local Module = SUI:NewModule("UnitFrames.Pet");
+
+function Module:OnEnable()
     local db = {
       unitframes = SUI.db.profile.unitframes,
       texture = SUI.db.profile.general.texture
@@ -18,3 +25,4 @@ function Module:OnEnable()
       PetFrameManaBar:SetHeight(5)
     end
 end
+]]
