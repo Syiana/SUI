@@ -6,6 +6,7 @@ function Module:OnEnable()
   if (db.style == 'Small') then
     local size = db.buttons.size
     local spacing = 5
+    MainMenuBar:SetWidth(1)
 
     local invisible = CreateFrame("Frame", nil)
     invisible:EnableMouse(false)
