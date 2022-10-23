@@ -5,7 +5,7 @@ TargetFrameDragFrame:SetPoint("CENTER", MainMenuBar, "CENTER", 0, 200)
 
 function Module:OnEnable()
   local db = SUI.db.profile.castbars
-    if (db.style == 'Custom') then
+    if (db.style == 'Custom' and db.targetCastbar) then
         if not InCombatLockdown() then
           TargetFrameSpellBar.ignoreFramePositionManager = true
           TargetFrameSpellBar:SetMovable(true)
