@@ -63,21 +63,13 @@ function Layout:OnEnable()
         },
       },
       {
-        repair = {
-          key = 'automation.repair',
-          type = 'checkbox',
-          label = 'Repair',
-          tooltip = 'Repairs your gear automatically',
-          column = 3,
-          order = 1
-        },
         sell = {
           key = 'automation.sell',
           type = 'checkbox',
           label = 'Sell',
           tooltip = 'Sells grey items automatically',
           column = 3,
-          order = 2
+          order = 1
         },
         delete = {
           key = 'automation.delete',
@@ -85,7 +77,7 @@ function Layout:OnEnable()
           label = 'Delete',
           tooltip = 'Inserts "DELETE" when deleting Rare+ items',
           column = 3,
-          order = 3
+          order = 2
         },
         duel = {
           key = 'automation.decline',
@@ -94,24 +86,24 @@ function Layout:OnEnable()
           tooltip = 'Declines duels automatically',
           column = 3,
           order = 3
-        }
-      },
-      {
+        },
         release  = {
           key = 'automation.release',
           type = 'checkbox',
           label = 'Release',
           tooltip = 'Release automatically when you died',
           column = 3,
-          order = 1
-        },
+          order = 4
+        }
+      },
+      {
         resurrect = {
           key = 'automation.resurrect',
           type = 'checkbox',
           label = 'Resurrect',
           tooltip = 'Accept ress automatically',
           column = 3,
-          order = 2
+          order = 1
         },
         invite = {
           key = 'automation.invite',
@@ -119,7 +111,7 @@ function Layout:OnEnable()
           label = 'Invite',
           tooltip = 'Accept group invite automatically',
           column = 3,
-          order = 3
+          order = 2
         },
         cinematic = {
           key = 'automation.cinematic',
@@ -127,8 +119,23 @@ function Layout:OnEnable()
           label = 'Cinematic',
           tooltip = 'Skip cinematics automatically',
           column = 3,
-          order = 4
+          order = 3
         },
+      },
+      {
+        repair = {
+          key = 'automation.repair',
+          type = 'dropdown',
+          label = 'Repair',
+          options = {
+            { value = 'Default', text = 'Default' },
+            { value = 'Player', text = 'Repair automatically' },
+            { value = 'Guild', text = 'Repair automatically using guild bank'}
+          },
+          initialValue = 1,
+          column = 9,
+          order = 1
+        }
       },
       {
         header = {

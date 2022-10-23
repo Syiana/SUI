@@ -49,8 +49,15 @@ function Layout:OnEnable()
           label = 'Timer',
           tooltip = 'Display cast time on castbar',
           column = 4
+        },
+        targetBar = {
+          key = 'targetCastbar',
+          type = 'checkbox',
+          label = 'Target Castbar',
+          tooltip = 'Display target castbar',
+          column = 4
         }
       }
-    },
+    }
   }
 end

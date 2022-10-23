@@ -2,7 +2,7 @@ local Module = SUI:NewModule("General.Repair");
 
 function Module:OnEnable()
   local db = SUI.db.profile.general.automation.repair
-  if (db) then
+  if (db ~= 'Default') then
     local g = CreateFrame("Frame")
     g:RegisterEvent("MERCHANT_SHOW")
     g:SetScript("OnEvent", function()
@@ -10,7 +10,7 @@ function Module:OnEnable()
         local cost = GetRepairAllCost()
         if cost > 0 then
           local money = GetMoney()
-          if IsInGuild() then
+          if IsInGuild() and db == 'Guild' then
             local guildMoney = GetGuildBankWithdrawMoney()
             if guildMoney > GetGuildBankMoney() then
               guildMoney = GetGuildBankMoney()
