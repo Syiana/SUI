@@ -73,15 +73,6 @@ function Layout:OnEnable()
           tooltip = 'Display PVP icon on Unit frames',
           column = 4,
         },
-        glow = {
-          key = 'unitframes.statusglow',
-          type = 'checkbox',
-          label = 'Status Glow',
-          tooltip = 'Enable glow on Unit frames when in resting area',
-          column = 4,
-        }
-      },
-      {
         hitindicator = {
           key = 'unitframes.hitindicator',
           type = 'checkbox',
@@ -89,6 +80,8 @@ function Layout:OnEnable()
           column = 4,
           order = 1
         },
+      },
+      {
         combat = {
           key = 'unitframes.combaticon',
           type = 'checkbox',
