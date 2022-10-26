@@ -40,10 +40,15 @@ function Module:OnEnable()
       Boss4TargetFrameSpellBar.Border,
       Boss5TargetFrameSpellBar.Border,
       CastingBarFrame.Border,
-      FocusFrameSpellBar.Border,
-      TargetFrameSpellBar.Border,
+
       StatusTrackingBarManager.SingleBarLargeUpper,
       StatusTrackingBarManager.SingleBarSmallUpper,]]
+
+      FocusFrameSpellBar.Border,
+      FocusFrameSpellBar.Background,
+      TargetFrameSpellBar.Border,
+      TargetFrameSpellBar.Background,
+
       PlayerFrame.PlayerFrameContainer.FrameTexture,
       TargetFrame.TargetFrameContainer.FrameTexture,
       FocusFrame.TargetFrameContainer.FrameTexture,
