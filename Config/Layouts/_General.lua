@@ -26,7 +26,7 @@ function Layout:OnEnable()
           type = 'dropdown',
           label = 'Theme',
           options = Themes.data,
-          column = 4,
+          column = 5,
           order = 1
         },
         font = {
@@ -34,7 +34,7 @@ function Layout:OnEnable()
           type = 'dropdown',
           label = 'Font',
           options = Fonts.data,
-          column = 4,
+          column = 5,
           order = 2
         },
         --[[texture = {
@@ -140,30 +140,6 @@ function Layout:OnEnable()
       {
         header = {
           type = 'header',
-          label = 'Cosmetic'
-        },
-      },
-      {
-        afk = {
-          key = 'cosmetic.afkscreen',
-          type = 'checkbox',
-          label = 'AFK Screen',
-          tooltip = 'coming soon',
-          column = 3,
-          order = 1
-        },
-        talkhead = {
-          key = 'cosmetic.talkinghead',
-          type = 'checkbox',
-          label = 'Talkinghead',
-          tooltip = 'Show Talkinghead frame',
-          column = 3,
-          order = 2
-        }
-      },
-      {
-        header = {
-          type = 'header',
           label = 'Display'
         },
       },
@@ -171,16 +147,8 @@ function Layout:OnEnable()
         items = {
           key = 'display.ilvl',
           type = 'checkbox',
-          label = 'Item Infos',
-          tooltip = 'Display item level on item icons',
-          column = 3,
-          order = 1
-        },
-        avgilvl = {
-          key = 'display.avgilvl',
-          type = 'checkbox',
-          label = 'Average iLvl',
-          tooltip = 'Display average item level on inspected players',
+          label = 'Item Level',
+          tooltip = 'Display item level on items and inspected players',
           column = 3,
           order = 1
         },
@@ -199,6 +167,14 @@ function Layout:OnEnable()
           tooltip = 'Show current ping',
           column = 2,
           order = 3
+        },
+        talkhead = {
+          key = 'cosmetic.talkinghead',
+          type = 'checkbox',
+          label = 'Talkinghead',
+          tooltip = 'Show Talkinghead frame',
+          column = 3,
+          order = 4
         }
       }
     },
