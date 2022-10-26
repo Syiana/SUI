@@ -7,12 +7,12 @@
 	<Script file="_Pet.lua"/>
 	<Script file="_Color.lua"/>
 	<Script file="_Auras.lua"/>
-	<Script file="_Hide.lua"/>
 	<Script file="_Vehicle.lua"/>
 	<Script file="_Combat.lua"/>
 	<Script file="_Text.lua"/>
 	<Script file="_Links.lua"/>
 	<Script file="_Classportrait.lua"/>-->
+	<Script file="_Hide.lua"/>
 	<Script file="_Color.lua"/>
 	<Script file="_Player.lua"/>
 	<Script file="_Target.lua"/>
