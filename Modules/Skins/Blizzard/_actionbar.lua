@@ -3,8 +3,7 @@ local Module = SUI:NewModule("Skins.ActionBar");
 function Module:OnEnable()
   if (SUI:Color()) then
     for i, v in pairs({
-      MainMenuBarArtFrameBackground.BackgroundLarge,
-      MainMenuBarArtFrameBackground.BackgroundSmall,
+      MainMenuBar.BorderArt,
       StatusTrackingBarManager.SingleBarLarge,
       StatusTrackingBarManager.SingleBarSmall,
       StatusTrackingBarManager.SingleBarLargeUpper,
@@ -34,8 +33,8 @@ function Module:OnEnable()
       v:SetVertexColor(unpack(SUI:Color(0.15)))
     end
     for i, v in pairs({
-      MainMenuBarArtFrame.LeftEndCap,
-      MainMenuBarArtFrame.RightEndCap,
+      MainMenuBar.EndCaps.LeftEndCap,
+      MainMenuBar.EndCaps.RightEndCap,
       StanceBarLeft,
       StanceBarMiddle,
       StanceBarRight,
@@ -43,16 +42,23 @@ function Module:OnEnable()
       v:SetVertexColor(unpack(SUI:Color()))
     end
 
+
     for i, v in pairs({
-      ActionBarUpButton:GetRegions(),
+      MainMenuBar.ActionBarPageNumber.UpButton:GetRegions()
+    }) do
+      v:SetVertexColor(unpack(SUI:Color(0.2)))
+    end
+
+    for i, v in pairs({
+      MainMenuBar.ActionBarPageNumber:GetRegions(),
     }) do
       v:SetVertexColor(unpack(SUI:Color()))
     end
 
     for i, v in pairs({
-      ActionBarDownButton:GetRegions()
+      MainMenuBar.ActionBarPageNumber.DownButton:GetRegions()
     }) do
-      v:SetVertexColor(unpack(SUI:Color()))
+      v:SetVertexColor(unpack(SUI:Color(0.2)))
     end
 
   end

@@ -265,19 +265,11 @@ function Gui:OnEnable()
   local tabs = SUIConfig:TabPanel(config, nil, nil, categories, true, 139, 25)
   SUIConfig:GlueAcross(tabs, config, 10, -35, -10, 10)
 
-  local scrollTabs = SUIConfig:ScrollFrame(config,  160, 288, tabs.buttonContainer);
+  local scrollTabs = SUIConfig:ScrollFrame(config,  160, 320, tabs.buttonContainer);
   SUIConfig:GlueTop(scrollTabs, config, 10, -35, 'LEFT')
 
   local scrollContainer = SUIConfig:ScrollFrame(config, 515, 350, tabs.container);
   SUIConfig:GlueTop(scrollContainer, config, -10, -35, 'RIGHT')
-
-  --Edit
-  local edit = SUIConfig:Button(config, 160, 25, 'Edit')
-  SUIConfig:GlueBottom(edit, config, 10, 36, 'LEFT')
-  edit:SetScript('OnClick', function()
-    SUI:Config()
-    SUI:Edit()
-  end)
 
   --Save
   local save = SUIConfig:Button(config, 160, 25, 'Save')
