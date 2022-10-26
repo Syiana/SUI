@@ -37,14 +37,14 @@ function Layout:OnEnable()
           column = 4,
           order = 2
         },
-        texture = {
+        --[[texture = {
           key = 'texture',
           type = 'dropdown',
           label = 'Texture',
           options = Textures.data,
           column = 4,
           order = 3
-        }
+        }]]
       },
       {
         color = {

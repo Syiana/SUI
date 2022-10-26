@@ -4,7 +4,12 @@ function Module:OnEnable()
   local db = SUI.db.profile.castbars
   if (db.style == 'Custom') then
         if not InCombatLockdown() then
-            CastingBarFrame.ignoreFramePositionManager = true
+            PlayerCastingBarFrame.Icon:Show()
+            --PlayerCastingBarFrame:SetStatusBarTexture("Interface\\Addons\\SUI\\Media\\Textures\\Unitframes\\UI-StatusBar")
+
+            
+            
+            --[[CastingBarFrame.ignoreFramePositionManager = true
             CastingBarFrame:SetMovable(true)
             CastingBarFrame:ClearAllPoints()
             CastingBarFrame:SetScale(1)
@@ -26,6 +31,7 @@ function Module:OnEnable()
             CastingBarFrame.BorderShield:SetPoint("TOP", 0, 26)
             --Texture
             CastingBarFrame:SetStatusBarTexture("Interface\\Addons\\SUI\\Media\\Textures\\Unitframes\\UI-StatusBar")
+            ]]
         end
     end
 end
