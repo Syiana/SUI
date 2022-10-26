@@ -17,6 +17,7 @@
   <Include file="Skins\Load.xml"/>
   <Include file='Buffs\Load.xml'/>
   <Include file='General\Load.xml'/>
+  <Include file='Tooltip\Load.xml'/>
 
   <Include file='CastBars\Load.xml'/>
 </Ui>

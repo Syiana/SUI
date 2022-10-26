@@ -12,8 +12,6 @@ function Module:OnInitialize()
     NAMEPLATE_SPELLCAST_FONT    = font
     UNIT_NAME_FONT_ROMAN        = font
 
-    print(font)
-
     local FontObjects = {
       SystemFont_NamePlateCastBar, SystemFont_NamePlateFixed, SystemFont_LargeNamePlateFixed, SystemFont_World, SystemFont_World_ThickOutline,
       SystemFont_Outline_Small, SystemFont_Outline, SystemFont_InverseShadow_Small, SystemFont_Med2, SystemFont_Med3, SystemFont_Shadow_Med3,
