@@ -1,5 +1,5 @@
 <Ui xmlns='http://www.blizzard.com/wow/ui/'>
-  <Include file='_Achievment.lua'/>
+  <!--<Include file='_Achievment.lua'/>
   <Include file='_Actionbar.lua'/>
   <Include file='_Actionhouse.lua'/>
   <Include file='_Addonlist.lua'/>
@@ -46,5 +46,11 @@
   <Include file='_Tooltip.lua'/>
   <Include file='_Tradeskill.lua'/>
   <Include file='_Unitframes.lua'/>
-  <Include file='_Wardrobe.lua'/>
+  <Include file='_Wardrobe.lua'/>-->
+
+  <Include file="_Frames.lua"/>
+  <Include file="_Unitframes.lua"/>
+  <Include file="_Minimap.lua"/>
+  <Include file="_Calendar.lua"/>
+  <Include file="_Bags.lua"/>
 </Ui>

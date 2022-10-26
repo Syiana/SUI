@@ -1,5 +1,6 @@
 local Menu = SUI:NewModule("ActionBars.Menu");
 
+--[[
 local ClassicUI = IsAddOnLoaded("ClassicUI")
 if (ClassicUI) then return end
 
@@ -64,3 +65,4 @@ function Menu:OnEnable()
     CharacterBag3Slot:Hide()
   end
 end
+]]
