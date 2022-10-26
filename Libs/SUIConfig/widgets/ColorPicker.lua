@@ -263,6 +263,10 @@ local ColorInputMethods = {
 			self.color.a = c.a or 1;
 		end
 
+		c.r = 1
+        c.g = 1
+        c.b = 1
+
 		self.target:SetBackdropColor(c.r, c.g, c.b, 1);
 		if self.OnValueChanged then
 			self:OnValueChanged(c);
