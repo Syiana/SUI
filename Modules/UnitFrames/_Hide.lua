@@ -9,6 +9,8 @@ function Module:OnEnable()
       PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual.PrestigePortrait:SetAlpha(0)
       TargetFrame.TargetFrameContent.TargetFrameContentContextual.PrestigeBadge:SetAlpha(0)
       TargetFrame.TargetFrameContent.TargetFrameContentContextual.PrestigePortrait:SetAlpha(0)
+      FocusFrame.TargetFrameContent.TargetFrameContentContextual.PrestigeBadge:SetAlpha(0)
+      FocusFrame.TargetFrameContent.TargetFrameContentContextual.PrestigePortrait:SetAlpha(0)
     end
   end)
 end
