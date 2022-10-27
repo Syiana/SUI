@@ -20,7 +20,7 @@
 <p><span style="font-family: tahoma, arial, helvetica, sans-serif;">&nbsp;</span></p>
 <p><span style="font-family: tahoma, arial, helvetica, sans-serif; font-size: 24px;">Support</span></p>
 <ul>
-<li><span style="font-family: tahoma, arial, helvetica, sans-serif;">If you want to help out with development without providing code yourself, you can always donate to the SUI project using <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=52MJHGYAEKNM4&amp;source=url" target="_blank" rel="noopener noreferrer">PayPal</a></span></li>
+<li><span style="font-family: tahoma, arial, helvetica, sans-serif;">If you want to help out with development without providing code yourself, you can always donate to the SUI project using <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=52MJHGYAEKNM4&amp;source=url" target="_blank" rel="noopener noreferrer">PayPal</a> or <a href="https://www.patreon.com/syiana" target="_blank" rel="noopener noreferrer">Patreon</a></span></li>
 <li id="tw-target-text" class="tw-data-text tw-text-large tw-ta" dir="ltr" data-placeholder="&Uuml;bersetzung"><span lang="en" style="font-family: tahoma, arial, helvetica, sans-serif;" tabindex="0">Also make sure that you follow me on <a href="https://www.twitch.tv/syiana" target="_blank" rel="noopener noreferrer">Twitch.tv/Syiana</a></span></li>
 </ul>
 <p>&nbsp;</p>
