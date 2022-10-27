@@ -1,5 +1,5 @@
 <Ui xmlns='http://www.blizzard.com/wow/ui/'>
-	<Script file="_Errors.lua"/>
+	<!--<Script file="_Errors.lua"/>
   <Script file="_Commands.lua"/>
   <Script file="_Talkhead.lua"/>
   <Script file="_Items.lua"/>
@@ -13,5 +13,8 @@
   <Script file="_Stats.lua"/>
   <Script file="_Fonts.lua"/>
   <Script file="_Inspect.lua"/>
-  <Script file="_Cinematic.lua"/>
+  <Script file="_Cinematic.lua"/>-->
+
+  
+  <Script file="_Fonts.lua"/>
 </Ui>

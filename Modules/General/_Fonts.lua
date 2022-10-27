@@ -10,6 +10,9 @@ function Module:OnInitialize()
     DAMAGE_TEXT_FONT            = font
     NAMEPLATE_FONT              = font
     NAMEPLATE_SPELLCAST_FONT    = font
+    UNIT_NAME_FONT_ROMAN        = font
+
+    print(font)
 
     local FontObjects = {
       SystemFont_NamePlateCastBar, SystemFont_NamePlateFixed, SystemFont_LargeNamePlateFixed, SystemFont_World, SystemFont_World_ThickOutline,
