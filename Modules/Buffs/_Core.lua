@@ -32,13 +32,14 @@ function Buffs:OnEnable()
 
             -- Border
             local border = CreateFrame("Frame", "SUIBuffBorder", nil, "BackdropTemplate")
-            border:SetSize(icon:GetWidth(), icon:GetHeight())
+            local iconW, iconH = icon:GetSize()
+            border:SetSize(iconW, iconH)
             border:SetPoint(point, relativeTo, relativePoint, xOfs, yOfs)
             icon.border = border
 
             -- Black Border
             local texture = icon.border:CreateTexture()
-            texture:SetSize(icon:GetWidth()+10, icon:GetHeight()+10)
+            texture:SetSize(iconH + 10, iconH + 10)
             texture:SetTexture("Interface\\AddOns\\SUI\\Media\\Textures\\Core\\gloss")
             texture:SetAllPoints()
             icon.border.texture = texture
