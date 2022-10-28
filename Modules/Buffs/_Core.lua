@@ -4,12 +4,7 @@ function Buffs:OnEnable()
   local frame = CreateFrame("Frame")
 
   frame:RegisterEvent("PLAYER_ENTERING_WORLD", self, "Update")
-	--frame:RegisterUnitEvent("UNIT_AURA", self, "Update")
-
-
-
-
-
+	frame:RegisterUnitEvent("UNIT_AURA", self, "Update")
   frame:SetScript("OnEvent", function(self, event, ...)
     --print(event)
     updateAuras()
@@ -17,80 +12,48 @@ function Buffs:OnEnable()
 
   function updateAuras()
     local AuraNum = BuffFrame.AuraContainer:GetNumChildren()
-    local AuraChilds = { BuffFrame.AuraContainer:GetChildren() }
+    local Children = { BuffFrame.AuraContainer:GetChildren() }
 
-    for _, child in pairs(AuraChilds) do
-      local icon =  child.Icon
+    for _, child in pairs(Children) do
+    local icon =  child.Icon
+    local t = select(_, BuffFrame.AuraContainer:GetChildren())
+    local dur = t.duration
+    local point, relativeTo, relativePoint, xOfs, yOfs = icon:GetPoint()
 
+        if not icon.border then
+            local backdrop = {
+                bgFile = nil,
+                edgeFile = "Interface\\Addons\\SUI\\Media\\Textures\\Core\\outer_shadow",
+                tile = false,
+                tileSize = 30,
+                edgeSize = 3,
+                insets = { left = 6, right = 6, top = 6, bottom = 6 },
+            }
 
+            -- Border
+            local border = CreateFrame("Frame", "SUIBuffBorder", nil, "BackdropTemplate")
+            border:SetSize(icon:GetWidth(), icon:GetHeight())
+            border:SetPoint(point, relativeTo, relativePoint, xOfs, yOfs)
+            icon.border = border
 
-      local t = select(_, BuffFrame.AuraContainer:GetChildren())
-      local dur = t.duration
-      local point, relativeTo, relativePoint, xOfs, yOfs = icon:GetPoint()
+            -- Black Border
+            local texture = icon.border:CreateTexture()
+            texture:SetSize(icon:GetWidth()+10, icon:GetHeight()+10)
+            texture:SetTexture("Interface\\AddOns\\SUI\\Media\\Textures\\Core\\gloss")
+            texture:SetAllPoints()
+            icon.border.texture = texture
 
-      local backdrop = {
-        bgFile = nil,
-        edgeFile = "Interface\\Addons\\SUI\\Media\\Textures\\Core\\outer_shadow",
-        tile = false,
-        tileSize = 30,
-        edgeSize = 3,
-        insets = { left = 6, right = 6, top = 6, bottom = 6 },
-      }
+            -- Black Shadow
+            border:SetBackdrop(backdrop)
+            border:SetBackdropBorderColor(0, 0, 0)
+            border:Show()
 
-      -- Border
-      icon.border = CreateFrame("Frame", "SUIBuffBorder", nil, "BackdropTemplate")
-      icon.border:SetSize(icon:GetWidth(), icon:GetHeight())
-      icon.border:SetPoint(point, relativeTo, relativePoint, xOfs, yOfs)
-
-      -- Black Border
-      icon.border.texture = icon.border:CreateTexture()
-      icon.border.texture:SetSize(icon:GetWidth()+10, icon:GetHeight()+10)
-      icon.border.texture:SetTexture("Interface\\AddOns\\SUI\\Media\\Textures\\Core\\gloss")
-      icon.border.texture:SetAllPoints()
-
-      -- Black Shadow
-      icon.border:SetBackdrop(backdrop)
-      icon.border:SetBackdropBorderColor(0, 0, 0)
-
-      icon.border:Show()
-    
-      --[[icon.bg = CreateFrame("Frame", "SUIBuffShadow", nil, "BackdropTemplate")
-      icon.bg:SetWidth(w+5)
-      icon.bg:SetHeight(h+5)
-      icon.bg:SetPoint(point, relativeTo, relativePoint, xOfs, yOfs+4)
-      icon.bg:SetBackdrop(backdrop)
-      icon.bg:SetFrameLevel(9)
-      icon.bg:SetBackdropBorderColor(0, 0, 0)
-      icon.bg:Hide()
-
-
-      icon.border = CreateFrame("Frame", "SUIBuffBorder", nil)
-      icon.border:SetWidth(w)
-      icon.border:SetHeight(h)
-      icon.border:SetPoint(point, relativeTo, relativePoint, xOfs, yOfs)
-      icon.border.texture = icon.border.texture:CreateTexture()
-      icon.border.texture:SetTexture("Interface\\AddOns\\SUI\\Media\\Textures\\Core\\gloss")
-      --]]
-      --[[icon.border:SetBackdrop({
-        edgeFile = "Interface\\AddOns\\SUI\\Media\\Textures\\Core\\gloss",
-        tileEdge = false,
-        edgeSize = 3,
-        insets = {left = 1, right = 1, top = 1, bottom = 1},
-      })
-      icon.border:SetFrameLevel(9)
-      icon.border:SetBackdropBorderColor(0, 0, 0)]]
-
-      dur:SetFont(STANDARD_TEXT_FONT, 9, "OUTLINE")
-      dur:ClearAllPoints()
-      dur:SetPoint("CENTER", t, "BOTTOM", 0, 17)
-      
-
+            dur:SetFont(STANDARD_TEXT_FONT, 9, "OUTLINE")
+            dur:ClearAllPoints()
+            dur:SetPoint("CENTER", t, "BOTTOM", 0, 17)
+        end
     end
-  end
-
-
-
-
+end
 
   --[[function updateAura()
     local test = BuffFrame.AuraContainer:GetNumChildren()
