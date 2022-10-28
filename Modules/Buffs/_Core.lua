@@ -1,7 +1,7 @@
 local Buffs = SUI:NewModule("Buffs.Core");
 
 function Buffs:OnEnable()
-  for a, b in pairs(BuffFrame.auraFrames) do
+  for a, b in ipairs(BuffFrame.auraFrames) do
     print(b)
   end
 end
