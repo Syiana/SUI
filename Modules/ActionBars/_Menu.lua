@@ -5,6 +5,7 @@ function Menu:OnEnable()
   if (db.menu.menumouseover) then
     QueueStatusButton:SetParent()
     QueueStatusButton:SetScale(0.8, 0.8)
+    QueueStatusButton:SetFrameLevel(1000)
     MicroButtonAndBagsBar:SetAlpha(0)
     MicroButtonAndBagsBar:SetScript('OnEnter', function()
       MicroButtonAndBagsBar:SetAlpha(1)

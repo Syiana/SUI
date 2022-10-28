@@ -48,6 +48,19 @@ function Layout:OnEnable()
         }
       },
       {
+        minimapsize = {
+          key = 'minimapsize',
+          type = 'slider',
+          label = 'Minimap Size',
+          precision = 1,
+          min = 0.1,
+          max = 1,
+          column = 4,
+          order = 3,
+          onChange = function(slider)
+            MinimapCluster:SetScale(slider.value)
+          end,
+        },
         style = {
           key = 'style',
           type = 'dropdown',

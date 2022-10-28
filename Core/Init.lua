@@ -135,6 +135,7 @@ local defaults = {
       quickjoin = true
     },
     maps = {
+      minimapsize = 1,
       style = 'Default',
       small = false,
       opacity = false,

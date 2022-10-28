@@ -5,7 +5,15 @@ function Module:OnEnable()
 	if (db) then
     if not (db.minimap) then MinimapCluster:Hide() return end
     if not (IsAddOnLoaded("SexyMap")) then
-      if (SUI:Color()) then
+      local Size = CreateFrame("Frame")
+      Size:RegisterEvent("ADDON_LOADED")
+      Size:RegisterEvent("PLAYER_LOGIN")
+      Size:RegisterEvent("PLAYER_ENTERING_WORLD")
+      Size:RegisterEvent("VARIABLES_LOADED")
+      Size:SetScript("OnEvent", function()
+        MinimapCluster:SetScale(db.minimapsize)
+      end)
+      --[[if (SUI:Color()) then
         for i, v in pairs({
           MinimapBorder,
           MiniMapMailBorder,
@@ -114,7 +122,7 @@ function Module:OnEnable()
         else
           _G.Minimap_OnClick(self)
         end
-      end)
+      end)]]
     end
   end
 end
