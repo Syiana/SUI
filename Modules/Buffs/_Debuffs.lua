@@ -1,21 +1,21 @@
-local Buffs = SUI:NewModule("Buffs.Core");
+local Debuffs = SUI:NewModule("Buffs.Debuffs");
 
-function Buffs:OnEnable()
+function Debuffs:OnEnable()
   local frame = CreateFrame("Frame")
 
   frame:RegisterEvent("PLAYER_ENTERING_WORLD", self, "Update")
-	frame:RegisterUnitEvent("UNIT_AURA", self, "Update")
+  frame:RegisterUnitEvent("UNIT_AURA", self, "Update")
   frame:SetScript("OnEvent", function(self, event, ...)
-    updateAuras()
+    updateDebuffs()
   end)
 
-  function updateAuras()
-    local AuraNum = BuffFrame.AuraContainer:GetNumChildren()
-    local Children = { BuffFrame.AuraContainer:GetChildren() }
+  function updateDebuffs()
+    local AuraNum = DebuffFrame.AuraContainer:GetNumChildren()
+    local Children = { DebuffFrame.AuraContainer:GetChildren() }
 
     for _, child in pairs(Children) do
     local icon =  child.Icon
-    local t = select(_, BuffFrame.AuraContainer:GetChildren())
+    local t = select(_, DebuffFrame.AuraContainer:GetChildren())
     local dur = t.duration
     local point, relativeTo, relativePoint, xOfs, yOfs = icon:GetPoint()
 
