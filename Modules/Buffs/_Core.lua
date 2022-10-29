@@ -6,7 +6,6 @@ function Buffs:OnEnable()
   frame:RegisterEvent("PLAYER_ENTERING_WORLD", self, "Update")
 	frame:RegisterUnitEvent("UNIT_AURA", self, "Update")
   frame:SetScript("OnEvent", function(self, event, ...)
-    --print(event)
     updateAuras()
   end)
 
@@ -31,7 +30,7 @@ function Buffs:OnEnable()
             }
 
             -- Border
-            local border = CreateFrame("Frame", "SUIBuffBorder", nil, "BackdropTemplate")
+            local border = CreateFrame("Frame", "SUIBuffBorder", t, "BackdropTemplate")
             local iconW, iconH = icon:GetSize()
             border:SetSize(iconW, iconH)
             border:SetPoint(point, relativeTo, relativePoint, xOfs, yOfs)
@@ -49,10 +48,16 @@ function Buffs:OnEnable()
             border:SetBackdropBorderColor(0, 0, 0)
             border:Show()
 
-            dur:SetFont(STANDARD_TEXT_FONT, 9, "OUTLINE")
-            dur:ClearAllPoints()
-            dur:SetPoint("CENTER", t, "BOTTOM", 0, 17)
         end
+
+        HOUR_ONELETTER_ABBR = "%dh"
+        DAY_ONELETTER_ABBR = "%dd"
+        MINUTE_ONELETTER_ABBR = "%dm"
+        SECOND_ONELETTER_ABBR = "%ds"
+
+        dur:SetFont(STANDARD_TEXT_FONT, 9, "OUTLINE")
+        dur:ClearAllPoints()
+        dur:SetPoint("CENTER", t, "BOTTOM", 0, 17)
     end
 end
 
