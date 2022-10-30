@@ -14,13 +14,6 @@ function Module:OnEnable()
 		CHAT_FRAME_TAB_NORMAL_MOUSEOVER_ALPHA = 1
 		CHAT_FRAME_TAB_NORMAL_NOMOUSE_ALPHA = 0
 
-		-- Hide chat bubble menu button
-		ChatFrameMenuButton:Hide()
-
-		-- Hide channel and voice buttons
-		ChatFrameChannelButton:Hide()
-		ChatFrameToggleVoiceDeafenButton:Hide()
-		ChatFrameToggleVoiceMuteButton:Hide()
 
 		-- Set chat style
 		local function SetChatStyle(frame)
@@ -125,8 +118,7 @@ function Module:OnEnable()
 				end
 
 				-- Font and font style for chat
-				--chat:SetFont(STANDARD_FONT, fontSize, "OUTLINE")
-				--chat:SetShadowOffset(C.font.chat_font_shadow and 1 or 0, C.font.chat_font_shadow and -1 or 0)
+				chat:SetFont(STANDARD_TEXT_FONT, fontSize, "")
 			end
 
 			-- Reposition Quick Join Toast and battle.net popup
@@ -158,6 +150,12 @@ function Module:OnEnable()
 			SetChatStyle(frame)
 		end
 		hooksecurefunc("FCF_OpenTemporaryWindow", SetupTempChat)
+
+		-- voice icons
+		if (db.voiceicons) then
+
+
+		end
 
 		--	Loot icons
 		if (db.looticons) then

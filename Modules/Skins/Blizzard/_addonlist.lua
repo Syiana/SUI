@@ -29,18 +29,18 @@ function Module:OnEnable()
       AddonList.TitleBg, }) do
         v:SetVertexColor(.3, .3, .3)
     end
-    for i, v in pairs({
-      AddonListScrollFrameScrollBarTop,
-      AddonListScrollFrameScrollBarMiddle,
-      AddonListScrollFrameScrollBarBottom,
-      AddonListScrollFrameScrollBarThumbTexture,
-      AddonListScrollFrameScrollBarScrollUpButton.Normal,
-      AddonListScrollFrameScrollBarScrollDownButton.Normal,
-      AddonListScrollFrameScrollBarScrollUpButton.Disabled,
-      AddonListScrollFrameScrollBarScrollDownButton.Disabled,
+    -- for i, v in pairs({
+    --   AddonListScrollFrameScrollBarTop,
+    --   AddonListScrollFrameScrollBarMiddle,
+    --   AddonListScrollFrameScrollBarBottom,
+    --   AddonListScrollFrameScrollBarThumbTexture,
+    --   AddonListScrollFrameScrollBarScrollUpButton.Normal,
+    --   AddonListScrollFrameScrollBarScrollDownButton.Normal,
+    --   AddonListScrollFrameScrollBarScrollUpButton.Disabled,
+    --   AddonListScrollFrameScrollBarScrollDownButton.Disabled,
 
-    }) do
-      v:SetVertexColor(.4, .4, .4)
-    end
+    -- }) do
+    --   v:SetVertexColor(.4, .4, .4)
+    -- end
   end
 end

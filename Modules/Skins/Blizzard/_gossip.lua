@@ -32,18 +32,18 @@ function Module:OnEnable()
       GossipFrameInset.Bg }) do
         v:SetVertexColor(.3, .3, .3)
     end
-    for i, v in pairs({
-      GossipGreetingScrollFrameTop,
-      GossipGreetingScrollFrameMiddle,
-      GossipGreetingScrollFrameBottom,
-      GossipGreetingScrollFrameScrollBarThumbTexture,
-      GossipGreetingScrollFrameScrollBarScrollUpButton.Normal,
-      GossipGreetingScrollFrameScrollBarScrollDownButton.Normal,
-      GossipGreetingScrollFrameScrollBarScrollUpButton.Disabled,
-      GossipGreetingScrollFrameScrollBarScrollDownButton.Disabled,
+    -- for i, v in pairs({
+    --   GossipGreetingScrollFrameTop,
+    --   GossipGreetingScrollFrameMiddle,
+    --   GossipGreetingScrollFrameBottom,
+    --   GossipGreetingScrollFrameScrollBarThumbTexture,
+    --   GossipGreetingScrollFrameScrollBarScrollUpButton.Normal,
+    --   GossipGreetingScrollFrameScrollBarScrollDownButton.Normal,
+    --   GossipGreetingScrollFrameScrollBarScrollUpButton.Disabled,
+    --   GossipGreetingScrollFrameScrollBarScrollDownButton.Disabled,
 
-    }) do
-      v:SetVertexColor(.4, .4, .4)
-    end
+    -- }) do
+    --   v:SetVertexColor(.4, .4, .4)
+    -- end
   end
 end
