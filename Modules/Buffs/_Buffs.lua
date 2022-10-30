@@ -1,6 +1,7 @@
 local Buffs = SUI:NewModule("Buffs.Buffs");
 
 function Buffs:OnEnable()
+  if IsAddOnLoaded("BlizzBuffsFacade") then return end
   local frame = CreateFrame("Frame")
 
   frame:RegisterEvent("PLAYER_ENTERING_WORLD", self, "Update")
@@ -41,6 +42,7 @@ function Buffs:OnEnable()
             texture:SetSize(iconH + 10, iconH + 10)
             texture:SetTexture("Interface\\AddOns\\SUI\\Media\\Textures\\Core\\gloss")
             texture:SetAllPoints()
+            texture:SetVertexColor(0, 0, 0, 1)
             icon.border.texture = texture
 
             -- Black Shadow

@@ -1,6 +1,7 @@
 local Debuffs = SUI:NewModule("Buffs.Debuffs");
 
 function Debuffs:OnEnable()
+  if IsAddOnLoaded("BlizzBuffsFacade") then return end
   local frame = CreateFrame("Frame")
 
   frame:RegisterEvent("PLAYER_ENTERING_WORLD", self, "Update")
