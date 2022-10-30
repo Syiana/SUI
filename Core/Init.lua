@@ -132,7 +132,9 @@ local defaults = {
       link = true,
       copy = true,
       friendlist = true,
-      quickjoin = true
+      quickjoin = true,
+      looticons = true,
+      roleicons = true
     },
     maps = {
       minimapsize = 1,

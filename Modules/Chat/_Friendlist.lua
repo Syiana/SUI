@@ -144,8 +144,8 @@ function Friendlist:OnEnable()
       end
     end
 
-    hooksecurefunc("WhoList_Update", whoFrame)
-    hooksecurefunc(WhoListScrollFrame, "update", whoFrame)
+    --hooksecurefunc("WhoList_Update", whoFrame)
+    --hooksecurefunc(WhoListScrollFrame, "update", whoFrame)
 
     -- LFRBrowseList
     hooksecurefunc("LFRBrowseFrameListButton_SetData", function(button, index)
