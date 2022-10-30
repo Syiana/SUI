@@ -2,10 +2,61 @@ local Module = SUI:NewModule("UnitFrames.Target");
 
 function Module:OnEnable()
 
+
+  local function styleBorder(button)
+    local icon = button.Icon
+    local border = button.Border
+
+
+
+    icon:SetTexCoord(0.08, 0.92, 0.08, 0.92)
+    button:SetSize(50, 50)
+
+    --print(border)
+
+    --TargetFrame.auraPools:Release(button)
+
+  end
+
+  local function UpdateAuras()
+    print("hey.")
+    --local SUIBuffs = TargetFrame.auraPools:Acquire("TargetBuffFrameTemplate")
+    --local SUIDebuffs = TargetFrame.auraPools:Acquire("TargetDebuffFrameTemplate")
+
+
+
+    --local template = "TargetDebuffFrameTemplate" or "TargetBuffFrameTemplate";
+		--local pool = TargetFrame.auraPools:GetPool(template);
+
+    --icon:SetTexCoord(0.08, 0.92, 0.08, 0.92)
+    
+
+    local SUIBuffs = TargetFrame.auraPools:Acquire("TargetBuffFrameTemplate")
+    local SUIDebuffs = TargetFrame.auraPools:Acquire("TargetDebuffFrameTemplate")
+    --TargetFrame.auraPools:ReleaseAll()
+
+    TargetFrame.TargetFrameContent = SUIBuffs
+
+    TargetFrame.auraPools:ReleaseAll()
+
+
+    print(SUIBuffs)
+
+    --button:SetSize(50, 50)
+
+    --styleBorder(SUIBuffs)
+    --styleBorder(SUIDebuffs)
+  end
+
+
   local function SUIColorRepBar(self)
     local reputationBar = self.TargetFrameContent.TargetFrameContentMain.ReputationColor
-    reputationBar:SetVertexColor(unpack(SUI:Color(0.15)))
+    reputationBar:SetVertexColor(unpack(SUI:Color(0.15)))  
   end
+
+
+  hooksecurefunc(TargetFrame, "UpdateAuraFrames", UpdateAuras)
+  hooksecurefunc(TargetFrame, "OnLoad", UpdateAuras)
 
   -- On Update Target Frame
   hooksecurefunc(TargetFrame, "Update", SUIColorRepBar)
