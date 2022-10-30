@@ -8,7 +8,7 @@ function Module:OnEnable()
             local color = RAID_CLASS_COLORS[class]
             healthbar:SetStatusBarColor(color.r, color.g, color.b)
         elseif UnitIsPlayer(unit) and (not UnitIsConnected(unit)) then
-            HealthBar:SetStatusBarColor(0.5, 0.5, 0.5);
+            healthbar:SetStatusBarColor(0.5, 0.5, 0.5);
         else
             healthbar:SetStatusBarColor(0, 0.9, 0);
         end
