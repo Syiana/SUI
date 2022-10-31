@@ -62,15 +62,67 @@ function Module:OnEnable()
 
   end
 
+  local hooked = {}
+  local function UpdateTargetAuras(pool)
+    for frame, _ in pairs(pool.activeObjects) do
+      if not hooked[frame] then
+          hooked[frame] = true
+
+          local icon = frame.Icon
+          icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+          icon:SetDrawLayer("BACKGROUND",-8)
+          frame.icon = icon
+
+          if not frame.border then
+            local border = frame.border or 
+                          frame:CreateTexture(frame.border, "BACKGROUND", nil, -7)
+
+            border:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\Core\\gloss")
+            border:SetTexCoord(0, 1, 0, 1)
+            border:SetDrawLayer("BACKGROUND",- 7)
+            border:ClearAllPoints()
+            border:SetPoint("TOPLEFT", frame, "TOPLEFT", -1, 1)
+            border:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", 1, -1)
+            frame.border = border
+
+            local backdrop = {
+              bgFile = nil,
+              edgeFile = "Interface\\Addons\\SUI\\Media\\Textures\\Core\\outer_shadow",
+              tile = false,
+              tileSize = 32,
+              edgeSize = 4,
+              insets = {
+                left = 4,
+                right = 4,
+                top = 4,
+                bottom = 4,
+              },
+            }
+            local back = CreateFrame("Frame", nil, frame, "BackdropTemplate")
+            back:SetPoint("TOPLEFT", frame, "TOPLEFT", -4, 4)
+            back:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", 4, -4)
+            back:SetFrameLevel(frame:GetFrameLevel() - 1)
+            back:SetBackdrop(backdrop)
+            back:SetBackdropBorderColor(unpack(SUI:Color(0.25, 0.9)))
+            frame.bg = back
+          end
+      end
+    end
+  end
+
+  for poolKey, pool in pairs(TargetFrame.auraPools.pools) do
+    hooksecurefunc(pool, "Acquire", UpdateTargetAuras)
+  end
+
   local function SUIColorRepBar(self)
     local reputationBar = self.TargetFrameContent.TargetFrameContentMain.ReputationColor
     reputationBar:SetVertexColor(unpack(SUI:Color(0.15)))  
   end
 
-  hooksecurefunc(TargetFrame, "UpdateAuraFrames", TestUpdate)
-  hooksecurefunc(TargetFrame, "OnLoad", TestUpdate)
+  --hooksecurefunc(TargetFrame, "UpdateAuraFrames", TestUpdate)
+  --hooksecurefunc(TargetFrame, "OnLoad", TestUpdate)
 
-  hooksecurefunc(FocusFrame, "UpdateAuraFrames", TestUpdate)
+  --hooksecurefunc(FocusFrame, "UpdateAuraFrames", TestUpdate)
 
   -- On Update Target Frame
   hooksecurefunc(TargetFrame, "Update", SUIColorRepBar)
