@@ -5,10 +5,18 @@ function Module:OnEnable()
   if (db.style == 'Custom') then
         if not InCombatLockdown() then
             PlayerCastingBarFrame.Icon:Show()
-            --PlayerCastingBarFrame:SetStatusBarTexture("Interface\\Addons\\SUI\\Media\\Textures\\Unitframes\\UI-StatusBar")
 
-            
-            
+
+            PlayerCastingBarFrame:SetSize(209, 18)
+
+            PlayerCastingBarFrame.TextBorder:ClearAllPoints()
+            PlayerCastingBarFrame.TextBorder:SetSize(209, 18)
+
+            PlayerCastingBarFrame.Text:ClearAllPoints()
+            PlayerCastingBarFrame.Text:SetPoint("TOP", PlayerCastingBarFrame, "TOP", 0, -1)
+            PlayerCastingBarFrame.Text:SetFont(STANDARD_TEXT_FONT, 12, "OUTLINE")
+
+            --PlayerCastingBarFrame:SetStatusBarTexture("Interface\\Addons\\SUI\\Media\\Textures\\Unitframes\\UI-StatusBar")
             --[[CastingBarFrame.ignoreFramePositionManager = true
             CastingBarFrame:SetMovable(true)
             CastingBarFrame:ClearAllPoints()

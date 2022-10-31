@@ -63,7 +63,7 @@ function Module:OnEnable()
   end
 
   local hooked = {}
-  local function UpdateTargetAuras(pool)
+  local function UpdateFrameAuras(pool)
     for frame, _ in pairs(pool.activeObjects) do
       if not hooked[frame] then
           hooked[frame] = true
@@ -111,7 +111,11 @@ function Module:OnEnable()
   end
 
   for poolKey, pool in pairs(TargetFrame.auraPools.pools) do
-    hooksecurefunc(pool, "Acquire", UpdateTargetAuras)
+    hooksecurefunc(pool, "Acquire", UpdateFrameAuras)
+  end
+
+  for poolKey, pool in pairs(FocusFrame.auraPools.pools) do
+    hooksecurefunc(pool, "Acquire", UpdateFrameAuras)
   end
 
   local function SUIColorRepBar(self)
