@@ -11,7 +11,7 @@ function Module:OnEnable()
       Size:RegisterEvent("PLAYER_ENTERING_WORLD")
       Size:RegisterEvent("VARIABLES_LOADED")
       Size:SetScript("OnEvent", function()
-        MinimapCluster:SetScale(db.minimapsize)
+        Minimap:SetScale(db.minimapsize)
       end)
       --[[if (SUI:Color()) then
         for i, v in pairs({

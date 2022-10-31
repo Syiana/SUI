@@ -58,7 +58,7 @@ function Layout:OnEnable()
           column = 4,
           order = 3,
           onChange = function(slider)
-            MinimapCluster:SetScale(slider.value)
+            Minimap:SetScale(slider.value)
           end,
         },
         style = {
