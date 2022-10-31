@@ -47,8 +47,8 @@ function Layout:OnEnable()
           type = 'slider',
           label = 'Frame Size',
           precision = 1,
-          min = 0.1,
-          max = 5,
+          min = 1,
+          max = 1.3,
           column = 4,
           order = 3,
           onChange = function(slider)
