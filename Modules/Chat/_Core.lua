@@ -181,9 +181,9 @@ function Module:OnEnable()
 			}
 
 			local role_tex = {
-				TANK = "\124T"..[[Interface\AddOns\SUI\Media\Textures\Tank.tga]]..":12:12:0:0:64:64:5:59:5:59\124t",
-				HEALER	= "\124T"..[[Interface\AddOns\SUI\Media\Textures\Healer.tga]]..":12:12:0:0:64:64:5:59:5:59\124t",
-				DAMAGER = "\124T"..[[Interface\AddOns\SUI\Media\Textures\Damager.tga]]..":12:12:0:0:64:64:5:59:5:59\124t",
+				DAMAGER = "\124T"..[[Interface\AddOns\SUI\Media\Textures\Chat\RoleIcons.blp]]..":16:16:0.015625:0.265625:0.03125:0.53125:5:59:5:59\124t",
+				HEALER	= "\124T"..[[Interface\AddOns\SUI\Media\Textures\Chat\RoleIcons.blp]]..":16:16:0.296875:0.546875:0.03125:0.53125:5:59:5:59\124t",
+				TANK = "\124T"..[[Interface\AddOns\SUI\Media\Textures\Chat\RoleIcons.blp]]..":16:16:0.578125:0.828125:0.03125:0.53125:5:59:5:59\124t",
 			}
 
 			local GetColoredName_orig = _G.GetColoredName
