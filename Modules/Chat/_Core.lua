@@ -180,10 +180,16 @@ function Module:OnEnable()
 				CHAT_MSG_RAID = 1, CHAT_MSG_RAID_LEADER = 1, CHAT_MSG_RAID_WARNING = 1,
 			}
 
+		 	--local role_tex = {
+			--	DAMAGER = "\124T"..[[Interface\AddOns\SUI\Media\Textures\Chat\RoleIcons.blp]]..":16:16:0.015625:0.265625:0.03125:0.53125:5:59:5:59\124t",
+			--	HEALER	= "\124T"..[[Interface\AddOns\SUI\Media\Textures\Chat\RoleIcons.blp]]..":16:16:0.296875:0.546875:0.03125:0.53125:5:59:5:59\124t",
+			--	TANK = "\124T"..[[Interface\AddOns\SUI\Media\Textures\Chat\RoleIcons.blp]]..":16:16:0.578125:0.828125:0.03125:0.53125:5:59:5:59\124t",
+			--}
+
 			local role_tex = {
-				DAMAGER = "\124T"..[[Interface\AddOns\SUI\Media\Textures\Chat\RoleIcons.blp]]..":16:16:0.015625:0.265625:0.03125:0.53125:5:59:5:59\124t",
-				HEALER	= "\124T"..[[Interface\AddOns\SUI\Media\Textures\Chat\RoleIcons.blp]]..":16:16:0.296875:0.546875:0.03125:0.53125:5:59:5:59\124t",
-				TANK = "\124T"..[[Interface\AddOns\SUI\Media\Textures\Chat\RoleIcons.blp]]..":16:16:0.578125:0.828125:0.03125:0.53125:5:59:5:59\124t",
+				DAMAGER = CreateAtlasMarkup("roleicon-tiny-dps", 12, 12),
+				HEALER = CreateAtlasMarkup("roleicon-tiny-healer", 12, 12),
+				TANK = CreateAtlasMarkup("roleicon-tiny-tank", 12, 12)
 			}
 
 			local GetColoredName_orig = _G.GetColoredName
