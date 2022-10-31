@@ -65,7 +65,7 @@ function Module:OnEnable()
     end
 
     if(SUI:Color()) then
-      hooksecurefunc("TargetFrame_UpdateAuras", function(self)
+      hooksecurefunc(TargetFrame, "UpdateAuras", function(self)
           for i = 1, MAX_TARGET_BUFFS do
               b = _G["TargetFrameBuff"..i]
               applySkin(b)
