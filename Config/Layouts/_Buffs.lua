@@ -12,52 +12,6 @@ function Layout:OnEnable()
       {
         header = {
           type = 'header',
-          label = 'Minimap'
-        }
-      },
-      {
-        buffsize = {
-          key = 'buffs.buff.size',
-          type = 'slider',
-          label = 'Buff Size',
-          max = 100,
-          column = 4,
-          order = 1
-        },
-        bufficons = {
-          key = 'buffs.buff.icons',
-          type = 'slider',
-          label = 'Buff Icons per row',
-          tooltip = 'Icons per row',
-          min = 2,
-          max = 20,
-          column = 5,
-          order = 2
-        }
-      },
-      {
-        debuffsize = {
-          key = 'buffs.debuff.size',
-          type = 'slider',
-          label = 'Debuff Size',
-          max = 100,
-          column = 4,
-          order = 1
-        },
-        debufficons = {
-          key = 'buffs.debuff.icons',
-          type = 'slider',
-          label = 'Debuff Icons per row',
-          tooltip = 'Icons per row',
-          min = 2,
-          max = 20,
-          column = 5,
-          order = 2
-        }
-      },
-      {
-        header = {
-          type = 'header',
           label = 'Unitframes'
         },
       },

@@ -60,18 +60,6 @@ function Layout:OnEnable()
           onChange = function(slider)
             Minimap:SetScale(slider.value)
           end,
-        },
-        style = {
-          key = 'style',
-          type = 'dropdown',
-          label = 'Garrison Style',
-          options = {
-            { value = 'Default', text = 'Default' },
-            { value = 'Legion', text = 'Legion' }
-          },
-          initialValue = 1,
-          column = 5,
-          order = 1
         }
       },
       {
@@ -101,14 +89,6 @@ function Layout:OnEnable()
         }
       },
       {
-        showgarrison = {
-          key = 'garrison',
-          type = 'checkbox',
-          label = 'Garrison Symbol',
-          tooltip = 'Show/Hide covenant icon on minimap',
-          column = 4,
-          order = 1
-        },
         showtracking = {
           key = 'tracking',
           type = 'checkbox',
