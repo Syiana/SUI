@@ -5,6 +5,7 @@ function Module:OnEnable()
   if (db) then
     QuickJoinToastButton:Show()
     QuickJoinToastButton.Show = function()
+		QuickJoinToastButton:SetPoint("TOPLEFT", ChatFrame1, "TOPLEFT", 50, 40)
     end
   else
     QuickJoinToastButton:Hide()

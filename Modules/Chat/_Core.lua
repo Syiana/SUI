@@ -122,10 +122,6 @@ function Module:OnEnable()
 			end
 
 			-- Reposition Quick Join Toast and battle.net popup
-			QuickJoinToastButton:ClearAllPoints()
-			QuickJoinToastButton:SetPoint("TOPLEFT", 0, 90)
-			QuickJoinToastButton.ClearAllPoints = nil
-			QuickJoinToastButton.SetPoint = nil
 			QuickJoinToastButton.Toast:ClearAllPoints()
 			QuickJoinToastButton.Toast.Background:SetTexture("")
 			QuickJoinToastButton.Toast:SetWidth(11 + 7)
