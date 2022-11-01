@@ -121,21 +121,6 @@ function Module:OnEnable()
 				chat:SetFont(STANDARD_TEXT_FONT, fontSize, "")
 			end
 
-			-- Reposition Quick Join Toast and battle.net popup
-			QuickJoinToastButton.Toast:ClearAllPoints()
-			QuickJoinToastButton.Toast.Background:SetTexture("")
-			QuickJoinToastButton.Toast:SetWidth(11 + 7)
-			QuickJoinToastButton.Toast.Text:SetWidth(11 - 20)
-
-			hooksecurefunc(QuickJoinToastButton, "ShowToast", function() QuickJoinToastButton.Toast.backdrop:Show() end)
-			hooksecurefunc(QuickJoinToastButton, "HideToast", function() QuickJoinToastButton.Toast.backdrop:Hide() end)
-
-			hooksecurefunc(BNToastFrame, "SetPoint", function(self, _, anchor)
-				if anchor == QuickJoinToastButton then
-					--self:SetPoint(unpack(C.position.bn_popup))
-				end
-			end)
-
 			-- /run BNToastFrame:AddToast(BN_TOAST_TYPE_ONLINE, 1)
 		end
 
