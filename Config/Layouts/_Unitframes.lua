@@ -120,7 +120,7 @@ function Layout:OnEnable()
       {
         header = {
           type = 'header',
-          label = 'Raidframes'
+          label = 'Compact Raid/Party Frame'
         },
       },
       {
@@ -129,7 +129,21 @@ function Layout:OnEnable()
           type = 'dropdown',
           label = 'Texture',
           options = Textures.data,
-          column = 5
+          column = 5,
+          order = 1
+        },
+        compactsize = {
+          key = 'raidframes.size',
+          type = 'slider',
+          label = 'Scale',
+          precision = 1,
+          min = 0.1,
+          max = 2,
+          column = 4,
+          order = 2,
+          onChange = function(slider)
+            CompactPartyFrame:SetScale(slider.value)
+          end,
         }
       },
     },
