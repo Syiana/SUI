@@ -14,12 +14,14 @@ function Module:OnEnable()
           FocusFrameSpellBar.Text:ClearAllPoints()
           FocusFrameSpellBar.Text:SetPoint("TOP", FocusFrameSpellBar, "TOP", 0, 1.5)
           FocusFrameSpellBar.Text:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
+
           FocusFrameSpellBar:HookScript("OnEvent", function()
-            local tt = FocusFrameSpellBar.Text:GetText()
- 
-            if(strlen(tt) > 19) then
-              local newText = strsub(tt, 0, 19)
-              FocusFrameSpellBar.Text:SetText(newText.."...")
+            local castText = FocusFrameSpellBar.Text:GetText()
+            if castText ~= nil then
+              if(strlen(castText) > 19) then
+                local newCastText = strsub(castText, 0, 19)
+                FocusFrameSpellBar.Text:SetText(newCastText.."...")
+              end
             end
           end)
         end
