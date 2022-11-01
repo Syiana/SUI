@@ -58,6 +58,9 @@ function Module:OnEnable()
     SUIStyleActionButton(_G["MultiBarBottomRightButton" .. i])
     SUIStyleActionButton(_G["MultiBarRightButton" .. i])
     SUIStyleActionButton(_G["MultiBarLeftButton" .. i])
+    SUIStyleActionButton(_G["MultiBar5Button" .. i])
+    SUIStyleActionButton(_G["MultiBar6Button" .. i])
+    SUIStyleActionButton(_G["MultiBar7Button" .. i])
   end
 
   local db = {
@@ -100,6 +103,9 @@ function Module:OnEnable()
         updateHotkey(_G["MultiBarBottomRightButton"..i])
         updateHotkey(_G["MultiBarLeftButton"..i])
         updateHotkey(_G["MultiBarRightButton"..i])
+        updateHotkey(_G["MultiBar5Button"..i])
+        updateHotkey(_G["MultiBar6Button"..i])
+        updateHotkey(_G["MultiBar7Button"..i])
       end
       for i = 1, 10 do
         updateHotkey(_G["StanceButton"..i])
