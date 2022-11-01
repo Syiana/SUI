@@ -6,7 +6,6 @@ function Module:OnEnable()
     f:RegisterEvent("ADDON_LOADED")
     f:SetScript("OnEvent", function(self, event, name)
       if name == "Blizzard_ClassTalentUI" then
-        print("Hi")
         for i, v in pairs({
           ClassTalentFrame.NineSlice.TopEdge,
           ClassTalentFrame.NineSlice.RightEdge,

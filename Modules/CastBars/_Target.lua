@@ -13,7 +13,15 @@ function Module:OnEnable()
           TargetFrameSpellBar.TextBorder:SetAlpha(0)
           TargetFrameSpellBar.Text:ClearAllPoints()
           TargetFrameSpellBar.Text:SetPoint("TOP", TargetFrameSpellBar, "TOP", 0, 1.5)
-          TargetFrameSpellBar.Text:SetFont(STANDARD_TEXT_FONT, 12, "OUTLINE")
+          TargetFrameSpellBar.Text:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
+          TargetFrameSpellBar:HookScript("OnEvent", function()
+            local tt = TargetFrameSpellBar.Text:GetText()
+ 
+            if(strlen(tt) > 19) then
+              local newText = strsub(tt, 0, 19)
+              TargetFrameSpellBar.Text:SetText(newText.."...")
+            end
+          end)
         end
     end
 end

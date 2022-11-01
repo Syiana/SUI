@@ -13,7 +13,15 @@ function Module:OnEnable()
           FocusFrameSpellBar.TextBorder:SetAlpha(0)
           FocusFrameSpellBar.Text:ClearAllPoints()
           FocusFrameSpellBar.Text:SetPoint("TOP", FocusFrameSpellBar, "TOP", 0, 1.5)
-          FocusFrameSpellBar.Text:SetFont(STANDARD_TEXT_FONT, 12, "OUTLINE")
+          FocusFrameSpellBar.Text:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
+          FocusFrameSpellBar:HookScript("OnEvent", function()
+            local tt = FocusFrameSpellBar.Text:GetText()
+ 
+            if(strlen(tt) > 19) then
+              local newText = strsub(tt, 0, 19)
+              FocusFrameSpellBar.Text:SetText(newText.."...")
+            end
+          end)
         end
     end
 end
