@@ -102,12 +102,23 @@ local defaults = {
       menu = {
         menumouseover = false,
       },
+      bars = {
+        bar1 = false,
+        bar2 = false,
+        bar3 = false,
+        bar4 = false,
+        bar5 = false,
+        bar6 = false,
+        bar7 = false,
+        bar8 = false
+      }
     },
     castbars = {
       style = 'Custom',
       timer = true,
       icon = true,
-      targetCastbar = true
+      targetCastbar = true,
+      focusCastbar = true,
     },
     tooltip = {
       style = 'Custom',

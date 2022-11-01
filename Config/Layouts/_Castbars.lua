@@ -50,11 +50,20 @@ function Layout:OnEnable()
           tooltip = 'Display cast time on castbar',
           column = 4
         },
-        targetBar = {
+        targetCastbar = {
           key = 'targetCastbar',
           type = 'checkbox',
           label = 'Target Castbar',
-          tooltip = 'Display target castbar',
+          tooltip = 'Custom Target Castbar',
+          column = 4
+        }
+      },
+      {
+        fousCastbar = {
+          key = 'focusCastbar',
+          type = 'checkbox',
+          label = 'Focus Castbar',
+          tooltip = 'Custom Focus Castbar',
           column = 4
         }
       }

@@ -64,18 +64,86 @@ function Layout:OnEnable()
       {
         header = {
           type = 'header',
-          label = 'Micromenu & Bags'
+          label = 'Show on Mouseover'
         },
       },
       {
+        actionbar1 = {
+          key = 'bars.bar1',
+          type = 'checkbox',
+          label = 'Bar 1',
+          tooltip = 'Show on Mouseover',
+          column = 4,
+          order = 1
+        },
+        actionbar2 = {
+          key = 'bars.bar2',
+          type = 'checkbox',
+          label = 'Bar 2',
+          tooltip = 'Show on Mouseover',
+          column = 4,
+          order = 2
+        },
+        actionbar3 = {
+          key = 'bars.bar3',
+          type = 'checkbox',
+          label = 'Bar 3',
+          tooltip = 'Show on Mouseover',
+          column = 4,
+          order = 3
+        }
+      },
+      {
+        actionbar4 = {
+          key = 'bars.bar4',
+          type = 'checkbox',
+          label = 'Bar 4',
+          tooltip = 'Show on Mouseover',
+          column = 4,
+          order = 1
+        },
+        actionbar5 = {
+          key = 'bars.bar5',
+          type = 'checkbox',
+          label = 'Bar 5',
+          tooltip = 'Show on Mouseover',
+          column = 4,
+          order = 2
+        },
+        actionbar6 = {
+          key = 'bars.bar6',
+          type = 'checkbox',
+          label = 'Bar 6',
+          tooltip = 'Show on Mouseover',
+          column = 4,
+          order = 3
+        }
+      },
+      {
+        actionbar7 = {
+          key = 'bars.bar7',
+          type = 'checkbox',
+          label = 'Bar 7',
+          tooltip = 'Show on Mouseover',
+          column = 4,
+          order = 1
+        },
+        actionbar8 = {
+          key = 'bars.bar8',
+          type = 'checkbox',
+          label = 'Bar 8',
+          tooltip = 'Show on Mouseover',
+          column = 4,
+          order = 2
+        },
         menumouseover = {
           key = 'menu.menumouseover',
           type = 'checkbox',
-          label = 'Show on Mouseover',
+          label = 'Micromenu & Bag Buttons',
           tooltip = 'Show MicroMenu and Bags on mouseover',
           column = 4,
-          order = 2
-        }
+          order = 3
+        },
       },
     },
   }

@@ -3,4 +3,5 @@
 	<Script file = "_Menu.lua"/>
 	<Script file = "_Flash.lua"/>
 	<Script file = "_Range.lua"/>
+	<Script file = "_Mouseover.lua"/>
 </Ui>
