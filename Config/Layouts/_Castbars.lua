@@ -59,13 +59,84 @@ function Layout:OnEnable()
         }
       },
       {
-        fousCastbar = {
+        focusCastbar = {
           key = 'focusCastbar',
           type = 'checkbox',
           label = 'Focus Castbar',
           tooltip = 'Custom Focus Castbar',
           column = 4
         }
+      },
+      {
+        header = {
+          type = 'header',
+          label = 'Castbar Scales'
+        },
+      },
+      {
+        playerSize = {
+          key = 'playerSize',
+          type = 'slider',
+          label = 'Player',
+          precision = 1,
+          min = 1,
+          max = 3,
+          column = 4,
+          order = 1,
+          onChange = function(slider)
+            PlayerCastingBarFrame:SetScale(slider.value)
+          end,
+        },
+        targetSize = {
+          key = 'targetSize',
+          type = 'slider',
+          label = 'Target',
+          precision = 1,
+          min = 1,
+          max = 3,
+          column = 4,
+          order = 2,
+          onChange = function(slider)
+            TargetFrameSpellBar:SetScale(slider.value)
+          end,
+        },
+        focusSize = {
+          key = 'focusSize',
+          type = 'slider',
+          label = 'Focus Target',
+          precision = 1,
+          min = 1,
+          max = 3,
+          column = 4,
+          order = 3,
+          onChange = function(slider)
+            FocusFrameSpellBar:SetScale(slider.value)
+          end,
+        },
+      },
+      {
+        header = {
+          type = 'header',
+          label = 'Castbar On Top'
+        },
+      },
+      {
+        targetOnTop = {
+          key = 'targetOnTop',
+          type = 'checkbox',
+          label = 'Target',
+          tooltip = 'Display the Castbar above its Unitframe',
+          column = 4,
+          order = 1
+        },
+        focusOnTop = {
+          key = 'focusOnTop',
+          type = 'checkbox',
+          label = 'Focus',
+          tooltip = 'Display the Castbar above its Unitframe',
+          column = 4,
+          order = 2
+        },
       }
     }
   }

@@ -2,16 +2,6 @@ local Buffs = SUI:NewModule("Buffs.Buffs");
 
 function Buffs:OnEnable()
   if IsAddOnLoaded("BlizzBuffsFacade") then return end
-  local frame = CreateFrame("Frame")
-
-  frame:RegisterEvent("PLAYER_ENTERING_WORLD", self, "Update")
-	frame:RegisterUnitEvent("UNIT_AURA", self, "Update")
-  frame:RegisterEvent("WEAPON_ENCHANT_CHANGED");
-  frame:SetScript("OnEvent", function(self, event, ...)
-    updateBuffs()
-    BuffFrame.CollapseAndExpandButton:Hide()
-  end)
-
 
   function updateBuffs()
     local AuraNum = BuffFrame.AuraContainer:GetNumChildren()
@@ -21,6 +11,7 @@ function Buffs:OnEnable()
       local icon =  child.Icon
       local t = select(_, BuffFrame.AuraContainer:GetChildren())
       local dur = t.duration
+      local count = t.count
       local point, relativeTo, relativePoint, xOfs, yOfs = icon:GetPoint()
       if (child.Border) then
         child.Border:Hide()
@@ -59,11 +50,26 @@ function Buffs:OnEnable()
         border:Show()
       end
 
-      dur:SetFont(STANDARD_TEXT_FONT, 9, "OUTLINE")
+      -- Set Stack Font size and reposition it
+      count:SetFont(STANDARD_TEXT_FONT, 13, "OUTLINE")
+      count:ClearAllPoints()
+      count:SetPoint("TOPRIGHT", t, "TOPRIGHT", 0, -2)
+
+      -- Set Duration FOnt size and reposition it
+      dur:SetFont(STANDARD_TEXT_FONT, 12, "OUTLINE")
       dur:ClearAllPoints()
       dur:SetPoint("CENTER", t, "BOTTOM", 0, 13)
       dur:SetDrawLayer("OVERLAY")
-
     end
   end
+
+  local frame = CreateFrame("Frame")
+  frame:RegisterEvent("PLAYER_ENTERING_WORLD", self, "Update")
+	frame:RegisterUnitEvent("UNIT_AURA", self, "Update")
+  frame:RegisterEvent("WEAPON_ENCHANT_CHANGED")
+  frame:RegisterEvent("GROUP_ROSTER_UPDATE")
+  frame:SetScript("OnEvent", function(self, event, ...)
+    updateBuffs()
+    BuffFrame.CollapseAndExpandButton:Hide()
+  end)
 end
