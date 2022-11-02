@@ -18,40 +18,21 @@ function Buffs:OnEnable()
     local Children = { BuffFrame.AuraContainer:GetChildren() }
 
     for _, child in pairs(Children) do
-    local icon =  child.Icon
-    local t = select(_, BuffFrame.AuraContainer:GetChildren())
-    local dur = t.duration
-    local point, relativeTo, relativePoint, xOfs, yOfs = icon:GetPoint()
-
-    icon:SetTexCoord(0.08, 0.92, 0.08, 0.92)
-    icon:SetSize(32, 32)
-
-    HOUR_ONELETTER_ABBR = "%dh"
-    DAY_ONELETTER_ABBR = "%dd"
-    MINUTE_ONELETTER_ABBR = "%dm"
-    SECOND_ONELETTER_ABBR = "%ds"
-
-    local slot = child:GetID()
-    if(slot) then
-      local itemID = GetInventoryItemID("player", slot);
-      local itemIcon = GetItemIcon(itemID)
-
-      if not t.newIcon then
-        local newIcon = CreateFrame("Frame", "NewIcon", t, "BackdropTemplate")
-        newIcon:SetSize(32, 32)
-        newIcon:SetAllPoints()
-        newIcon:SetFrameLevel(3)
-        t.newIcon = newIcon
-
-        local newIconTexture = t.newIcon:CreateTexture()
-        newIconTexture:SetTexture(itemIcon)
-        newIconTexture:SetPoint(point, relativeTo, relativePoint, xOfs, yOfs)
-        newIconTexture:SetSize(32,32)
-        newIconTexture:SetTexCoord(0.08, 0.92, 0.08, 0.92)
-
-        newIcon:Show()
+      local icon =  child.Icon
+      local t = select(_, BuffFrame.AuraContainer:GetChildren())
+      local dur = t.duration
+      local point, relativeTo, relativePoint, xOfs, yOfs = icon:GetPoint()
+      if (child.Border) then
+        child.Border:Hide()
       end
-    end
+
+      icon:SetTexCoord(0.08, 0.92, 0.08, 0.92)
+      icon:SetSize(32, 32)
+
+      HOUR_ONELETTER_ABBR = "%dh"
+      DAY_ONELETTER_ABBR = "%dd"
+      MINUTE_ONELETTER_ABBR = "%dm"
+      SECOND_ONELETTER_ABBR = "%ds"
     
       if not icon.border then
         local border = CreateFrame("Frame", "SUIBuffBorder", t, "BackdropTemplate")
