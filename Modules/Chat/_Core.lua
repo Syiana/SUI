@@ -39,10 +39,11 @@ function Module:OnEnable()
 				_G[chat.."EditBox"]:SetPoint("TOPRIGHT", ChatFrame1, "BOTTOMRIGHT", 10, -5)
 			end
 
-
 			-- Hide textures
 			for j = 1, #CHAT_FRAME_TEXTURES do
-				_G[chat..CHAT_FRAME_TEXTURES[j]]:SetTexture(nil)
+				if chat..CHAT_FRAME_TEXTURES[j] ~= chat.."Background" then
+					_G[chat..CHAT_FRAME_TEXTURES[j]]:SetTexture(nil)
+				end
 			end
 
 			-- Removes Default ChatFrame Tabs texture

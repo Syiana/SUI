@@ -59,6 +59,7 @@ function Module:OnEnable()
       PlayerCastingBarFrame.Background,
       PetFrameTexture
     }) do
+      v:SetDesaturated(true)
       v:SetVertexColor(unpack(SUI:Color(0.15)))
     end
 

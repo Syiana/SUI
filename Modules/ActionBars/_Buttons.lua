@@ -26,6 +26,7 @@ function Module:OnEnable()
     local normalTexture = _G[name .. "NormalTexture"]
 
     hooksecurefunc(self, "Update", function(_)
+      normalTexture:SetDesaturated(true)
       normalTexture:SetVertexColor(unpack(SUI:Color()))
       --SUIAddBackDrop(self)
     end)

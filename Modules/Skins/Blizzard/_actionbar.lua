@@ -50,6 +50,7 @@ function Module:OnEnable()
       StanceBarMiddle,
       StanceBarRight,
     }) do
+      v:SetDesaturated(true)
       v:SetVertexColor(unpack(SUI:Color()))
     end
 
