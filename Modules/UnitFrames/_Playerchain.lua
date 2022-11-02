@@ -29,7 +29,7 @@ function Module:OnEnable()
         end)
 
         -- Set Rest Texture
-        PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual.PlayerRestLoop.RestTexture:SetPoint("CENTER", PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual.PlayerRestLoop, "CENTER", 22, 0)
+        PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual.PlayerRestLoop.RestTexture:Hide()
     elseif (db == "rarewinged") then
         local icon = UIParent:CreateTexture(nil, 'OVERLAY')
         icon:SetTexture('Interface\\AddOns\\SUI\\Media\\Textures\\UnitFrames\\CustomTextures.blp', true)
@@ -55,7 +55,7 @@ function Module:OnEnable()
         end)
 
         -- Set Rest Texture
-        PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual.PlayerRestLoop.RestTexture:SetPoint("CENTER", PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual.PlayerRestLoop, "CENTER", 22, 0)
+        PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual.PlayerRestLoop.RestTexture:Hide()
     elseif (db == "elite") then
         local icon = UIParent:CreateTexture(nil, 'OVERLAY')
         icon:SetTexture('Interface\\AddOns\\SUI\\Media\\Textures\\UnitFrames\\CustomTextures.blp', true)
@@ -81,7 +81,7 @@ function Module:OnEnable()
         end)
 
         -- Set Rest Texture
-        PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual.PlayerRestLoop.RestTexture:SetPoint("CENTER", PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual.PlayerRestLoop, "CENTER", 22, 0)
+        PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual.PlayerRestLoop.RestTexture:Hide()
     elseif (db == "elitewinged") then
         local icon = UIParent:CreateTexture(nil, 'OVERLAY')
         icon:SetTexture('Interface\\AddOns\\SUI\\Media\\Textures\\UnitFrames\\CustomTextures.blp', true)
@@ -108,7 +108,7 @@ function Module:OnEnable()
         end)
 
         -- Set Rest Texture
-        PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual.PlayerRestLoop.RestTexture:SetPoint("CENTER", PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual.PlayerRestLoop, "CENTER", 22, 0)
+        PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual.PlayerRestLoop.RestTexture:Hide()
     elseif (db == "dark") then
         local icon = UIParent:CreateTexture(nil, 'OVERLAY')
         icon:SetTexture('Interface\\AddOns\\SUI\\Media\\Textures\\UnitFrames\\CustomTextures.blp', true)
@@ -134,7 +134,7 @@ function Module:OnEnable()
         end)
         
         -- Set Rest Texture
-        PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual.PlayerRestLoop.RestTexture:SetPoint("CENTER", PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual.PlayerRestLoop, "CENTER", 22, 0)
+        PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual.PlayerRestLoop.RestTexture:Hide()
     elseif (db == "darkwinged") then
         local icon = UIParent:CreateTexture(nil, 'OVERLAY')
         icon:SetTexture('Interface\\AddOns\\SUI\\Media\\Textures\\UnitFrames\\CustomTextures.blp', true)
@@ -160,6 +160,6 @@ function Module:OnEnable()
         end)
 
         -- Set Rest Texture
-        PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual.PlayerRestLoop.RestTexture:SetPoint("CENTER", PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual.PlayerRestLoop, "CENTER", 22, 0)
+        PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual.PlayerRestLoop.RestTexture:Hide()
     end
 end

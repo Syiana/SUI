@@ -28,11 +28,6 @@ function Module:OnEnable()
             v:SetVertexColor(.15, .15, .15)
         end
         for i, v in pairs({
-          ClassTalentFrameTitleText,
-         }) do
-          v:SetVertexColor(.3, .3, .3)
-        end
-        for i, v in pairs({
           ClassTalentFrameTalentsPvpTalentFrameTalentListScrollFrameScrollBarThumbTexture,
           ClassTalentFrameTalentsPvpTalentFrameTalentListScrollFrameScrollBarTop,
           ClassTalentFrameTalentsPvpTalentFrameTalentListScrollFrameScrollBarMiddle,

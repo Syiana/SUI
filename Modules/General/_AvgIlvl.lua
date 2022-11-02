@@ -14,8 +14,8 @@ function Module:OnEnable()
 
         InspectFontStrings["avg"] = InspectModelFrame:CreateFontString(nil, "OVERLAY")
         InspectFontStrings["text"] = InspectModelFrame:CreateFontString(nil, "OVERLAY")
-        InspectFontStrings["avg"]:SetPoint("BOTTOM", 148, -25)
-        InspectFontStrings["text"]:SetPoint("BOTTOM", 95, -25)
+        InspectFontStrings["avg"]:SetPoint("BOTTOM", -70, -25)
+        InspectFontStrings["text"]:SetPoint("BOTTOM", -120, -25)
         InspectFontStrings["avg"]:SetFont("Fonts\\FRIZQT__.ttf", 12, "OUTLINE")
         InspectFontStrings["text"]:SetFont("Fonts\\FRIZQT__.ttf", 12, "OUTLINE")
 

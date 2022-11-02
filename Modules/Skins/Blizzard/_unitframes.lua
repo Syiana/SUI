@@ -5,9 +5,6 @@ function Module:OnEnable()
     for i, v in ipairs({
       --[[PlayerFrameTexture,
       TargetFrameTextureFrameTexture,
-      PlayerFrameAlternateManaBarBorder,
-      PlayerFrameAlternateManaBarLeftBorder,
-      PlayerFrameAlternateManaBarRightBorder,
       PaladinPowerBarFrameBG,
       PaladinPowerBarFrameBankBG,
       ComboPointPlayerFrame.Background,
@@ -44,11 +41,13 @@ function Module:OnEnable()
       StatusTrackingBarManager.SingleBarLargeUpper,
       StatusTrackingBarManager.SingleBarSmallUpper,]]
 
+      PlayerFrameAlternateManaBarBorder,
+      PlayerFrameAlternateManaBarLeftBorder,
+      PlayerFrameAlternateManaBarRightBorder,
       FocusFrameSpellBar.Border,
       FocusFrameSpellBar.Background,
       TargetFrameSpellBar.Border,
       TargetFrameSpellBar.Background,
-
       PlayerFrame.PlayerFrameContainer.FrameTexture,
       TargetFrame.TargetFrameContainer.FrameTexture,
       FocusFrame.TargetFrameContainer.FrameTexture,
