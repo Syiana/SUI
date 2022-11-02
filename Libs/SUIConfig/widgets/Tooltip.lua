@@ -113,7 +113,16 @@ local FrameTooltipMethods = {
 local OnShowFrameTooltip = function(self)
 	self:RecalculateSize();
 	self:ClearAllPoints();
-	self.SUIConfig:GlueOpposite(self, self.owner, 0, 0, self.anchor);
+
+	local _, _, _, xOfs, _ = self.owner:GetPoint()
+	
+	if xOfs == 15 then
+		self.SUIConfig:GlueLeft(self, self.owner, 0, 25, self.anchor);
+	elseif xOfs > 275 then
+		self.SUIConfig:GlueRight(self, self.owner, 0, 25, self.anchor);
+	else
+		self.SUIConfig:GlueOpposite(self, self.owner, 0, 0, self.anchor);
+	end
 end
 
 local FrameTooltipEvents = {
