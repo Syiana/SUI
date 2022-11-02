@@ -12,7 +12,13 @@ function Module:OnEnable()
 			Size:RegisterEvent("PLAYER_ENTERING_WORLD")
 			Size:RegisterEvent("VARIABLES_LOADED")
 			Size:SetScript("OnEvent", function()
-				CompactPartyFrame:SetScale(db.size)
+				for i=1,5 do
+					_G["CompactPartyFrameMember" ..i]:SetWidth(db.width)
+					_G["CompactPartyFrameMember" ..i]:SetHeight(db.height)
+					_G["CompactPartyFrameMember" ..i.."StatusText"]:ClearAllPoints()
+					_G["CompactPartyFrameMember" ..i.."StatusText"]:SetPoint("CENTER", _G["CompactPartyFrameMember" ..i], "CENTER")
+					_G["CompactPartyFrameMember" ..i.."StatusText"]:SetFont(STANDARD_TEXT_FONT, 20, "")
+				end
 			end)
 		end
 	end

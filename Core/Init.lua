@@ -90,7 +90,8 @@ local defaults = {
     raidframes = {
       texture = 'Interface\\AddOns\\SUI\\Media\\Textures\\Status\\Flat',
       alwaysontop = false,
-      size = 1,
+      height = 75,
+      width = 100,
     },
     actionbar = {
       buttons = {

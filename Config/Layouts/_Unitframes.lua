@@ -132,17 +132,42 @@ function Layout:OnEnable()
           column = 5,
           order = 1
         },
-        compactsize = {
-          key = 'raidframes.size',
+      },
+      {
+        partyheight = {
+          key = 'raidframes.height',
           type = 'slider',
-          label = 'Scale',
+          label = 'Height',
           precision = 1,
-          min = 0.1,
-          max = 2,
+          min = 50,
+          max = 300,
           column = 4,
           order = 2,
           onChange = function(slider)
-            CompactPartyFrame:SetScale(slider.value)
+            for i=1,5 do
+              _G["CompactPartyFrameMember" ..i]:SetHeight(slider.value)
+              _G["CompactPartyFrameMember" ..i.."StatusText"]:ClearAllPoints()
+              _G["CompactPartyFrameMember" ..i.."StatusText"]:SetPoint("CENTER", _G["CompactPartyFrameMember" ..i], "CENTER")
+              _G["CompactPartyFrameMember" ..i.."StatusText"]:SetFont(STANDARD_TEXT_FONT, 18, "")
+            end
+          end,
+        },
+        partywidth = {
+          key = 'raidframes.width',
+          type = 'slider',
+          label = 'Width',
+          precision = 1,
+          min = 50,
+          max = 300,
+          column = 4,
+          order = 3,
+          onChange = function(slider)
+            for i=1,5 do
+              _G["CompactPartyFrameMember" ..i]:SetWidth(slider.value)
+              _G["CompactPartyFrameMember" ..i.."StatusText"]:ClearAllPoints()
+              _G["CompactPartyFrameMember" ..i.."StatusText"]:SetPoint("CENTER", _G["CompactPartyFrameMember" ..i], "CENTER")
+              _G["CompactPartyFrameMember" ..i.."StatusText"]:SetFont(STANDARD_TEXT_FONT, 18, "")
+            end
           end,
         }
       },
