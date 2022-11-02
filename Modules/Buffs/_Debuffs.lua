@@ -22,59 +22,63 @@ function Debuffs:OnEnable()
     local Children = { DebuffFrame.AuraContainer:GetChildren() }
 
     for _, child in pairs(Children) do
-      local icon =  child.Icon
-      local t = select(_, DebuffFrame.AuraContainer:GetChildren())
-      local dur = t.duration
-      local point, relativeTo, relativePoint, xOfs, yOfs = icon:GetPoint()
-      child.Border:Hide()
+    local icon =  child.Icon
+    local t = select(_, DebuffFrame.AuraContainer:GetChildren())
+    local dur = t.duration
+    local point, relativeTo, relativePoint, xOfs, yOfs = icon:GetPoint()
+    child.Border:Hide()
 
-      if not icon.border then
-        local border = CreateFrame("Frame", "SUIBuffBorder", t, "BackdropTemplate")
-        border:SetPoint(point, relativeTo, relativePoint, xOfs, yOfs + 5)
-        border:SetSize(40, 40)
-        border:SetFrameLevel(3)
-      
-        local backdrop = {
-          edgeFile = "Interface\\Addons\\SUI\\Media\\Textures\\Core\\outer_shadow",
-          edgeSize = 6,
-          insets = { left = 6, right = 6, top = 6, bottom = 6 },
-        }
+    icon:SetTexCoord(0.08, 0.92, 0.08, 0.92)
+    icon:SetSize(32, 32)
 
-        border:SetBackdrop(backdrop)
-        border:SetBackdropBorderColor(unpack(SUI:Color(0.25, 0.9)))
-        icon.border = border
-        
+    HOUR_ONELETTER_ABBR = "%dh"
+    DAY_ONELETTER_ABBR = "%dd"
+    MINUTE_ONELETTER_ABBR = "%dm"
+    SECOND_ONELETTER_ABBR = "%ds"
+    
+    if not icon.border then
+      local border = CreateFrame("Frame", "SUIBuffBorder", t, "BackdropTemplate")
+      border:SetPoint(point, relativeTo, relativePoint, xOfs, yOfs + 5)
+      border:SetSize(42, 42)
+      border:SetFrameLevel(3)
+    
+      local backdrop = {
+        edgeFile = "Interface\\Addons\\SUI\\Media\\Textures\\Core\\outer_shadow",
+        edgeSize = 6,
+        insets = { left = 6, right = 6, top = 6, bottom = 6 },
+      }
 
-        local texture = icon.border:CreateTexture()
-        texture:SetTexture("Interface\\AddOns\\SUI\\Media\\Textures\\Core\\Normal_N")
-        texture:SetPoint(point, relativeTo, relativePoint, xOfs, yOfs + 5)
-        texture:SetSize(42, 42)
-        icon.border.texture = texture
-        border:Show()
-      end
+      border:SetBackdrop(backdrop)
+      border:SetBackdropBorderColor(unpack(SUI:Color(0.25, 0.9)))
+      icon.border = border
 
-      local helpful = (child:GetFilter() == "HELPFUL")
-      local debuffType = child.buttonInfo.debuffType
-      if not (helpful) then
-        if (icon.border) then
-          local color
-          if (debuffType) then
-            color = DebuffTypeColor[debuffType]
-          else
-            color = DebuffTypeColor["none"]
-          end
-          icon.border.texture:SetVertexColor(color.r, color.g, color.b)
+      local texture = icon.border:CreateTexture()
+      texture:SetTexture("Interface\\AddOns\\SUI\\Media\\Textures\\Core\\Normal_N")
+      texture:SetPoint(point, relativeTo, relativePoint, xOfs, yOfs + 5)
+      texture:SetSize(42, 42)
+      texture:SetVertexColor(0, 0, 0)
+      icon.border.texture = texture
+      border:Show()
+    end
+
+    dur:SetFont(STANDARD_TEXT_FONT, 9, "OUTLINE")
+    dur:ClearAllPoints()
+    dur:SetPoint("CENTER", t, "BOTTOM", 0, 13)
+    dur:SetDrawLayer("OVERLAY")
+
+    local helpful = (child:GetFilter() == "HELPFUL")
+    local debuffType = child.buttonInfo.debuffType
+    if not (helpful) then
+      if (icon.border) then
+        local color
+        if (debuffType) then
+          color = DebuffTypeColor[debuffType]
+        else
+          color = DebuffTypeColor["none"]
         end
+        icon.border.texture:SetVertexColor(color.r, color.g, color.b, 0.8)
       end
-
-      HOUR_ONELETTER_ABBR = "%dh"
-      DAY_ONELETTER_ABBR = "%dd"
-      MINUTE_ONELETTER_ABBR = "%dm"
-      SECOND_ONELETTER_ABBR = "%ds"
-
-      dur:SetFont(STANDARD_TEXT_FONT, 9, "OUTLINE")
-      dur:ClearAllPoints()
-      dur:SetPoint("CENTER", t, "BOTTOM", 0, 17)
+    end
     end
   end
 end

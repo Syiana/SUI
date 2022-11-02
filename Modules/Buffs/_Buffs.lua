@@ -84,5 +84,5 @@ function Buffs:OnEnable()
       dur:SetDrawLayer("OVERLAY")
 
     end
-end
+  end
 end
