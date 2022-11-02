@@ -10,55 +10,70 @@ function Debuffs:OnEnable()
     updateDebuffs()
   end)
 
+  DebuffTypeColor = {}
+  DebuffTypeColor["none"]	= { r = 0.80, g = 0, b = 0 };
+  DebuffTypeColor["Magic"]	= { r = 0.20, g = 0.60, b = 1.00 };
+  DebuffTypeColor["Curse"]	= { r = 0.60, g = 0.00, b = 1.00 };
+  DebuffTypeColor["Disease"]	= { r = 0.60, g = 0.40, b = 0 };
+  DebuffTypeColor["Poison"]	= { r = 0.00, g = 0.60, b = 0 };
+
   function updateDebuffs()
     local AuraNum = DebuffFrame.AuraContainer:GetNumChildren()
     local Children = { DebuffFrame.AuraContainer:GetChildren() }
 
     for _, child in pairs(Children) do
-    local icon =  child.Icon
-    local t = select(_, DebuffFrame.AuraContainer:GetChildren())
-    local dur = t.duration
-    local point, relativeTo, relativePoint, xOfs, yOfs = icon:GetPoint()
+      local icon =  child.Icon
+      local t = select(_, DebuffFrame.AuraContainer:GetChildren())
+      local dur = t.duration
+      local point, relativeTo, relativePoint, xOfs, yOfs = icon:GetPoint()
+      child.Border:Hide()
 
-        if not icon.border then
-            local backdrop = {
-                bgFile = nil,
-                edgeFile = "Interface\\Addons\\SUI\\Media\\Textures\\Core\\outer_shadow",
-                tile = false,
-                tileSize = 30,
-                edgeSize = 3,
-                insets = { left = 6, right = 6, top = 6, bottom = 6 },
-            }
+      if not icon.border then
+        local border = CreateFrame("Frame", "SUIBuffBorder", t, "BackdropTemplate")
+        border:SetPoint(point, relativeTo, relativePoint, xOfs, yOfs + 5)
+        border:SetSize(40, 40)
+        border:SetFrameLevel(3)
+      
+        local backdrop = {
+          edgeFile = "Interface\\Addons\\SUI\\Media\\Textures\\Core\\outer_shadow",
+          edgeSize = 6,
+          insets = { left = 6, right = 6, top = 6, bottom = 6 },
+        }
 
-            -- Border
-            local border = CreateFrame("Frame", "SUIBuffBorder", t, "BackdropTemplate")
-            local iconW, iconH = icon:GetSize()
-            border:SetSize(iconW, iconH)
-            border:SetPoint(point, relativeTo, relativePoint, xOfs, yOfs)
-            icon.border = border
+        border:SetBackdrop(backdrop)
+        border:SetBackdropBorderColor(unpack(SUI:Color(0.25, 0.9)))
+        icon.border = border
+        
 
-            -- Black Border
-            local texture = icon.border:CreateTexture()
-            texture:SetSize(iconH + 10, iconH + 10)
-            texture:SetTexture("Interface\\AddOns\\SUI\\Media\\Textures\\Core\\gloss")
-            texture:SetAllPoints()
-            icon.border.texture = texture
-
-            -- Black Shadow
-            border:SetBackdrop(backdrop)
-            border:SetBackdropBorderColor(0, 0, 0)
-            border:Show()
-
+        local texture = icon.border:CreateTexture()
+        texture:SetTexture("Interface\\AddOns\\SUI\\Media\\Textures\\Core\\Normal_N")
+        texture:SetPoint(point, relativeTo, relativePoint, xOfs, yOfs + 5)
+        texture:SetSize(42, 42)
+        local helpful = (child:GetFilter() == "HELPFUL")
+        local debuffType = child.buttonInfo.debuffType
+        if not (helpful) then
+          if (icon.border) then
+            local color
+            if (debuffType) then
+              color = DebuffTypeColor[debuffType]
+            else
+              color = DebuffTypeColor["none"]
+            end
+            texture:SetVertexColor(color.r, color.g, color.b)
+          end
         end
+        icon.border.texture = texture
+        border:Show()
+      end
 
-        HOUR_ONELETTER_ABBR = "%dh"
-        DAY_ONELETTER_ABBR = "%dd"
-        MINUTE_ONELETTER_ABBR = "%dm"
-        SECOND_ONELETTER_ABBR = "%ds"
+      HOUR_ONELETTER_ABBR = "%dh"
+      DAY_ONELETTER_ABBR = "%dd"
+      MINUTE_ONELETTER_ABBR = "%dm"
+      SECOND_ONELETTER_ABBR = "%ds"
 
-        dur:SetFont(STANDARD_TEXT_FONT, 9, "OUTLINE")
-        dur:ClearAllPoints()
-        dur:SetPoint("CENTER", t, "BOTTOM", 0, 17)
+      dur:SetFont(STANDARD_TEXT_FONT, 9, "OUTLINE")
+      dur:ClearAllPoints()
+      dur:SetPoint("CENTER", t, "BOTTOM", 0, 17)
     end
 end
 
