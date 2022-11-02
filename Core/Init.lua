@@ -90,6 +90,7 @@ local defaults = {
     raidframes = {
       texture = 'Interface\\AddOns\\SUI\\Media\\Textures\\Status\\Flat',
       alwaysontop = false,
+      size = false,
       height = 75,
       width = 100,
     },

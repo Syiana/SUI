@@ -131,9 +131,17 @@ function Layout:OnEnable()
           options = Textures.data,
           column = 5,
           order = 1
-        },
+        }
       },
       {
+        size = {
+          key = 'raidframes.size',
+          type = 'checkbox',
+          label = 'Custom Size',
+          tooltip = 'Enable Custom Party-Raidframestyle Sizing',
+          column = 4,
+          order = 1
+        },
         partyheight = {
           key = 'raidframes.height',
           type = 'slider',
