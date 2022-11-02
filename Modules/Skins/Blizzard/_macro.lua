@@ -37,14 +37,17 @@ function Module:OnEnable()
           MacroButtonScrollFrameMiddle,
           MacroButtonScrollFrameBottom,
           MacroButtonScrollFrameScrollBarThumbTexture,
-          MacroButtonScrollFrameScrollBarScrollUpButton.Normal,
-          MacroButtonScrollFrameScrollBarScrollDownButton.Normal,
-          MacroButtonScrollFrameScrollBarScrollUpButton.Disabled,
-          MacroButtonScrollFrameScrollBarScrollDownButton.Disabled,
+          MacroFrameTextBackground.NineSlice.TopEdge,
+          MacroFrameTextBackground.NineSlice.BottomEdge,
+          MacroFrameTextBackground.NineSlice.LeftEdge,
+          MacroFrameTextBackground.NineSlice.RightEdge,
+          MacroFrameTextBackground.NineSlice.TopRightCorner,
+          MacroFrameTextBackground.NineSlice.TopLeftCorner,
+          MacroFrameTextBackground.NineSlice.BottomRightCorner,
+          MacroFrameTextBackground.NineSlice.BottomLeftCorner,
           }) do
           v:SetVertexColor(unpack(SUI:Color()))
         end
-        MacroHorizontalBarLeft:Hide();
         --fix
         --_G.select(2, MacroFrame:GetRegions()):Hide()
       end
