@@ -6,6 +6,7 @@ function Friendlist:OnEnable()
     function FriendsListByClassColor_Update()
       local Config = {
         format = "[if=level][color=level][=level][/color][/if] [color=class][=accountName|name] [if=characterName]([=characterName])[/if][/color]",
+        level = "[if=level][=level][/if]"
       }
       local Color do
 
@@ -520,8 +521,19 @@ function Friendlist:OnEnable()
         end
         -- button.gameIcon:SetTexture("Interface\\Buttons\\ui-paidcharactercustomization-button")
         -- button.gameIcon:SetTexCoord(8/128, 55/128, 72/128, 119/128)
+        MAX_PLAYER_LEVEL_TABLE = {};
+        MAX_PLAYER_LEVEL_TABLE[8] = 60
+        MAX_PLAYER_LEVEL_TABLE[9] = 70
+        maxLevel = MAX_PLAYER_LEVEL_TABLE[GetAccountExpansionLevel()]
+
         isSettingText = true
-        self:SetText(Parse.Format(friendWrapper, Config.format))
+        if (tonumber(Parse.Format(friendWrapper, Config.level)) == maxLevel) then
+          self:SetText(Parse.Format(friendWrapper, "[color=class][=accountName|name] [if=characterName][[=characterName]][/if][/color]"))
+        else
+          self:SetText(Parse.Format(friendWrapper, "[color=class][=accountName|name] [if=characterName][[=characterName][/if][if=level] - [=level]][/if][/color]"))
+        end
+        --print(Parse.Format(friendWrapper, Config.level))
+        --self:SetText(Parse.Format(friendWrapper, Config.format))
         isSettingText = false
       end
 
@@ -555,7 +567,6 @@ function Friendlist:OnEnable()
         HookButtons(scrollFrame.buttons)
       end
     end
-    --hooksecurefunc("FriendsList_Update", WhoNamesByClassColor_Update)
     FriendsListByClassColor_Update()
   end
 end
