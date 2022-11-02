@@ -2,7 +2,7 @@ local Module = SUI:NewModule("Chat.Core");
 
 function Module:OnEnable()
   local db = SUI.db.profile.chat
-  if (db) then
+  if (db.style == 'Custom') then
 
 		CHAT_FRAME_FADE_TIME = 0.3
 		CHAT_FRAME_FADE_OUT_TIME = 1

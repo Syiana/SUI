@@ -83,6 +83,7 @@ function Layout:OnEnable()
           label = 'Class Color',
           tooltip = 'Change healthcolor to class color',
           column = 4,
+          order = 1
         },
         pvp = {
           key = 'unitframes.pvpbadge',
@@ -90,13 +91,15 @@ function Layout:OnEnable()
           label = 'PvP Badge',
           tooltip = 'Display PVP icon on Unit frames',
           column = 4,
+          order = 2
         },
         hitindicator = {
           key = 'unitframes.hitindicator',
           type = 'checkbox',
           label = 'Hit indicator',
+          tooltip = 'Display numbers on Player Portrait',
           column = 4,
-          order = 1
+          order = 3
         },
       },
       {

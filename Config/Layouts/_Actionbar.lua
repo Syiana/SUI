@@ -72,7 +72,6 @@ function Layout:OnEnable()
           key = 'bars.bar1',
           type = 'checkbox',
           label = 'Bar 1',
-          tooltip = 'Show on Mouseover',
           column = 4,
           order = 1
         },
@@ -80,7 +79,6 @@ function Layout:OnEnable()
           key = 'bars.bar2',
           type = 'checkbox',
           label = 'Bar 2',
-          tooltip = 'Show on Mouseover',
           column = 4,
           order = 2
         },
@@ -88,7 +86,6 @@ function Layout:OnEnable()
           key = 'bars.bar3',
           type = 'checkbox',
           label = 'Bar 3',
-          tooltip = 'Show on Mouseover',
           column = 4,
           order = 3
         }
@@ -98,7 +95,6 @@ function Layout:OnEnable()
           key = 'bars.bar4',
           type = 'checkbox',
           label = 'Bar 4',
-          tooltip = 'Show on Mouseover',
           column = 4,
           order = 1
         },
@@ -106,7 +102,6 @@ function Layout:OnEnable()
           key = 'bars.bar5',
           type = 'checkbox',
           label = 'Bar 5',
-          tooltip = 'Show on Mouseover',
           column = 4,
           order = 2
         },
@@ -114,7 +109,6 @@ function Layout:OnEnable()
           key = 'bars.bar6',
           type = 'checkbox',
           label = 'Bar 6',
-          tooltip = 'Show on Mouseover',
           column = 4,
           order = 3
         }
@@ -124,7 +118,6 @@ function Layout:OnEnable()
           key = 'bars.bar7',
           type = 'checkbox',
           label = 'Bar 7',
-          tooltip = 'Show on Mouseover',
           column = 4,
           order = 1
         },
@@ -132,7 +125,6 @@ function Layout:OnEnable()
           key = 'bars.bar8',
           type = 'checkbox',
           label = 'Bar 8',
-          tooltip = 'Show on Mouseover',
           column = 4,
           order = 2
         },
@@ -140,7 +132,6 @@ function Layout:OnEnable()
           key = 'menu.menumouseover',
           type = 'checkbox',
           label = 'Micromenu & Bag Buttons',
-          tooltip = 'Show MicroMenu and Bags on mouseover',
           column = 4,
           order = 3
         },
