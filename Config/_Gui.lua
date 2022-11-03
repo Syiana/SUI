@@ -68,7 +68,7 @@ function Gui:OnEnable()
   local db = SUI.db
 
   -- Config
-  local config = SUIConfig:Window(UIParent, 700, 395)
+  local config = SUIConfig:Window(UIParent, 700, 415)
   config:SetPoint('CENTER')
   config.titlePanel:SetPoint('LEFT', 10, 0)
   config.titlePanel:SetPoint('RIGHT', -35, 0)
@@ -262,14 +262,18 @@ function Gui:OnEnable()
   }
 
   -- Tabs
-  local tabs = SUIConfig:TabPanel(config, nil, nil, categories, true, 139, 25)
+  local tabs = SUIConfig:TabPanel(config, nil, nil, categories, true, 160, 27)
   SUIConfig:GlueAcross(tabs, config, 10, -35, -10, 10)
 
-  local scrollTabs = SUIConfig:ScrollFrame(config,  160, 315, tabs.buttonContainer);
-  SUIConfig:GlueTop(scrollTabs, config, 10, -35, 'LEFT')
-
-  local scrollContainer = SUIConfig:ScrollFrame(config, 515, 350, tabs.container);
+  local scrollContainer = SUIConfig:Panel(config, 515, 370, tabs.container)
   SUIConfig:GlueTop(scrollContainer, config, -10, -35, 'RIGHT')
+
+  -- SCROLL FRAMES BUGGY
+  -- local scrollTabs = SUIConfig:ScrollFrame(config,  160, 315, tabs.buttonContainer)
+  -- SUIConfig:GlueTop(scrollTabs, config, 10, -35, 'LEFT')
+
+  -- local scrollContainer = SUIConfig:ScrollFrame(config, 515, 350, tabs.container)
+  -- SUIConfig:GlueTop(scrollContainer, config, -10, -35, 'RIGHT')
 
   --Save
   local save = SUIConfig:Button(config, 160, 30, 'Save')

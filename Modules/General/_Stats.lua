@@ -1,7 +1,7 @@
 local Module = SUI:NewModule("General.Stats");
 
 StatsFrame = CreateFrame("Frame", "StatsFrame", UIParent)
-local movable = false
+local movable = true
 
 if movable == false then
   StatsFrame:ClearAllPoints()
