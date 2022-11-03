@@ -244,13 +244,5 @@ function Module:OnEnable()
             button.levelString:SetText("")
         end
     end
-    hooksecurefunc("ContainerFrame_Update",function(self)
-            local name = self:GetName()
-            for i = 1, self.size do
-                local button = _G[name .. "Item" .. i]
-                SetContainerItemLevel(button, GetContainerItemLink(self:GetID(), button:GetID()))
-            end
-        end
-    )
   end
 end

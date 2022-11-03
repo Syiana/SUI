@@ -1,7 +1,7 @@
 local Module = SUI:NewModule("General.AvgIlvl");
 
 function Module:OnEnable()
-  local db = SUI.db.profile.general.display.avgilvl
+  local db = SUI.db.profile.general.display.ilvl
 
   if (db) then
     local alreadyInitialized = false

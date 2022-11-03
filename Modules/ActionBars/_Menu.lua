@@ -2,7 +2,7 @@ local Menu = SUI:NewModule("ActionBars.Menu");
 
 function Menu:OnEnable()
   local db = SUI.db.profile.actionbar
-  local MicroMenuButtons = {
+  local MicroButtonAndBagsBarButtons = {
     CharacterMicroButton,
     SpellbookMicroButton,
     TalentMicroButton,
@@ -14,10 +14,15 @@ function Menu:OnEnable()
     EJMicroButton,
     StoreMicroButton,
     MainMenuMicroButton,
+    MainMenuBarBackpackButton,
+    CharacterBag0Slot,
+    CharacterBag1Slot,
+    CharacterBag2Slot,
+    CharacterBag3Slot,
   }
 
-  for _, button in pairs(MicroMenuButtons) do
-    button:GetNormalTexture():SetVertexColor(unpack(SUI:Color(0.001)))
+  for _, button in pairs(MicroButtonAndBagsBarButtons) do
+    button:GetNormalTexture():SetVertexColor(0.65, 0.65, 0.65)
   end
   
   if (db.menu.menumouseover) then
@@ -25,13 +30,16 @@ function Menu:OnEnable()
     QueueStatusButton:SetScale(0.8, 0.8)
     QueueStatusButton:SetFrameLevel(1000)
     MicroButtonAndBagsBar:SetAlpha(0)
-    MicroButtonAndBagsBar:SetScript('OnEnter', function()
-      MicroButtonAndBagsBar:SetAlpha(1)
-    end)
-    MicroButtonAndBagsBar:SetScript('OnLeave', function()
-      if not (MouseIsOver(MicroButtonAndBagsBar)) then
-        MicroButtonAndBagsBar:SetAlpha(0)
-        end
-    end)
+
+    for _, buttons in pairs(MicroButtonAndBagsBarButtons) do
+      buttons:SetScript('OnEnter', function()
+        MicroButtonAndBagsBar:SetAlpha(1)
+      end)
+      buttons:SetScript('OnLeave', function()
+        if not (MouseIsOver(buttons)) then
+          MicroButtonAndBagsBar:SetAlpha(0)
+          end
+      end)
+    end
   end
 end
