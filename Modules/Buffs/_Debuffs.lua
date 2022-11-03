@@ -56,10 +56,12 @@ function Debuffs:OnEnable()
         border:Show()
       end
 
-      -- Set Stack Font size and reposition it
-      count:SetFont(STANDARD_TEXT_FONT, 13, "OUTLINE")
-      count:ClearAllPoints()
-      count:SetPoint("TOPRIGHT", t, "TOPRIGHT", 0, -2)
+      if (count) then
+        -- Set Stack Font size and reposition it
+        count:SetFont(STANDARD_TEXT_FONT, 13, "OUTLINE")
+        count:ClearAllPoints()
+        count:SetPoint("TOPRIGHT", t, "TOPRIGHT", 0, -2)
+      end
 
       -- Set Duration FOnt size and reposition it
       dur:SetFont(STANDARD_TEXT_FONT, 12, "OUTLINE")

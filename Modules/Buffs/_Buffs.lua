@@ -45,15 +45,18 @@ function Buffs:OnEnable()
         texture:SetTexture("Interface\\AddOns\\SUI\\Media\\Textures\\Core\\Normal_N")
         texture:SetPoint(point, relativeTo, relativePoint, xOfs, yOfs + 5)
         texture:SetSize(42, 42)
-        texture:SetVertexColor(0, 0, 0)
+        --texture:SetVertexColor(0, 0, 0)
+        texture:SetVertexColor(unpack(SUI:Color(0.25)))
         icon.border.texture = texture
         border:Show()
       end
 
-      -- Set Stack Font size and reposition it
-      count:SetFont(STANDARD_TEXT_FONT, 13, "OUTLINE")
-      count:ClearAllPoints()
-      count:SetPoint("TOPRIGHT", t, "TOPRIGHT", 0, -2)
+      if (count) then
+        -- Set Stack Font size and reposition it
+        count:SetFont(STANDARD_TEXT_FONT, 13, "OUTLINE")
+        count:ClearAllPoints()
+        count:SetPoint("TOPRIGHT", t, "TOPRIGHT", 0, -2)
+      end
 
       -- Set Duration FOnt size and reposition it
       dur:SetFont(STANDARD_TEXT_FONT, 12, "OUTLINE")
