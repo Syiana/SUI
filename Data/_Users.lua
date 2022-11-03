@@ -6,6 +6,7 @@ Data.team = {
   {text = Colors.dev    .. 'Rulez|r'},
   {text = Colors.dev    .. 'Baine|r'},
   {text = Colors.dev    .. 'Muleyo|r'},
+  {text = Colors.dev    .. 'Phoyk|r'},
   {text = Colors.mod    .. 'Obscurrium|r'},
   {text = Colors.mod    .. 'SuperTkle|r'},
   {text = Colors.mod    .. 'Proxy|r'},
