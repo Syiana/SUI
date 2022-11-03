@@ -132,19 +132,23 @@ function Layout:OnEnable()
           type = 'dropdown',
           label = 'Texture',
           options = Textures.data,
-          column = 5,
-          order = 1
-        }
-      },
-      {
-        size = {
-          key = 'raidframes.size',
-          type = 'checkbox',
-          label = 'Custom Size',
-          tooltip = 'Enable Custom Party-Raidframestyle Sizing',
           column = 4,
           order = 1
         },
+        size = {
+          key = 'raidframes.size',
+          type = 'dropdown',
+          label = 'Custom Size',
+          options = {
+            { value = true, text = 'Enabled' },
+            { value = false, text = 'Disabled' }
+          },
+          tooltip = 'Enable Custom Party-Raidframestyle Sizing',
+          column = 4,
+          order = 2
+        },
+      },
+      {
         partyheight = {
           key = 'raidframes.height',
           type = 'slider',

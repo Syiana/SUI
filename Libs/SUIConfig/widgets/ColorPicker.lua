@@ -70,7 +70,7 @@ local ColorPickerEvents = {
 		end
 
 		self.newTexture:SetVertexColor(r, g, b, a);
-		self.alphaTexture:SetGradientAlpha('VERTICAL', 1, 1, 1, 0, r, g, b, 1);
+		self.alphaTexture:SetGradient('VERTICAL', CreateColor(1, 1, 1, 0), CreateColor(r, g, b, 1));
 	end
 };
 
