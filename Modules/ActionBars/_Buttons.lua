@@ -81,14 +81,12 @@ function Module.OnEnable()
 
     HotKey:SetFont(FONT, db.buttons.size, "OUTLINE")
 
-    if not dominos and not bartender then
-      if not db.key then
-        HotKey:SetAlpha(0)
-      end
+    if not db.key then
+      HotKey:SetAlpha(0)
+    end
 
-      if not db.macro then
-        Macro:SetAlpha(0)
-      end
+    if not db.macro then
+      Macro:SetAlpha(0)
     end
   end
 
