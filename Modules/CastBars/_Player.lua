@@ -23,5 +23,9 @@ function Module:OnEnable()
             PlayerCastingBarFrame.Text:SetPoint("TOP", PlayerCastingBarFrame, "TOP", 0, -1)
             PlayerCastingBarFrame.Text:SetFont(STANDARD_TEXT_FONT, 12, "OUTLINE")
         end
+
+        PlayerCastingBarFrame:HookScript("OnEvent", function()
+          PlayerCastingBarFrame.StandardGlow:Hide()
+        end)
     end
 end

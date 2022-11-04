@@ -41,21 +41,6 @@ function Layout:OnEnable()
           },
           column = 4,
           order = 2
-        },
-        size = {
-          key = 'unitframes.size',
-          type = 'slider',
-          label = 'Frame Size',
-          precision = 1,
-          min = 1,
-          max = 1.3,
-          column = 4,
-          order = 3,
-          onChange = function(slider)
-            PlayerFrame:SetScale(slider.value)
-            TargetFrame:SetScale(slider.value)
-            FocusFrame:SetScale(slider.value)
-          end,
         }
       },
       {
