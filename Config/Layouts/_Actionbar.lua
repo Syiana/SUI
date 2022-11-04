@@ -59,6 +59,18 @@ function Layout:OnEnable()
           max = 20,
           column = 4,
           order = 1
+        },
+        menumouseover = {
+          key = 'menu.menumouseover',
+          type = 'dropdown',
+          label = 'Micromenu & Bag Buttons',
+          column = 4,
+          order = 2,
+          options = {
+            {value = 'show', text = 'Default'},
+            {value = 'mouse_over', text = 'Show on Mouseover'},
+            {value = 'hide', text = 'Hide Menu'}
+          }
         }
       },
       {
@@ -127,15 +139,8 @@ function Layout:OnEnable()
           label = 'Bar 8',
           column = 4,
           order = 2
-        },
-        menumouseover = {
-          key = 'menu.menumouseover',
-          type = 'checkbox',
-          label = 'Micromenu & Bag Buttons',
-          column = 4,
-          order = 3
-        },
-      },
-    },
+        }
+      }
+    }
   }
 end

@@ -24,8 +24,10 @@ function Menu:OnEnable()
   for _, button in pairs(MicroButtonAndBagsBarButtons) do
     button:GetNormalTexture():SetVertexColor(0.65, 0.65, 0.65)
   end
-  
-  if (db.menu.menumouseover) then
+
+  local menuOpt = db.menu.menumouseover
+
+  if menuOpt == "mouse_over" then
     MicroButtonAndBagsBar:SetAlpha(0)
 
     for _, buttons in pairs(MicroButtonAndBagsBarButtons) do
@@ -38,5 +40,10 @@ function Menu:OnEnable()
           end
       end)
     end
+  end
+
+  if menuOpt == "hide" then
+    MicroButtonAndBagsBar:SetAlpha(0)
+    MicroButtonAndBagsBar:Hide()
   end
 end
