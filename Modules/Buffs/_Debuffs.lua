@@ -70,23 +70,18 @@ function Debuffs:OnEnable()
       dur:SetDrawLayer("OVERLAY")
 
       -- Set the color of the Debuff Border
-      local filter = child:GetFilter()
-      local helpful
-      if (filter) then
-        helpful = (helpful == "HELPFUL")
+      local debuffType
+      if (child.buttonInfo) then
+        debuffType = child.buttonInfo.debuffType
       end
-      local debuffType = child.buttonInfo.debuffType
-
-      if not (helpful) then
-        if (icon.border) then
-          local color
-          if (debuffType) then
-            color = DebuffTypeColor[debuffType]
-          else
-            color = DebuffTypeColor["none"]
-          end
-          icon.border.texture:SetVertexColor(color.r, color.g, color.b, 0.8)
+      if (icon.border) then
+        local color
+        if (debuffType) then
+          color = DebuffTypeColor[debuffType]
+        else
+          color = DebuffTypeColor["none"]
         end
+        icon.border.texture:SetVertexColor(color.r, color.g, color.b, 0.8)
       end
     end
   end
