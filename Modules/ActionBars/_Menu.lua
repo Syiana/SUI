@@ -26,9 +26,6 @@ function Menu:OnEnable()
   end
   
   if (db.menu.menumouseover) then
-    QueueStatusButton:SetParent()
-    QueueStatusButton:SetScale(0.8, 0.8)
-    QueueStatusButton:SetFrameLevel(1000)
     MicroButtonAndBagsBar:SetAlpha(0)
 
     for _, buttons in pairs(MicroButtonAndBagsBarButtons) do
