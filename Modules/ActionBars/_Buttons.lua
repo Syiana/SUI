@@ -6,6 +6,7 @@ function Module.OnEnable()
   local dominos = IsAddOnLoaded("Dominos")
   local bartender = IsAddOnLoaded("Bartender4")
   local db = { buttons = SUI.db.profile.actionbar.buttons }
+
   local Backdrop = {
     bgFile = "",
     edgeFile = "Interface\\Addons\\SUI\\Media\\Textures\\Core\\outer_shadow",
@@ -83,16 +84,17 @@ function Module.OnEnable()
     local Name = Button:GetName()
     local HotKey = _G[Name .. "HotKey"]
     local Macro = _G[Name .. "Name"]
+    local Count = _G[Name .. "Count"]
 
     HotKey:SetFont(FONT, db.buttons.size, "OUTLINE")
+    Macro:SetFont(FONT, db.buttons.size, "OUTLINE")
+    Count:SetFont(FONT, 14, "OUTLINE")
 
-    if not db.key then
-      HotKey:SetAlpha(0)
-    end
+    local HotKeyAlpha = db.buttons.key and 1 or 0
+    local MacroAlpha = db.buttons.macro and 1 or 0
 
-    if not db.macro then
-      Macro:SetAlpha(0)
-    end
+    HotKey:SetAlpha(HotKeyAlpha)
+    Macro:SetAlpha(MacroAlpha)
   end
 
   EventFrame:SetScript("OnEvent", Init)
