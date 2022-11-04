@@ -49,28 +49,33 @@ function Module.OnEnable()
   end
 
   function StyleButton(Button, Type)
+    Button.SUIStyled = false
     local Name = Button:GetName()
     local NormalTexture = _G[Name .. "NormalTexture"]
     local Icon = _G[Name .. "Icon"]
+    local Cooldown = _G[Name .. "Cooldown"]
 
-    NormalTexture:SetDesaturated(true)
-    NormalTexture:SetVertexColor(0, 0, 0)
+    if Button.SUIStyled == false then
+      NormalTexture:SetDesaturated(true)
+      NormalTexture:SetVertexColor(0, 0, 0)
+      Cooldown:SetAllPoints()
 
-    Icon:SetTexCoord(.08, .92, .08, .92)
+      Icon:SetTexCoord(.08, .92, .08, .92)
 
-    Button:SetNormalTexture("Interface\\Addons\\SUI\\Media\\Textures\\Core\\UIActionBar")
-    Button:GetNormalTexture():SetTexCoord(0.701171875, 0.880859375, 0.31689453125, 0.36083984375)
+      Button:SetNormalTexture("Interface\\Addons\\SUI\\Media\\Textures\\Core\\UIActionBar")
+      Button:GetNormalTexture():SetTexCoord(0.701171875, 0.880859375, 0.31689453125, 0.36083984375)
 
-    local ButtonWidth, ButtonHeight = Button:GetSize()
-    Button:GetNormalTexture():SetSize(ButtonWidth + 2, ButtonHeight + 1)
-
-    if not Button.Shadow then
+      local ButtonWidth, ButtonHeight = Button:GetSize()
+      Button:GetNormalTexture():SetSize(ButtonWidth + 2, ButtonHeight + 1)
       Button.Shadow = CreateFrame("Frame", nil, Button, "BackdropTemplate")
       Button.Shadow:SetPoint("TOPLEFT", Button, "TOPLEFT", -3, 3)
       Button.Shadow:SetPoint("BOTTOMRIGHT", Button, "BOTTOMRIGHT", 2, -2)
       Button.Shadow:SetFrameLevel(Button:GetFrameLevel() - 1)
       Button.Shadow:SetBackdrop(Backdrop)
       Button.Shadow:SetBackdropBorderColor(0, 0, 0)
+      Button:Show()
+
+      Button.SUIStyled = true
     end
   end
 
