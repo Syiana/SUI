@@ -77,8 +77,19 @@ function Module.OnEnable()
   function UpdateHotkeys(Button)
     local Name = Button:GetName()
     local HotKey = _G[Name .. "HotKey"]
+    local Macro = _G[Name .. "Name"]
 
     HotKey:SetFont(FONT, db.buttons.size, "OUTLINE")
+
+    if not dominos and not bartender then
+      if not db.key then
+        HotKey:SetAlpha(0)
+      end
+
+      if not db.macro then
+        Macro:SetAlpha(0)
+      end
+    end
   end
 
   EventFrame:SetScript("OnEvent", Init)
