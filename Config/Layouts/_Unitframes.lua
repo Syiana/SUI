@@ -108,7 +108,7 @@ function Layout:OnEnable()
       {
         header = {
           type = 'header',
-          label = 'Compact Raid/Party Frame'
+          label = 'Raid/Party Frame'
         },
       },
       {
@@ -120,7 +120,7 @@ function Layout:OnEnable()
           column = 4,
           order = 1
         },
-        size = {
+        --[[size = {
           key = 'raidframes.size',
           type = 'dropdown',
           label = 'Custom Size',
@@ -131,9 +131,9 @@ function Layout:OnEnable()
           tooltip = 'Enable Custom Party-Raidframestyle Sizing',
           column = 4,
           order = 2
-        },
+        },]]
       },
-      {
+      --[[{
         partyheight = {
           key = 'raidframes.height',
           type = 'slider',
@@ -170,7 +170,7 @@ function Layout:OnEnable()
             end
           end,
         }
-      },
+      },]]
     },
   }
 end
