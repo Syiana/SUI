@@ -99,7 +99,8 @@ local defaults = {
         macro = true,
         range = true,
         flash = false,
-        size = 12
+        size = 12,
+        repbar = false,
       },
       menu = {
         menumouseover = false,

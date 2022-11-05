@@ -140,6 +140,21 @@ function Layout:OnEnable()
           column = 4,
           order = 2
         }
+      },
+      {
+        header = {
+          type = 'header',
+          label = 'Hide Frames'
+        },
+      },
+      {
+        repbar = {
+          key = 'repbar',
+          type = 'checkbox',
+          label = 'XP/Reputation Bar',
+          column = 4,
+          order = 1
+        },
       }
     }
   }

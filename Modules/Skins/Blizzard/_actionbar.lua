@@ -40,6 +40,7 @@ function Module:OnEnable()
       ReputationXPBarTexture1,
       ReputationXPBarTexture2,
       ReputationXPBarTexture3,
+      StatusTrackingBarManager.BottomBarFrameTexture,
     }) do
       v:SetVertexColor(unpack(SUI:Color(0.15)))
     end

@@ -1,6 +1,6 @@
 ﻿local Module = SUI:NewModule("ActionBars.Buttons");
 
-function Module.OnEnable()
+function Module:OnEnable()
   local EventFrame = CreateFrame("Frame")
   local FONT = STANDARD_TEXT_FONT
   local dominos = IsAddOnLoaded("Dominos")
