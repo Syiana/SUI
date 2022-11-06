@@ -1,111 +1,91 @@
-local Buffs = SUI:NewModule("Buffs.Buffs")
+local Buffs = SUI:NewModule("Buffs.Buffs");
 
 function Buffs:OnEnable()
-    local hooked = {}
+  if IsAddOnLoaded("BlizzBuffsFacade") then return end
 
-    function UpdateBuffStyling(pool)
-        for frame, _ in pairs(pool.activeObjects) do
-            if not hooked[frame] then
-                hooked[frame] = true
+  function updateBuffs()
+    local AuraNum = BuffFrame.AuraContainer:GetNumChildren()
+    local Children = { BuffFrame.AuraContainer:GetChildren() }
 
-                local icon = frame.Icon
-                icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
-                if frame.Border then frame.Border:Hide() end
-                frame.duration:SetFont(STANDARD_TEXT_FONT, 10, "OUTLINE")
+    for _, child in pairs(Children) do
+      local icon =  child.Icon
+      local t = select(_, BuffFrame.AuraContainer:GetChildren())
+      local duration = t.duration
+      local count = t.count
+      local point, relativeTo, relativePoint, xOfs, yOfs = icon:GetPoint()
+      if (child.Border) then
+        child.Border:Hide()
+      end
 
-                if BuffFrame.exampleAuraFrames == nil then
-                    hooksecurefunc(frame, "UpdateDuration", function(self)
-                        
-                        local durationText = self.duration:GetText()
-                        if durationText ~= nil then
-                            if strfind(durationText, " ") then
-                                self.duration:SetText(gsub(durationText, " ", ""))
-                            end
-                        end
-
-                        local count = self.count
-                        if count ~= nil then
-                            count:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
-                            count:ClearAllPoints()
-                            count:SetPoint("TOPRIGHT", self, "TOPRIGHT", 0, -2)
-                        end
-
-                        self.duration:ClearAllPoints()
-                        self.duration:SetPoint("CENTER", frame, "BOTTOM", 0, 15)
-                        self.duration:SetFont(STANDARD_TEXT_FONT, 12, "OUTLINE")
-                    end)
-                end
-                
-                ButtonBackdrop(frame)
-            end
-        end
-    end
+      icon:SetTexCoord(0.08, 0.92, 0.08, 0.92)
+      icon:SetSize(32, 32)
     
-    for _, pool in pairs(BuffFrame.auraPool.pools) do
-        hooksecurefunc(pool, "Acquire", UpdateBuffStyling)
-    end
-
-    EditModeManagerFrame:HookScript("OnShow", function()
-        hooksecurefunc(BuffFrame, "UpdateAuraButtons", function() end)
-    end)
-
-    function ButtonDefault(button)
-        local Backdrop = {
-            bgFile = "",
-            edgeFile = "Interface\\Addons\\SUI\\Media\\Textures\\Core\\outer_shadow",
-            tile = false,
-            tileSize = 32,
-            edgeSize = 5,
-            insets = { left = 5, right = 5, top = 5, bottom = 5 }
-        }
-        local icon = button.Icon
-
-        local border = CreateFrame("Frame", nil, button)
-        border:SetSize(icon:GetWidth() + 5, icon:GetHeight() + 6)
-        border:SetPoint("CENTER", button, "CENTER", 1, 5)
-
-        border.texture = border:CreateTexture(nil, "Border")
-        border.texture:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\Core\\UIActionBar")
-        border.texture:SetTexCoord(0.701171875, 0.880859375, 0.31689453125, 0.36083984375)
-        border.texture:SetVertexColor(0, 0, 0)
-        border.texture:SetAllPoints()
-
-        local shadow = CreateFrame("Frame", nil, border, "BackdropTemplate")
-        shadow:SetSize(icon:GetWidth(), icon:GetHeight())
-        shadow:SetPoint("TOPLEFT", border, "TOPLEFT", -2, 2)
-        shadow:SetPoint("BOTTOMRIGHT", border, "BOTTOMRIGHT", 1, -1)
-        shadow:SetFrameLevel(button:GetFrameLevel() - 1)
-        shadow:SetBackdrop(Backdrop)
-        shadow:SetBackdropBorderColor(0, 0, 0)
-    end
-
-    function ButtonBackdrop(button)
-        local Backdrop = {
-            bgFile = "",
-            edgeFile = "Interface\\Addons\\SUI\\Media\\Textures\\Core\\outer_shadow",
-            tile = false,
-            tileSize = 32,
-            edgeSize = 5,
-            insets = { left = 5, right = 5, top = 5, bottom = 5 }
+      if not icon.border then
+        local border = CreateFrame("Frame", "SUIBuffBorder", t, "BackdropTemplate")
+        border:SetPoint(point, relativeTo, relativePoint, xOfs, yOfs + 5)
+        border:SetSize(42, 42)
+        border:SetFrameLevel(3)
+      
+        local backdrop = {
+          edgeFile = "Interface\\Addons\\SUI\\Media\\Textures\\Core\\outer_shadow",
+          edgeSize = 6,
+          insets = { left = 6, right = 6, top = 6, bottom = 6 },
         }
 
-        local icon = button.Icon
-        local point, relativeTo, relativePoint, xOfs, yOfs = icon:GetPoint()
+        border:SetBackdrop(backdrop)
+        border:SetBackdropBorderColor(unpack(SUI:Color(0.25, 0.9)))
+        icon.border = border
 
-        local border = CreateFrame("Frame", nil, button)
-        border:SetSize(icon:GetWidth(), icon:GetHeight())
-        border:SetPoint("CENTER", button, "CENTER", 0, 0)
+        local texture = icon.border:CreateTexture()
+        texture:SetTexture("Interface\\AddOns\\SUI\\Media\\Textures\\Core\\Normal_N")
+        texture:SetPoint(point, relativeTo, relativePoint, xOfs, yOfs + 5)
+        texture:SetSize(42, 42)
+        --texture:SetVertexColor(0, 0, 0)
+        texture:SetVertexColor(unpack(SUI:Color(0.25)))
+        icon.border.texture = texture
+        border:Show()
+      end
 
-        border.texture = border:CreateTexture(nil, "Border")
-        border.texture:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\Core\\Normal_N")
-        border.texture:SetVertexColor(0, 0, 0)
-        border.texture:SetSize(40, 40)
-        border.texture:SetPoint(point, relativeTo, relativePoint, xOfs, yOfs + 5)
+      if (count) then
+        -- Set Stack Font size and reposition it
+        count:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
+        count:ClearAllPoints()
+        count:SetPoint("TOPRIGHT", t, "TOPRIGHT", 0, -2)
+      end
 
-        --border.texture:SetAllPoints()
+      -- Set Duration Font size and reposition it
+      if duration:GetText() ~= nil then
+        duration:SetText(gsub(duration:GetText(), " ", ""))
+        --print(gsub(duration:GetText(), " ", ""))
+        --print(duration:GetText())
+      end
+      
+      duration:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
+      duration:ClearAllPoints()
+      duration:SetPoint("CENTER", t, "BOTTOM", 0, 13)
+      duration:SetDrawLayer("OVERLAY")
+      if t.UpdateDuration then
+        hooksecurefunc(t, "UpdateDuration", function(self, timeLeft)
+          if timeLeft <= 60 then
+            self.duration:SetFormattedText("%ds", timeLeft)
+          elseif timeLeft >= 60 then
+            self.duration:SetFormattedText("%dm", SecondsToMinutes(timeLeft))
+          elseif timeLeft >= 3600 then
+            self.duration:SetFormattedText("%dh", math.floor(timeLeft / SECONDS_PER_HOUR))
+          elseif timeLeft >= 86400 then
+            self.duration:SetFormattedText("%dd", math.floor(timeLeft / SECONDS_PER_DAY))
+          end
+        end)
+      end
     end
+  end
 
-    function ButtonBorder(Button)
-
-    end
+  local frame = CreateFrame("Frame")
+  frame:RegisterEvent("PLAYER_ENTERING_WORLD", self, "Update")
+	frame:RegisterUnitEvent("UNIT_AURA", self, "Update")
+  frame:RegisterEvent("WEAPON_ENCHANT_CHANGED")
+  frame:RegisterEvent("GROUP_ROSTER_UPDATE")
+  frame:SetScript("OnEvent", function(self, event, ...)
+    updateBuffs()
+  end)
 end

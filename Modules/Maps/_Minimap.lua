@@ -9,8 +9,6 @@ function Module:OnEnable()
     if db.buttons then
       local EventFrame = CreateFrame("Frame")
       EventFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
-    
-      -- TODO: ADD CONFIG
       EventFrame:SetScript("OnEvent", function() 
         local buttons = LibDBIcon:GetButtonList()
           for i = 1, #buttons do
