@@ -3,6 +3,18 @@ local Buffs = SUI:NewModule("Buffs.Buffs");
 function Buffs:OnEnable()
   if IsAddOnLoaded("BlizzBuffsFacade") then return end
 
+  local function UpdateDuration(self, timeLeft)
+    if timeLeft <= 60 then
+        self.duration:SetFormattedText("%ds", timeLeft)
+    elseif timeLeft >= 60 then
+        self.duration:SetFormattedText("%dm", SecondsToMinutes(timeLeft))
+    elseif timeLeft >= 3600 then
+        self.duration:SetFormattedText("%dh", math.floor(timeLeft / SECONDS_PER_HOUR))
+    elseif timeLeft >= 86400 then
+        self.duration:SetFormattedText("%dd", math.floor(timeLeft / SECONDS_PER_DAY))
+    end
+  end
+
   function updateBuffs()
     local AuraNum = BuffFrame.AuraContainer:GetNumChildren()
     local Children = { BuffFrame.AuraContainer:GetChildren() }
@@ -44,6 +56,11 @@ function Buffs:OnEnable()
         texture:SetVertexColor(unpack(SUI:Color(0.25)))
         icon.border.texture = texture
         border:Show()
+
+        -- Update Duration Format
+        if t.UpdateDuration then
+          hooksecurefunc(t, "UpdateDuration", UpdateDuration)
+        end
       end
 
       if (count) then
@@ -64,19 +81,6 @@ function Buffs:OnEnable()
       duration:ClearAllPoints()
       duration:SetPoint("CENTER", t, "BOTTOM", 0, 13)
       duration:SetDrawLayer("OVERLAY")
-      if t.UpdateDuration then
-        hooksecurefunc(t, "UpdateDuration", function(self, timeLeft)
-          if timeLeft <= 60 then
-            self.duration:SetFormattedText("%ds", timeLeft)
-          elseif timeLeft >= 60 then
-            self.duration:SetFormattedText("%dm", SecondsToMinutes(timeLeft))
-          elseif timeLeft >= 3600 then
-            self.duration:SetFormattedText("%dh", math.floor(timeLeft / SECONDS_PER_HOUR))
-          elseif timeLeft >= 86400 then
-            self.duration:SetFormattedText("%dd", math.floor(timeLeft / SECONDS_PER_DAY))
-          end
-        end)
-      end
     end
   end
 

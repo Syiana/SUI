@@ -11,6 +11,18 @@ function Debuffs:OnEnable()
   DebuffColor["Disease"]    = { r = 0.60, g = 0.40, b = 0 };
   DebuffColor["Poison"]    = { r = 0.00, g = 0.60, b = 0 };
 
+  local function UpdateDuration(self, timeLeft)
+    if timeLeft <= 60 then
+        self.duration:SetFormattedText("%ds", timeLeft)
+    elseif timeLeft >= 60 then
+        self.duration:SetFormattedText("%dm", SecondsToMinutes(timeLeft))
+    elseif timeLeft >= 3600 then
+        self.duration:SetFormattedText("%dh", math.floor(timeLeft / SECONDS_PER_HOUR))
+    elseif timeLeft >= 86400 then
+        self.duration:SetFormattedText("%dd", math.floor(timeLeft / SECONDS_PER_DAY))
+    end
+  end
+
   function updateDebuffs()
     local AuraNum = DebuffFrame.AuraContainer:GetNumChildren()
     local Children = { DebuffFrame.AuraContainer:GetChildren() }
@@ -25,9 +37,7 @@ function Debuffs:OnEnable()
 
       icon:SetTexCoord(0.08, 0.92, 0.08, 0.92)
       icon:SetSize(32, 32)
-
-
-    
+ 
       if not icon.border then
         local border = CreateFrame("Frame", "SUIBuffBorder", t, "BackdropTemplate")
         border:SetPoint(point, relativeTo, relativePoint, xOfs, yOfs + 5)
@@ -51,6 +61,11 @@ function Debuffs:OnEnable()
         texture:SetVertexColor(0, 0, 0)
         icon.border.texture = texture
         border:Show()
+
+        -- Update Duration Format
+        if t.UpdateDuration then
+          hooksecurefunc(t, "UpdateDuration", UpdateDuration)
+        end
       end
 
       if (count) then
@@ -65,19 +80,6 @@ function Debuffs:OnEnable()
       duration:ClearAllPoints()
       duration:SetPoint("CENTER", t, "BOTTOM", 0, 13)
       duration:SetDrawLayer("OVERLAY")
-      if t.UpdateDuration then
-        hooksecurefunc(t, "UpdateDuration", function(self, timeLeft)
-          if timeLeft <= 60 then
-            self.duration:SetFormattedText("%ds", timeLeft)
-          elseif timeLeft >= 60 then
-            self.duration:SetFormattedText("%dm", SecondsToMinutes(timeLeft))
-          elseif timeLeft >= 3600 then
-            self.duration:SetFormattedText("%dh", math.floor(timeLeft / SECONDS_PER_HOUR))
-          elseif timeLeft >= 86400 then
-            self.duration:SetFormattedText("%dd", math.floor(timeLeft / SECONDS_PER_DAY))
-          end
-        end)
-      end
 
       -- Set the color of the Debuff Border
       local debuffType
