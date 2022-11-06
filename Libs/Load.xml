@@ -18,4 +18,6 @@
   <Include file='SUIConfig\SUIConfig.xml'/>
   <Include file='TPrint\TPrint.lua'/>
   <Include file='LibEditMode\LibEditMode.xml'/>
+  <Include file='LibDBIcon-1.0\embeds.xml'/>
+  <Include file='LibDBIcon-1.0\LibDBIcon-1.0\lib.xml'/>
 </Ui>
