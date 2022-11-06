@@ -1,6 +1,19 @@
+local LibDBIcon = LibStub("LibDBIcon-1.0")
 local Module = SUI:NewModule("Maps.Minimap");
 
 function Module:OnEnable()
+
+  local EventFrame = CreateFrame("Frame")
+  EventFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
+
+  -- TODO: ADD CONFIG
+  EventFrame:SetScript("OnEvent", function() 
+    local buttons = LibDBIcon:GetButtonList()
+      for i = 1, #buttons do
+        LibDBIcon:ShowOnEnter(buttons[i], true)
+    end
+  end)
+
   local db = SUI.db.profile.maps
 	if (db) then
     if not (db.minimap) then MinimapCluster:Hide() return end
