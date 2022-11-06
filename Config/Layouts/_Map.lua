@@ -95,8 +95,16 @@ function Layout:OnEnable()
           label = 'Tracking Symbol',
           tooltip = 'Show/Hide tracking icon on minimap',
           column = 4,
+          order = 1
+        },
+        buttons = {
+          key = 'buttons',
+          type = 'checkbox',
+          label = 'Buttons on Mouseover',
+          tooltip = 'Show minimap buttons on mouseover',
+          column = 4,
           order = 2
-        }
+        },
       }
     },
   }

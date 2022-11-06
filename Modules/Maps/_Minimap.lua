@@ -3,20 +3,23 @@ local Module = SUI:NewModule("Maps.Minimap");
 
 function Module:OnEnable()
 
-  local EventFrame = CreateFrame("Frame")
-  EventFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
-
-  -- TODO: ADD CONFIG
-  EventFrame:SetScript("OnEvent", function() 
-    local buttons = LibDBIcon:GetButtonList()
-      for i = 1, #buttons do
-        LibDBIcon:ShowOnEnter(buttons[i], true)
-    end
-  end)
-
   local db = SUI.db.profile.maps
-	if (db) then
-    if not (db.minimap) then MinimapCluster:Hide() return end
+
+  if db then
+    if db.buttons then
+      local EventFrame = CreateFrame("Frame")
+      EventFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
+    
+      -- TODO: ADD CONFIG
+      EventFrame:SetScript("OnEvent", function() 
+        local buttons = LibDBIcon:GetButtonList()
+          for i = 1, #buttons do
+            LibDBIcon:ShowOnEnter(buttons[i], true)
+        end
+      end)
+    end
+
+    if not db.minimap then MinimapCluster:Hide() return end
     if not (IsAddOnLoaded("SexyMap")) then
       local Size = CreateFrame("Frame")
       Size:RegisterEvent("ADDON_LOADED")
@@ -35,7 +38,7 @@ function Module:OnEnable()
 
       hooksecurefunc("QueueStatusDropDown_Show", function(button, relativeTo)
         DropDownList1:ClearAllPoints()
-        DropDownList1:SetPoint("BOTTOMLEFT", QueueStatusButton, "BOTTOMLEFT", -60, -60)
+        DropDownList1:SetPoint("BOTTOMLEFT", QueueStatusButton, "BOTTOMLEFT", -70, -60)
       end)
     end
   end

@@ -166,6 +166,7 @@ local defaults = {
       date = false,
       garrison = true,
       tracking = false,
+      buttons = true,
 	  },
     misc = {
       safequeue = true,
