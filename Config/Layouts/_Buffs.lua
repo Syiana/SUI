@@ -26,18 +26,18 @@ function Layout:OnEnable()
         }
       },
       {
-        big = {
+        buffsize = {
           key = 'unitframes.buffs.size',
           type = 'slider',
-          label = 'Big Buff Size',
+          label = 'Buff Size',
           max = 50,
           column = 4,
           order = 2
         },
-        small = {
+        debuffsize = {
           key = 'unitframes.debuffs.size',
           type = 'slider',
-          label = 'Small Buff Size',
+          label = 'Debuff Size',
           max = 50,
           column = 4,
           order = 3

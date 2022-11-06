@@ -176,6 +176,16 @@ function Layout:OnEnable()
           column = 3,
           order = 4
         }
+      },
+      {
+        afkscreen = {
+          key = 'cosmetic.afkscreen',
+          type = 'checkbox',
+          label = 'AFK Screen',
+          tooltip = 'Display a nice screen while you are AFK',
+          column = 3,
+          order = 1
+        },
       }
     },
   }

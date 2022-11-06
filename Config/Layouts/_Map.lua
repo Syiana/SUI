@@ -16,29 +16,26 @@ function Layout:OnEnable()
         }
       },
       {
-        small = {
-          key = 'small',
-          type = 'checkbox',
-          label = 'Small Map',
-          tooltip = 'coming soon.',
+        opacity = {
+          key = 'opacity',
+          type = 'slider',
+          label = 'Opacity',
+          precision = 1,
+          min = 0.1,
+          max = 1,
           column = 4,
-          order = 1
+          order = 1,
+          onChange = function(slider)
+            WorldMapFrame:SetAlpha(slider.value)
+          end,
         },
         cords = {
           key = 'coords',
           type = 'checkbox',
-          label = 'Coords',
+          label = 'Coordinates',
           tooltip = 'Display coordinates on map',
           column = 4,
           order = 2
-        },
-        opacity = {
-          key = 'opacity',
-          type = 'checkbox',
-          label = 'Opacity',
-          tooltip = 'coming soon.',
-          column = 4,
-          order = 3
         }
       },
       {

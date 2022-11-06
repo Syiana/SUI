@@ -1,4 +1,4 @@
-local Module = SUI:NewModule("General.Stats");
+local Module = SUI:NewModule("General.AfkCam");
 
 function Module:OnEnable()
   local db = SUI.db.profile.general.cosmetic.afkscreen
@@ -38,14 +38,14 @@ function Module:OnEnable()
 
       UpdateColor(t)
 
-      f:SetBackdrop({
+      --[[f:SetBackdrop({
         bgFile = texture,
         edgeFile = blank,
         tile = false, tileSize = 0, edgeSize = 1,
       })
 
       f:SetBackdropColor(backdropr, backdropg, backdropb, backdropa)
-      f:SetBackdropBorderColor(borderr, borderg, borderb)
+      f:SetBackdropBorderColor(borderr, borderg, borderb)]]
     end
 
     local function addapi(object)
@@ -107,11 +107,6 @@ function Module:OnEnable()
     AFKPanel.Text:SetFont( font, 110, "OUTLINE" )
     AFKPanel.Text:SetText( "|cfff58cbaS|r|cff009cffUI|r" )
 
-    AFKPanel.Text = AFKPanelTop:CreateFontString( nil, "OVERLAY" )
-    AFKPanel.Text:SetPoint("CENTER", AFKPanel, "CENTER", 0, -40 )
-    AFKPanel.Text:SetFont( font, 22, "OUTLINE" )
-    AFKPanel.Text:SetText( "|cfff58cbav|r|cff009cff8.9|r" )
-
     -- Set Up the Player Model
     AFKPanel.playerModel = CreateFrame('PlayerModel', nil, AFKPanel);
     AFKPanel.playerModel:SetSize(800, 1000)
@@ -163,22 +158,22 @@ function Module:OnEnable()
         local isArena, isRegistered = C_PvP.IsArena()
         if unit == "player" then
           if UnitIsAFK(unit) and not UnitIsDead(unit) and not InCombatLockdown() and not isArena then
-            SpinStart()
+            MoveViewRightStart(0.1)
             AFKPanel:Show()
             AFKPanelTop:Show()
             Minimap:Hide()
           else
-            SpinStop()
+            MoveViewRightStop()
             AFKPanel:Hide()
             AFKPanelTop:Hide()
             Minimap:Show()
           end
         end
       elseif event == "PLAYER_LEAVING_WORLD" then
-        SpinStop()
+        MoveViewRightStop()
       elseif event == "PLAYER_DEAD" then
         if UnitIsAFK("player") then
-          SpinStop()
+          MoveViewRightStop()
           AFKPanel:Hide()
           AFKPanelTop:Hide()
           Minimap:Show()
@@ -208,16 +203,5 @@ function Module:OnEnable()
         i = i + 1
       end
     end )
-
-    function SpinStart()
-      local spinning = true
-      MoveViewRightStart( 0.1 )
-    end
-
-    function SpinStop()
-      if( not spinning ) then return end
-      local spinning = nil
-      MoveViewRightStop()
-    end
   end
 end

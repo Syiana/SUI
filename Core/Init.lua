@@ -24,7 +24,7 @@ local defaults = {
       },
       cosmetic = {
         afkscreen = true,
-        talkhead = false,
+        talkhead = false
       },
       display = {
         ilvl = true,
@@ -158,7 +158,7 @@ local defaults = {
       minimapsize = 1,
       style = 'Default',
       small = false,
-      opacity = false,
+      opacity = 1,
       coords = true,
       minimap = true,
       clock = true,
@@ -169,7 +169,6 @@ local defaults = {
 	  },
     misc = {
       safequeue = true,
-      losecontrol = true,
       tabbinder = false,
       pulltimer = false,
       interrupt = false,
