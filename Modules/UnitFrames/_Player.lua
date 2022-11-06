@@ -7,10 +7,12 @@ function Module:OnEnable()
   }
   
   local statusTexture = PlayerFrame.PlayerFrameContent.PlayerFrameContentMain.StatusTexture;
+  local statusAnimation = PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual.PlayerRestLoop
 
   hooksecurefunc("PlayerFrame_UpdateStatus", function(self)
     if (IsResting()) then
       statusTexture:Hide()
+      statusAnimation:Hide()
     end
   end)
 end

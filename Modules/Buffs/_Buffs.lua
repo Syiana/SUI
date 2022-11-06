@@ -23,8 +23,16 @@ function Buffs:OnEnable()
                             end
                         end
 
+                        local count = self.count
+                        if count ~= nil then
+                            count:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
+                            count:ClearAllPoints()
+                            count:SetPoint("TOPRIGHT", self, "TOPRIGHT", 0, -2)
+                        end
+
                         self.duration:ClearAllPoints()
                         self.duration:SetPoint("CENTER", frame, "BOTTOM", 0, 15)
+                        self.duration:SetFont(STANDARD_TEXT_FONT, 12, "OUTLINE")
                     end)
                 end
                 

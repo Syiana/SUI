@@ -33,7 +33,7 @@ local defaults = {
       }
     },
     unitframes = {
-      style = 'Big',
+      style = 'Default',
       portrait = 'Default',
       classcolor = true,
       factioncolor = true,
@@ -41,7 +41,6 @@ local defaults = {
       combaticon = false,
       hitindicator = false,
       links = false,
-      playerchain = 'None',
       player = {
         size = 1
       },
