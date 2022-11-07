@@ -4,14 +4,14 @@ function Buffs:OnEnable()
   if IsAddOnLoaded("BlizzBuffsFacade") then return end
 
   local function UpdateDuration(self, timeLeft)
-    if timeLeft <= 60 then
-        self.duration:SetFormattedText("%ds", timeLeft)
-    elseif timeLeft >= 60 then
-        self.duration:SetFormattedText("%dm", SecondsToMinutes(timeLeft))
+    if timeLeft >= 86400 then
+      self.duration:SetFormattedText("%dd", ceil(timeLeft / 86400))
     elseif timeLeft >= 3600 then
-        self.duration:SetFormattedText("%dh", math.floor(timeLeft / SECONDS_PER_HOUR))
-    elseif timeLeft >= 86400 then
-        self.duration:SetFormattedText("%dd", math.floor(timeLeft / SECONDS_PER_DAY))
+      self.duration:SetFormattedText("%dh", ceil(timeLeft / 3600))
+    elseif timeLeft >= 60 then
+      self.duration:SetFormattedText("%dm", ceil(timeLeft / 60))
+    else
+      self.duration:SetFormattedText("%ds", timeLeft)
     end
   end
 
