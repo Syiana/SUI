@@ -94,7 +94,6 @@ function Module:OnEnable()
       Button.Shadow:SetFrameLevel(Button:GetFrameLevel() - 1)
       Button.Shadow:SetBackdrop(Backdrop)
       Button.Shadow:SetBackdropBorderColor(0, 0, 0)
-      Button:Show()
 
       Button.SUIStyled = true
     end
