@@ -102,7 +102,7 @@ function Layout:OnEnable()
           column = 4,
           order = 1
         },
-        --[[size = {
+        size = {
           key = 'raidframes.size',
           type = 'dropdown',
           label = 'Custom Size',
@@ -113,9 +113,9 @@ function Layout:OnEnable()
           tooltip = 'Enable Custom Party-Raidframestyle Sizing',
           column = 4,
           order = 2
-        },]]
+        },
       },
-      --[[{
+      {
         partyheight = {
           key = 'raidframes.height',
           type = 'slider',
@@ -130,7 +130,6 @@ function Layout:OnEnable()
               _G["CompactPartyFrameMember" ..i]:SetHeight(slider.value)
               _G["CompactPartyFrameMember" ..i.."StatusText"]:ClearAllPoints()
               _G["CompactPartyFrameMember" ..i.."StatusText"]:SetPoint("CENTER", _G["CompactPartyFrameMember" ..i], "CENTER")
-              _G["CompactPartyFrameMember" ..i.."StatusText"]:SetFont(STANDARD_TEXT_FONT, 18, "")
             end
           end,
         },
@@ -148,11 +147,10 @@ function Layout:OnEnable()
               _G["CompactPartyFrameMember" ..i]:SetWidth(slider.value)
               _G["CompactPartyFrameMember" ..i.."StatusText"]:ClearAllPoints()
               _G["CompactPartyFrameMember" ..i.."StatusText"]:SetPoint("CENTER", _G["CompactPartyFrameMember" ..i], "CENTER")
-              _G["CompactPartyFrameMember" ..i.."StatusText"]:SetFont(STANDARD_TEXT_FONT, 18, "")
             end
           end,
         }
-      },]]
+      },
     },
   }
 end
