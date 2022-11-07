@@ -21,6 +21,7 @@ function Module:OnEnable()
     _G["MultiBarBottomRight"],
     _G["MultiBarRightButton"],
     _G["MultiBarLeft"],
+    _G["MultiBarRight"],
     _G["MultiBar5"],
     _G["MultiBar6"],
     _G["MultiBar7"],

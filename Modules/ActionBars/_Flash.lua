@@ -32,7 +32,9 @@ function Buttons:OnEnable()
     end
 
     hooksecurefunc('MultiActionButtonDown', function(bname, id)
-      AnimateButton(_G[bname..'Button'..id])
+      if _G[bname]:GetEffectiveAlpha() == 1 then
+        AnimateButton(_G[bname..'Button'..id])
+      end
     end)
 
     hooksecurefunc('ActionButtonDown', function(id)
@@ -61,7 +63,9 @@ function Buttons:OnEnable()
         end
       end
       if not button then return end
-      AnimateButton(button)
+      if button:GetEffectiveAlpha() == 1 then
+        AnimateButton(button)
+      end
     end)
   end
 
