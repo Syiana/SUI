@@ -17,7 +17,6 @@ function Module:OnEnable()
   }
 
   local Bars = {
-    _G["Action"],
     _G["MultiBarBottomLeft"],
     _G["MultiBarBottomRight"],
     _G["MultiBarRightButton"],
@@ -54,7 +53,7 @@ function Module:OnEnable()
     for i = 1, 10 do
       local StanceButton = _G["StanceButton" ..i]
       local PetButton = _G["PetActionButton" ..i]
-      
+
       StyleButton(StanceButton, "StanceOrPet")
       StyleButton(PetButton, "StanceOrPet")
     end
