@@ -1,6 +1,6 @@
 -- Copyright 2022 plusmouse. Licensed under terms found in LICENSE file.
 
-local lib = LibStub:NewLibrary("LibEditModeOverride-1.0", 2)
+local lib = LibStub:NewLibrary("LibEditMode-1.0", 4)
 
 local pointGetter = CreateFrame("Frame", nil, UIParent)
 
@@ -102,10 +102,21 @@ function lib:SetFrameSetting(frame, setting, value)
   for _, item in pairs(system.settings) do
     if item.setting == setting then
       item.value = value
-      return true
     end
   end
-  return false
+end
+
+function lib:GetFrameSetting(frame, setting)
+  local system = GetSystemByFrame(frame)
+
+  assert(system, FRAME_ERROR)
+
+  for _, item in pairs(system.settings) do
+    if item.setting == setting then
+      return item.value
+    end
+  end
+  return nil
 end
 
 function lib:ReanchorFrame(frame, ...)
