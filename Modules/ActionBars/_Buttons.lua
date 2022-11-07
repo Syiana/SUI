@@ -14,7 +14,18 @@ function Module:OnEnable()
     tileSize = 32,
     edgeSize = 5,
     insets = { left = 5, right = 5, top = 5, bottom = 5 }
-}
+  }
+
+  local Bars = {
+    _G["Action"],
+    _G["MultiBarBottomLeft"],
+    _G["MultiBarBottomRight"],
+    _G["MultiBarRightButton"],
+    _G["MultiBarLeft"],
+    _G["MultiBar5"],
+    _G["MultiBar6"],
+    _G["MultiBar7"],
+  }
 
   EventFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
   EventFrame:RegisterEvent("UPDATE_BINDINGS")
@@ -22,30 +33,40 @@ function Module:OnEnable()
   if IsAddOnLoaded("Masque") and (dominos or bartender) then return end
 
   function Init()
-    for i = 1, 12 do
-      local NormalTextureList = {
-          _G["ActionButton" ..i],
-          _G["MultiBarBottomLeftButton" ..i],
-          _G["MultiBarBottomRightButton" ..i],
-          _G["MultiBarRightButton" ..i],
-          _G["MultiBarLeftButton" ..i],
-          _G["MultiBar5Button" ..i],
-          _G["MultiBar6Button" ..i],
-          _G["MultiBar7Button" ..i],
-      }
 
-      for j = 1, #NormalTextureList do
-        local t = NormalTextureList[j]
-        StyleButton(t, "Actionbar")
-        UpdateHotkeys(t)
+    for j = 1, #Bars do
+      local Bar = Bars[j]
+      if Bar then
+        local Num = Bar.numButtonsShowable
+        StyleAction(Bar, Num)
       end
+    end
+
+    local DefaultActionBarShowable = _G["MainMenuBar"].numButtonsShowable
+
+    for i = 1, DefaultActionBarShowable do
+      local Button = _G["ActionButton" ..i]
+
+      StyleButton(Button, "Actionbar")
+      UpdateHotkeys(Button)
     end
 
     for i = 1, 10 do
       local StanceButton = _G["StanceButton" ..i]
       local PetButton = _G["PetActionButton" ..i]
+      
       StyleButton(StanceButton, "StanceOrPet")
       StyleButton(PetButton, "StanceOrPet")
+    end
+  end
+
+  function StyleAction(Bar, Num)
+    for i = 1, Num do
+      local Name = Bar:GetName()
+      local Button = _G[Name .. "Button" .. i]
+
+      StyleButton(Button, "Actionbar")
+      UpdateHotkeys(Button)
     end
   end
 
