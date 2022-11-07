@@ -57,7 +57,8 @@ function Module:OnEnable()
       PaladinPowerBarFrameBankBG,
       PlayerCastingBarFrame.Border,
       PlayerCastingBarFrame.Background,
-      PetFrameTexture
+      PetFrameTexture,
+      PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual.PlayerPortraitCornerIcon
     }) do
       v:SetDesaturated(true)
       v:SetVertexColor(unpack(SUI:Color(0.15)))

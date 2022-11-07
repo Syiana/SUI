@@ -9,7 +9,7 @@ function Module:OnEnable()
 			repeat
 
 			-- check if raid or party
-			if (UnitInRaid("player")) then
+			if UnitInRaid("player") then
 				frame = "CompactRaidFrame"
 			else
 				frame = "CompactPartyFrameMember"
@@ -39,27 +39,37 @@ function Module:OnEnable()
 					rbar:SetStatusBarTexture(db.texture)
 				end
 				--DARK
-				bordertopleft:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\RaidFrames\\RaidBorder-UpperLeft")
-				bordertop:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\RaidFrames\\RaidBorder-UpperMiddle")
-				bordertopright:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\RaidFrames\\RaidBorder-UpperRight")
-				borderleft:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\RaidFrames\\RaidBorder-Left")
-				borderright:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\RaidFrames\\RaidBorder-Right")
-				borderbottomleft:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\RaidFrames\\RaidBorder-BottomLeft")
-				borderbottom:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\RaidFrames\\RaidBorder-BottomMiddle")
-				borderbottomright:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\RaidFrames\\RaidBorder-BottomRight")
-				vleftseparator:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\RaidFrames\\Raid-VSeparator")
-				vrightseparator:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\RaidFrames\\Raid-VSeparator")
-				htopseparator:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\RaidFrames\\Raid-HSeparator")
-				hbotseparator:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\RaidFrames\\Raid-HSeparator")
+				bordertopleft:SetTexture([[Interface\Addons\SUI\Media\Textures\RaidFrames\RaidBorder-UpperLeft]])
+				bordertop:SetTexture([[Interface\Addons\SUI\Media\Textures\RaidFrames\RaidBorder-UpperMiddle]])
+				bordertopright:SetTexture([[Interface\Addons\SUI\Media\Textures\RaidFrames\RaidBorder-UpperRight]])
+				borderleft:SetTexture([[Interface\Addons\SUI\Media\Textures\RaidFrames\RaidBorder-Left]])
+				borderright:SetTexture([[Interface\Addons\SUI\Media\Textures\RaidFrames\RaidBorder-Right]])
+				borderbottomleft:SetTexture([[Interface\Addons\SUI\Media\Textures\RaidFrames\RaidBorder-BottomLeft]])
+				borderbottom:SetTexture([[Interface\Addons\SUI\Media\Textures\RaidFrames\RaidBorder-BottomMiddle]])
+				borderbottomright:SetTexture([[Interface\Addons\SUI\Media\Textures\RaidFrames\RaidBorder-BottomRight]])
+				vleftseparator:SetTexture([[Interface\Addons\SUI\Media\Textures\RaidFrames\Raid-VSeparator]])
+				vrightseparator:SetTexture([[Interface\Addons\SUI\Media\Textures\RaidFrames\Raid-VSeparator]])
+				htopseparator:SetTexture([[Interface\Addons\SUI\Media\Textures\RaidFrames\Raid-HSeparator]])
+				hbotseparator:SetTexture([[Interface\Addons\SUI\Media\Textures\RaidFrames\Raid-HSeparator]])
 
 				Divider:SetVertexColor(.3, .3, .3)
 			end
 			i = i + 1 until not hbar
 		end
 
-		--hook
-		--hooksecurefunc(CompactRaidFrameContainer, "AddUnitFrame", update)
-		--hooksecurefunc("CompactUnitFrame_UpdateAll", update)
+		local setTexture = CreateFrame("Frame")
+		setTexture:RegisterEvent("ADDON_LOADED")
+		setTexture:RegisterEvent("PLAYER_LOGIN")
+		setTexture:RegisterEvent("VARIABLES_LOADED")
+		setTexture:RegisterEvent("PLAYER_ENTERING_WORLD")
+		setTexture:RegisterEvent("GROUP_ROSTER_UPDATE")
+		setTexture:RegisterEvent("PLAYER_REGEN_ENABLED")
+		setTexture:RegisterEvent("COMPACT_UNIT_FRAME_PROFILES_LOADED")
+		setTexture:RegisterEvent("UPDATE_EXPANSION_LEVEL")
+		setTexture:RegisterEvent("ARTIFACT_XP_UPDATE")
+		setTexture:RegisterEvent("AZERITE_ITEM_EXPERIENCE_CHANGED")
+		setTexture:RegisterUnitEvent("UNIT_LEVEL", "player")
+		setTexture:SetScript("OnEvent", update)
 
 		-- Hide Titles
 		CompactPartyFrameTitle:Hide()

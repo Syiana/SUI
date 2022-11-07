@@ -41,7 +41,15 @@ function Layout:OnEnable()
           },
           column = 4,
           order = 2
-        }
+        },
+        texture = {
+          key = 'general.texture',
+          type = 'dropdown',
+          label = 'Texture',
+          options = Textures.data,
+          column = 4,
+          order = 3
+        },
       },
       {
         class = {
