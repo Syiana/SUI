@@ -1,82 +1,87 @@
-# LibEditModeOverride
+# LibEditMode
 
 Modify anchors and settings of frames controlled by edit mode _without_
 triggering taint issues or requiring a `/reload`.
 
 ```lua
-local LibEditModeOverride = LibStub("LibEditModeOverride-1.0")
-LibEditModeOverride:LoadLayouts()
-LibEditModeOverride:ReanchorFrame(MainMenuBar, "TOP", UIParent)
-LibEditModeOverride:ApplyChanges()
+local LibEditMode = LibStub("LibEditMode-1.0")
+LibEditMode:LoadLayouts()
+LibEditMode:ReanchorFrame(MainMenuBar, "TOP", UIParent)
+LibEditMode:ApplyChanges()
 ```
 
 # Usage
 
 ## Initialization and saving
-### `LibEditModeOverride:LoadLayouts()`
+### `LibEditMode:LoadLayouts()`
 
 Required to call before using any other functions in this library. Queries and saves from
 the Blizzard API last saved edit mode frame settings and positions. You **will**
 need to call this again if the edit mode UI updates the layouts.
 
-### `LibEditModeOverride:AreLayoutsLoaded()`
+### `LibEditMode:AreLayoutsLoaded()`
 
-Has `LibEditModeOverride:LoadLayouts()` been called at some point?
+Has `LibEditMode:LoadLayouts()` been called at some point?
 
-### `LibEditModeOverride:ApplyChanges()`
+### `LibEditMode:ApplyChanges()`
 
 Save any changes made and apply any layout changes to the frames. Does not work
 during combat.
 
-### `LibEditModeOverride:SaveOnly()`
+### `LibEditMode:SaveOnly()`
 
 Save any changes made. Works during combat.
 
 ## Frame configuration
 
-### `LibEditModeOverride:ReanchorFrame(frame, ...)`
+### `LibEditMode:ReanchorFrame(frame, ...)`
 
 For a frame that is managed by edit mode change the default anchor. Uses the
 same parameters as a `frame:SetPoint(...)` call for the anchor.
 
-### `LibEditModeOverride:SetFrameSetting(frame, setting, value)`
+### `LibEditMode:SetFrameSetting(frame, setting, value)`
 
 Set an edit mode setting on an edit mode managed frame. Use the enumerations
 found in the Blizzard Lua dumps for the setting parameter.
 
-### `LibEditModeOverride:SetGlobalSetting(setting, value)`
+### `LibEditMode:SetGlobalSetting(setting, value)`
 
 Set an edit mode account-wide setting. This is just an alias for
 `C_EditMode.SetAccountSetting`
 
-### `LibEditModeOverride:HasEditModeSettings(frame)`
+### `LibEditMode:HasEditModeSettings(frame)`
 
 Does this frame have edit mode settings available?
 
+### `LibEditMode:GetFrameSetting(frame, setting)`
+
+Get a specific an edit mode setting on an edit mode managed frame. Use the
+enumerations found in the Blizzard Lua dumps for the setting parameter.
+
 ## Layout management
 
-### `LibEditModeOverride:AddLayout(layoutName)`
+### `LibEditMode:AddLayout(layoutName)`
 
 Create a new layout called `layoutName`. This name must not already be in use.
 
-### `LibEditModeOverride:DeleteLayout(layoutName)`
+### `LibEditMode:DeleteLayout(layoutName)`
 
 Delete a layout named `layoutName`. This layout must exist.
 
-### `LibEditModeOverride:SetActiveLayout(layoutName)`
+### `LibEditMode:SetActiveLayout(layoutName)`
 
 Change the active layout to `layoutName`. This name must exist. You need to call
-`LibEditModeOverride:ApplyChanges` or similar for  this to take effect and persist.
+`LibEditMode:ApplyChanges` or similar for  this to take effect and persist.
 
 
-### `LibEditModeOverride:DoesLayoutExist(layoutName)`
+### `LibEditMode:DoesLayoutExist(layoutName)`
 
 Does a layout with the name `layoutName` exist?
 
-### `LibEditModeOverride:GetPresetLayoutNames(layoutName)`
+### `LibEditMode:GetPresetLayoutNames(layoutName)`
 
 Returns a table of the names of all preset non-editable layouts.
 
-### `LibEditModeOverride:GetEditableLayoutNames(layoutName)`
+### `LibEditMode:GetEditableLayoutNames(layoutName)`
 
 Returns a table of the names of all editable layouts.
