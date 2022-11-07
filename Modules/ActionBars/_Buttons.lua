@@ -19,7 +19,7 @@ function Module:OnEnable()
   local Bars = {
     _G["MultiBarBottomLeft"],
     _G["MultiBarBottomRight"],
-    _G["MultiBarRightButton"],
+    _G["MultiBarRight"],
     _G["MultiBarLeft"],
     _G["MultiBar5"],
     _G["MultiBar6"],
