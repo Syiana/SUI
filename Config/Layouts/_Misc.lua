@@ -83,8 +83,18 @@ function Layout:OnEnable()
           tooltip = 'Allows you to surrender by typing /gg',
           column = 3,
           order = 1
-        }
+        },
       },
+      {
+        losecontrol= {
+          key = 'losecontrol',
+          type = 'checkbox',
+          label = 'LoseControl',
+          tooltip = 'More transparent Loss of Control Alert frame',
+          column = 3,
+          order = 1
+        },
+      }
     },
   }
 end

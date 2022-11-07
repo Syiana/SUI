@@ -174,7 +174,8 @@ local defaults = {
       interrupt = false,
       dampening = true,
       arenanameplate = false,
-      surrender = false
+      surrender = false,
+      losecontrol = false
     },
     edit = {}
   }
