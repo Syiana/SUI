@@ -4,4 +4,5 @@
   <Script file='_Textures.lua'/>
   <Script file='_Colors.lua'/>
 	<Script file='_Users.lua'/>
+  <Script file='_Partyprofile.lua'/>
 </Ui>

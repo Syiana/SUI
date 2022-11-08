@@ -6,6 +6,7 @@ function Layout:OnEnable()
 
   -- Data
   local Textures = SUI:GetModule("Data.Textures")
+  local Partyprofile = SUI:GetModule("Data.Partyprofile")
 
   -- Layout
   Layout.layout = {
@@ -154,10 +155,7 @@ function Layout:OnEnable()
           key = 'raidframes.profile',
           type = 'dropdown',
           label = 'Profile',
-          options = {
-            { value = true, text = 'Profile 1' },
-            { value = false, text = 'Profile 2' }
-          },
+          options = Partyprofile.data,
           column = 4,
           order = 3
         },

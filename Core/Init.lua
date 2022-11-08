@@ -202,7 +202,6 @@ function SUI:OnInitialize()
   }
   local theme = themes[self.db.profile.general.theme]
 
-
   self.Theme = {
     Register = function(n, f)
       --print('register')

@@ -16,6 +16,7 @@ function Module:OnEnable()
     local messageType, message, r, g, b
     if event == "SYSMSG" then
       message, r, g, b = ...
+      return originalOnEvent(self, event, ...)
     elseif event == "UI_INFO_MESSAGE" then
       messageType, message = ...
       return originalOnEvent(self, event, ...)
