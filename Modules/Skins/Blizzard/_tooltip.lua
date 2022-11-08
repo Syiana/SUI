@@ -48,7 +48,7 @@ function Module:OnEnable()
 
     hooksecurefunc("SharedTooltip_SetBackdropStyle", styleTooltip)
     local tooltips = { GameTooltip,ShoppingTooltip1,ShoppingTooltip2,ItemRefTooltip,ItemRefShoppingTooltip1,ItemRefShoppingTooltip2,WorldMapTooltip,
-    WorldMapCompareTooltip1,WorldMapCompareTooltip2,SmallTextTooltip }
+    WorldMapCompareTooltip1,WorldMapCompareTooltip2 }
     for i, tooltip in next, tooltips do
       styleTooltip(tooltip)
     end
@@ -101,7 +101,7 @@ function Module:OnEnable()
 
     hooksecurefunc("SharedTooltip_SetBackdropStyle", styleTooltip)
     local tooltips = { GameTooltip,ShoppingTooltip1,ShoppingTooltip2,ItemRefTooltip,ItemRefShoppingTooltip1,ItemRefShoppingTooltip2,WorldMapTooltip,
-    WorldMapCompareTooltip1,WorldMapCompareTooltip2,SmallTextTooltip }
+    WorldMapCompareTooltip1,WorldMapCompareTooltip2 }
     for i, tooltip in next, tooltips do
       styleTooltip(tooltip)
     end

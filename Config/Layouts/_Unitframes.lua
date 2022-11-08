@@ -86,14 +86,6 @@ function Layout:OnEnable()
           column = 4,
           order = 2
         },
-        link = {
-          key = 'unitframes.links',
-          type = 'checkbox',
-          label = 'Char Links',
-          tooltip = 'Extra menu to generate character-links for Check-PVP, Raider.io, etc.',
-          column = 4,
-          order = 3
-        }
       },
       {
         header = {
