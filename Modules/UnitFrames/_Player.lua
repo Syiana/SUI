@@ -46,7 +46,7 @@ function Module:OnEnable()
     return PowerColor[powerType]
   end
 
-  if db.texture ~= 'Default' then
+  if db.texture ~= [[Interface\Default]] then
     PlayerFrameHealthBar:SetStatusBarTexture(db.texture)
     PlayerFrame:HookScript("OnEvent", function(self, event)
       local powerColor = GetPowerColor(PlayerFrameManaBar.powerType)

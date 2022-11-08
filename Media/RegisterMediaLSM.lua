@@ -24,3 +24,4 @@ LSM:Register("font", "Avant Garde", [[Interface\Addons\SUI\Media\Fonts\AvantGard
 -- -----
 LSM:Register("statusbar", "SUI", [[Interface\Addons\SUI\Media\Textures\Status\Smooth.blp]])
 LSM:Register("statusbar", "Flat", [[Interface\Addons\SUI\Media\Textures\Status\Flat.blp]])
+LSM:Register("statusbar", "Default", [[Interface\Default]])
