@@ -124,7 +124,7 @@ function Layout:OnEnable()
           min = 50,
           max = 300,
           column = 4,
-          order = 2,
+          order = 1,
           onChange = function(slider)
             for i=1,5 do
               _G["CompactPartyFrameMember" ..i]:SetHeight(slider.value)
@@ -141,7 +141,7 @@ function Layout:OnEnable()
           min = 50,
           max = 300,
           column = 4,
-          order = 3,
+          order = 2,
           onChange = function(slider)
             for i=1,5 do
               _G["CompactPartyFrameMember" ..i]:SetWidth(slider.value)
@@ -149,7 +149,18 @@ function Layout:OnEnable()
               _G["CompactPartyFrameMember" ..i.."StatusText"]:SetPoint("CENTER", _G["CompactPartyFrameMember" ..i], "CENTER")
             end
           end,
-        }
+        },
+        profile = {
+          key = 'raidframes.profile',
+          type = 'dropdown',
+          label = 'Profile',
+          options = {
+            { value = true, text = 'Profile 1' },
+            { value = false, text = 'Profile 2' }
+          },
+          column = 4,
+          order = 3
+        },
       },
     },
   }

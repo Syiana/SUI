@@ -47,7 +47,8 @@ found in the Blizzard Lua dumps for the setting parameter.
 ### `LibEditMode:SetGlobalSetting(setting, value)`
 
 Set an edit mode account-wide setting. This is just an alias for
-`C_EditMode.SetAccountSetting`
+`C_EditMode.SetAccountSetting`. This setting won't affect the UI outside of edit
+mode.
 
 ### `LibEditMode:HasEditModeSettings(frame)`
 
@@ -55,8 +56,13 @@ Does this frame have edit mode settings available?
 
 ### `LibEditMode:GetFrameSetting(frame, setting)`
 
-Get a specific an edit mode setting on an edit mode managed frame. Use the
-enumerations found in the Blizzard Lua dumps for the setting parameter.
+Get the value of a specific edit mode setting on an edit mode managed frame.
+Use the enumerations found in the Blizzard Lua dumps for the setting parameter.
+
+### `LibEditMode:GetGlobalSetting(setting, value)`
+
+Get the value of a specific edit mode account-wide setting. This setting won't
+affect the UI outside of edit mode.
 
 ## Layout management
 
