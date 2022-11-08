@@ -16,12 +16,8 @@ function Module:OnEnable()
     local messageType, message, r, g, b
     if event == "SYSMSG" then
       message, r, g, b = ...
-    else
+    elseif event == "UI_INFO_MESSAGE" then
       messageType, message = ...
-    end
-
-    if not event == "UI_ERROR_MESSAGE" then
-      r, g, b = colors[event].r, colors[event].g, colors[event].b
       return originalOnEvent(self, event, ...)
     end
   end)

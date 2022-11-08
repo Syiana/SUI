@@ -66,7 +66,9 @@ function Module:OnEnable()
       for i = 2, GameTooltip:NumLines() do
         local line = _G["GameTooltipTextLeft"..i]
         if line then
+          if not line == 4 then
             line:SetTextColor(unpack(cfg.textColor))
+          end
         end
       end
       --position raidicon
