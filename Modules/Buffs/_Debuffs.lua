@@ -101,5 +101,5 @@ function Debuffs:OnEnable()
     updateDebuffs()
   end)
 
-  hooksecurefunc(BuffButtonMixin, "UpdateDuration", UpdateDuration)
+  hooksecurefunc(DebuffButtonMixin, "UpdateDuration", UpdateDuration)
 end

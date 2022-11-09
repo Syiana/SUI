@@ -100,6 +100,5 @@ function Buffs:OnEnable()
   frame:RegisterEvent("GROUP_ROSTER_UPDATE")
   frame:SetScript("OnEvent", updateBuffs)
 
-
   hooksecurefunc(BuffButtonMixin, "UpdateDuration", UpdateDuration)
 end
