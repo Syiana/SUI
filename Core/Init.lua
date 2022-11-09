@@ -10,7 +10,7 @@ local defaults = {
       theme = 'Dark',
       font = 'Interface\\AddOns\\SUI\\Media\\Fonts\\Prototype.ttf',
       texture = 'Interface\\AddOns\\SUI\\Media\\Textures\\Status\\Flat',
-      color = {},
+      color = {r = 0, g = 0, b = 0, a = 1},
       automation = {
         delete = true,
         decline = false,
