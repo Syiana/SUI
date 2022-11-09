@@ -79,11 +79,6 @@ function Buffs:OnEnable()
         count:SetPoint("TOPRIGHT", frame, "TOPRIGHT", 0, -2)
       end
 
-      -- Set Duration Font size and reposition it
-      if duration:GetText() ~= nil then
-        duration:SetText(gsub(duration:GetText(), " ", ""))
-      end
-
       duration:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
       duration:ClearAllPoints()
       duration:SetPoint("CENTER", frame, "BOTTOM", 0, 15)
@@ -99,8 +94,8 @@ function Buffs:OnEnable()
   end
 
   local frame = CreateFrame("Frame")
-  frame:RegisterEvent("PLAYER_ENTERING_WORLD", self, "Update")
-	frame:RegisterUnitEvent("UNIT_AURA", self, "Update")
+  frame:RegisterEvent("PLAYER_ENTERING_WORLD")
+  frame:RegisterUnitEvent("UNIT_AURA", "player")
   frame:RegisterEvent("WEAPON_ENCHANT_CHANGED")
   frame:RegisterEvent("GROUP_ROSTER_UPDATE")
   frame:SetScript("OnEvent", updateBuffs)
