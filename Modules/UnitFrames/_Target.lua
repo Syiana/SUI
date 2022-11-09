@@ -130,8 +130,10 @@ function Module:OnEnable()
   end
 
   local function SUIColorRepBar(self)
-    local reputationBar = self.TargetFrameContent.TargetFrameContentMain.ReputationColor
-    reputationBar:SetVertexColor(unpack(SUI:Color(0.15)))  
+    if (SUI:Color()) then
+      local reputationBar = self.TargetFrameContent.TargetFrameContentMain.ReputationColor
+      reputationBar:SetVertexColor(unpack(SUI:Color(0.15)))  
+    end
   end
 
   -- On Update Target Frame
