@@ -150,15 +150,7 @@ function Layout:OnEnable()
               _G["CompactPartyFrameMember" ..i.."StatusText"]:SetPoint("CENTER", _G["CompactPartyFrameMember" ..i], "CENTER")
             end
           end,
-        },
-        profile = {
-          key = 'raidframes.profile',
-          type = 'dropdown',
-          label = 'Profile',
-          options = Partyprofile.data,
-          column = 4,
-          order = 3
-        },
+        }
       },
     },
   }
