@@ -102,5 +102,4 @@ function Buffs:OnEnable()
 
 
   hooksecurefunc(BuffButtonMixin, "UpdateDuration", UpdateDuration)
-
 end

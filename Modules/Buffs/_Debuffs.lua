@@ -61,11 +61,6 @@ function Debuffs:OnEnable()
         texture:SetVertexColor(0, 0, 0)
         icon.border.texture = texture
         border:Show()
-
-        -- Update Duration Format
-        if t.UpdateDuration then
-          hooksecurefunc(t, "UpdateDuration", UpdateDuration)
-        end
       end
 
       if (count) then
@@ -105,4 +100,6 @@ function Debuffs:OnEnable()
   frame:SetScript("OnEvent", function(self, event, ...)
     updateDebuffs()
   end)
+
+  hooksecurefunc(BuffButtonMixin, "UpdateDuration", UpdateDuration)
 end
