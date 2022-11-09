@@ -71,13 +71,13 @@ function Module:OnEnable()
   end
 
   function StyleButton(Button, Type)
-    Button.SUIStyled = false
+
     local Name = Button:GetName()
     local NormalTexture = _G[Name .. "NormalTexture"]
     local Icon = _G[Name .. "Icon"]
     local Cooldown = _G[Name .. "Cooldown"]
 
-    if Button.SUIStyled == false then
+    if Button.Shadow == nil then
       NormalTexture:SetDesaturated(true)
       NormalTexture:SetVertexColor(0, 0, 0)
       Cooldown:SetAllPoints()
@@ -95,8 +95,6 @@ function Module:OnEnable()
       Button.Shadow:SetFrameLevel(Button:GetFrameLevel() - 1)
       Button.Shadow:SetBackdrop(Backdrop)
       Button.Shadow:SetBackdropBorderColor(0, 0, 0)
-
-      Button.SUIStyled = true
     end
   end
 
