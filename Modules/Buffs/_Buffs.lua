@@ -68,9 +68,9 @@ function Buffs:OnEnable()
       if frame.Border then frame.Border:Hide() end
 
       -- Update Duration Format
-      if frame.UpdateDuration and frame.timeLeft ~= nil then
-        hooksecurefunc(frame, "UpdateDuration", UpdateDuration)
-      end
+      --if frame.UpdateDuration and frame.timeLeft ~= nil then
+        --hooksecurefunc(frame, "UpdateDuration", UpdateDuration)
+      --end
 
       -- Set Stack Font size and reposition it
       if count then
@@ -99,4 +99,8 @@ function Buffs:OnEnable()
   frame:RegisterEvent("WEAPON_ENCHANT_CHANGED")
   frame:RegisterEvent("GROUP_ROSTER_UPDATE")
   frame:SetScript("OnEvent", updateBuffs)
+
+
+  hooksecurefunc(BuffButtonMixin, "UpdateDuration", UpdateDuration)
+
 end
