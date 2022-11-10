@@ -34,7 +34,7 @@ function Module:OnEnable()
 			-- check if the frame exists
 			if (hbar and rbar) then
 				--STATUSBAR
-				if (db.texture ~= 'Default') then
+				if (db.texture ~= [[Interface\Default]]) then
 					hbar:SetStatusBarTexture(db.texture)
 					rbar:SetStatusBarTexture(db.texture)
 				end
