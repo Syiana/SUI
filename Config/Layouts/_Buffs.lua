@@ -16,14 +16,22 @@ function Layout:OnEnable()
         },
       },
       {
-        border = {
+        purgeborder = {
           key = 'unitframes.buffs.purgeborder',
           type = 'checkbox',
           label = 'Purge Border',
           tooltip = 'Highlight purgable buffs',
           column = 3,
           order = 1
-        }
+        },
+        collapse = {
+          key = 'unitframes.buffs.collapse',
+          type = 'checkbox',
+          label = 'Collapse Button',
+          tooltip = 'Show the Collapse button at the Player Buff Frame',
+          column = 3,
+          order = 1
+        },
       },
       {
         buffsize = {

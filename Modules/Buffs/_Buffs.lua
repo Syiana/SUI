@@ -3,6 +3,8 @@ local Buffs = SUI:NewModule("Buffs.Buffs");
 function Buffs:OnEnable()
   if IsAddOnLoaded("BlizzBuffsFacade") then return end
 
+  local db = SUI.db.profile.unitframes.buffs
+
   local function UpdateDuration(self, timeLeft)
     if timeLeft >= 86400 then
       self.duration:SetFormattedText("%dd", ceil(timeLeft / 86400))
@@ -89,8 +91,9 @@ function Buffs:OnEnable()
       end
     end
 
-    -- Remove Collapse Icon
-    BuffFrame.CollapseAndExpandButton:Hide()
+    if not db.collapse then
+      BuffFrame.CollapseAndExpandButton:Hide()
+    end
   end
 
   local frame = CreateFrame("Frame")
