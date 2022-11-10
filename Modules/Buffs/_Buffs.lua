@@ -104,4 +104,5 @@ function Buffs:OnEnable()
   frame:SetScript("OnEvent", updateBuffs)
 
   hooksecurefunc(BuffButtonMixin, "UpdateDuration", UpdateDuration)
+  hooksecurefunc(TempEnchantButtonMixin, "UpdateDuration", UpdateDuration)
 end
