@@ -17,7 +17,6 @@ function Module:OnEnable()
 
 			local hbar = _G[frame .. i .. "HealthBar"]
 			local rbar = _G[frame .. i .. "PowerBar"]
-			local roleIcon = _G[frame .. i .. "RoleIcon"]
 			local Divider = _G[frame .. i .. "HorizDivider"]
 			local vleftseparator = _G[frame .. i .. "VertLeftBorder"]
 			local vrightseparator = _G[frame .. i .. "VertRightBorder"]
