@@ -17,6 +17,7 @@ function Module:OnEnable()
 
 			local hbar = _G[frame .. i .. "HealthBar"]
 			local rbar = _G[frame .. i .. "PowerBar"]
+			local roleIcon = _G[frame .. i .. "RoleIcon"]
 			local Divider = _G[frame .. i .. "HorizDivider"]
 			local vleftseparator = _G[frame .. i .. "VertLeftBorder"]
 			local vrightseparator = _G[frame .. i .. "VertRightBorder"]
@@ -36,8 +37,11 @@ function Module:OnEnable()
 				--STATUSBAR
 				if (db.texture ~= [[Interface\Default]]) then
 					hbar:SetStatusBarTexture(db.texture)
+					hbar:GetStatusBarTexture():SetDrawLayer("BORDER")
 					rbar:SetStatusBarTexture(db.texture)
+					rbar:GetStatusBarTexture():SetDrawLayer("BORDER")
 				end
+
 				--DARK
 				bordertopleft:SetTexture([[Interface\Addons\SUI\Media\Textures\RaidFrames\RaidBorder-UpperLeft]])
 				bordertop:SetTexture([[Interface\Addons\SUI\Media\Textures\RaidFrames\RaidBorder-UpperMiddle]])
@@ -78,7 +82,9 @@ function Module:OnEnable()
 				if hbar and rbar then
 					if (db.texture ~= [[Interface\Default]]) then
 						hbar:SetStatusBarTexture(db.texture)
+						hbar:GetStatusBarTexture():SetDrawLayer("BORDER")
 						rbar:SetStatusBarTexture(db.texture)
+						rbar:GetStatusBarTexture():SetDrawLayer("BORDER")
 					end
 
 					bordertopleft:SetTexture([[Interface\Addons\SUI\Media\Textures\RaidFrames\RaidBorder-UpperLeft]])
