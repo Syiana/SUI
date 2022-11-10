@@ -15,6 +15,7 @@ Data.team = {
 }
 
 Data.specials = {
+  {text = Colors.pala .. 'Borugg|r'},
   {text = Colors.rog    .. 'Stacy|r'},
   {text = Colors.warri  .. 'Candy|r'},
   {text = Colors.druid  .. 'Sivax|r'},

@@ -46,7 +46,7 @@ function Module:OnEnable()
   end
 
   -- Set HealthBar Textures
-  if texture ~= 'Default' then
+  if texture ~= [[Interface\Default]] then
     TargetFrame:HookScript("OnEvent", function()
       local targetHealthBar = TargetFrame.TargetFrameContent.TargetFrameContentMain.HealthBar
       local targetManaBarTexture = TargetFrame.TargetFrameContent.TargetFrameContentMain.ManaBar.texture
