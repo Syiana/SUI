@@ -96,7 +96,7 @@ function Module:OnEnable()
         Button.Shadow:SetPoint("BOTTOMRIGHT", Button, "BOTTOMRIGHT", 2, -2)
         Button.Shadow:SetFrameLevel(Button:GetFrameLevel() - 1)
         Button.Shadow:SetBackdrop(Backdrop)
-        Button.Shadow:SetBackdropBorderColor(unpack(SUI:Color()))
+        Button.Shadow:SetBackdropBorderColor(unpack(SUI:Color(0.15)))
         --Button.Shadow:SetBackdropBorderColor(0, 0, 0)
       end
     end
