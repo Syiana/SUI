@@ -18,7 +18,35 @@ function Buffs:OnEnable()
   end
 
   local function ButtonDefault(button)
+    local Backdrop = {
+      bgFile = nil,
+      edgeFile = "Interface\\Addons\\SUI\\Media\\Textures\\Core\\outer_shadow",
+      tile = false,
+      tileSize = 32,
+      edgeSize = 6,
+      insets = { left = 6, right = 6, top = 6, bottom = 6 },
+    }
 
+    local icon = button.Icon
+
+    local border = CreateFrame("Frame", nil, button)
+    border:SetSize(icon:GetWidth() + 4, icon:GetHeight() + 4)
+    border:SetPoint("CENTER", button, "CENTER", 0, 5)
+
+    border.texture = border:CreateTexture()
+    border.texture:SetAllPoints()
+    border.texture:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\Core\\gloss")
+    border.texture:SetTexCoord(0,1,0,1)
+    border.texture:SetDrawLayer("BACKGROUND",-7)
+    border.texture:SetVertexColor(0.4, 0.35, 0.35)
+
+    border.shadow = CreateFrame("Frame", nil, border, "BackdropTemplate")
+    border.shadow:SetPoint("TOPLEFT", border, "TOPLEFT", -4, 4)
+    border.shadow:SetPoint("BOTTOMRIGHT", border, "BOTTOMRIGHT", 4, -4)
+    border.shadow:SetBackdrop(Backdrop)
+    border.shadow:SetBackdropBorderColor(unpack(SUI:Color(0.25, 0.9)))
+
+    button.SUIBorder = border
   end
 
   local function ButtonBackdrop(button)
@@ -29,7 +57,7 @@ function Buffs:OnEnable()
       tileSize = 32,
       edgeSize = 5,
       insets = { left = 5, right = 5, top = 5, bottom = 5 }
-  }
+    }
 
     local icon = button.Icon
     local point, relativeTo, relativePoint, xOfs, yOfs = icon:GetPoint()
@@ -39,17 +67,12 @@ function Buffs:OnEnable()
     border:SetPoint("CENTER", button, "CENTER", 0, 5)
 
     local shadow = CreateFrame("Frame", nil, border, "BackdropTemplate")
-    --shadow:SetSize(icon:GetWidth(), icon:GetHeight())
     shadow:SetPoint("TOPLEFT", border, "TOPLEFT", -4, 4)
     shadow:SetPoint("BOTTOMRIGHT", border, "BOTTOMRIGHT", 4, -4)
-    --shadow:SetFrameLevel(button:GetFrameLevel() - 1)
     shadow:SetBackdrop(Backdrop)
     shadow:SetBackdropBorderColor(0, 0, 0)
 
-
     button.SUIBorder = border
-
-
   end
 
   local function ButtonBordered(button)
@@ -69,11 +92,6 @@ function Buffs:OnEnable()
 
       if frame.Border then frame.Border:Hide() end
 
-      -- Update Duration Format
-      --if frame.UpdateDuration and frame.timeLeft ~= nil then
-        --hooksecurefunc(frame, "UpdateDuration", UpdateDuration)
-      --end
-
       -- Set Stack Font size and reposition it
       if count then
         count:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
@@ -81,13 +99,14 @@ function Buffs:OnEnable()
         count:SetPoint("TOPRIGHT", frame, "TOPRIGHT", 0, -2)
       end
 
+      -- Set Duration Font size and reposition it
       duration:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
       duration:ClearAllPoints()
       duration:SetPoint("CENTER", frame, "BOTTOM", 0, 15)
       duration:SetDrawLayer("OVERLAY")
       
       if frame.SUIBorder == nil then
-        ButtonBackdrop(frame)
+        ButtonDefault(frame)
       end
     end
 
