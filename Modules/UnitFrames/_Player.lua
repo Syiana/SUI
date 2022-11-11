@@ -6,6 +6,12 @@ function Module:OnEnable()
     texture = SUI.db.profile.general.texture
   }
 
+  if not db.unitframes.totemicons then
+    hooksecurefunc(TotemFrame, "Update", function()
+      TotemFrame:Hide()
+    end)
+  end
+
   -- Powerbar Colors
   local PowerColor = {};
   PowerColor["MANA"] =				{ r = 0.00, g = 0.50, b = 1.00, atlasElementName="Mana" };

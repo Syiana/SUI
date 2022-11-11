@@ -40,6 +40,7 @@ local defaults = {
       pvpbadge = false,
       combaticon = false,
       hitindicator = false,
+      totemicons = true,
       player = {
         size = 1
       },

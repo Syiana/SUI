@@ -28,7 +28,7 @@ function Module:OnEnable()
         -- Set Nameplate Castbars
         hooksecurefunc("DefaultCompactNamePlateFrameAnchorInternal", nameplateCastbar)
 
-        -- Set Nameplate Color
+        -- Set Nameplate Name Color
         hooksecurefunc("CompactUnitFrame_UpdateName", function(self)
             if ShouldShowName(self) then
                 if self.optionTable.colorNameBySelection then
@@ -44,6 +44,18 @@ function Module:OnEnable()
                         local name, server = UnitName(self.unit)
                         self.name:SetText(name)
                     end
+
+                    -- Font Size Function
+                    local function SetFont(obj, optSize)
+                        local fontName = obj:GetFont()   
+                        obj:SetFont(fontName,optSize,"OUTLINE")
+                    end
+
+                    -- Set Font Size for Nameplate Names
+                    SetFont(SystemFont_LargeNamePlate,10)
+                    SetFont(SystemFont_NamePlate,10)
+                    SetFont(SystemFont_LargeNamePlateFixed,10)
+                    SetFont(SystemFont_NamePlateFixed,10)
                 end
             end
         end)

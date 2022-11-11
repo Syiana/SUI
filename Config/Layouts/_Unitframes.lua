@@ -85,8 +85,16 @@ function Layout:OnEnable()
           label = 'Combat Icon',
           tooltip = 'Display combat icon on Unit frames',
           column = 4,
-          order = 2
+          order = 1
         },
+        totemicons = {
+          key = 'unitframes.totemicons',
+          type = 'checkbox',
+          label = 'Totem Icons',
+          tooltip = 'Show Totem Icons below the Player Unitframe',
+          column = 4,
+          order = 2
+        }
       },
       {
         header = {
