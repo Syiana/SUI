@@ -4,6 +4,7 @@ function Buffs:OnEnable()
   if IsAddOnLoaded("BlizzBuffsFacade") then return end
 
   local db = SUI.db.profile.unitframes.buffs
+  local theme = SUI.db.profile.general.theme
 
   local function UpdateDuration(self, timeLeft)
     if timeLeft >= 86400 then
@@ -109,18 +110,30 @@ function Buffs:OnEnable()
         ButtonDefault(frame)
       end
     end
-
-    if not db.collapse then
-      BuffFrame.CollapseAndExpandButton:Hide()
-    end
   end
 
-  local frame = CreateFrame("Frame")
-  frame:RegisterEvent("PLAYER_ENTERING_WORLD")
-  frame:RegisterUnitEvent("UNIT_AURA", "player")
-  frame:RegisterEvent("WEAPON_ENCHANT_CHANGED")
-  frame:RegisterEvent("GROUP_ROSTER_UPDATE")
-  frame:SetScript("OnEvent", updateBuffs)
+  if theme ~= 'Blizzard' then
+    local frame = CreateFrame("Frame")
+    frame:RegisterEvent("PLAYER_ENTERING_WORLD")
+    frame:RegisterUnitEvent("UNIT_AURA", "player")
+    frame:RegisterEvent("WEAPON_ENCHANT_CHANGED")
+    frame:RegisterEvent("GROUP_ROSTER_UPDATE")
+    frame:SetScript("OnEvent", updateBuffs)
+  end
+
+  -- Collapse Button
+  if not db.collapse then
+    local hideCollapse = CreateFrame("Frame")
+    hideCollapse:RegisterEvent("PLAYER_ENTERING_WORLD")
+    hideCollapse:RegisterUnitEvent("UNIT_AURA", "player")
+    hideCollapse:SetScript("OnEvent", function()
+      BuffFrame.CollapseAndExpandButton:Hide()
+    end)
+
+    hooksecurefunc(C_EditMode, "OnEditModeExit", function()
+      BuffFrame.CollapseAndExpandButton:Hide()
+    end)
+  end
 
   hooksecurefunc(BuffButtonMixin, "UpdateDuration", UpdateDuration)
   hooksecurefunc(TempEnchantButtonMixin, "UpdateDuration", UpdateDuration)

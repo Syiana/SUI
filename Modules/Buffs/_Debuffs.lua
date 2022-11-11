@@ -3,6 +3,9 @@ local Debuffs = SUI:NewModule("Buffs.Debuffs");
 function Debuffs:OnEnable()
   if IsAddOnLoaded("BlizzBuffsFacade") then return end
 
+  local db = SUI.db.profile.unitframes.buffs
+  local theme = SUI.db.profile.general.theme
+
   -- DebuffType Colors for the Debuff Border
   local DebuffColor = {}
   DebuffColor["none"]    = { r = 0.80, g = 0, b = 0 };
@@ -157,13 +160,15 @@ function Debuffs:OnEnable()
     end
   end
 
-  local frame = CreateFrame("Frame")
-  frame:RegisterEvent("PLAYER_ENTERING_WORLD", self, "Update")
-  frame:RegisterUnitEvent("UNIT_AURA", self, "Update")
-  frame:RegisterEvent("GROUP_ROSTER_UPDATE")
-  frame:SetScript("OnEvent", function(self, event, ...)
-    updateDebuffs()
-  end)
+  if theme ~= 'Blizzard' then
+    local frame = CreateFrame("Frame")
+    frame:RegisterEvent("PLAYER_ENTERING_WORLD", self, "Update")
+    frame:RegisterUnitEvent("UNIT_AURA", self, "Update")
+    frame:RegisterEvent("GROUP_ROSTER_UPDATE")
+    frame:SetScript("OnEvent", function(self, event, ...)
+      updateDebuffs()
+    end)
+  end
 
   hooksecurefunc(DebuffButtonMixin, "UpdateDuration", UpdateDuration)
 end
