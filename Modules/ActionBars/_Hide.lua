@@ -4,6 +4,8 @@ function Hide:OnEnable()
     db = SUI.db.profile.actionbar
 
     if db.repbar then
-        StatusTrackingBarManager:Hide()
+        StatusTrackingBarManager:HookScript("OnEvent", function()
+            StatusTrackingBarManager:Hide()
+        end)
     end
 end

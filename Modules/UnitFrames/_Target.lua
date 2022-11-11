@@ -56,6 +56,11 @@ function Module:OnEnable()
       targetHealthBar:SetStatusBarTexture(texture)
       targetManaBarTexture:SetTexture(texture)
       targetManaBar:SetStatusBarColor(powerColor.r, powerColor.g, powerColor.b)
+
+      -- Target of Target
+      local totPowerColor = GetPowerColor(TargetFrameToT.ManaBar.powerType)
+      TargetFrameToT.ManaBar:SetStatusBarTexture(texture)
+      TargetFrameToT.ManaBar:SetStatusBarColor(totPowerColor.r, totPowerColor.g, totPowerColor.b)
     end)
 
     FocusFrame:HookScript("OnEvent", function()
@@ -67,6 +72,12 @@ function Module:OnEnable()
       focusHealthBar:SetStatusBarTexture(texture)
       focusManaBarTexture:SetTexture(texture)
       focusManaBar:SetStatusBarColor(powerColor.r, powerColor.g, powerColor.b)
+
+      -- Target of Target
+      local totPowerColor = GetPowerColor(FocusFrameToT.ManaBar.powerType)
+      FocusFrameToT.ManaBar:SetStatusBarTexture(texture)
+      FocusFrameToT.ManaBar:SetStatusBarColor(totPowerColor.r, totPowerColor.g, totPowerColor.b)
+      FocusFrameToT.ManaBar:SetStatusBarTexture(texture)
     end)
   end
   

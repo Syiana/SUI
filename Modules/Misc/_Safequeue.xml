@@ -1,0 +1,82 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\FrameXML\UI.xsd">
+<Frame name="SafeQueuePopupTemplate" toplevel="true" enableKeyboard="true" enableMouse="true" frameStrata="DIALOG" hidden="true" hyperlinksEnabled="true" virtual="true">
+    <Size>
+        <AbsDimension x="320" y="124"/>
+    </Size>
+    <Scripts>
+        <OnEvent>
+            self[event](self, ...)
+        </OnEvent>
+        <OnLoad>
+            self.queues = {}
+            self:RegisterEvent("UPDATE_BATTLEFIELD_STATUS")
+            local BACKDROP_DIALOG_32_32 = BACKDROP_DIALOG_32_32 or {
+                bgFile = [[Interface\DialogFrame\UI-DialogBox-Background]],
+                edgeFile = [[Interface\DialogFrame\UI-DialogBox-Border]],
+                tile = true,
+                tileSize = 32,
+                edgeSize = 32,
+                insets = { left = 11, right = 12, top = 12, bottom = 11 },
+            }
+            if BackdropTemplateMixin then Mixin(self, BackdropTemplateMixin) end
+            self:SetBackdrop(BACKDROP_DIALOG_32_32)
+        </OnLoad>
+    </Scripts>
+    <Layers>
+        <Layer level="ARTWORK">
+            <FontString name="$parentText" parentKey="text" inherits="GameFontHighlight">
+                <Size>
+                    <AbsDimension x="290" y="0"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="TOP">
+                        <Offset>
+                            <AbsDimension x="0" y="-26"/>
+                        </Offset>
+                    </Anchor>
+                </Anchors>
+            </FontString>
+            <FontString name="$parentSubText" parentKey="SubText" inherits="GameFontNormal">
+                <Size x="290" y="0"/>
+                <Anchors>
+                    <Anchor point="TOP" relativeKey="$parent.text" relativePoint="BOTTOM" x="0" y="-13"/>
+                </Anchors>
+            </FontString>
+        </Layer>
+    </Layers>
+    <Frames>
+        <Button name="$parentCloseButton" inherits="UIPanelCloseButton">
+            <NormalTexture file="Interface\Buttons\UI-Panel-HideButton-Up"/>
+            <PushedTexture file="Interface\Buttons\UI-Panel-HideButton-Down"/>
+
+            <Anchors>
+                <Anchor point="TOPRIGHT">
+                    <Offset>
+                        <AbsDimension x="-3" y="-3"/>
+                    </Offset>
+                </Anchor>
+            </Anchors>
+        </Button>
+        <Button name="$parentEnterButton" inherits="UIPanelButtonTemplate, SecureActionButtonTemplate" registerForClicks="LeftButtonUp" text="ENTER_BATTLE" parentKey="EnterButton">
+            <Size x="128" y="21"/>
+            <Attributes>
+                <Attribute name="type" value="macro"/>
+            </Attributes>
+            <Scripts>
+                <PreClick>
+                    self:GetParent():SetMacroText()
+                </PreClick>
+            </Scripts>
+            <Anchors>
+                <Anchor point="BOTTOM" relativeTo="$parent" relativePoint="BOTTOM" x="0" y="26"/>
+            </Anchors>
+        </Button>
+    </Frames>
+</Frame>
+<Frame name="SafeQueue" inherits="SafeQueuePopupTemplate" parent="UIParent" id="1">
+    <Anchors>
+        <Anchor point="TOP" x="0" y="-135"/>
+    </Anchors>
+</Frame>
+</Ui>

@@ -5,17 +5,20 @@ function Module:OnEnable()
 
     local function nameplateTexture(self)
         if self.UnitFrame then
-            if db.texture ~=[[Interface\Default]] then
-                self.UnitFrame.healthBar:SetStatusBarTexture(db.texture)
+            if self.UnitFrame.healthBar then
+                if db.texture ~=[[Interface\Default]] then
+                    self.UnitFrame.healthBar:SetStatusBarTexture(db.texture)
+                end
             end
         end
     end
 
     local function nameplateCastbar(self)
-        self.castBar.Icon:Show()
-        self.castBar.Icon:ClearAllPoints();
-        PixelUtil.SetPoint(self.castBar.Icon, "CENTER", self.castBar, "LEFT", -10, 0);
-        self.castBar.Text:SetFont(STANDARD_TEXT_FONT, 10, "OUTLINE")
+        if self.castBar then
+            self.castBar.Icon:ClearAllPoints();
+            PixelUtil.SetPoint(self.castBar.Icon, "CENTER", self.castBar, "LEFT", -10, 0);
+            self.castBar.Text:SetFont(STANDARD_TEXT_FONT, 10, "OUTLINE")
+        end
     end
 
     if db.style ~= 'Default' then
@@ -37,8 +40,10 @@ function Module:OnEnable()
                     end
                     
                     -- Hide Servername
-                    local name, server = UnitName(self.unit)
-                    self.name:SetText(name)
+                    if self.name then
+                        local name, server = UnitName(self.unit)
+                        self.name:SetText(name)
+                    end
                 end
             end
         end)
