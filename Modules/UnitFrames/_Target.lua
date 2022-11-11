@@ -59,6 +59,11 @@ function Module:OnEnable()
       targetHealthBar:SetStatusBarTexture(db.texture)
       targetManaBarTexture:SetTexture(db.texture)
       targetManaBar:SetStatusBarColor(powerColor.r, powerColor.g, powerColor.b)
+
+      TargetFrameToT.HealthBar:SetStatusBarTexture(db.texture)
+      local totPowerColor = GetPowerColor(TargetFrameToT.ManaBar.powerType)
+      TargetFrameToT.ManaBar:SetStatusBarTexture(db.texture)
+      TargetFrameToT.ManaBar:SetStatusBarColor(totPowerColor.r, totPowerColor.g, totPowerColor.b) 
     end)
 
     FocusFrame:HookScript("OnEvent", function()
@@ -70,24 +75,14 @@ function Module:OnEnable()
       focusHealthBar:SetStatusBarTexture(db.texture)
       focusManaBarTexture:SetTexture(db.texture)
       focusManaBar:SetStatusBarColor(powerColor.r, powerColor.g, powerColor.b)
+
+      FocusFrameToT.HealthBar:SetStatusBarTexture(db.texture)
+      local totPowerColor = GetPowerColor(FocusFrameToT.ManaBar.powerType)
+      FocusFrameToT.ManaBar:SetStatusBarTexture(db.texture)
+      FocusFrameToT.ManaBar:SetStatusBarColor(totPowerColor.r, totPowerColor.g, totPowerColor.b)
+      FocusFrameToT.ManaBar:SetStatusBarTexture(db.texture)
     end)
   end
-
-  -- Target of Target - TargetFrame
-  TargetFrameToT:HookScript("OnEvent", function()
-    TargetFrameToT.HealthBar:SetStatusBarTexture(db.texture)
-    local totPowerColor = GetPowerColor(TargetFrameToT.ManaBar.powerType)
-    TargetFrameToT.ManaBar:SetStatusBarTexture(db.texture)
-    TargetFrameToT.ManaBar:SetStatusBarColor(totPowerColor.r, totPowerColor.g, totPowerColor.b)
-  end)
-  -- Target of Target - FocusFrame
-  FocusFrameToT:HookScript("OnEvent", function()
-    FocusFrameToT.HealthBar:SetStatusBarTexture(db.texture)
-    local totPowerColor = GetPowerColor(FocusFrameToT.ManaBar.powerType)
-    FocusFrameToT.ManaBar:SetStatusBarTexture(db.texture)
-    FocusFrameToT.ManaBar:SetStatusBarColor(totPowerColor.r, totPowerColor.g, totPowerColor.b)
-    FocusFrameToT.ManaBar:SetStatusBarTexture(db.texture)
-  end)
   
   local hooked = {}
   local function UpdateFrameAuras(pool)
