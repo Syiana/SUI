@@ -23,72 +23,134 @@ function Debuffs:OnEnable()
     end
   end
 
+  local function ButtonMasque(button)
+    local icon = button.Icon
+    local point, relativeTo, relativePoint, xOfs, yOfs = icon:GetPoint()
+
+
+    local border = CreateFrame("Frame", nil, button)
+    border:SetSize(icon:GetWidth(), icon:GetHeight())
+    border:SetPoint("CENTER", button, "CENTER", 0, 5)
+
+    border.debuff = CreateFrame("Frame", nil, border, "BackdropTemplate")
+
+    button.SUIBorder = border
+  end
+
+  local function ButtonDefault(button)
+    local Backdrop = {
+      bgFile = nil,
+      edgeFile = "Interface\\Addons\\SUI\\Media\\Textures\\Core\\outer_shadow",
+      tile = false,
+      tileSize = 32,
+      edgeSize = 6,
+      insets = { left = 6, right = 6, top = 6, bottom = 6 },
+    }
+
+    local icon = button.Icon
+
+    local border = CreateFrame("Frame", nil, button)
+    border:SetSize(icon:GetWidth() + 5, icon:GetHeight() + 5)
+    border:SetPoint("CENTER", 0, 5)
+    border:SetFrameLevel(8)
+
+    border.texture = border:CreateTexture()
+    border.texture:SetAllPoints()
+    border.texture:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\Core\\gloss_border_w")
+    border.texture:SetVertexColor(0.20, 0.60, 1.00)
+
+
+    border.shadow = CreateFrame("Frame", nil, border, "BackdropTemplate")
+    border.shadow:SetPoint("TOPLEFT", border, "TOPLEFT", -4, 4)
+    border.shadow:SetPoint("BOTTOMRIGHT", border, "BOTTOMRIGHT", 4, -4)
+    border.shadow:SetBackdrop(Backdrop)
+    border.shadow:SetBackdropBorderColor(unpack(SUI:Color(0.25, 0.9)))
+
+    button.SUIBorder = border
+  end
+
+  local function ButtonBackdrop(button)
+    local Backdrop = {
+      bgFile = "",
+      edgeFile = "Interface\\Addons\\SUI\\Media\\Textures\\Core\\outer_shadow",
+      tile = false,
+      tileSize = 32,
+      edgeSize = 5,
+      insets = { left = 5, right = 5, top = 5, bottom = 5 }
+    }
+
+    local icon = button.Icon
+    local point, relativeTo, relativePoint, xOfs, yOfs = icon:GetPoint()
+
+    local border = CreateFrame("Frame", nil, button)
+    border:SetSize(icon:GetWidth(), icon:GetHeight())
+    border:SetPoint("CENTER", button, "CENTER", 0, 5)
+
+    border.debuff = CreateFrame("Frame", nil, border, "BackdropTemplate")
+    border.debuff:SetBackdrop({
+      bgFile = "",
+      edgeFile = [[Interface\Buttons\WHITE8x8]],
+      edgeSize = 1,
+    })
+    --border.debuff:SetTexture("Interface\\Buttons\\WHITE8x8")
+    border.debuff:SetAllPoints()
+
+    local shadow = CreateFrame("Frame", nil, border, "BackdropTemplate")
+    shadow:SetPoint("TOPLEFT", border, "TOPLEFT", -4, 4)
+    shadow:SetPoint("BOTTOMRIGHT", border, "BOTTOMRIGHT", 4, -4)
+    shadow:SetBackdrop(Backdrop)
+    shadow:SetBackdropBorderColor(0, 0, 0)
+
+    button.SUIBorder = border
+  end
+
+  local function ButtonBordered(button)
+
+  end
+
   function updateDebuffs()
-    local AuraNum = DebuffFrame.AuraContainer:GetNumChildren()
     local Children = { DebuffFrame.AuraContainer:GetChildren() }
 
-    for _, child in pairs(Children) do
-      local icon =  child.Icon
-      local t = select(_, DebuffFrame.AuraContainer:GetChildren())
-      local duration = t.duration
-      local count = t.count
-      local point, relativeTo, relativePoint, xOfs, yOfs = icon:GetPoint()
+    for index, child in pairs(Children) do
+      local frame =     select(index, DebuffFrame.AuraContainer:GetChildren())
+      local icon =      frame.Icon         
+      local duration =  frame.duration
+      local count =     frame.count
+      
       child.Border:Hide()
 
       icon:SetTexCoord(0.08, 0.92, 0.08, 0.92)
-      icon:SetSize(32, 32)
- 
-      if not icon.border then
-        local border = CreateFrame("Frame", "SUIBuffBorder", t, "BackdropTemplate")
-        border:SetPoint(point, relativeTo, relativePoint, xOfs, yOfs + 5)
-        border:SetSize(42, 42)
-        border:SetFrameLevel(3)
-    
-        local backdrop = {
-          edgeFile = "Interface\\Addons\\SUI\\Media\\Textures\\Core\\outer_shadow",
-          edgeSize = 6,
-          insets = { left = 6, right = 6, top = 6, bottom = 6 },
-        }
-
-        border:SetBackdrop(backdrop)
-        border:SetBackdropBorderColor(unpack(SUI:Color(0.25, 0.9)))
-        icon.border = border
-
-        local texture = icon.border:CreateTexture()
-        texture:SetTexture("Interface\\AddOns\\SUI\\Media\\Textures\\Core\\Normal_N")
-        texture:SetPoint(point, relativeTo, relativePoint, xOfs, yOfs + 5)
-        texture:SetSize(42, 42)
-        texture:SetVertexColor(0, 0, 0)
-        icon.border.texture = texture
-        border:Show()
-      end
 
       if (count) then
         -- Set Stack Font size and reposition it
         count:SetFont(STANDARD_TEXT_FONT, 13, "OUTLINE")
         count:ClearAllPoints()
-        count:SetPoint("TOPRIGHT", t, "TOPRIGHT", 0, -2)
+        count:SetPoint("TOPRIGHT", frame, "TOPRIGHT", 0, -2)
       end
 
-      -- Set Duration FOnt size and reposition it
+      -- Set Duration Font size and reposition it
       duration:SetFont(STANDARD_TEXT_FONT, 12, "OUTLINE")
       duration:ClearAllPoints()
-      duration:SetPoint("CENTER", t, "BOTTOM", 0, 13)
+      duration:SetPoint("CENTER", frame, "BOTTOM", 0, 15)
       duration:SetDrawLayer("OVERLAY")
+
+      if frame.SUIBorder == nil then
+        ButtonDefault(frame)
+      end
 
       -- Set the color of the Debuff Border
       local debuffType
       if (child.buttonInfo) then
         debuffType = child.buttonInfo.debuffType
       end
-      if (icon.border) then
+      if (frame.SUIBorder) then
         local color
         if (debuffType) then
           color = DebuffColor[debuffType]
         else
           color = DebuffColor["none"]
         end
-        icon.border.texture:SetVertexColor(color.r, color.g, color.b, 0.8)
+        frame.SUIBorder.texture:SetVertexColor(color.r, color.g, color.b, .8)
       end
     end
   end
