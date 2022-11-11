@@ -41,15 +41,6 @@ function Layout:OnEnable()
         }
       },
       {
-        size = {
-          type = 'slider',
-          label = 'Size',
-          max = 5,
-          column = 5,
-          order = 1
-        }
-      },
-      {
         header = {
           type = 'header',
           label = 'Extras'
