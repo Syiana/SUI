@@ -50,14 +50,16 @@ function Debuffs:OnEnable()
     local icon = button.Icon
 
     local border = CreateFrame("Frame", nil, button)
-    border:SetSize(icon:GetWidth() + 5, icon:GetHeight() + 5)
+    border:SetSize(icon:GetWidth() + 4, icon:GetHeight() + 4)
     border:SetPoint("CENTER", 0, 5)
     border:SetFrameLevel(8)
 
     border.texture = border:CreateTexture()
     border.texture:SetAllPoints()
     border.texture:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\Core\\gloss_border_w")
-    border.texture:SetVertexColor(0.20, 0.60, 1.00)
+    --border.texture:SetVertexColor(0.20, 0.60, 1.00)
+    border.texture:SetDrawLayer("BACKGROUND",-7)
+    border.texture:SetTexCoord(0,1,0,1)
 
 
     border.shadow = CreateFrame("Frame", nil, border, "BackdropTemplate")
@@ -150,7 +152,7 @@ function Debuffs:OnEnable()
         else
           color = DebuffColor["none"]
         end
-        frame.SUIBorder.texture:SetVertexColor(color.r, color.g, color.b, .8)
+        frame.SUIBorder.texture:SetVertexColor(color.r, color.g, color.b, 1)
       end
     end
   end
