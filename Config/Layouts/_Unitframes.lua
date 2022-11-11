@@ -26,8 +26,8 @@ function Layout:OnEnable()
           label  = 'Style',
           options = {
             { value = 'Default', text = 'Default' },
-            { value = 'Big', text = 'Big' },
-            { value = 'Small', text = 'Transparent' }
+            --{ value = 'Big', text = 'Big' },
+            --{ value = 'Small', text = 'Transparent' }
           },
           column = 4,
           order = 1

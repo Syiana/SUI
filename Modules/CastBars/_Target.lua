@@ -34,7 +34,6 @@ function Module:OnEnable()
 
   if (db.style == 'Custom' and db.targetCastbar) then
     if not InCombatLockdown() then
-      TargetFrameSpellBar.Icon:Show()
       TargetFrameSpellBar.Icon:SetSize(16, 16)
       TargetFrameSpellBar.Icon:ClearAllPoints()
       TargetFrameSpellBar.Icon:SetPoint("TOPLEFT", TargetFrameSpellBar, "TOPLEFT", -20, 2)
@@ -44,6 +43,10 @@ function Module:OnEnable()
       TargetFrameSpellBar.Text:ClearAllPoints()
       TargetFrameSpellBar.Text:SetPoint("TOP", TargetFrameSpellBar, "TOP", 0, 1.5)
       TargetFrameSpellBar.Text:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
+
+      if not db.casticons then
+        TargetFrameSpellBar.Icon:Hide()
+      end
 
       TargetFrameSpellBar:HookScript("OnEvent", function()
         local castText = TargetFrameSpellBar.Text:GetText()

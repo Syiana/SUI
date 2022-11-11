@@ -82,7 +82,7 @@ local defaults = {
         repbar = false,
       },
       menu = {
-        menumouseover = false,
+        menumouseover = 'Default',
       },
       bars = {
         bar1 = false,
