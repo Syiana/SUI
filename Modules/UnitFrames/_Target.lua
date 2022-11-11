@@ -2,8 +2,11 @@ local Module = SUI:NewModule("UnitFrames.Target");
 
 function Module:OnEnable()
 
-  local db = SUI.db.profile.unitframes
-  local texture = SUI.db.profile.general.texture
+  local db = {
+    unitframes = SUI.db.profile.unitframes,
+    texture = SUI.db.profile.general.texture,
+    theme = SUI.db.profile.general.theme
+  }
 
   -- Powerbar Colors
   local PowerColor = {};
@@ -46,21 +49,16 @@ function Module:OnEnable()
   end
 
   -- Set HealthBar Textures
-  if texture ~= [[Interface\Default]] then
+  if db.texture ~= [[Interface\Default]] then
     TargetFrame:HookScript("OnEvent", function()
       local targetHealthBar = TargetFrame.TargetFrameContent.TargetFrameContentMain.HealthBar
       local targetManaBarTexture = TargetFrame.TargetFrameContent.TargetFrameContentMain.ManaBar.texture
       local targetManaBar = TargetFrame.TargetFrameContent.TargetFrameContentMain.ManaBar
       local powerColor = GetPowerColor(targetManaBar.powerType)
 
-      targetHealthBar:SetStatusBarTexture(texture)
-      targetManaBarTexture:SetTexture(texture)
+      targetHealthBar:SetStatusBarTexture(db.texture)
+      targetManaBarTexture:SetTexture(db.texture)
       targetManaBar:SetStatusBarColor(powerColor.r, powerColor.g, powerColor.b)
-
-      -- Target of Target
-      local totPowerColor = GetPowerColor(TargetFrameToT.ManaBar.powerType)
-      TargetFrameToT.ManaBar:SetStatusBarTexture(texture)
-      TargetFrameToT.ManaBar:SetStatusBarColor(totPowerColor.r, totPowerColor.g, totPowerColor.b)
     end)
 
     FocusFrame:HookScript("OnEvent", function()
@@ -69,25 +67,33 @@ function Module:OnEnable()
       local focusManaBar = FocusFrame.TargetFrameContent.TargetFrameContentMain.ManaBar
       local powerColor = GetPowerColor(focusManaBar.powerType)
 
-      focusHealthBar:SetStatusBarTexture(texture)
-      focusManaBarTexture:SetTexture(texture)
+      focusHealthBar:SetStatusBarTexture(db.texture)
+      focusManaBarTexture:SetTexture(db.texture)
       focusManaBar:SetStatusBarColor(powerColor.r, powerColor.g, powerColor.b)
-
-      -- Target of Target
-      local totPowerColor = GetPowerColor(FocusFrameToT.ManaBar.powerType)
-      FocusFrameToT.ManaBar:SetStatusBarTexture(texture)
-      FocusFrameToT.ManaBar:SetStatusBarColor(totPowerColor.r, totPowerColor.g, totPowerColor.b)
-      FocusFrameToT.ManaBar:SetStatusBarTexture(texture)
     end)
   end
-  
-  TargetFrameToT.HealthBar:SetStatusBarTexture(texture)
-  FocusFrameToT.HealthBar:SetStatusBarTexture(texture)
+
+  -- Target of Target - TargetFrame
+  TargetFrameToT:HookScript("OnEvent", function()
+    TargetFrameToT.HealthBar:SetStatusBarTexture(db.texture)
+    local totPowerColor = GetPowerColor(TargetFrameToT.ManaBar.powerType)
+    TargetFrameToT.ManaBar:SetStatusBarTexture(db.texture)
+    TargetFrameToT.ManaBar:SetStatusBarColor(totPowerColor.r, totPowerColor.g, totPowerColor.b)
+  end)
+  -- Target of Target - FocusFrame
+  FocusFrameToT:HookScript("OnEvent", function()
+    FocusFrameToT.HealthBar:SetStatusBarTexture(db.texture)
+    local totPowerColor = GetPowerColor(FocusFrameToT.ManaBar.powerType)
+    FocusFrameToT.ManaBar:SetStatusBarTexture(db.texture)
+    FocusFrameToT.ManaBar:SetStatusBarColor(totPowerColor.r, totPowerColor.g, totPowerColor.b)
+    FocusFrameToT.ManaBar:SetStatusBarTexture(db.texture)
+  end)
   
   local hooked = {}
   local function UpdateFrameAuras(pool)
-    for frame, _ in pairs(pool.activeObjects) do
-      if not hooked[frame] then
+    if db.theme ~= 'Blizzard' then
+      for frame, _ in pairs(pool.activeObjects) do
+        if not hooked[frame] then
           hooked[frame] = true
 
           local icon = frame.Icon
@@ -128,6 +134,7 @@ function Module:OnEnable()
             back:SetBackdropBorderColor(unpack(SUI:Color(0.25, 0.9)))
             frame.bg = back
           end
+        end
       end
     end
   end
@@ -155,10 +162,10 @@ function Module:OnEnable()
 
   -- Set TargetFrame Buff/Debuff SetSize
   hooksecurefunc("TargetFrame_UpdateBuffAnchor", function(_, buff)
-    buff:SetSize(db.buffs.size, db.buffs.size)
+    buff:SetSize(db.unitframes.buffs.size, db.unitframes.buffs.size)
 
     if buff.Count then
-      local fontSize = db.debuffs.size / 2.75
+      local fontSize = db.unitframes.buffs.size / 2.75
       buff.Count:SetFont(STANDARD_TEXT_FONT, fontSize, "OUTLINE")
       buff.Count:ClearAllPoints()
       buff.Count:SetPoint("BOTTOMRIGHT", buff, "BOTTOMRIGHT", 0, 0)
@@ -166,10 +173,10 @@ function Module:OnEnable()
   end)
 
   hooksecurefunc("TargetFrame_UpdateDebuffAnchor", function(_, debuff)
-    debuff:SetSize(db.debuffs.size, db.debuffs.size)
+    debuff:SetSize(db.unitframes.debuffs.size, db.unitframes.debuffs.size)
 
     if debuff.Count then
-      local fontSize = db.debuffs.size / 2.75
+      local fontSize = db.unitframes.debuffs.size / 2.75
       debuff.Count:SetFont(STANDARD_TEXT_FONT, fontSize, "OUTLINE")
       debuff.Count:ClearAllPoints()
       debuff.Count:SetPoint("BOTTOMRIGHT", debuff, "BOTTOMRIGHT", 0, 0)
