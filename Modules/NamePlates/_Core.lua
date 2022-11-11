@@ -11,18 +11,24 @@ function Module:OnEnable()
         end
     end
     
-    local function nameplateHealthText(self)
-        local healthBar = self.healthBar
+    local function nameplateHealthText(unit, healthBar)
+        if not healthBar.text then
+            healthBar.text = healthBar:CreateFontString(nil, "ARTWORK")
+            healthBar.text:SetPoint("CENTER")
+            healthBar.text:SetFont(STANDARD_TEXT_FONT, 8, 'OUTLINE')
+        else
+            local _, maxHealth = healthBar:GetMinMaxValues()
+            local currentHealth = healthBar:GetValue()
+            healthBar.text:SetText(string.format(math.floor((currentHealth / maxHealth) * 100 )) .. "%")
+        end
+    end
 
-        if healthBar then
-            if not healthBar.text then
-                healthBar.text = healthBar:CreateFontString(nil, "ARTWORK")
-                healthBar.text:SetPoint("CENTER")
-                healthBar.text:SetFont(STANDARD_TEXT_FONT, 8, 'OUTLINE')
-            else
-                local _, maxHealth = healthBar:GetMinMaxValues()
-                local currentHealth = healthBar:GetValue()
-                healthBar.text:SetText(string.format(math.floor((currentHealth / maxHealth) * 100 )) .. "%")
+    local function nameplateHealthTextFrame(self)
+        if self.unit and self.unit:find('nameplate%d') then
+            if self.healthBar then
+                local unit = self.unit
+                local healthBar = self.healthBar
+                nameplateHealthText(unit, healthBar)
             end
         end
     end
@@ -75,14 +81,16 @@ function Module:OnEnable()
     if db.style ~= 'Default' then
         -- Set Nameplate Texture
         hooksecurefunc(NamePlateBaseMixin, "OnAdded", nameplateTexture)
+        
 
         -- Set Nameplate Castbars
         hooksecurefunc("DefaultCompactNamePlateFrameAnchorInternal", nameplateCastbar)
 
         -- Set Nameplate Health Percentage
         if db.healthtext then
-            hooksecurefunc("CompactUnitFrame_UpdateHealth", nameplateHealthText)
-            hooksecurefunc("CompactUnitFrame_UpdateStatusText", nameplateHealthText)
+            hooksecurefunc("CompactUnitFrame_UpdateHealthColor", nameplateHealthTextFrame)
+            hooksecurefunc("CompactUnitFrame_UpdateHealth", nameplateHealthTextFrame)
+            hooksecurefunc("CompactUnitFrame_UpdateStatusText", nameplateHealthTextFrame)
         end
 
         -- Set Nameplate Name Color
