@@ -61,6 +61,9 @@ local defaults = {
       texture = [[Interface\Addons\SUI\Media\Textures\Status\Smooth.blp]],
       arenanumber = true,
       totemicons = true,
+      healthtext = true,
+      server = true,
+      color = true,
     },
     raidframes = {
       texture = [[Interface\Addons\SUI\Media\Textures\Status\Flat.blp]],
