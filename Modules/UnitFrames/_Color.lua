@@ -5,6 +5,7 @@ function Module:OnEnable()
     FocusFrame.TargetFrameContent.TargetFrameContentMain.ReputationColor:Hide()
 
     local db = SUI.db.profile.unitframes
+    local texture = SUI.db.profile.general.texture
     if (db) then
         if (db.classcolor) then
             function SUIUnitColor(healthbar, unit)
@@ -20,6 +21,17 @@ function Module:OnEnable()
                 end
             end
         
+            hooksecurefunc("UnitFrameHealthBar_Update", function(self)
+                SUIUnitColor(self, self.unit)
+            end)
+            hooksecurefunc("HealthBar_OnValueChanged", function(self)
+                SUIUnitColor(self, self.unit)
+            end)
+        elseif not db.classcolor and texture ~= [[Interface\Default]] then
+            function SUIUnitColor(healthbar, unit)
+                healthbar:SetStatusBarColor(0, 0.7, 0)
+            end
+
             hooksecurefunc("UnitFrameHealthBar_Update", function(self)
                 SUIUnitColor(self, self.unit)
             end)
