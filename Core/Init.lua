@@ -8,8 +8,8 @@ local defaults = {
     install = false,
     general = {
       theme = 'Dark',
-      font = 'Interface\\AddOns\\SUI\\Media\\Fonts\\Prototype.ttf',
-      texture = 'Interface\\AddOns\\SUI\\Media\\Textures\\Status\\Flat',
+      font = [[Interface\Addons\SUI\Media\Fonts\Prototype.ttf]],
+      texture = [[Interface\Addons\SUI\Media\Textures\Status\Smooth.blp]],
       color = {r = 0, g = 0, b = 0, a = 1},
       automation = {
         delete = true,
@@ -57,7 +57,7 @@ local defaults = {
     },
     nameplates = {
       style = 'Default',
-      texture = 'Interface\\AddOns\\SUI\\Media\\Textures\\Status\\Smooth',
+      texture = [[Interface\Addons\SUI\Media\Textures\Status\Smooth.blp]],
       size = 1,
       arenanumber = true,
       totemicons = true,
@@ -86,7 +86,7 @@ local defaults = {
       }
     },
     raidframes = {
-      texture = 'Interface\\AddOns\\SUI\\Media\\Textures\\Status\\Flat',
+      texture = [[Interface\Addons\SUI\Media\Textures\Status\Flat.blp]],
       alwaysontop = false,
       size = false,
       height = 75,
