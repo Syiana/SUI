@@ -44,7 +44,7 @@ function Module:OnEnable()
       TargetFrameSpellBar.Text:SetPoint("TOP", TargetFrameSpellBar, "TOP", 0, 1.5)
       TargetFrameSpellBar.Text:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
 
-      if not db.casticons then
+      if not db.icon then
         TargetFrameSpellBar.Icon:Hide()
       end
 

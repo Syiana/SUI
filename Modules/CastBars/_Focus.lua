@@ -44,7 +44,7 @@ function Module:OnEnable()
       FocusFrameSpellBar.Text:SetPoint("TOP", FocusFrameSpellBar, "TOP", 0, 1.5)
       FocusFrameSpellBar.Text:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
 
-      if not db.casticons then
+      if not db.icon then
         FocusFrameSpellBar.Icon:Hide()
       end
 

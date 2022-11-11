@@ -2,7 +2,7 @@ local Module = SUI:NewModule("CastBars.Icon");
 
 function Module:OnEnable()
   local db = SUI.db.profile.castbars
-  if (db.style == 'Custom' and SUI:Color()) then
+  if (db.style == 'Custom' and SUI:Color() and db.icon) then
       if not InCombatLockdown() then
         local backdrop = {
           bgFile = nil,
@@ -21,8 +21,8 @@ function Module:OnEnable()
         local function IconSkin(b)
             if not b or (b and b.styled) then return end
 
-            if b == CastingBarFrame.Icon and (CastingBarFrame) then
-                b.parent = CastingBarFrame
+            if b == PlayerCastingBarFrame.Icon and (PlayerCastingBarFrame) then
+                b.parent = PlayerCastingBarFrame
             elseif b == FocusFrameSpellBar.Icon then
                 b.parent = FocusFrameSpellBar
             else
@@ -58,8 +58,8 @@ function Module:OnEnable()
           local timer = CreateFrame("Frame")
           timer:SetScript("OnUpdate", function(self, elapsed)
             total = total + elapsed
-            if CastingBarFrame.Icon then
-              IconSkin(CastingBarFrame.Icon)
+            if PlayerCastingBarFrame.Icon then
+              IconSkin(PlayerCastingBarFrame.Icon)
             end
             if TargetFrameSpellBar.Icon then
               IconSkin(TargetFrameSpellBar.Icon)
@@ -67,7 +67,7 @@ function Module:OnEnable()
             if FocusFrameSpellBar.Icon then
               IconSkin(FocusFrameSpellBar.Icon)
             end
-            if CastingBarFrame.Icon.styled and TargetFrameSpellBar.Icon.styled then
+            if PlayerCastingBarFrame.Icon.styled and TargetFrameSpellBar.Icon.styled then
               timer:SetScript("OnUpdate", nil)
             end
           end)

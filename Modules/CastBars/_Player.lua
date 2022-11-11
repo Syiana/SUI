@@ -14,7 +14,7 @@ function Module:OnEnable()
   
   if (db.style == 'Custom') then
         if not InCombatLockdown() then
-            if db.casticons then
+            if db.icon then
               PlayerCastingBarFrame.Icon:Show()
               PlayerCastingBarFrame.Icon:SetSize(20, 20)
             end
@@ -29,6 +29,7 @@ function Module:OnEnable()
 
         PlayerCastingBarFrame:HookScript("OnEvent", function()
           PlayerCastingBarFrame.StandardGlow:Hide()
+          PlayerCastingBarFrame.TextBorder:Hide()
         end)
     end
 end
