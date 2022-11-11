@@ -82,7 +82,6 @@ function Module:OnEnable()
         -- Set Nameplate Texture
         hooksecurefunc(NamePlateBaseMixin, "OnAdded", nameplateTexture)
         
-
         -- Set Nameplate Castbars
         hooksecurefunc("DefaultCompactNamePlateFrameAnchorInternal", nameplateCastbar)
 
