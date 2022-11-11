@@ -151,7 +151,7 @@ function Layout:OnEnable()
         repbar = {
           key = 'repbar',
           type = 'checkbox',
-          label = 'XP/Reputation Bar',
+          label = 'XP/Rep/Honor Bar',
           column = 4,
           order = 1
         },
