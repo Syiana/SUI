@@ -208,73 +208,46 @@ function Module:OnEnable()
       end
     end
     hooksecurefunc("MerchantFrame_UpdateMerchantInfo", MerchantItemlevel)
-
-    --[[
-    function SetContainerItemLevel(button, ItemLink)
-        if not button then
-            print("error")
-        end
-        if not button.levelString then
-            button.levelString = button:CreateFontString(nil, "OVERLAY")
-            button.levelString:SetFont(STANDARD_TEXT_FONT, 12, "THICKOUTLINE")
-        button.levelString:SetPoint("TOP")
-        end
-        if button.origItemLink ~= ItemLink then
-            button.origItemLink = ItemLink
-        else
-            return
-        end
-        if ItemLink then
-            local itemName, itemLink, itemRarity, itemLevel, itemMinLevel, itemType, itemSubType, itemStackCount, itemEquipLoc, itemTexture, itemSellPrice = GetItemInfo(ItemLink)
-            local name, _ = GetItemSpell(ItemLink)
-            local _, equipped, _ = GetAverageItemLevel()
-        if itemLevel == nil then return end
-            if itemLevel >= (98 * equipped / 100) then
-                button.levelString:SetTextColor(0, 1, 0)
-            else
-                button.levelString:SetTextColor(1, 1, 1)
-        end
-        if itemEquipLoc >= " " and itemLevel > 0 and itemRarity > 1 then
-          if itemRarity < 7 then
-            button.levelString:SetText(itemLevel)
-          end
-            else
-                button.levelString:SetText("")
-        end
-        else
-            button.levelString:SetText("")
-        end
+    
+    function CreateItemLevelString(button)
+      button.levelString = button:CreateFontString(nil, "OVERLAY")
+      button.levelString:SetFont(STANDARD_TEXT_FONT, 12, "THICKOUTLINE")
+      button.levelString:SetPoint("BOTTOM", 2)
     end
-    ]]
+
+    function CheckContainerItems(item)
+      local _, _, _, equipLoc, _, itemClass, itemSubClass = GetItemInfoInstant(item:GetItemID())
+      return (
+          itemClass == Enum.ItemClass.Weapon or
+          itemClass == Enum.ItemClass.Armor or
+          (itemClass == Enum.ItemClass.Gem and itemSubClass == Enum.ItemGemSubclass.Artifactrelic)
+      )
+    end
+
+    function UpdateBagButton(button, item)
+      if item:IsItemEmpty() then return end
+      item:ContinueOnItemLoad(function()
+        if not CheckContainerItems(item) then return end
+        local itemID = item:GetItemID()
+        local link = item:GetItemLink()
+        local quality = item:GetItemQuality()
+        local _, _, _, equipLoc, _, itemClass, itemSubClass = GetItemInfoInstant(itemID)
+        local minLevel = link and select(5, GetItemInfo(link or itemID))
+        if not item:GetCurrentItemLevel() then
+          button.levelString:Hide()
+        else
+          CreateItemLevelString(button)
+          button.levelString:SetText(item:GetCurrentItemLevel())
+          button.levelString:Show()
+        end
+      end)
+    end
 
     function UpdateContainerButton(button, bag, slot)
       if button.levelString then button.levelString:Hide() end
 
       local item = Item:CreateFromBagAndSlot(bag, slot or button:GetID())
-
-      if not item:IsItemEmpty() then
-        item:ContinueOnItemLoad(function()
-          local itemID = item:GetItemID()
-          local link = item:GetItemLink()
-          local quality = item:GetItemQuality()
-          local _, _, _, equipLoc, _, itemClass, itemSubClass = GetItemInfoInstant(itemID)
-          local minLevel = link and select(5, GetItemInfo(link or itemID))
-          local showItem = (itemClass == Enum.ItemClass.Weapon or itemClass == Enum.ItemClass.Armor or (itemClass == Enum.ItemClass.Gem and itemSubClass == Enum.ItemGemSubclass.Artifactrelic))
-          if showItem then
-            if not button.levelString then
-              button.levelString = button:CreateFontString(nil, "OVERLAY")
-              button.levelString:SetFont(STANDARD_TEXT_FONT, 12, "THICKOUTLINE")
-              button.levelString:SetPoint("BOTTOM", 0, 2)
-
-              if not item:GetCurrentItemLevel() then
-                button.levelString:Hide()
-              else
-                button.levelString:SetText(item:GetCurrentItemLevel())
-              end
-            end
-          end
-        end)
-      end
+      UpdateBagButton(button, item)
     end
 
     if _G.ContainerFrame_Update then
@@ -287,15 +260,15 @@ function Module:OnEnable()
           end
       end)
     else
-        local update = function(frame)
-            for _, itemButton in frame:EnumerateValidItems() do
-                UpdateContainerButton(itemButton, itemButton:GetBagID(), itemButton:GetID())
-            end
-        end
-        hooksecurefunc(ContainerFrameCombinedBags, "UpdateItems", update)
-        for _, frame in ipairs(UIParent.ContainerFrames) do
-            hooksecurefunc(frame, "UpdateItems", update)
-        end
+      local update = function(frame)
+          for _, itemButton in frame:EnumerateValidItems() do
+              UpdateContainerButton(itemButton, itemButton:GetBagID(), itemButton:GetID())
+          end
+      end
+      hooksecurefunc(ContainerFrameCombinedBags, "UpdateItems", update)
+      for _, frame in ipairs(UIParent.ContainerFrames) do
+          hooksecurefunc(frame, "UpdateItems", update)
+      end
     end
   end
 end
