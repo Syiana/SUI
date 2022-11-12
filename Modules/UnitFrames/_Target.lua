@@ -160,7 +160,7 @@ function Module:OnEnable()
     buff:SetSize(db.unitframes.buffs.size, db.unitframes.buffs.size)
 
     if buff.Count then
-      local fontSize = db.unitframes.buffs.size / 2.75
+      local fontSize = db.unitframes.buffs.size / 2
       buff.Count:SetFont(STANDARD_TEXT_FONT, fontSize, "OUTLINE")
       buff.Count:ClearAllPoints()
       buff.Count:SetPoint("BOTTOMRIGHT", buff, "BOTTOMRIGHT", 0, 0)
@@ -171,7 +171,7 @@ function Module:OnEnable()
     debuff:SetSize(db.unitframes.debuffs.size, db.unitframes.debuffs.size)
 
     if debuff.Count then
-      local fontSize = db.unitframes.debuffs.size / 2.75
+      local fontSize = db.unitframes.debuffs.size / 2
       debuff.Count:SetFont(STANDARD_TEXT_FONT, fontSize, "OUTLINE")
       debuff.Count:ClearAllPoints()
       debuff.Count:SetPoint("BOTTOMRIGHT", debuff, "BOTTOMRIGHT", 0, 0)

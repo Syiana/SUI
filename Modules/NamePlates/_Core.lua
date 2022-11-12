@@ -4,16 +4,33 @@ function Module:OnEnable()
     local db = SUI.db.profile.nameplates
 
     local function nameplateCastbar(self)
-        if self.castBar then
-            self.castBar.Icon:ClearAllPoints();
-            PixelUtil.SetPoint(self.castBar.Icon, "CENTER", self.castBar, "LEFT", -10, 0);
-            self.castBar.Text:SetFont(STANDARD_TEXT_FONT, 10, "OUTLINE")
+        local inInstance, instanceType = IsInInstance("player")
+        if inInstance then
+            if self.unit and not UnitIsFriend("player", self.unit) then
+                if self.castBar and self.castBar.Icon then
+                    self.castBar.Icon:ClearAllPoints();
+                    PixelUtil.SetPoint(self.castBar.Icon, "CENTER", self.castBar, "LEFT", -10, 0);
+                    self.castBar.Text:SetFont(STANDARD_TEXT_FONT, 10, "OUTLINE")
+                end
+            elseif instanceType == 'arena' then
+                if self.castBar and self.castBar.Icon then
+                    self.castBar.Icon:ClearAllPoints();
+                    PixelUtil.SetPoint(self.castBar.Icon, "CENTER", self.castBar, "LEFT", -10, 0);
+                    self.castBar.Text:SetFont(STANDARD_TEXT_FONT, 10, "OUTLINE")
+                end
+            end
+        else
+            if self.castBar and self.castBar.Icon then
+                self.castBar.Icon:ClearAllPoints();
+                PixelUtil.SetPoint(self.castBar.Icon, "CENTER", self.castBar, "LEFT", -10, 0);
+                self.castBar.Text:SetFont(STANDARD_TEXT_FONT, 10, "OUTLINE")
+            end
         end
     end
     
     local function nameplateHealthText(unit, healthBar)
         if not healthBar.text then
-            healthBar.text = healthBar:CreateFontString(nil, "ARTWORK")
+            healthBar.text = healthBar:CreateFontString(nil, "ARTWORK", nil)
             healthBar.text:SetPoint("CENTER")
             healthBar.text:SetFont(STANDARD_TEXT_FONT, 8, 'OUTLINE')
         else
@@ -24,11 +41,32 @@ function Module:OnEnable()
     end
 
     local function nameplateHealthTextFrame(self)
-        if self.unit and self.unit:find('nameplate%d') then
-            if self.healthBar then
-                local unit = self.unit
-                local healthBar = self.healthBar
-                nameplateHealthText(unit, healthBar)
+        local inInstance, instanceType = IsInInstance("player")
+        if inInstance then
+            if self.unit and not UnitIsFriend("player", self.unit) then
+                if self.unit and self.unit:find('nameplate%d') then
+                    if self.healthBar and self.unit then
+                        local unit = self.unit
+                        local healthBar = self.healthBar
+                        nameplateHealthText(unit, healthBar)
+                    end
+                end
+            elseif instanceType == 'arena' then
+                if self.unit and self.unit:find('nameplate%d') then
+                    if self.healthBar and self.unit then
+                        local unit = self.unit
+                        local healthBar = self.healthBar
+                        nameplateHealthText(unit, healthBar)
+                    end
+                end
+            end
+        else
+            if self.unit and self.unit:find('nameplate%d') then
+                if self.healthBar and self.unit then
+                    local unit = self.unit
+                    local healthBar = self.healthBar
+                    nameplateHealthText(unit, healthBar)
+                end
             end
         end
     end
@@ -36,20 +74,44 @@ function Module:OnEnable()
     local function nameplatePlayerName(self)
         if ShouldShowName(self) then
             if self.optionTable.colorNameBySelection then
-                -- Classcolor Playername
-                if db.color then
-                    local _, class = UnitClass(self.unit)
-                    local color = RAID_CLASS_COLORS[class]
-                    if UnitIsPlayer(self.unit) then
-                        self.name:SetVertexColor(color.r, color.g, color.b)
+                local inInstance, instanceType = IsInInstance("player")
+                if not inInstance then
+                    -- Classcolor Playername
+                    if db.color and self.unit then
+                        local _, class = UnitClass(self.unit)
+                        local color = RAID_CLASS_COLORS[class]
+                        if UnitIsPlayer(self.unit) and self.name then
+                            self.name:SetVertexColor(color.r, color.g, color.b)
+                        end
                     end
-                end
 
-                -- Hide Servername
-                if db.server then
-                    if self.name then
-                        local name, server = UnitName(self.unit)
-                        self.name:SetText(name)
+                    -- Hide Servername
+                    if db.server then
+                        if self.name and self.unit then
+                            if UnitIsPlayer(self.unit) then
+                                local name, server = UnitName(self.unit)
+                                self.name:SetText(name)
+                            end
+                        end
+                    end
+                elseif instanceType == 'arena' then
+                    -- Classcolor Playername
+                    if db.color and self.unit then
+                        local _, class = UnitClass(self.unit)
+                        local color = RAID_CLASS_COLORS[class]
+                        if UnitIsPlayer(self.unit) and self.name then
+                            self.name:SetVertexColor(color.r, color.g, color.b)
+                        end
+                    end
+
+                    -- Hide Servername
+                    if db.server then
+                        if self.name and self.unit then
+                            if UnitIsPlayer(self.unit) then
+                                local name, server = UnitName(self.unit)
+                                self.name:SetText(name)
+                            end
+                        end
                     end
                 end
 
@@ -69,8 +131,23 @@ function Module:OnEnable()
     end
 
     local function nameplateTexture(self)
-        if self.UnitFrame then
-            if self.UnitFrame.healthBar then
+        local inInstance, instanceType = IsInInstance("player")
+        if inInstance then
+            if self.unit and not UnitIsFriend("player", self.unit) then
+                if self.UnitFrame and self.UnitFrame.healthBar then
+                    if db.texture ~=[[Interface\Default]] then
+                        self.UnitFrame.healthBar:SetStatusBarTexture(db.texture)
+                    end
+                end
+            elseif instanceType == 'arena' then
+                if self.UnitFrame and self.UnitFrame.healthBar then
+                    if db.texture ~=[[Interface\Default]] then
+                        self.UnitFrame.healthBar:SetStatusBarTexture(db.texture)
+                    end
+                end
+            end
+        else
+            if self.UnitFrame and self.UnitFrame.healthBar then
                 if db.texture ~=[[Interface\Default]] then
                     self.UnitFrame.healthBar:SetStatusBarTexture(db.texture)
                 end
