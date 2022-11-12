@@ -209,6 +209,7 @@ function Module:OnEnable()
     end
     hooksecurefunc("MerchantFrame_UpdateMerchantInfo", MerchantItemlevel)
 
+    --[[
     function SetContainerItemLevel(button, ItemLink)
         if not button then
             print("error")
@@ -242,6 +243,58 @@ function Module:OnEnable()
         end
         else
             button.levelString:SetText("")
+        end
+    end
+    ]]
+
+    function UpdateContainerButton(button, bag, slot)
+      if button.levelString then button.levelString:Hide() end
+
+      local item = Item:CreateFromBagAndSlot(bag, slot or button:GetID())
+
+      if not item:IsItemEmpty() then
+        item:ContinueOnItemLoad(function()
+          local itemID = item:GetItemID()
+          local link = item:GetItemLink()
+          local quality = item:GetItemQuality()
+          local _, _, _, equipLoc, _, itemClass, itemSubClass = GetItemInfoInstant(itemID)
+          local minLevel = link and select(5, GetItemInfo(link or itemID))
+          local showItem = (itemClass == Enum.ItemClass.Weapon or itemClass == Enum.ItemClass.Armor or (itemClass == Enum.ItemClass.Gem and itemSubClass == Enum.ItemGemSubclass.Artifactrelic))
+          if showItem then
+            if not button.levelString then
+              button.levelString = button:CreateFontString(nil, "OVERLAY")
+              button.levelString:SetFont(STANDARD_TEXT_FONT, 12, "THICKOUTLINE")
+              button.levelString:SetPoint("BOTTOM", 0, 2)
+
+              if not item:GetCurrentItemLevel() then
+                button.levelString:Hide()
+              else
+                button.levelString:SetText(item:GetCurrentItemLevel())
+              end
+            end
+          end
+        end)
+      end
+    end
+
+    if _G.ContainerFrame_Update then
+      hooksecurefunc("ContainerFrame_Update", function(container)
+          local bag = container:GetID()
+          local name = container:GetName()
+          for i = 1, container.size, 1 do
+              local button = _G[name .. "Item" .. i]
+              UpdateContainerButton(button, bag)
+          end
+      end)
+    else
+        local update = function(frame)
+            for _, itemButton in frame:EnumerateValidItems() do
+                UpdateContainerButton(itemButton, itemButton:GetBagID(), itemButton:GetID())
+            end
+        end
+        hooksecurefunc(ContainerFrameCombinedBags, "UpdateItems", update)
+        for _, frame in ipairs(UIParent.ContainerFrames) do
+            hooksecurefunc(frame, "UpdateItems", update)
         end
     end
   end
