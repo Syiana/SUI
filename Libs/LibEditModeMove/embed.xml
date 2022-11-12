@@ -1,0 +1,9 @@
+<Ui>
+	<Script file='LibEditMode.lua'/>
+	<Script file='pools.lua'/>
+	<Script file='widgets\dialog.lua'/>
+	<Script file='widgets\dropdown.lua'/>
+	<Script file='widgets\slider.lua'/>
+	<Script file='widgets\checkbox.lua'/>
+	<Script file='widgets\button.lua'/>
+</Ui>

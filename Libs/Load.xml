@@ -20,4 +20,6 @@
   <Include file='LibEditMode\LibEditMode.xml'/>
   <Include file='LibDBIcon-1.0\embeds.xml'/>
   <Include file='LibDBIcon-1.0\LibDBIcon-1.0\lib.xml'/>
+  <Include file='LibDropDown\embed.xml'/>
+  <Include file='LibEditModeMove\embed.xml'/>
 </Ui>

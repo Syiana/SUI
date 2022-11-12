@@ -1,0 +1,19 @@
+package-as: LibEditMode
+
+enable-nolib-creation: no
+
+externals:
+  LibStub:
+    url: https://repos.curseforge.com/wow/libstub/trunk
+    tag: 1.0
+  LibDropDown:
+    url: https://github.com/p3lim-wow/LibDropDown
+    tag: latest
+
+required-dependencies:
+  - libstub
+  - libdropdown
+
+ignore:
+  - README.md
+  - tests
