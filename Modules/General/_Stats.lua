@@ -1,29 +1,8 @@
 local Module = SUI:NewModule("General.Stats");
 
 StatsFrame = CreateFrame("Frame", "StatsFrame", UIParent)
-local movable = true
-
-if movable == false then
-  StatsFrame:ClearAllPoints()
-  StatsFrame:SetPoint('BOTTOMLEFT', UIParent, "BOTTOMLEFT", 5, 5)
-end
-
-if movable == true then
-  StatsFrame:EnableMouse(true)
-  StatsFrame:ClearAllPoints()
-  StatsFrame:SetPoint('BOTTOMLEFT', UIParent, "BOTTOMLEFT", 5, 3)
-  StatsFrame:SetClampedToScreen(true)
-  StatsFrame:SetMovable(true)
-  StatsFrame:SetUserPlaced(true)
-  StatsFrame:SetFrameLevel(4)
-  StatsFrame:SetScript("OnMouseDown",	function()
-    StatsFrame:ClearAllPoints()
-    StatsFrame:StartMoving()
-  end)
-  StatsFrame:SetScript("OnMouseUp", function()
-    StatsFrame:StopMovingOrSizing()
-  end)
-end
+StatsFrame:ClearAllPoints()
+StatsFrame:SetPoint('BOTTOMLEFT', UIParent, "BOTTOMLEFT", 5, 5)
 
 function Module:OnEnable()
   local db = SUI.db.profile.general

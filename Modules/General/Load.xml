@@ -15,4 +15,5 @@
   <Script file="_StackBuy.lua"/>
   <Script file="_Stats.lua"/>
   <Script file="_AfkCam.lua"/>
+  <Script file="_Editmode.lua"/>
 </Ui>

@@ -1,267 +1,375 @@
--- Copyright 2022 plusmouse. Licensed under terms found in LICENSE file.
+local MAJOR = 'LibEditMode'
+local MINOR = 2
 
-local lib = LibStub:NewLibrary("LibEditMode-1.0", 6)
-
-local pointGetter = CreateFrame("Frame", nil, UIParent)
-
-local FRAME_ERROR = "This frame isn't used by edit mode"
-local LOAD_ERROR = "You need to call LibEditMode:LoadLayouts first"
-local EDIT_ERROR = "Active layout is not editable"
-
-local layoutInfo
-local reconciledLayouts = false
-
-local function GetSystemByID(systemID, systemIndex)
-  -- Get the system by checking each one for the right system id
-  for _, system in pairs(layoutInfo.layouts[layoutInfo.activeLayout].systems) do
-    if system.system == systemID and system.systemIndex == systemIndex then
-      return system
-    end
-  end
+local lib = LibStub:NewLibrary(MAJOR, MINOR)
+if not lib then
+	return
 end
 
-local function GetSystemByFrame(frame)
-  assert(frame and type(frame) == "table" and frame.IsObjectType and frame:IsObjectType("Frame"), "Frame required")
+-- wish we could use namespacing within libstub
+lib.internal = {}
+local internal = lib.internal
 
-  local systemID = frame.system
-  local systemIndex = frame.systemIndex
+local layoutNames = setmetatable({'Modern', 'Classic'}, {
+	__index = function(t, key)
+		if key > 2 then
+			-- the first 2 indices are reserved for 'Modern' and 'Classic' layouts, and anything
+			-- else are custom ones, although GetLayouts() doesn't return data for the 'Modern'
+			-- and 'Classic' layouts, so we'll have to substract and check
+			local layouts = C_EditMode.GetLayouts().layouts
+			if (key - 2) > #layouts then
+				error('index is out of bounds')
+			else
+				return layouts[key - 2].layoutName
+			end
+		else
+			-- also work for 'Modern' and 'Classic'
+			rawget(t, key)
+		end
+	end
+})
 
-  return GetSystemByID(systemID, systemIndex)
+local frameSelections = {}
+local frameCallbacks = {}
+local frameDefaults = {}
+local frameSettings = {}
+local frameButtons = {}
+
+local anonCallbacksEnter = {}
+local anonCallbacksExit = {}
+local anonCallbacksLayout = {}
+
+local function resetSelection()
+	internal.dialog:Hide()
+
+	for frame, selection in next, frameSelections do
+		if selection.isSelected then
+			frame:SetMovable(false)
+		end
+
+		if not lib.isEditing then
+			selection:Hide()
+			selection.isSelected = false
+		else
+			selection:ShowHighlighted()
+		end
+	end
 end
 
-local function GetParameterRestrictions(frame, setting)
-  local systemRestrictions = EditModeSettingDisplayInfoManager.systemSettingDisplayInfo[frame.system]
-  for _, setup in ipairs(systemRestrictions) do
-    if setup.setting == setting then
-      return setup
-    end
-  end
-  return nil
+local function onDragStart(self)
+	self.parent:StartMoving()
 end
 
-local function GetLayoutIndex(layoutName)
-  for index, layout in ipairs(layoutInfo.layouts) do
-    if layout.layoutName == layoutName then
-      return index
-    end
-  end
+local function normalizePosition(frame)
+	-- ripped out of LibWindow-1.1, which is Public Domain
+	local parent = frame:GetParent()
+	if not parent then
+		return
+	end
+
+	local scale = frame:GetScale()
+	if not scale then
+		return
+	end
+
+	local left = frame:GetLeft() * scale
+	local top = frame:GetTop() * scale
+	local right = frame:GetRight() * scale
+	local bottom = frame:GetBottom() * scale
+
+	local parentWidth, parentHeight = parent:GetSize()
+
+	local x, y, point
+	if left < (parentWidth - right) and left < math.abs((left + right) / 2 - parentWidth / 2) then
+		x = left
+		point = 'LEFT'
+	elseif (parentWidth - right) < math.abs((left + right) / 2 - parentWidth / 2) then
+		x = right - parentWidth
+		point = 'RIGHT'
+	else
+		x = (left + right) / 2 - parentWidth / 2
+		point = ''
+	end
+
+	if bottom < (parentHeight - top) and bottom < math.abs((bottom + top) / 2 - parentHeight / 2) then
+		y = bottom
+		point = 'BOTTOM' .. point
+	elseif (parentHeight - top) < math.abs((bottom + top) / 2 - parentHeight / 2) then
+		y = top - parentHeight
+		point = 'TOP' .. point
+	else
+		y = (bottom + top) / 2 - parentHeight / 2
+		point = '' .. point
+	end
+
+	if point == '' then
+		point = 'CENTER'
+	end
+
+	return point, x / scale, y / scale
 end
 
-local function GetHighestIndex()
-  local highestLayoutIndexByType = {};
-  for index, layoutInfo in ipairs(layoutInfo.layouts) do
-    if not highestLayoutIndexByType[layoutInfo.layoutType] or highestLayoutIndexByType[layoutInfo.layoutType] < index then
-      highestLayoutIndexByType[layoutInfo.layoutType] = index;
-    end
-  end
-  return highestLayoutIndexByType
+local function onDragStop(self)
+	local parent = self.parent
+	parent:StopMovingOrSizing()
+
+	-- TODO: snap position to grid
+	-- FrameXML/EditModeUtil.lua
+
+	local point, x, y = normalizePosition(parent)
+	parent:ClearAllPoints()
+	parent:SetPoint(point, x, y)
+
+	internal:TriggerCallback(parent, point, x, y)
 end
 
-function lib:SetGlobalSetting(setting, value)
-  C_EditMode.SetAccountSetting(setting, value)
+local function onMouseDown(self) -- replacement for EditModeSystemMixin:SelectSystem()
+	resetSelection()
+	EditModeManagerFrame:ClearSelectedSystem() -- possible taint
+
+	if not self.isSelected then
+		self.parent:SetMovable(true)
+		self:ShowSelected(true)
+		internal.dialog:Update(self)
+	end
 end
 
-function lib:GetGlobalSetting(setting)
-  local currentSettings = C_EditMode.GetAccountSettings()
+local function onEditModeEnter()
+	lib.isEditing = true
 
-  for _, s in ipairs(currentSettings) do
-    if s.setting == setting then
-      return s.value
-    end
-  end
+	resetSelection()
+
+	for _, callback in next, anonCallbacksEnter do
+		callback()
+	end
 end
 
-function lib:HasEditModeSettings(frame)
-  return GetSystemByFrame(frame) ~= nil
+local function onEditModeExit()
+	lib.isEditing = false
+
+	resetSelection()
+
+	for _, callback in next, anonCallbacksExit do
+		callback()
+	end
 end
 
--- Set an option found in the Enum.EditMode enumerations
-function lib:SetFrameSetting(frame, setting, value)
-  assert(lib:CanEditActiveLayout(), EDIT_ERROR)
-  local system = GetSystemByFrame(frame)
+local function onEditModeChanged(_, layoutInfo)
+	local layoutName = layoutNames[layoutInfo.activeLayout]
+	if layoutName ~= lib.activeLayoutName then
+		lib.activeLayoutName = layoutName
 
-  assert(system, FRAME_ERROR)
+		for _, callback in next, anonCallbacksLayout do
+			callback(layoutName)
+		end
 
-  assert(value == math.floor(value), "Non-negative integer values only")
-
-  local restrictions = GetParameterRestrictions(frame, setting)
-
-  if restrictions then
-    local min, max
-    if restrictions.type == Enum.EditModeSettingDisplayType.Dropdown then
-      min = 1
-      max = #restrictions.options
-    elseif restrictions.type == Enum.EditModeSettingDisplayType.Checkbox then
-      min = 0
-      max = 1
-    elseif restrictions.type == Enum.EditModeSettingDisplayType.Slider then
-      if restrictions.stepSize then
-        min = 0
-        max = (restrictions.maxValue - restrictions.minValue) / restrictions.stepSize
-      else
-        min = restrictions.minValue
-        max = restrictions.maxValue
-      end
-    else
-      error("Internal Error: Unknown setting restrictions")
-    end
-    assert(min <= value and value <= max, string.format("Value %s invalid for this setting: min %s, max %s", value, min, max))
-  end
-
-  for _, item in pairs(system.settings) do
-    if item.setting == setting then
-      item.value = value
-    end
-  end
+		-- TODO: we should update the position of the button here, let the user not deal with that
+	end
 end
 
-function lib:GetFrameSetting(frame, setting)
-  local system = GetSystemByFrame(frame)
+--[[ LibEditMode:AddFrame(_frame, callback, default_)
+Register a frame to be controlled by the Edit Mode.
 
-  assert(system, FRAME_ERROR)
+* `frame`: frame widget to be controlled
+* `callback`: callback that triggers whenever the frame has been repositioned
+* `default`: table containing the default position of the frame
 
-  for _, item in pairs(system.settings) do
-    if item.setting == setting then
-      return item.value
-    end
-  end
-  return nil
+The `default` table must contain the following entries:
+
+* `point`: relative anchor point, e.g. `"CENTER"` _(string)_
+* `x`: horizontal offset from the anchor point _(number)_
+* `y`: vertical offset from the anchor point _(number)_
+--]]
+function lib:AddFrame(frame, callback, default)
+	local selection = CreateFrame('Frame', nil, frame, 'EditModeSystemSelectionTemplate')
+	selection:SetAllPoints()
+	selection:SetScript('OnMouseDown', onMouseDown)
+	selection:SetScript('OnDragStart', onDragStart)
+	selection:SetScript('OnDragStop', onDragStop)
+	selection:SetLabelText(frame:GetName())
+	selection:Hide()
+
+	frameSelections[frame] = selection
+	frameCallbacks[frame] = callback
+	frameDefaults[frame] = default
+
+	if not internal.dialog then
+		internal.dialog = internal:CreateDialog()
+		internal.dialog:HookScript('OnHide', function()
+			resetSelection()
+		end)
+
+		-- listen for layout changes
+		EventRegistry:RegisterFrameEventAndCallback('EDIT_MODE_LAYOUTS_UPDATED', onEditModeChanged)
+
+		-- hook EditMode shown state, since QuickKeybindMode will hide/show EditMode
+		EditModeManagerFrame:HookScript('OnShow', onEditModeEnter)
+		EditModeManagerFrame:HookScript('OnHide', onEditModeExit)
+
+		-- unselect our selections whenever a system is selected
+		hooksecurefunc(EditModeManagerFrame, 'SelectSystem', function()
+			resetSelection()
+		end)
+	end
 end
 
-function lib:ReanchorFrame(frame, ...)
-  assert(lib:CanEditActiveLayout(), EDIT_ERROR)
-  local system = GetSystemByFrame(frame)
+--[[ LibEditMode:AddFrameSettings(_frame, settings_)
+Register extra settings that will be displayed in a dialog attached to the frame in the Edit Mode.
 
-  assert(system, FRAME_ERROR)
+* `frame`: frame widget already registered with [AddFrame](#libeditmodeaddframeframe-callback-default)
+* `settings`: table containing [SettingObject](Types#settingobject) entries _(table, number indexed)_
+--]]
+function lib:AddFrameSettings(frame, settings)
+	if not frameSelections[frame] then
+		error('frame must be registered')
+	end
 
-  system.isInDefaultPosition = false
-
-  pointGetter:ClearAllPoints()
-  pointGetter:SetPoint(...)
-  local anchorInfo = system.anchorInfo
-
-  anchorInfo.point, anchorInfo.relativeTo, anchorInfo.relativePoint, anchorInfo.offsetX, anchorInfo.offsetY = pointGetter:GetPoint(1)
-  anchorInfo.relativeTo = anchorInfo.relativeTo:GetName()
+	frameSettings[frame] = settings
 end
 
-function lib:AreLayoutsLoaded()
-  return layoutInfo ~= nil
+--[[ LibEditMode:AddFrameSettingsButton(_frame, data_)
+Register extra buttons that will be displayed in a dialog attached to the frame in the Edit Mode.
+
+* `frame`: frame widget already registered with [AddFrame](#libeditmodeaddframeframe-callback-default)
+* `data`: table containing [ButtonObject](Types#buttonobject) entries _(table, number indexed)_
+--]]
+function lib:AddFrameSettingsButton(frame, data)
+	if not frameButtons[frame] then
+		frameButtons[frame] = {}
+	end
+
+	table.insert(frameButtons[frame], data)
 end
 
-function lib:LoadLayouts()
-  layoutInfo = C_EditMode.GetLayouts()
+--[[ LibEditMode:RegisterCallback(_event, callback_)
+Register extra callbacks whenever an event within the Edit Mode triggers.
 
-  if not reconciledLayouts then
-    local anyChanged = false
-    for _, layout in ipairs(layoutInfo.layouts) do
-      anyChanged = anyChanged or EditModeManagerFrame:ReconcileWithModern(layout)
-    end
-    if not anyChanged then
-      reconciledLayouts = true
-    end
-  end
+* `event`: event name _(string)_
+* `callback`: function that will be triggered with the event _(function)_
 
-  local tmp = EditModePresetLayoutManager:GetCopyOfPresetLayouts()
-  tAppendAll(tmp, layoutInfo.layouts);
-  layoutInfo.layouts = tmp
+Possible events:
+
+* `enter`: triggered when the Edit Mode is entered
+* `exit`: triggered when the Edit Mode is exited
+* `layout`: triggered when the Edit Mode layout is changed (which also occurs at login)
+    * signature:
+        * `layoutName`: name of the new layout
+--]]
+function lib:RegisterCallback(event, callback)
+	assert(event and type(event) == 'string', 'event must be a string')
+	assert(callback and type(callback) == 'function', 'callback must be a function')
+
+	if event == 'enter' then
+		table.insert(anonCallbacksEnter, callback)
+	elseif event == 'exit' then
+		table.insert(anonCallbacksExit, callback)
+	elseif event == 'layout' then
+		table.insert(anonCallbacksLayout, callback)
+	else
+		error('invalid callback event "' .. event .. '"')
+	end
 end
 
-function lib:SaveOnly()
-  assert(layoutInfo, LOAD_ERROR)
-  C_EditMode.SaveLayouts(layoutInfo)
-  reconciledLayouts = true -- Would have updated for new/old systems in LoadLayouts
+--[[ LibEditMode:GetActiveLayoutName()
+Returns the active Edit Mode layout name.
+--]]
+function lib:GetActiveLayoutName()
+	return lib.activeLayoutName
 end
 
-function lib:ApplyChanges()
-  assert(not InCombatLockdown(), "Cannot move frames in combat")
-  lib:SaveOnly()
-
-  ShowUIPanel(EditModeManagerFrame)
-  HideUIPanel(EditModeManagerFrame)
+--[[ LibEditMode:IsInEditMode()
+Returns whether the Edit Mode is currently active.
+--]]
+function lib:IsInEditMode()
+	return lib.isEditing
 end
 
-function lib:DoesLayoutExist(layoutName)
-  assert(layoutInfo, LOAD_ERROR)
-  return GetLayoutIndex(layoutName) ~= nil
+--[[ LibEditMode:GetFrameDefaultPosition(_frame_)
+Returns the default position table registered with the frame.
+
+* `frame`: registered frame to return positions for
+
+Returns:
+
+* `defaultPosition`: table registered with the frame in [AddFrame](#libeditmodeaddframeframe-callback-default) _(table)_
+--]]
+function lib:GetFrameDefaultPosition(frame)
+	return frameDefaults[frame]
 end
 
-function lib:AddLayout(layoutType, layoutName)
-  assert(layoutInfo, LOAD_ERROR)
-  assert(layoutName and layoutName ~= "", "Non-empty string required")
-  assert(not lib:DoesLayoutExist(layoutName), "Layout should not already exist")
-
-  local newLayout = CopyTable(layoutInfo.layouts[1]) -- Modern layout
-
-  newLayout.layoutType = layoutType
-  newLayout.layoutName = layoutName
-
-  local highestLayoutIndexByType = GetHighestIndex()
-
-  local newLayoutIndex;
-  if highestLayoutIndexByType[layoutType] then
-    newLayoutIndex = highestLayoutIndexByType[layoutType] + 1;
-  elseif (layoutType == Enum.EditModeLayoutType.Character) and highestLayoutIndexByType[Enum.EditModeLayoutType.Account] then
-    newLayoutIndex = highestLayoutIndexByType[Enum.EditModeLayoutType.Account] + 1;
-  else
-    newLayoutIndex = Enum.EditModePresetLayoutsMeta.NumValues + 1;
-  end
-
-  table.insert(layoutInfo.layouts, newLayoutIndex, newLayout)
-  C_EditMode.OnLayoutAdded(newLayoutIndex)
-  C_EditMode.SetActiveLayout(newLayoutIndex)
+function internal:TriggerCallback(frame, ...)
+	if frameCallbacks[frame] then
+		frameCallbacks[frame](frame, lib.activeLayoutName, ...)
+	end
 end
 
-function lib:DeleteLayout(layoutName)
-  assert(layoutInfo, LOAD_ERROR)
-  local index = GetLayoutIndex(layoutName)
-  assert(index ~= nil, "Can't delete layout as it doesn't exist")
-
-  assert(layoutInfo.layouts[index].layoutType ~= Enum.EditModeLayoutType.Preset, "Cannot delete preset layouts")
-
-  table.remove(layoutInfo.layouts, index)
-  C_EditMode.OnLayoutDeleted(index)
+function internal:GetFrameSettings(frame)
+	if frameSettings[frame] then
+		return frameSettings[frame], #frameSettings[frame]
+	else
+		return nil, 0
+	end
 end
 
-function lib:GetEditableLayoutNames()
-  assert(layoutInfo, LOAD_ERROR)
-  local names = {}
-  for _, layout in ipairs(layoutInfo.layouts) do
-    if layout.layoutType ~= Enum.EditModeLayoutType.Preset then
-      table.insert(names, layout.layoutName)
-    end
-  end
-
-  return names
+function internal:GetFrameButtons(frame)
+	if frameButtons[frame] then
+		return frameButtons[frame], #frameButtons[frame]
+	else
+		return nil, 0
+	end
 end
 
-function lib:GetPresetLayoutNames()
-  assert(layoutInfo, LOAD_ERROR)
-  local names = {}
-  for _, layout in ipairs(layoutInfo.layouts) do
-    if layout.layoutType == Enum.EditModeLayoutType.Preset then
-      table.insert(names, layout.layoutName)
-    end
-  end
+--[[ Types:header
 
-  return names
-end
+## SettingObject
 
-function lib:CanEditActiveLayout()
-  assert(layoutInfo, LOAD_ERROR)
-  return layoutInfo.layouts[layoutInfo.activeLayout].layoutType ~= Enum.EditModeLayoutType.Preset
-end
+Table containing the following entries:
 
-function lib:SetActiveLayout(layoutName)
-  assert(layoutInfo, LOAD_ERROR)
-  assert(lib:DoesLayoutExist(layoutName), "Layout must exist")
+| key     | value                         | type                        | required |
+|:--------|:------------------------------|:----------------------------|:---------|
+| kind    | setting type                  | [SettingType](#settingtype) | yes      |
+| name    | label for the setting         | string                      | yes      |
+| default | default value for the setting | any                         | yes      |
+| get     | getter for the current value  | function                    | yes      |
+| set     | setter for the new value      | function                    | yes      |
 
-  local index = GetLayoutIndex(layoutName)
+- The getter passes `layoutName` as the sole argument and expects a value in return.  
+- The setter passes (`layoutName`, `newValue`) and expects no returns.
 
-  layoutInfo.activeLayout = index
-  C_EditMode.SetActiveLayout(index)
-end
+Depending on the setting type there are additional required and optional entries:
 
-function lib:GetActiveLayout()
-  assert(layoutInfo, LOAD_ERROR)
-  return layoutInfo.layouts[layoutInfo.activeLayout].layoutName
-end
+### Dropdown
+
+| key     | value                                                                                                    | type  | required |
+|:--------|:---------------------------------------------------------------------------------------------------------|:------|:---------|
+| values  | LibDropDown [LineData](https://github.com/p3lim-wow/LibDropDown/wiki/Menu#menuaddlinedata) configuration | table | yes      |
+
+### Slider
+
+| key       | value                             | type     | required | default |
+|:----------|:----------------------------------|:---------|:---------|:--------|
+| minValue  | lower bound for the slider        | number   | no       | 0       |
+| maxValue  | upper bound for the slider        | number   | no       | 1       |
+| valueStep | step increment between each value | number   | no       | 1       |
+| formatter | formatter for the display value   | function | no       |         |
+
+- The formatter passes `value` as the sole argument and expects a number value in return.
+
+## ButtonObject
+
+Table containing the following entries:
+
+| key   | value                           | type     | required |
+|:------|:--------------------------------|----------|:---------|
+| text  | text rendered on the button     | string   | yes      |
+| click | callback when button is clicked | function | yes      |
+
+## SettingType
+Convenient shorthand for `Enum.EditModeSettingDisplayType`.
+
+One of:
+- `Dropdown`
+- `Checkbox`
+- `Slider`
+--]]
+lib.SettingType = CopyTable(Enum.EditModeSettingDisplayType)

@@ -1,93 +1,22 @@
 # LibEditMode
 
-Modify anchors and settings of frames controlled by edit mode _without_
-triggering taint issues or requiring a `/reload`.
+This is a library addon for the popular MMORPG "World of Warcraft.
 
-```lua
-local LibEditMode = LibStub("LibEditMode-1.0")
-LibEditMode:LoadLayouts()
-LibEditMode:ReanchorFrame(MainMenuBar, "TOP", UIParent)
-LibEditMode:ApplyChanges()
-```
+## Description
 
-# Usage
+LibEditMode is a library that allows a developer to integrate their frames into the Edit Mode introduced in Dragonflight.
 
-## Initialization and saving
-### `LibEditMode:LoadLayouts()`
+It has feature parity with the systems Blizzard added to the Edit Mode, but limits its re-use of methods to limit taint issues.
+It depends on [LibDropDown](https://github.com/p3lim-wow/LibDropDown) to achieve this.
 
-Required to call before using any other functions in this library. Queries and saves from
-the Blizzard API last saved edit mode frame settings and positions. You **will**
-need to call this again if the edit mode UI updates the layouts.
+For details on how to implement this in your own addon, please see the wiki:  
+<https://github.com/p3lim-wow/LibEditMode/wiki>
 
-### `LibEditMode:AreLayoutsLoaded()`
+## Feedback
 
-Has `LibEditMode:LoadLayouts()` been called at some point?
+If you have a question, please use the [discussions section on GitHub](https://github.com/p3lim-wow/LibEditMode/discussions).  
+If you would like to report a bug or contribute to the project, please follow [this link](https://github.com/p3lim-wow/LibEditMode/issues?q=) to get started.
 
-### `LibEditMode:ApplyChanges()`
+## Legal
 
-Save any changes made and apply any layout changes to the frames. Does not work
-during combat.
-
-### `LibEditMode:SaveOnly()`
-
-Save any changes made. Works during combat.
-
-## Frame configuration
-
-### `LibEditMode:ReanchorFrame(frame, ...)`
-
-For a frame that is managed by edit mode change the default anchor. Uses the
-same parameters as a `frame:SetPoint(...)` call for the anchor.
-
-### `LibEditMode:SetFrameSetting(frame, setting, value)`
-
-Set an edit mode setting on an edit mode managed frame. Use the enumerations
-found in the Blizzard Lua dumps for the setting parameter.
-
-### `LibEditMode:SetGlobalSetting(setting, value)`
-
-Set an edit mode account-wide setting. This is just an alias for
-`C_EditMode.SetAccountSetting`. This setting won't affect the UI outside of edit
-mode.
-
-### `LibEditMode:HasEditModeSettings(frame)`
-
-Does this frame have edit mode settings available?
-
-### `LibEditMode:GetFrameSetting(frame, setting)`
-
-Get the value of a specific edit mode setting on an edit mode managed frame.
-Use the enumerations found in the Blizzard Lua dumps for the setting parameter.
-
-### `LibEditMode:GetGlobalSetting(setting, value)`
-
-Get the value of a specific edit mode account-wide setting. This setting won't
-affect the UI outside of edit mode.
-
-## Layout management
-
-### `LibEditMode:AddLayout(layoutName)`
-
-Create a new layout called `layoutName`. This name must not already be in use.
-
-### `LibEditMode:DeleteLayout(layoutName)`
-
-Delete a layout named `layoutName`. This layout must exist.
-
-### `LibEditMode:SetActiveLayout(layoutName)`
-
-Change the active layout to `layoutName`. This name must exist. You need to call
-`LibEditMode:ApplyChanges` or similar for  this to take effect and persist.
-
-
-### `LibEditMode:DoesLayoutExist(layoutName)`
-
-Does a layout with the name `layoutName` exist?
-
-### `LibEditMode:GetPresetLayoutNames(layoutName)`
-
-Returns a table of the names of all preset non-editable layouts.
-
-### `LibEditMode:GetEditableLayoutNames(layoutName)`
-
-Returns a table of the names of all editable layouts.
+Please see the [LICENSE](https://github.com/p3lim-wow/LibEditMode/blob/master/LICENSE.txt) file.

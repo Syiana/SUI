@@ -157,7 +157,13 @@ local defaults = {
       surrender = false,
       losecontrol = false
     },
-    edit = {}
+    edit = {
+      --[[statsframe = {
+        point = 'CENTER',
+        x = 5,
+        y = 3
+      }]]
+    }
   }
 }
 
