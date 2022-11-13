@@ -11,8 +11,8 @@ local LSM = LibStub("LibSharedMedia-3.0")
 -- -----
 --   FONT
 -- -----
-LSM:Register("font", "SUI", [[Interface\Addons\SUI\Media\Fonts\Prototype.ttf]]) 
 LSM:Register("font", "Default", STANDARD_TEXT_FONT)
+LSM:Register("font", "SUI", [[Interface\Addons\SUI\Media\Fonts\Prototype.ttf]]) 
 LSM:Register("font", "Avant Garde", [[Interface\Addons\SUI\Media\Fonts\AvantGarde.ttf]])
 LSM:Register("font", "Arial Bold", [[Interface\Addons\SUI\Media\Fonts\Arial_Bold.ttf]])
 LSM:Register("font", "Exo 2 Bold", [[Interface\Addons\SUI\Media\Fonts\Exo2Bold.ttf]])
