@@ -134,22 +134,22 @@ function Module:OnEnable()
         local inInstance, instanceType = IsInInstance("player")
         if inInstance then
             if self.unit and not UnitIsFriend("player", self.unit) then
-                if self.UnitFrame and self.UnitFrame.healthBar then
-                    if db.texture ~=[[Interface\Default]] then
-                        self.UnitFrame.healthBar:SetStatusBarTexture(db.texture)
+                if self.unit and self.unit:find('nameplate%d') then
+                    if self.healthBar then
+                        self.healthBar:SetStatusBarTexture(db.texture)
                     end
                 end
             elseif instanceType == 'arena' then
-                if self.UnitFrame and self.UnitFrame.healthBar then
-                    if db.texture ~=[[Interface\Default]] then
-                        self.UnitFrame.healthBar:SetStatusBarTexture(db.texture)
+                if self.unit and self.unit:find('nameplate%d') then
+                    if self.healthBar then
+                        self.healthBar:SetStatusBarTexture(db.texture)
                     end
                 end
             end
         else
-            if self.UnitFrame and self.UnitFrame.healthBar then
-                if db.texture ~=[[Interface\Default]] then
-                    self.UnitFrame.healthBar:SetStatusBarTexture(db.texture)
+            if self.unit and self.unit:find('nameplate%d') then
+                if self.healthBar then
+                    self.healthBar:SetStatusBarTexture(db.texture)
                 end
             end
         end
@@ -157,7 +157,13 @@ function Module:OnEnable()
 
     if db.style ~= 'Default' then
         -- Set Nameplate Texture
-        hooksecurefunc(NamePlateBaseMixin, "OnAdded", nameplateTexture)
+        if db.texture ~= 'Default' then
+            hooksecurefunc("CompactUnitFrame_UpdateHealthColor", nameplateTexture)
+            hooksecurefunc("CompactUnitFrame_UpdateHealth", nameplateTexture)
+            hooksecurefunc("CompactUnitFrame_UpdateStatusText", nameplateTexture)
+        end
+        
+        --hooksecurefunc(NamePlateBaseMixin, "OnAdded", nameplateTexture)
         
         -- Set Nameplate Castbars
         hooksecurefunc("DefaultCompactNamePlateFrameAnchorInternal", nameplateCastbar)
