@@ -82,7 +82,7 @@ local defaults = {
         repbar = false,
       },
       menu = {
-        menumouseover = 'Default',
+        menumouseover = 'show',
       },
       bars = {
         bar1 = false,
@@ -162,6 +162,11 @@ local defaults = {
         point = 'BOTTOMLEFT',
         x = 5,
         y = 3
+      },
+      queueicon = {
+        point = 'BOTTOMRIGHT',
+        x = -15,
+        y = 50
       }
     }
   }

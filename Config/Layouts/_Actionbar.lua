@@ -67,9 +67,9 @@ function Layout:OnEnable()
           column = 4,
           order = 2,
           options = {
-            {value = 'show', text = 'Default'},
+            {value = 'show', text = 'Show'},
             {value = 'mouse_over', text = 'Show on Mouseover'},
-            {value = 'hide', text = 'Hide Menu'}
+            {value = 'hide', text = 'Hide'}
           }
         }
       },
