@@ -164,9 +164,9 @@ local defaults = {
         y = 3
       },
       queueicon = {
-        point = 'BOTTOMRIGHT',
-        x = -15,
-        y = 50
+        point = 'TOPRIGHT',
+        x = -177.4291998171339,
+        y = -224.431776383344
       }
     }
   }
