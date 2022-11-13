@@ -158,11 +158,11 @@ local defaults = {
       losecontrol = false
     },
     edit = {
-      --[[statsframe = {
-        point = 'CENTER',
+      statsframe = {
+        point = 'BOTTOMLEFT',
         x = 5,
         y = 3
-      }]]
+      }
     }
   }
 }

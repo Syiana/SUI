@@ -1,11 +1,15 @@
 local Module = SUI:NewModule("General.Stats");
 
-StatsFrame = CreateFrame("Frame", "StatsFrame", UIParent)
-StatsFrame:ClearAllPoints()
-StatsFrame:SetPoint('BOTTOMLEFT', UIParent, "BOTTOMLEFT", 5, 5)
-
 function Module:OnEnable()
-  local db = SUI.db.profile.general
+  local db = {
+    display = SUI.db.profile.general.display,
+    statsframe = SUI.db.profile.edit.statsframe
+  }
+
+  StatsFrame = CreateFrame("Frame", "StatsFrame", UIParent)
+  StatsFrame:ClearAllPoints()
+  StatsFrame:SetPoint(db.statsframe.point, UIParent, db.statsframe.point, db.statsframe.x, db.statsframe.y)
+
   if (db.display.fps or db.display.ms) then
     local font = STANDARD_TEXT_FONT
     local fontSize = 13
