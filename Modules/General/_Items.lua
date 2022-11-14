@@ -212,7 +212,7 @@ function Module:OnEnable()
     function CreateItemLevelString(button)
       button.levelString = button:CreateFontString(nil, "OVERLAY")
       button.levelString:SetFont(STANDARD_TEXT_FONT, 12, "THICKOUTLINE")
-      button.levelString:SetPoint("BOTTOM", 2)
+      button.levelString:SetPoint("BOTTOM", 0, 2)
     end
 
     function CheckContainerItems(item)
@@ -237,7 +237,8 @@ function Module:OnEnable()
           button.levelString:Hide()
         else
           CreateItemLevelString(button)
-          button.levelString:SetText(item:GetCurrentItemLevel())
+          local _, _, _, hex = GetItemQualityColor(quality)
+          button.levelString:SetFormattedText('|c%s%s|r', hex, item:GetCurrentItemLevel() or '?')
           button.levelString:Show()
         end
       end)
