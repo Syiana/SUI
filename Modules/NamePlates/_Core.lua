@@ -12,7 +12,7 @@ function Module:OnEnable()
                     PixelUtil.SetPoint(self.castBar.Icon, "CENTER", self.castBar, "LEFT", -10, 0);
                     self.castBar.Text:SetFont(STANDARD_TEXT_FONT, 10, "OUTLINE")
                 end
-            elseif instanceType == 'arena' then
+            elseif instanceType == 'arena' or instanceType == 'pvp' then
                 if self.castBar and self.castBar.Icon then
                     self.castBar.Icon:ClearAllPoints();
                     PixelUtil.SetPoint(self.castBar.Icon, "CENTER", self.castBar, "LEFT", -10, 0);
@@ -27,7 +27,7 @@ function Module:OnEnable()
             end
         end
     end
-    
+
     local function nameplateHealthText(unit, healthBar)
         if not healthBar.text then
             healthBar.text = healthBar:CreateFontString(nil, "ARTWORK", nil)
@@ -51,7 +51,7 @@ function Module:OnEnable()
                         nameplateHealthText(unit, healthBar)
                     end
                 end
-            elseif instanceType == 'arena' then
+            elseif instanceType == 'arena' or instanceType == 'pvp' then
                 if self.unit and self.unit:find('nameplate%d') then
                     if self.healthBar and self.unit then
                         local unit = self.unit
@@ -94,7 +94,7 @@ function Module:OnEnable()
                             end
                         end
                     end
-                elseif instanceType == 'arena' then
+                elseif instanceType == 'arena' or instanceType == 'pvp' then
                     -- Classcolor Playername
                     if db.color and self.unit then
                         local _, class = UnitClass(self.unit)
@@ -139,7 +139,7 @@ function Module:OnEnable()
                         self.healthBar:SetStatusBarTexture(db.texture)
                     end
                 end
-            elseif instanceType == 'arena' then
+            elseif instanceType == 'arena' or instanceType == 'pvp' then
                 if self.unit and self.unit:find('nameplate%d') then
                     if self.healthBar then
                         self.healthBar:SetStatusBarTexture(db.texture)
@@ -162,9 +162,9 @@ function Module:OnEnable()
             hooksecurefunc("CompactUnitFrame_UpdateHealth", nameplateTexture)
             hooksecurefunc("CompactUnitFrame_UpdateStatusText", nameplateTexture)
         end
-        
+
         --hooksecurefunc(NamePlateBaseMixin, "OnAdded", nameplateTexture)
-        
+
         -- Set Nameplate Castbars
         hooksecurefunc("DefaultCompactNamePlateFrameAnchorInternal", nameplateCastbar)
 
