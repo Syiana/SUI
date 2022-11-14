@@ -29,14 +29,21 @@ function Module:OnEnable()
     end
 
     local function nameplateHealthText(unit, healthBar)
-        if not healthBar.text then
-            healthBar.text = healthBar:CreateFontString(nil, "ARTWORK", nil)
-            healthBar.text:SetPoint("CENTER")
-            healthBar.text:SetFont(STANDARD_TEXT_FONT, 8, 'OUTLINE')
-        else
-            local _, maxHealth = healthBar:GetMinMaxValues()
-            local currentHealth = healthBar:GetValue()
-            healthBar.text:SetText(string.format(math.floor((currentHealth / maxHealth) * 100 )) .. "%")
+        --print(GetUnitName(unit))
+        --GetUnitName("player")
+        if GetUnitName(unit) == GetUnitName("player") then
+            print("It's you")
+        end
+        if GetUnitName(unit) ~= GetUnitName("player") then
+            if not healthBar.text then
+                healthBar.text = healthBar:CreateFontString(nil, "ARTWORK", nil)
+                healthBar.text:SetPoint("CENTER")
+                healthBar.text:SetFont(STANDARD_TEXT_FONT, 8, 'OUTLINE')
+            else
+                local _, maxHealth = healthBar:GetMinMaxValues()
+                local currentHealth = healthBar:GetValue()
+                healthBar.text:SetText(string.format(math.floor((currentHealth / maxHealth) * 100 )) .. "%")
+            end
         end
     end
 

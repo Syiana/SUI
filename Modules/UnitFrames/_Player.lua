@@ -58,6 +58,8 @@ function Module:OnEnable()
       local powerColor = GetPowerColor(PlayerFrameManaBar.powerType)
       PlayerFrameManaBar.texture:SetTexture(db.texture)
       PlayerFrameManaBar:SetStatusBarColor(powerColor.r, powerColor.g, powerColor.b)
+      ClassNameplateManaBarFrame:SetStatusBarTexture(db.texture)
+      ClassNameplateManaBarFrame:SetStatusBarColor(powerColor.r, powerColor.g, powerColor.b)
     end)
 
     PetFrame:HookScript("OnEvent", function()
