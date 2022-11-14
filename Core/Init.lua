@@ -82,7 +82,8 @@ local defaults = {
         repbar = false,
       },
       menu = {
-        menumouseover = 'show',
+        micromenu = 'show',
+        bagbar = 'show'
       },
       bars = {
         bar1 = false,
@@ -167,6 +168,16 @@ local defaults = {
         point = 'TOPRIGHT',
         x = -177.4291998171339,
         y = -224.431776383344
+      },
+      micromenu = {
+        point = 'BOTTOMRIGHT',
+        x = 0,
+        y = 0
+      },
+      bagbar = {
+        point = 'BOTTOMRIGHT',
+        x = 0,
+        y = 50
       }
     }
   }

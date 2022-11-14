@@ -60,10 +60,22 @@ function Layout:OnEnable()
           column = 4,
           order = 1
         },
-        menumouseover = {
-          key = 'menu.menumouseover',
+        micromenu = {
+          key = 'menu.micromenu',
           type = 'dropdown',
-          label = 'Micromenu & Bag Buttons',
+          label = 'Micromenu',
+          column = 4,
+          order = 2,
+          options = {
+            {value = 'show', text = 'Show'},
+            {value = 'mouse_over', text = 'Show on Mouseover'},
+            {value = 'hide', text = 'Hide'}
+          }
+        },
+        bagbar = {
+          key = 'menu.bagbar',
+          type = 'dropdown',
+          label = 'Bag Buttons',
           column = 4,
           order = 2,
           options = {
