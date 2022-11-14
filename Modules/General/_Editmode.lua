@@ -78,8 +78,6 @@ function Module:OnEnable()
         elseif db.microvis == 'hide' then
             MicroMenu:Hide()
         end
-
-        print(db.bagbar.point)
     end)
 
     LEM:RegisterCallback('layout', function(layoutName)
