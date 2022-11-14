@@ -68,7 +68,7 @@ function Module:OnEnable()
       PetFrameManaBar:SetStatusBarColor(powerColor.r, powerColor.g, powerColor.b)
     end)
   end
-  
+
   local statusTexture = PlayerFrame.PlayerFrameContent.PlayerFrameContentMain.StatusTexture;
   local statusAnimation = PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual.PlayerRestLoop
 
