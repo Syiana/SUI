@@ -28,7 +28,7 @@ function Module:OnEnable()
         end
 
         local avgilvl = C_PaperDollInfo.GetInspectItemLevel("target")
-        InspectFontStrings["text"]:SetText("Average iLvl:")
+        InspectFontStrings["text"]:SetText("Average iLvl: ")
         InspectFontStrings["avg"]:SetText(avgilvl)
     end
 

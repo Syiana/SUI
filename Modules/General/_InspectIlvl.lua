@@ -34,8 +34,7 @@ function Module:OnEnable()
             for _, f in ipairs(InspectFrameList) do
                 local frameName = f:GetName()
                 InspectFontStrings[frameName] = f:CreateFontString(nil, "OVERLAY", "SystemFont_Outline")
-                InspectFontStrings[frameName]:SetPoint("TOP", 0, -2)
-                InspectFontStrings[frameName]:SetTextColor(0, 1, 0)
+                InspectFontStrings[frameName]:SetPoint("CENTER", frameName, "BOTTOM", 0, 8)
             end
 
             alreadyInitialized = true
@@ -67,9 +66,13 @@ function Module:OnEnable()
                 local slotilvl = ""
                 if ItemLinks[slotName] then
                     slotilvl = GetDetailedItemLevelInfo(ItemLinks[slotName])
-                    InspectFontStrings[frameName]:SetTextColor(1,1,0)
+                    local _, _, quality = GetItemInfo(ItemLinks[slotName])
+                    local _, _, _, hex = GetItemQualityColor(quality)
+                    InspectFontStrings[frameName]:SetFormattedText('|c%s%s|r', hex, slotilvl or '?')
+                    --InspectFontStrings[frameName]:SetTextColor(1,1,0)
+                else
+                    InspectFontStrings[frameName]:SetText("")
                 end
-                InspectFontStrings[frameName]:SetText(slotilvl)
             end
         end
 
