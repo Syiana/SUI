@@ -82,7 +82,10 @@ function Module:OnEnable()
       if Button.Shadow == nil then
         NormalTexture:SetDesaturated(true)
         NormalTexture:SetVertexColor(unpack(SUI:Color(0.15)))
-        Cooldown:SetAllPoints()
+        
+        Cooldown:ClearAllPoints()
+        Cooldown:SetPoint("TOPLEFT", Button, "TOPLEFT", 2, -2)
+        Cooldown:SetPoint("BOTTOMRIGHT", Button, "BOTTOMRIGHT", -2, 2)
 
         Icon:SetTexCoord(.08, .92, .08, .92)
 
