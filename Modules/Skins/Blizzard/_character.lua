@@ -91,31 +91,31 @@ function Module:OnEnable()
       v:SetAlpha(0)
     end
 
-    for i, v in pairs({
-      ReputationListScrollFrameScrollBarThumbTexture,
-      ReputationListScrollFrameScrollBarScrollUpButton.Normal,
-      ReputationListScrollFrameScrollBarScrollDownButton.Normal,
-      ReputationListScrollFrameScrollBarScrollUpButton.Disabled,
-      ReputationListScrollFrameScrollBarScrollDownButton.Disabled,
+    -- for i, v in pairs({
+    --   ReputationListScrollFrameScrollBarThumbTexture,
+    --   ReputationListScrollFrameScrollBarScrollUpButton.Normal,
+    --   ReputationListScrollFrameScrollBarScrollDownButton.Normal,
+    --   ReputationListScrollFrameScrollBarScrollUpButton.Disabled,
+    --   ReputationListScrollFrameScrollBarScrollDownButton.Disabled,
 
-    }) do
-      v:SetVertexColor(.4, .4, .4)
-    end
-    _G.select(1, ReputationListScrollFrame:GetRegions()):SetVertexColor(.4, .4, .4)
-    _G.select(2, ReputationListScrollFrame:GetRegions()):SetVertexColor(.4, .4, .4)
+    -- }) do
+    --   v:SetVertexColor(.4, .4, .4)
+    -- end
+    -- _G.select(1, ReputationListScrollFrame:GetRegions()):SetVertexColor(.4, .4, .4)
+    -- _G.select(2, ReputationListScrollFrame:GetRegions()):SetVertexColor(.4, .4, .4)
 
-    for i, v in pairs({
-      TokenFrameContainerScrollBarTop,
-      TokenFrameContainerScrollBarMiddle,
-      TokenFrameContainerScrollBarBottom,
-      TokenFrameContainerScrollBarThumbTexture,
-      TokenFrameContainerScrollBarScrollUpButton.Normal,
-      TokenFrameContainerScrollBarScrollDownButton.Normal,
-      TokenFrameContainerScrollBarScrollUpButton.Disabled,
-      TokenFrameContainerScrollBarScrollDownButton.Disabled,
+    -- for i, v in pairs({
+    --   TokenFrameContainerScrollBarTop,
+    --   TokenFrameContainerScrollBarMiddle,
+    --   TokenFrameContainerScrollBarBottom,
+    --   TokenFrameContainerScrollBarThumbTexture,
+    --   TokenFrameContainerScrollBarScrollUpButton.Normal,
+    --   TokenFrameContainerScrollBarScrollDownButton.Normal,
+    --   TokenFrameContainerScrollBarScrollUpButton.Disabled,
+    --   TokenFrameContainerScrollBarScrollDownButton.Disabled,
 
-    }) do
-      v:SetVertexColor(.4, .4, .4)
-    end
+    -- }) do
+    --   v:SetVertexColor(.4, .4, .4)
+    -- end
   end
 end

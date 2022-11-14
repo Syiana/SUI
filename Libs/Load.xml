@@ -17,4 +17,9 @@
   <Include file='LibSharedMedia-3.0\LibSharedMedia-3.0.xml'/>
   <Include file='SUIConfig\SUIConfig.xml'/>
   <Include file='TPrint\TPrint.lua'/>
+  <Include file='LibEditModeOverride\LibEditModeOverride.xml'/>
+  <Include file='LibDBIcon-1.0\embeds.xml'/>
+  <Include file='LibDBIcon-1.0\LibDBIcon-1.0\lib.xml'/>
+  <Include file='LibDropDown\embed.xml'/>
+  <Include file='LibEditMode\embed.xml'/>
 </Ui>

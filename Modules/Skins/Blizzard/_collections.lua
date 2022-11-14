@@ -18,8 +18,8 @@ function Module:OnEnable()
             v:SetVertexColor(.15, .15, .15)
         end
         for i, v in pairs({
-          CollectionsJournal.Bg,
-          CollectionsJournal.TitleBg }) do
+          CollectionsJournalBg
+        }) do
             v:SetVertexColor(.3, .3, .3)
         end
         for i, v in pairs({
@@ -90,18 +90,10 @@ function Module:OnEnable()
           MountJournalListScrollFrameScrollBarTop,
           MountJournalListScrollFrameScrollBarMiddle,
           MountJournalListScrollFrameScrollBarBottom,
-          MountJournalListScrollFrameScrollBarScrollUpButton.Normal,
-          MountJournalListScrollFrameScrollBarScrollDownButton.Normal,
-          MountJournalListScrollFrameScrollBarScrollUpButton.Disabled,
-          MountJournalListScrollFrameScrollBarScrollDownButton.Disabled,
           PetJournalListScrollFrameScrollBarThumbTexture,
           PetJournalListScrollFrameScrollBarTop,
           PetJournalListScrollFrameScrollBarMiddle,
-          PetJournalListScrollFrameScrollBarBottom,
-          PetJournalListScrollFrameScrollBarScrollUpButton.Normal,
-          PetJournalListScrollFrameScrollBarScrollDownButton.Normal,
-          PetJournalListScrollFrameScrollBarScrollUpButton.Disabled,
-          PetJournalListScrollFrameScrollBarScrollDownButton.Disabled, }) do
+          PetJournalListScrollFrameScrollBarBottom, }) do
           v:SetVertexColor(.4, .4, .4)
         end
       end

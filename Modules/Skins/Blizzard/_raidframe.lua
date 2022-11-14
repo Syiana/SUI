@@ -47,17 +47,17 @@ function Module:OnEnable()
         region:SetVertexColor(unpack(SUI:Color(0.15)))
       end
     end
-    for _, region in pairs({CompactRaidFrameManagerContainerResizeFrame:GetRegions()}) do
-      if region:GetName():find("Border") then
-        region:SetVertexColor(unpack(SUI:Color(0.15)))
-      end
-    end
-    CompactRaidFrameManagerToggleButton:SetNormalTexture("Interface\\Addons\\SUI\\Media\\Textures\\RaidFrames\\RaidPanel-Toggle")
-    for i = 1, 4 do
-      _G["PartyMemberFrame" .. i .. "PVPIcon"]:SetAlpha(0)
-      _G["PartyMemberFrame" .. i .. "NotPresentIcon"]:Hide()
-      _G["PartyMemberFrame" .. i .. "NotPresentIcon"].Show = function()
-      end
-    end
+    -- for _, region in pairs({CompactRaidFrameManagerContainerResizeFrame:GetRegions()}) do
+    --   if region:GetName():find("Border") then
+    --     region:SetVertexColor(unpack(SUI:Color(0.15)))
+    --   end
+    -- end
+    -- CompactRaidFrameManagerToggleButton:SetNormalTexture("Interface\\Addons\\SUI\\Media\\Textures\\RaidFrames\\RaidPanel-Toggle")
+    -- for i = 1, 4 do
+    --   _G["PartyMemberFrame" .. i .. "PVPIcon"]:SetAlpha(0)
+    --   _G["PartyMemberFrame" .. i .. "NotPresentIcon"]:Hide()
+    --   _G["PartyMemberFrame" .. i .. "NotPresentIcon"].Show = function()
+    --   end
+    -- end
   end
 end

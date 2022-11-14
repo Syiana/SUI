@@ -1,4 +1,4 @@
-local Module = SUI:NewModule("General.Stats");
+local Module = SUI:NewModule("General.AfkCam");
 
 function Module:OnEnable()
   local db = SUI.db.profile.general.cosmetic.afkscreen
@@ -37,15 +37,6 @@ function Module:OnEnable()
       end
 
       UpdateColor(t)
-
-      f:SetBackdrop({
-        bgFile = texture,
-        edgeFile = blank,
-        tile = false, tileSize = 0, edgeSize = 1,
-      })
-
-      f:SetBackdropColor(backdropr, backdropg, backdropb, backdropa)
-      f:SetBackdropBorderColor(borderr, borderg, borderb)
     end
 
     local function addapi(object)
@@ -107,11 +98,6 @@ function Module:OnEnable()
     AFKPanel.Text:SetFont( font, 110, "OUTLINE" )
     AFKPanel.Text:SetText( "|cfff58cbaS|r|cff009cffUI|r" )
 
-    AFKPanel.Text = AFKPanelTop:CreateFontString( nil, "OVERLAY" )
-    AFKPanel.Text:SetPoint("CENTER", AFKPanel, "CENTER", 0, -40 )
-    AFKPanel.Text:SetFont( font, 22, "OUTLINE" )
-    AFKPanel.Text:SetText( "|cfff58cbav|r|cff009cff8.9|r" )
-
     -- Set Up the Player Model
     AFKPanel.playerModel = CreateFrame('PlayerModel', nil, AFKPanel);
     AFKPanel.playerModel:SetSize(800, 1000)
@@ -158,27 +144,30 @@ function Module:OnEnable()
       end
     end )
 
+    local isActive = false
     local OnEvent = function(self, event, unit)
       if event == "PLAYER_FLAGS_CHANGED" then
         local isArena, isRegistered = C_PvP.IsArena()
         if unit == "player" then
           if UnitIsAFK(unit) and not UnitIsDead(unit) and not InCombatLockdown() and not isArena then
-            SpinStart()
+            MoveViewRightStart(0.1)
             AFKPanel:Show()
             AFKPanelTop:Show()
             Minimap:Hide()
-          else
-            SpinStop()
+            isActive = true
+          elseif not UnitIsAFK(unit) and not InCombatLockdown() then
+            MoveViewRightStop()
             AFKPanel:Hide()
             AFKPanelTop:Hide()
             Minimap:Show()
+            isActive = false
           end
         end
       elseif event == "PLAYER_LEAVING_WORLD" then
-        SpinStop()
+        MoveViewRightStop()
       elseif event == "PLAYER_DEAD" then
         if UnitIsAFK("player") then
-          SpinStop()
+          MoveViewRightStop()
           AFKPanel:Hide()
           AFKPanelTop:Hide()
           Minimap:Show()
@@ -186,38 +175,33 @@ function Module:OnEnable()
       end
     end
 
-    AFKPanel:RegisterEvent( "PLAYER_ENTERING_WORLD" )
-    AFKPanel:RegisterEvent( "PLAYER_LEAVING_WORLD" )
-    AFKPanel:RegisterEvent( "PLAYER_FLAGS_CHANGED" )
-    AFKPanel:SetScript( "OnEvent", OnEvent )
-
-    AFKPanel:SetScript( "OnShow", function( self )
+    AFKPanel:RegisterEvent("PLAYER_ENTERING_WORLD")
+    AFKPanel:RegisterEvent("PLAYER_LEAVING_WORLD")
+    AFKPanel:RegisterEvent("PLAYER_FLAGS_CHANGED")
+    AFKPanel:SetScript("OnEvent", OnEvent)
+    AFKPanel:SetScript("OnShow", function(self)
       UIParent:SetAlpha(0);
-      for i = 1, 40 do
-        local raidframe = _G["CompactRaidFrame"..i..""]
-        if raidframe == nil then else  raidframe:Hide(); end
-        i = i + 1
-      end
-    end )
+      PartyFrame:Hide()
+      CompactRaidFrameContainer:Hide()
+    end)
 
-    AFKPanel:SetScript( "OnHide", function( self )
+    AFKPanel:SetScript("OnHide", function(self)
       UIFrameFadeOut( UIParent, 0.5, 0, 1 )
-      for i = 1, 40 do
-        local raidframe = _G["CompactRaidFrame"..i..""]
-        if raidframe == nil then else  raidframe:Show(); end
-        i = i + 1
+      PartyFrame:Show()
+      CompactRaidFrameContainer:Show()
+    end)
+
+    local leaveAFK = CreateFrame("Frame")
+    leaveAFK:RegisterEvent("PLAYER_LEAVE_COMBAT")
+    leaveAFK:RegisterEvent("PLAYER_REGEN_ENABLED")
+    leaveAFK:SetScript("OnEvent", function()
+      if isActive and not UnitIsAFK("player") then
+        MoveViewRightStop()
+        AFKPanel:Hide()
+        AFKPanelTop:Hide()
+        Minimap:Show()
+        isActive = false
       end
-    end )
-
-    function SpinStart()
-      local spinning = true
-      MoveViewRightStart( 0.1 )
-    end
-
-    function SpinStop()
-      if( not spinning ) then return end
-      local spinning = nil
-      MoveViewRightStop()
-    end
+    end)
   end
 end

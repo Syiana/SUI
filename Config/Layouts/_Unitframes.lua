@@ -6,6 +6,7 @@ function Layout:OnEnable()
 
   -- Data
   local Textures = SUI:GetModule("Data.Textures")
+  local Partyprofile = SUI:GetModule("Data.Partyprofile")
 
   -- Layout
   Layout.layout = {
@@ -42,21 +43,14 @@ function Layout:OnEnable()
           column = 4,
           order = 2
         },
-        size = {
-          key = 'unitframes.size',
-          type = 'slider',
-          label = 'Frame Size',
-          precision = 1,
-          min = 0.1,
-          max = 5,
+        texture = {
+          key = 'general.texture',
+          type = 'dropdown',
+          label = 'Texture',
+          options = Textures.data,
           column = 4,
-          order = 3,
-          onChange = function(slider)
-            PlayerFrame:SetScale(slider.value)
-            TargetFrame:SetScale(slider.value)
-            FocusFrame:SetScale(slider.value)
-          end,
-        }
+          order = 3
+        },
       },
       {
         class = {
@@ -65,6 +59,7 @@ function Layout:OnEnable()
           label = 'Class Color',
           tooltip = 'Change healthcolor to class color',
           column = 4,
+          order = 1
         },
         pvp = {
           key = 'unitframes.pvpbadge',
@@ -72,13 +67,15 @@ function Layout:OnEnable()
           label = 'PvP Badge',
           tooltip = 'Display PVP icon on Unit frames',
           column = 4,
+          order = 2
         },
         hitindicator = {
           key = 'unitframes.hitindicator',
           type = 'checkbox',
           label = 'Hit indicator',
+          tooltip = 'Display numbers on Player Portrait',
           column = 4,
-          order = 1
+          order = 3
         },
       },
       {
@@ -88,21 +85,21 @@ function Layout:OnEnable()
           label = 'Combat Icon',
           tooltip = 'Display combat icon on Unit frames',
           column = 4,
-          order = 2
+          order = 1
         },
-        link = {
-          key = 'unitframes.links',
+        totemicons = {
+          key = 'unitframes.totemicons',
           type = 'checkbox',
-          label = 'Char Links',
-          tooltip = 'Extra menu to generate character-links for Check-PVP, Raider.io, etc.',
+          label = 'Totem Icons',
+          tooltip = 'Show Totem Icons below the Player Unitframe',
           column = 4,
-          order = 3
+          order = 2
         }
       },
       {
         header = {
           type = 'header',
-          label = 'Raidframes'
+          label = 'Raid/Party Frame'
         },
       },
       {
@@ -111,7 +108,56 @@ function Layout:OnEnable()
           type = 'dropdown',
           label = 'Texture',
           options = Textures.data,
-          column = 5
+          column = 4,
+          order = 1
+        },
+        size = {
+          key = 'raidframes.size',
+          type = 'dropdown',
+          label = 'Custom Size',
+          options = {
+            { value = true, text = 'Enabled' },
+            { value = false, text = 'Disabled' }
+          },
+          tooltip = 'Enable Custom Party-Raidframestyle Sizing',
+          column = 4,
+          order = 2
+        },
+      },
+      {
+        partyheight = {
+          key = 'raidframes.height',
+          type = 'slider',
+          label = 'Height',
+          precision = 1,
+          min = 50,
+          max = 300,
+          column = 4,
+          order = 1,
+          onChange = function(slider)
+            for i=1,5 do
+              _G["CompactPartyFrameMember" ..i]:SetHeight(slider.value)
+              _G["CompactPartyFrameMember" ..i.."StatusText"]:ClearAllPoints()
+              _G["CompactPartyFrameMember" ..i.."StatusText"]:SetPoint("CENTER", _G["CompactPartyFrameMember" ..i], "CENTER")
+            end
+          end,
+        },
+        partywidth = {
+          key = 'raidframes.width',
+          type = 'slider',
+          label = 'Width',
+          precision = 1,
+          min = 50,
+          max = 300,
+          column = 4,
+          order = 2,
+          onChange = function(slider)
+            for i=1,5 do
+              _G["CompactPartyFrameMember" ..i]:SetWidth(slider.value)
+              _G["CompactPartyFrameMember" ..i.."StatusText"]:ClearAllPoints()
+              _G["CompactPartyFrameMember" ..i.."StatusText"]:SetPoint("CENTER", _G["CompactPartyFrameMember" ..i], "CENTER")
+            end
+          end,
         }
       },
     },

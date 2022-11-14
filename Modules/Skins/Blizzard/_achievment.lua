@@ -7,7 +7,13 @@ function Module:OnEnable()
     f:SetScript("OnEvent", function(self, event, name)
       if name == "Blizzard_AchievementUI" then
         for i, v in pairs({ AchievementFrameHeaderRight,
-          AchievementFrameHeaderLeft,
+          AchievementFrame.Header.Left,
+          AchievementFrame.Header.Right,
+          AchievementFrame.Header.RightDDLInset,
+          AchievementFrame.Searchbox,
+          AchievementFrameSummary.Background,
+          AchievementFrameCategoriesBG,
+          AchievementFrame.Background,
           AchievementFrameWoodBorderTopLeft,
           AchievementFrameWoodBorderBottomLeft,
           AchievementFrameWoodBorderTopRight,

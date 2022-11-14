@@ -1,7 +1,7 @@
 local Module = SUI:NewModule("General.AvgIlvl");
 
 function Module:OnEnable()
-  local db = SUI.db.profile.general.display.avgilvl
+  local db = SUI.db.profile.general.display.ilvl
 
   if (db) then
     local alreadyInitialized = false
@@ -14,8 +14,8 @@ function Module:OnEnable()
 
         InspectFontStrings["avg"] = InspectModelFrame:CreateFontString(nil, "OVERLAY")
         InspectFontStrings["text"] = InspectModelFrame:CreateFontString(nil, "OVERLAY")
-        InspectFontStrings["avg"]:SetPoint("BOTTOM", 148, -25)
-        InspectFontStrings["text"]:SetPoint("BOTTOM", 95, -25)
+        InspectFontStrings["avg"]:SetPoint("BOTTOM", -70, -25)
+        InspectFontStrings["text"]:SetPoint("BOTTOM", -120, -25)
         InspectFontStrings["avg"]:SetFont("Fonts\\FRIZQT__.ttf", 12, "OUTLINE")
         InspectFontStrings["text"]:SetFont("Fonts\\FRIZQT__.ttf", 12, "OUTLINE")
 
@@ -28,7 +28,7 @@ function Module:OnEnable()
         end
 
         local avgilvl = C_PaperDollInfo.GetInspectItemLevel("target")
-        InspectFontStrings["text"]:SetText("Average iLvl:")
+        InspectFontStrings["text"]:SetText("Average iLvl: ")
         InspectFontStrings["avg"]:SetText(avgilvl)
     end
 

@@ -1,32 +1,15 @@
 local Module = SUI:NewModule("General.Stats");
 
-StatsFrame = CreateFrame("Frame", "StatsFrame", UIParent)
-local movable = false
-
-if movable == false then
-  StatsFrame:ClearAllPoints()
-  StatsFrame:SetPoint('BOTTOMLEFT', UIParent, "BOTTOMLEFT", 5, 5)
-end
-
-if movable == true then
-  StatsFrame:EnableMouse(true)
-  StatsFrame:ClearAllPoints()
-  StatsFrame:SetPoint('BOTTOMLEFT', UIParent, "BOTTOMLEFT", 5, 3)
-  StatsFrame:SetClampedToScreen(true)
-  StatsFrame:SetMovable(true)
-  StatsFrame:SetUserPlaced(true)
-  StatsFrame:SetFrameLevel(4)
-  StatsFrame:SetScript("OnMouseDown",	function()
-    StatsFrame:ClearAllPoints()
-    StatsFrame:StartMoving()
-  end)
-  StatsFrame:SetScript("OnMouseUp", function()
-    StatsFrame:StopMovingOrSizing()
-  end)
-end
-
 function Module:OnEnable()
-  local db = SUI.db.profile.general
+  local db = {
+    display = SUI.db.profile.general.display,
+    statsframe = SUI.db.profile.edit.statsframe
+  }
+
+  StatsFrame = CreateFrame("Frame", "StatsFrame", UIParent)
+  StatsFrame:ClearAllPoints()
+  StatsFrame:SetPoint(db.statsframe.point, UIParent, db.statsframe.point, db.statsframe.x, db.statsframe.y)
+
   if (db.display.fps or db.display.ms) then
     local font = STANDARD_TEXT_FONT
     local fontSize = 13

@@ -68,14 +68,6 @@ function Layout:OnEnable()
           column = 3,
           order = 1
         },
-        losecontrol = {
-          key = 'losecontrol',
-          type = 'checkbox',
-          label = 'Losecontrol',
-          tooltip = 'Shows crowd-control icons with timer for yourself',
-          column = 3,
-          order = 1
-        },
         dampening = {
           key = 'dampening',
           type = 'checkbox',
@@ -83,9 +75,7 @@ function Layout:OnEnable()
           tooltip = 'Shows dampening right below the arena timer',
           column = 3,
           order = 1
-        }
-      },
-      {
+        },
         surrender = {
           key = 'surrender',
           type = 'checkbox',
@@ -93,7 +83,17 @@ function Layout:OnEnable()
           tooltip = 'Allows you to surrender by typing /gg',
           column = 3,
           order = 1
-        }
+        },
+      },
+      {
+        losecontrol= {
+          key = 'losecontrol',
+          type = 'checkbox',
+          label = 'LoseControl',
+          tooltip = 'More transparent Loss of Control Alert frame',
+          column = 3,
+          order = 1
+        },
       }
     },
   }

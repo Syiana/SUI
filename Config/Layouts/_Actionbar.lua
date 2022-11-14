@@ -12,27 +12,6 @@ function Layout:OnEnable()
       {
         header = {
           type = 'header',
-          label = 'Actionbar'
-        }
-      },
-      {
-        style = {
-          key = 'style',
-          label = 'Style',
-          type = 'dropdown',
-          options = {
-            { value = 'Default', text = 'Default' },
-            { value = 'DefaultNoBg', text = 'Default (hide background)'},
-            { value = 'Small', text = 'Small' }
-          },
-          initialValue = 1,
-          column = 5,
-          order = 1
-        }
-      },
-      {
-        header = {
-          type = 'header',
           label = 'Buttons'
         },
       },
@@ -53,24 +32,6 @@ function Layout:OnEnable()
           column = 4,
           order = 2
         },
-        gryphones = {
-          key = 'gryphones',
-          type = 'checkbox',
-          label = 'Gryphones',
-          tooltip = 'Show actionbar gryphones',
-          column = 4,
-          order = 3
-        }
-      },
-      {
-        range = {
-          key = 'buttons.range',
-          type = 'checkbox',
-          label = 'Range Color',
-          tooltip = 'Show spell-color in red if out of range',
-          column = 4,
-          order = 1
-        },
         flash = {
           key = 'buttons.flash',
           type = 'checkbox',
@@ -81,19 +42,113 @@ function Layout:OnEnable()
         }
       },
       {
+        range = {
+          key = 'buttons.range',
+          type = 'checkbox',
+          label = 'Range Color',
+          tooltip = 'Show spell-color in red if out of range',
+          column = 4,
+          order = 1
+        }
+      },
+      {
         size = {
           key = 'buttons.size',
           type = 'slider',
-          label = 'Size',
-          max = 50,
+          label = 'Text size',
+          max = 20,
           column = 4,
           order = 1
         },
-        padding = {
-          key = 'buttons.padding',
-          type = 'slider',
-          label = 'Padding',
-          max = 50,
+        micromenu = {
+          key = 'menu.micromenu',
+          type = 'dropdown',
+          label = 'Micromenu',
+          column = 4,
+          order = 2,
+          options = {
+            {value = 'show', text = 'Show'},
+            {value = 'mouse_over', text = 'Show on Mouseover'},
+            {value = 'hide', text = 'Hide'}
+          }
+        },
+        bagbar = {
+          key = 'menu.bagbar',
+          type = 'dropdown',
+          label = 'Bag Buttons',
+          column = 4,
+          order = 2,
+          options = {
+            {value = 'show', text = 'Show'},
+            {value = 'mouse_over', text = 'Show on Mouseover'},
+            {value = 'hide', text = 'Hide'}
+          }
+        }
+      },
+      {
+        header = {
+          type = 'header',
+          label = 'Show on Mouseover'
+        },
+      },
+      {
+        actionbar1 = {
+          key = 'bars.bar1',
+          type = 'checkbox',
+          label = 'Bar 1',
+          column = 4,
+          order = 1
+        },
+        actionbar2 = {
+          key = 'bars.bar2',
+          type = 'checkbox',
+          label = 'Bar 2',
+          column = 4,
+          order = 2
+        },
+        actionbar3 = {
+          key = 'bars.bar3',
+          type = 'checkbox',
+          label = 'Bar 3',
+          column = 4,
+          order = 3
+        }
+      },
+      {
+        actionbar4 = {
+          key = 'bars.bar4',
+          type = 'checkbox',
+          label = 'Bar 4',
+          column = 4,
+          order = 1
+        },
+        actionbar5 = {
+          key = 'bars.bar5',
+          type = 'checkbox',
+          label = 'Bar 5',
+          column = 4,
+          order = 2
+        },
+        actionbar6 = {
+          key = 'bars.bar6',
+          type = 'checkbox',
+          label = 'Bar 6',
+          column = 4,
+          order = 3
+        }
+      },
+      {
+        actionbar7 = {
+          key = 'bars.bar7',
+          type = 'checkbox',
+          label = 'Bar 7',
+          column = 4,
+          order = 1
+        },
+        actionbar8 = {
+          key = 'bars.bar8',
+          type = 'checkbox',
+          label = 'Bar 8',
           column = 4,
           order = 2
         }
@@ -101,38 +156,18 @@ function Layout:OnEnable()
       {
         header = {
           type = 'header',
-          label = 'Micro Menu'
+          label = 'Hide Frames'
         },
       },
       {
-        style = {
-          key = 'menu.style',
-          type = 'dropdown',
-          options = {
-            { value = 'Default', text = 'Default' },
-            { value = 'Custom', text = 'Custom' }
-          },
-          initialValue = 1,
+        repbar = {
+          key = 'repbar',
+          type = 'checkbox',
+          label = 'XP/Rep/Honor Bar',
           column = 4,
           order = 1
         },
-        mouseover = {
-          key = 'menu.mouseover',
-          type = 'checkbox',
-          label = 'Show on Mouseover',
-          tooltip = 'Show micromenu on mouseover',
-          column = 4,
-          order = 2
-        },
-        bagbuttons = {
-          key = 'menu.hidebag',
-          type = 'checkbox',
-          label = 'Hide bag buttons',
-          tooltip = 'Hide background & bag buttons in the micromenu',
-          column = 4,
-          order = 3
-        },
-      },
-    },
+      }
+    }
   }
 end

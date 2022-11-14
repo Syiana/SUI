@@ -10,6 +10,17 @@ function Module:OnEnable()
       StatusTrackingBarManager.SingleBarSmallUpper,
       SlidingActionBarTexture0,
       SlidingActionBarTexture1,
+      ActionButton1.RightDivider,
+      ActionButton2.RightDivider,
+      ActionButton3.RightDivider,
+      ActionButton4.RightDivider,
+      ActionButton5.RightDivider,
+      ActionButton6.RightDivider,
+      ActionButton7.RightDivider,
+      ActionButton8.RightDivider,
+      ActionButton9.RightDivider,
+      ActionButton10.RightDivider,
+      ActionButton11.RightDivider,
       MainMenuBarTexture0,
       MainMenuBarTexture1,
       MainMenuBarTexture2,
@@ -29,6 +40,7 @@ function Module:OnEnable()
       ReputationXPBarTexture1,
       ReputationXPBarTexture2,
       ReputationXPBarTexture3,
+      StatusTrackingBarManager.BottomBarFrameTexture,
     }) do
       v:SetVertexColor(unpack(SUI:Color(0.15)))
     end
@@ -39,6 +51,7 @@ function Module:OnEnable()
       StanceBarMiddle,
       StanceBarRight,
     }) do
+      v:SetDesaturated(true)
       v:SetVertexColor(unpack(SUI:Color()))
     end
 

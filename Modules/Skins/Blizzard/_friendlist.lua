@@ -36,18 +36,18 @@ function Module:OnEnable()
       FriendsFrameInset.NineSlice.TopLeftCorner }) do
         v:SetVertexColor(unpack(SUI:Color()))
     end
-    for i, v in pairs({
-      FriendsListFrameScrollFrameTop,
-      FriendsListFrameScrollFrameMiddle,
-      FriendsListFrameScrollFrameBottom,
-      FriendsListFrameScrollFrameThumbTexture,
-      FriendsListFrameScrollFrameScrollUpButton.Normal,
-      FriendsListFrameScrollFrameScrollDownButton.Normal,
-      FriendsListFrameScrollFrameScrollUpButton.Disabled,
-      FriendsListFrameScrollFrameScrollDownButton.Disabled,
+    -- for i, v in pairs({
+    --   FriendsListFrameScrollFrameTop,
+    --   FriendsListFrameScrollFrameMiddle,
+    --   FriendsListFrameScrollFrameBottom,
+    --   FriendsListFrameScrollFrameThumbTexture,
+    --   FriendsListFrameScrollFrameScrollUpButton.Normal,
+    --   FriendsListFrameScrollFrameScrollDownButton.Normal,
+    --   FriendsListFrameScrollFrameScrollUpButton.Disabled,
+    --   FriendsListFrameScrollFrameScrollDownButton.Disabled,
 
-    }) do
-      v:SetVertexColor(unpack(SUI:Color()))
-    end
+    -- }) do
+    --   v:SetVertexColor(unpack(SUI:Color()))
+    -- end
   end
 end

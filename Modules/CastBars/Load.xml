@@ -2,4 +2,6 @@
 	<Script file = "_Player.lua" />
 	<Script file = "_Timer.lua" />
 	<Script file = "_Focus.lua" />
+	<Script file = "_Target.lua" />
+	<Script file = "_Icon.lua" />
 </Ui>

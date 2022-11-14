@@ -12,78 +12,40 @@ function Layout:OnEnable()
       {
         header = {
           type = 'header',
-          label = 'Minimap'
-        }
-      },
-      {
-        buffsize = {
-          key = 'buffs.buff.size',
-          type = 'slider',
-          label = 'Buff Size',
-          max = 100,
-          column = 4,
-          order = 1
-        },
-        bufficons = {
-          key = 'buffs.buff.icons',
-          type = 'slider',
-          label = 'Buff Icons per row',
-          tooltip = 'Icons per row',
-          min = 2,
-          max = 20,
-          column = 5,
-          order = 2
-        }
-      },
-      {
-        debuffsize = {
-          key = 'buffs.debuff.size',
-          type = 'slider',
-          label = 'Debuff Size',
-          max = 100,
-          column = 4,
-          order = 1
-        },
-        debufficons = {
-          key = 'buffs.debuff.icons',
-          type = 'slider',
-          label = 'Debuff Icons per row',
-          tooltip = 'Icons per row',
-          min = 2,
-          max = 20,
-          column = 5,
-          order = 2
-        }
-      },
-      {
-        header = {
-          type = 'header',
           label = 'Unitframes'
         },
       },
       {
-        border = {
+        purgeborder = {
           key = 'unitframes.buffs.purgeborder',
           type = 'checkbox',
           label = 'Purge Border',
           tooltip = 'Highlight purgable buffs',
           column = 3,
           order = 1
-        }
+        },
+        collapse = {
+          key = 'unitframes.buffs.collapse',
+          type = 'checkbox',
+          label = 'Collapse Button',
+          tooltip = 'Show the Collapse button at the Player Buff Frame',
+          column = 3,
+          order = 1
+        },
       },
       {
-        big = {
+        buffsize = {
           key = 'unitframes.buffs.size',
           type = 'slider',
-          label = 'Big Buff Size',
+          label = 'Buff Size',
           max = 50,
           column = 4,
           order = 2
         },
-        small = {
+        debuffsize = {
           key = 'unitframes.debuffs.size',
           type = 'slider',
-          label = 'Small Buff Size',
+          label = 'Debuff Size',
           max = 50,
           column = 4,
           order = 3

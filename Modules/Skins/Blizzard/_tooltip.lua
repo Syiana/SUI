@@ -21,11 +21,27 @@ function Module:OnEnable()
       self:SetBackdropBorderColor(0.1, 0.1, 0.1, 0)
       if (theme == 'Dark') then
         self:SetBackdropColor(unpack(backdrop.bgColor))
+        self.NineSlice:SetBorderColor(unpack(backdrop.borderColor))
       else
         self:SetBackdropColor(unpack(SUI:Color(0.3, 0.3)))
+        self.NineSlice:SetBorderColor(unpack(SUI:Color(0.35, 1)))
       end
+    end
+    local function itemTooltip(self)
       if (self.NineSlice) then
-        local _, itemLink = self:GetItem()
+        local itemGUID
+        local itemLink
+        if self:GetTooltipData() then
+          if self:GetTooltipData().guid then
+            itemGUID = self:GetTooltipData().guid
+            itemLink = C_Item.GetItemLinkByGUID(itemGUID)
+          end
+
+          if self:GetTooltipData().hyperlink then
+            itemLink = self:GetTooltipData().hyperlink
+          end
+        end
+
         if itemLink then
           local azerite = C_AzeriteEmpoweredItem.IsAzeriteEmpoweredItemByID(itemLink) or C_AzeriteItem.IsAzeriteItemByID(itemLink) or false
           local _, _, itemRarity = GetItemInfo(itemLink)
@@ -36,19 +52,30 @@ function Module:OnEnable()
           else
             self.NineSlice:SetBorderColor(r, g, b, 0.9)
           end
-        else
-          if (theme == 'Dark') then
-            self.NineSlice:SetBorderColor(unpack(backdrop.borderColor))
-          else
-            self.NineSlice:SetBorderColor(unpack(SUI:Color(0.35, 1)))
-          end
         end
       end
     end
 
-    hooksecurefunc("SharedTooltip_SetBackdropStyle", styleTooltip)
+    local function macroItemTooltip(self)
+      local tooltipData = self:GetTooltipData()
+      local tooltipName = tooltipData.lines[2].leftText
+      local tooltipColor = tooltipData.lines[2].leftColor
+      --print(tooltipColor.r, tooltipColor.g, tooltipColor.b)
+      local _, itemLink = GetItemInfo(tooltipName)
+      if itemLink then
+        self.NineSlice:SetBorderColor(tooltipColor.r, tooltipColor.g, tooltipColor.b)
+      end
+    end
+
+    TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Unit, styleTooltip)
+    TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Object, styleTooltip)
+    TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Spell, styleTooltip)
+    TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Macro, styleTooltip)
+    TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Macro, macroItemTooltip)
+    TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Item, itemTooltip)
+
     local tooltips = { GameTooltip,ShoppingTooltip1,ShoppingTooltip2,ItemRefTooltip,ItemRefShoppingTooltip1,ItemRefShoppingTooltip2,WorldMapTooltip,
-    WorldMapCompareTooltip1,WorldMapCompareTooltip2,SmallTextTooltip }
+    WorldMapCompareTooltip1,WorldMapCompareTooltip2 }
     for i, tooltip in next, tooltips do
       styleTooltip(tooltip)
     end
@@ -101,7 +128,7 @@ function Module:OnEnable()
 
     hooksecurefunc("SharedTooltip_SetBackdropStyle", styleTooltip)
     local tooltips = { GameTooltip,ShoppingTooltip1,ShoppingTooltip2,ItemRefTooltip,ItemRefShoppingTooltip1,ItemRefShoppingTooltip2,WorldMapTooltip,
-    WorldMapCompareTooltip1,WorldMapCompareTooltip2,SmallTextTooltip }
+    WorldMapCompareTooltip1,WorldMapCompareTooltip2 }
     for i, tooltip in next, tooltips do
       styleTooltip(tooltip)
     end

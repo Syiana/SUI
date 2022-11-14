@@ -16,29 +16,26 @@ function Layout:OnEnable()
         }
       },
       {
-        small = {
-          key = 'small',
-          type = 'checkbox',
-          label = 'Small Map',
-          tooltip = 'coming soon.',
+        opacity = {
+          key = 'opacity',
+          type = 'slider',
+          label = 'Opacity',
+          precision = 1,
+          min = 0.1,
+          max = 1,
           column = 4,
-          order = 1
+          order = 1,
+          onChange = function(slider)
+            WorldMapFrame:SetAlpha(slider.value)
+          end,
         },
         cords = {
           key = 'coords',
           type = 'checkbox',
-          label = 'Coords',
+          label = 'Coordinates',
           tooltip = 'Display coordinates on map',
           column = 4,
           order = 2
-        },
-        opacity = {
-          key = 'opacity',
-          type = 'checkbox',
-          label = 'Opacity',
-          tooltip = 'coming soon.',
-          column = 4,
-          order = 3
         }
       },
       {
@@ -48,17 +45,18 @@ function Layout:OnEnable()
         }
       },
       {
-        style = {
-          key = 'style',
-          type = 'dropdown',
-          label = 'Garrison Style',
-          options = {
-            { value = 'Default', text = 'Default' },
-            { value = 'Legion', text = 'Legion' }
-          },
-          initialValue = 1,
-          column = 5,
-          order = 1
+        minimapsize = {
+          key = 'minimapsize',
+          type = 'slider',
+          label = 'Minimap Size',
+          precision = 1,
+          min = 0.1,
+          max = 1,
+          column = 4,
+          order = 3,
+          onChange = function(slider)
+            Minimap:SetScale(slider.value)
+          end,
         }
       },
       {
@@ -88,22 +86,22 @@ function Layout:OnEnable()
         }
       },
       {
-        showgarrison = {
-          key = 'garrison',
-          type = 'checkbox',
-          label = 'Garrison Symbol',
-          tooltip = 'Show/Hide covenant icon on minimap',
-          column = 4,
-          order = 1
-        },
         showtracking = {
           key = 'tracking',
           type = 'checkbox',
           label = 'Tracking Symbol',
           tooltip = 'Show/Hide tracking icon on minimap',
           column = 4,
+          order = 1
+        },
+        buttons = {
+          key = 'buttons',
+          type = 'checkbox',
+          label = 'Buttons on Mouseover',
+          tooltip = 'Show minimap buttons on mouseover',
+          column = 4,
           order = 2
-        }
+        },
       }
     },
   }

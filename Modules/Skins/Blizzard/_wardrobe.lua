@@ -53,11 +53,8 @@ function Module:OnEnable()
           WardrobeCollectionFrameScrollFrameScrollBarBottom,
           WardrobeCollectionFrameScrollFrameScrollBarMiddle,
           WardrobeCollectionFrameScrollFrameScrollBarTop,
-          WardrobeCollectionFrameScrollFrameScrollBarThumbTexture,
-          WardrobeCollectionFrameScrollFrameScrollBarScrollUpButton.Normal,
-          WardrobeCollectionFrameScrollFrameScrollBarScrollDownButton.Normal,
-          WardrobeCollectionFrameScrollFrameScrollBarScrollUpButton.Disabled,
-          WardrobeCollectionFrameScrollFrameScrollBarScrollDownButton.Disabled, }) do
+          WardrobeCollectionFrameScrollFrameScrollBarThumbTexture
+        }) do
           v:SetVertexColor(.4, .4, .4)
         end
       end

@@ -5,9 +5,6 @@ function Module:OnEnable()
     for i, v in ipairs({
       --[[PlayerFrameTexture,
       TargetFrameTextureFrameTexture,
-      PlayerFrameAlternateManaBarBorder,
-      PlayerFrameAlternateManaBarLeftBorder,
-      PlayerFrameAlternateManaBarRightBorder,
       PaladinPowerBarFrameBG,
       PaladinPowerBarFrameBankBG,
       ComboPointPlayerFrame.Background,
@@ -44,11 +41,13 @@ function Module:OnEnable()
       StatusTrackingBarManager.SingleBarLargeUpper,
       StatusTrackingBarManager.SingleBarSmallUpper,]]
 
+      PlayerFrameAlternateManaBarBorder,
+      PlayerFrameAlternateManaBarLeftBorder,
+      PlayerFrameAlternateManaBarRightBorder,
       FocusFrameSpellBar.Border,
       FocusFrameSpellBar.Background,
       TargetFrameSpellBar.Border,
       TargetFrameSpellBar.Background,
-
       PlayerFrame.PlayerFrameContainer.FrameTexture,
       TargetFrame.TargetFrameContainer.FrameTexture,
       FocusFrame.TargetFrameContainer.FrameTexture,
@@ -58,8 +57,10 @@ function Module:OnEnable()
       PaladinPowerBarFrameBankBG,
       PlayerCastingBarFrame.Border,
       PlayerCastingBarFrame.Background,
-      PetFrameTexture
+      PetFrameTexture,
+      PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual.PlayerPortraitCornerIcon
     }) do
+      v:SetDesaturated(true)
       v:SetVertexColor(unpack(SUI:Color(0.15)))
     end
 

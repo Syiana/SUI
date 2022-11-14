@@ -1,0 +1,15 @@
+package-as: LibDropDown
+
+enable-nolib-creation: no
+
+externals:
+  LibStub:
+    url: https://repos.curseforge.com/wow/libstub/trunk
+    tag: 1.0
+
+required-dependencies:
+  - libstub
+
+ignore:
+  - README.md
+  - tests

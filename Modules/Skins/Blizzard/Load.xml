@@ -1,6 +1,6 @@
 <Ui xmlns='http://www.blizzard.com/wow/ui/'>
   <Include file='_Actionbar.lua'/>
-  <!--<Include file='_Achievment.lua'/>
+  <Include file='_Achievment.lua'/>
   <Include file='_Actionhouse.lua'/>
   <Include file='_Addonlist.lua'/>
   <Include file='_Alliedraces.lua'/>
@@ -39,6 +39,7 @@
   <Include file='_Quest.lua'/>
   <Include file='_Raidframe.lua'/>
   <Include file='_Scrappingmachine.lua'/>
+  <Include file='_Settingspanel.lua'/>
   <Include file='_Spellbook.lua'/>
   <Include file='_Talents.lua'/>
   <Include file='_Timemanager.lua'/>
@@ -46,11 +47,5 @@
   <Include file='_Tooltip.lua'/>
   <Include file='_Tradeskill.lua'/>
   <Include file='_Unitframes.lua'/>
-  <Include file='_Wardrobe.lua'/>-->
-
-  <Include file="_Frames.lua"/>
-  <Include file="_Unitframes.lua"/>
-  <Include file="_Minimap.lua"/>
-  <Include file="_Calendar.lua"/>
-  <Include file="_Bags.lua"/>
+  <Include file='_Wardrobe.lua'/>
 </Ui>

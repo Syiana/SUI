@@ -12,12 +12,6 @@ function Module:OnEnable()
     hooksecurefunc("GameTooltip_SetDefaultAnchor", function(tooltip, parent)
       tooltip:SetOwner(parent, "ANCHOR_CURSOR")
     end)
-  else
-    hooksecurefunc("GameTooltip_SetDefaultAnchor", function(tooltip, parent)
-      tooltip:SetOwner(parent, "ANCHOR_NONE")
-      tooltip:ClearAllPoints()
-      tooltip:SetPoint("BOTTOMRIGHT", TooltipFrame, "BOTTOMRIGHT")
-    end)
   end
 
 	if (db.style == "Custom") then
@@ -72,7 +66,9 @@ function Module:OnEnable()
       for i = 2, GameTooltip:NumLines() do
         local line = _G["GameTooltipTextLeft"..i]
         if line then
+          if not line == 4 then
             line:SetTextColor(unpack(cfg.textColor))
+          end
         end
       end
       --position raidicon
@@ -199,7 +195,8 @@ function Module:OnEnable()
     --GameTooltipStatusBar:SetStatusBarColor()
     hooksecurefunc(GameTooltipStatusBar,"SetStatusBarColor", SetStatusBarColor)
     --OnTooltipSetUnit
-    GameTooltip:HookScript("OnTooltipSetUnit", OnTooltipSetUnit)
+    TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Unit, OnTooltipSetUnit)
+    --GameTooltip:HookScript("OnTooltipSetUnit", OnTooltipSetUnit)
 
     --loop over menues
     local menues = {
@@ -225,11 +222,11 @@ function Module:OnEnable()
     end
 
 	  local function TooltipAddBuffSource(self, caster)
-		local name = caster and UnitName(caster)
-		if name then
-			self:AddDoubleLine("|cff0099ffCast by|r", name, nil, nil, nil, 1, 1, 1)
-			self:Show()
-		end
+      local name = caster and UnitName(caster)
+      if name then
+        self:AddDoubleLine("|cff0099ffCast by|r", name, nil, nil, nil, 1, 1, 1)
+        self:Show()
+      end
 	  end
 
     --hooksecurefunc GameTooltip SetUnitBuff
@@ -257,9 +254,22 @@ function Module:OnEnable()
     end)
 
     --HookScript GameTooltip OnTooltipSetSpell
-    GameTooltip:HookScript("OnTooltipSetSpell", function(self)
+    local function OnTooltipSetSpell(self)
       TooltipAddSpellID(self,select(2,self:GetSpell()))
-    end)
+    end
+
+    local function OnMacroTooltipSetSpell(self)
+      local tooltipData = self:GetTooltipData()
+      local tooltipName = tooltipData.lines[2].leftText
+      local _, _, _, _, _, _, spellID  = GetSpellInfo(tooltipName)
+
+      if (spellID) then
+        TooltipAddSpellID(self, spellID)
+      end
+    end
+
+    TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Macro, OnMacroTooltipSetSpell)
+    TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Spell, OnTooltipSetSpell)
   end
 
   if (db.hideincombat) then

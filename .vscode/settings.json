@@ -1,9 +1,0 @@
-{
-  "Lua.diagnostics.disable": [
-    "undefined-global",
-    "undefined-field",
-    "unbalanced-assignments",
-    "redundant-parameter",
-    "deprecated"
-  ]
-}

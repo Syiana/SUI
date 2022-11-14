@@ -2,4 +2,5 @@
 	<Script file = "_Minimap.lua"/>
   <Script file = "_Coords.lua"/>
   <Script file = "_Hide.lua"/>
+  <Script file = "_Map.lua"/>
 </Ui>

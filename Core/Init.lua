@@ -8,9 +8,9 @@ local defaults = {
     install = false,
     general = {
       theme = 'Dark',
-      font = 'Interface\\AddOns\\SUI\\Media\\Fonts\\Prototype.ttf',
-      texture = 'Interface\\AddOns\\SUI\\Media\\Textures\\Status\\Smooth',
-      color = {},
+      font = [[Interface\Addons\SUI\Media\Fonts\Prototype.ttf]],
+      texture = [[Interface\Addons\SUI\Media\Textures\Status\Smooth.blp]],
+      color = {r = 0, g = 0, b = 0, a = 1},
       automation = {
         delete = true,
         decline = false,
@@ -24,7 +24,7 @@ local defaults = {
       },
       cosmetic = {
         afkscreen = true,
-        talkhead = false,
+        talkhead = false
       },
       display = {
         ilvl = true,
@@ -33,16 +33,14 @@ local defaults = {
       }
     },
     unitframes = {
-      style = 'Big',
+      style = 'Default',
       portrait = 'Default',
       classcolor = true,
       factioncolor = true,
-      statusglow = false,
       pvpbadge = false,
       combaticon = false,
       hitindicator = false,
-      links = false,
-      size = 1,
+      totemicons = true,
       player = {
         size = 1
       },
@@ -51,7 +49,8 @@ local defaults = {
       },
       buffs = {
         size = 26,
-        purgeborder = true
+        purgeborder = true,
+        collapse = false
       },
       debuffs = {
         size = 20
@@ -59,60 +58,55 @@ local defaults = {
     },
     nameplates = {
       style = 'Default',
-      texture = 'Interface\\AddOns\\SUI\\Media\\Textures\\Status\\Smooth',
-      size = 1,
+      texture = [[Interface\Addons\SUI\Media\Textures\Status\Smooth.blp]],
       arenanumber = true,
       totemicons = true,
-      options = {
-        NameSize =  10,
-        ShowLevel =  true,
-        ShowServerName =  false,
-        AbrrevLongNames =  true,
-        ShowPvP =  false,
-        ShowFriendlyClassColors =  true,
-        ShowEnemyClassColors =  true,
-        WhiteSelectionColor =  false,
-        RaidMarkerColoring =  false,
-        ShowExecuteRange =  false,
-        ExecuteValue =  35,
-        ExecuteColor =  { r = 0, g = 71/255, b = 126/255},
-        CurrentHealthOption =  2,
-        HideFriendly =  false,
-        SmallStacking =  false,
-        DontClamp =  false,
-        CombatPlates =  false,
-        TankMode =  false,
-        ColorNameByThreat =  false,
-        UseOffTankColor =  false,
-        OffTankColor =  { r = 0.60, g = 0.20, b = 1.0},
-      }
+      healthtext = true,
+      server = true,
+      color = true,
     },
     raidframes = {
-      texture = 'Interface\\AddOns\\SUI\\Media\\Textures\\Status\\Flat',
-      alwaysontop = false
+      texture = [[Interface\Addons\SUI\Media\Textures\Status\Flat.blp]],
+      alwaysontop = false,
+      size = false,
+      height = 75,
+      width = 100,
     },
     actionbar = {
-      style = 'Default',
       buttons = {
         key = true,
-        macro = false,
+        macro = true,
         range = true,
         flash = false,
-        size = 38,
-        padding = 5
+        size = 12,
+        repbar = false,
       },
       menu = {
-        style = 'Default',
-        mouseover = false,
-        hidebag = false,
+        micromenu = 'show',
+        bagbar = 'show'
       },
-      gryphones = true,
+      bars = {
+        bar1 = false,
+        bar2 = false,
+        bar3 = false,
+        bar4 = false,
+        bar5 = false,
+        bar6 = false,
+        bar7 = false,
+        bar8 = false
+      }
     },
     castbars = {
       style = 'Custom',
       timer = true,
       icon = true,
-      targetCastbar = true
+      targetCastbar = true,
+      focusCastbar = true,
+      playerSize = 1,
+      focusSize = 1,
+      targetSize = 1,
+      targetOnTop = false,
+      focusOnTop = false
     },
     tooltip = {
       style = 'Custom',
@@ -137,30 +131,55 @@ local defaults = {
       link = true,
       copy = true,
       friendlist = true,
-      quickjoin = true
+      quickjoin = true,
+      looticons = true,
+      roleicons = true
     },
     maps = {
+      minimapsize = 1,
       style = 'Default',
       small = false,
-      opacity = false,
+      opacity = 1,
       coords = true,
       minimap = true,
       clock = true,
       date = false,
       garrison = true,
       tracking = false,
+      buttons = true,
 	  },
     misc = {
       safequeue = true,
-      losecontrol = true,
       tabbinder = false,
       pulltimer = false,
       interrupt = false,
       dampening = true,
       arenanameplate = false,
-      surrender = false
+      surrender = false,
+      losecontrol = false
     },
-    edit = {}
+    edit = {
+      statsframe = {
+        point = 'BOTTOMLEFT',
+        x = 5,
+        y = 3
+      },
+      queueicon = {
+        point = 'TOPRIGHT',
+        x = -177.4291998171339,
+        y = -224.431776383344
+      },
+      micromenu = {
+        point = 'BOTTOMRIGHT',
+        x = 0,
+        y = 0
+      },
+      bagbar = {
+        point = 'BOTTOMRIGHT',
+        x = 0,
+        y = 50
+      }
+    }
   }
 }
 
@@ -185,7 +204,6 @@ function SUI:OnInitialize()
     Custom = {customColor.r, customColor.g, customColor.b},
   }
   local theme = themes[self.db.profile.general.theme]
-
 
   self.Theme = {
     Register = function(n, f)

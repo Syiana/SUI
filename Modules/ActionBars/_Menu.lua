@@ -1,68 +1,143 @@
 local Menu = SUI:NewModule("ActionBars.Menu");
 
---[[
-local ClassicUI = IsAddOnLoaded("ClassicUI")
-if (ClassicUI) then return end
-
-local MenuFrame = CreateFrame('Frame', "MenuFrame", UIParent)
-MenuFrame:SetPoint("BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", 0, 0)
-MenuFrame:Hide()
-
-local BagsBarTexture = MenuFrame:CreateTexture("texture")
-BagsBarTexture:SetAtlas('hud-MicroBagBar', true)
-BagsBarTexture:SetPoint('CENTER')
-BagsBarTexture:Show()
-
-local Width, Height = BagsBarTexture:GetSize()
-MenuFrame:SetSize(Width, Height)
-
 function Menu:OnEnable()
-  local db = SUI.db.profile.actionbar
-  if (db.menu.style == 'Custom') then
-    MainMenuBarBackpackButton:SetParent(MenuFrame)
-    CharacterBag0Slot:SetParent(MenuFrame)
-    CharacterBag1Slot:SetParent(MenuFrame)
-    CharacterBag2Slot:SetParent(MenuFrame)
-    CharacterBag3Slot:SetParent(MenuFrame)
+  local db = {
+    micromenu = SUI.db.profile.actionbar.menu.micromenu,
+    bagbar = SUI.db.profile.actionbar.menu.bagbar,
+    bagPos = SUI.db.profile.edit.bagbar,
+    microPos = SUI.db.profile.edit.micromenu
+  }
 
-    for _, v in ipairs(MICRO_BUTTONS) do v = _G[v]
-      v:SetParent(MenuFrame)
+  local MicroButtonAndBagsBarButtons = {
+    CharacterMicroButton,
+    SpellbookMicroButton,
+    TalentMicroButton,
+    AchievementMicroButton,
+    QuestLogMicroButton,
+    GuildMicroButton,
+    LFDMicroButton,
+    CollectionsMicroButton,
+    EJMicroButton,
+    StoreMicroButton,
+    MainMenuMicroButton,
+    MainMenuBarBackpackButton,
+    CharacterBag0Slot,
+    CharacterBag1Slot,
+    CharacterBag2Slot,
+    CharacterBag3Slot,
+  }
+
+  local function moveMicroMenu()
+    local MICRO_BUTTONS = {
+      "CharacterMicroButton",
+      "SpellbookMicroButton",
+      "TalentMicroButton",
+      "AchievementMicroButton",
+      "QuestLogMicroButton",
+      "GuildMicroButton",
+      "LFDMicroButton",
+      "EJMicroButton",
+      "CollectionsMicroButton",
+      "MainMenuMicroButton",
+      "HelpMicroButton",
+      "StoreMicroButton",
+    }
+
+    for i=1, #MICRO_BUTTONS do
+        _G[MICRO_BUTTONS[i]]:SetParent(MicroMenu);
+        if i == 1 then
+            _G[MICRO_BUTTONS[i]]:SetPoint("BOTTOMLEFT", MicroMenu, "BOTTOMLEFT", 5, 5)
+        end
     end
 
-    CharacterMicroButton:ClearAllPoints()
-    CharacterMicroButton:SetPoint("BOTTOMLEFT", MenuFrame, 5, 3)
-
-    MainMenuBarBackpackButton:ClearAllPoints()
-    MainMenuBarBackpackButton:SetPoint('TOPRIGHT', -4, -4)
+    MicroButtonAndBagsBar:UnregisterAllEvents()
     MicroButtonAndBagsBar:Hide()
-    MenuFrame:Show()
   end
 
+  local function moveBagBar()
+    local BAG_BUTTONS = {
+      "MainMenuBarBackpackButton",
+      "BagBarExpandToggle",
+      "CharacterBag0Slot",
+      "CharacterBag1Slot",
+      "CharacterBag2Slot",
+      "CharacterBag3Slot",
+      "CharacterReagentBag0Slot"
+    }
 
-  if (SUI:Color()) then
-    MicroButtonAndBagsBar.MicroBagBar:SetVertexColor(unpack(SUI:Color(0.15)))
-    MenuFrame:GetRegions():SetVertexColor(unpack(SUI:Color(0.15)))
-  end
-  if (db.menu.mouseover) then
-    MenuFrame:SetAlpha(0)
-    MenuFrame:SetScript('OnEnter', function()
-      MenuFrame:SetAlpha(1)
-    end)
-    MenuFrame:SetScript('OnLeave', function()
-      if not (MouseIsOver(MenuFrame)) then
-        MenuFrame:SetAlpha(0)
+    for i=1, #BAG_BUTTONS do
+        _G[BAG_BUTTONS[i]]:SetParent(BagBar);
+        if i == 1 then
+          _G[BAG_BUTTONS[i]]:SetPoint("BOTTOMRIGHT", BagBar, "BOTTOMRIGHT", -5, 5)
         end
+    end
+  end
+
+  -- Micro Menu
+  MicroMenu = CreateFrame("Frame", "MicroMenu", UIParent)
+  MicroMenu:SetSize(230, 35)
+  MicroMenu:SetPoint(db.microPos.point, UIParent, db.microPos.point, db.microPos.x, db.microPos.y)
+  MicroMenu:Show()
+
+  MicroMenu:RegisterEvent("ADDON_LOADED")
+  MicroMenu:RegisterEvent("PLAYER_LOGIN")
+  MicroMenu:RegisterEvent("PLAYER_ENTERING_WORLD")
+  MicroMenu:RegisterEvent("VARIABLES_LOADED")
+  MicroMenu:SetScript("OnEvent", moveMicroMenu)
+
+  -- Bag Buttons
+  MainMenuBarBackpackButton:ClearAllPoints()
+  BagBar = CreateFrame("Frame", "BagBar", UIParent)
+  BagBar:SetSize(215, 60)
+  BagBar:SetPoint(db.bagPos.point, UIParent, db.bagPos.point, db.bagPos.x, db.bagPos.y)
+  BagBar:Show()
+
+  BagBar:RegisterEvent("ADDON_LOADED")
+  BagBar:RegisterEvent("PLAYER_LOGIN")
+  BagBar:RegisterEvent("PLAYER_ENTERING_WORLD")
+  BagBar:RegisterEvent("VARIABLES_LOADED")
+  BagBar:SetScript("OnEvent", moveBagBar)
+
+  for _, button in pairs(MicroButtonAndBagsBarButtons) do
+    button:GetNormalTexture():SetVertexColor(0.65, 0.65, 0.65)
+  end
+
+  -- Micro Menu Options
+  if db.micromenu == "mouse_over" then
+    MicroMenu:SetAlpha(0)
+
+    MicroMenu:SetScript('OnEnter', function()
+      MicroMenu:SetAlpha(1)
+    end)
+
+    MicroMenu:SetScript('OnLeave', function()
+      if not (MouseIsOver(MicroMenu)) then
+        MicroMenu:SetAlpha(0)
+      end
     end)
   end
 
-  if (db.menu.hidebag) then
-    BagsBarTexture:Hide()
-    MicroButtonAndBagsBar.MicroBagBar:Hide()
-    MainMenuBarBackpackButton:Hide()
-    CharacterBag0Slot:Hide()
-    CharacterBag1Slot:Hide()
-    CharacterBag2Slot:Hide()
-    CharacterBag3Slot:Hide()
+  if db.micromenu == "hide" then
+    MicroMenu:SetAlpha(0)
+    MicroMenu:Hide()
+  end
+
+  -- Bag Buttons Options
+  if db.bagbar == "mouse_over" then
+    BagBar:SetAlpha(0)
+
+    BagBar:SetScript('OnEnter', function()
+      BagBar:SetAlpha(1)
+    end)
+
+    BagBar:SetScript('OnLeave', function()
+      if not (MouseIsOver(BagBar)) then
+        BagBar:SetAlpha(0)
+      end
+    end)
+  end
+
+  if db.bagbar == "hide" then
+    BagBar:Hide()
   end
 end
-]]

@@ -1,7 +1,7 @@
 local Module = SUI:NewModule("NamePlates.TotemIcons");
 
 function Module:OnEnable()
-  local db = SUI.db.profile.nameplates.arenanumber
+  local db = SUI.db.profile.nameplates.totemicons
   if (db) then
     local f = CreateFrame("Frame", nil, UIParent)
     f:RegisterEvent("NAME_PLATE_UNIT_ADDED")

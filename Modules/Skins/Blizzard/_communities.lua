@@ -79,22 +79,10 @@ function Module:OnEnable()
             v:SetVertexColor(.5, .5, .5)
         end
         for i, v in pairs({
-          CommunitiesFrame.MemberList.ListScrollFrame.scrollBar.thumbTexture,
-          CommunitiesFrame.MemberList.ListScrollFrame.scrollBar.ScrollBarTop,
-          CommunitiesFrame.MemberList.ListScrollFrame.scrollBar.ScrollBarMiddle,
-          CommunitiesFrame.MemberList.ListScrollFrame.scrollBar.ScrollBarBottom,
-          CommunitiesFrame.MemberList.ListScrollFrame.scrollBar.ScrollUpButton.Normal,
-          CommunitiesFrame.MemberList.ListScrollFrame.scrollBar.ScrollDownButton.Normal,
-          CommunitiesFrame.MemberList.ListScrollFrame.scrollBar.ScrollUpButton.Disabled,
-          CommunitiesFrame.MemberList.ListScrollFrame.scrollBar.ScrollDownButton.Disabled,
           CommunitiesFrameCommunitiesListListScrollFrameThumbTexture,
           CommunitiesFrameCommunitiesListListScrollFrameTop,
           CommunitiesFrameCommunitiesListListScrollFrameMiddle,
           CommunitiesFrameCommunitiesListListScrollFrameBottom,
-          CommunitiesFrameCommunitiesListListScrollFrameScrollUpButton.Normal,
-          CommunitiesFrameCommunitiesListListScrollFrameScrollDownButton.Normal,
-          CommunitiesFrameCommunitiesListListScrollFrameScrollUpButton.Disabled,
-          CommunitiesFrameCommunitiesListListScrollFrameScrollDownButton.Disabled,
           CommunitiesFrame.Chat.MessageFrame.ScrollBar.thumbTexture,
           CommunitiesFrame.Chat.MessageFrame.ScrollBar.ScrollBarTop,
           CommunitiesFrame.Chat.MessageFrame.ScrollBar.ScrollBarMiddle,
