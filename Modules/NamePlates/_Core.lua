@@ -29,11 +29,6 @@ function Module:OnEnable()
     end
 
     local function nameplateHealthText(unit, healthBar)
-        --print(GetUnitName(unit))
-        --GetUnitName("player")
-        if GetUnitName(unit) == GetUnitName("player") then
-            print("It's you")
-        end
         if GetUnitName(unit) ~= GetUnitName("player") then
             if not healthBar.text then
                 healthBar.text = healthBar:CreateFontString(nil, "ARTWORK", nil)
