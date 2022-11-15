@@ -1,5 +1,0 @@
-<Ui xmlns='http://www.blizzard.com/wow/ui/'>
-  <Include file='_Core.lua'/>
-  <Include file='Blizzard\Load.xml'/>
-  <!--<Include file='Addons\Load.xml'/>-->
-</Ui>

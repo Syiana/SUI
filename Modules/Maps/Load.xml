@@ -1,6 +1,0 @@
-<Ui xmlns='http://www.blizzard.com/wow/ui/'>
-	<Script file = "_Minimap.lua"/>
-  <Script file = "_Coords.lua"/>
-  <Script file = "_Hide.lua"/>
-  <Script file = "_Map.lua"/>
-</Ui>

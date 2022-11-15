@@ -1,5 +1,0 @@
-<Ui xmlns='http://www.blizzard.com/wow/ui/'>
-  <Script file = "_Core.lua" />
-  <Script file = "_ArenaNumbers.lua" />
-  <Script file = "_TotemIcons.lua" />
-</Ui>
