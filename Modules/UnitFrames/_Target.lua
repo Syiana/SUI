@@ -44,6 +44,13 @@ function Module:OnEnable()
   PowerColor[17] = PowerColor["FURY"];
   PowerColor[18] = PowerColor["PAIN"];
 
+  local DebuffColor = {}
+  DebuffColor["none"]    = { r = 0.80, g = 0, b = 0 };
+  DebuffColor["Magic"]    = { r = 0.20, g = 0.60, b = 1.00 };
+  DebuffColor["Curse"]    = { r = 0.60, g = 0.00, b = 1.00 };
+  DebuffColor["Disease"]    = { r = 0.60, g = 0.40, b = 0 };
+  DebuffColor["Poison"]    = { r = 0.00, g = 0.60, b = 0 };
+
   local function GetPowerColor(powerType)
     return PowerColor[powerType]
   end
@@ -107,20 +114,38 @@ function Module:OnEnable()
             }
 
             if not frame.border then
+
+              --frame.Cooldown:ClearAllPoints()
+              --frame.Cooldown:SetPoint("CENTER", frame, "CENTER", 0, 0)
+
               local border = frame.border or frame:CreateTexture(frame.border)
               border:SetSize(db.unitframes.buffs.size + 1, db.unitframes.buffs.size + 1)
               border:SetPoint("CENTER", frame, "CENTER", 0, 0)
-              border:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\Core\\gloss_border")
               border:SetTexCoord(0,1,0,1)
               border:SetDrawLayer("BACKGROUND",-7)
+              border:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\Core\\gloss_border")
               border:SetVertexColor(0.4, 0.35, 0.35)
 
               border.shadow = CreateFrame("Frame", nil, frame, "BackdropTemplate")
+              border.shadow:SetSize(db.unitframes.buffs.size + 4, db.unitframes.buffs.size + 4)
               border.shadow:SetPoint("TOPLEFT", frame, "TOPLEFT", -4, 4)
               border.shadow:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", 4, -4)
               border.shadow:SetBackdrop(Backdrop)
               border.shadow:SetBackdropBorderColor(unpack(SUI:Color(0.25, 0.9)))
 
+              if frame.auraInstanceID ~= nil then
+                local aura = C_UnitAuras.GetAuraDataByAuraInstanceID(frame.unit, frame.auraInstanceID)
+              
+                if aura ~= nil and aura.dispelName ~= nil then
+
+                  local Color = DebuffColor[aura.dispelName]
+                  --border:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\Core\\gloss_border_w")
+                  --border:SetVertexColor(Color.r, Color.g, Color.b)
+                else
+                  --border:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\Core\\gloss_border")
+                  --border:SetVertexColor(0.4, 0.35, 0.35)
+                end
+              end
 
               frame.border = border
             end
