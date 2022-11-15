@@ -96,38 +96,34 @@ function Module:OnEnable()
           icon:SetDrawLayer("BACKGROUND",-8)
           frame.Icon = icon
 
-          if not frame.border then
-            local border = frame.border or 
-            frame:CreateTexture(frame.border, "BACKGROUND", nil, -7)
-
-            border:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\Core\\gloss")
-            border:SetTexCoord(0, 1, 0, 1)
-            border:SetDrawLayer("BACKGROUND",- 7)
-            border:ClearAllPoints()
-            border:SetPoint("TOPLEFT", frame, "TOPLEFT", -1, 1)
-            border:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", 1, -1)
-            frame.border = border
-
-            local backdrop = {
+          if not frame.SUIBorder then
+            local Backdrop = {
               bgFile = nil,
               edgeFile = "Interface\\Addons\\SUI\\Media\\Textures\\Core\\outer_shadow",
               tile = false,
               tileSize = 32,
-              edgeSize = 4,
-              insets = {
-                left = 4,
-                right = 4,
-                top = 4,
-                bottom = 4,
-              },
+              edgeSize = 6,
+              insets = { left = 6, right = 6, top = 6, bottom = 6 },
             }
-            local back = CreateFrame("Frame", nil, frame, "BackdropTemplate")
-            back:SetPoint("TOPLEFT", frame, "TOPLEFT", -4, 4)
-            back:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", 4, -4)
-            back:SetFrameLevel(frame:GetFrameLevel() - 1)
-            back:SetBackdrop(backdrop)
-            back:SetBackdropBorderColor(unpack(SUI:Color(0.25, 0.9)))
-            frame.bg = back
+          
+            local border = CreateFrame("Frame", nil, frame)
+            border:SetSize(frame:GetWidth() + 2, frame:GetHeight() + 2)
+            border:SetPoint("CENTER", frame, "CENTER", 0, 0)
+          
+            border.texture = border:CreateTexture()
+            border.texture:SetAllPoints()
+            border.texture:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\Core\\gloss")
+            border.texture:SetTexCoord(0,1,0,1)
+            border.texture:SetDrawLayer("BACKGROUND",-7)
+            border.texture:SetVertexColor(0.4, 0.35, 0.35)
+          
+            border.shadow = CreateFrame("Frame", nil, border, "BackdropTemplate")
+            border.shadow:SetPoint("TOPLEFT", border, "TOPLEFT", -4, 4)
+            border.shadow:SetPoint("BOTTOMRIGHT", border, "BOTTOMRIGHT", 4, -4)
+            border.shadow:SetBackdrop(Backdrop)
+            border.shadow:SetBackdropBorderColor(unpack(SUI:Color(0.25, 0.9)))
+          
+            frame.SUIBorder = border
           end
         end
       end
