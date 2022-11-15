@@ -44,13 +44,6 @@ function Module:OnEnable()
   PowerColor[17] = PowerColor["FURY"];
   PowerColor[18] = PowerColor["PAIN"];
 
-  local DebuffColor = {}
-  DebuffColor["none"]    = { r = 0.80, g = 0, b = 0 };
-  DebuffColor["Magic"]    = { r = 0.20, g = 0.60, b = 1.00 };
-  DebuffColor["Curse"]    = { r = 0.60, g = 0.00, b = 1.00 };
-  DebuffColor["Disease"]    = { r = 0.60, g = 0.40, b = 0 };
-  DebuffColor["Poison"]    = { r = 0.00, g = 0.60, b = 0 };
-
   local function GetPowerColor(powerType)
     return PowerColor[powerType]
   end
@@ -103,42 +96,38 @@ function Module:OnEnable()
           icon:SetDrawLayer("BACKGROUND",-8)
           frame.Icon = icon
 
-          if not frame.SUIBorder then
-            local Backdrop = {
+          if not frame.border then
+            local border = frame.border or 
+            frame:CreateTexture(frame.border, "BACKGROUND", nil, -7)
+
+            border:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\Core\\gloss")
+            border:SetTexCoord(0, 1, 0, 1)
+            border:SetDrawLayer("BACKGROUND",- 7)
+            border:ClearAllPoints()
+            border:SetPoint("TOPLEFT", frame, "TOPLEFT", -1, 1)
+            border:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", 1, -1)
+            frame.border = border
+
+            local backdrop = {
               bgFile = nil,
               edgeFile = "Interface\\Addons\\SUI\\Media\\Textures\\Core\\outer_shadow",
               tile = false,
               tileSize = 32,
-              edgeSize = 6,
-              insets = { left = 6, right = 6, top = 6, bottom = 6 },
+              edgeSize = 4,
+              insets = {
+                left = 4,
+                right = 4,
+                top = 4,
+                bottom = 4,
+              },
             }
-
-            if not frame.border then
-              local border = frame.border or frame:CreateTexture(frame.border)
-              border:SetSize(db.unitframes.buffs.size + 1, db.unitframes.buffs.size + 1)
-              border:SetPoint("CENTER", frame, "CENTER", 0, 0)
-              border:SetTexCoord(0,1,0,1)
-              border:SetDrawLayer("BACKGROUND",-7)
-              border:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\Core\\gloss_border")
-              border:SetVertexColor(0.4, 0.35, 0.35)
-
-              border.shadow = CreateFrame("Frame", nil, frame, "BackdropTemplate")
-              border.shadow:SetSize(db.unitframes.buffs.size + 4, db.unitframes.buffs.size + 4)
-              border.shadow:SetPoint("TOPLEFT", frame, "TOPLEFT", -4, 4)
-              border.shadow:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", 4, -4)
-              border.shadow:SetBackdrop(Backdrop)
-              border.shadow:SetBackdropBorderColor(unpack(SUI:Color(0.25, 0.9)))
-
-              if frame.Stealable then
-                frame.Stealable:SetSize(db.unitframes.buffs.size + 1, db.unitframes.buffs.size + 1)
-                frame.Stealable:SetPoint("CENTER", frame, "CENTER", 0, 0)
-                frame.Stealable:SetTexCoord(0,1,0,1)
-                frame.Stealable:SetDrawLayer("BORDER")
-                frame.Stealable:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\Core\\gloss_border_w")
-              end
-              
-              frame.border = border
-            end
+            local back = CreateFrame("Frame", nil, frame, "BackdropTemplate")
+            back:SetPoint("TOPLEFT", frame, "TOPLEFT", -4, 4)
+            back:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", 4, -4)
+            back:SetFrameLevel(frame:GetFrameLevel() - 1)
+            back:SetBackdrop(backdrop)
+            back:SetBackdropBorderColor(unpack(SUI:Color(0.25, 0.9)))
+            frame.bg = back
           end
         end
       end
@@ -171,7 +160,7 @@ function Module:OnEnable()
     buff:SetSize(db.unitframes.buffs.size, db.unitframes.buffs.size)
 
     if buff.Count then
-      local fontSize = db.unitframes.buffs.size / 2
+      local fontSize = db.unitframes.buffs.size / 2.75
       buff.Count:SetFont(STANDARD_TEXT_FONT, fontSize, "OUTLINE")
       buff.Count:ClearAllPoints()
       buff.Count:SetPoint("BOTTOMRIGHT", buff, "BOTTOMRIGHT", 0, 0)
@@ -182,7 +171,7 @@ function Module:OnEnable()
     debuff:SetSize(db.unitframes.debuffs.size, db.unitframes.debuffs.size)
 
     if debuff.Count then
-      local fontSize = db.unitframes.debuffs.size / 2
+      local fontSize = db.unitframes.debuffs.size / 2.75
       debuff.Count:SetFont(STANDARD_TEXT_FONT, fontSize, "OUTLINE")
       debuff.Count:ClearAllPoints()
       debuff.Count:SetPoint("BOTTOMRIGHT", debuff, "BOTTOMRIGHT", 0, 0)

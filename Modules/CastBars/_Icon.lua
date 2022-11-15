@@ -4,10 +4,22 @@ function Module:OnEnable()
   local db = SUI.db.profile.castbars
   if (db.style == 'Custom' and SUI:Color() and db.icon) then
       if not InCombatLockdown() then
+        local backdrop = {
+          bgFile = nil,
+          edgeFile = "Interface\\Addons\\SUI\\Media\\Textures\\Core\\outer_shadow",
+          tile = false,
+          tileSize = 32,
+          edgeSize = 4,
+          insets = {
+            left = 4,
+            right = 4,
+            top = 4,
+            bottom = 4,
+          },
+        }
+
         local function IconSkin(b)
             if not b or (b and b.styled) then return end
-
-            b:SetTexCoord(0.1, 0.9, 0.1, 0.9)
 
             if b == PlayerCastingBarFrame.Icon and (PlayerCastingBarFrame) then
                 b.parent = PlayerCastingBarFrame
@@ -17,34 +29,28 @@ function Module:OnEnable()
                 b.parent = TargetFrameSpellBar
             end
 
-            local Backdrop = {
-              bgFile = nil,
-              edgeFile = "Interface\\Addons\\SUI\\Media\\Textures\\Core\\outer_shadow",
-              tile = false,
-              tileSize = 32,
-              edgeSize = 6,
-              insets = { left = 6, right = 6, top = 6, bottom = 6 },
-            }
+            local frame = CreateFrame("Frame", nil, b.parent)
 
-            local border = CreateFrame("Frame", nil, b.parent)
-            border:SetSize(b:GetWidth() + 1 , b:GetHeight() + 1)
-            border:SetPoint("CENTER", b, "CENTER", 0, 0)
-            border:SetFrameLevel(0)
-            
-            border.texture = border:CreateTexture()
-            border.texture:SetAllPoints()
-            border.texture:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\Core\\gloss_border")
-            border.texture:SetTexCoord(0,1,0,1)
-            border.texture:SetDrawLayer("BACKGROUND",-7)
-            border.texture:SetVertexColor(0.4, 0.35, 0.35)
+            b:SetTexCoord(0.1, 0.9, 0.1, 0.9)
 
-            border.shadow = CreateFrame("Frame", nil, border, "BackdropTemplate")
-            border.shadow:SetPoint("TOPLEFT", border, "TOPLEFT", -4, 4)
-            border.shadow:SetPoint("BOTTOMRIGHT", border, "BOTTOMRIGHT", 4, -4)
-            border.shadow:SetBackdrop(Backdrop)
-            border.shadow:SetBackdropBorderColor(unpack(SUI:Color(0.25, 0.9)))
+            local border = frame:CreateTexture(nil, "BACKGROUND")
+            border:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\Core\\gloss")
+            border:SetTexCoord(0, 1, 0, 1)
+            border:SetDrawLayer("BACKGROUND",- 7)
+            --border:SetVertexColor(unpack(SUI:Color()))
+            border:ClearAllPoints()
+            border:SetPoint("TOPLEFT", b, "TOPLEFT", -1, 1)
+            border:SetPoint("BOTTOMRIGHT", b, "BOTTOMRIGHT", 1, -1)
+            b.border = border
 
-            b.SUIBorder = border
+            local back = CreateFrame("Frame", nil, b.parent, "BackdropTemplate")
+            back:SetPoint("TOPLEFT", b, "TOPLEFT", -4, 4)
+            back:SetPoint("BOTTOMRIGHT", b, "BOTTOMRIGHT", 4, -4)
+            back:SetFrameLevel(frame:GetFrameLevel() - 1)
+            back:SetBackdrop(backdrop)
+            back:SetBackdropBorderColor(unpack(SUI:Color(0.25)))
+            back:SetAlpha(0.9)
+            b.bg = back
             b.styled = true
           end
 
