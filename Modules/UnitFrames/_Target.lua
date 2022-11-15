@@ -105,7 +105,28 @@ function Module:OnEnable()
               edgeSize = 6,
               insets = { left = 6, right = 6, top = 6, bottom = 6 },
             }
+
+            if not frame.border then
+              local border = frame.border or frame:CreateTexture(frame.border)
+              border:SetSize(db.unitframes.buffs.size + 1, db.unitframes.buffs.size + 1)
+              border:SetPoint("CENTER", frame, "CENTER", 0, 0)
+              border:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\Core\\gloss_border")
+              border:SetTexCoord(0,1,0,1)
+              border:SetDrawLayer("BACKGROUND",-7)
+              border:SetVertexColor(0.4, 0.35, 0.35)
+
+              border.shadow = CreateFrame("Frame", nil, frame, "BackdropTemplate")
+              border.shadow:SetPoint("TOPLEFT", frame, "TOPLEFT", -4, 4)
+              border.shadow:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", 4, -4)
+              border.shadow:SetBackdrop(Backdrop)
+              border.shadow:SetBackdropBorderColor(unpack(SUI:Color(0.25, 0.9)))
+
+
+              frame.border = border
+            end
+
             
+            --[[
             local border = CreateFrame("Frame", nil, frame)
             border:SetSize(db.unitframes.buffs.size + 4, db.unitframes.buffs.size + 4)
             border:SetPoint("CENTER", frame, "CENTER", 0, 0)
@@ -129,13 +150,17 @@ function Module:OnEnable()
               border:SetSize(db.unitframes.buffs.size + 4, db.unitframes.buffs.size + 4)
               frame.Border:Hide()
             end
+            ]]
 
-            local aura = C_UnitAuras.GetAuraDataByAuraInstanceID(frame.unit, frame.auraInstanceID)
-            if aura ~= nil and aura.dispelName == "Magic" then
-              border.texture:SetVertexColor(1, 1, 1, 1)
-            end
+            --[[if frame.auraInstanceID ~= nil then
+              local aura = C_UnitAuras.GetAuraDataByAuraInstanceID(frame.unit, frame.auraInstanceID)
+              if aura ~= nil and aura.dispelName == "Magic" then
+                border.texture:SetVertexColor(1, 1, 1, 1)
+              end
+            end]]
+
           
-            frame.SUIBorder = border
+            
           end
         end
       end
