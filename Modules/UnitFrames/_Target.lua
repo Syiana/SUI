@@ -105,14 +105,14 @@ function Module:OnEnable()
               edgeSize = 6,
               insets = { left = 6, right = 6, top = 6, bottom = 6 },
             }
-          
+            
             local border = CreateFrame("Frame", nil, frame)
-            border:SetSize(frame:GetWidth() + 2, frame:GetHeight() + 2)
+            border:SetSize(db.unitframes.buffs.size + 4, db.unitframes.buffs.size + 4)
             border:SetPoint("CENTER", frame, "CENTER", 0, 0)
           
             border.texture = border:CreateTexture()
             border.texture:SetAllPoints()
-            border.texture:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\Core\\gloss")
+            border.texture:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\Core\\gloss_border")
             border.texture:SetTexCoord(0,1,0,1)
             border.texture:SetDrawLayer("BACKGROUND",-7)
             border.texture:SetVertexColor(0.4, 0.35, 0.35)
@@ -122,6 +122,17 @@ function Module:OnEnable()
             border.shadow:SetPoint("BOTTOMRIGHT", border, "BOTTOMRIGHT", 4, -4)
             border.shadow:SetBackdrop(Backdrop)
             border.shadow:SetBackdropBorderColor(unpack(SUI:Color(0.25, 0.9)))
+
+            if frame.Border ~= nil then
+              border.texture:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\Core\\gloss_border_w")
+              border.texture:SetVertexColor(frame.Border:GetVertexColor())
+              frame.Border:Hide()
+            end
+
+            local aura = C_UnitAuras.GetAuraDataByAuraInstanceID(frame.unit, frame.auraInstanceID)
+            if aura ~= nil and aura.isStealable then
+              border.texture:SetVertexColor(1, 1, 1, 1)
+            end
           
             frame.SUIBorder = border
           end

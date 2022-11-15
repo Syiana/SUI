@@ -27,12 +27,12 @@ function Module:OnEnable()
             }
 
             local border = CreateFrame("Frame", nil, b.parent)
-            border:SetSize(b:GetWidth() + 1, b:GetHeight() + 1)
+            border:SetSize(b:GetWidth() + 4, b:GetHeight() + 4)
             border:SetPoint("CENTER", b, "CENTER", 0, 0)
             
             border.texture = border:CreateTexture()
             border.texture:SetAllPoints()
-            border.texture:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\Core\\gloss")
+            border.texture:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\Core\\gloss_border")
             border.texture:SetTexCoord(0,1,0,1)
             border.texture:SetDrawLayer("BACKGROUND",-7)
             border.texture:SetVertexColor(0.4, 0.35, 0.35)
