@@ -114,10 +114,6 @@ function Module:OnEnable()
             }
 
             if not frame.border then
-
-              --frame.Cooldown:ClearAllPoints()
-              --frame.Cooldown:SetPoint("CENTER", frame, "CENTER", 0, 0)
-
               local border = frame.border or frame:CreateTexture(frame.border)
               border:SetSize(db.unitframes.buffs.size + 1, db.unitframes.buffs.size + 1)
               border:SetPoint("CENTER", frame, "CENTER", 0, 0)
@@ -133,59 +129,16 @@ function Module:OnEnable()
               border.shadow:SetBackdrop(Backdrop)
               border.shadow:SetBackdropBorderColor(unpack(SUI:Color(0.25, 0.9)))
 
-              if frame.auraInstanceID ~= nil then
-                local aura = C_UnitAuras.GetAuraDataByAuraInstanceID(frame.unit, frame.auraInstanceID)
-              
-                if aura ~= nil and aura.dispelName ~= nil then
-
-                  local Color = DebuffColor[aura.dispelName]
-                  --border:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\Core\\gloss_border_w")
-                  --border:SetVertexColor(Color.r, Color.g, Color.b)
-                else
-                  --border:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\Core\\gloss_border")
-                  --border:SetVertexColor(0.4, 0.35, 0.35)
-                end
+              if frame.Stealable then
+                frame.Stealable:SetSize(db.unitframes.buffs.size + 1, db.unitframes.buffs.size + 1)
+                frame.Stealable:SetPoint("CENTER", frame, "CENTER", 0, 0)
+                frame.Stealable:SetTexCoord(0,1,0,1)
+                frame.Stealable:SetDrawLayer("BORDER")
+                frame.Stealable:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\Core\\gloss_border_w")
               end
-
+              
               frame.border = border
             end
-
-            
-            --[[
-            local border = CreateFrame("Frame", nil, frame)
-            border:SetSize(db.unitframes.buffs.size + 4, db.unitframes.buffs.size + 4)
-            border:SetPoint("CENTER", frame, "CENTER", 0, 0)
-          
-            border.texture = border:CreateTexture()
-            border.texture:SetAllPoints()
-            border.texture:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\Core\\gloss_border")
-            border.texture:SetTexCoord(0,1,0,1)
-            border.texture:SetDrawLayer("BACKGROUND",-7)
-            border.texture:SetVertexColor(0.4, 0.35, 0.35)
-          
-            border.shadow = CreateFrame("Frame", nil, border, "BackdropTemplate")
-            border.shadow:SetPoint("TOPLEFT", border, "TOPLEFT", -4, 4)
-            border.shadow:SetPoint("BOTTOMRIGHT", border, "BOTTOMRIGHT", 4, -4)
-            border.shadow:SetBackdrop(Backdrop)
-            border.shadow:SetBackdropBorderColor(unpack(SUI:Color(0.25, 0.9)))
-
-            if frame.Border ~= nil then
-              border.texture:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\Core\\gloss_border_w")
-              border.texture:SetVertexColor(frame.Border:GetVertexColor())
-              border:SetSize(db.unitframes.buffs.size + 4, db.unitframes.buffs.size + 4)
-              frame.Border:Hide()
-            end
-            ]]
-
-            --[[if frame.auraInstanceID ~= nil then
-              local aura = C_UnitAuras.GetAuraDataByAuraInstanceID(frame.unit, frame.auraInstanceID)
-              if aura ~= nil and aura.dispelName == "Magic" then
-                border.texture:SetVertexColor(1, 1, 1, 1)
-              end
-            end]]
-
-          
-            
           end
         end
       end
