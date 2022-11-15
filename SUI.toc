@@ -1,0 +1,18 @@
+## Interface: 100002
+## Author: Syiana
+## Version: 10.0
+## Title: |cfff58cbaS|r|cff009cffUI|r
+## SavedVariables: SUIDB
+
+## LIBS
+Libs\Load.xml
+## MEDIA
+Media\Load.xml
+## CORE
+Core\Load.xml
+## DATA
+Data\Load.xml
+## MODULES
+Modules\Load.xml
+## CONFIG
+Config\Load.xml

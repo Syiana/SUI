@@ -1,0 +1,14 @@
+<Ui xmlns='http://www.blizzard.com/wow/ui/'>
+  <Include file='_Actionbar.lua'/>
+  <Include file='_Buffs.lua'/>
+  <Include file='_Castbars.lua'/>
+  <Include file='_Chat.lua'/>
+  <Include file='_FAQ.lua'/>
+  <Include file='_General.lua'/>
+  <Include file='_Map.lua'/>
+  <Include file='_Misc.lua'/>
+  <Include file='_Nameplates.lua'/>
+  <Include file='_Profiles.lua'/>
+  <Include file='_Tooltip.lua'/>
+  <Include file='_Unitframes.lua'/>
+</Ui>

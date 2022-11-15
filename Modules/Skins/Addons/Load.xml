@@ -1,0 +1,4 @@
+<Ui xmlns='http://www.blizzard.com/wow/ui/'>
+  <Include file='_ClassicUI.lua'/>
+  <Include file='_Bartender.lua'/>
+</Ui>

@@ -1,0 +1,8 @@
+<Ui xmlns='http://www.blizzard.com/wow/ui/'>
+  <Script file='_Themes.lua'/>
+  <Script file='_Fonts.lua'/>
+  <Script file='_Textures.lua'/>
+  <Script file='_Colors.lua'/>
+	<Script file='_Users.lua'/>
+  <Script file='_Partyprofile.lua'/>
+</Ui>

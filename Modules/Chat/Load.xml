@@ -1,0 +1,7 @@
+<Ui xmlns='http://www.blizzard.com/wow/ui/'>
+	<Script file = "_Core.lua"/>
+  <Script file = "_Friendlist.lua" />
+  <Script file = "_Copy.lua" />
+  <Script file = "_Url.lua" />
+  <Script file = "_Quickjoin.lua" />
+</Ui>
