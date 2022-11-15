@@ -27,8 +27,9 @@ function Module:OnEnable()
             }
 
             local border = CreateFrame("Frame", nil, b.parent)
-            border:SetSize(b:GetWidth() + 4, b:GetHeight() + 4)
+            border:SetSize(b:GetWidth() + 1 , b:GetHeight() + 1)
             border:SetPoint("CENTER", b, "CENTER", 0, 0)
+            border:SetFrameLevel(0)
             
             border.texture = border:CreateTexture()
             border.texture:SetAllPoints()

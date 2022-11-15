@@ -126,11 +126,12 @@ function Module:OnEnable()
             if frame.Border ~= nil then
               border.texture:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\Core\\gloss_border_w")
               border.texture:SetVertexColor(frame.Border:GetVertexColor())
+              border:SetSize(db.unitframes.buffs.size + 4, db.unitframes.buffs.size + 4)
               frame.Border:Hide()
             end
 
             local aura = C_UnitAuras.GetAuraDataByAuraInstanceID(frame.unit, frame.auraInstanceID)
-            if aura ~= nil and aura.isStealable then
+            if aura ~= nil and aura.dispelName == "Magic" then
               border.texture:SetVertexColor(1, 1, 1, 1)
             end
           
