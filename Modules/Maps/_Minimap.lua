@@ -38,8 +38,10 @@ function Module:OnEnable()
       QueueStatusButton:SetPoint(db.queueicon.point, UIParent, db.queueicon.point, db.queueicon.x, db.queueicon.y)
 
       hooksecurefunc("QueueStatusDropDown_Show", function(button, relativeTo)
-        DropDownList1:ClearAllPoints()
-        DropDownList1:SetPoint("BOTTOMLEFT", QueueStatusButton, "BOTTOMLEFT", -70, -60)
+        if not strfind(db.queueicon.point, "BOTTOM") then
+          DropDownList1:ClearAllPoints()
+          DropDownList1:SetPoint("BOTTOMLEFT", QueueStatusButton, "BOTTOMLEFT", -70, -60)
+        end
       end)
     end
   end

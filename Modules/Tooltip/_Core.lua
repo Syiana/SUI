@@ -259,12 +259,14 @@ function Module:OnEnable()
     end
 
     local function OnMacroTooltipSetSpell(self)
-      local tooltipData = self:GetTooltipData()
-      local tooltipName = tooltipData.lines[2].leftText
-      local _, _, _, _, _, _, spellID  = GetSpellInfo(tooltipName)
+      if self:GetTooltipData() and self:GetTooltipData().lines and self:GetTooltipData().lines[2] and self:GetTooltipData().lines[2].leftText then
+        local tooltipData = self:GetTooltipData()
+        local tooltipName = tooltipData.lines[2].leftText
+        local _, _, _, _, _, _, spellID  = GetSpellInfo(tooltipName)
 
-      if (spellID) then
-        TooltipAddSpellID(self, spellID)
+        if (spellID) then
+          TooltipAddSpellID(self, spellID)
+        end
       end
     end
 
