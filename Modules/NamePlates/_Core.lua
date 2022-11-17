@@ -176,7 +176,7 @@ function Module:OnEnable()
     local function nameplateCastbarIcon(self)
         local inInstance, instanceType = IsInInstance("player")
         if inInstance then
-            if not UnitIsFriend("player", self.unit) then
+            if self.unit and not UnitIsFriend("player", self.unit) then
                 if self.castBar and self.castBar.Icon then
                     if self.castBar.BorderShield then
                         self.castBar.BorderShield:ClearAllPoints()
