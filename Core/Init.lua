@@ -65,6 +65,7 @@ local defaults = {
       healthtext = true,
       server = true,
       color = true,
+      casttime = true,
     },
     raidframes = {
       texture = [[Interface\Addons\SUI\Media\Textures\Status\Flat.blp]],

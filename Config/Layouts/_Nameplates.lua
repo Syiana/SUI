@@ -55,31 +55,39 @@ function Layout:OnEnable()
           column = 4,
           order = 1
         },
+        casttime = {
+          key = 'casttime',
+          type = 'checkbox',
+          label = 'Cast Time',
+          tooltip = 'Show cast time below the cast icon',
+          column = 4,
+          order = 2
+        },
         arenanumber = {
           key = 'arenanumber',
           type = 'checkbox',
           label = 'Arena Nameplate',
           tooltip = 'Shows Arena number over Nameplate',
           column = 4,
-          order = 2
+          order = 3
         },
+      },
+      {
         totemicons = {
           key = 'totemicons',
           type = 'checkbox',
           label = 'Totem Icons',
           tooltip = 'Shows Totem icons on Nameplate',
           column = 4,
-          order = 3
+          order = 1
         },
-      },
-      {
         server = {
           key = 'server',
           type = 'checkbox',
           label = 'Hide Servername',
           tooltip = 'Hide servernames entirely on nameplates',
           column = 4,
-          order = 1
+          order = 2
         },
         color = {
           key = 'color',
@@ -87,7 +95,7 @@ function Layout:OnEnable()
           label = 'Classcolor Playernames',
           tooltip = 'Show Playernames in their class color',
           column = 4,
-          order = 2
+          order = 3
         },
       }
     },

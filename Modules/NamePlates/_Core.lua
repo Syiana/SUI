@@ -45,7 +45,7 @@ function Module:OnEnable()
         icon.styled = true
     end
 
-    local function nameplateCastbar(self, event)
+    local function nameplateCastbar(self, elapsed)
         if self.unit and self.unit:find('nameplate%d') then
             local _, _, _, _, _, _, _, castInterrupt = UnitCastingInfo(self.unit);
             local _, _, _, _, _, _, channelInterrupt, _, _, _ = UnitChannelInfo(self.unit);
@@ -72,6 +72,23 @@ function Module:OnEnable()
                             self.Icon.border:Show()
                             self.Icon.bg:Show()
                         end
+
+                        if db.casttime then
+                            if not self.timer then
+                                self.timer = self:CreateFontString(nil)
+                                self.timer:SetFont(STANDARD_TEXT_FONT, 8, "THINOUTLINE")
+                                self.timer:SetPoint("CENTER", self.Icon, "BOTTOM", 0, -5)
+                                self.timer:SetDrawLayer("OVERLAY")
+                            else
+                                if self.casting then
+                                    self.timer:SetText(format("%.1f", max(self.maxValue - self.value, 0)))
+                                elseif self.channeling then
+                                    self.timer:SetText(format("%.1f", max(self.value, 0)))
+                                else
+                                    self.timer:SetText("")
+                                end
+                            end
+                        end
                     end
                 elseif instanceType == 'arena' or instanceType == 'pvp' then
                     if self and self.Icon then
@@ -93,6 +110,23 @@ function Module:OnEnable()
                             self.Icon:Show()
                             self.Icon.border:Show()
                             self.Icon.bg:Show()
+                        end
+
+                        if db.casttime then
+                            if not self.timer then
+                                self.timer = self:CreateFontString(nil)
+                                self.timer:SetFont(STANDARD_TEXT_FONT, 8, "THINOUTLINE")
+                                self.timer:SetPoint("CENTER", self.Icon, "BOTTOM", 0, -5)
+                                self.timer:SetDrawLayer("OVERLAY")
+                            else
+                                if self.casting then
+                                    self.timer:SetText(format("%.1f", max(self.maxValue - self.value, 0)))
+                                elseif self.channeling then
+                                    self.timer:SetText(format("%.1f", max(self.value, 0)))
+                                else
+                                    self.timer:SetText("")
+                                end
+                            end
                         end
                     end
                 end
@@ -117,7 +151,64 @@ function Module:OnEnable()
                         self.Icon.border:Show()
                         self.Icon.bg:Show()
                     end
+
+                    if db.casttime then
+                        if not self.timer then
+                            self.timer = self:CreateFontString(nil)
+                            self.timer:SetFont(STANDARD_TEXT_FONT, 8, "THINOUTLINE")
+                            self.timer:SetPoint("CENTER", self.Icon, "BOTTOM", 0, -5)
+                            self.timer:SetDrawLayer("OVERLAY")
+                        else
+                            if self.casting then
+                                self.timer:SetText(format("%.1f", max(self.maxValue - self.value, 0)))
+                            elseif self.channeling then
+                                self.timer:SetText(format("%.1f", max(self.value, 0)))
+                            else
+                                self.timer:SetText("")
+                            end
+                        end
+                    end
                 end
+            end
+        end
+    end
+
+    local function nameplateCastbarIcon(self)
+        local inInstance, instanceType = IsInInstance("player")
+        if inInstance then
+            if not UnitIsFriend("player", self.unit) then
+                if self.castBar and self.castBar.Icon then
+                    if self.castBar.BorderShield then
+                        self.castBar.BorderShield:ClearAllPoints()
+                        PixelUtil.SetPoint(self.castBar.BorderShield, "CENTER", self.castBar, "LEFT", -10, 0)
+                    end
+
+                    self.castBar.Icon:ClearAllPoints();
+                    PixelUtil.SetPoint(self.castBar.Icon, "CENTER", self.castBar, "LEFT", -10, 0);
+                    self.castBar.Text:SetFont(STANDARD_TEXT_FONT, 10, "OUTLINE")
+                end
+            elseif instanceType == 'arena' or instanceType == 'pvp' then
+                if self.castBar and self.castBar.Icon then
+                    if self.castBar.BorderShield then
+                        self.castBar.BorderShield:ClearAllPoints()
+                        PixelUtil.SetPoint(self.castBar.BorderShield, "CENTER", self.castBar, "LEFT", -10, 0)
+                    end
+
+                    self.castBar.Icon:ClearAllPoints();
+                    PixelUtil.SetPoint(self.castBar.Icon, "CENTER", self.castBar, "LEFT", -10, 0);
+                    self.castBar.Text:SetFont(STANDARD_TEXT_FONT, 10, "OUTLINE")
+                end
+            end
+        else
+            if self.castBar and self.castBar.Icon then
+                if self.castBar.BorderShield then
+                    self.castBar.BorderShield:ClearAllPoints()
+                    PixelUtil.SetPoint(self.castBar.BorderShield, "CENTER", self.castBar, "LEFT", -10, 0)
+                end
+
+                self.castBar.Icon:ClearAllPoints();
+                PixelUtil.SetPoint(self.castBar.Icon, "CENTER", self.castBar, "LEFT", -10, 0);
+                self.castBar.Text:SetFont(STANDARD_TEXT_FONT, 10, "OUTLINE")
             end
         end
     end
@@ -258,7 +349,8 @@ function Module:OnEnable()
         end
 
         -- Set Nameplate Castbars
-        hooksecurefunc(CastingBarMixin, "OnEvent", nameplateCastbar)
+        hooksecurefunc(CastingBarMixin, "OnUpdate", nameplateCastbar)
+        hooksecurefunc("DefaultCompactNamePlateFrameAnchorInternal", nameplateCastbarIcon)
 
         -- Set Nameplate Health Percentage
         if db.healthtext then
