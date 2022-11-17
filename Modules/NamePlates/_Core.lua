@@ -3,27 +3,121 @@ local Module = SUI:NewModule("NamePlates.Core");
 function Module:OnEnable()
     local db = SUI.db.profile.nameplates
 
-    local function nameplateCastbar(self)
-        local inInstance, instanceType = IsInInstance("player")
-        if inInstance then
-            if self.unit and not UnitIsFriend("player", self.unit) then
-                if self.castBar and self.castBar.Icon then
-                    self.castBar.Icon:ClearAllPoints();
-                    PixelUtil.SetPoint(self.castBar.Icon, "CENTER", self.castBar, "LEFT", -10, 0);
-                    self.castBar.Text:SetFont(STANDARD_TEXT_FONT, 10, "OUTLINE")
+    local function iconSkin(icon, parent)
+        if not icon or (icon and icon.styled) then return end
+
+        local backdrop = {
+            bgFile = nil,
+            edgeFile = "Interface\\Addons\\SUI\\Media\\Textures\\Core\\outer_shadow",
+            tile = false,
+            tileSize = 32,
+            edgeSize = 4,
+            insets = {
+                left = 4,
+                right = 4,
+                top = 4,
+                bottom = 4,
+            },
+        }
+
+        local frame = CreateFrame("Frame", nil, parent)
+
+        icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+
+        local border = frame:CreateTexture(nil, "BACKGROUND")
+        border:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\Core\\gloss")
+        border:SetTexCoord(0, 1, 0, 1)
+        border:SetDrawLayer("BACKGROUND",- 7)
+        --border:SetVertexColor(unpack(SUI:Color()))
+        border:ClearAllPoints()
+        border:SetPoint("TOPLEFT", icon, "TOPLEFT", -1, 1)
+        border:SetPoint("BOTTOMRIGHT", icon, "BOTTOMRIGHT", 1, -1)
+        icon.border = border
+
+        local back = CreateFrame("Frame", nil, parent, "BackdropTemplate")
+        back:SetPoint("TOPLEFT", icon, "TOPLEFT", -4, 4)
+        back:SetPoint("BOTTOMRIGHT", icon, "BOTTOMRIGHT", 4, -4)
+        back:SetFrameLevel(frame:GetFrameLevel() - 1)
+        back:SetBackdrop(backdrop)
+        back:SetBackdropBorderColor(unpack(SUI:Color(0.25)))
+        back:SetAlpha(0.9)
+        icon.bg = back
+        icon.styled = true
+    end
+
+    local function nameplateCastbar(self, event)
+        if self.unit and self.unit:find('nameplate%d') then
+            local _, _, _, _, _, _, _, castInterrupt = UnitCastingInfo(self.unit);
+            local _, _, _, _, _, _, channelInterrupt, _, _, _ = UnitChannelInfo(self.unit);
+            local inInstance, instanceType = IsInInstance("player")
+            if inInstance then
+                if not UnitIsFriend("player", self.unit) then
+                    if self and self.Icon then
+                        if self.BorderShield then
+                            self.BorderShield:ClearAllPoints()
+                            PixelUtil.SetPoint(self.BorderShield, "CENTER", self, "LEFT", -10, 0)
+                        end
+    
+                        self.Icon:ClearAllPoints();
+                        PixelUtil.SetPoint(self.Icon, "CENTER", self, "LEFT", -10, 0);
+                        self.Text:SetFont(STANDARD_TEXT_FONT, 10, "OUTLINE")
+                        iconSkin(self.Icon, self)
+    
+                        if castInterrupt or channelInterrupt then
+                            self.Icon:Hide()
+                            self.Icon.border:Hide()
+                            self.Icon.bg:Hide()
+                        else
+                            self.Icon:Show()
+                            self.Icon.border:Show()
+                            self.Icon.bg:Show()
+                        end
+                    end
+                elseif instanceType == 'arena' or instanceType == 'pvp' then
+                    if self and self.Icon then
+                        if self.BorderShield then
+                            self.BorderShield:ClearAllPoints()
+                            PixelUtil.SetPoint(self.BorderShield, "CENTER", self, "LEFT", -10, 0)
+                        end
+
+                        self.Icon:ClearAllPoints();
+                        PixelUtil.SetPoint(self.Icon, "CENTER", self, "LEFT", -10, 0);
+                        self.Text:SetFont(STANDARD_TEXT_FONT, 10, "OUTLINE")
+                        iconSkin(self.Icon, self)
+
+                        if castInterrupt or channelInterrupt then
+                            self.Icon:Hide()
+                            self.Icon.border:Hide()
+                            self.Icon.bg:Hide()
+                        else
+                            self.Icon:Show()
+                            self.Icon.border:Show()
+                            self.Icon.bg:Show()
+                        end
+                    end
                 end
-            elseif instanceType == 'arena' or instanceType == 'pvp' then
-                if self.castBar and self.castBar.Icon then
-                    self.castBar.Icon:ClearAllPoints();
-                    PixelUtil.SetPoint(self.castBar.Icon, "CENTER", self.castBar, "LEFT", -10, 0);
-                    self.castBar.Text:SetFont(STANDARD_TEXT_FONT, 10, "OUTLINE")
+            else
+                if self and self.Icon then
+                    if self.BorderShield then
+                        self.BorderShield:ClearAllPoints()
+                        PixelUtil.SetPoint(self.BorderShield, "CENTER", self, "LEFT", -10, 0)
+                    end
+
+                    self.Icon:ClearAllPoints();
+                    PixelUtil.SetPoint(self.Icon, "CENTER", self, "LEFT", -10, 0);
+                    self.Text:SetFont(STANDARD_TEXT_FONT, 10, "OUTLINE")
+                    iconSkin(self.Icon, self)
+
+                    if castInterrupt or channelInterrupt then
+                        self.Icon:Hide()
+                        self.Icon.border:Hide()
+                        self.Icon.bg:Hide()
+                    else
+                        self.Icon:Show()
+                        self.Icon.border:Show()
+                        self.Icon.bg:Show()
+                    end
                 end
-            end
-        else
-            if self.castBar and self.castBar.Icon then
-                self.castBar.Icon:ClearAllPoints();
-                PixelUtil.SetPoint(self.castBar.Icon, "CENTER", self.castBar, "LEFT", -10, 0);
-                self.castBar.Text:SetFont(STANDARD_TEXT_FONT, 10, "OUTLINE")
             end
         end
     end
@@ -163,10 +257,8 @@ function Module:OnEnable()
             hooksecurefunc("CompactUnitFrame_UpdateStatusText", nameplateTexture)
         end
 
-        --hooksecurefunc(NamePlateBaseMixin, "OnAdded", nameplateTexture)
-
         -- Set Nameplate Castbars
-        hooksecurefunc("DefaultCompactNamePlateFrameAnchorInternal", nameplateCastbar)
+        hooksecurefunc(CastingBarMixin, "OnEvent", nameplateCastbar)
 
         -- Set Nameplate Health Percentage
         if db.healthtext then

@@ -91,7 +91,7 @@ function Layout:OnEnable()
           key = 'unitframes.totemicons',
           type = 'checkbox',
           label = 'Totem Icons',
-          tooltip = 'Show Totem Icons below the Player Unitframe',
+          tooltip = 'Show Totem icons (Consecration duration etc.) below the Player Unitframe',
           column = 4,
           order = 2
         }
