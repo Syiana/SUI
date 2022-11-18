@@ -15,7 +15,6 @@ Data.team = {
 }
 
 Data.specials = {
-  {text = Colors.pala .. 'Borugg|r'},
   {text = Colors.rog    .. 'Stacy|r'},
   {text = Colors.warri  .. 'Candy|r'},
   {text = Colors.druid  .. 'Sivax|r'},
@@ -42,6 +41,7 @@ Data.specials = {
   {text = Colors.dk     .. 'Eyu|r'},
   {text = Colors.mage   .. 'JosefeVerdi|r'},
   {text = Colors.rog    .. 'Trimaz67|r'},
+  {text = Colors.pala .. 'Borugg|r'},
   {text = Colors.druid  .. 'Zonsy|r'},
   {text = Colors.pala   .. 'Lerthas|r'},
   {text = Colors.monk   .. 'Tizi|r'},
