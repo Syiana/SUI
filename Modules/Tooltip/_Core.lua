@@ -12,6 +12,10 @@ function Module:OnEnable()
     hooksecurefunc("GameTooltip_SetDefaultAnchor", function(tooltip, parent)
       tooltip:SetOwner(parent, "ANCHOR_CURSOR")
     end)
+  else
+    hooksecurefunc("GameTooltip_SetDefaultAnchor", function(tooltip, parent)
+      tooltip:SetOwner(parent, "ANCHOR_NONE")
+    end)
   end
 
 	if (db.style == "Custom") then
@@ -60,6 +64,10 @@ function Module:OnEnable()
     end
 
     local function OnTooltipSetUnit(self)
+      if self ~= _G.GameTooltip then
+        return
+      end
+      
       local unitName, unit = self:GetUnit()
       if not unit then return end
       --color tooltip textleft

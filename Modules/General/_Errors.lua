@@ -15,13 +15,17 @@ function Module:OnEnable()
   local GetGameMessageInfo, PlayVocalErrorSoundID, PlaySound = GetGameMessageInfo, PlayVocalErrorSoundID, PlaySound
   UIErrorsFrame:SetScript("OnEvent", function(self, event, ...)
     local messageType, message, r, g, b
+
     if event == "SYSMSG" then
       message, r, g, b = ...
-    else
+      return originalOnEvent(self, event, ...)
+    elseif event == "UI_INFO_MESSAGE" then
       messageType, message = ...
+      return originalOnEvent(self, event, ...)
     end
 
     if event ~= "SYSMSG" then
+      messageType, message = ...
       r, g, b = colors[event].r, colors[event].g, colors[event].b
       local _, soundKitID, voiceID = GetGameMessageInfo(messageType)
       if voiceID then

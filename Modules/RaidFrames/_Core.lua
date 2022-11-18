@@ -138,6 +138,8 @@ function Module:OnEnable()
 					_G["CompactPartyFrameMember" ..i]:SetHeight(db.height)
 					_G["CompactPartyFrameMember" ..i.."StatusText"]:ClearAllPoints()
 					_G["CompactPartyFrameMember" ..i.."StatusText"]:SetPoint("CENTER", _G["CompactPartyFrameMember" ..i], "CENTER")
+					_G["CompactPartyFrameMember" ..i.."CenterStatusIcon"]:ClearAllPoints()
+					_G["CompactPartyFrameMember" ..i.."CenterStatusIcon"]:SetPoint("CENTER", _G["CompactPartyFrameMember" ..i], "CENTER")
 				end
 			end)
 
@@ -147,6 +149,14 @@ function Module:OnEnable()
 					_G["CompactPartyFrameMember" ..i]:SetHeight(db.height)
 					_G["CompactPartyFrameMember" ..i.."StatusText"]:ClearAllPoints()
 					_G["CompactPartyFrameMember" ..i.."StatusText"]:SetPoint("CENTER", _G["CompactPartyFrameMember" ..i], "CENTER")
+					_G["CompactPartyFrameMember" ..i.."CenterStatusIcon"]:ClearAllPoints()
+					_G["CompactPartyFrameMember" ..i.."CenterStatusIcon"]:SetPoint("CENTER", _G["CompactPartyFrameMember" ..i], "CENTER")
+				end
+
+				if UnitInRaid("player") and not CompactRaidFrameContainer:UseCombinedGroups() then
+					updateSeperate()
+				else
+					updateCombined()
 				end
 			end)
 		end
