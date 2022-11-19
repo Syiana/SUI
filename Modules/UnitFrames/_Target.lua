@@ -56,6 +56,11 @@ function Module:OnEnable()
       local targetManaBar = TargetFrame.TargetFrameContent.TargetFrameContentMain.ManaBar
       local powerColor = GetPowerColor(targetManaBar.powerType)
 
+      --TargetFrame.TargetFrameContent.TargetFrameContentMain.HealthBar.AnimatedLossBar:SetStatusBarTexture(db.texture)
+      --self.myHealPredictionBar:SetTexture(db.texture)
+      --self.otherHealPredictionBar:SetTexture(db.texture)
+      --self.myManaCostPredictionBar:SetTexture(db.texture)
+
       targetHealthBar:SetStatusBarTexture(db.texture)
       targetManaBarTexture:SetTexture(db.texture)
       targetManaBar:SetStatusBarColor(powerColor.r, powerColor.g, powerColor.b)

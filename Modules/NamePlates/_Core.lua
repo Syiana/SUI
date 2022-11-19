@@ -348,6 +348,30 @@ function Module:OnEnable()
             hooksecurefunc("CompactUnitFrame_UpdateStatusText", nameplateTexture)
         end
 
+        -- Set Heal Prediction Texture
+        hooksecurefunc("CompactUnitFrame_UpdateHealthColor", function(self)
+            if not strfind(self.unit, "nameplate") then return end
+            local inInstance, instanceType = IsInInstance("player")
+            if inInstance then
+                if self.unit and not UnitIsFriend("player", self.unit) then  
+                    self.myHealPrediction:SetTexture(db.texture)
+                    self.myHealPrediction:SetVertexColor(16/510, 424/510, 400/510)
+                    self.otherHealPrediction:SetTexture(db.texture)
+                    self.otherHealPrediction:SetVertexColor(0/510, 325/510, 292/510)
+                elseif instanceType == 'arena' or instanceType == 'pvp' then
+                    self.myHealPrediction:SetTexture(db.texture)
+                    self.myHealPrediction:SetVertexColor(16/510, 424/510, 400/510)
+                    self.otherHealPrediction:SetTexture(db.texture)
+                    self.otherHealPrediction:SetVertexColor(0/510, 325/510, 292/510)
+                end
+            else
+                self.myHealPrediction:SetTexture(db.texture)
+                self.myHealPrediction:SetVertexColor(16/510, 424/510, 400/510)
+                self.otherHealPrediction:SetTexture(db.texture)
+                self.otherHealPrediction:SetVertexColor(0/510, 325/510, 292/510)
+            end
+        end)
+
         -- Set Nameplate Castbars
         hooksecurefunc(CastingBarMixin, "OnUpdate", nameplateCastbar)
         hooksecurefunc("DefaultCompactNamePlateFrameAnchorInternal", nameplateCastbarIcon)

@@ -38,7 +38,7 @@ function Module:OnEnable()
       "BottomEdge", "BottomLeftCorner", "BottomRightCorner", "Center", "LeftEdge", "RightEdge", "TopEdge", "TopLeftCorner", "TopRightCorner"
     }
 
-    for i = 1, 5 do
+    for i = 1, 6 do
       local container = _G["ContainerFrame" .. i]
 
       SUIStyleNineSlice(container)

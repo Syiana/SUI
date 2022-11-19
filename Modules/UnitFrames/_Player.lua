@@ -56,11 +56,19 @@ function Module:OnEnable()
   if db.texture ~= [[Interface\Default]] then
     local PlayerFrameHealthBar = PlayerFrame.PlayerFrameContent.PlayerFrameContentMain.HealthBarArea.HealthBar
     PlayerFrameHealthBar:SetStatusBarTexture(db.texture)
+
     PlayerFrame:HookScript("OnEvent", function(self, event)
       local PlayerFrameManaBar = PlayerFrame.PlayerFrameContent.PlayerFrameContentMain.ManaBarArea.ManaBar
       local powerColor = GetPowerColor(PlayerFrameManaBar.powerType)
+
+      self.healthbar.AnimatedLossBar:SetStatusBarTexture(db.texture)
+      self.myHealPredictionBar:SetTexture(db.texture)
+      self.otherHealPredictionBar:SetTexture(db.texture)
+      self.myManaCostPredictionBar:SetTexture(db.texture)
+
       PlayerFrameManaBar.texture:SetTexture(db.texture)
       PlayerFrameManaBar:SetStatusBarColor(powerColor.r, powerColor.g, powerColor.b)
+
       if db.nameplates ~= 'Default' then
         ClassNameplateManaBarFrame:SetStatusBarTexture(db.texture)
       end

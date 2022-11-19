@@ -117,6 +117,7 @@ function Module:OnEnable()
 			setTexture:SetScript("OnEvent", updateCombined)
 		end
 
+
 		-- Hide Titles
 		CompactPartyFrameTitle:Hide()
 		if (db.size and db.height and db.width) then
