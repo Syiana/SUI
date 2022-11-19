@@ -32,8 +32,6 @@ function Module:OnEnable()
     EventFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
     EventFrame:RegisterEvent("UPDATE_BINDINGS")
 
-    if IsAddOnLoaded("Masque") then return end
-
     function Init()
       for j = 1, #Bars do
         local Bar = Bars[j]
@@ -48,8 +46,11 @@ function Module:OnEnable()
       for i = 1, DefaultActionBarShowable do
         local Button = _G["ActionButton" ..i]
 
-        StyleButton(Button, "Actionbar")
         UpdateHotkeys(Button)
+
+        if IsAddOnLoaded("Masque") and IsAddOnLoaded("MasqueBlizzBars") then return end
+        StyleButton(Button, "Actionbar")
+        
       end
 
       for i = 1, 10 do
@@ -80,7 +81,7 @@ function Module:OnEnable()
       if Button.Shadow == nil then
         NormalTexture:SetDesaturated(true)
         NormalTexture:SetVertexColor(unpack(SUI:Color(0.15)))
-        
+
         Cooldown:ClearAllPoints()
         Cooldown:SetPoint("TOPLEFT", Button, "TOPLEFT", 1, -2)
         Cooldown:SetPoint("BOTTOMRIGHT", Button, "BOTTOMRIGHT", -2, 2)
@@ -125,6 +126,7 @@ function Module:OnEnable()
     end
 
     if dominos then
+      if IsAddOnLoaded("Masque") then return end
       for i = 1, 120 do
         local ActionButton = _G["DominosActionButton" .. i]
         if ActionButton then
@@ -147,6 +149,7 @@ function Module:OnEnable()
     end
 
     if bartender then
+      if IsAddOnLoaded("Masque") then return end
       for i = 1, 180 do
         local ActionButton = _G["BT4Button" .. i]
         if ActionButton then
