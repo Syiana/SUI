@@ -32,10 +32,9 @@ function Module:OnEnable()
     EventFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
     EventFrame:RegisterEvent("UPDATE_BINDINGS")
 
-    if IsAddOnLoaded("Masque") and (dominos or bartender) then return end
+    if IsAddOnLoaded("Masque") then return end
 
     function Init()
-
       for j = 1, #Bars do
         local Bar = Bars[j]
         if Bar then
@@ -73,7 +72,6 @@ function Module:OnEnable()
     end
 
     function StyleButton(Button, Type)
-
       local Name = Button:GetName()
       local NormalTexture = _G[Name .. "NormalTexture"]
       local Icon = _G[Name .. "Icon"]
@@ -94,6 +92,11 @@ function Module:OnEnable()
 
         local ButtonWidth, ButtonHeight = Button:GetSize()
         Button:GetNormalTexture():SetSize(ButtonWidth + 2, ButtonHeight + 1)
+
+        if bartender then
+          Button:GetNormalTexture():SetSize(ButtonWidth + 6, ButtonHeight + 5)
+        end
+
         Button.Shadow = CreateFrame("Frame", nil, Button, "BackdropTemplate")
         Button.Shadow:SetPoint("TOPLEFT", Button, "TOPLEFT", -3, 3)
         Button.Shadow:SetPoint("BOTTOMRIGHT", Button, "BOTTOMRIGHT", 2, -2)
@@ -119,6 +122,50 @@ function Module:OnEnable()
 
       HotKey:SetAlpha(HotKeyAlpha)
       Macro:SetAlpha(MacroAlpha)
+    end
+
+    if dominos then
+      for i = 1, 120 do
+        local ActionButton = _G["DominosActionButton" .. i]
+        if ActionButton then
+          StyleButton(ActionButton)
+        end
+      end
+
+      for i = 1, 10 do
+        local PetButton = _G["DominosPetActionButton" .. i]
+        local StanceButton = _G["DominosStanceButton" .. i]
+
+        if PetButton then
+          StyleButton(PetButton)
+        end
+
+        if StanceButton then
+          StyleButton(StanceButton)
+        end
+      end
+    end
+
+    if bartender then
+      for i = 1, 180 do
+        local ActionButton = _G["BT4Button" .. i]
+        if ActionButton then
+          StyleButton(ActionButton)
+        end
+      end
+
+      for i = 1, 10 do
+        local PetButton = _G["BT4PetButton" .. i]
+        local StanceButton = _G["BT4StanceButton" .. i]
+
+        if PetButton then
+          StyleButton(PetButton)
+        end
+
+        if StanceButton then
+          StyleButton(StanceButton)
+        end
+      end
     end
 
     EventFrame:SetScript("OnEvent", Init)
