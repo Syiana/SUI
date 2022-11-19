@@ -112,7 +112,7 @@ function Module:OnEnable()
 
       HotKey:SetFont(FONT, db.buttons.size, "OUTLINE")
       Macro:SetFont(FONT, db.buttons.size, "OUTLINE")
-      Count:SetFont(FONT, 14, "OUTLINE")
+      Count:SetFont(FONT, db.buttons.size, "OUTLINE")
 
       local HotKeyAlpha = db.buttons.key and 1 or 0
       local MacroAlpha = db.buttons.macro and 1 or 0

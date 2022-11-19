@@ -83,7 +83,7 @@ function Module:OnEnable()
       FocusFrameToT.ManaBar:SetStatusBarTexture(db.texture)
     end)
   end
-  
+
   local hooked = {}
   local function UpdateFrameAuras(pool)
     if db.theme ~= 'Blizzard' then

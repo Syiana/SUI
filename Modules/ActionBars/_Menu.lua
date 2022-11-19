@@ -75,9 +75,9 @@ function Menu:OnEnable()
 
   -- Micro Menu
   MicroMenu = CreateFrame("Frame", "MicroMenu", UIParent)
+  MicroMenu:ClearAllPoints()
   MicroMenu:SetSize(230, 35)
   MicroMenu:SetPoint(db.microPos.point, UIParent, db.microPos.point, db.microPos.x, db.microPos.y)
-  MicroMenu:Show()
 
   MicroMenu:RegisterEvent("ADDON_LOADED")
   MicroMenu:RegisterEvent("PLAYER_LOGIN")
@@ -90,7 +90,6 @@ function Menu:OnEnable()
   BagBar = CreateFrame("Frame", "BagBar", UIParent)
   BagBar:SetSize(215, 60)
   BagBar:SetPoint(db.bagPos.point, UIParent, db.bagPos.point, db.bagPos.x, db.bagPos.y)
-  BagBar:Show()
 
   BagBar:RegisterEvent("ADDON_LOADED")
   BagBar:RegisterEvent("PLAYER_LOGIN")

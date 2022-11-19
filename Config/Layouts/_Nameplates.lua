@@ -97,6 +97,44 @@ function Layout:OnEnable()
           column = 4,
           order = 3
         },
+      },
+      {
+        header = {
+          type = 'header',
+          label = 'Options'
+        }
+      },
+      {
+        stackingmode = {
+          key = 'stackingmode',
+          type = 'checkbox',
+          label = 'Smart Stacking Mode',
+          tooltip = 'Enabled = Smart Stacking Mode / Disabled = Overlapping Nameplates',
+          column = 4,
+          order = 1
+        },
+      },
+      {
+        height = {
+          key = 'height',
+          type = 'slider',
+          label = 'Height',
+          precision = 1,
+          min = 1,
+          max = 5,
+          column = 4,
+          order = 1
+        },
+        width = {
+          key = 'width',
+          type = 'slider',
+          label = 'Width',
+          precision = 1,
+          min = 1,
+          max = 5,
+          column = 4,
+          order = 2
+        }
       }
     },
   }

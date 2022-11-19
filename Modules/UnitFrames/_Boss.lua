@@ -1,5 +1,4 @@
 local Module = SUI:NewModule("UnitFrames.Boss");
-
 function Module:OnEnable()
     local db = SUI.db.profile.unitframes
     if (db.style == 'Big') then
