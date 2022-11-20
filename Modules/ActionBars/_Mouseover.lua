@@ -5,7 +5,7 @@ function Module:OnEnable()
 
     -- Disable GCD Flash if ActionBar is hidden
     hooksecurefunc(getmetatable(ActionButton1Cooldown).__index, 'SetCooldown', function(self)
-        if self:GetEffectiveAlpha() then
+        if self and self:GetEffectiveAlpha() then
             local alpha = self:GetEffectiveAlpha()
             if alpha > 0.001 then
                 self:SetSwipeColor(0,0,0,alpha)

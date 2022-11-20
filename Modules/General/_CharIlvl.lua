@@ -66,11 +66,13 @@ function Module:OnEnable()
                 local itemLink = GetInventoryItemLink(unit, i)
                 if i ~= 4 then
                     if itemLink then
-                        local _, _, quality = GetItemInfo(itemLink)
-                        local _, _, _, hex = GetItemQualityColor(quality)
-                        local itemLevel = getItemLevel(i, "player")
-                        itemLevel = itemLevel or ""
-                        frame[i]:SetFormattedText('|c%s%s|r', hex, itemLevel or '?')
+                        if GetItemInfo(itemLink) then
+                            local _, _, quality = GetItemInfo(itemLink)
+                            local _, _, _, hex = GetItemQualityColor(quality)
+                            local itemLevel = getItemLevel(i, "player")
+                            itemLevel = itemLevel or ""
+                            frame[i]:SetFormattedText('|c%s%s|r', hex, itemLevel or '?')
+                        end
                     else
                         frame[i]:SetText("")
                     end

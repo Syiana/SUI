@@ -80,8 +80,8 @@ function Module:OnEnable()
         end
       end
       --position raidicon
-      local raidIconIndex = GetRaidTargetIndex(unit)
-      if raidIconIndex then
+      if GetRaidTargetIndex(unit) then
+        local raidIconIndex = GetRaidTargetIndex(unit)
         GameTooltipTextLeft1:SetText(("%s %s"):format(ICON_LIST[raidIconIndex].."14|t", unitName))
       end
       if not UnitIsPlayer(unit) then
