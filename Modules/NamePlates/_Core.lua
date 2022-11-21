@@ -239,18 +239,22 @@ function Module:OnEnable()
             elseif instanceType == 'arena' or instanceType == 'pvp' then
                 if self.unit and self.unit:find('nameplate%d') then
                     if self.healthBar and self.unit then
-                        local unit = self.unit
-                        local healthBar = self.healthBar
-                        nameplateHealthText(unit, healthBar)
+                        if not UnitName("player") ~= UnitName(self.unit) then
+                            local unit = self.unit
+                            local healthBar = self.healthBar
+                            nameplateHealthText(unit, healthBar)
+                        end
                     end
                 end
             end
         else
             if self.unit and self.unit:find('nameplate%d') then
                 if self.healthBar and self.unit then
-                    local unit = self.unit
-                    local healthBar = self.healthBar
-                    nameplateHealthText(unit, healthBar)
+                    if UnitName("player") ~= UnitName(self.unit) then
+                        local unit = self.unit
+                        local healthBar = self.healthBar
+                        nameplateHealthText(unit, healthBar)
+                    end
                 end
             end
         end
