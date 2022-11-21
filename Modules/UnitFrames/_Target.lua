@@ -99,7 +99,6 @@ function Module:OnEnable()
           local icon = frame.Icon
           icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
           icon:SetDrawLayer("BACKGROUND",-8)
-          frame.Icon = icon
 
           if not frame.border then
             local border = frame.border or 

@@ -2,8 +2,7 @@
 	<!--
 	<Script file="_Boss.lua"/>
 	<Script file="_Vehicle.lua"/>
-	Necessary for big frames later
-	-->
+	Necessary for big frames later-->
   	<Script file="_Textures.lua"/>
 	<Script file="_Text.lua"/>
 	<Script file="_Combat.lua"/>

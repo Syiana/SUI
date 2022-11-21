@@ -51,7 +51,7 @@ function Module:OnEnable()
             local _, _, _, _, _, _, channelInterrupt, _, _, _ = UnitChannelInfo(self.unit);
             local inInstance, instanceType = IsInInstance("player")
             if inInstance then
-                if not UnitIsFriend("player", self.unit) then
+                if not UnitIsFriend("player", self.unit) and UnitCanAttack("player", self.unit) then
                     if self and self.Icon then
                         if self.BorderShield then
                             self.BorderShield:ClearAllPoints()
@@ -176,7 +176,7 @@ function Module:OnEnable()
     local function nameplateCastbarIcon(self)
         local inInstance, instanceType = IsInInstance("player")
         if inInstance then
-            if self.unit and not UnitIsFriend("player", self.unit) then
+            if self.unit and not UnitIsFriend("player", self.unit) and UnitCanAttack("player", self.unit) then
                 if self.castBar and self.castBar.Icon then
                     if self.castBar.BorderShield then
                         self.castBar.BorderShield:ClearAllPoints()
@@ -228,7 +228,7 @@ function Module:OnEnable()
     local function nameplateHealthTextFrame(self)
         local inInstance, instanceType = IsInInstance("player")
         if inInstance then
-            if self.unit and not UnitIsFriend("player", self.unit) then
+            if self.unit and not UnitIsFriend("player", self.unit) and UnitCanAttack("player", self.unit) then
                 if self.unit and self.unit:find('nameplate%d') then
                     if self.healthBar and self.unit then
                         local unit = self.unit
@@ -318,7 +318,7 @@ function Module:OnEnable()
     local function nameplateTexture(self)
         local inInstance, instanceType = IsInInstance("player")
         if inInstance then
-            if self.unit and not UnitIsFriend("player", self.unit) then
+            if self.unit and not UnitIsFriend("player", self.unit) and UnitCanAttack("player", self.unit) then
                 if self.unit and self.unit:find('nameplate%d') then
                     if self.healthBar then
                         self.healthBar:SetStatusBarTexture(db.texture)
@@ -353,7 +353,7 @@ function Module:OnEnable()
             if not strfind(self.unit, "nameplate") then return end
             local inInstance, instanceType = IsInInstance("player")
             if inInstance then
-                if self.unit and not UnitIsFriend("player", self.unit) then  
+                if self.unit and not UnitIsFriend("player", self.unit)  and not UnitReaction(self.unit, "player") == 2 then  
                     self.myHealPrediction:SetTexture(db.texture)
                     self.myHealPrediction:SetVertexColor(16/510, 424/510, 400/510)
                     self.otherHealPrediction:SetTexture(db.texture)
