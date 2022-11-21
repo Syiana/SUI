@@ -74,19 +74,6 @@ function Layout:OnEnable()
         },
       },
       {
-        playerSize = {
-          key = 'playerSize',
-          type = 'slider',
-          label = 'Player',
-          precision = 1,
-          min = 0.5,
-          max = 3,
-          column = 4,
-          order = 1,
-          onChange = function(slider)
-            PlayerCastingBarFrame:SetScale(slider.value)
-          end,
-        },
         targetSize = {
           key = 'targetSize',
           type = 'slider',

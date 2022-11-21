@@ -3,15 +3,6 @@ local Module = SUI:NewModule("CastBars.Player");
 function Module:OnEnable()
   local db = SUI.db.profile.castbars
 
-  local Size = CreateFrame("Frame")
-  Size:RegisterEvent("ADDON_LOADED")
-  Size:RegisterEvent("PLAYER_LOGIN")
-  Size:RegisterEvent("PLAYER_ENTERING_WORLD")
-  Size:RegisterEvent("VARIABLES_LOADED")
-  Size:SetScript("OnEvent", function()
-    PlayerCastingBarFrame:SetScale(db.playerSize)
-  end)
-  
   if (db.style == 'Custom') then
         if not InCombatLockdown() then
             if db.icon then

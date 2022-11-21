@@ -107,7 +107,6 @@ local defaults = {
       icon = true,
       targetCastbar = true,
       focusCastbar = true,
-      playerSize = 1,
       focusSize = 1,
       targetSize = 1,
       targetOnTop = false,
