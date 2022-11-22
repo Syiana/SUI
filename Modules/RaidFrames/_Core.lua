@@ -8,11 +8,25 @@ function Module:OnEnable()
 			local i = 1
 			repeat
 
+			local inInstance, instanceType = IsInInstance("player")
+
 			-- check if raid or party
-			if UnitInRaid("player") then
-				frame = "CompactRaidFrame"
+			if inInstance then
+				if instanceType == 'arena' then
+					frame = "CompactPartyFrameMember"
+				else
+					if UnitInRaid("player") then
+						frame = "CompactRaidFrame"
+					else
+						frame = "CompactPartyFrameMember"
+					end
+				end
 			else
-				frame = "CompactPartyFrameMember"
+				if UnitInRaid("player") then
+					frame = "CompactRaidFrame"
+				else
+					frame = "CompactPartyFrameMember"
+				end
 			end
 
 			local hbar = _G[frame .. i .. "HealthBar"]
@@ -105,11 +119,7 @@ function Module:OnEnable()
 		setTexture:RegisterEvent("VARIABLES_LOADED")
 		setTexture:RegisterEvent("PLAYER_ENTERING_WORLD")
 		setTexture:RegisterEvent("GROUP_ROSTER_UPDATE")
-		setTexture:RegisterEvent("PLAYER_REGEN_ENABLED")
 		setTexture:RegisterEvent("COMPACT_UNIT_FRAME_PROFILES_LOADED")
-		setTexture:RegisterEvent("UPDATE_EXPANSION_LEVEL")
-		setTexture:RegisterEvent("ARTIFACT_XP_UPDATE")
-		setTexture:RegisterEvent("AZERITE_ITEM_EXPERIENCE_CHANGED")
 		setTexture:RegisterUnitEvent("UNIT_LEVEL", "player")
 		if UnitInRaid("player") and not CompactRaidFrameContainer:UseCombinedGroups() then
 			setTexture:SetScript("OnEvent", updateSeperate)
@@ -117,49 +127,40 @@ function Module:OnEnable()
 			setTexture:SetScript("OnEvent", updateCombined)
 		end
 
+		hooksecurefunc(C_EditMode, "OnEditModeExit", function()
+			if UnitInRaid("player") and not CompactRaidFrameContainer:UseCombinedGroups() then
+				updateSeperate()
+			else
+				updateCombined()
+			end
+		end)
+
+		local function updateSize()
+			for i=1,5 do
+				_G["CompactPartyFrameMember" ..i]:SetWidth(db.width)
+				_G["CompactPartyFrameMember" ..i]:SetHeight(db.height)
+				_G["CompactPartyFrameMember" ..i.."StatusText"]:ClearAllPoints()
+				_G["CompactPartyFrameMember" ..i.."StatusText"]:SetPoint("CENTER", _G["CompactPartyFrameMember" ..i], "CENTER")
+				_G["CompactPartyFrameMember" ..i.."CenterStatusIcon"]:ClearAllPoints()
+				_G["CompactPartyFrameMember" ..i.."CenterStatusIcon"]:SetPoint("CENTER", _G["CompactPartyFrameMember" ..i], "CENTER")
+			end
+		end
 
 		-- Hide Titles
 		CompactPartyFrameTitle:Hide()
-		if (db.size and db.height and db.width) then
+
+		-- Update PartyFrame Size
+		if (db.size) then
 			local Size = CreateFrame("Frame")
 			Size:RegisterEvent("ADDON_LOADED")
 			Size:RegisterEvent("PLAYER_LOGIN")
 			Size:RegisterEvent("VARIABLES_LOADED")
 			Size:RegisterEvent("PLAYER_ENTERING_WORLD")
 			Size:RegisterEvent("GROUP_ROSTER_UPDATE")
-			Size:RegisterEvent("PLAYER_REGEN_ENABLED")
 			Size:RegisterEvent("COMPACT_UNIT_FRAME_PROFILES_LOADED")
-			Size:RegisterEvent("UPDATE_EXPANSION_LEVEL")
-			Size:RegisterEvent("ARTIFACT_XP_UPDATE")
-			Size:RegisterEvent("AZERITE_ITEM_EXPERIENCE_CHANGED")
-			Size:RegisterUnitEvent("UNIT_LEVEL", "player")
-			Size:SetScript("OnEvent", function()
-				for i=1,5 do
-					_G["CompactPartyFrameMember" ..i]:SetWidth(db.width)
-					_G["CompactPartyFrameMember" ..i]:SetHeight(db.height)
-					_G["CompactPartyFrameMember" ..i.."StatusText"]:ClearAllPoints()
-					_G["CompactPartyFrameMember" ..i.."StatusText"]:SetPoint("CENTER", _G["CompactPartyFrameMember" ..i], "CENTER")
-					_G["CompactPartyFrameMember" ..i.."CenterStatusIcon"]:ClearAllPoints()
-					_G["CompactPartyFrameMember" ..i.."CenterStatusIcon"]:SetPoint("CENTER", _G["CompactPartyFrameMember" ..i], "CENTER")
-				end
-			end)
+			Size:SetScript("OnEvent", updateSize)
 
-			hooksecurefunc(C_EditMode, "OnEditModeExit", function()
-				for i=1,5 do
-					_G["CompactPartyFrameMember" ..i]:SetWidth(db.width)
-					_G["CompactPartyFrameMember" ..i]:SetHeight(db.height)
-					_G["CompactPartyFrameMember" ..i.."StatusText"]:ClearAllPoints()
-					_G["CompactPartyFrameMember" ..i.."StatusText"]:SetPoint("CENTER", _G["CompactPartyFrameMember" ..i], "CENTER")
-					_G["CompactPartyFrameMember" ..i.."CenterStatusIcon"]:ClearAllPoints()
-					_G["CompactPartyFrameMember" ..i.."CenterStatusIcon"]:SetPoint("CENTER", _G["CompactPartyFrameMember" ..i], "CENTER")
-				end
-
-				if UnitInRaid("player") and not CompactRaidFrameContainer:UseCombinedGroups() then
-					updateSeperate()
-				else
-					updateCombined()
-				end
-			end)
+			hooksecurefunc(C_EditMode, "OnEditModeExit", updateSize)
 		end
 	end
 end

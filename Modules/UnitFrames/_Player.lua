@@ -61,7 +61,6 @@ function Module:OnEnable()
       local PlayerFrameManaBar = PlayerFrame.PlayerFrameContent.PlayerFrameContentMain.ManaBarArea.ManaBar
       local powerColor = GetPowerColor(PlayerFrameManaBar.powerType)
 
-      self.healthbar.AnimatedLossBar:SetStatusBarTexture(db.texture)
       self.myHealPredictionBar:SetTexture(db.texture)
       self.otherHealPredictionBar:SetTexture(db.texture)
       self.myManaCostPredictionBar:SetTexture(db.texture)
