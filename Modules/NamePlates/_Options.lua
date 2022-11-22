@@ -11,17 +11,15 @@ function Module:OnEnable()
                 SetCVar("nameplateMinScale", 1)          -- Set Nameplate Stacking Distance Vertical
             end
 
-            SetCVar("NamePlateVerticalScale", db.height)    -- Set Nameplate Height
-            SetCVar("NamePlateHorizontalScale", db.width)   -- Set Nameplate Width
+            if db.height and db.width then
+                SetCVar("NamePlateVerticalScale", db.height)    -- Set Nameplate Height
+                SetCVar("NamePlateHorizontalScale", db.width)   -- Set Nameplate Width
+            end
         end
     
-        -- Nameplate settings
+        -- Apply Nameplate settings
         local frame = CreateFrame("Frame")
-        frame:RegisterEvent("PLAYER_ENTERING_WORLD")
-        frame:RegisterEvent("PLAYER_LOGIN")
         frame:RegisterEvent("CVAR_UPDATE")
-        frame:SetScript("OnEvent", function()
-            updateCvars()
-        end)
+        frame:SetScript("OnEvent", updateCvars)
     end
 end
