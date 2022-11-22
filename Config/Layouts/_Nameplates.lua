@@ -99,6 +99,16 @@ function Layout:OnEnable()
         },
       },
       {
+        debuffs = {
+          key = 'debuffs',
+          type = 'checkbox',
+          label = 'Hide Debuffs',
+          tooltip = 'Hides your own debuffs above of the nameplates',
+          column = 4,
+          order = 3
+        },
+      },
+      {
         header = {
           type = 'header',
           label = 'Options'

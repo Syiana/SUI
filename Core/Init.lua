@@ -68,7 +68,8 @@ local defaults = {
       casttime = true,
       stackingmode = false,
       height = 2,
-      width = 1
+      width = 1,
+      debuffs = false
     },
     raidframes = {
       texture = [[Interface\Addons\SUI\Media\Textures\Status\Flat.blp]],

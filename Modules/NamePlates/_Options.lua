@@ -2,7 +2,7 @@ local Module = SUI:NewModule("NamePlates.Size");
 
 function Module:OnEnable()
     local db = SUI.db.profile.nameplates
-    if db then
+    if db and db.style ~= 'Default' then
         local function updateCvars()
             if db.stackingmode then
                 SetCVar("nameplateMotion", 1)            -- Set Nameplate to Stacking-Mode
@@ -14,12 +14,34 @@ function Module:OnEnable()
             if db.height and db.width then
                 SetCVar("NamePlateVerticalScale", db.height)    -- Set Nameplate Height
                 SetCVar("NamePlateHorizontalScale", db.width)   -- Set Nameplate Width
-            end
+           end
         end
     
         -- Apply Nameplate settings
         local frame = CreateFrame("Frame")
-        frame:RegisterEvent("CVAR_UPDATE")
+        frame:RegisterEvent("PLAYER_LOGIN")
+        frame:RegisterEvent("PLAYER_ENTERING_WORLD")
+        frame:RegisterEvent("PLAYER_LOGOUT")
         frame:SetScript("OnEvent", updateCvars)
+
+        if db.debuffs then
+            local debuffs = CreateFrame("Frame")
+            local events = {}
+
+            function events:NAME_PLATE_UNIT_ADDED(plate)
+                local unitId = plate
+                local nameplate = C_NamePlate.GetNamePlateForUnit(unitId)
+                local frame = nameplate.UnitFrame
+                if not nameplate or frame:IsForbidden() then return end
+                frame.BuffFrame:ClearAllPoints()
+                frame.BuffFrame:SetAlpha(0)
+            end
+
+            for b, u in pairs(events) do
+                debuffs:RegisterEvent(b)
+            end
+
+            debuffs:SetScript("OnEvent", function(self, event, ...) events[event](self, ...) end)
+        end
     end
 end

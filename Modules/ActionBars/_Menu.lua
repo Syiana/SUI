@@ -83,7 +83,9 @@ function Menu:OnEnable()
   MicroMenu:RegisterEvent("PLAYER_LOGIN")
   MicroMenu:RegisterEvent("PLAYER_ENTERING_WORLD")
   MicroMenu:RegisterEvent("VARIABLES_LOADED")
+  MicroMenu:RegisterEvent("PET_BATTLE_CLOSE")
   MicroMenu:SetScript("OnEvent", moveMicroMenu)
+  UIParent:HookScript("OnShow", moveMicroMenu)
 
   -- Bag Buttons
   MainMenuBarBackpackButton:ClearAllPoints()
