@@ -18,19 +18,21 @@ function Module:OnEnable()
     }
 
     local function styleTooltip(self, style)
-      SUI:AddMixin(self)
-      self:SetBackdrop(backdrop)
-      self:SetBackdropBorderColor(0.1, 0.1, 0.1, 0)
-      if (theme == 'Dark') then
-        self:SetBackdropColor(unpack(backdrop.bgColor))
-      else
-        self:SetBackdropColor(unpack(SUI:Color(0.3, 0.3)))
-      end
-      if (self.NineSlice) then
+      if self then
+        SUI:AddMixin(self)
+        self:SetBackdrop(backdrop)
+        self:SetBackdropBorderColor(0.1, 0.1, 0.1, 0)
         if (theme == 'Dark') then
-        self.NineSlice:SetBorderColor(unpack(backdrop.borderColor))
+          self:SetBackdropColor(unpack(backdrop.bgColor))
         else
-        self.NineSlice:SetBorderColor(unpack(SUI:Color(0.35, 1)))
+          self:SetBackdropColor(unpack(SUI:Color(0.3, 0.3)))
+        end
+        if self.NineSlice then
+          if (theme == 'Dark') then
+            self.NineSlice:SetBorderColor(unpack(backdrop.borderColor))
+          else
+            self.NineSlice:SetBorderColor(unpack(SUI:Color(0.35, 1)))
+          end
         end
       end
     end
