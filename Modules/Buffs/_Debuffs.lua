@@ -121,8 +121,11 @@ function Debuffs:OnEnable()
       local icon =      frame.Icon         
       local duration =  frame.duration
       local count =     frame.count
-      
-      child.Border:Hide()
+
+      if child.Border then
+        child.Border:Hide()
+      end
+
 
       icon:SetTexCoord(0.08, 0.92, 0.08, 0.92)
 
