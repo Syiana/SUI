@@ -120,6 +120,7 @@ function Module:OnEnable()
 		setTexture:RegisterEvent("PLAYER_ENTERING_WORLD")
 		setTexture:RegisterEvent("GROUP_ROSTER_UPDATE")
 		setTexture:RegisterEvent("COMPACT_UNIT_FRAME_PROFILES_LOADED")
+		setTexture:RegisterEvent("ARENA_OPPONENT_UPDATE")
 		setTexture:RegisterUnitEvent("UNIT_LEVEL", "player")
 		if UnitInRaid("player") and not CompactRaidFrameContainer:UseCombinedGroups() then
 			setTexture:SetScript("OnEvent", updateSeperate)

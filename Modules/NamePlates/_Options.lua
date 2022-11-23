@@ -16,7 +16,7 @@ function Module:OnEnable()
                 SetCVar("NamePlateHorizontalScale", db.width)   -- Set Nameplate Width
            end
         end
-    
+
         -- Apply Nameplate settings
         local frame = CreateFrame("Frame")
         frame:RegisterEvent("PLAYER_LOGIN")

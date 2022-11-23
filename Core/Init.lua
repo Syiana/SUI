@@ -99,7 +99,9 @@ local defaults = {
         bar5 = false,
         bar6 = false,
         bar7 = false,
-        bar8 = false
+        bar8 = false,
+        petbar = false,
+        stancebar = false
       }
     },
     castbars = {

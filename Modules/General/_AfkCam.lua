@@ -113,7 +113,7 @@ function Module:OnEnable()
       if IsInGuild() then
         local PGuild = GetGuildInfo("player")
 
-        if (PGuild == nil) then
+        if not PGuild then
           return "..."
         else
           return PGuild

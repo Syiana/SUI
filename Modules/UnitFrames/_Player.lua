@@ -54,10 +54,10 @@ function Module:OnEnable()
   end
 
   if db.texture ~= [[Interface\Default]] then
-    local PlayerFrameHealthBar = PlayerFrame.PlayerFrameContent.PlayerFrameContentMain.HealthBarArea.HealthBar
-    PlayerFrameHealthBar:SetStatusBarTexture(db.texture)
+    local function updateTextures(self)
+      local PlayerFrameHealthBar = PlayerFrame.PlayerFrameContent.PlayerFrameContentMain.HealthBarArea.HealthBar
+      PlayerFrameHealthBar:SetStatusBarTexture(db.texture)
 
-    PlayerFrame:HookScript("OnEvent", function(self, event)
       local PlayerFrameManaBar = PlayerFrame.PlayerFrameContent.PlayerFrameContentMain.ManaBarArea.ManaBar
       local powerColor = GetPowerColor(PlayerFrameManaBar.powerType)
 
@@ -71,6 +71,10 @@ function Module:OnEnable()
       if db.nameplates ~= 'Default' then
         ClassNameplateManaBarFrame:SetStatusBarTexture(db.texture)
       end
+    end
+
+    PlayerFrame:HookScript("OnEvent", function(self)
+      updateTextures(self)
     end)
 
     PetFrame:HookScript("OnEvent", function()

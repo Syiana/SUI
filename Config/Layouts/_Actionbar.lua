@@ -96,62 +96,76 @@ function Layout:OnEnable()
           key = 'bars.bar1',
           type = 'checkbox',
           label = 'Bar 1',
-          column = 4,
+          column = 3,
           order = 1
         },
         actionbar2 = {
           key = 'bars.bar2',
           type = 'checkbox',
           label = 'Bar 2',
-          column = 4,
+          column = 3,
           order = 2
         },
         actionbar3 = {
           key = 'bars.bar3',
           type = 'checkbox',
           label = 'Bar 3',
-          column = 4,
+          column = 3,
           order = 3
-        }
-      },
-      {
+        },
         actionbar4 = {
           key = 'bars.bar4',
           type = 'checkbox',
           label = 'Bar 4',
-          column = 4,
-          order = 1
-        },
+          column = 3,
+          order = 4
+        }
+      },
+      {
         actionbar5 = {
           key = 'bars.bar5',
           type = 'checkbox',
           label = 'Bar 5',
-          column = 4,
-          order = 2
+          column = 3,
+          order = 1
         },
         actionbar6 = {
           key = 'bars.bar6',
           type = 'checkbox',
           label = 'Bar 6',
-          column = 4,
-          order = 3
-        }
-      },
-      {
+          column = 3,
+          order = 2
+        },
         actionbar7 = {
           key = 'bars.bar7',
           type = 'checkbox',
           label = 'Bar 7',
-          column = 4,
-          order = 1
+          column = 3,
+          order = 3
         },
         actionbar8 = {
           key = 'bars.bar8',
           type = 'checkbox',
           label = 'Bar 8',
-          column = 4,
-          order = 2
+          column = 3,
+          order = 4
         }
+      },
+      {
+        petbar = {
+          key = 'bars.petbar',
+          type = 'checkbox',
+          label = 'Pet Bar',
+          column = 3,
+          order = 1
+        },
+        stancebar = {
+          key = 'bars.stancebar',
+          type = 'checkbox',
+          label = 'Stance Bar',
+          column = 3,
+          order = 2
+        },
       },
       {
         header = {

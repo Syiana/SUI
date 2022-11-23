@@ -50,43 +50,63 @@ function Module:OnEnable()
 
   -- Set HealthBar Textures
   if db.texture ~= [[Interface\Default]] then
-    TargetFrame:HookScript("OnEvent", function()
-      local targetHealthBar = TargetFrame.TargetFrameContent.TargetFrameContentMain.HealthBar
-      local targetManaBarTexture = TargetFrame.TargetFrameContent.TargetFrameContentMain.ManaBar.texture
-      local targetManaBar = TargetFrame.TargetFrameContent.TargetFrameContentMain.ManaBar
-      local powerColor = GetPowerColor(targetManaBar.powerType)
+    local function updateTextures(self)
+      if self and self.systemNameString == "Target Frame" then
+        --if event == "PLAYER_TARGET_CHANGED" then
+          local targetHealthBar = TargetFrame.TargetFrameContent.TargetFrameContentMain.HealthBar
+          local targetManaBarTexture = TargetFrame.TargetFrameContent.TargetFrameContentMain.ManaBar.texture
+          local targetManaBar = TargetFrame.TargetFrameContent.TargetFrameContentMain.ManaBar
+          local powerColor = GetPowerColor(targetManaBar.powerType)
 
-      --TargetFrame.TargetFrameContent.TargetFrameContentMain.HealthBar.AnimatedLossBar:SetStatusBarTexture(db.texture)
-      --self.myHealPredictionBar:SetTexture(db.texture)
-      --self.otherHealPredictionBar:SetTexture(db.texture)
-      --self.myManaCostPredictionBar:SetTexture(db.texture)
+          targetHealthBar:SetStatusBarTexture(db.texture)
+          targetManaBarTexture:SetTexture(db.texture)
+          targetManaBar:SetStatusBarColor(powerColor.r, powerColor.g, powerColor.b)
 
-      targetHealthBar:SetStatusBarTexture(db.texture)
-      targetManaBarTexture:SetTexture(db.texture)
-      targetManaBar:SetStatusBarColor(powerColor.r, powerColor.g, powerColor.b)
+          TargetFrameToT.HealthBar:SetStatusBarTexture(db.texture)
+          local totPowerColor = GetPowerColor(TargetFrameToT.ManaBar.powerType)
+          TargetFrameToT.ManaBar:SetStatusBarTexture(db.texture)
+          TargetFrameToT.ManaBar:SetStatusBarColor(totPowerColor.r, totPowerColor.g, totPowerColor.b)
+        --end
+      end
 
-      TargetFrameToT.HealthBar:SetStatusBarTexture(db.texture)
-      local totPowerColor = GetPowerColor(TargetFrameToT.ManaBar.powerType)
-      TargetFrameToT.ManaBar:SetStatusBarTexture(db.texture)
-      TargetFrameToT.ManaBar:SetStatusBarColor(totPowerColor.r, totPowerColor.g, totPowerColor.b) 
+      if self and self.systemNameString == "Focus Frame" then
+        --if event == "PLAYER_FOCUS_CHANGED" then
+          local focusHealthBar = FocusFrame.TargetFrameContent.TargetFrameContentMain.HealthBar
+          local focusManaBarTexture = FocusFrame.TargetFrameContent.TargetFrameContentMain.ManaBar.texture
+          local focusManaBar = FocusFrame.TargetFrameContent.TargetFrameContentMain.ManaBar
+          local powerColor = GetPowerColor(focusManaBar.powerType)
+
+          focusHealthBar:SetStatusBarTexture(db.texture)
+          focusManaBarTexture:SetTexture(db.texture)
+          focusManaBar:SetStatusBarColor(powerColor.r, powerColor.g, powerColor.b)
+
+          FocusFrameToT.HealthBar:SetStatusBarTexture(db.texture)
+          local totPowerColor = GetPowerColor(FocusFrameToT.ManaBar.powerType)
+          FocusFrameToT.ManaBar:SetStatusBarTexture(db.texture)
+          FocusFrameToT.ManaBar:SetStatusBarColor(totPowerColor.r, totPowerColor.g, totPowerColor.b)
+          FocusFrameToT.ManaBar:SetStatusBarTexture(db.texture)
+        --end
+      end
+    end
+
+
+    hooksecurefunc(TargetFrame, "Update", function(self)
+      updateTextures(self)
     end)
 
-    FocusFrame:HookScript("OnEvent", function()
-      local focusHealthBar = FocusFrame.TargetFrameContent.TargetFrameContentMain.HealthBar
-      local focusManaBarTexture = FocusFrame.TargetFrameContent.TargetFrameContentMain.ManaBar.texture
-      local focusManaBar = FocusFrame.TargetFrameContent.TargetFrameContentMain.ManaBar
-      local powerColor = GetPowerColor(focusManaBar.powerType)
-
-      focusHealthBar:SetStatusBarTexture(db.texture)
-      focusManaBarTexture:SetTexture(db.texture)
-      focusManaBar:SetStatusBarColor(powerColor.r, powerColor.g, powerColor.b)
-
-      FocusFrameToT.HealthBar:SetStatusBarTexture(db.texture)
-      local totPowerColor = GetPowerColor(FocusFrameToT.ManaBar.powerType)
-      FocusFrameToT.ManaBar:SetStatusBarTexture(db.texture)
-      FocusFrameToT.ManaBar:SetStatusBarColor(totPowerColor.r, totPowerColor.g, totPowerColor.b)
-      FocusFrameToT.ManaBar:SetStatusBarTexture(db.texture)
+    hooksecurefunc(FocusFrame, "Update", function(self)
+      updateTextures(self)
     end)
+    
+    --TargetFrame:HookScript("OnEvent", function(self, event)
+      --updateTextures(self, event)
+    --end)
+
+    --FocusFrame:HookScript("OnEvent", function(self, event)
+      --updateTextures(self, event)
+    --end)
+
+
   end
 
   local hooked = {}

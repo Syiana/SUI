@@ -16,7 +16,7 @@ function Module:OnEnable()
         end
     end)
 
-    if (db.bar1) then
+    if db.bar1 then
         -- Hide MainMenuBar
         MainMenuBar:SetAlpha(0)
 
@@ -31,7 +31,7 @@ function Module:OnEnable()
             end)
         end
     end
-    if (db.bar2) then
+    if db.bar2 then
         -- Hide MultiBarBottomLeft
         MultiBarBottomLeft:SetAlpha(0)
 
@@ -46,7 +46,7 @@ function Module:OnEnable()
             end)
         end
     end
-    if (db.bar3) then
+    if db.bar3 then
         -- Hide MultiBarBottomRight
         MultiBarBottomRight:SetAlpha(0)
 
@@ -61,7 +61,7 @@ function Module:OnEnable()
             end)
         end
     end
-    if (db.bar4) then
+    if db.bar4 then
         -- Hide MultiBarRight
         MultiBarRight:SetAlpha(0)
 
@@ -76,7 +76,7 @@ function Module:OnEnable()
             end)
         end
     end
-    if (db.bar5) then
+    if db.bar5 then
         -- Hide MultiBarLeft
         MultiBarLeft:SetAlpha(0)
 
@@ -91,7 +91,7 @@ function Module:OnEnable()
             end)
         end
     end
-    if (db.bar6) then
+    if db.bar6 then
         -- Hide MultiBar5
         MultiBar5:SetAlpha(0)
 
@@ -106,7 +106,7 @@ function Module:OnEnable()
             end)
         end
     end
-    if (db.bar7) then
+    if db.bar7 then
         -- Hide MultiBar6
         MultiBar6:SetAlpha(0)
 
@@ -121,7 +121,7 @@ function Module:OnEnable()
             end)
         end
     end
-    if (db.bar8) then
+    if db.bar8 then
         -- Hide MultiBar7
         MultiBar7:SetAlpha(0)
 
@@ -133,6 +133,38 @@ function Module:OnEnable()
 
             _G["MultiBar7Button" ..i]:SetScript('OnLeave', function()
                 MultiBar7:SetAlpha(0)
+            end)
+        end
+    end
+
+    if db.petbar then
+        -- Hide Pet Actionbar
+        PetActionBar:SetAlpha(0)
+
+        -- Show Pet Actionbar on Hover
+        for i=1,10 do
+            _G["PetActionButton" .. i]:SetScript('OnEnter', function()
+                PetActionBar:SetAlpha(1)
+            end)
+
+            _G["PetActionButton" .. i]:SetScript('OnLeave', function()
+                PetActionBar:SetAlpha(0)
+            end)
+        end
+    end
+
+    if db.stancebar then
+        -- Hide Stancebar
+        StanceBar:SetAlpha(0)
+
+        -- Show Stancebar on Hover
+        for i=1,8 do
+            _G["StanceButton" .. i]:SetScript('OnEnter', function()
+                StanceBar:SetAlpha(1)
+            end)
+
+            _G["StanceButton" .. i]:SetScript('OnLeave', function()
+                StanceBar:SetAlpha(0)
             end)
         end
     end
