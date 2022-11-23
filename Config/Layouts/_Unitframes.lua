@@ -135,10 +135,12 @@ function Layout:OnEnable()
           column = 4,
           order = 1,
           onChange = function(slider)
-            for i=1,5 do
-              _G["CompactPartyFrameMember" ..i]:SetHeight(slider.value)
-              _G["CompactPartyFrameMember" ..i.."StatusText"]:ClearAllPoints()
-              _G["CompactPartyFrameMember" ..i.."StatusText"]:SetPoint("CENTER", _G["CompactPartyFrameMember" ..i], "CENTER")
+            if db.profile.raidframes.size then
+              for i=1,5 do
+                _G["CompactPartyFrameMember" ..i]:SetHeight(slider.value)
+                _G["CompactPartyFrameMember" ..i.."StatusText"]:ClearAllPoints()
+                _G["CompactPartyFrameMember" ..i.."StatusText"]:SetPoint("CENTER", _G["CompactPartyFrameMember" ..i], "CENTER")
+              end
             end
           end,
         },
@@ -152,10 +154,12 @@ function Layout:OnEnable()
           column = 4,
           order = 2,
           onChange = function(slider)
-            for i=1,5 do
-              _G["CompactPartyFrameMember" ..i]:SetWidth(slider.value)
-              _G["CompactPartyFrameMember" ..i.."StatusText"]:ClearAllPoints()
-              _G["CompactPartyFrameMember" ..i.."StatusText"]:SetPoint("CENTER", _G["CompactPartyFrameMember" ..i], "CENTER")
+            if db.profile.raidframes.size then
+              for i=1,5 do
+                _G["CompactPartyFrameMember" ..i]:SetWidth(slider.value)
+                _G["CompactPartyFrameMember" ..i.."StatusText"]:ClearAllPoints()
+                _G["CompactPartyFrameMember" ..i.."StatusText"]:SetPoint("CENTER", _G["CompactPartyFrameMember" ..i], "CENTER")
+              end
             end
           end,
         }
