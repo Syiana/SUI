@@ -229,7 +229,7 @@ function Module:OnEnable()
         local inInstance, instanceType = IsInInstance("player")
         if inInstance then
             if self.unit and not UnitIsFriend("player", self.unit) and UnitCanAttack("player", self.unit) then
-                if self.unit and self.unit:find('nameplate%d') then
+                if self.unit:find('nameplate%d') then
                     if self.healthBar and self.unit then
                         local unit = self.unit
                         local healthBar = self.healthBar
