@@ -54,34 +54,36 @@ function Module:OnEnable()
   end
 
   if db.texture ~= [[Interface\Default]] then
-    local function updateTextures(self)
-      local PlayerFrameHealthBar = PlayerFrame.PlayerFrameContent.PlayerFrameContentMain.HealthBarArea.HealthBar
-      PlayerFrameHealthBar:SetStatusBarTexture(db.texture)
+    local function updateTextures(self, event)
+      if event == "PLAYER_ENTERING_WORLD" then
+        self.healthbar:SetStatusBarTexture(db.texture)
+        self.healthbar.AnimatedLossBar:SetStatusBarTexture(db.texture)
+        self.myHealPredictionBar:SetTexture(db.texture)
+        self.otherHealPredictionBar:SetTexture(db.texture)
+        self.myManaCostPredictionBar:SetTexture(db.texture)
+      end
 
-      local PlayerFrameManaBar = PlayerFrame.PlayerFrameContent.PlayerFrameContentMain.ManaBarArea.ManaBar
-      local powerColor = GetPowerColor(PlayerFrameManaBar.powerType)
-
-      self.myHealPredictionBar:SetTexture(db.texture)
-      self.otherHealPredictionBar:SetTexture(db.texture)
-      self.myManaCostPredictionBar:SetTexture(db.texture)
-
-      PlayerFrameManaBar.texture:SetTexture(db.texture)
-      PlayerFrameManaBar:SetStatusBarColor(powerColor.r, powerColor.g, powerColor.b)
+      local powerColor = GetPowerColor(self.manabar.powerType)
+      self.manabar.texture:SetTexture(db.texture)
+      self.manabar:SetStatusBarColor(powerColor.r, powerColor.g, powerColor.b)
 
       if db.nameplates ~= 'Default' then
         ClassNameplateManaBarFrame:SetStatusBarTexture(db.texture)
       end
     end
 
-    PlayerFrame:HookScript("OnEvent", function(self)
-      updateTextures(self)
+    PlayerFrame:HookScript("OnEvent", function(self, event)
+      updateTextures(self, event)
     end)
 
-    PetFrame:HookScript("OnEvent", function()
-      local powerColor = GetPowerColor(PetFrameManaBar.powerType)
-      PetFrameHealthBar:SetStatusBarTexture(db.texture)
-      PetFrameManaBar:SetStatusBarTexture(db.texture)
-      PetFrameManaBar:SetStatusBarColor(powerColor.r, powerColor.g, powerColor.b)
+    PetFrame:HookScript("OnEvent", function(self, event)
+      if event == "PLAYER_ENTERING_WORLD" then
+        self.healthbar:SetStatusBarTexture(db.texture)
+      end
+
+      local powerColor = GetPowerColor(self.manabar.powerType)
+      self.manabar.texture:SetTexture(db.texture)
+      self.manabar:SetStatusBarColor(powerColor.r, powerColor.g, powerColor.b)
     end)
   end
 
