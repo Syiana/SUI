@@ -1,6 +1,6 @@
 ## Interface: 100002
 ## Author: Syiana
-## Version: 10.0.18
+## Version: 10.0.19
 ## Title: |cfff58cbaS|r|cff009cffUI|r
 ## SavedVariables: SUIDB
 
