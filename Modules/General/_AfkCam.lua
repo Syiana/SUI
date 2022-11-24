@@ -15,6 +15,9 @@ function Module:OnEnable()
     local blank = [[Interface\AddOns\SUI\textures\blank.tga]]
     local normTex = [[Interface\AddOns\SUI\textures\normTex.tga]]
 
+    local frame = CreateFrame("Frame")
+    frame:RegisterEvent("PLAYER_GUILD_UPDATE")
+
     local function UpdateColor(t)
       if t == template then return end
 
@@ -107,32 +110,28 @@ function Module:OnEnable()
     AFKPanel.playerModel:SetRotation(math.rad(-15));
     AFKPanel.playerModel:SetCamDistanceScale(1.8);
 
-    local function getguild()
-      local guildstatus = true
+    if IsInGuild() then
+      frame:SetScript("OnEvent", function()
+        if IsInGuild() then
+          local guildName = GetGuildInfo("player")
 
-      if IsInGuild() then
-        local PGuild = GetGuildInfo("player")
-
-        if not PGuild then
-          return "..."
-        else
-          return PGuild
+          AFKPanelTop.GuildText = AFKPanelTop:CreateFontString( nil, "OVERLAY" )
+          AFKPanelTop.GuildText:SetPoint( "LEFT", AFKPanelTop, "LEFT", 25, -3 )
+          AFKPanelTop.GuildText:SetFont( font, 15, "OUTLINE" )
+          AFKPanelTop.GuildText:SetText( "|cff0394ff" .. guildName .. "|r" )
         end
-      else
-        return " "
-      end
-
+      end)
+      
+      AFKPanelTop.PlayerInfoText = AFKPanelTop:CreateFontString( nil, "OVERLAY" )
+      AFKPanelTop.PlayerInfoText:SetPoint( "LEFT", AFKPanelTop, "LEFT", 25, -20 )
+      AFKPanelTop.PlayerInfoText:SetFont( font, 15, "OUTLINE" )
+      AFKPanelTop.PlayerInfoText:SetText( LEVEL .. " " .. PLevel .. " " .. PFaction .. " " .. PClass )
+    else
+      AFKPanelTop.PlayerInfoText = AFKPanelTop:CreateFontString( nil, "OVERLAY" )
+      AFKPanelTop.PlayerInfoText:SetPoint( "LEFT", AFKPanelTop, "LEFT", 25, -3 )
+      AFKPanelTop.PlayerInfoText:SetFont( font, 15, "OUTLINE" )
+      AFKPanelTop.PlayerInfoText:SetText( LEVEL .. " " .. PLevel .. " " .. PFaction .. " " .. PClass )
     end
-
-    AFKPanelTop.GuildText = AFKPanelTop:CreateFontString( nil, "OVERLAY" )
-    AFKPanelTop.GuildText:SetPoint( "LEFT", AFKPanelTop, "LEFT", 25, -3 )
-    AFKPanelTop.GuildText:SetFont( font, 15, "OUTLINE" )
-    AFKPanelTop.GuildText:SetText( "|cff0394ff" .. getguild() .. "|r" )
-
-    AFKPanelTop.PlayerInfoText = AFKPanelTop:CreateFontString( nil, "OVERLAY" )
-    AFKPanelTop.PlayerInfoText:SetPoint( "LEFT", AFKPanelTop, "LEFT", 25, -20 )
-    AFKPanelTop.PlayerInfoText:SetFont( font, 15, "OUTLINE" )
-    AFKPanelTop.PlayerInfoText:SetText( LEVEL .. " " .. PLevel .. " " .. PFaction .. " " .. PClass )
 
     local interval = 0
     AFKPanelTop:SetScript( "OnUpdate", function( self, elapsed )
