@@ -17,6 +17,7 @@ function Module:OnEnable()
 
     local frame = CreateFrame("Frame")
     frame:RegisterEvent("PLAYER_GUILD_UPDATE")
+    frame:RegisterEvent("PLAYER_ENTERING_WORLD")
 
     local function UpdateColor(t)
       if t == template then return end
