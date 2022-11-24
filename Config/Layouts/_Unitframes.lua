@@ -93,7 +93,15 @@ function Layout:OnEnable()
           label = 'Totem Icons',
           tooltip = 'Show Totem Icons (Consecration duration etc.) below the Player Unitframe',
           column = 4,
-          order = 2
+          order = 2,
+        },
+        classbar = {
+          key = 'unitframes.classbar',
+          type = 'checkbox',
+          label = 'Class Bar',
+          tooltip = 'Show ClassBar (Combopoints, HolyPower etc.)',
+          column = 4,
+          order = 3,
         }
       },
       {

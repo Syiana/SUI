@@ -21,5 +21,9 @@ function Module:OnEnable()
         FocusFrame.TargetFrameContent.TargetFrameContentContextual.PvpIcon:SetAlpha(0)
       end
     end
+
+    if not db.classbar then
+      PlayerFrame.classPowerBar:Hide()
+    end
   end)
 end

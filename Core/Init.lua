@@ -42,6 +42,7 @@ local defaults = {
       combaticon = false,
       hitindicator = false,
       totemicons = true,
+      classbar = true,
       player = {
         size = 1
       },
