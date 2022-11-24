@@ -1,6 +1,7 @@
 local Module = SUI:NewModule("NamePlates.Core");
 
 function Module:OnEnable()
+    if IsAddOnLoaded('Plater') or IsAddOnLoaded('TidyPlates_ThreatPlates') or IsAddOnLoaded('TidyPlates') then return end
     local db = SUI.db.profile.nameplates
 
     local function iconSkin(icon, parent)

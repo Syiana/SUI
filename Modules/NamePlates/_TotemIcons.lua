@@ -1,8 +1,9 @@
 local Module = SUI:NewModule("NamePlates.TotemIcons");
 
 function Module:OnEnable()
+  if IsAddOnLoaded('Plater') or IsAddOnLoaded('TidyPlates_ThreatPlates') or IsAddOnLoaded('TidyPlates') then return end
   local db = SUI.db.profile.nameplates.totemicons
-  if (db) then
+  if db then
     local f = CreateFrame("Frame", nil, UIParent)
     f:RegisterEvent("NAME_PLATE_UNIT_ADDED")
     f:RegisterEvent("NAME_PLATE_UNIT_REMOVED")
