@@ -116,10 +116,12 @@ function Module:OnEnable()
         if IsInGuild() then
           local guildName = GetGuildInfo("player")
 
-          AFKPanelTop.GuildText = AFKPanelTop:CreateFontString( nil, "OVERLAY" )
-          AFKPanelTop.GuildText:SetPoint( "LEFT", AFKPanelTop, "LEFT", 25, -3 )
-          AFKPanelTop.GuildText:SetFont( font, 15, "OUTLINE" )
-          AFKPanelTop.GuildText:SetText( "|cff0394ff" .. guildName .. "|r" )
+          if guildName then
+            AFKPanelTop.GuildText = AFKPanelTop:CreateFontString( nil, "OVERLAY" )
+            AFKPanelTop.GuildText:SetPoint( "LEFT", AFKPanelTop, "LEFT", 25, -3 )
+            AFKPanelTop.GuildText:SetFont( font, 15, "OUTLINE" )
+            AFKPanelTop.GuildText:SetText( "|cff0394ff" .. guildName .. "|r" )
+          end
         end
       end)
       
