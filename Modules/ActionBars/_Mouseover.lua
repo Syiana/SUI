@@ -188,16 +188,16 @@ function Module:OnEnable()
         elseif not db.bars.bar8 then
             MouseoverDefaultBars:Alpha("bar8", 1)
         end
-        if db.petbar then
+        if db.bars.petbar then
             MouseoverDefaultBars:onMouseover("petbar")
             MouseoverDefaultBars:Alpha("petbar", 0)
-        elseif not db.petbar then
+        elseif not db.bars.petbar then
             MouseoverDefaultBars:Alpha("petbar", 1)
         end
-        if db.stancebar then
+        if db.bars.stancebar then
             MouseoverDefaultBars:onMouseover("stancebar")
             MouseoverDefaultBars:Alpha("stancebar", 0)
-        elseif not db.stancebar then
+        elseif not db.bars.stancebar then
             MouseoverDefaultBars:Alpha("stancebar", 1)
         end
         --Micro Menu
