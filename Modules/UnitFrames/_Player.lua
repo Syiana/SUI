@@ -4,7 +4,8 @@ function Module:OnEnable()
     local db = {
         unitframes = SUI.db.profile.unitframes,
         texture = SUI.db.profile.general.texture,
-        nameplates = SUI.db.profile.nameplates.style
+        nameplates = SUI.db.profile.nameplates.style,
+        classbar = SUI.db.profile.unitframes.classbar
     }
 
     if not db.unitframes.totemicons then

@@ -103,43 +103,4 @@ function Menu:OnEnable()
     for _, button in pairs(MicroButtonAndBagsBarButtons) do
         button:GetNormalTexture():SetVertexColor(0.65, 0.65, 0.65)
     end
-
-    -- Micro Menu Options
-    if db.micromenu == "mouse_over" then
-        MicroMenu:SetAlpha(0)
-
-        MicroMenu:SetScript('OnEnter', function()
-            MicroMenu:SetAlpha(1)
-        end)
-
-        MicroMenu:SetScript('OnLeave', function()
-            if not (MouseIsOver(MicroMenu)) then
-                MicroMenu:SetAlpha(0)
-            end
-        end)
-    end
-
-    if db.micromenu == "hide" then
-        MicroMenu:SetAlpha(0)
-        MicroMenu:Hide()
-    end
-
-    -- Bag Buttons Options
-    if db.bagbar == "mouse_over" then
-        BagBar:SetAlpha(0)
-
-        BagBar:SetScript('OnEnter', function()
-            BagBar:SetAlpha(1)
-        end)
-
-        BagBar:SetScript('OnLeave', function()
-            if not (MouseIsOver(BagBar)) then
-                BagBar:SetAlpha(0)
-            end
-        end)
-    end
-
-    if db.bagbar == "hide" then
-        BagBar:Hide()
-    end
 end
