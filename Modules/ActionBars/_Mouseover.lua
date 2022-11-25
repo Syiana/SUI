@@ -207,7 +207,7 @@ function Module:OnEnable()
         elseif db.micromenu == "show" then
             MouseoverDefaultBars:Alpha("micromenu", 1)
         elseif db.micromenu == "hide" then
-            MouseoverDefaultBars:Alpha("micromenu", 0)
+            MicroMenu:Hide()
         end
         -- Bag Bar
         if db.bagbar == "mouse_over" then
@@ -216,7 +216,7 @@ function Module:OnEnable()
         elseif db.bagbar == "show" then
             MouseoverDefaultBars:Alpha("bagbar", 1)
         elseif db.bagbar == "hide" then
-            MouseoverDefaultBars:Alpha("bagbar", 0)
+            BagBar:Hide()
         end
     end
 
