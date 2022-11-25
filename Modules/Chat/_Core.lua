@@ -1,8 +1,8 @@
 local Module = SUI:NewModule("Chat.Core");
 
 function Module:OnEnable()
-  local db = SUI.db.profile.chat
-  if (db.style == 'Custom') then
+	local db = SUI.db.profile.chat
+	if (db.style == 'Custom') then
 
 		CHAT_FRAME_FADE_TIME = 0.3
 		CHAT_FRAME_FADE_OUT_TIME = 1
@@ -29,20 +29,20 @@ function Module:OnEnable()
 			_G[chat]:SetFading(true)
 
 			-- Move the chat edit box
-			_G[chat.."EditBox"]:ClearAllPoints()
+			_G[chat .. "EditBox"]:ClearAllPoints()
 
 			if (db.top) then
-				_G[chat.."EditBox"]:SetPoint("BOTTOMLEFT", ChatFrame1, "TOPLEFT", -7, 25)
-				_G[chat.."EditBox"]:SetPoint("BOTTOMRIGHT", ChatFrame1, "TOPRIGHT", 10, 25)
+				_G[chat .. "EditBox"]:SetPoint("BOTTOMLEFT", ChatFrame1, "TOPLEFT", -7, 25)
+				_G[chat .. "EditBox"]:SetPoint("BOTTOMRIGHT", ChatFrame1, "TOPRIGHT", 10, 25)
 			else
-				_G[chat.."EditBox"]:SetPoint("TOPLEFT", ChatFrame1, "BOTTOMLEFT", -7, -5)
-				_G[chat.."EditBox"]:SetPoint("TOPRIGHT", ChatFrame1, "BOTTOMRIGHT", 10, -5)
+				_G[chat .. "EditBox"]:SetPoint("TOPLEFT", ChatFrame1, "BOTTOMLEFT", -7, -5)
+				_G[chat .. "EditBox"]:SetPoint("TOPRIGHT", ChatFrame1, "BOTTOMRIGHT", 10, -5)
 			end
 
 			-- Hide textures
 			for j = 1, #CHAT_FRAME_TEXTURES do
-				if chat..CHAT_FRAME_TEXTURES[j] ~= chat.."Background" then
-					_G[chat..CHAT_FRAME_TEXTURES[j]]:SetTexture(nil)
+				if chat .. CHAT_FRAME_TEXTURES[j] ~= chat .. "Background" then
+					_G[chat .. CHAT_FRAME_TEXTURES[j]]:SetTexture(nil)
 				end
 			end
 
@@ -75,24 +75,26 @@ function Module:OnEnable()
 			frame.ScrollToBottomButton:Hide()
 
 			-- Hide off editbox artwork
-			local a, b, c = select(6, _G[chat.."EditBox"]:GetRegions())
-			a:Hide() b:Hide() c:Hide()
+			local a, b, c = select(6, _G[chat .. "EditBox"]:GetRegions())
+			a:Hide()
+			b:Hide()
+			c:Hide()
 
 			-- Hide bubble tex/glow
-			if _G[chat.."Tab"].conversationIcon then _G[chat.."Tab"].conversationIcon:Hide() end
+			if _G[chat .. "Tab"].conversationIcon then _G[chat .. "Tab"].conversationIcon:Hide() end
 
 			-- Disable alt key usage
-			_G[chat.."EditBox"]:SetAltArrowKeyMode(false)
+			_G[chat .. "EditBox"]:SetAltArrowKeyMode(false)
 
 			-- Hide editbox on login
-			_G[chat.."EditBox"]:Hide()
+			_G[chat .. "EditBox"]:Hide()
 
 			-- Script to hide editbox instead of fading editbox to 0.35 alpha via IM Style
-			_G[chat.."EditBox"]:HookScript("OnEditFocusGained", function(self) self:Show() end)
-			_G[chat.."EditBox"]:HookScript("OnEditFocusLost", function(self) if self:GetText() == "" then self:Hide() end end)
+			_G[chat .. "EditBox"]:HookScript("OnEditFocusGained", function(self) self:Show() end)
+			_G[chat .. "EditBox"]:HookScript("OnEditFocusLost", function(self) if self:GetText() == "" then self:Hide() end end)
 
 			-- Hide edit box every time we click on a tab
-			_G[chat.."Tab"]:HookScript("OnClick", function() _G[chat.."EditBox"]:Hide() end)
+			_G[chat .. "Tab"]:HookScript("OnClick", function() _G[chat .. "EditBox"]:Hide() end)
 
 			frame.skinned = true
 		end
@@ -131,6 +133,7 @@ function Module:OnEnable()
 			if frame.skinned then return end
 			SetChatStyle(frame)
 		end
+
 		hooksecurefunc("FCF_OpenTemporaryWindow", SetupTempChat)
 
 		-- voice icons
@@ -144,11 +147,13 @@ function Module:OnEnable()
 			local function AddLootIcons(_, _, message, ...)
 				local function Icon(link)
 					local texture = GetItemIcon(link)
-					return "\124T"..texture..":12:12:0:0:64:64:5:59:5:59\124t"..link
+					return "\124T" .. texture .. ":12:12:0:0:64:64:5:59:5:59\124t" .. link
 				end
+
 				message = message:gsub("(\124c%x+\124Hitem:.-\124h\124r)", Icon)
 				return false, message, ...
 			end
+
 			ChatFrame_AddMessageEventFilter("CHAT_MSG_LOOT", AddLootIcons)
 		end
 
@@ -173,21 +178,22 @@ function Module:OnEnable()
 				local ret = GetColoredName_orig(event, arg1, arg2, ...)
 				if chats[event] then
 					local role = UnitGroupRolesAssigned(arg2)
-					if role == "NONE" and arg2:match(" *- *"..GetRealmName().."$") then
-						role = UnitGroupRolesAssigned(arg2:gsub(" *-[^-]+$",""))
+					if role == "NONE" and arg2:match(" *- *" .. GetRealmName() .. "$") then
+						role = UnitGroupRolesAssigned(arg2:gsub(" *-[^-]+$", ""))
 					end
 					if role and role ~= "NONE" then
-						ret = role_tex[role]..""..ret
+						ret = role_tex[role] .. "" .. ret
 					end
 				end
 				return ret
 			end
+
 			_G.GetColoredName = GetColoredName_hook
 		end
-		
+
 		-- init
 		SetupChat()
 		SetupChatPosAndFont()
 
-  end
+	end
 end

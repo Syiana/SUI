@@ -1,13 +1,13 @@
 local Module = SUI:NewModule("CastBars.Player");
 
 function Module:OnEnable()
-  local db = SUI.db.profile.castbars
+    local db = SUI.db.profile.castbars
 
-  if (db.style == 'Custom') then
+    if (db.style == 'Custom') then
         if not InCombatLockdown() then
             if db.icon then
-              PlayerCastingBarFrame.Icon:Show()
-              PlayerCastingBarFrame.Icon:SetSize(20, 20)
+                PlayerCastingBarFrame.Icon:Show()
+                PlayerCastingBarFrame.Icon:SetSize(20, 20)
             end
 
             PlayerCastingBarFrame:SetSize(209, 18)
@@ -19,8 +19,8 @@ function Module:OnEnable()
         end
 
         PlayerCastingBarFrame:HookScript("OnEvent", function()
-          PlayerCastingBarFrame.StandardGlow:Hide()
-          PlayerCastingBarFrame.TextBorder:Hide()
+            PlayerCastingBarFrame.StandardGlow:Hide()
+            PlayerCastingBarFrame.TextBorder:Hide()
         end)
     end
 end

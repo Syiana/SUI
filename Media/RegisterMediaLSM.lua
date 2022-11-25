@@ -1,18 +1,18 @@
-local LSM = LibStub("LibSharedMedia-3.0") 
+local LSM = LibStub("LibSharedMedia-3.0")
 
--- ----- 
--- BACKGROUND 
--- ----- 
+-- -----
+-- BACKGROUND
+-- -----
 
--- ----- 
---  BORDER 
--- ---- 
+-- -----
+--  BORDER
+-- ----
 
 -- -----
 --   FONT
 -- -----
 LSM:Register("font", "Default", STANDARD_TEXT_FONT, bit.bor(LSM.LOCALE_BIT_western, LSM.LOCALE_BIT_ruRU))
-LSM:Register("font", "SUI", [[Interface\Addons\SUI\Media\Fonts\Prototype.ttf]]) 
+LSM:Register("font", "SUI", [[Interface\Addons\SUI\Media\Fonts\Prototype.ttf]])
 LSM:Register("font", "Avant Garde", [[Interface\Addons\SUI\Media\Fonts\AvantGarde.ttf]], bit.bor(LSM.LOCALE_BIT_western, LSM.LOCALE_BIT_ruRU))
 LSM:Register("font", "Arial Bold", [[Interface\Addons\SUI\Media\Fonts\Arial_Bold.ttf]])
 LSM:Register("font", "Exo 2 Bold", [[Interface\Addons\SUI\Media\Fonts\Exo2Bold.ttf]])

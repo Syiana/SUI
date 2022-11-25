@@ -5,7 +5,7 @@ function Module:OnEnable()
     local db = SUI.db.profile.actionbar.bars
 
     local function hideGCD(button)
-        for i=1,12 do
+        for i = 1, 12 do
             if _G[button .. i .. "Cooldown"] then
                 _G[button .. i .. "Cooldown"]:SetDrawBling(false)
             end
@@ -13,7 +13,7 @@ function Module:OnEnable()
     end
 
     local function showGCD(button)
-        for i=1,12 do
+        for i = 1, 12 do
             if _G[button .. i .. "Cooldown"] then
                 _G[button .. i .. "Cooldown"]:SetDrawBling(true)
             end
@@ -109,12 +109,12 @@ function Module:OnEnable()
         MainMenuBar:SetAlpha(0)
 
         -- Show MainMenuBar on Hover
-        for i=1,12 do
-            _G["ActionButton" ..i]:HookScript('OnEnter', function()
+        for i = 1, 12 do
+            _G["ActionButton" .. i]:HookScript('OnEnter', function()
                 MainMenuBar:SetAlpha(1)
             end)
 
-            _G["ActionButton" ..i]:HookScript('OnLeave', function()
+            _G["ActionButton" .. i]:HookScript('OnLeave', function()
                 MainMenuBar:SetAlpha(0)
             end)
         end
@@ -125,12 +125,12 @@ function Module:OnEnable()
         MultiBarBottomLeft:SetAlpha(0)
 
         -- Show MultiBarBottomLeft on Hover
-        for i=1,12 do
-            _G["MultiBarBottomLeftButton" ..i]:HookScript('OnEnter', function()
+        for i = 1, 12 do
+            _G["MultiBarBottomLeftButton" .. i]:HookScript('OnEnter', function()
                 MultiBarBottomLeft:SetAlpha(1)
             end)
 
-            _G["MultiBarBottomLeftButton" ..i]:HookScript('OnLeave', function()
+            _G["MultiBarBottomLeftButton" .. i]:HookScript('OnLeave', function()
                 MultiBarBottomLeft:SetAlpha(0)
             end)
         end
@@ -141,12 +141,12 @@ function Module:OnEnable()
         MultiBarBottomRight:SetAlpha(0)
 
         -- Show MultiBarBottomRight on Hover
-        for i=1,12 do
-            _G["MultiBarBottomRightButton" ..i]:HookScript('OnEnter', function()
+        for i = 1, 12 do
+            _G["MultiBarBottomRightButton" .. i]:HookScript('OnEnter', function()
                 MultiBarBottomRight:SetAlpha(1)
             end)
 
-            _G["MultiBarBottomRightButton" ..i]:HookScript('OnLeave', function()
+            _G["MultiBarBottomRightButton" .. i]:HookScript('OnLeave', function()
                 MultiBarBottomRight:SetAlpha(0)
             end)
         end
@@ -157,12 +157,12 @@ function Module:OnEnable()
         MultiBarRight:SetAlpha(0)
 
         -- Show MultiBarRight on Hover
-        for i=1,12 do
-            _G["MultiBarRightButton" ..i]:HookScript('OnEnter', function(self)
+        for i = 1, 12 do
+            _G["MultiBarRightButton" .. i]:HookScript('OnEnter', function(self)
                 MultiBarRight:SetAlpha(1)
             end)
 
-            _G["MultiBarRightButton" ..i]:HookScript('OnLeave', function()
+            _G["MultiBarRightButton" .. i]:HookScript('OnLeave', function()
                 MultiBarRight:SetAlpha(0)
             end)
         end
@@ -173,12 +173,12 @@ function Module:OnEnable()
         MultiBarLeft:SetAlpha(0)
 
         -- Show MultiBarLeft on Hover
-        for i=1,12 do
-            _G["MultiBarLeftButton" ..i]:HookScript('OnEnter', function()
+        for i = 1, 12 do
+            _G["MultiBarLeftButton" .. i]:HookScript('OnEnter', function()
                 MultiBarLeft:SetAlpha(1)
             end)
 
-            _G["MultiBarLeftButton" ..i]:HookScript('OnLeave', function()
+            _G["MultiBarLeftButton" .. i]:HookScript('OnLeave', function()
                 MultiBarLeft:SetAlpha(0)
             end)
         end
@@ -189,12 +189,12 @@ function Module:OnEnable()
         MultiBar5:SetAlpha(0)
 
         -- Show MultiBar5 on Hover
-        for i=1,12 do
-            _G["MultiBar5Button" ..i]:HookScript('OnEnter', function()
+        for i = 1, 12 do
+            _G["MultiBar5Button" .. i]:HookScript('OnEnter', function()
                 MultiBar5:SetAlpha(1)
             end)
 
-            _G["MultiBar5Button" ..i]:HookScript('OnLeave', function()
+            _G["MultiBar5Button" .. i]:HookScript('OnLeave', function()
                 MultiBar5:SetAlpha(0)
             end)
         end
@@ -205,12 +205,12 @@ function Module:OnEnable()
         MultiBar6:SetAlpha(0)
 
         -- Show MultiBar6 on Hover
-        for i=1,12 do
-            _G["MultiBar6Button" ..i]:HookScript('OnEnter', function()
+        for i = 1, 12 do
+            _G["MultiBar6Button" .. i]:HookScript('OnEnter', function()
                 MultiBar6:SetAlpha(1)
             end)
 
-            _G["MultiBar6Button" ..i]:HookScript('OnLeave', function()
+            _G["MultiBar6Button" .. i]:HookScript('OnLeave', function()
                 MultiBar6:SetAlpha(0)
             end)
         end
@@ -221,12 +221,12 @@ function Module:OnEnable()
         MultiBar7:SetAlpha(0)
 
         -- Show MultiBar7 on Hover
-        for i=1,12 do
-            _G["MultiBar7Button" ..i]:HookScript('OnEnter', function()
+        for i = 1, 12 do
+            _G["MultiBar7Button" .. i]:HookScript('OnEnter', function()
                 MultiBar7:SetAlpha(1)
             end)
 
-            _G["MultiBar7Button" ..i]:HookScript('OnLeave', function()
+            _G["MultiBar7Button" .. i]:HookScript('OnLeave', function()
                 MultiBar7:SetAlpha(0)
             end)
         end
@@ -237,7 +237,7 @@ function Module:OnEnable()
         PetActionBar:SetAlpha(0)
 
         -- Show Pet Actionbar on Hover
-        for i=1,10 do
+        for i = 1, 10 do
             _G["PetActionButton" .. i]:HookScript('OnEnter', function()
                 PetActionBar:SetAlpha(1)
             end)
@@ -253,7 +253,7 @@ function Module:OnEnable()
         StanceBar:SetAlpha(0)
 
         -- Show Stancebar on Hover
-        for i=1,8 do
+        for i = 1, 8 do
             _G["StanceButton" .. i]:HookScript('OnEnter', function()
                 StanceBar:SetAlpha(1)
             end)

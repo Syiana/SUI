@@ -48,7 +48,7 @@ function Module:OnEnable()
             if not hasItem then return nil end
 
             for i = 2, scantip:NumLines() do
-                local text = _G["iLvlScanningTooltipTextLeft"..i]:GetText()
+                local text = _G["iLvlScanningTooltipTextLeft" .. i]:GetText()
                 if text and text ~= "" then
                     itemLevel = itemLevel or strmatch(text, S_ITEM_LEVEL)
 
@@ -110,7 +110,7 @@ function Module:OnEnable()
                     itemSlot:Hide()
                 end)
             elseif event == "PLAYER_EQUIPMENT_CHANGED" or event == "ITEM_UPGRADE_MASTER_UPDATE"
-            or event == "ARTIFACT_UPDATE" or event == "SOCKET_INFO_UPDATE" or event == "COMBAT_RATING_UPDATE" then
+                or event == "ARTIFACT_UPDATE" or event == "SOCKET_INFO_UPDATE" or event == "COMBAT_RATING_UPDATE" then
                 if (...) == 16 then
                     equipped[16] = nil
                     equipped[17] = nil
@@ -119,6 +119,7 @@ function Module:OnEnable()
                 updateItems("player", itemSlot)
             end
         end
+
         itemSlot:SetScript("OnEvent", OnEvent)
         itemSlot:GetScript("OnEvent")(itemSlot, "PLAYER_LOGIN")
     end

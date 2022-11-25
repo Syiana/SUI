@@ -28,7 +28,7 @@ function Module:OnEnable()
         local border = frame:CreateTexture(nil, "BACKGROUND")
         border:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\Core\\gloss")
         border:SetTexCoord(0, 1, 0, 1)
-        border:SetDrawLayer("BACKGROUND",- 7)
+        border:SetDrawLayer("BACKGROUND", -7)
         --border:SetVertexColor(unpack(SUI:Color()))
         border:ClearAllPoints()
         border:SetPoint("TOPLEFT", icon, "TOPLEFT", -1, 1)
@@ -58,12 +58,12 @@ function Module:OnEnable()
                             self.BorderShield:ClearAllPoints()
                             PixelUtil.SetPoint(self.BorderShield, "CENTER", self, "LEFT", -10, 0)
                         end
-    
+
                         self.Icon:ClearAllPoints();
                         PixelUtil.SetPoint(self.Icon, "CENTER", self, "LEFT", -10, 0);
                         self.Text:SetFont(STANDARD_TEXT_FONT, 10, "OUTLINE")
                         iconSkin(self.Icon, self)
-    
+
                         if castInterrupt or channelInterrupt then
                             self.Icon:Hide()
                             self.Icon.border:Hide()
@@ -222,7 +222,7 @@ function Module:OnEnable()
         else
             local _, maxHealth = healthBar:GetMinMaxValues()
             local currentHealth = healthBar:GetValue()
-            healthBar.text:SetText(string.format(math.floor((currentHealth / maxHealth) * 100 )) .. "%")
+            healthBar.text:SetText(string.format(math.floor((currentHealth / maxHealth) * 100)) .. "%")
         end
     end
 
@@ -307,15 +307,15 @@ function Module:OnEnable()
 
                 -- Font Size Function
                 local function SetFont(obj, optSize)
-                    local fontName = obj:GetFont()   
-                    obj:SetFont(fontName,optSize,"OUTLINE")
+                    local fontName = obj:GetFont()
+                    obj:SetFont(fontName, optSize, "OUTLINE")
                 end
 
                 -- Set Font Size for Nameplate Names
-                SetFont(SystemFont_LargeNamePlate,10)
-                SetFont(SystemFont_NamePlate,10)
-                SetFont(SystemFont_LargeNamePlateFixed,10)
-                SetFont(SystemFont_NamePlateFixed,10)
+                SetFont(SystemFont_LargeNamePlate, 10)
+                SetFont(SystemFont_NamePlate, 10)
+                SetFont(SystemFont_LargeNamePlateFixed, 10)
+                SetFont(SystemFont_NamePlateFixed, 10)
             end
         end
     end
@@ -358,22 +358,22 @@ function Module:OnEnable()
             if not strfind(self.unit, "nameplate") then return end
             local inInstance, instanceType = IsInInstance("player")
             if inInstance then
-                if self.unit and not UnitIsFriend("player", self.unit)  and not UnitReaction(self.unit, "player") == 2 then  
+                if self.unit and not UnitIsFriend("player", self.unit) and not UnitReaction(self.unit, "player") == 2 then
                     self.myHealPrediction:SetTexture(db.texture)
-                    self.myHealPrediction:SetVertexColor(16/510, 424/510, 400/510)
+                    self.myHealPrediction:SetVertexColor(16 / 510, 424 / 510, 400 / 510)
                     self.otherHealPrediction:SetTexture(db.texture)
-                    self.otherHealPrediction:SetVertexColor(0/510, 325/510, 292/510)
+                    self.otherHealPrediction:SetVertexColor(0 / 510, 325 / 510, 292 / 510)
                 elseif instanceType == 'arena' or instanceType == 'pvp' then
                     self.myHealPrediction:SetTexture(db.texture)
-                    self.myHealPrediction:SetVertexColor(16/510, 424/510, 400/510)
+                    self.myHealPrediction:SetVertexColor(16 / 510, 424 / 510, 400 / 510)
                     self.otherHealPrediction:SetTexture(db.texture)
-                    self.otherHealPrediction:SetVertexColor(0/510, 325/510, 292/510)
+                    self.otherHealPrediction:SetVertexColor(0 / 510, 325 / 510, 292 / 510)
                 end
             else
                 self.myHealPrediction:SetTexture(db.texture)
-                self.myHealPrediction:SetVertexColor(16/510, 424/510, 400/510)
+                self.myHealPrediction:SetVertexColor(16 / 510, 424 / 510, 400 / 510)
                 self.otherHealPrediction:SetTexture(db.texture)
-                self.otherHealPrediction:SetVertexColor(0/510, 325/510, 292/510)
+                self.otherHealPrediction:SetVertexColor(0 / 510, 325 / 510, 292 / 510)
             end
         end)
 

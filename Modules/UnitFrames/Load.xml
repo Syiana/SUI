@@ -10,5 +10,4 @@
 	<Script file="_Color.lua"/>
 	<Script file="_Player.lua"/>
 	<Script file="_Target.lua"/>
-	<Script file="_Pet.lua"/>
 </Ui>

@@ -21,7 +21,7 @@ function Module:OnEnable()
                         if (UnitIsTapDenied(unit)) and not UnitPlayerControlled(unit) then
                             healthbar:SetStatusBarColor(0.5, 0.5, 0.5)
                         elseif (not UnitIsTapDenied(unit)) then
-                            local reaction = FACTION_BAR_COLORS[UnitReaction(unit,"player")];
+                            local reaction = FACTION_BAR_COLORS[UnitReaction(unit, "player")];
                             if reaction then
                                 healthbar:SetStatusBarColor(reaction.r, reaction.g, reaction.b);
                             end
@@ -29,7 +29,7 @@ function Module:OnEnable()
                     end
                 end
             end
-        
+
             hooksecurefunc("UnitFrameHealthBar_Update", function(self)
                 SUIUnitColor(self, self.unit)
             end)
