@@ -347,7 +347,7 @@ function Module:OnEnable()
 
     if db.style ~= 'Default' then
         -- Set Nameplate Texture
-        if db.texture ~= 'Default' then
+        if db.texture ~= [[Interface\Default]] then
             hooksecurefunc("CompactUnitFrame_UpdateHealthColor", nameplateTexture)
             hooksecurefunc("CompactUnitFrame_UpdateHealth", nameplateTexture)
             hooksecurefunc("CompactUnitFrame_UpdateStatusText", nameplateTexture)
