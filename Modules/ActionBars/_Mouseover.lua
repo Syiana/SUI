@@ -4,15 +4,21 @@ function Module:OnEnable()
     if IsAddOnLoaded('Bartender4') or IsAddOnLoaded('Dominos') then return end
     local db = SUI.db.profile.actionbar.bars
 
-    hooksecurefunc(getmetatable(CreateFrame('cooldown')).__index, 'SetCooldown', function(self)
-        if self and self:GetEffectiveAlpha() then
-            if self:GetEffectiveAlpha() > 0.001 then
-                self:SetDrawBling(true)
-            else
-                self:SetDrawBling(false)
+    local function hideGCD(button)
+        for i=1,12 do
+            if _G[button .. i .. "Cooldown"] then
+                _G[button .. i .. "Cooldown"]:SetDrawBling(false)
             end
         end
-    end)
+    end
+
+    local function showGCD(button)
+        for i=1,12 do
+            if _G[button .. i .. "Cooldown"] then
+                _G[button .. i .. "Cooldown"]:SetDrawBling(true)
+            end
+        end
+    end
 
     if db.bar1 then
         -- Hide MainMenuBar
@@ -20,19 +26,15 @@ function Module:OnEnable()
 
         -- Show MainMenuBar on Hover
         for i=1,12 do
-            if _G["ActionButton" ..i]:GetEffectiveAlpha() then
-                if _G["ActionButton" ..i] > 0.001 then
-                    _G["ActionButton" ..i]:SetDrawBling(true)
-                else
-                    _G["ActionButton" ..i]:SetDrawBling(false)
-                end
-            end
+            hideGCD("ActionButton")
             _G["ActionButton" ..i]:HookScript('OnEnter', function()
                 MainMenuBar:SetAlpha(1)
+                showGCD("ActionButton")
             end)
 
             _G["ActionButton" ..i]:HookScript('OnLeave', function()
                 MainMenuBar:SetAlpha(0)
+                hideGCD("ActionButton")
             end)
         end
     end
@@ -43,12 +45,15 @@ function Module:OnEnable()
 
         -- Show MultiBarBottomLeft on Hover
         for i=1,12 do
+            hideGCD("MultiBarBottomLeftButton")
             _G["MultiBarBottomLeftButton" ..i]:HookScript('OnEnter', function()
                 MultiBarBottomLeft:SetAlpha(1)
+                showGCD("MultiBarBottomLeftButton")
             end)
 
             _G["MultiBarBottomLeftButton" ..i]:HookScript('OnLeave', function()
                 MultiBarBottomLeft:SetAlpha(0)
+                hideGCD("MultiBarBottomLeftButton")
             end)
         end
     end
@@ -59,12 +64,15 @@ function Module:OnEnable()
 
         -- Show MultiBarBottomRight on Hover
         for i=1,12 do
+            hideGCD("MultiBarBottomRightButton")
             _G["MultiBarBottomRightButton" ..i]:HookScript('OnEnter', function()
                 MultiBarBottomRight:SetAlpha(1)
+                showGCD("MultiBarBottomRightButton")
             end)
 
             _G["MultiBarBottomRightButton" ..i]:HookScript('OnLeave', function()
                 MultiBarBottomRight:SetAlpha(0)
+                hideGCD("MultiBarBottomRightButton")
             end)
         end
     end
@@ -75,12 +83,15 @@ function Module:OnEnable()
 
         -- Show MultiBarRight on Hover
         for i=1,12 do
+            hideGCD("MultiBarRightButton")
             _G["MultiBarRightButton" ..i]:HookScript('OnEnter', function(self)
                 MultiBarRight:SetAlpha(1)
+                showGCD("MultiBarRightButton")
             end)
 
             _G["MultiBarRightButton" ..i]:HookScript('OnLeave', function()
                 MultiBarRight:SetAlpha(0)
+                hideGCD("MultiBarRightButton")
             end)
         end
     end
@@ -91,12 +102,15 @@ function Module:OnEnable()
 
         -- Show MultiBarLeft on Hover
         for i=1,12 do
+            hideGCD("MultiBarLeftButton")
             _G["MultiBarLeftButton" ..i]:HookScript('OnEnter', function()
                 MultiBarLeft:SetAlpha(1)
+                showGCD("MultiBarLeftButton")
             end)
 
             _G["MultiBarLeftButton" ..i]:HookScript('OnLeave', function()
                 MultiBarLeft:SetAlpha(0)
+                hideGCD("MultiBarLeftButton")
             end)
         end
     end
@@ -107,12 +121,15 @@ function Module:OnEnable()
 
         -- Show MultiBar5 on Hover
         for i=1,12 do
+            hideGCD("MultiBar5Button")
             _G["MultiBar5Button" ..i]:HookScript('OnEnter', function()
                 MultiBar5:SetAlpha(1)
+                showGCD("MultiBar5Button")
             end)
 
             _G["MultiBar5Button" ..i]:HookScript('OnLeave', function()
                 MultiBar5:SetAlpha(0)
+                hideGCD("MultiBar5Button")
             end)
         end
     end
@@ -123,12 +140,15 @@ function Module:OnEnable()
 
         -- Show MultiBar6 on Hover
         for i=1,12 do
+            hideGCD("MultiBar6Button")
             _G["MultiBar6Button" ..i]:HookScript('OnEnter', function()
                 MultiBar6:SetAlpha(1)
+                showGCD("MultiBar6Button")
             end)
 
             _G["MultiBar6Button" ..i]:HookScript('OnLeave', function()
                 MultiBar6:SetAlpha(0)
+                hideGCD("MultiBar6Button")
             end)
         end
     end
@@ -139,12 +159,15 @@ function Module:OnEnable()
 
         -- Show MultiBar7 on Hover
         for i=1,12 do
+            hideGCD("MultiBar7Button")
             _G["MultiBar7Button" ..i]:HookScript('OnEnter', function()
                 MultiBar7:SetAlpha(1)
+                showGCD("MultiBar7Button")
             end)
 
             _G["MultiBar7Button" ..i]:HookScript('OnLeave', function()
                 MultiBar7:SetAlpha(0)
+                hideGCD("MultiBar7Button")
             end)
         end
     end
@@ -155,12 +178,15 @@ function Module:OnEnable()
 
         -- Show Pet Actionbar on Hover
         for i=1,10 do
+            hideGCD("PetActionButton")
             _G["PetActionButton" .. i]:HookScript('OnEnter', function()
                 PetActionBar:SetAlpha(1)
+                showGCD("PetActionButton")
             end)
 
             _G["PetActionButton" .. i]:HookScript('OnLeave', function()
                 PetActionBar:SetAlpha(0)
+                hideGCD("PetActionButton")
             end)
         end
     end
@@ -171,12 +197,15 @@ function Module:OnEnable()
 
         -- Show Stancebar on Hover
         for i=1,8 do
+            hideGCD("StanceButton")
             _G["StanceButton" .. i]:HookScript('OnEnter', function()
                 StanceBar:SetAlpha(1)
+                showGCD("StanceButton")
             end)
 
             _G["StanceButton" .. i]:HookScript('OnLeave', function()
                 StanceBar:SetAlpha(0)
+                hideGCD("StanceButton")
             end)
         end
     end
