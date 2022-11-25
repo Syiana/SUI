@@ -1,6 +1,7 @@
 local Menu = SUI:NewModule("ActionBars.Menu");
 
 function Menu:OnEnable()
+    if IsAddOnLoaded('Bartender4') or IsAddOnLoaded('Dominos') then return end
     local db = {
         micromenu = SUI.db.profile.actionbar.menu.micromenu,
         bagbar = SUI.db.profile.actionbar.menu.bagbar,
