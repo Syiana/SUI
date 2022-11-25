@@ -38,6 +38,24 @@ function Module:OnEnable()
 
         PlayerFrame:HookScript("OnEvent", function(self, event)
             updateTextures(self, event)
+
+            if not db.classbar then
+                if PlayerFrame.classPowerBar then
+                    PlayerFrame.classPowerBar:Hide()
+                end
+
+                if ComboPointDruidPlayerFrame then
+                    ComboPointDruidPlayerFrame:Hide()
+                end
+
+                if EssencePlayerFrame then
+                    EssencePlayerFrame:Hide()
+                end
+
+                if RuneFrame then
+                    RuneFrame:Hide()
+                end
+            end
         end)
 
         PetFrame:HookScript("OnEvent", function(self, event)
