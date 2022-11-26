@@ -55,7 +55,7 @@ function Module:OnEnable()
     gcd:RegisterEvent("SPELL_UPDATE_COOLDOWN")
     gcd:HookScript("OnEvent", function()
         if db.bars.bar1 then
-            if MainMenuBar:GetEffectiveAlpha() and MainMenuBar:GetEffectiveAlpha() > 0.001 then
+            if ActionButton1:GetEffectiveAlpha() and ActionButton1:GetEffectiveAlpha() > 0.001 then
                 showGCD("ActionButton")
             else
                 hideGCD("ActionButton")
