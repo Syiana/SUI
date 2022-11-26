@@ -12,7 +12,7 @@ function Module:OnEnable()
     if db.texture ~= [[Interface\Default]] then
         local function updateTextures(self)
             -- Get Power Color
-            local powerColor = GetPowerBarColor(self.manabar.powerType or self.totFrame.manabar.powerType)
+            local powerColor = GetPowerBarColor(self.manabar.powerType)
             -- Target/Focus
             self.healthbar:SetStatusBarTexture(db.texture)
             self.healthbar:GetStatusBarTexture():SetDrawLayer("BORDER")
@@ -27,10 +27,11 @@ function Module:OnEnable()
             -- Target of Target
             self.totFrame.healthbar:SetStatusBarTexture(db.texture)
             self.totFrame.manabar.texture:SetTexture(db.texture)
+            local totPowerColor = GetPowerBarColor(self.totFrame.manabar.powerType)
             if self.totFrame.manabar.powerType == 0 then
                 self.totFrame.manabar:SetStatusBarColor(0, 0.5, 1)
             else
-                self.totFrame.manabar:SetStatusBarColor(powerColor.r, powerColor.g, powerColor.b)
+                self.totFrame.manabar:SetStatusBarColor(totPowerColor.r, totPowerColor.g, totPowerColor.b)
             end
         end
 
