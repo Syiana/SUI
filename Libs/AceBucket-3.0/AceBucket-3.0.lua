@@ -34,7 +34,7 @@
 -- end
 -- @class file
 -- @name AceBucket-3.0.lua
--- @release $Id$
+-- @release $Id: AceBucket-3.0.lua 1284 2022-09-25 09:15:30Z nevcairiel $
 
 local MAJOR, MINOR = "AceBucket-3.0", 4
 local AceBucket, oldminor = LibStub:NewLibrary(MAJOR, MINOR)
