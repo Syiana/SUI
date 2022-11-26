@@ -40,7 +40,9 @@ function Module:OnEnable()
         back:SetPoint("BOTTOMRIGHT", icon, "BOTTOMRIGHT", 4, -4)
         back:SetFrameLevel(frame:GetFrameLevel() - 1)
         back:SetBackdrop(backdrop)
-        back:SetBackdropBorderColor(unpack(SUI:Color(0.25)))
+        if SUI:Color() then
+            back:SetBackdropBorderColor(unpack(SUI:Color(0.25)))
+        end
         back:SetAlpha(0.9)
         icon.bg = back
         icon.styled = true
