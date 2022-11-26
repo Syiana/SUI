@@ -6,7 +6,7 @@ function Module:OnEnable()
             if self.healthbar then
                 self.healthbar:SetStatusBarTexture(db.texture)
             end
-            
+
             if self.TargetFrameContent.TargetFrameContentMain.ReputationColor and SUI:Color() then
                 self.TargetFrameContent.TargetFrameContentMain.ReputationColor:SetVertexColor(unpack(SUI:Color(0.15)))
             end
