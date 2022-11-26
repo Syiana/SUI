@@ -189,7 +189,7 @@ function Layout:OnEnable()
                 Errors = {
                     key = 'cosmetic.errors',
                     type = 'checkbox',
-                    label = 'Errors',
+                    label = 'Disable Errors',
                     tooltip = 'Disable errors messages',
                     column = 3,
                     order = 2
