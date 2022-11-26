@@ -18,6 +18,7 @@ function Module:OnEnable()
         local function updateTextures(self, event)
             if event == "PLAYER_ENTERING_WORLD" then
                 self.healthbar:SetStatusBarTexture(db.texture)
+                self.healthbar:GetStatusBarTexture():SetDrawLayer("BORDER")
                 self.healthbar.AnimatedLossBar:SetStatusBarTexture(db.texture)
                 self.myHealPredictionBar:SetTexture(db.texture)
                 self.otherHealPredictionBar:SetTexture(db.texture)

@@ -15,6 +15,7 @@ function Module:OnEnable()
             local powerColor = GetPowerBarColor(self.manabar.powerType or self.totFrame.manabar.powerType)
             -- Target/Focus
             self.healthbar:SetStatusBarTexture(db.texture)
+            self.healthbar:GetStatusBarTexture():SetDrawLayer("BORDER")
             self.myHealPredictionBar:SetTexture(db.texture)
             self.manabar.texture:SetTexture(db.texture)
             if self.manabar.powerType == 0 then
@@ -37,8 +38,6 @@ function Module:OnEnable()
             if event == "PLAYER_TARGET_CHANGED" or event == "PLAYER_ENTERING_WORLD" or event == "UNIT_TARGET" then
                 updateTextures(self)
             end
-
-            SUIBossFrames()
         end)
 
         FocusFrame:HookScript("OnEvent", function(self, event)
