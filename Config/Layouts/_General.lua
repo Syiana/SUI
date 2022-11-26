@@ -186,6 +186,14 @@ function Layout:OnEnable()
                     column = 3,
                     order = 1
                 },
+                Errors = {
+                    key = 'cosmetic.errors',
+                    type = 'checkbox',
+                    label = 'Errors',
+                    tooltip = 'Disable errors messages',
+                    column = 3,
+                    order = 2
+                },
             }
         },
     }
