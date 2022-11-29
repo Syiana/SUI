@@ -11,9 +11,11 @@ function Module:OnEnable()
     -- Set Target/Focus Textures
     if db.texture ~= [[Interface\Default]] then
         local function updateTextures(self)
+            -- Target/Focus
             -- Get Power Color
             local powerColor = GetPowerBarColor(self.manabar.powerType)
-            -- Target/Focus
+
+            -- Set Textures
             self.healthbar:SetStatusBarTexture(db.texture)
             self.healthbar:GetStatusBarTexture():SetDrawLayer("BORDER")
             self.myHealPredictionBar:SetTexture(db.texture)
@@ -25,9 +27,12 @@ function Module:OnEnable()
             end
 
             -- Target of Target
+            -- Get Power Color
+            local totPowerColor = GetPowerBarColor(self.totFrame.manabar.powerType)
+
+            -- Set Textures
             self.totFrame.healthbar:SetStatusBarTexture(db.texture)
             self.totFrame.manabar.texture:SetTexture(db.texture)
-            local totPowerColor = GetPowerBarColor(self.totFrame.manabar.powerType)
             if self.totFrame.manabar.powerType == 0 then
                 self.totFrame.manabar:SetStatusBarColor(0, 0.5, 1)
             else
@@ -35,16 +40,12 @@ function Module:OnEnable()
             end
         end
 
-        TargetFrame:HookScript("OnEvent", function(self, event)
-            if event == "PLAYER_TARGET_CHANGED" or event == "PLAYER_ENTERING_WORLD" or event == "UNIT_TARGET" then
-                updateTextures(self)
-            end
+        hooksecurefunc(TargetFrame, "Update", function(self)
+            updateTextures(self)
         end)
 
-        FocusFrame:HookScript("OnEvent", function(self, event)
-            if event == "PLAYER_FOCUS_CHANGED" or event == "PLAYER_ENTERING_WORLD" or event == "UNIT_TARGET" then
-                updateTextures(self)
-            end
+        hooksecurefunc(FocusFrame, "Update", function(self)
+            updateTextures(self)
         end)
     end
 
