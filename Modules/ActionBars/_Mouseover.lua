@@ -439,7 +439,7 @@ function Module:OnEnable()
         MouseoverDefaultBars:CancelAllTimers()
         MouseoverDefaultBars:UnhookAll()
         for i = 1, 10 do
-            MouseoverDefaultBars:Alpha("ActionBar" .. i, 1)
+            MouseoverDefaultBars:Alpha("bar" .. i, 1)
         end
     end
 
