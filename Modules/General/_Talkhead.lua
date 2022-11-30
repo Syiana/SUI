@@ -1,7 +1,8 @@
 local Module = SUI:NewModule("General.Talkhead");
 
 function Module:OnEnable()
-    if not (SUI.db.profile.general.cosmetic.talkhead) then
+    local db = SUI.db.profile.general.cosmetic.talkinghead
+    if not db then
         hooksecurefunc(TalkingHeadFrame, "PlayCurrent", function()
             TalkingHeadFrame:Hide()
         end)

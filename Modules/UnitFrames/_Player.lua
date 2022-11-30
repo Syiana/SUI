@@ -15,7 +15,7 @@ function Module:OnEnable()
     end
 
     if db.texture ~= [[Interface\Default]] then
-        local function updateTextures(self, event)
+        local function healthTexture(self, event)
             if event == "PLAYER_ENTERING_WORLD" then
                 self.healthbar:SetStatusBarTexture(db.texture)
                 self.healthbar:GetStatusBarTexture():SetDrawLayer("BORDER")
@@ -25,7 +25,8 @@ function Module:OnEnable()
                 self.otherHealPredictionBar:SetTexture(db.texture)
                 self.myManaCostPredictionBar:SetTexture(db.texture)
             end
-
+        end
+        local function manaTexture(self)
             local powerColor = GetPowerBarColor(self.manabar.powerType)
             self.manabar.texture:SetTexture(db.texture)
             if self.manabar.powerType == 0 then
@@ -39,8 +40,12 @@ function Module:OnEnable()
             end
         end
 
+        PlayerFrame:HookScript("OnUpdate", function(self)
+            manaTexture(self)
+        end)
+
         PlayerFrame:HookScript("OnEvent", function(self, event)
-            updateTextures(self, event)
+            healthTexture(self, event)
 
             if not db.classbar then
                 if PlayerFrame.classPowerBar then
