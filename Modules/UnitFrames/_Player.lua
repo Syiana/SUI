@@ -34,10 +34,6 @@ function Module:OnEnable()
             else
                 self.manabar:SetStatusBarColor(powerColor.r, powerColor.g, powerColor.b)
             end
-
-            if db.nameplates ~= 'Default' then
-                ClassNameplateManaBarFrame:SetStatusBarTexture(db.texture)
-            end
         end
 
         PlayerFrame:HookScript("OnUpdate", function(self)
