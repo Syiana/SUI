@@ -2,7 +2,7 @@ local Module = SUI:NewModule("General.Errors");
 
 function Module:OnEnable()
     local db = SUI.db.profile.general.cosmetic.errors
-    if db then
+    if not db then
         local colors = {
             UI_INFO_MESSAGE = { r = 1.0, g = 1.0, b = 0.0 },
             UI_ERROR_MESSAGE = { r = 1.0, g = 0.1, b = 0.1 },

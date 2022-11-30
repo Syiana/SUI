@@ -25,7 +25,8 @@ local defaults = {
             },
             cosmetic = {
                 afkscreen = true,
-                talkhead = false
+                talkhead = false,
+                errors = false
             },
             display = {
                 ilvl = true,
