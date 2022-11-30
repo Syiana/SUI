@@ -1,1 +1,6 @@
 .vscode/settings.json
+Libs/Ace*
+Libs/LibEditMode
+Libs/LibEditModeOverride
+Libs/LibStub
+Libs/LibDropDown
