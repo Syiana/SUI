@@ -10,42 +10,24 @@ function Module:OnEnable()
 
     -- Set Target/Focus Textures
     if db.texture ~= [[Interface\Default]] then
-        local function updateTextures(self)
-            -- Target/Focus
-            -- Get Power Color
-            local powerColor = GetPowerBarColor(self.manabar.powerType)
+        local function healthTexture(self, event)
+            if event == "PLAYER_TARGET_CHANGED" or event == "PLAYER_FOCUS_CHANGED" or event == "UNIT_TARGET" or  event == "PLAYER_ENTERING_WORLD" then
+                -- Set Textures
+                self.healthbar:SetStatusBarTexture(db.texture)
+                self.healthbar:GetStatusBarTexture():SetDrawLayer("BACKGROUND", 0)
+                self.myHealPredictionBar:SetTexture(db.texture)
 
-            -- Set Textures
-            self.healthbar:SetStatusBarTexture(db.texture)
-            self.healthbar:GetStatusBarTexture():SetDrawLayer("BORDER")
-            self.myHealPredictionBar:SetTexture(db.texture)
-            self.manabar.texture:SetTexture(db.texture)
-            if self.manabar.powerType == 0 then
-                self.manabar:SetStatusBarColor(0, 0.5, 1)
-            else
-                self.manabar:SetStatusBarColor(powerColor.r, powerColor.g, powerColor.b)
-            end
-
-            -- Target of Target
-            -- Get Power Color
-            local totPowerColor = GetPowerBarColor(self.totFrame.manabar.powerType)
-
-            -- Set Textures
-            self.totFrame.healthbar:SetStatusBarTexture(db.texture)
-            self.totFrame.manabar.texture:SetTexture(db.texture)
-            if self.totFrame.manabar.powerType == 0 then
-                self.totFrame.manabar:SetStatusBarColor(0, 0.5, 1)
-            else
-                self.totFrame.manabar:SetStatusBarColor(totPowerColor.r, totPowerColor.g, totPowerColor.b)
+                self.totFrame.healthbar:SetStatusBarTexture(db.texture)
+                self.totFrame.healthbar:GetStatusBarTexture():SetDrawLayer("BACKGROUND", 0)
             end
         end
 
-        hooksecurefunc(TargetFrame, "Update", function(self)
-            updateTextures(self)
+        TargetFrame:HookScript("OnEvent", function(self, event)
+            healthTexture(self, event)
         end)
 
-        hooksecurefunc(FocusFrame, "Update", function(self)
-            updateTextures(self)
+        FocusFrame:HookScript("OnEvent", function(self, event)
+            healthTexture(self, event)
         end)
     end
 

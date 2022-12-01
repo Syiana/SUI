@@ -4,7 +4,6 @@ function Module:OnEnable()
     local db = {
         unitframes = SUI.db.profile.unitframes,
         texture = SUI.db.profile.general.texture,
-        nameplates = SUI.db.profile.nameplates.style,
         classbar = SUI.db.profile.unitframes.classbar
     }
 
@@ -18,27 +17,14 @@ function Module:OnEnable()
         local function healthTexture(self, event)
             if event == "PLAYER_ENTERING_WORLD" then
                 self.healthbar:SetStatusBarTexture(db.texture)
-                self.healthbar:GetStatusBarTexture():SetDrawLayer("BORDER")
+                self.healthbar:GetStatusBarTexture():SetDrawLayer("BACKGROUND", 0)
                 self.healthbar.AnimatedLossBar:SetStatusBarTexture(db.texture)
-                self.healthbar.AnimatedLossBar:GetStatusBarTexture():SetDrawLayer("BORDER")
+                self.healthbar.AnimatedLossBar:GetStatusBarTexture():SetDrawLayer("BACKGROUND", 0)
                 self.myHealPredictionBar:SetTexture(db.texture)
                 self.otherHealPredictionBar:SetTexture(db.texture)
                 self.myManaCostPredictionBar:SetTexture(db.texture)
             end
         end
-        local function manaTexture(self)
-            local powerColor = GetPowerBarColor(self.manabar.powerType)
-            self.manabar.texture:SetTexture(db.texture)
-            if self.manabar.powerType == 0 then
-                self.manabar:SetStatusBarColor(0, 0.5, 1)
-            else
-                self.manabar:SetStatusBarColor(powerColor.r, powerColor.g, powerColor.b)
-            end
-        end
-
-        PlayerFrame:HookScript("OnUpdate", function(self)
-            manaTexture(self)
-        end)
 
         PlayerFrame:HookScript("OnEvent", function(self, event)
             healthTexture(self, event)
@@ -65,6 +51,7 @@ function Module:OnEnable()
         PetFrame:HookScript("OnEvent", function(self, event)
             if event == "PLAYER_ENTERING_WORLD" then
                 self.healthbar:SetStatusBarTexture(db.texture)
+                self.healthbar:GetStatusBarTexture():SetDrawLayer("BACKGROUND", 0)
             end
 
             local powerColor = GetPowerBarColor(self.manabar.powerType)
