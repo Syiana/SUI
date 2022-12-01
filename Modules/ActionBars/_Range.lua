@@ -120,6 +120,9 @@ function Range:OnEnable()
             Module:RegisterButtonRange(_G["MultiBarBottomRightButton" .. i])
             Module:RegisterButtonRange(_G["MultiBarRightButton" .. i])
             Module:RegisterButtonRange(_G["MultiBarLeftButton" .. i])
+            Module:RegisterButtonRange(_G["MultiBar5Button" .. i])
+            Module:RegisterButtonRange(_G["MultiBar6Button" .. i])
+            Module:RegisterButtonRange(_G["MultiBar7Button" .. i])
         end
     end
 
