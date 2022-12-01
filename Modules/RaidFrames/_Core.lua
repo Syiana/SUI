@@ -4,37 +4,36 @@ function Module:OnEnable()
 	local db = SUI.db.profile.raidframes
 	if db then
 		local function updateTextures(self)
-			if self:GetName() and
-				(
-				self:GetName():find('CompactRaidFrame') or self:GetName():find('CompactPartyFrame') or
-					self:GetName():find('CompactRaidGroup')) then
-				if db.texture ~= [[Interface\Default]] then
-					self.healthBar:SetStatusBarTexture(db.texture)
-					self.healthBar:GetStatusBarTexture():SetDrawLayer("BORDER")
-					self.powerBar:SetStatusBarTexture(db.texture)
-					self.powerBar:GetStatusBarTexture():SetDrawLayer("BORDER")
-					self.myHealPrediction:SetTexture(db.texture)
-					self.otherHealPrediction:SetTexture(db.texture)
-				end
-
-				if self:GetName():find('CompactPartyFrame') then
-					if SUI:Color() then
-						self.horizDivider:SetVertexColor(.3, .3, .3)
-						CompactPartyFrameBorderFrameBorderTopLeft:SetVertexColor(unpack(SUI:Color(0.15)))
-						CompactPartyFrameBorderFrameBorderTop:SetVertexColor(unpack(SUI:Color(0.15)))
-						CompactPartyFrameBorderFrameBorderTopRight:SetVertexColor(unpack(SUI:Color(0.15)))
-						CompactPartyFrameBorderFrameBorderLeft:SetVertexColor(unpack(SUI:Color(0.15)))
-						CompactPartyFrameBorderFrameBorderRight:SetVertexColor(unpack(SUI:Color(0.15)))
-						CompactPartyFrameBorderFrameBorderBottomLeft:SetVertexColor(unpack(SUI:Color(0.15)))
-						CompactPartyFrameBorderFrameBorderBottom:SetVertexColor(unpack(SUI:Color(0.15)))
-						CompactPartyFrameBorderFrameBorderBottomRight:SetVertexColor(unpack(SUI:Color(0.15)))
+			if (self and self.unit) and not self.unit:find('nameplate') then
+				if self:GetName() and (self:GetName():find('CompactRaidFrame') or self:GetName():find('CompactPartyFrame') or self:GetName():find('CompactRaidGroup')) then
+					if db.texture ~= [[Interface\Default]] then
+						self.healthBar:SetStatusBarTexture(db.texture)
+						self.healthBar:GetStatusBarTexture():SetDrawLayer("BORDER")
+						self.powerBar:SetStatusBarTexture(db.texture)
+						self.powerBar:GetStatusBarTexture():SetDrawLayer("BORDER")
+						self.myHealPrediction:SetTexture(db.texture)
+						self.otherHealPrediction:SetTexture(db.texture)
 					end
-				end
 
-				self.vertLeftBorder:SetTexture([[Interface\Addons\SUI\Media\Textures\RaidFrames\Raid-VSeparator]])
-				self.vertRightBorder:SetTexture([[Interface\Addons\SUI\Media\Textures\RaidFrames\Raid-VSeparator]])
-				self.horizTopBorder:SetTexture([[Interface\Addons\SUI\Media\Textures\RaidFrames\Raid-HSeparator]])
-				self.horizBottomBorder:SetTexture([[Interface\Addons\SUI\Media\Textures\RaidFrames\Raid-HSeparator]])
+					if self:GetName():find('CompactPartyFrame') then
+						if SUI:Color() then
+							self.horizDivider:SetVertexColor(.3, .3, .3)
+							CompactPartyFrameBorderFrameBorderTopLeft:SetVertexColor(unpack(SUI:Color(0.15)))
+							CompactPartyFrameBorderFrameBorderTop:SetVertexColor(unpack(SUI:Color(0.15)))
+							CompactPartyFrameBorderFrameBorderTopRight:SetVertexColor(unpack(SUI:Color(0.15)))
+							CompactPartyFrameBorderFrameBorderLeft:SetVertexColor(unpack(SUI:Color(0.15)))
+							CompactPartyFrameBorderFrameBorderRight:SetVertexColor(unpack(SUI:Color(0.15)))
+							CompactPartyFrameBorderFrameBorderBottomLeft:SetVertexColor(unpack(SUI:Color(0.15)))
+							CompactPartyFrameBorderFrameBorderBottom:SetVertexColor(unpack(SUI:Color(0.15)))
+							CompactPartyFrameBorderFrameBorderBottomRight:SetVertexColor(unpack(SUI:Color(0.15)))
+						end
+					end
+
+					self.vertLeftBorder:SetTexture([[Interface\Addons\SUI\Media\Textures\RaidFrames\Raid-VSeparator]])
+					self.vertRightBorder:SetTexture([[Interface\Addons\SUI\Media\Textures\RaidFrames\Raid-VSeparator]])
+					self.horizTopBorder:SetTexture([[Interface\Addons\SUI\Media\Textures\RaidFrames\Raid-HSeparator]])
+					self.horizBottomBorder:SetTexture([[Interface\Addons\SUI\Media\Textures\RaidFrames\Raid-HSeparator]])
+				end
 			end
 		end
 

@@ -325,7 +325,14 @@ function Module:OnEnable()
     local function nameplateTexture(self)
         local inInstance, instanceType = IsInInstance("player")
         if inInstance then
-            if self.unit and not UnitIsFriend("player", self.unit) and UnitCanAttack("player", self.unit) then
+            if UnitName("player") == UnitName(self.unit) then
+                ClassNameplateManaBarFrame:SetStatusBarTexture(db.texture)
+                if self.unit and self.unit:find('nameplate') then
+                    if self.healthBar then
+                        self.healthBar:SetStatusBarTexture(db.texture)
+                    end
+                end
+            elseif self.unit and not UnitIsFriend("player", self.unit) and UnitCanAttack("player", self.unit) then
                 if self.unit and self.unit:find('nameplate%d') then
                     if self.healthBar then
                         self.healthBar:SetStatusBarTexture(db.texture)
@@ -342,6 +349,7 @@ function Module:OnEnable()
             if self.unit and self.unit:find('nameplate%d') then
                 if self.healthBar then
                     self.healthBar:SetStatusBarTexture(db.texture)
+                    ClassNameplateManaBarFrame:SetStatusBarTexture(db.texture)
                 end
             end
         end
