@@ -52,123 +52,43 @@ function Module:OnEnable()
         if self.unit and self.unit:find('nameplate%d') then
             local _, _, _, _, _, _, _, castInterrupt = UnitCastingInfo(self.unit);
             local _, _, _, _, _, _, channelInterrupt, _, _, _ = UnitChannelInfo(self.unit);
-            local inInstance, instanceType = IsInInstance("player")
-            if inInstance then
-                if not UnitIsFriend("player", self.unit) and UnitCanAttack("player", self.unit) then
-                    if self and self.Icon then
-                        if self.BorderShield then
-                            self.BorderShield:ClearAllPoints()
-                            PixelUtil.SetPoint(self.BorderShield, "CENTER", self, "LEFT", -10, 0)
-                        end
 
-                        self.Icon:ClearAllPoints();
-                        PixelUtil.SetPoint(self.Icon, "CENTER", self, "LEFT", -10, 0);
-                        self.Text:SetFont(STANDARD_TEXT_FONT, 10, "OUTLINE")
-                        iconSkin(self.Icon, self)
+            if self:IsForbidden() then return end
 
-                        if castInterrupt or channelInterrupt then
-                            self.Icon:Hide()
-                            self.Icon.border:Hide()
-                            self.Icon.bg:Hide()
-                        else
-                            self.Icon:Show()
-                            self.Icon.border:Show()
-                            self.Icon.bg:Show()
-                        end
-
-                        if db.casttime then
-                            if not self.timer then
-                                self.timer = self:CreateFontString(nil)
-                                self.timer:SetFont(STANDARD_TEXT_FONT, 8, "THINOUTLINE")
-                                self.timer:SetPoint("CENTER", self.Icon, "BOTTOM", 0, -5)
-                                self.timer:SetDrawLayer("OVERLAY")
-                            else
-                                if self.casting then
-                                    self.timer:SetText(format("%.1f", max(self.maxValue - self.value, 0)))
-                                elseif self.channeling then
-                                    self.timer:SetText(format("%.1f", max(self.value, 0)))
-                                else
-                                    self.timer:SetText("")
-                                end
-                            end
-                        end
-                    end
-                elseif instanceType == 'arena' or instanceType == 'pvp' then
-                    if self and self.Icon then
-                        if self.BorderShield then
-                            self.BorderShield:ClearAllPoints()
-                            PixelUtil.SetPoint(self.BorderShield, "CENTER", self, "LEFT", -10, 0)
-                        end
-
-                        self.Icon:ClearAllPoints();
-                        PixelUtil.SetPoint(self.Icon, "CENTER", self, "LEFT", -10, 0);
-                        self.Text:SetFont(STANDARD_TEXT_FONT, 10, "OUTLINE")
-                        iconSkin(self.Icon, self)
-
-                        if castInterrupt or channelInterrupt then
-                            self.Icon:Hide()
-                            self.Icon.border:Hide()
-                            self.Icon.bg:Hide()
-                        else
-                            self.Icon:Show()
-                            self.Icon.border:Show()
-                            self.Icon.bg:Show()
-                        end
-
-                        if db.casttime then
-                            if not self.timer then
-                                self.timer = self:CreateFontString(nil)
-                                self.timer:SetFont(STANDARD_TEXT_FONT, 8, "THINOUTLINE")
-                                self.timer:SetPoint("CENTER", self.Icon, "BOTTOM", 0, -5)
-                                self.timer:SetDrawLayer("OVERLAY")
-                            else
-                                if self.casting then
-                                    self.timer:SetText(format("%.1f", max(self.maxValue - self.value, 0)))
-                                elseif self.channeling then
-                                    self.timer:SetText(format("%.1f", max(self.value, 0)))
-                                else
-                                    self.timer:SetText("")
-                                end
-                            end
-                        end
-                    end
+            if self and self.Icon then
+                if self.BorderShield then
+                    self.BorderShield:ClearAllPoints()
+                    PixelUtil.SetPoint(self.BorderShield, "CENTER", self, "LEFT", -10, 0)
                 end
-            else
-                if self and self.Icon then
-                    if self.BorderShield then
-                        self.BorderShield:ClearAllPoints()
-                        PixelUtil.SetPoint(self.BorderShield, "CENTER", self, "LEFT", -10, 0)
-                    end
 
-                    self.Icon:ClearAllPoints();
-                    PixelUtil.SetPoint(self.Icon, "CENTER", self, "LEFT", -10, 0);
-                    self.Text:SetFont(STANDARD_TEXT_FONT, 10, "OUTLINE")
-                    iconSkin(self.Icon, self)
+                self.Icon:ClearAllPoints();
+                PixelUtil.SetPoint(self.Icon, "CENTER", self, "LEFT", -10, 0);
+                self.Text:SetFont(STANDARD_TEXT_FONT, 10, "OUTLINE")
+                iconSkin(self.Icon, self)
 
-                    if castInterrupt or channelInterrupt then
-                        self.Icon:Hide()
-                        self.Icon.border:Hide()
-                        self.Icon.bg:Hide()
+                if castInterrupt or channelInterrupt then
+                    self.Icon:Hide()
+                    self.Icon.border:Hide()
+                    self.Icon.bg:Hide()
+                else
+                    self.Icon:Show()
+                    self.Icon.border:Show()
+                    self.Icon.bg:Show()
+                end
+
+                if db.casttime then
+                    if not self.timer then
+                        self.timer = self:CreateFontString(nil)
+                        self.timer:SetFont(STANDARD_TEXT_FONT, 8, "THINOUTLINE")
+                        self.timer:SetPoint("CENTER", self.Icon, "BOTTOM", 0, -5)
+                        self.timer:SetDrawLayer("OVERLAY")
                     else
-                        self.Icon:Show()
-                        self.Icon.border:Show()
-                        self.Icon.bg:Show()
-                    end
-
-                    if db.casttime then
-                        if not self.timer then
-                            self.timer = self:CreateFontString(nil)
-                            self.timer:SetFont(STANDARD_TEXT_FONT, 8, "THINOUTLINE")
-                            self.timer:SetPoint("CENTER", self.Icon, "BOTTOM", 0, -5)
-                            self.timer:SetDrawLayer("OVERLAY")
+                        if self.casting then
+                            self.timer:SetText(format("%.1f", max(self.maxValue - self.value, 0)))
+                        elseif self.channeling then
+                            self.timer:SetText(format("%.1f", max(self.value, 0)))
                         else
-                            if self.casting then
-                                self.timer:SetText(format("%.1f", max(self.maxValue - self.value, 0)))
-                            elseif self.channeling then
-                                self.timer:SetText(format("%.1f", max(self.value, 0)))
-                            else
-                                self.timer:SetText("")
-                            end
+                            self.timer:SetText("")
                         end
                     end
                 end
@@ -177,42 +97,17 @@ function Module:OnEnable()
     end
 
     local function nameplateCastbarIcon(self)
-        local inInstance, instanceType = IsInInstance("player")
-        if inInstance then
-            if self.unit and not UnitIsFriend("player", self.unit) and UnitCanAttack("player", self.unit) then
-                if self.castBar and self.castBar.Icon then
-                    if self.castBar.BorderShield then
-                        self.castBar.BorderShield:ClearAllPoints()
-                        PixelUtil.SetPoint(self.castBar.BorderShield, "CENTER", self.castBar, "LEFT", -10, 0)
-                    end
+        if self:IsForbidden() then return end
 
-                    self.castBar.Icon:ClearAllPoints();
-                    PixelUtil.SetPoint(self.castBar.Icon, "CENTER", self.castBar, "LEFT", -10, 0);
-                    self.castBar.Text:SetFont(STANDARD_TEXT_FONT, 10, "OUTLINE")
-                end
-            elseif instanceType == 'arena' or instanceType == 'pvp' then
-                if self.castBar and self.castBar.Icon then
-                    if self.castBar.BorderShield then
-                        self.castBar.BorderShield:ClearAllPoints()
-                        PixelUtil.SetPoint(self.castBar.BorderShield, "CENTER", self.castBar, "LEFT", -10, 0)
-                    end
-
-                    self.castBar.Icon:ClearAllPoints();
-                    PixelUtil.SetPoint(self.castBar.Icon, "CENTER", self.castBar, "LEFT", -10, 0);
-                    self.castBar.Text:SetFont(STANDARD_TEXT_FONT, 10, "OUTLINE")
-                end
+        if self.castBar and self.castBar.Icon then
+            if self.castBar.BorderShield then
+                self.castBar.BorderShield:ClearAllPoints()
+                PixelUtil.SetPoint(self.castBar.BorderShield, "CENTER", self.castBar, "LEFT", -10, 0)
             end
-        else
-            if self.castBar and self.castBar.Icon then
-                if self.castBar.BorderShield then
-                    self.castBar.BorderShield:ClearAllPoints()
-                    PixelUtil.SetPoint(self.castBar.BorderShield, "CENTER", self.castBar, "LEFT", -10, 0)
-                end
 
-                self.castBar.Icon:ClearAllPoints();
-                PixelUtil.SetPoint(self.castBar.Icon, "CENTER", self.castBar, "LEFT", -10, 0);
-                self.castBar.Text:SetFont(STANDARD_TEXT_FONT, 10, "OUTLINE")
-            end
+            self.castBar.Icon:ClearAllPoints();
+            PixelUtil.SetPoint(self.castBar.Icon, "CENTER", self.castBar, "LEFT", -10, 0);
+            self.castBar.Text:SetFont(STANDARD_TEXT_FONT, 10, "OUTLINE")
         end
     end
 
@@ -229,35 +124,13 @@ function Module:OnEnable()
     end
 
     local function nameplateHealthTextFrame(self)
-        local inInstance, instanceType = IsInInstance("player")
-        if inInstance then
-            if self.unit and not UnitIsFriend("player", self.unit) and UnitCanAttack("player", self.unit) then
-                if self.unit:find('nameplate%d') then
-                    if self.healthBar and self.unit then
-                        local unit = self.unit
-                        local healthBar = self.healthBar
-                        nameplateHealthText(unit, healthBar)
-                    end
-                end
-            elseif instanceType == 'arena' or instanceType == 'pvp' then
-                if self.unit and self.unit:find('nameplate%d') then
-                    if self.healthBar and self.unit then
-                        if not UnitName("player") ~= UnitName(self.unit) then
-                            local unit = self.unit
-                            local healthBar = self.healthBar
-                            nameplateHealthText(unit, healthBar)
-                        end
-                    end
-                end
-            end
-        else
-            if self.unit and self.unit:find('nameplate%d') then
-                if self.healthBar and self.unit then
-                    if UnitName("player") ~= UnitName(self.unit) then
-                        local unit = self.unit
-                        local healthBar = self.healthBar
-                        nameplateHealthText(unit, healthBar)
-                    end
+        if self:IsForbidden() then return end
+        if self.unit and self.unit:find('nameplate%d') then
+            if self.healthBar and self.unit then
+                if UnitName("player") ~= UnitName(self.unit) then
+                    local unit = self.unit
+                    local healthBar = self.healthBar
+                    nameplateHealthText(unit, healthBar)
                 end
             end
         end
@@ -266,43 +139,22 @@ function Module:OnEnable()
     local function nameplatePlayerName(self)
         if ShouldShowName(self) then
             if self.optionTable.colorNameBySelection then
-                local inInstance, instanceType = IsInInstance("player")
-                if not inInstance then
-                    -- Classcolor Playername
-                    if db.color and self.unit then
-                        local _, class = UnitClass(self.unit)
-                        local color = RAID_CLASS_COLORS[class]
-                        if UnitIsPlayer(self.unit) and self.name then
-                            self.name:SetVertexColor(color.r, color.g, color.b)
-                        end
+                if self:IsForbidden() then return end
+                -- Classcolor Playername
+                if db.color and self.unit then
+                    local _, class = UnitClass(self.unit)
+                    local color = RAID_CLASS_COLORS[class]
+                    if UnitIsPlayer(self.unit) and self.name then
+                        self.name:SetVertexColor(color.r, color.g, color.b)
                     end
+                end
 
-                    -- Hide Servername
-                    if db.server then
-                        if self.name and self.unit then
-                            if UnitIsPlayer(self.unit) then
-                                local name, server = UnitName(self.unit)
-                                self.name:SetText(name)
-                            end
-                        end
-                    end
-                elseif instanceType == 'arena' or instanceType == 'pvp' then
-                    -- Classcolor Playername
-                    if db.color and self.unit then
-                        local _, class = UnitClass(self.unit)
-                        local color = RAID_CLASS_COLORS[class]
-                        if UnitIsPlayer(self.unit) and self.name then
-                            self.name:SetVertexColor(color.r, color.g, color.b)
-                        end
-                    end
-
-                    -- Hide Servername
-                    if db.server then
-                        if self.name and self.unit then
-                            if UnitIsPlayer(self.unit) then
-                                local name, server = UnitName(self.unit)
-                                self.name:SetText(name)
-                            end
+                -- Hide Servername
+                if db.server then
+                    if self.name and self.unit then
+                        if UnitIsPlayer(self.unit) then
+                            local name, server = UnitName(self.unit)
+                            self.name:SetText(name)
                         end
                     end
                 end
@@ -323,34 +175,11 @@ function Module:OnEnable()
     end
 
     local function nameplateTexture(self)
-        local inInstance, instanceType = IsInInstance("player")
-        if inInstance then
-            if UnitName("player") == UnitName(self.unit) then
+        if self:IsForbidden() then return end
+        if self.unit and self.unit:find('nameplate%d') then
+            if self.healthBar then
+                self.healthBar:SetStatusBarTexture(db.texture)
                 ClassNameplateManaBarFrame:SetStatusBarTexture(db.texture)
-                if self.unit and self.unit:find('nameplate') then
-                    if self.healthBar then
-                        self.healthBar:SetStatusBarTexture(db.texture)
-                    end
-                end
-            elseif self.unit and not UnitIsFriend("player", self.unit) and UnitCanAttack("player", self.unit) then
-                if self.unit and self.unit:find('nameplate%d') then
-                    if self.healthBar then
-                        self.healthBar:SetStatusBarTexture(db.texture)
-                    end
-                end
-            elseif instanceType == 'arena' or instanceType == 'pvp' then
-                if self.unit and self.unit:find('nameplate%d') then
-                    if self.healthBar then
-                        self.healthBar:SetStatusBarTexture(db.texture)
-                    end
-                end
-            end
-        else
-            if self.unit and self.unit:find('nameplate%d') then
-                if self.healthBar then
-                    self.healthBar:SetStatusBarTexture(db.texture)
-                    ClassNameplateManaBarFrame:SetStatusBarTexture(db.texture)
-                end
             end
         end
     end
@@ -366,25 +195,12 @@ function Module:OnEnable()
         -- Set Heal Prediction Texture
         hooksecurefunc("CompactUnitFrame_UpdateHealthColor", function(self)
             if not strfind(self.unit, "nameplate") then return end
-            local inInstance, instanceType = IsInInstance("player")
-            if inInstance then
-                if self.unit and not UnitIsFriend("player", self.unit) and not UnitReaction(self.unit, "player") == 2 then
-                    self.myHealPrediction:SetTexture(db.texture)
-                    self.myHealPrediction:SetVertexColor(16 / 510, 424 / 510, 400 / 510)
-                    self.otherHealPrediction:SetTexture(db.texture)
-                    self.otherHealPrediction:SetVertexColor(0 / 510, 325 / 510, 292 / 510)
-                elseif instanceType == 'arena' or instanceType == 'pvp' then
-                    self.myHealPrediction:SetTexture(db.texture)
-                    self.myHealPrediction:SetVertexColor(16 / 510, 424 / 510, 400 / 510)
-                    self.otherHealPrediction:SetTexture(db.texture)
-                    self.otherHealPrediction:SetVertexColor(0 / 510, 325 / 510, 292 / 510)
-                end
-            else
-                self.myHealPrediction:SetTexture(db.texture)
-                self.myHealPrediction:SetVertexColor(16 / 510, 424 / 510, 400 / 510)
-                self.otherHealPrediction:SetTexture(db.texture)
-                self.otherHealPrediction:SetVertexColor(0 / 510, 325 / 510, 292 / 510)
-            end
+            if self:IsForbidden() then return end
+
+            self.myHealPrediction:SetTexture(db.texture)
+            self.myHealPrediction:SetVertexColor(16 / 510, 424 / 510, 400 / 510)
+            self.otherHealPrediction:SetTexture(db.texture)
+            self.otherHealPrediction:SetVertexColor(0 / 510, 325 / 510, 292 / 510)
         end)
 
         -- Set Nameplate Castbars
