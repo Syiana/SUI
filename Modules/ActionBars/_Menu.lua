@@ -86,6 +86,8 @@ function Menu:OnEnable()
     MicroMenu:RegisterEvent("VARIABLES_LOADED")
     MicroMenu:RegisterEvent("PET_BATTLE_CLOSE")
     MicroMenu:RegisterEvent("UNIT_EXITED_VEHICLE")
+    MicroMenu:RegisterEvent("UNIT_EXITING_VEHICLE")
+    MicroMenu:RegisterEvent("PLAYER_LOSES_VEHICLE_DATA")
     MicroMenu:SetScript("OnEvent", moveMicroMenu)
     UIParent:HookScript("OnShow", moveMicroMenu)
 

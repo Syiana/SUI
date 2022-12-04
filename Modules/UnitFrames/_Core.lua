@@ -7,14 +7,19 @@ function Module:OnEnable()
 
     if db.texture ~= [[Interface\Default]] then
         local function manaTexture(self)
-            local unitframe = self.unitFrame
-            -- Set Textures
-            local powerColor = GetPowerBarColor(unitframe.manabar.powerType)
-            unitframe.manabar.texture:SetTexture(db.texture)
-            if unitframe.manabar.powerType == 0 then
-                unitframe.manabar:SetStatusBarColor(0, 0.5, 1)
-            else
-                unitframe.manabar:SetStatusBarColor(powerColor.r, powerColor.g, powerColor.b)
+            if self and self.unitFrame then
+                local unitframe = self.unitFrame
+
+                if unitframe.manabar then
+                    -- Set Textures
+                    local powerColor = GetPowerBarColor(unitframe.manabar.powerType)
+                    unitframe.manabar.texture:SetTexture(db.texture)
+                    if unitframe.manabar.powerType == 0 then
+                        unitframe.manabar:SetStatusBarColor(0, 0.5, 1)
+                    else
+                        unitframe.manabar:SetStatusBarColor(powerColor.r, powerColor.g, powerColor.b)
+                    end
+                end
             end
         end
 

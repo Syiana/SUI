@@ -133,13 +133,37 @@ function Debuffs:OnEnable()
                 -- Set Stack Font size and reposition it
                 count:SetFont(STANDARD_TEXT_FONT, 13, "OUTLINE")
                 count:ClearAllPoints()
-                count:SetPoint("TOPRIGHT", frame, "TOPRIGHT", 0, -2)
+                if DebuffFrame.AuraContainer.isHorizontal then
+                    if DebuffFrame.AuraContainer.addIconsToTop then
+                        count:SetPoint("TOPRIGHT", frame, "TOPRIGHT", 0, -12)
+                    else
+                        count:SetPoint("TOPRIGHT", frame, "TOPRIGHT", 0, -2)
+                    end
+                elseif not DebuffFrame.AuraContainer.isHorizontal then
+                    if not DebuffFrame.AuraContainer.addIconsToRight then
+                        count:SetPoint("TOPRIGHT", frame, "TOPRIGHT", 0, -2)
+                    else
+                        count:SetPoint("TOPRIGHT", frame, "TOPRIGHT", -30, -2)
+                    end
+                end
             end
 
             -- Set Duration Font size and reposition it
             duration:SetFont(STANDARD_TEXT_FONT, 12, "OUTLINE")
             duration:ClearAllPoints()
-            duration:SetPoint("CENTER", frame, "BOTTOM", 0, 15)
+            if DebuffFrame.AuraContainer.isHorizontal then
+                if DebuffFrame.AuraContainer.addIconsToTop then
+                    duration:SetPoint("CENTER", frame, "BOTTOM", 0, 5)
+                else
+                    duration:SetPoint("CENTER", frame, "BOTTOM", 0, 15)
+                end
+            elseif not DebuffFrame.AuraContainer.isHorizontal then
+                if not DebuffFrame.AuraContainer.addIconsToRight then
+                    duration:SetPoint("CENTER", frame, "BOTTOM", 15, 5)
+                else
+                    duration:SetPoint("CENTER", frame, "BOTTOM", -13.5, 5)
+                end
+            end
             duration:SetDrawLayer("OVERLAY")
 
             if frame.SUIBorder == nil then

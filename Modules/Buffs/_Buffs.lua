@@ -6,6 +6,8 @@ function Buffs:OnEnable()
     local db = SUI.db.profile.unitframes.buffs
     local theme = SUI.db.profile.general.theme
 
+    print(BuffFrame.AuraContainer.addIconsToTop)
+
     local function UpdateDuration(self, timeLeft)
         if timeLeft >= 86400 then
             self.duration:SetFormattedText("%dd", ceil(timeLeft / 86400))
@@ -32,7 +34,20 @@ function Buffs:OnEnable()
 
         local border = CreateFrame("Frame", nil, button)
         border:SetSize(icon:GetWidth() + 4, icon:GetHeight() + 4)
-        border:SetPoint("CENTER", button, "CENTER", 0, 5)
+        if BuffFrame.AuraContainer.isHorizontal then
+            if BuffFrame.AuraContainer.addIconsToTop then
+                border:SetPoint("CENTER", button, "CENTER", 0, -5)
+            else
+                border:SetPoint("CENTER", button, "CENTER", 0, 5)
+            end
+        elseif not BuffFrame.AuraContainer.isHorizontal then
+            if not BuffFrame.AuraContainer.addIconsToRight then
+                border:SetPoint("CENTER", button, "CENTER", 15, 0)
+            else
+                border:SetPoint("CENTER", button, "CENTER", -15, 0)
+            end
+        end
+
 
         border.texture = border:CreateTexture()
         border.texture:SetAllPoints()
@@ -97,13 +112,38 @@ function Buffs:OnEnable()
             if count then
                 count:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
                 count:ClearAllPoints()
-                count:SetPoint("TOPRIGHT", frame, "TOPRIGHT", 0, -2)
+                if BuffFrame.AuraContainer.isHorizontal then
+                    if BuffFrame.AuraContainer.addIconsToTop then
+                        count:SetPoint("TOPRIGHT", frame, "TOPRIGHT", 0, -12)
+                    else
+                        count:SetPoint("TOPRIGHT", frame, "TOPRIGHT", 0, -2)
+                    end
+                elseif not BuffFrame.AuraContainer.isHorizontal then
+                    if not BuffFrame.AuraContainer.addIconsToRight then
+                        count:SetPoint("TOPRIGHT", frame, "TOPRIGHT", 0, -2)
+                    else
+                        count:SetPoint("TOPRIGHT", frame, "TOPRIGHT", -30, -2)
+                    end
+                end
             end
 
             -- Set Duration Font size and reposition it
             duration:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
             duration:ClearAllPoints()
-            duration:SetPoint("CENTER", frame, "BOTTOM", 0, 15)
+            if BuffFrame.AuraContainer.isHorizontal then
+                if BuffFrame.AuraContainer.addIconsToTop then
+                    duration:SetPoint("CENTER", frame, "BOTTOM", 0, 5)
+                else
+                    duration:SetPoint("CENTER", frame, "BOTTOM", 0, 15)
+                end
+            elseif not BuffFrame.AuraContainer.isHorizontal then
+                if not BuffFrame.AuraContainer.addIconsToRight then
+                    duration:SetPoint("CENTER", frame, "BOTTOM", 15, 5)
+                else
+                    duration:SetPoint("CENTER", frame, "BOTTOM", -13.5, 5)
+                end
+            end
+
             duration:SetDrawLayer("OVERLAY")
 
             if frame.SUIBorder == nil then
