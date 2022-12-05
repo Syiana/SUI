@@ -17,9 +17,9 @@ function Module:OnEnable()
         local function healthTexture(self, event)
             if event == "PLAYER_ENTERING_WORLD" then
                 self.healthbar:SetStatusBarTexture(db.texture)
-                self.healthbar:GetStatusBarTexture():SetDrawLayer("BACKGROUND", 0)
+                self.healthbar:GetStatusBarTexture():SetDrawLayer("BORDER")
                 self.healthbar.AnimatedLossBar:SetStatusBarTexture(db.texture)
-                self.healthbar.AnimatedLossBar:GetStatusBarTexture():SetDrawLayer("BACKGROUND", 0)
+                self.healthbar.AnimatedLossBar:GetStatusBarTexture():SetDrawLayer("BORDER")
                 self.myHealPredictionBar:SetTexture(db.texture)
                 self.otherHealPredictionBar:SetTexture(db.texture)
                 self.myManaCostPredictionBar:SetTexture(db.texture)
@@ -51,7 +51,7 @@ function Module:OnEnable()
         PetFrame:HookScript("OnEvent", function(self, event)
             if event == "PLAYER_ENTERING_WORLD" then
                 self.healthbar:SetStatusBarTexture(db.texture)
-                self.healthbar:GetStatusBarTexture():SetDrawLayer("BACKGROUND", 0)
+                self.healthbar:GetStatusBarTexture():SetDrawLayer("BORDER")
             end
 
             local powerColor = GetPowerBarColor(self.manabar.powerType)

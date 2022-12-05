@@ -23,6 +23,7 @@ function Module:OnEnable()
         "MainMenuMicroButton",
         "HelpMicroButton",
         "StoreMicroButton",
+        "HelpOpenWebTicketButton"
     }
 
     local BAG_BUTTONS = {
