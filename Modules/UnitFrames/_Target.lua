@@ -10,7 +10,7 @@ function Module:OnEnable()
 
     -- Set Target/Focus Textures
     if db.texture ~= [[Interface\Default]] then
-        local function healthTexture(self, event)
+        local function healthTexture(self)
             -- Set Textures
             self.healthbar:SetStatusBarTexture(db.texture)
             self.healthbar:GetStatusBarTexture():SetDrawLayer("BORDER")
