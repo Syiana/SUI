@@ -6,8 +6,6 @@ function Buffs:OnEnable()
     local db = SUI.db.profile.unitframes.buffs
     local theme = SUI.db.profile.general.theme
 
-    print(BuffFrame.AuraContainer.addIconsToTop)
-
     local function UpdateDuration(self, timeLeft)
         if timeLeft >= 86400 then
             self.duration:SetFormattedText("%dd", ceil(timeLeft / 86400))
