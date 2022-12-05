@@ -11,23 +11,28 @@ function Module:OnEnable()
     -- Set Target/Focus Textures
     if db.texture ~= [[Interface\Default]] then
         local function healthTexture(self, event)
-            if event == "PLAYER_TARGET_CHANGED" or event == "PLAYER_FOCUS_CHANGED" or event == "UNIT_TARGET" or  event == "PLAYER_ENTERING_WORLD" then
-                -- Set Textures
-                self.healthbar:SetStatusBarTexture(db.texture)
-                self.healthbar:GetStatusBarTexture():SetDrawLayer("BACKGROUND", 0)
+            -- Set Textures
+            self.healthbar:SetStatusBarTexture(db.texture)
+            self.healthbar:GetStatusBarTexture():SetDrawLayer("BORDER")
+            if self.myHealPrediction then
                 self.myHealPredictionBar:SetTexture(db.texture)
-
-                self.totFrame.healthbar:SetStatusBarTexture(db.texture)
-                self.totFrame.healthbar:GetStatusBarTexture():SetDrawLayer("BACKGROUND", 0)
             end
         end
 
-        TargetFrame:HookScript("OnEvent", function(self, event)
-            healthTexture(self, event)
+        hooksecurefunc(TargetFrame, "Update", function(self)
+            healthTexture(self)
         end)
 
-        FocusFrame:HookScript("OnEvent", function(self, event)
-            healthTexture(self, event)
+        hooksecurefunc(FocusFrame, "Update", function(self)
+            healthTexture(self)
+        end)
+
+        hooksecurefunc(TargetFrameToT, "Update", function(self)
+            healthTexture(self)
+        end)
+
+        hooksecurefunc(FocusFrameToT, "Update", function(self)
+            healthTexture(self)
         end)
     end
 
