@@ -52,7 +52,6 @@ local defaults = {
             },
             buffs = {
                 size = 26,
-                purgeborder = true,
                 collapse = false
             },
             debuffs = {

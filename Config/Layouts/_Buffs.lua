@@ -16,14 +16,6 @@ function Layout:OnEnable()
                 },
             },
             {
-                purgeborder = {
-                    key = 'unitframes.buffs.purgeborder',
-                    type = 'checkbox',
-                    label = 'Purge Border',
-                    tooltip = 'Highlight purgable buffs',
-                    column = 3,
-                    order = 1
-                },
                 collapse = {
                     key = 'unitframes.buffs.collapse',
                     type = 'checkbox',
