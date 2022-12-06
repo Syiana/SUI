@@ -48,12 +48,15 @@ function Module:OnEnable()
         icon.styled = true
     end
 
-    local function nameplateCastbar(self, elapsed)
+    local function nameplateCastbar(self)
         if self.unit and self.unit:find('nameplate%d') then
             local _, _, _, _, _, _, _, castInterrupt = UnitCastingInfo(self.unit);
             local _, _, _, _, _, _, channelInterrupt, _, _, _ = UnitChannelInfo(self.unit);
 
-            if self:IsForbidden() then return end
+            local inInstance, instanceType = IsInInstance()
+            if inInstance and not (instanceType == 'arena' or instanceType =='pvp') then
+                if self:IsForbidden() then return end
+            end
 
             if self and self.Icon then
                 if self.BorderShield then
@@ -97,7 +100,10 @@ function Module:OnEnable()
     end
 
     local function nameplateCastbarIcon(self)
-        if self:IsForbidden() then return end
+        local inInstance, instanceType = IsInInstance()
+        if inInstance and not (instanceType == 'arena' or instanceType =='pvp') then
+            if self:IsForbidden() then return end
+        end
 
         if self.castBar and self.castBar.Icon then
             if self.castBar.BorderShield then
@@ -124,7 +130,11 @@ function Module:OnEnable()
     end
 
     local function nameplateHealthTextFrame(self)
-        if self:IsForbidden() then return end
+        local inInstance, instanceType = IsInInstance()
+        if inInstance and not (instanceType == 'arena' or instanceType =='pvp') then
+            if self:IsForbidden() then return end
+        end
+
         if self.unit and self.unit:find('nameplate%d') then
             if self.healthBar and self.unit then
                 if UnitName("player") ~= UnitName(self.unit) then
@@ -139,7 +149,10 @@ function Module:OnEnable()
     local function nameplatePlayerName(self)
         if ShouldShowName(self) then
             if self.optionTable.colorNameBySelection then
-                if self:IsForbidden() then return end
+                local inInstance, instanceType = IsInInstance()
+                if inInstance and not (instanceType == 'arena' or instanceType =='pvp') then
+                    if self:IsForbidden() then return end
+                end
                 -- Classcolor Playername
                 if db.color and self.unit then
                     local _, class = UnitClass(self.unit)
@@ -175,7 +188,10 @@ function Module:OnEnable()
     end
 
     local function nameplateTexture(self)
-        if self:IsForbidden() then return end
+        local inInstance, instanceType = IsInInstance()
+        if inInstance and not (instanceType == 'arena' or instanceType =='pvp') then
+            if self:IsForbidden() then return end
+        end
         if self.unit and self.unit:find('nameplate%d') then
             if self.healthBar then
                 self.healthBar:SetStatusBarTexture(db.texture)
@@ -195,7 +211,10 @@ function Module:OnEnable()
         -- Set Heal Prediction Texture
         hooksecurefunc("CompactUnitFrame_UpdateHealthColor", function(self)
             if not strfind(self.unit, "nameplate") then return end
-            if self:IsForbidden() then return end
+            local inInstance, instanceType = IsInInstance()
+            if inInstance and not (instanceType == 'arena' or instanceType =='pvp') then
+                if self:IsForbidden() then return end
+            end
 
             self.myHealPrediction:SetTexture(db.texture)
             self.myHealPrediction:SetVertexColor(16 / 510, 424 / 510, 400 / 510)

@@ -16,17 +16,14 @@ function Module:OnEnable()
 					self.otherHealPrediction:SetTexture(db.texture)
 				end
 
-				if self:GetName():find('CompactPartyFrame') then
+				if name:find('CompactPartyFrame') then
 					if SUI:Color() then
 						self.horizDivider:SetVertexColor(.3, .3, .3)
-						CompactPartyFrameBorderFrameBorderTopLeft:SetVertexColor(unpack(SUI:Color(0.15)))
-						CompactPartyFrameBorderFrameBorderTop:SetVertexColor(unpack(SUI:Color(0.15)))
-						CompactPartyFrameBorderFrameBorderTopRight:SetVertexColor(unpack(SUI:Color(0.15)))
-						CompactPartyFrameBorderFrameBorderLeft:SetVertexColor(unpack(SUI:Color(0.15)))
-						CompactPartyFrameBorderFrameBorderRight:SetVertexColor(unpack(SUI:Color(0.15)))
-						CompactPartyFrameBorderFrameBorderBottomLeft:SetVertexColor(unpack(SUI:Color(0.15)))
-						CompactPartyFrameBorderFrameBorderBottom:SetVertexColor(unpack(SUI:Color(0.15)))
-						CompactPartyFrameBorderFrameBorderBottomRight:SetVertexColor(unpack(SUI:Color(0.15)))
+						for _, region in pairs({ CompactPartyFrameBorderFrame:GetRegions() }) do
+							if region:IsObjectType("Texture") then
+								region:SetVertexColor(unpack(SUI:Color(0.15)))
+							end
+						end
 					end
 				end
 
