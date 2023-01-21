@@ -133,8 +133,6 @@ function Module:OnEnable()
 	
 			TargetFrameToTTextureFrameTexture:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\UnitFrames\\UI-TargetofTargetFrame");
 			TargetFrameToTHealthBar:SetHeight(8)
-			FocusFrameToTTextureFrameTexture:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\UnitFrames\\UI-TargetofTargetFrame");
-			FocusFrameToTHealthBar:SetHeight(8)
 	end
 	
 	local function Classify(self, forceNormalTexture)
@@ -226,10 +224,7 @@ function Module:OnEnable()
 			PartyMemberFrame3PetFrameTexture,
 			PartyMemberFrame4PetFrameTexture,
 			CastingBarFrame.Border,
-			FocusFrameToTTextureFrameTexture,
-			FocusFrameTextureFrameTexture,
 			TargetFrameSpellBar.Border,
-			FocusFrameSpellBar.Border,
 			MirrorTimer1Border,
 			MirrorTimer2Border,
 			MirrorTimer3Border,
@@ -364,13 +359,6 @@ function Module:OnEnable()
 					v:SetVertexColor(unpack(SUI:Color(0.15)))
 			end
 		
-		-- PlayerFrame:SetScale(1.3) 
-		-- TargetFrame:SetScale(1.3) 
-		-- FocusFrame:SetScale(1.3)
-		-- PartyMemberFrame1:SetScale(1.5)
-		-- PartyMemberFrame2:SetScale(1.5)
-		-- PartyMemberFrame3:SetScale(1.5)
-		-- PartyMemberFrame4:SetScale(1.5)
 			for _,v in pairs({
 				ArenaEnemyFrame1PVPIcon,
 				ArenaEnemyFrame2PVPIcon,
@@ -1258,8 +1246,6 @@ function Module:OnEnable()
 	local function OnLoad()
 		TargetFrameToTPortrait:ClearAllPoints()
 		TargetFrameToTPortrait:SetPoint("LEFT", TargetFrameToT, "LEFT", 4.8, -.5)
-		FocusFrameToTPortrait:ClearAllPoints()
-		FocusFrameToTPortrait:SetPoint("LEFT", FocusFrameToT, "LEFT", 4.8, -.5)
 	end
 	
 	local lastTargetToTGuid = nil
@@ -1274,21 +1260,12 @@ function Module:OnEnable()
 				self.TargetToTPortrait:SetPoint(TargetFrameToT.portrait:GetPoint(i))
 			end
 		end
-	
-		if not self.FocusToTPortrait then
-			self.FocusToTPortrait = FocusFrameToT:CreateTexture(nil, "ARTWORK")
-			self.FocusToTPortrait:SetSize(FocusFrameToT.portrait:GetSize())
-			for i=1, FocusFrameToT.portrait:GetNumPoints() do
-				self.FocusToTPortrait:SetPoint(FocusFrameToT.portrait:GetPoint(i))
-			end
-		end
 	end
 	
 	local function PvPIcon()
 		for _,v in pairs({
 			PlayerPVPIcon,
 			TargetFrameTextureFramePVPIcon,
-			FocusFrameTextureFramePvPIcon,
 		}) do
 			v:SetAlpha(0.35)
 		end

@@ -92,23 +92,12 @@ function Module:OnEnable()
       TargetFrameToTManaBar:ClearAllPoints();
       TargetFrameToTManaBar:SetPoint("TOPLEFT", 45, -25);
       TargetFrameToTManaBar:SetHeight(5);
-      FocusFrameToTTextureFrameDeadText:ClearAllPoints();
-      FocusFrameToTTextureFrameDeadText:SetPoint("CENTER", "FocusFrameToTHealthBar" ,"CENTER",1, 0);
-      FocusFrameToTTextureFrameName:SetSize(65,10);
-      FocusFrameToTTextureFrameTexture:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\unitframes\\UI-TargetofTargetFrame");
-      FocusFrameToTHealthBar:ClearAllPoints();
-      FocusFrameToTHealthBar:SetPoint("TOPLEFT", 43, -15);
-      FocusFrameToTHealthBar:SetHeight(10);
-      FocusFrameToTManaBar:ClearAllPoints();
-      FocusFrameToTManaBar:SetPoint("TOPLEFT", 43, -25);
-      FocusFrameToTManaBar:SetHeight(5);
     end
 
     local Size = CreateFrame("Frame")
     Size:RegisterEvent("ADDON_LOADED")
     Size:SetScript("OnEvent", function()
       TargetFrame:SetScale(db.unitframes.size)
-      FocusFrame:SetScale(db.unitframes.size)
     end)
 
     hooksecurefunc("TargetFrame_CheckClassification", SUITargetFrame)

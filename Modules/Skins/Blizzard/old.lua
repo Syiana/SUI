@@ -100,9 +100,7 @@ function Core:OnEnable()
 				PartyMemberFrame2PetFrameTexture,
 				PartyMemberFrame3PetFrameTexture,
 				PartyMemberFrame4PetFrameTexture,
-				FocusFrameTextureFrameTexture,
 				TargetFrameToTTextureFrameTexture,
-				FocusFrameToTTextureFrameTexture,
 				Boss1TargetFrameTextureFrameTexture,
 				Boss2TargetFrameTextureFrameTexture,
 				Boss3TargetFrameTextureFrameTexture,
@@ -114,7 +112,6 @@ function Core:OnEnable()
 				Boss4TargetFrameSpellBar.Border,
 				Boss5TargetFrameSpellBar.Border,
 				CastingBarFrame.Border,
-				FocusFrameSpellBar.Border,
 				TargetFrameSpellBar.Border,
 			}
 		) do

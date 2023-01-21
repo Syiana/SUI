@@ -356,7 +356,6 @@ function Gui:OnEnable()
             onChange = function(slider)
               PlayerFrame:SetScale(slider.value)
               TargetFrame:SetScale(slider.value)
-              FocusFrame:SetScale(slider.value)
             end,
           },
           fontsize = {
@@ -369,7 +368,7 @@ function Gui:OnEnable()
             column = 4,
             order = 3,
             onChange = function(slider)
-              local frames = { PlayerFrame, TargetFrame, FocusFrame }
+              local frames = { PlayerFrame, TargetFrame }
 
               for _, frame in pairs(frames) do
                 frame.healthbar.LeftText:SetFont(STANDARD_TEXT_FONT, slider.value, 'OUTLINE')

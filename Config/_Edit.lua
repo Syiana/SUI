@@ -57,7 +57,6 @@ function Edit:OnEnable()
     "DebuffDragFrame",
     "PlayerFrame",
     "TargetFrame",
-    "FocusFrame",
     "TooltipFrame",
     "StatsFrame",
     "TargetFrameDragFrame",

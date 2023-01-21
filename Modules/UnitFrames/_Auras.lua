@@ -74,14 +74,6 @@ function Module:OnEnable()
               b = _G["TargetFrameDebuff"..i]
               applySkin(b)
           end
-          for i = 1, MAX_TARGET_BUFFS do
-              b = _G["FocusFrameBuff"..i]
-              applySkin(b)
-          end
-          for i = 1, MAX_TARGET_DEBUFFS do
-              b = _G["FocusFrameDebuff"..i]
-              applySkin(b)
-          end
       end)
     end
 

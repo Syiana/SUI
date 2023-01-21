@@ -23,8 +23,6 @@ function Module:OnEnable()
 
             if b == CastingBarFrame.Icon and (CastingBarFrame) then
                 b.parent = CastingBarFrame
-            elseif b == FocusFrameSpellBar.Icon then
-                b.parent = FocusFrameSpellBar
             else
                 b.parent = TargetFrameSpellBar
             end
@@ -63,9 +61,6 @@ function Module:OnEnable()
             end
             if TargetFrameSpellBar.Icon then
               IconSkin(TargetFrameSpellBar.Icon)
-            end
-            if FocusFrameSpellBar.Icon then
-              IconSkin(FocusFrameSpellBar.Icon)
             end
             if CastingBarFrame.Icon.styled and TargetFrameSpellBar.Icon.styled then
               timer:SetScript("OnUpdate", nil)
