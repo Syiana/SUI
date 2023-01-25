@@ -138,6 +138,68 @@ function Buffs:OnEnable()
         frame:RegisterEvent("WEAPON_ENCHANT_CHANGED")
         frame:RegisterEvent("GROUP_ROSTER_UPDATE")
         frame:SetScript("OnEvent", updateBuffs)
+
+        hooksecurefunc(AuraFrameMixin, "Update", function(self)
+            -- Set Duration Font size and reposition it
+            if BuffFrame.AuraContainer.isHorizontal then
+                if BuffFrame.AuraContainer.addIconsToTop then
+                    for i = 1, #BuffFrame.auraFrames do
+                        local duration = BuffFrame.auraFrames[i].Duration
+                        local count = BuffFrame.auraFrames[i].Count
+    
+                        count:SetPoint("TOPRIGHT", 0, 12)
+                        count:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
+    
+                        duration:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
+                        duration:ClearAllPoints()
+                        duration:SetPoint("CENTER", 0, -15)
+                    end
+                else
+                    for i = 1, #BuffFrame.auraFrames do
+                        local duration = BuffFrame.auraFrames[i].Duration
+                        local count = BuffFrame.auraFrames[i].Count
+                        
+                        count:SetPoint("TOPRIGHT", 0, 12)
+                        count:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
+    
+                        duration:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
+                        duration:ClearAllPoints()
+                        duration:SetPoint("CENTER", 0, -5)
+                    end
+                end
+            elseif not BuffFrame.AuraContainer.isHorizontal then
+                if not BuffFrame.AuraContainer.addIconsToRight then
+                    for i = 1, #BuffFrame.auraFrames do
+                        local duration = BuffFrame.auraFrames[i].Duration
+                        local count = BuffFrame.auraFrames[i].Count
+    
+                        count:SetPoint("TOPRIGHT", 0, 12)
+                        count:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
+    
+                        duration:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
+                        duration:ClearAllPoints()
+                        duration:SetPoint("CENTER", 15, -10)
+                    end
+                else
+                    for i = 1, #BuffFrame.auraFrames do
+                        local duration = BuffFrame.auraFrames[i].Duration
+                        local count = BuffFrame.auraFrames[i].Count
+    
+                        count:SetPoint("TOPRIGHT", -30, 12)
+                        count:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
+                        
+                        duration:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
+                        duration:ClearAllPoints()
+                        duration:SetPoint("CENTER", -13.5, -10)
+                    end
+                end
+            end
+    
+            for i = 1, #BuffFrame.auraFrames do
+                local duration = BuffFrame.auraFrames[i].Duration
+                duration:SetDrawLayer("OVERLAY")
+            end
+        end)
     end
 
     -- Collapse Button
@@ -153,66 +215,4 @@ function Buffs:OnEnable()
             BuffFrame.CollapseAndExpandButton:Hide()
         end)
     end
-
-    hooksecurefunc(AuraFrameMixin, "Update", function(self)
-        -- Set Duration Font size and reposition it
-        if BuffFrame.AuraContainer.isHorizontal then
-            if BuffFrame.AuraContainer.addIconsToTop then
-                for i = 1, #BuffFrame.auraFrames do
-                    local duration = BuffFrame.auraFrames[i].Duration
-                    local count = BuffFrame.auraFrames[i].Count
-
-                    count:SetPoint("TOPRIGHT", 0, 12)
-                    count:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
-
-                    duration:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
-                    duration:ClearAllPoints()
-                    duration:SetPoint("CENTER", 0, -15)
-                end
-            else
-                for i = 1, #BuffFrame.auraFrames do
-                    local duration = BuffFrame.auraFrames[i].Duration
-                    local count = BuffFrame.auraFrames[i].Count
-                    
-                    count:SetPoint("TOPRIGHT", 0, 12)
-                    count:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
-
-                    duration:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
-                    duration:ClearAllPoints()
-                    duration:SetPoint("CENTER", 0, -5)
-                end
-            end
-        elseif not BuffFrame.AuraContainer.isHorizontal then
-            if not BuffFrame.AuraContainer.addIconsToRight then
-                for i = 1, #BuffFrame.auraFrames do
-                    local duration = BuffFrame.auraFrames[i].Duration
-                    local count = BuffFrame.auraFrames[i].Count
-
-                    count:SetPoint("TOPRIGHT", 0, 12)
-                    count:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
-
-                    duration:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
-                    duration:ClearAllPoints()
-                    duration:SetPoint("CENTER", 15, -10)
-                end
-            else
-                for i = 1, #BuffFrame.auraFrames do
-                    local duration = BuffFrame.auraFrames[i].Duration
-                    local count = BuffFrame.auraFrames[i].Count
-
-                    count:SetPoint("TOPRIGHT", -30, 12)
-                    count:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
-                    
-                    duration:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
-                    duration:ClearAllPoints()
-                    duration:SetPoint("CENTER", -13.5, -10)
-                end
-            end
-        end
-
-        for i = 1, #BuffFrame.auraFrames do
-            local duration = BuffFrame.auraFrames[i].Duration
-            duration:SetDrawLayer("OVERLAY")
-        end
-    end)
 end

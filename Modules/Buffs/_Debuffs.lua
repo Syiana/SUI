@@ -157,68 +157,66 @@ function Debuffs:OnEnable()
         frame:SetScript("OnEvent", function(self, event, ...)
             updateDebuffs()
         end)
+
+        hooksecurefunc(AuraFrameMixin, "Update", function(self)
+            -- Set Duration Font size and reposition it
+            if DebuffFrame.AuraContainer.isHorizontal then
+                if DebuffFrame.AuraContainer.addIconsToTop then
+                    for i = 1, #DebuffFrame.auraFrames do
+                        local duration = DebuffFrame.auraFrames[i].Duration
+                        local count = DebuffFrame.auraFrames[i].Count
+    
+                        count:SetPoint("TOPRIGHT", 0, 12)
+                        count:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
+    
+                        duration:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
+                        duration:ClearAllPoints()
+                        duration:SetPoint("CENTER", 0, -15)
+                    end
+                else
+                    for i = 1, #DebuffFrame.auraFrames do
+                        local duration = DebuffFrame.auraFrames[i].Duration
+                        local count = DebuffFrame.auraFrames[i].Count
+                        
+                        count:SetPoint("TOPRIGHT", 0, 12)
+                        count:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
+    
+                        duration:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
+                        duration:ClearAllPoints()
+                        duration:SetPoint("CENTER", 0, -5)
+                    end
+                end
+            elseif not DebuffFrame.AuraContainer.isHorizontal then
+                if not DebuffFrame.AuraContainer.addIconsToRight then
+                    for i = 1, #DebuffFrame.auraFrames do
+                        local duration = DebuffFrame.auraFrames[i].Duration
+                        local count = DebuffFrame.auraFrames[i].Count
+    
+                        count:SetPoint("TOPRIGHT", 0, 12)
+                        count:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
+    
+                        duration:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
+                        duration:ClearAllPoints()
+                        duration:SetPoint("CENTER", 15, -10)
+                    end
+                else
+                    for i = 1, #DebuffFrame.auraFrames do
+                        local duration = DebuffFrame.auraFrames[i].Duration
+                        local count = DebuffFrame.auraFrames[i].Count
+    
+                        count:SetPoint("TOPRIGHT", -30, 12)
+                        count:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
+                        
+                        duration:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
+                        duration:ClearAllPoints()
+                        duration:SetPoint("CENTER", -13.5, -10)
+                    end
+                end
+            end
+    
+            for i = 1, #DebuffFrame.auraFrames do
+                DebuffFrame.auraFrames[i].DebuffBorder:SetAlpha(0)
+            end
+        end)
     end
-
-    --hooksecurefunc(DebuffButtonMixin, "UpdateDuration", UpdateDuration)
-
-    hooksecurefunc(AuraFrameMixin, "Update", function(self)
-        -- Set Duration Font size and reposition it
-        if DebuffFrame.AuraContainer.isHorizontal then
-            if DebuffFrame.AuraContainer.addIconsToTop then
-                for i = 1, #DebuffFrame.auraFrames do
-                    local duration = DebuffFrame.auraFrames[i].Duration
-                    local count = DebuffFrame.auraFrames[i].Count
-
-                    count:SetPoint("TOPRIGHT", 0, 12)
-                    count:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
-
-                    duration:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
-                    duration:ClearAllPoints()
-                    duration:SetPoint("CENTER", 0, -15)
-                end
-            else
-                for i = 1, #DebuffFrame.auraFrames do
-                    local duration = DebuffFrame.auraFrames[i].Duration
-                    local count = DebuffFrame.auraFrames[i].Count
-                    
-                    count:SetPoint("TOPRIGHT", 0, 12)
-                    count:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
-
-                    duration:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
-                    duration:ClearAllPoints()
-                    duration:SetPoint("CENTER", 0, -5)
-                end
-            end
-        elseif not DebuffFrame.AuraContainer.isHorizontal then
-            if not DebuffFrame.AuraContainer.addIconsToRight then
-                for i = 1, #DebuffFrame.auraFrames do
-                    local duration = DebuffFrame.auraFrames[i].Duration
-                    local count = DebuffFrame.auraFrames[i].Count
-
-                    count:SetPoint("TOPRIGHT", 0, 12)
-                    count:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
-
-                    duration:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
-                    duration:ClearAllPoints()
-                    duration:SetPoint("CENTER", 15, -10)
-                end
-            else
-                for i = 1, #DebuffFrame.auraFrames do
-                    local duration = DebuffFrame.auraFrames[i].Duration
-                    local count = DebuffFrame.auraFrames[i].Count
-
-                    count:SetPoint("TOPRIGHT", -30, 12)
-                    count:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
-                    
-                    duration:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
-                    duration:ClearAllPoints()
-                    duration:SetPoint("CENTER", -13.5, -10)
-                end
-            end
-        end
-
-        for i = 1, #DebuffFrame.auraFrames do
-            DebuffFrame.auraFrames[i].DebuffBorder:SetAlpha(0)
-        end
-    end)
 end
