@@ -27,10 +27,10 @@ function Module:OnEnable()
 					end
 				end
 
-				self.vertLeftBorder:SetTexture([[Interface\Addons\SUI\Media\Textures\RaidFrames\Raid-VSeparator]])
-				self.vertRightBorder:SetTexture([[Interface\Addons\SUI\Media\Textures\RaidFrames\Raid-VSeparator]])
-				self.horizTopBorder:SetTexture([[Interface\Addons\SUI\Media\Textures\RaidFrames\Raid-HSeparator]])
-				self.horizBottomBorder:SetTexture([[Interface\Addons\SUI\Media\Textures\RaidFrames\Raid-HSeparator]])
+				self.vertLeftBorder:Hide()
+				self.vertRightBorder:Hide()
+				self.horizTopBorder:Hide()
+				self.horizBottomBorder:Hide()
 			end
 			--end
 		end
@@ -46,8 +46,7 @@ function Module:OnEnable()
 				_G["CompactPartyFrameMember" .. i .. "StatusText"]:ClearAllPoints()
 				_G["CompactPartyFrameMember" .. i .. "StatusText"]:SetPoint("CENTER", _G["CompactPartyFrameMember" .. i], "CENTER")
 				_G["CompactPartyFrameMember" .. i .. "CenterStatusIcon"]:ClearAllPoints()
-				_G["CompactPartyFrameMember" .. i .. "CenterStatusIcon"]:SetPoint("CENTER", _G["CompactPartyFrameMember" .. i],
-					"CENTER")
+				_G["CompactPartyFrameMember" .. i .. "CenterStatusIcon"]:SetPoint("CENTER", _G["CompactPartyFrameMember" .. i], "CENTER")
 			end
 		end
 
