@@ -93,9 +93,13 @@ function Module:OnEnable()
 
                 local ButtonWidth, ButtonHeight = Button:GetSize()
                 Button:GetNormalTexture():SetSize(ButtonWidth + 2, ButtonHeight + 1)
-
+                
+                
                 if bartender then
-                    Button:GetNormalTexture():SetSize(ButtonWidth + 6, ButtonHeight + 5)
+                   if Type ~= "Stance" and Type ~= "Pet" then
+                        Button:GetNormalTexture():SetTexCoord(0, 1, 0, 1)
+                        Button:GetNormalTexture():SetSize(ButtonWidth + 6, ButtonHeight + 5)
+                   end
                 end
 
                 Button.Shadow = CreateFrame("Frame", nil, Button, "BackdropTemplate")
@@ -162,11 +166,11 @@ function Module:OnEnable()
                 local StanceButton = _G["BT4StanceButton" .. i]
 
                 if PetButton then
-                    StyleButton(PetButton)
+                    StyleButton(PetButton, "Pet")
                 end
 
                 if StanceButton then
-                    StyleButton(StanceButton)
+                    StyleButton(StanceButton, "Stance")
                 end
             end
         end
