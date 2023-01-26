@@ -1,6 +1,6 @@
 ## Interface: 100005
 ## Author: Syiana
-## Version: 10.0.48
+## Version: 10.0.49
 ## Title: |cfff58cbaS|r|cff009cffUI|r
 ## SavedVariables: SUIDB
 ## X-Curse-Project-ID: 283939
