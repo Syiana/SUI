@@ -368,7 +368,7 @@ function Gui:OnEnable()
             column = 4,
             order = 3,
             onChange = function(slider)
-              local frames = { PlayerFrame, TargetFrame }
+              local frames = { PlayerFrame }
 
               for _, frame in pairs(frames) do
                 frame.healthbar.LeftText:SetFont(STANDARD_TEXT_FONT, slider.value, 'OUTLINE')
@@ -1013,38 +1013,6 @@ function Gui:OnEnable()
             column = 3,
             order = 1
           },
-        },
-        {
-          header = {
-            type = 'header',
-            label = 'PvP'
-          }
-        },
-        {
-          safequeue = {
-            key = 'safequeue',
-            type = 'checkbox',
-            label = 'SafeQueue',
-            tooltip = 'Show time left to join and remove leave-button on queuepop-window',
-            column = 3,
-            order = 1
-          },
-          tabbinder = {
-            key = 'tabbinder',
-            type = 'checkbox',
-            label = 'Tab Binder',
-            tooltip = 'Only target players with TAB in PVP-Combat',
-            column = 3,
-            order = 1
-          },
-          arenanameplate = {
-            key = 'arenanameplate',
-            type = 'checkbox',
-            label = 'Arena Nameplate',
-            tooltip = 'Shows Arena number instead of name above nameplate',
-            column = 3,
-            order = 1
-          }
         }
       },
     },

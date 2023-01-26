@@ -10,10 +10,10 @@ function Module:OnEnable()
     local function SUITargetFrame (self, forceNormalTexture)
 
       local fontSize = db.unitframes.font.size
-      self.healthbar.LeftText:SetFont(STANDARD_TEXT_FONT, fontSize, "OUTLINE")
-      self.healthbar.RightText:SetFont(STANDARD_TEXT_FONT, fontSize, "OUTLINE")
-      self.manabar.LeftText:SetFont(STANDARD_TEXT_FONT, fontSize, "OUTLINE")
-      self.manabar.RightText:SetFont(STANDARD_TEXT_FONT, fontSize, "OUTLINE")
+      -- self.healthbar.LeftText:SetFont(STANDARD_TEXT_FONT, fontSize, "OUTLINE")
+      -- self.healthbar.RightText:SetFont(STANDARD_TEXT_FONT, fontSize, "OUTLINE")
+      -- self.manabar.LeftText:SetFont(STANDARD_TEXT_FONT, fontSize, "OUTLINE")
+      -- self.manabar.RightText:SetFont(STANDARD_TEXT_FONT, fontSize, "OUTLINE")
 
       if (db.unitframes.style == 'Big') then
           local classification = UnitClassification(self.unit);
@@ -23,15 +23,15 @@ function Module:OnEnable()
           self.name:SetPoint("LEFT", self, 15, 36);
           self.healthbar:SetSize(119, 26);
           self.healthbar:SetPoint("TOPLEFT", 5, -24);
-          self.healthbar.LeftText:SetPoint("LEFT", self.healthbar, "LEFT", 8, 0);
-          self.healthbar.RightText:SetPoint("RIGHT", self.healthbar, "RIGHT", -5, 0);
-          self.healthbar.TextString:SetPoint("CENTER", self.healthbar, "CENTER", 0, 0);
+          -- self.healthbar.LeftText:SetPoint("LEFT", self.healthbar, "LEFT", 8, 0);
+          -- self.healthbar.RightText:SetPoint("RIGHT", self.healthbar, "RIGHT", -5, 0);
+          -- self.healthbar.TextString:SetPoint("CENTER", self.healthbar, "CENTER", 0, 0);
           self.manabar:SetPoint("TOPLEFT", 5, -52);
           self.manabar:SetSize(119, 13);
-          self.manabar.LeftText:SetPoint("LEFT", self.manabar, "LEFT", 8, 0);
-          self.manabar.RightText:ClearAllPoints();
-          self.manabar.RightText:SetPoint("RIGHT", self.manabar, "RIGHT", -5, 0);
-          self.manabar.TextString:SetPoint("CENTER", self.manabar, "CENTER", 0, 0);
+          -- self.manabar.LeftText:SetPoint("LEFT", self.manabar, "LEFT", 8, 0);
+          -- self.manabar.RightText:ClearAllPoints();
+          -- self.manabar.RightText:SetPoint("RIGHT", self.manabar, "RIGHT", -5, 0);
+          -- self.manabar.TextString:SetPoint("CENTER", self.manabar, "CENTER", 0, 0);
           if (forceNormalTexture) then
             self.borderTexture:SetTexture("Interface\\TargetingFrame\\UI-TargetingFrame");
           elseif ( classification == "minus" ) then

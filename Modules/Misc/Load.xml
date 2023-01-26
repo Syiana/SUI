@@ -1,8 +1,5 @@
 <Ui xmlns='http://www.blizzard.com/wow/ui/'>
 	<Include file = "_Searchbox.xml" />
-	<Include file = "_Safequeue.xml" />
-	<Script file="_Safequeue.lua"/>
-	<Script file="_Tabbinder.lua"/>
   	<Script file="_Interrupt.lua"/>
 	<Script file="_Arenanameplate.lua"/>
 	<Script file="_Vendorprice.lua"/>
