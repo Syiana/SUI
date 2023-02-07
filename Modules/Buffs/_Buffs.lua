@@ -3,20 +3,13 @@ local Buffs = SUI:NewModule("Buffs.Buffs");
 function Buffs:OnEnable()
     if IsAddOnLoaded("BlizzBuffsFacade") then return end
 
+    HOUR_ONELETTER_ABBR = "%dh"
+    DAY_ONELETTER_ABBR = "%dd"
+    MINUTE_ONELETTER_ABBR = "%dm"
+    SECOND_ONELETTER_ABBR = "%ds"
+
     local db = SUI.db.profile.unitframes.buffs
     local theme = SUI.db.profile.general.theme
-
-    local function UpdateDuration(duration)
-        if timeLeft >= 86400 then
-            duration:SetFormattedText("%dd", ceil(timeLeft / 86400))
-        elseif timeLeft >= 3600 then
-            duration:SetFormattedText("%dh", ceil(timeLeft / 3600))
-        elseif timeLeft >= 60 then
-            duration:SetFormattedText("%dm", ceil(timeLeft / 60))
-        else
-            duration:SetFormattedText("%ds", timeLeft)
-        end
-    end
 
     local function ButtonDefault(button)
         local Backdrop = {
@@ -105,26 +98,6 @@ function Buffs:OnEnable()
 
             if frame.TempEnchantBorder then frame.TempEnchantBorder:Hide() end
 
-            -- Set Stack Font size and reposition it
-            if count then
-                print("exists")
-                count:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
-                count:ClearAllPoints()
-                if BuffFrame.AuraContainer.isHorizontal then
-                    if BuffFrame.AuraContainer.addIconsToTop then
-                        
-                    else
-                        
-                    end
-                elseif not BuffFrame.AuraContainer.isHorizontal then
-                    if not BuffFrame.AuraContainer.addIconsToRight then
-                        count:SetPoint("TOPRIGHT", frame, "TOPRIGHT", 0, -2)
-                    else
-                        count:SetPoint("TOPRIGHT", frame, "TOPRIGHT", -30, -2)
-                    end
-                end
-            end
-
             if frame.SUIBorder == nil then
                 ButtonDefault(frame)
             end
@@ -148,9 +121,9 @@ function Buffs:OnEnable()
                         local count = BuffFrame.auraFrames[i].Count
     
                         count:SetPoint("TOPRIGHT", 0, 12)
-                        count:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
+                        count:SetFont(STANDARD_TEXT_FONT, 10, "OUTLINE")
     
-                        duration:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
+                        duration:SetFont(STANDARD_TEXT_FONT, 10, "OUTLINE")
                         duration:ClearAllPoints()
                         duration:SetPoint("CENTER", 0, -15)
                     end
@@ -174,9 +147,9 @@ function Buffs:OnEnable()
                         local count = BuffFrame.auraFrames[i].Count
     
                         count:SetPoint("TOPRIGHT", 0, 12)
-                        count:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
+                        count:SetFont(STANDARD_TEXT_FONT, 10, "OUTLINE")
     
-                        duration:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
+                        duration:SetFont(STANDARD_TEXT_FONT, 10, "OUTLINE")
                         duration:ClearAllPoints()
                         duration:SetPoint("CENTER", 15, -10)
                     end
@@ -186,9 +159,9 @@ function Buffs:OnEnable()
                         local count = BuffFrame.auraFrames[i].Count
     
                         count:SetPoint("TOPRIGHT", -30, 12)
-                        count:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
+                        count:SetFont(STANDARD_TEXT_FONT, 10, "OUTLINE")
                         
-                        duration:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
+                        duration:SetFont(STANDARD_TEXT_FONT, 10, "OUTLINE")
                         duration:ClearAllPoints()
                         duration:SetPoint("CENTER", -13.5, -10)
                     end

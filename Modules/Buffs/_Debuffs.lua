@@ -14,18 +14,6 @@ function Debuffs:OnEnable()
     DebuffColor["Disease"] = { r = 0.60, g = 0.40, b = 0 };
     DebuffColor["Poison"]  = { r = 0.00, g = 0.60, b = 0 };
 
-    local function UpdateDuration(self, timeLeft)
-        if timeLeft >= 86400 then
-            self.duration:SetFormattedText("%dd", ceil(timeLeft / 86400))
-        elseif timeLeft >= 3600 then
-            self.duration:SetFormattedText("%dh", ceil(timeLeft / 3600))
-        elseif timeLeft >= 60 then
-            self.duration:SetFormattedText("%dm", ceil(timeLeft / 60))
-        else
-            self.duration:SetFormattedText("%ds", timeLeft)
-        end
-    end
-
     local function ButtonMasque(button)
         local icon = button.Icon
         local point, relativeTo, relativePoint, xOfs, yOfs = icon:GetPoint()
@@ -54,7 +42,20 @@ function Debuffs:OnEnable()
 
         local border = CreateFrame("Frame", nil, button)
         border:SetSize(icon:GetWidth() + 4, icon:GetHeight() + 4)
-        border:SetPoint("CENTER", 0, 5)
+        if DebuffFrame.AuraContainer.isHorizontal then
+            if DebuffFrame.AuraContainer.addIconsToTop then
+                border:SetPoint("CENTER", button, "CENTER", 0, -5)
+            else
+                border:SetPoint("CENTER", button, "CENTER", 0, 5)
+            end
+        elseif not DebuffFrame.AuraContainer.isHorizontal then
+            if not DebuffFrame.AuraContainer.addIconsToRight then
+                border:SetPoint("CENTER", button, "CENTER", 15, 0)
+            else
+                border:SetPoint("CENTER", button, "CENTER", -15, 0)
+            end
+        end
+
         border:SetFrameLevel(8)
 
         border.texture = border:CreateTexture()
@@ -167,9 +168,9 @@ function Debuffs:OnEnable()
                         local count = DebuffFrame.auraFrames[i].Count
     
                         count:SetPoint("TOPRIGHT", 0, 12)
-                        count:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
+                        count:SetFont(STANDARD_TEXT_FONT, 10, "OUTLINE")
     
-                        duration:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
+                        duration:SetFont(STANDARD_TEXT_FONT, 10, "OUTLINE")
                         duration:ClearAllPoints()
                         duration:SetPoint("CENTER", 0, -15)
                     end
@@ -179,9 +180,9 @@ function Debuffs:OnEnable()
                         local count = DebuffFrame.auraFrames[i].Count
                         
                         count:SetPoint("TOPRIGHT", 0, 12)
-                        count:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
+                        count:SetFont(STANDARD_TEXT_FONT, 10, "OUTLINE")
     
-                        duration:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
+                        duration:SetFont(STANDARD_TEXT_FONT, 10, "OUTLINE")
                         duration:ClearAllPoints()
                         duration:SetPoint("CENTER", 0, -5)
                     end
@@ -193,9 +194,9 @@ function Debuffs:OnEnable()
                         local count = DebuffFrame.auraFrames[i].Count
     
                         count:SetPoint("TOPRIGHT", 0, 12)
-                        count:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
+                        count:SetFont(STANDARD_TEXT_FONT, 10, "OUTLINE")
     
-                        duration:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
+                        duration:SetFont(STANDARD_TEXT_FONT, 10, "OUTLINE")
                         duration:ClearAllPoints()
                         duration:SetPoint("CENTER", 15, -10)
                     end
@@ -205,9 +206,9 @@ function Debuffs:OnEnable()
                         local count = DebuffFrame.auraFrames[i].Count
     
                         count:SetPoint("TOPRIGHT", -30, 12)
-                        count:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
+                        count:SetFont(STANDARD_TEXT_FONT, 10, "OUTLINE")
                         
-                        duration:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
+                        duration:SetFont(STANDARD_TEXT_FONT, 10, "OUTLINE")
                         duration:ClearAllPoints()
                         duration:SetPoint("CENTER", -13.5, -10)
                     end
