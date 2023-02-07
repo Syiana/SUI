@@ -121,9 +121,9 @@ function Buffs:OnEnable()
                         local count = BuffFrame.auraFrames[i].Count
     
                         count:SetPoint("TOPRIGHT", 0, 12)
-                        count:SetFont(STANDARD_TEXT_FONT, 10, "OUTLINE")
+                        count:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
     
-                        duration:SetFont(STANDARD_TEXT_FONT, 10, "OUTLINE")
+                        duration:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
                         duration:ClearAllPoints()
                         duration:SetPoint("CENTER", 0, -15)
                     end
@@ -147,9 +147,9 @@ function Buffs:OnEnable()
                         local count = BuffFrame.auraFrames[i].Count
     
                         count:SetPoint("TOPRIGHT", 0, 12)
-                        count:SetFont(STANDARD_TEXT_FONT, 10, "OUTLINE")
+                        count:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
     
-                        duration:SetFont(STANDARD_TEXT_FONT, 10, "OUTLINE")
+                        duration:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
                         duration:ClearAllPoints()
                         duration:SetPoint("CENTER", 15, -10)
                     end
@@ -159,9 +159,9 @@ function Buffs:OnEnable()
                         local count = BuffFrame.auraFrames[i].Count
     
                         count:SetPoint("TOPRIGHT", -30, 12)
-                        count:SetFont(STANDARD_TEXT_FONT, 10, "OUTLINE")
+                        count:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
                         
-                        duration:SetFont(STANDARD_TEXT_FONT, 10, "OUTLINE")
+                        duration:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
                         duration:ClearAllPoints()
                         duration:SetPoint("CENTER", -13.5, -10)
                     end
