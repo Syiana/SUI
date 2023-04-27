@@ -6,10 +6,6 @@ function Module:OnEnable()
     local db = {
         statsframe = SUI.db.profile.edit.statsframe,
         queueicon = SUI.db.profile.edit.queueicon,
-        micromenu = SUI.db.profile.edit.micromenu,
-        bagbar = SUI.db.profile.edit.bagbar,
-        microvis = SUI.db.profile.actionbar.menu.micromenu,
-        bagvis = SUI.db.profile.actionbar.menu.bagbar
     }
 
     -- Stats Frame
@@ -51,7 +47,6 @@ function Module:OnEnable()
     end)
 
     LEM:RegisterCallback('layout', function(layoutName)
-        QueueStatusButton:ClearAllPoints()
         QueueStatusButton:SetPoint(db.queueicon.point, UIParent, db.queueicon.point, db.queueicon.x, db.queueicon.y)
     end)
 end

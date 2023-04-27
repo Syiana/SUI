@@ -45,21 +45,6 @@ function Layout:OnEnable()
                 }
             },
             {
-                minimapsize = {
-                    key = 'minimapsize',
-                    type = 'slider',
-                    label = 'Minimap Size',
-                    precision = 1,
-                    min = 0.1,
-                    max = 1,
-                    column = 4,
-                    order = 3,
-                    onChange = function(slider)
-                        Minimap:SetScale(slider.value)
-                    end,
-                }
-            },
-            {
                 showminimap = {
                     key = 'minimap',
                     type = 'checkbox',

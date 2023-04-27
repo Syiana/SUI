@@ -20,23 +20,23 @@ function Module:OnEnable()
                     end
                 end)
             end
-
-            if not db.maps.minimap then MinimapCluster:Hide() return end
-            local Size = CreateFrame("Frame")
-            Size:RegisterEvent("ADDON_LOADED")
-            Size:RegisterEvent("PLAYER_LOGIN")
-            Size:RegisterEvent("PLAYER_ENTERING_WORLD")
-            Size:RegisterEvent("VARIABLES_LOADED")
-            Size:SetScript("OnEvent", function()
-                Minimap:SetScale(db.maps.minimapsize)
-            end)
         end
 
-        QueueStatusButton:SetParent(UIParent)
-        QueueStatusButton:SetFrameLevel(1)
-        QueueStatusButton:SetScale(0.8, 0.8)
-        QueueStatusButton:ClearAllPoints()
-        QueueStatusButton:SetPoint(db.queueicon.point, UIParent, db.queueicon.point, db.queueicon.x, db.queueicon.y)
+        local function QueueStatusButton_Reposition()
+            QueueStatusButton:SetParent(UIParent)
+            QueueStatusButton:SetFrameLevel(1)
+            QueueStatusButton:SetScale(0.8, 0.8)
+            QueueStatusButton:ClearAllPoints()
+            QueueStatusButton:SetPoint(db.queueicon.point, UIParent, db.queueicon.point, db.queueicon.x, db.queueicon.y)
+        end
+
+        QueueStatusButton:SetScript("OnUpdate", function()
+            if not EditModeManagerFrame:IsShown() then
+                QueueStatusButton_Reposition()
+            end
+        end)
+        hooksecurefunc(C_EditMode, "OnEditModeExit", QueueStatusButton_Reposition)
+        EditModeManagerFrame:HookScript('OnShow', QueueStatusButton_Reposition)
 
         hooksecurefunc("QueueStatusDropDown_Show", function(button, relativeTo)
             if not strfind(db.queueicon.point, "BOTTOM") then

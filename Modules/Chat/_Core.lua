@@ -59,7 +59,7 @@ function Module:OnEnable()
 			_G[format("ChatFrame%sTab", id)].HighlightMiddle:SetTexture(nil)
 			_G[format("ChatFrame%sTab", id)].HighlightRight:SetTexture(nil)
 
-			-- Hideing off the new chat tab selected feature
+			-- Hiding off the new chat tab selected feature
 			_G[format("ChatFrame%sButtonFrameMinimizeButton", id)]:Hide()
 			_G[format("ChatFrame%sButtonFrame", id)]:Hide()
 
@@ -71,8 +71,17 @@ function Module:OnEnable()
 			_G[format("ChatFrame%sTabGlow", id)]:Hide()
 
 			-- Hide scroll bar
-			frame.ScrollBar:Hide()
-			frame.ScrollToBottomButton:Hide()
+			_G[format("ChatFrame%s", id)].ScrollBar.Back:Hide()
+			_G[format("ChatFrame%s", id)].ScrollBar.Forward:Hide()
+			_G[format("ChatFrame%s", id)].ScrollBar:Hide()
+			_G[format("ChatFrame%s", id)].ScrollBar.Track:Hide()
+			_G[format("ChatFrame%s", id)].ScrollBar.Track.Begin:Hide()
+			_G[format("ChatFrame%s", id)].ScrollBar.Track.Middle:Hide()
+			_G[format("ChatFrame%s", id)].ScrollBar.Track.End:Hide()
+			_G[format("ChatFrame%s", id)].ScrollBar.Track.Thumb:Hide()
+			_G[format("ChatFrame%s", id)].ScrollBar.Track.Thumb.Begin:Hide()
+			_G[format("ChatFrame%s", id)].ScrollBar.Track.Thumb.Middle:Hide()
+			_G[format("ChatFrame%s", id)].ScrollBar.Track.Thumb.End:Hide()
 
 			-- Hide off editbox artwork
 			local a, b, c = select(6, _G[chat .. "EditBox"]:GetRegions())
@@ -123,8 +132,6 @@ function Module:OnEnable()
 				-- Font and font style for chat
 				chat:SetFont(STANDARD_TEXT_FONT, fontSize, "")
 			end
-
-			-- /run BNToastFrame:AddToast(BN_TOAST_TYPE_ONLINE, 1)
 		end
 
 		-- Setup temp chat (BN, WHISPER) when needed
