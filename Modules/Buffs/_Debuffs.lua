@@ -120,7 +120,6 @@ function Debuffs:OnEnable()
         for index, child in pairs(Children) do
             local frame = select(index, DebuffFrame.AuraContainer:GetChildren())
             local icon = frame.Icon
-            local count = frame.count
 
             if child.Border then
                 child.Border:Hide()
@@ -164,59 +163,89 @@ function Debuffs:OnEnable()
             if DebuffFrame.AuraContainer.isHorizontal then
                 if DebuffFrame.AuraContainer.addIconsToTop then
                     for i = 1, #DebuffFrame.auraFrames do
-                        local duration = DebuffFrame.auraFrames[i].Duration
-                        local count = DebuffFrame.auraFrames[i].Count
-    
-                        count:SetPoint("TOPRIGHT", 0, 12)
+                        if DebuffFrame.auraFrames[i].Count then
+                            local count = DebuffFrame.auraFrames[i].Count
+
+                            count:SetPoint("TOPRIGHT", 0, 12)
                         count:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
-    
-                        duration:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
-                        duration:ClearAllPoints()
-                        duration:SetPoint("CENTER", 0, -15)
+                        end
+
+                        if DebuffFrame.auraFrames[i].Duration then
+                            local duration = DebuffFrame.auraFrames[i].Duration
+                            if duration.SetFont then
+                                duration:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
+                            end
+
+                            duration:ClearAllPoints()
+                            duration:SetPoint("CENTER", 0, -15)
+                        end
                     end
                 else
                     for i = 1, #DebuffFrame.auraFrames do
-                        local duration = DebuffFrame.auraFrames[i].Duration
-                        local count = DebuffFrame.auraFrames[i].Count
-                        
-                        count:SetPoint("TOPRIGHT", 0, 12)
-                        count:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
-    
-                        duration:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
-                        duration:ClearAllPoints()
-                        duration:SetPoint("CENTER", 0, -5)
+                        if DebuffFrame.auraFrames[i].Count then
+                            local count = DebuffFrame.auraFrames[i].Count
+
+                            count:SetPoint("TOPRIGHT", 0, 12)
+                            count:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
+                        end
+
+                        if DebuffFrame.auraFrames[i].Duration then
+                            local duration = DebuffFrame.auraFrames[i].Duration
+                            if duration.SetFont then
+                                duration:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
+                            end
+
+                            duration:ClearAllPoints()
+                            duration:SetPoint("CENTER", 0, -5)
+                        end
                     end
                 end
             elseif not DebuffFrame.AuraContainer.isHorizontal then
                 if not DebuffFrame.AuraContainer.addIconsToRight then
                     for i = 1, #DebuffFrame.auraFrames do
-                        local duration = DebuffFrame.auraFrames[i].Duration
-                        local count = DebuffFrame.auraFrames[i].Count
-    
-                        count:SetPoint("TOPRIGHT", 0, 12)
-                        count:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
-    
-                        duration:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
-                        duration:ClearAllPoints()
-                        duration:SetPoint("CENTER", 15, -10)
+                        if DebuffFrame.auraFrames[i].Count then
+                            local count = DebuffFrame.auraFrames[i].Count
+
+                            count:SetPoint("TOPRIGHT", 0, 12)
+                            count:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
+                        end
+
+                        if DebuffFrame.auraFrames[i].Duration then
+                            local duration = DebuffFrame.auraFrames[i].Duration
+                            if duration.SetFont then
+                                duration:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
+                            end
+
+                            duration:ClearAllPoints()
+                            duration:SetPoint("CENTER", 15, -10)
+                        end
                     end
                 else
                     for i = 1, #DebuffFrame.auraFrames do
-                        local duration = DebuffFrame.auraFrames[i].Duration
-                        local count = DebuffFrame.auraFrames[i].Count
-    
-                        count:SetPoint("TOPRIGHT", -30, 12)
-                        count:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
-                        
-                        duration:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
-                        duration:ClearAllPoints()
-                        duration:SetPoint("CENTER", -13.5, -10)
+                        if DebuffFrame.auraFrames[i].Count then
+                            local count = DebuffFrame.auraFrames[i].Count
+
+                            count:SetPoint("TOPRIGHT", -30, 12)
+                            count:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
+                        end
+
+                        if DebuffFrame.auraFrames[i].Duration then
+                            local duration = DebuffFrame.auraFrames[i].Duration
+                            if duration.SetFont then
+                                duration:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
+                            end
+
+                            duration:ClearAllPoints()
+                            duration:SetPoint("CENTER", -13.5, -10)
+                        end
                     end
                 end
             end
-    
+
             for i = 1, #DebuffFrame.auraFrames do
-                DebuffFrame.auraFrames[i].DebuffBorder:SetAlpha(0)
+                if DebuffFrame.auraFrames[i].DebuffBorder then
+                    DebuffFrame.auraFrames[i].DebuffBorder:SetAlpha(0)
+                end
             end
         end)
     end
