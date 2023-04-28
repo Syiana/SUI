@@ -15,8 +15,6 @@ function Module:OnEnable()
             FocusFrame.TargetFrameContainer.FrameTexture,
             TargetFrameToT.FrameTexture,
             FocusFrameToT.FrameTexture,
-            PaladinPowerBarFrame.Background,
-            PaladinPowerBarFrame.ActiveTexture,
             PlayerCastingBarFrame.Border,
             PlayerCastingBarFrame.Background,
             PetFrameTexture,
@@ -91,5 +89,9 @@ function Module:OnEnable()
             evoker.EssenceFillDone.CircBG:SetVertexColor(unpack(SUI:Color(0.15)))
             evoker.EssenceFillDone.CircBGActive:SetVertexColor(unpack(SUI:Color(0.15)))
         end
+
+        -- Paladin
+        PaladinPowerBarFrame.Background:SetVertexColor(unpack(SUI:Color(0.15)))
+        PaladinPowerBarFrame.ActiveTexture:Hide()
     end
 end
