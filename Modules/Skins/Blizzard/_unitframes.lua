@@ -31,9 +31,6 @@ function Module:OnEnable()
             rogue.BGActive:SetVertexColor(unpack(SUI:Color(0.15)))
             rogue.BGInactive:SetVertexColor(unpack(SUI:Color(0.15)))
             rogue.BGShadow:SetVertexColor(unpack(SUI:Color(0.15)))
-            for _, v in pairs(combopoint) do
-                print(_)
-            end
         end
 
         -- Mage Arcane
