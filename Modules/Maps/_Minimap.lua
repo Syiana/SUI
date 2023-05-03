@@ -30,9 +30,6 @@ function Module:OnEnable()
             QueueStatusButton:SetPoint(db.queueicon.point, UIParent, db.queueicon.point, db.queueicon.x, db.queueicon.y)
         end
 
-        hooksecurefunc(C_EditMode, "OnEditModeExit", QueueStatusButton_Reposition)
-        EditModeManagerFrame:HookScript('OnShow', QueueStatusButton_Reposition)
-
         hooksecurefunc("QueueStatusDropDown_Show", function(button, relativeTo)
             if not strfind(db.queueicon.point, "BOTTOM") then
                 DropDownList1:ClearAllPoints()
