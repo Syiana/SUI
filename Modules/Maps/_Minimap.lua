@@ -30,11 +30,6 @@ function Module:OnEnable()
             QueueStatusButton:SetPoint(db.queueicon.point, UIParent, db.queueicon.point, db.queueicon.x, db.queueicon.y)
         end
 
-        QueueStatusButton:SetScript("OnUpdate", function()
-            if not EditModeManagerFrame:IsShown() then
-                QueueStatusButton_Reposition()
-            end
-        end)
         hooksecurefunc(C_EditMode, "OnEditModeExit", QueueStatusButton_Reposition)
         EditModeManagerFrame:HookScript('OnShow', QueueStatusButton_Reposition)
 
@@ -43,6 +38,10 @@ function Module:OnEnable()
                 DropDownList1:ClearAllPoints()
                 DropDownList1:SetPoint("BOTTOMLEFT", QueueStatusButton, "BOTTOMLEFT", -70, -60)
             end
+        end)
+
+        hooksecurefunc(QueueStatusButton, "UpdatePosition", function()
+            QueueStatusButton_Reposition()
         end)
     end
 end
