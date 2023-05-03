@@ -76,7 +76,7 @@ function Module:OnEnable()
             RuneFrame.Rune5.BG_Shadow,
             RuneFrame.Rune6.BG_Active,
             RuneFrame.Rune6.BG_Inactive,
-            RuneFrame.Rune6.BG_Shadow,
+            RuneFrame.Rune6.BG_Shadow
         }) do
             v:SetVertexColor(unpack(SUI:Color(0.15)))
         end
