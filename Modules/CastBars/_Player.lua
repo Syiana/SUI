@@ -4,11 +4,6 @@ function Module:OnEnable()
     local db = SUI.db.profile.castbars
 
     if (db.style == 'Custom') then
-        if db.icon then
-            PlayerCastingBarFrame.Icon:Show()
-            PlayerCastingBarFrame.Icon:SetSize(20, 20)
-        end
-
         PlayerCastingBarFrame:HookScript("OnEvent", function()
             PlayerCastingBarFrame.StandardGlow:Hide()
             PlayerCastingBarFrame.TextBorder:Hide()
@@ -20,6 +15,11 @@ function Module:OnEnable()
             PlayerCastingBarFrame.Text:SetFont(STANDARD_TEXT_FONT, 12, "OUTLINE")
             PlayerCastingBarFrame.Border:SetVertexColor(unpack(SUI:Color(0.15)))
             PlayerCastingBarFrame.Background:SetVertexColor(unpack(SUI:Color(0.15)))
+
+            if db.icon then
+                PlayerCastingBarFrame.Icon:Show()
+                PlayerCastingBarFrame.Icon:SetSize(20, 20)
+            end
         end)
     end
 end

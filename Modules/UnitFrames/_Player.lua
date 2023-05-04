@@ -30,12 +30,24 @@ function Module:OnEnable()
             healthTexture(self, event)
 
             if not db.classbar then
-                if PlayerFrame.classPowerBar then
-                    PlayerFrame.classPowerBar:Hide()
+                if RogueComboPointBarFrame then
+                    RogueComboPointBarFrame:Hide()
                 end
 
-                if ComboPointDruidPlayerFrame then
-                    ComboPointDruidPlayerFrame:Hide()
+                if MageArcaneChargesFrame then
+                    MageArcaneChargesFrame:Hide()
+                end
+
+                if WarlockPowerFrame then
+                    WarlockPowerFrame:Hide()
+                end
+
+                if DruidComboPointBarFrame then
+                    DruidComboPointBarFrame:Hide()
+                end
+
+                if MonkHarmonyBarFrame then
+                    MonkHarmonyBarFrame:Hide()
                 end
 
                 if EssencePlayerFrame then
@@ -44,6 +56,10 @@ function Module:OnEnable()
 
                 if RuneFrame then
                     RuneFrame:Hide()
+                end
+
+                if PaladinPowerBarFrame then
+                    PaladinPowerBarFrame:Hide()
                 end
             end
         end)

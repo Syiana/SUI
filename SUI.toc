@@ -1,8 +1,10 @@
 ## Interface: 100100
 ## Author: Syiana
-## Version: 10.1.01
-## Title: |cfff58cbaS|r|cff009cffUI|r
+## Version: 10.1.07
+## Title: |cffea00ffS|r|cff00a2ffUI|r
 ## SavedVariables: SUIDB
+## IconTexture: Interface\AddOns\SUI\Media\Icons\SUI
+## AddonCompartmentFunc: SUI_Options
 ## X-Curse-Project-ID: 283939
 
 ## LIBS
