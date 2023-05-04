@@ -114,6 +114,11 @@ function Gui:OnEnable()
         ToggleGameMenu()
     end)
 
+    -- Minimap AddOns Option
+    _G.SUI_Options = function()
+        SUI:Config()
+     end
+
     --Options
     local options = {
         General = General.layout,
