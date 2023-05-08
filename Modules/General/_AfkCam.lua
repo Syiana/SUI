@@ -100,7 +100,7 @@ function Module:OnEnable()
         AFKPanel.Text = AFKPanelTop:CreateFontString(nil, "OVERLAY")
         AFKPanel.Text:SetPoint("CENTER", AFKPanel, "CENTER", 0, 15)
         AFKPanel.Text:SetFont(font, 110, "OUTLINE")
-        AFKPanel.Text:SetText("|cfff58cbaS|r|cff009cffUI|r")
+        AFKPanel.Text:SetText("|cffea00ffS|r|cff00a2ffUI|r")
 
         -- Set Up the Player Model
         AFKPanel.playerModel = CreateFrame('PlayerModel', nil, AFKPanel);
