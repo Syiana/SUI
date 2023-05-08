@@ -85,15 +85,7 @@ function Module:OnEnable()
                     CommunitiesFrameCommunitiesListListScrollFrameThumbTexture,
                     CommunitiesFrameCommunitiesListListScrollFrameTop,
                     CommunitiesFrameCommunitiesListListScrollFrameMiddle,
-                    CommunitiesFrameCommunitiesListListScrollFrameBottom,
-                    CommunitiesFrame.Chat.MessageFrame.ScrollBar.thumbTexture,
-                    CommunitiesFrame.Chat.MessageFrame.ScrollBar.ScrollBarTop,
-                    CommunitiesFrame.Chat.MessageFrame.ScrollBar.ScrollBarMiddle,
-                    CommunitiesFrame.Chat.MessageFrame.ScrollBar.ScrollBarBottom,
-                    CommunitiesFrame.Chat.MessageFrame.ScrollBar.ScrollUp.Normal,
-                    CommunitiesFrame.Chat.MessageFrame.ScrollBar.ScrollDown.Normal,
-                    CommunitiesFrame.Chat.MessageFrame.ScrollBar.ScrollUp.Disabled,
-                    CommunitiesFrame.Chat.MessageFrame.ScrollBar.ScrollDown.Disabled,
+                    CommunitiesFrameCommunitiesListListScrollFrameBottom
                 }) do
                     v:SetVertexColor(.4, .4, .4)
                 end
