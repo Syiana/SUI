@@ -176,5 +176,6 @@ function Module:OnEnable()
         end
 
         EventFrame:SetScript("OnEvent", Init)
+        hooksecurefunc(C_EditMode, "OnEditModeExit", Init)
     end
 end
