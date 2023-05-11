@@ -6,6 +6,32 @@ function Debuffs:OnEnable()
     local db = SUI.db.profile.unitframes.buffs
     local theme = SUI.db.profile.general.theme
 
+    -- Update Duration Text for Buffs
+    local function UpdateDuration(self, timeLeft)
+        if timeLeft >= 86400 then
+            self.Duration:SetFormattedText("%dd", ceil(timeLeft / 86400))
+        elseif timeLeft >= 3600 then
+            self.Duration:SetFormattedText("%dh", ceil(timeLeft / 3600))
+        elseif timeLeft >= 60 then
+            self.Duration:SetFormattedText("%dm", ceil(timeLeft / 60))
+        else
+            self.Duration:SetFormattedText("%ds", timeLeft)
+        end
+    end
+
+    local function HookDurationUpdates(auraFrames)
+        for _, auraFrame in pairs(auraFrames) do
+            if auraFrame.SetFormattedText then
+                --hooksecurefunc(auraFrame.Duration, "SetFormattedText", UpdateDuration)
+                hooksecurefunc(auraFrame, "UpdateDuration", function(self)
+                    UpdateDuration(self, self.timeLeft)
+                end)
+            end
+        end
+    end
+
+    HookDurationUpdates(DebuffFrame.auraFrames)
+
     -- DebuffType Colors for the Debuff Border
     local DebuffColor      = {}
     DebuffColor["none"]    = { r = 0.80, g = 0, b = 0 };

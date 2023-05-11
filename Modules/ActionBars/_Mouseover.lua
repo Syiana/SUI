@@ -119,7 +119,7 @@ function Module:OnEnable()
             end
         end
 
-        if db.petbar then
+        if db.bars.petbar then
             if PetActionBar:GetEffectiveAlpha() and PetActionBar:GetEffectiveAlpha() > 0.001 then
                 showGCD("PetActionButton")
             else
@@ -127,7 +127,7 @@ function Module:OnEnable()
             end
         end
 
-        if db.stancebar then
+        if db.bars.stancebar then
             if StanceBar:GetEffectiveAlpha() and StanceBar:GetEffectiveAlpha() > 0.001 then
                 showGCD("StanceButton")
             else

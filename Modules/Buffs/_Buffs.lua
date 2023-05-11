@@ -3,13 +3,34 @@ local Buffs = SUI:NewModule("Buffs.Buffs");
 function Buffs:OnEnable()
     if IsAddOnLoaded("BlizzBuffsFacade") then return end
 
-    HOUR_ONELETTER_ABBR = "%dh"
-    DAY_ONELETTER_ABBR = "%dd"
-    MINUTE_ONELETTER_ABBR = "%dm"
-    SECOND_ONELETTER_ABBR = "%ds"
-
     local db = SUI.db.profile.unitframes.buffs
     local theme = SUI.db.profile.general.theme
+
+    -- Update Duration Text for Buffs
+    local function UpdateDuration(self, timeLeft)
+        if timeLeft >= 86400 then
+            self.Duration:SetFormattedText("%dd", ceil(timeLeft / 86400))
+        elseif timeLeft >= 3600 then
+            self.Duration:SetFormattedText("%dh", ceil(timeLeft / 3600))
+        elseif timeLeft >= 60 then
+            self.Duration:SetFormattedText("%dm", ceil(timeLeft / 60))
+        else
+            self.Duration:SetFormattedText("%ds", timeLeft)
+        end
+    end
+
+    local function HookDurationUpdates(auraFrames)
+        for _, auraFrame in pairs(auraFrames) do
+            if auraFrame.SetFormattedText then
+                --hooksecurefunc(auraFrame.Duration, "SetFormattedText", UpdateDuration)
+                hooksecurefunc(auraFrame, "UpdateDuration", function(self)
+                    UpdateDuration(self, self.timeLeft)
+                end)
+            end
+        end
+    end
+
+    HookDurationUpdates(BuffFrame.auraFrames)
 
     local function ButtonDefault(button)
         local Backdrop = {
