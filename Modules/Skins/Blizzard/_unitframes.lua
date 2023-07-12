@@ -6,8 +6,7 @@ function Module:OnEnable()
             PlayerFrameAlternateManaBarBorder,
             PlayerFrameAlternateManaBarLeftBorder,
             PlayerFrameAlternateManaBarRightBorder,
-            PetFrameTexture,
-            PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual.PlayerPortraitCornerIcon
+            PetFrameTexture
         }) do
             v:SetDesaturated(true)
             v:SetVertexColor(unpack(SUI:Color(0.15)))
@@ -15,6 +14,7 @@ function Module:OnEnable()
 
         PlayerFrame:HookScript("OnUpdate", function()
             PlayerFrame.PlayerFrameContainer.FrameTexture:SetVertexColor(unpack(SUI:Color(0.15)))
+            PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual.PlayerPortraitCornerIcon:SetVertexColor(unpack(SUI:Color(0.15)))
         end)
 
         TargetFrame:HookScript("OnUpdate", function()
