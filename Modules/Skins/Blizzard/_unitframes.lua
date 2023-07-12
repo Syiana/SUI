@@ -6,23 +6,26 @@ function Module:OnEnable()
             PlayerFrameAlternateManaBarBorder,
             PlayerFrameAlternateManaBarLeftBorder,
             PlayerFrameAlternateManaBarRightBorder,
-            FocusFrameSpellBar.Border,
-            FocusFrameSpellBar.Background,
-            TargetFrameSpellBar.Border,
-            TargetFrameSpellBar.Background,
-            PlayerFrame.PlayerFrameContainer.FrameTexture,
-            TargetFrame.TargetFrameContainer.FrameTexture,
-            FocusFrame.TargetFrameContainer.FrameTexture,
-            TargetFrameToT.FrameTexture,
-            FocusFrameToT.FrameTexture,
-            PlayerCastingBarFrame.Border,
-            PlayerCastingBarFrame.Background,
             PetFrameTexture,
             PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual.PlayerPortraitCornerIcon
         }) do
             v:SetDesaturated(true)
             v:SetVertexColor(unpack(SUI:Color(0.15)))
         end
+
+        PlayerFrame:HookScript("OnUpdate", function()
+            PlayerFrame.PlayerFrameContainer.FrameTexture:SetVertexColor(unpack(SUI:Color(0.15)))
+        end)
+
+        TargetFrame:HookScript("OnUpdate", function()
+            TargetFrame.TargetFrameContainer.FrameTexture:SetVertexColor(unpack(SUI:Color(0.15)))
+            TargetFrameToT.FrameTexture:SetVertexColor(unpack(SUI:Color(0.15)))
+        end)
+
+        FocusFrame:HookScript("OnUpdate", function()
+            FocusFrame.TargetFrameContainer.FrameTexture:SetVertexColor(unpack(SUI:Color(0.15)))
+            FocusFrameToT.FrameTexture:SetVertexColor(unpack(SUI:Color(0.15)))
+        end)
 
         -- Class Resource Bars
         local classBar = CreateFrame("Frame")

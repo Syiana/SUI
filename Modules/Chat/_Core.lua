@@ -143,12 +143,6 @@ function Module:OnEnable()
 
 		hooksecurefunc("FCF_OpenTemporaryWindow", SetupTempChat)
 
-		-- voice icons
-		if (db.voiceicons) then
-
-
-		end
-
 		--	Loot icons
 		if (db.looticons) then
 			local function AddLootIcons(_, _, message, ...)
@@ -164,43 +158,8 @@ function Module:OnEnable()
 			ChatFrame_AddMessageEventFilter("CHAT_MSG_LOOT", AddLootIcons)
 		end
 
-		--	Role icons
-		if (db.roleicons) then
-			local chats = {
-				CHAT_MSG_SAY = 1, CHAT_MSG_YELL = 1,
-				CHAT_MSG_WHISPER = 1, CHAT_MSG_WHISPER_INFORM = 1,
-				CHAT_MSG_PARTY = 1, CHAT_MSG_PARTY_LEADER = 1,
-				CHAT_MSG_INSTANCE_CHAT = 1, CHAT_MSG_INSTANCE_CHAT_LEADER = 1,
-				CHAT_MSG_RAID = 1, CHAT_MSG_RAID_LEADER = 1, CHAT_MSG_RAID_WARNING = 1,
-			}
-
-			local role_tex = {
-				DAMAGER = CreateAtlasMarkup("roleicon-tiny-dps", 12, 12),
-				HEALER = CreateAtlasMarkup("roleicon-tiny-healer", 12, 12),
-				TANK = CreateAtlasMarkup("roleicon-tiny-tank", 12, 12)
-			}
-
-			local GetColoredName_orig = _G.GetColoredName
-			local function GetColoredName_hook(event, arg1, arg2, ...)
-				local ret = GetColoredName_orig(event, arg1, arg2, ...)
-				if chats[event] then
-					local role = UnitGroupRolesAssigned(arg2)
-					if role == "NONE" and arg2:match(" *- *" .. GetRealmName() .. "$") then
-						role = UnitGroupRolesAssigned(arg2:gsub(" *-[^-]+$", ""))
-					end
-					if role and role ~= "NONE" then
-						ret = role_tex[role] .. "" .. ret
-					end
-				end
-				return ret
-			end
-
-			_G.GetColoredName = GetColoredName_hook
-		end
-
 		-- init
 		SetupChat()
 		SetupChatPosAndFont()
-
 	end
 end
