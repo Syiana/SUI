@@ -29,7 +29,7 @@ function Module:OnEnable()
                 local powerColor = GetPowerBarColor(self.powerType)
                 self:SetStatusBarTexture(db.texture)
                 if self.powerType == 0 then
-                    self:SetStatusBarColor(0, 0,5, 1)
+                    self:SetStatusBarColor(0, 0.5, 1)
                 else
                     self:SetStatusBarColor(powerColor.r, powerColor.g, powerColor.b)
                 end
