@@ -14,6 +14,7 @@ function Module:OnEnable()
                     -- Set Textures
                     local powerColor = GetPowerBarColor(unitframe.manabar.powerType)
                     unitframe.manabar.texture:SetTexture(db.texture)
+
                     if unitframe.manabar.powerType == 0 then
                         unitframe.manabar:SetStatusBarColor(0, 0.5, 1)
                     else
@@ -23,8 +24,18 @@ function Module:OnEnable()
             end
         end
 
+        local function alternatePowerTexture(self)
+            if self then
+                local powerColor = GetPowerBarColor(self.powerType)
+                self:SetStatusBarTexture(db.texture)
+                self:SetStatusBarColor(powerColor.r, powerColor.g, powerColor.b)
+            end
+        end
+
         hooksecurefunc("UnitFrameManaBar_UpdateType", function(self)
             manaTexture(self)
         end)
+
+        AlternatePowerBar:HookScript("OnEvent", alternatePowerTexture)
     end
 end

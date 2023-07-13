@@ -15,6 +15,7 @@ function Module:OnEnable()
         PlayerFrame:HookScript("OnUpdate", function()
             PlayerFrame.PlayerFrameContainer.FrameTexture:SetVertexColor(unpack(SUI:Color(0.15)))
             PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual.PlayerPortraitCornerIcon:SetVertexColor(unpack(SUI:Color(0.15)))
+            PlayerFrame.PlayerFrameContainer.AlternatePowerFrameTexture:SetVertexColor(unpack(SUI:Color(0.15)))
         end)
 
         PetFrame:HookScript("OnUpdate", function()
