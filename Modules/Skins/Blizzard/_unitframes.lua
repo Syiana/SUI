@@ -31,7 +31,11 @@ function Module:OnEnable()
             FocusFrameToT.FrameTexture:SetVertexColor(unpack(SUI:Color(0.15)))
         end)
 
-        TotemFrame:HookScript("OnShow", function()
+        for _, v in pairs(TotemFrame) do
+            print(_)
+        end
+
+        TotemFrame:HookScript("OnEvent", function()
             for totem, v in pairs(TotemFrame.totemPool.activeObjects) do
                 totem.Border:SetVertexColor(unpack(SUI:Color(0.15)))
             end
