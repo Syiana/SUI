@@ -28,9 +28,9 @@ function Module:OnEnable()
             if self then
                 local powerColor = GetPowerBarColor(self.powerType)
                 self:SetStatusBarTexture(db.texture)
-                if self.powerType == 0 then
+                if self.powerType ~= nil and self.powerType == 0 then
                     self:SetStatusBarColor(0, 0.5, 1)
-                else
+                elseif self.powerType ~= nil and self.powerType ~= 0 then
                     self:SetStatusBarColor(powerColor.r, powerColor.g, powerColor.b)
                 end
             end
