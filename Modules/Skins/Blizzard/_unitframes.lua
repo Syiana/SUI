@@ -17,6 +17,10 @@ function Module:OnEnable()
             PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual.PlayerPortraitCornerIcon:SetVertexColor(unpack(SUI:Color(0.15)))
         end)
 
+        PetFrame:HookScript("OnUpdate", function()
+            PetFrameTexture:SetVertexColor(unpack(SUI:Color(0.15)))
+        end)
+
         TargetFrame:HookScript("OnUpdate", function()
             TargetFrame.TargetFrameContainer.FrameTexture:SetVertexColor(unpack(SUI:Color(0.15)))
             TargetFrameToT.FrameTexture:SetVertexColor(unpack(SUI:Color(0.15)))
@@ -25,6 +29,12 @@ function Module:OnEnable()
         FocusFrame:HookScript("OnUpdate", function()
             FocusFrame.TargetFrameContainer.FrameTexture:SetVertexColor(unpack(SUI:Color(0.15)))
             FocusFrameToT.FrameTexture:SetVertexColor(unpack(SUI:Color(0.15)))
+        end)
+
+        TotemFrame:HookScript("OnShow", function()
+            for totem, v in pairs(TotemFrame.totemPool.activeObjects) do
+                totem.Border:SetVertexColor(unpack(SUI:Color(0.15)))
+            end
         end)
 
         -- Class Resource Bars
