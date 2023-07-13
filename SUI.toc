@@ -1,6 +1,6 @@
 ## Interface: 100105
 ## Author: Syiana
-## Version: 10.1.15
+## Version: 10.1.16
 ## Title: |cffea00ffS|r|cff00a2ffUI|r
 ## SavedVariables: SUIDB
 ## IconTexture: Interface\AddOns\SUI\Media\Icons\SUI
