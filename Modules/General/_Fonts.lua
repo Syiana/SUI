@@ -125,5 +125,16 @@ function Module:OnInitialize()
             local _, size, style = FontObject:GetFont()
             FontObject:SetFont(font, ForcedFontSize[i] or size, style)
         end
+
+        local function SetFont(obj, optSize)
+            local fontName = obj:GetFont()
+            obj:SetFont(fontName, optSize, "OUTLINE")
+        end
+        
+        -- Set Font Size for Nameplate Names
+        SetFont(SystemFont_LargeNamePlate, 8)
+        SetFont(SystemFont_NamePlate, 8)
+        SetFont(SystemFont_LargeNamePlateFixed, 8)
+        SetFont(SystemFont_NamePlateFixed, 8)
     end
 end

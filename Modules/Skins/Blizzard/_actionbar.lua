@@ -75,6 +75,5 @@ function Module:OnEnable()
         }) do
             v:SetVertexColor(unpack(SUI:Color(0.2)))
         end
-
     end
 end
