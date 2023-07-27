@@ -39,14 +39,17 @@ function Module:OnEnable()
 			updateTextures(self)
 		end)
 
-		local function updateSize()
-			for i = 1, 5 do
-				_G["CompactPartyFrameMember" .. i]:SetWidth(db.width)
-				_G["CompactPartyFrameMember" .. i]:SetHeight(db.height)
-				_G["CompactPartyFrameMember" .. i .. "StatusText"]:ClearAllPoints()
-				_G["CompactPartyFrameMember" .. i .. "StatusText"]:SetPoint("CENTER", _G["CompactPartyFrameMember" .. i], "CENTER")
-				_G["CompactPartyFrameMember" .. i .. "CenterStatusIcon"]:ClearAllPoints()
-				_G["CompactPartyFrameMember" .. i .. "CenterStatusIcon"]:SetPoint("CENTER", _G["CompactPartyFrameMember" .. i], "CENTER")
+		local function updateSize(self)
+			if self:IsForbidden() then return end
+			local name = self:GetName()
+		
+			if name and name:match("CompactPartyFrame") then
+				self:SetWidth(db.width)
+				self:SetHeight(db.height)
+				self.statusText:ClearAllPoints()
+				self.statusText:SetPoint("CENTER", self, "CENTER")
+				self.centerStatusIcon:ClearAllPoints()
+				self.centerStatusIcon:SetPoint("CENTER", self, "CENTER")
 			end
 		end
 
@@ -55,16 +58,9 @@ function Module:OnEnable()
 
 		-- Update PartyFrame Size
 		if (db.size) then
-			local Size = CreateFrame("Frame")
-			Size:RegisterEvent("ADDON_LOADED")
-			Size:RegisterEvent("PLAYER_LOGIN")
-			Size:RegisterEvent("VARIABLES_LOADED")
-			Size:RegisterEvent("PLAYER_ENTERING_WORLD")
-			Size:RegisterEvent("GROUP_ROSTER_UPDATE")
-			Size:RegisterEvent("COMPACT_UNIT_FRAME_PROFILES_LOADED")
-			Size:SetScript("OnEvent", updateSize)
-
-			hooksecurefunc(C_EditMode, "OnEditModeExit", updateSize)
+			hooksecurefunc("CompactUnitFrame_UpdateAll", function(self)
+				updateSize(self)
+			end)
 		end
 	end
 end
