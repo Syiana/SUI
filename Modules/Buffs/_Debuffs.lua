@@ -170,7 +170,12 @@ function Debuffs:OnEnable()
                 else
                     color = DebuffColor["none"]
                 end
-                frame.SUIBorder.texture:SetVertexColor(color.r, color.g, color.b, 1)
+
+                if color ~= nil then
+                    frame.SUIBorder.texture:SetVertexColor(color.r, color.g, color.b, 1)
+                else
+                    frame.SUIBorder.texture:SetVertexColor(unpack(SUI:Color(0.15)))
+                end
             end
         end
     end
