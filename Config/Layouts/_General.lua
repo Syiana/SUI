@@ -147,8 +147,8 @@ function Layout:OnEnable()
                 items = {
                     key = 'display.ilvl',
                     type = 'checkbox',
-                    label = 'Item Level',
-                    tooltip = 'Display item level on items and inspected players',
+                    label = 'Item Info',
+                    tooltip = 'Display item information on items in bags/bank and character/inspect frame',
                     column = 3,
                     order = 1
                 },
