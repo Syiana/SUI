@@ -1,9 +1,7 @@
 <Ui xmlns='http://www.blizzard.com/wow/ui/'>
   <Script file="_Errors.lua"/>
-  <Script file="_InspectIlvl.lua"/>
-  <Script file="_CharIlvl.lua"/>
+  <Script file="_Itemlevel.lua"/>
   <Script file="_BagIlvl.lua"/>
-  <Script file="_AvgIlvl.lua"/>
   <Script file="_Commands.lua"/>
   <Script file="_Fonts.lua"/>
   <Script file="_Talkhead.lua"/>

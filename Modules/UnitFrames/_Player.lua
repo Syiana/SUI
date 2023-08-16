@@ -59,7 +59,9 @@ function Module:OnEnable()
                 end
 
                 if PaladinPowerBarFrame then
-                    PaladinPowerBarFrame:Hide()
+                    PaladinPowerBarFrame:HookScript("OnUpdate", function()
+                        PaladinPowerBarFrame:Hide()
+                    end)
                 end
             end
         end)
