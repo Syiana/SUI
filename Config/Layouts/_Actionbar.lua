@@ -49,9 +49,7 @@ function Layout:OnEnable()
                     tooltip = 'Show spell-color in red if out of range',
                     column = 4,
                     order = 1
-                }
-            },
-            {
+                },
                 size = {
                     key = 'buttons.size',
                     type = 'slider',
@@ -60,18 +58,8 @@ function Layout:OnEnable()
                     column = 4,
                     order = 1
                 },
-                micromenu = {
-                    key = 'menu.micromenu',
-                    type = 'dropdown',
-                    label = 'Micromenu',
-                    column = 4,
-                    order = 2,
-                    options = {
-                        { value = 'show', text = 'Show' },
-                        { value = 'mouse_over', text = 'Show on Mouseover' },
-                        { value = 'hide', text = 'Hide' }
-                    }
-                },
+            },
+            {
                 bagbar = {
                     key = 'menu.bagbar',
                     type = 'dropdown',
@@ -83,6 +71,33 @@ function Layout:OnEnable()
                         { value = 'mouse_over', text = 'Show on Mouseover' },
                         { value = 'hide', text = 'Hide' }
                     }
+                },
+                micromenu = {
+                    key = 'menu.micromenu',
+                    type = 'dropdown',
+                    label = 'MicroMenu',
+                    column = 4,
+                    order = 3,
+                    options = {
+                        { value = 'show', text = 'Show' },
+                        { value = 'mouse_over', text = 'Show on Mouseover' },
+                        { value = 'hide', text = 'Hide' }
+                    },
+                },
+                micromenuSize = {
+                    key = 'menu.size',
+                    type = 'slider',
+                    label = 'MicroMenu Size',
+                    column = 4,
+                    order = 4,
+                    precision = 1,
+                    min = 0.5,
+                    max = 1,
+                    onChange = function(slider)
+                        MicroMenu:HookScript("OnUpdate", function(self)
+                            self:SetScale(slider.value)
+                        end)
+                    end,
                 }
             },
             {
@@ -165,21 +180,6 @@ function Layout:OnEnable()
                     label = 'Stance Bar',
                     column = 3,
                     order = 2
-                },
-            },
-            {
-                header = {
-                    type = 'header',
-                    label = 'Hide Frames'
-                },
-            },
-            {
-                repbar = {
-                    key = 'repbar',
-                    type = 'checkbox',
-                    label = 'XP/Rep/Honor Bar',
-                    column = 4,
-                    order = 1
                 },
             }
         }

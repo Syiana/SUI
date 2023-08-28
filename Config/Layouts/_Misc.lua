@@ -94,6 +94,21 @@ function Layout:OnEnable()
                     column = 3,
                     order = 1
                 },
+            },
+            {
+                header = {
+                    type = 'header',
+                    label = 'Hide Frames'
+                },
+            },
+            {
+                repbar = {
+                    key = 'repbar',
+                    type = 'checkbox',
+                    label = 'XP/Rep/Honor Bar',
+                    column = 4,
+                    order = 1
+                },
             }
         },
     }

@@ -85,12 +85,12 @@ local defaults = {
                 macro = true,
                 range = true,
                 flash = false,
-                size = 12,
-                repbar = false,
+                size = 12
             },
             menu = {
                 micromenu = 'show',
-                bagbar = 'show'
+                bagbar = 'show',
+                size = 0.8
             },
             bars = {
                 bar1 = false,
@@ -164,7 +164,8 @@ local defaults = {
             dampening = true,
             arenanameplate = false,
             surrender = false,
-            losecontrol = false
+            losecontrol = false,
+            repbar = false
         },
         edit = {
             statsframe = {
