@@ -36,7 +36,6 @@ local defaults = {
         },
         unitframes = {
             style = 'Default',
-            portrait = 'Default',
             classcolor = true,
             factioncolor = true,
             pvpbadge = false,
