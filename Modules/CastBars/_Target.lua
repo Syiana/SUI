@@ -5,7 +5,11 @@ function Module:OnEnable()
 
     if (db.style == 'Custom' and db.targetCastbar) then
         TargetFrameSpellBar:HookScript("OnEvent", function(self)
-            self:SetScale(db.targetSize)
+            if db.targetSize ~= 1 then
+                if self:IsForbidden() then return end
+                if InCombatLockdown() then return end
+                self:SetScale(db.targetSize)
+            end
             self.Icon:SetSize(16, 16)
             self.Icon:ClearAllPoints()
             self.Icon:SetPoint("TOPLEFT", self, "TOPLEFT", -20, 2)
