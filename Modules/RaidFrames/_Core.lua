@@ -4,7 +4,7 @@ function Module:OnEnable()
 	local db = SUI.db.profile.raidframes
 	if db then
 		local function updateTextures(self)
-			if self then
+			if self and self:GetName() then
 				local name = self:GetName()
 				if name and name:match("^Compact") then
 					if self:IsForbidden() then return end
@@ -41,7 +41,7 @@ function Module:OnEnable()
 		end)
 
 		local function updateSize(self)
-			if self then
+			if self and self:GetName() then
 				local name = self:GetName()
 			
 				if name and name:match("^CompactPartyFrameMember") then

@@ -5,7 +5,7 @@ function Module:OnEnable()
 
     if (db.style == 'Custom' and db.focusCastbar) then
         FocusFrameSpellBar:HookScript("OnEvent", function(self)
-            if db.targetSize ~= 1 then
+            if db.focusSize ~= 1 then
                 if self:IsForbidden() then return end
                 if InCombatLockdown() then return end
                 self:SetScale(db.targetSize)
