@@ -4,6 +4,7 @@ function Module:OnEnable()
 	local db = SUI.db.profile.raidframes
 	if db then
 		local function updateTextures(self)
+			if self:IsForbidden() then return end
 			if self and self:GetName() then
 				local name = self:GetName()
 				if name and name:match("^Compact") then
@@ -41,11 +42,11 @@ function Module:OnEnable()
 		end)
 
 		local function updateSize(self)
+			if self:IsForbidden() then return end
 			if self and self:GetName() then
 				local name = self:GetName()
-			
+
 				if name and name:match("^CompactPartyFrameMember") then
-					if self:IsForbidden() then return end
 					if not InCombatLockdown() then
 						self:SetWidth(db.width)
 						self:SetHeight(db.height)
