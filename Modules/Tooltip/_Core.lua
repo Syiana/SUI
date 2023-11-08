@@ -53,7 +53,7 @@ function Module:OnEnable()
         local function GetTarget(unit)
             if UnitIsUnit(unit, "player") then
                 return ("|cffff0000%s|r"):format("<YOU>")
-            elseif UnitIsPlayer(unit, "player") then
+            elseif UnitIsPlayer(unit) then
                 local _, class = UnitClass(unit)
                 return ("|cff%s%s|r"):format(classColorHex[class], UnitName(unit))
             elseif UnitReaction(unit, "player") then
