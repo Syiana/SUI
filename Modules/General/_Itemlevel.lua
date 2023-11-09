@@ -81,6 +81,8 @@ function Module:OnEnable()
 
             ["Shadowed Belt Clasp"] = "Stam",
 
+            ["Incandescent Essence"] = "Essence",
+
             -- strip all +, we are starved for space
             ["+"] = "",
         };
@@ -94,7 +96,7 @@ function Module:OnEnable()
 
         local function CanEnchantSlot(unit, slot)
             -- all classes have something that increases power or survivability on chest/cloak/weapons/rings/wrist/boots/legs
-            if(slot == 5 or slot == 11 or slot == 12 or slot == 15 or slot == 16 or slot == 8 or slot == 9 or slot == 7 or slot == 6)then
+            if(slot == 1 or slot == 5 or slot == 11 or slot == 12 or slot == 15 or slot == 16 or slot == 8 or slot == 9 or slot == 7 or slot == 6)then
                 return true;
             end
 
@@ -290,14 +292,14 @@ function Module:OnEnable()
                     local shouldDisplayEchantMissingText = canEnchant and IsLevelAtEffectiveMaxLevel(UnitLevel(unit));
                     additionalFrame.enchantDisplay:SetText(shouldDisplayEchantMissingText and "|cffff0000No Enchant|r" or "");
                 else
-                    enchantText = string.sub(enchantText,0,18)
+                    enchantText = string.sub(enchantText,0,26)
                     local enchantQuality = ""
                     if atlas then
                         enchantQuality = "|A:" .. atlas .. ":12:12|a"
                         -- color enchant text as green/blue/epic based on quality
-                        if atlas == "Professions-Icon-Quality-Tier3-Small" then
+                        if atlas == "Professions-ChatIcon-Quality-Tier3" then
                             enchantText = "|cffa335ee" .. enchantText .. "|r"
-                        elseif atlas == "Professions-Icon-Quality-Tier2-Small" then
+                        elseif atlas == "Professions-ChatIcon-Quality-Tier2" then
                             enchantText = "|cff0070dd" .. enchantText .. "|r"
                         else
                             enchantText = "|cff1eff00" .. enchantText .. "|r"
@@ -308,7 +310,7 @@ function Module:OnEnable()
                     if slot == 17 then
                         additionalFrame.enchantDisplay:SetText(enchantQuality .. enchantText)
                     else
-                        additionalFrame.enchantDisplay:SetText(enchantText .. enchantQuality);
+                        additionalFrame.enchantDisplay:SetText("|cff1eff00" .. enchantText .. "|r" .. enchantQuality);
                     end
                 end
 

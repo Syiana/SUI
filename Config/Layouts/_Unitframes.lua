@@ -32,17 +32,6 @@ function Layout:OnEnable()
                     column  = 4,
                     order   = 1
                 },
-                portrait = {
-                    key = 'unitframes.portrait',
-                    type = 'dropdown',
-                    label = 'Portrait',
-                    options = {
-                        { value = 'Default', text = 'Default' },
-                        { value = 'ClassIcon', text = 'ClassIcon' },
-                    },
-                    column = 4,
-                    order = 2
-                },
                 texture = {
                     key = 'general.texture',
                     type = 'dropdown',

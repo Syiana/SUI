@@ -5,7 +5,9 @@ function Module:OnEnable()
 
     if (db.style == 'Custom' and db.focusCastbar) then
         FocusFrameSpellBar:HookScript("OnEvent", function(self)
-            self:SetScale(db.focusSize)
+            if self:IsForbidden() then return end
+            if InCombatLockdown() then return end
+            self:SetScale(db.targetSize)
             self.Icon:SetSize(16, 16)
             self.Icon:ClearAllPoints()
             self.Icon:SetPoint("TOPLEFT", FocusFrameSpellBar, "TOPLEFT", -20, 2)

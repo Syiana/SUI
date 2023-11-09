@@ -7,7 +7,10 @@ function Module:OnEnable()
         local FONT = STANDARD_TEXT_FONT
         local dominos = IsAddOnLoaded("Dominos")
         local bartender = IsAddOnLoaded("Bartender4")
-        local db = { buttons = SUI.db.profile.actionbar.buttons }
+        local db = { 
+            buttons = SUI.db.profile.actionbar.buttons,
+            menu = SUI.db.profile.actionbar.menu
+        }
 
         local Bars = {
             _G["MultiBarBottomLeft"],
@@ -19,9 +22,6 @@ function Module:OnEnable()
             _G["MultiBar6"],
             _G["MultiBar7"],
         }
-
-        EventFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
-        EventFrame:RegisterEvent("UPDATE_BINDINGS")
 
         local function UpdateHotkeys(Button)
             local Name = Button:GetName()
@@ -154,7 +154,10 @@ function Module:OnEnable()
             end
         end
 
-        EventFrame:SetScript("OnEvent", Init)
-        hooksecurefunc(C_EditMode, "OnEditModeExit", Init)
+        Init()
+        hooksecurefunc(C_EditMode, "OnEditModeExit", function()
+            --Init()
+            MicroMenu:SetScale(db.menu.size)
+        end)
     end
 end
