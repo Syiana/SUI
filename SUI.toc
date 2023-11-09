@@ -6,6 +6,7 @@
 ## IconTexture: Interface\AddOns\SUI\Media\Icons\SUI
 ## AddonCompartmentFunc: SUI_Options
 ## X-Curse-Project-ID: 283939
+## X-Wago-ID: R4N29xGL
 
 ## LIBS
 Libs\Load.xml
