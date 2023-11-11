@@ -354,13 +354,13 @@ function Module:OnEnable()
         local function UpdateInspectIlvlDisplay(unit)
             local ilvl = C_PaperDollInfo.GetInspectItemLevel(unit);
             local color;
-            if(ilvl < 405)then
+            if (ilvl < 436) then
                 color = "fafafa";
-            elseif(ilvl < 418)then
+            elseif (ilvl < 450) then
                 color = "1eff00";
-            elseif(ilvl < 431)then
+            elseif (ilvl < 475) then
                 color = "0070dd";
-            elseif(ilvl < 444)then
+            elseif (ilvl < 485) then
                 color = "a335ee";
             else
                 color = "ff8000";
