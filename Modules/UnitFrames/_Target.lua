@@ -24,21 +24,18 @@ function Module:OnEnable()
 
             if not db.unitframes.level then
                 local MAX_PLAYER_LEVEL = GetMaxLevelForPlayerExpansion()
+
                 if UnitLevel(self.unit) >= MAX_PLAYER_LEVEL then
                     -- Hide Target Level
                     TargetFrame.TargetFrameContent.TargetFrameContentMain.LevelText:Hide()
 
                     -- Adjust Target Name position
                     TargetFrame.TargetFrameContent.TargetFrameContentMain.Name:ClearAllPoints()
-                    TargetFrame.TargetFrameContent.TargetFrameContentMain.Name:SetPoint("TOP", self, "TOP", -45, -26)
-                elseif UnitLevel(self.unit) < 10 then
-                    -- Adjust Target Name position
-                    TargetFrame.TargetFrameContent.TargetFrameContentMain.Name:ClearAllPoints()
-                    TargetFrame.TargetFrameContent.TargetFrameContentMain.Name:SetPoint("TOP", self, "TOP", -37.5, -26)
+                    TargetFrame.TargetFrameContent.TargetFrameContentMain.Name:SetPoint("TOPLEFT", self.TargetFrameContent.TargetFrameContentMain.ReputationColor, "TOPRIGHT", -130, -1)
                 else
                     -- Adjust Target Name position
                     TargetFrame.TargetFrameContent.TargetFrameContentMain.Name:ClearAllPoints()
-                    TargetFrame.TargetFrameContent.TargetFrameContentMain.Name:SetPoint("TOP", self, "TOP", -30, -26)
+                    TargetFrame.TargetFrameContent.TargetFrameContentMain.Name:SetPoint("TOPLEFT", self.TargetFrameContent.TargetFrameContentMain.ReputationColor, "TOPRIGHT", -112, -1)
                 end
             end
         end)
@@ -49,20 +46,16 @@ function Module:OnEnable()
             if not db.unitframes.level then
                 local MAX_PLAYER_LEVEL = GetMaxLevelForPlayerExpansion()
                 if UnitLevel(self.unit) >= MAX_PLAYER_LEVEL then
-                    -- Hide Focus Level
+                    -- Hide Target Level
                     FocusFrame.TargetFrameContent.TargetFrameContentMain.LevelText:Hide()
 
-                    -- Adjust Focus Name position
-                    FocusFrame.TargetFrameContent.TargetFrameContentMain.Name:ClearAllPoints()
-                    FocusFrame.TargetFrameContent.TargetFrameContentMain.Name:SetPoint("TOP", self, "TOP", -45, -26)
-                elseif UnitLevel(self.unit) < 10 then
                     -- Adjust Target Name position
                     FocusFrame.TargetFrameContent.TargetFrameContentMain.Name:ClearAllPoints()
-                    FocusFrame.TargetFrameContent.TargetFrameContentMain.Name:SetPoint("TOP", self, "TOP", -37.5, -26)
+                    FocusFrame.TargetFrameContent.TargetFrameContentMain.Name:SetPoint("TOPLEFT", self.TargetFrameContent.TargetFrameContentMain.ReputationColor, "TOPRIGHT", -130, -1)
                 else
                     -- Adjust Target Name position
                     FocusFrame.TargetFrameContent.TargetFrameContentMain.Name:ClearAllPoints()
-                    FocusFrame.TargetFrameContent.TargetFrameContentMain.Name:SetPoint("TOP", self, "TOP", -30, -26)
+                    FocusFrame.TargetFrameContent.TargetFrameContentMain.Name:SetPoint("TOPLEFT", self.TargetFrameContent.TargetFrameContentMain.ReputationColor, "TOPRIGHT", -112, -1)
                 end
             end
         end)
