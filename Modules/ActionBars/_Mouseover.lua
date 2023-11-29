@@ -7,7 +7,8 @@ function Module:OnEnable()
     local db = {
         bars = SUI.db.profile.actionbar.bars,
         micromenu = SUI.db.profile.actionbar.menu.micromenu,
-        bagbar = SUI.db.profile.actionbar.menu.bagbar
+        bagbar = SUI.db.profile.actionbar.menu.bagbar,
+        maps = SUI.db.profile.maps
     }
 
     local MICRO_BUTTONS = {
@@ -219,6 +220,11 @@ function Module:OnEnable()
         elseif db.bagbar == "hide" then
             BagsBar:Hide()
         end
+        -- Expansion Button (Minimap)
+        if db.maps.expansionbutton then
+            MouseoverDefaultBars:onMouseover("expansionbutton")
+            MouseoverDefaultBars:Alpha("expansionbutton", 0)
+        end
     end
 
     function MouseoverDefaultBars:Alpha(actionbar, alpha)
@@ -248,6 +254,8 @@ function Module:OnEnable()
             MicroMenu:SetAlpha(alpha)
         elseif actionbar == "bagbar" then
             BagsBar:SetAlpha(alpha)
+        elseif actionbar == "expansionbutton" then
+            ExpansionLandingPageMinimapButton:SetAlpha(alpha)
         end
     end
 
@@ -432,6 +440,19 @@ function Module:OnEnable()
                             end, 0.1)
                         end)
                 end
+            end
+        elseif actionbar == "expansionbutton" then --minimap expansionbutton
+            local ABtimer13
+            if not MouseoverDefaultBars:IsHooked(_G["ExpansionLandingPageMinimapButton"], "OnEnter") then
+                MouseoverDefaultBars:SecureHookScript(_G["ExpansionLandingPageMinimapButton"], "OnEnter",
+                function() MouseoverDefaultBars:CancelTimer(ABtimer13); MouseoverDefaultBars:Alpha(actionbar, 1) end)
+            end
+            if not MouseoverDefaultBars:IsHooked(_G["ExpansionLandingPageMinimapButton"], "OnLeave") then
+                MouseoverDefaultBars:SecureHookScript(_G["ExpansionLandingPageMinimapButton"], "OnLeave",
+                function() ABtimer13 = MouseoverDefaultBars:ScheduleTimer(function() MouseoverDefaultBars:Alpha(actionbar
+                    , 0)
+                    end, 0.1)
+                end)
             end
         end
     end

@@ -87,6 +87,14 @@ function Layout:OnEnable()
                     column = 4,
                     order = 2
                 },
+                expansionbutton = {
+                    key = 'expansionbutton',
+                    type = 'checkbox',
+                    label = 'Expansion Button Mouseover',
+                    tooltip = 'Show Expansion Button on mouseover',
+                    column = 4,
+                    order = 3
+                }
             }
         },
     }
