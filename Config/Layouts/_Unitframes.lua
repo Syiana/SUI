@@ -72,7 +72,7 @@ function Layout:OnEnable()
                     key = 'unitframes.combaticon',
                     type = 'checkbox',
                     label = 'Combat Icon',
-                    tooltip = 'Display combat icon on Unit frames',
+                    tooltip = 'Display combat icon on Unitframes',
                     column = 4,
                     order = 1
                 },
@@ -91,6 +91,24 @@ function Layout:OnEnable()
                     tooltip = 'Show ClassBar (Combopoints, HolyPower etc.)',
                     column = 4,
                     order = 3,
+                }
+            },
+            {
+                cornericon = {
+                    key = 'unitframes.cornericon',
+                    type = 'checkbox',
+                    label = 'Corner Icon',
+                    tooltip = 'Display corner icon on Unitframes',
+                    column = 4,
+                    order = 1
+                },
+                level = {
+                    key = 'unitframes.level',
+                    type = 'checkbox',
+                    label = 'Level',
+                    tooltip = 'Display level on Unitframes',
+                    column = 4,
+                    order = 2,
                 }
             },
             {
