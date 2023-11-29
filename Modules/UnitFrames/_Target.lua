@@ -31,6 +31,14 @@ function Module:OnEnable()
                     -- Adjust Target Name position
                     TargetFrame.TargetFrameContent.TargetFrameContentMain.Name:ClearAllPoints()
                     TargetFrame.TargetFrameContent.TargetFrameContentMain.Name:SetPoint("TOP", self, "TOP", -45, -26)
+                elseif UnitLevel(self.unit) < 10 then
+                    -- Adjust Target Name position
+                    TargetFrame.TargetFrameContent.TargetFrameContentMain.Name:ClearAllPoints()
+                    TargetFrame.TargetFrameContent.TargetFrameContentMain.Name:SetPoint("TOP", self, "TOP", -37.5, -26)
+                else
+                    -- Adjust Target Name position
+                    TargetFrame.TargetFrameContent.TargetFrameContentMain.Name:ClearAllPoints()
+                    TargetFrame.TargetFrameContent.TargetFrameContentMain.Name:SetPoint("TOP", self, "TOP", -30, -26)
                 end
             end
         end)
@@ -47,6 +55,14 @@ function Module:OnEnable()
                     -- Adjust Focus Name position
                     FocusFrame.TargetFrameContent.TargetFrameContentMain.Name:ClearAllPoints()
                     FocusFrame.TargetFrameContent.TargetFrameContentMain.Name:SetPoint("TOP", self, "TOP", -45, -26)
+                elseif UnitLevel(self.unit) < 10 then
+                    -- Adjust Target Name position
+                    FocusFrame.TargetFrameContent.TargetFrameContentMain.Name:ClearAllPoints()
+                    FocusFrame.TargetFrameContent.TargetFrameContentMain.Name:SetPoint("TOP", self, "TOP", -37.5, -26)
+                else
+                    -- Adjust Target Name position
+                    FocusFrame.TargetFrameContent.TargetFrameContentMain.Name:ClearAllPoints()
+                    FocusFrame.TargetFrameContent.TargetFrameContentMain.Name:SetPoint("TOP", self, "TOP", -30, -26)
                 end
             end
         end)
