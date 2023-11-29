@@ -101,18 +101,20 @@ function Gui:OnEnable()
     end
 
     -- GameMenu
-    GameMenuFrame.Header:Hide()
-    SUIGameMenuButton = CreateFrame("Button", "SUIGameMenuButton", GameMenuFrame, "UIPanelButtonTemplate")
-    SUIGameMenuButton:SetHeight(20)
-    SUIGameMenuButton:SetWidth(145)
-    SUIGameMenuButton:SetText("|cffea00ffS|r|cff00a2ffUI|r")
-    SUIGameMenuButton:ClearAllPoints()
-    SUIGameMenuButton:SetPoint("TOP", 0, -11)
-    SUIGameMenuButton:RegisterForClicks("AnyUp")
-    SUIGameMenuButton:SetScript("OnClick", function()
-        SUI:Config()
-        ToggleGameMenu()
-    end)
+    if db.profile.misc.menubutton then
+        GameMenuFrame.Header:Hide()
+        SUIGameMenuButton = CreateFrame("Button", "SUIGameMenuButton", GameMenuFrame, "UIPanelButtonTemplate")
+        SUIGameMenuButton:SetHeight(20)
+        SUIGameMenuButton:SetWidth(145)
+        SUIGameMenuButton:SetText("|cffea00ffS|r|cff00a2ffUI|r")
+        SUIGameMenuButton:ClearAllPoints()
+        SUIGameMenuButton:SetPoint("TOP", 0, -11)
+        SUIGameMenuButton:RegisterForClicks("AnyUp")
+        SUIGameMenuButton:SetScript("OnClick", function()
+            SUI:Config()
+            ToggleGameMenu()
+        end)
+    end
 
     -- Minimap AddOns Option
     _G.SUI_Options = function()

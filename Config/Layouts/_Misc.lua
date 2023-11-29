@@ -43,6 +43,14 @@ function Layout:OnEnable()
                     tooltip = 'Announce successful interrupts party',
                     column = 3,
                     order = 1
+                },
+                menubutton = {
+                    key = 'menubutton',
+                    type = 'checkbox',
+                    label = 'Menu Button',
+                    tooltip = 'Show SUI Button on ESC-Menu',
+                    column = 3,
+                    order = 2
                 }
             },
             {

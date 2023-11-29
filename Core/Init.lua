@@ -43,6 +43,8 @@ local defaults = {
             hitindicator = false,
             totemicons = true,
             classbar = true,
+            cornericon = true,
+            level = true,
             player = {
                 size = 1
             },
@@ -154,6 +156,7 @@ local defaults = {
             garrison = true,
             tracking = false,
             buttons = true,
+            expansionbutton = false,
         },
         misc = {
             safequeue = true,
@@ -164,7 +167,8 @@ local defaults = {
             arenanameplate = false,
             surrender = false,
             losecontrol = false,
-            repbar = false
+            repbar = false,
+            menubutton = true,
         },
         edit = {
             statsframe = {
