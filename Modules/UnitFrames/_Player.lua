@@ -29,7 +29,7 @@ function Module:OnEnable()
         PlayerFrame:HookScript("OnEvent", function(self, event)
             healthTexture(self, event)
 
-            if not db.cornericon then
+            if not db.unitframes.cornericon then
                 PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual.PlayerPortraitCornerIcon:Hide()
             end
 
