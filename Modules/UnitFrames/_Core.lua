@@ -15,10 +15,12 @@ function Module:OnEnable()
                 self.texture:SetTexture(db.texture)
 
                 -- Set Power Color
-                if self.powerType == 0 then
-                    self.unitFrame.manabar:SetStatusBarColor(0, 0.5, 1)
-                else
-                    self.unitFrame.manabar:SetStatusBarColor(powerColor.r, powerColor.g, powerColor.b)
+                if self.unitFrame and self.unitFrame.manabar then
+                    if self.powerType == 0 then
+                        self.unitFrame.manabar:SetStatusBarColor(0, 0.5, 1)
+                    else
+                        self.unitFrame.manabar:SetStatusBarColor(powerColor.r, powerColor.g, powerColor.b)
+                    end
                 end
             end
         end
@@ -27,9 +29,9 @@ function Module:OnEnable()
             if self then
                 local powerColor = PowerBarColor[self.powerType]
                 self:SetStatusBarTexture(db.texture)
-                if self.powerType ~= nil and self.powerType == 0 then
+                if self.powerType and self.powerType == 0 then
                     self:SetStatusBarColor(0, 0.5, 1)
-                elseif self.powerType ~= nil and self.powerType ~= 0 then
+                elseif self.powerType and self.powerType ~= 0 then
                     self:SetStatusBarColor(powerColor.r, powerColor.g, powerColor.b)
                 end
             end
