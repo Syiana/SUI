@@ -93,7 +93,7 @@ function Module:OnEnable()
                 end
             end
             hooksecurefunc(ContainerFrameCombinedBags, "UpdateItems", update)
-            for _, frame in ipairs(UIParent.ContainerFrames) do
+            for _, frame in ipairs(ContainerFrameContainer.ContainerFrames) do
                 hooksecurefunc(frame, "UpdateItems", update)
             end
         end
