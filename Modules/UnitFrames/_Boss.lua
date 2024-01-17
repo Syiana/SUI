@@ -10,16 +10,6 @@ function Module:OnEnable()
             if self.TargetFrameContent.TargetFrameContentMain.ReputationColor and SUI:Color() then
                 self.TargetFrameContent.TargetFrameContentMain.ReputationColor:SetVertexColor(unpack(SUI:Color(0.15)))
             end
-
-            if self.manabar then
-                local powerColor = GetPowerBarColor(self.manabar.powerType)
-                self.manabar.texture:SetTexture(db.texture)
-                if self.manabar.powerType == 0 then
-                    self.manabar:SetStatusBarColor(0, 0.5, 1)
-                else
-                    self.manabar:SetStatusBarColor(powerColor.r, powerColor.g, powerColor.b)
-                end
-            end
         end
     end
 
