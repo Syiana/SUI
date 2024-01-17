@@ -7,7 +7,7 @@ function Module:OnEnable()
         TargetFrameSpellBar:HookScript("OnEvent", function(self)
             if self:IsForbidden() then return end
             if InCombatLockdown() then return end
-            self:SetScale(db.targetSize)
+            TargetFrameSpellBar:SetScale(db.targetSize)
             self.Icon:SetSize(16, 16)
             self.Icon:ClearAllPoints()
             self.Icon:SetPoint("TOPLEFT", self, "TOPLEFT", -20, 2)
