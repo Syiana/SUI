@@ -23,6 +23,7 @@ function Module:OnEnable()
         end
 
         local function QueueStatusButton_Reposition()
+            if IsAddOnLoaded("EditModeExpanded") then return end
             QueueStatusButton:SetParent(UIParent)
             QueueStatusButton:SetFrameLevel(1)
             QueueStatusButton:SetScale(0.8, 0.8)
