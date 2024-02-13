@@ -8,29 +8,32 @@ function Module:OnEnable()
         local function print(...)
             if(true)then
                 local msg = strjoin(" ",tostringall(...));
-                oPrint("|cffea00ffS|r|cff00a2ffUI|r: ",msg);
+                oPrint("|cff6600ccBetterCharacterPanel|r: " .. GetTime() .. " :",msg);
             end
         end
 
-        local buttonLayout = {
-            [1]	= "left",
-            [2]	= "left",
-            [3]	= "left",
-            [15] = "left",
-            [5]	= "left",
-            [9]	= "left",
+        local NUM_SOCKET_TEXTURES = 3;
 
-            [10] = "right",
-            [6] = "right",
-            [7] = "right",
-            [8] = "right",
-            [11] = "right",
-            [12] = "right",
-            [13] = "right",
-            [14] = "right",
+        local buttonLayout =
+        {
+            [INVSLOT_HEAD]	= "left",
+            [INVSLOT_NECK]	= "left",
+            [INVSLOT_SHOULDER]	= "left",
+            [INVSLOT_BACK] = "left",
+            [INVSLOT_CHEST]	= "left",
+            [INVSLOT_WRIST]	= "left",
 
-            [16] = "center",
-            [17] = "center",
+            [INVSLOT_HAND] = "right",
+            [INVSLOT_WAIST] = "right",
+            [INVSLOT_LEGS] = "right",
+            [INVSLOT_FEET] = "right",
+            [INVSLOT_FINGER1] = "right",
+            [INVSLOT_FINGER2] = "right",
+            [INVSLOT_TRINKET1] = "right",
+            [INVSLOT_TRINKET2] = "right",
+
+            [INVSLOT_MAINHAND] = "center",
+            [INVSLOT_OFFHAND] = "center",
         };
 
         local function ColorGradient(perc, ...)
@@ -61,7 +64,7 @@ function Module:OnEnable()
             ["Agility"] = "Agi",
             ["Strength"] = "Str",
 
-            ["Mastery"] = "Mastery",
+            ["Mastery"] = "Mast",
             ["Versatility"] = "Vers",
             ["Critical Strike"] = "Crit",
             ["Haste"] = "Haste",
@@ -72,14 +75,14 @@ function Module:OnEnable()
             ["Plainsrunner's Breeze"] = "Speed",
             ["Graceful Avoidance"] = "Avoid",
             ["Regenerative Leech"] = "Leech",
-            ["Watcher's Loam"] = "Stamina",
+            ["Watcher's Loam"] = "Stam",
             ["Rider's Reassurance"] = "Mount Speed",
             ["Accelerated Agility"] = "Speed & Agi",
             ["Reserve of Intellect"] = "Mana & Int",
             ["Sustained Strength"] = "Stam & Str",
-            ["Waking Stats"] = "Primary Stats",
+            ["Waking Stats"] = "Primary Stat",
 
-            ["Shadowed Belt Clasp"] = "Stam",
+            ["Shadowed Belt Clasp"]= "Stamina",
 
             ["Incandescent Essence"] = "Essence",
 
@@ -94,14 +97,27 @@ function Module:OnEnable()
             return enchantText;
         end
 
+        local slotsThatHaveEnchants = {
+            [INVSLOT_HEAD] = true,
+            [INVSLOT_BACK] = true,
+            [INVSLOT_CHEST] = true,
+            [INVSLOT_WRIST] = true,
+            [INVSLOT_WAIST] = true,
+            [INVSLOT_LEGS] = true,
+            [INVSLOT_FEET] = true,
+            [INVSLOT_FINGER1] = true,
+            [INVSLOT_FINGER2] = true,
+            [INVSLOT_MAINHAND] = true,
+        };
+
         local function CanEnchantSlot(unit, slot)
             -- all classes have something that increases power or survivability on chest/cloak/weapons/rings/wrist/boots/legs
-            if(slot == 1 or slot == 5 or slot == 11 or slot == 12 or slot == 15 or slot == 16 or slot == 8 or slot == 9 or slot == 7 or slot == 6)then
+            if(slotsThatHaveEnchants[slot])then
                 return true;
             end
 
             -- Offhand filtering smile :)
-            if(slot == 17)then
+            if(slot == INVSLOT_OFFHAND)then
                 local offHandItemLink = GetInventoryItemLink(unit,slot);
                 if(offHandItemLink)then
                     local itemEquipLoc = select(4,GetItemInfoInstant(offHandItemLink));
@@ -114,17 +130,22 @@ function Module:OnEnable()
         end
 
         local enchantPattern = ENCHANTED_TOOLTIP_LINE:gsub('%%s', '(.*)');
-        local enchantAtlasPattern = "(.*)|A:(.*):20:20|a";
-        local function GetItemEnchatAsText(unit,slot)
+        local enchantAtlasPattern = "(.*)%s*|A:(.*):20:20|a";
+        local enchatColoredPatten = "|cn(.*):(.*)|r";
+        local function GetItemEnchantAsText(unit,slot)
             local data = C_TooltipInfo.GetInventoryItem(unit,slot);
             for _,line in ipairs(data.lines) do
                 local text = line.leftText;
                 local enchantText = string.match(text,enchantPattern);
                 if (enchantText)then
-                    -- DF adds an additional smol icon we store in atlas
-                    local atlas = nil
-                    if string.find(enchantText, "|A:") then
-                        enchantText, atlas = string.match(enchantText, enchantAtlasPattern)
+
+                    local maybeEnchantText, atlas;
+                    local maybeEnchantColor, maybeEnchantTextColored = enchantText:match(enchatColoredPatten);
+                    if(maybeEnchantColor)then
+                        enchantText = maybeEnchantTextColored;
+                    else
+                        maybeEnchantText, atlas = enchantText:match(enchantAtlasPattern);
+                        enchantText = maybeEnchantText or enchantText;
                     end
 
                     return atlas, ProcessEnchantText(enchantText)
@@ -151,14 +172,14 @@ function Module:OnEnable()
 
         local function AnchorTextureLeftOfParent(parent,textures)
             textures[1]:SetPoint("RIGHT",parent,"LEFT",-3,1);
-            for i=2,4 do
+            for i=2,NUM_SOCKET_TEXTURES do
                 textures[i]:SetPoint("RIGHT",textures[i - 1],"LEFT",-2,0);
             end
         end
 
         local function AnchorTextureRightOfParent(parent,textures)
             textures[1]:SetPoint("LEFT",parent,"RIGHT",3,1);
-            for i=2,4 do
+            for i=2,NUM_SOCKET_TEXTURES do
                 textures[i]:SetPoint("LEFT",textures[i - 1],"RIGHT",2,0);
             end
         end
@@ -184,7 +205,7 @@ function Module:OnEnable()
 
             additionalFrame.socketDisplay = {};
 
-            for i=1,4 do
+            for i=1,NUM_SOCKET_TEXTURES do
                 additionalFrame.socketDisplay[i] = additionalFrame:CreateTexture();
                 additionalFrame.socketDisplay[i]:SetWidth(14);
                 additionalFrame.socketDisplay[i]:SetHeight(14);
@@ -284,43 +305,44 @@ function Module:OnEnable()
 
                 local atlas, enchantText
                 if itemLink then
-                    atlas, enchantText = GetItemEnchatAsText(unit,slot);
+                    atlas, enchantText = GetItemEnchantAsText(unit,slot);
                 end
+
                 local canEnchant = CanEnchantSlot(unit, slot);
 
                 if(not enchantText)then
                     local shouldDisplayEchantMissingText = canEnchant and IsLevelAtEffectiveMaxLevel(UnitLevel(unit));
                     additionalFrame.enchantDisplay:SetText(shouldDisplayEchantMissingText and "|cffff0000No Enchant|r" or "");
                 else
-                    enchantText = string.sub(enchantText,0,26)
-                    local enchantQuality = ""
+                    enchantText = string.sub(enchantText,0,18);
+                    local enchantQuality = "";
                     if atlas then
-                        enchantQuality = "|A:" .. atlas .. ":12:12|a"
-                        -- color enchant text as green/blue/epic based on quality
-                        if atlas == "Professions-ChatIcon-Quality-Tier3" then
-                            enchantText = "|cffa335ee" .. enchantText .. "|r"
-                        elseif atlas == "Professions-ChatIcon-Quality-Tier2" then
-                            enchantText = "|cff0070dd" .. enchantText .. "|r"
-                        else
-                            enchantText = "|cff1eff00" .. enchantText .. "|r"
-                        end
+                        enchantQuality = "|A:" .. atlas .. ":12:12|a";
                     end
 
                     -- for symmetry, put quality on the left of offhand
-                    if slot == 17 then
-                        additionalFrame.enchantDisplay:SetText(enchantQuality .. enchantText)
+                    if slot == INVSLOT_OFFHAND then
+                        additionalFrame.enchantDisplay:SetText(enchantQuality .. enchantText);
                     else
-                        additionalFrame.enchantDisplay:SetText("|cff1eff00" .. enchantText .. "|r" .. enchantQuality);
+                        additionalFrame.enchantDisplay:SetText(enchantText .. enchantQuality);
                     end
                 end
 
                 local textures = itemLink and GetSocketTextures(unit,slot) or {};
-                for i=1,4 do
+                for i=1,NUM_SOCKET_TEXTURES do
+                    local socketTexture = additionalFrame.socketDisplay[i];
                     if(#textures >= i)then
-                        additionalFrame.socketDisplay[i]:SetTexture(textures[i]);
-                        additionalFrame.socketDisplay[i]:Show();
+                        socketTexture:SetTexture(textures[i]);
+                        socketTexture:SetVertexColor(1,1,1);
+                        socketTexture:Show();
                     else
-                        additionalFrame.socketDisplay[i]:Hide();
+                        if(slot == INVSLOT_NECK)then
+                            socketTexture:SetTexture("Interface\\ItemSocketingFrame\\UI-EmptySocket-Prismatic");
+                            socketTexture:SetVertexColor(1,0,0);
+                            socketTexture:Show();
+                        else
+                            socketTexture:Hide();
+                        end
                     end
                 end
 
@@ -351,16 +373,24 @@ function Module:OnEnable()
             end
         end
 
+        local LEGENDARY_ITEM_LEVEL = 483;
+        local STEP_ITEM_LEVEL = 17;
+
+        local levelThresholds = {};
+        for i = 4, 1, -1 do
+            levelThresholds[i] = LEGENDARY_ITEM_LEVEL - (STEP_ITEM_LEVEL * (i - 1));
+        end
+
         local function UpdateInspectIlvlDisplay(unit)
             local ilvl = C_PaperDollInfo.GetInspectItemLevel(unit);
             local color;
-            if (ilvl < 436) then
+            if(ilvl < levelThresholds[4])then
                 color = "fafafa";
-            elseif (ilvl < 450) then
+            elseif(ilvl < levelThresholds[3])then
                 color = "1eff00";
-            elseif (ilvl < 475) then
+            elseif(ilvl < levelThresholds[2])then
                 color = "0070dd";
-            elseif (ilvl < 485) then
+            elseif(ilvl < levelThresholds[1])then
                 color = "a335ee";
             else
                 color = "ff8000";
@@ -370,7 +400,7 @@ function Module:OnEnable()
             parent.ilvlDisplay:SetText(string.format("|cff%s%d|r",color,ilvl));
         end
 
-        hooksecurefunc("PaperDollItemSlotButton_Update",function(button)
+        local updateButton = function (button, unit)
             if(not buttonLayout[button:GetID()])then return; end
 
             if(not button.BCPDisplay)then
@@ -378,10 +408,10 @@ function Module:OnEnable()
                 AnchorAdditionalDisplay(button);
             end
 
-            -- Everything indicates items are fully loaded. BUT in some rare cases socket information is not loaded
-            -- There is no event that fires when item actually loads fully.... So frame later it is..... I hate it.....
-            RunNextFrame(function() UpdateAdditionalDisplay(button,"player"); end);
-        end);
+            UpdateAdditionalDisplay(button,unit);
+        end
+
+        hooksecurefunc("PaperDollItemSlotButton_Update", function(button) updateButton(button, "player");end);
 
         function addon:ADDON_LOADED(addonName)
             if(addonName == "Blizzard_InspectUI")then
@@ -463,11 +493,7 @@ function Module:OnEnable()
                 talentButton:SetPoint("LEFT",InspectFrameTab3,"RIGHT",3,0);
 
                 hooksecurefunc("InspectPaperDollItemSlotButton_Update",function(button)
-                    if(not button.BCPDisplay)then
-                        button.BCPDisplay = CreateAdditionalDisplayForButton(button);
-                        AnchorAdditionalDisplay(button);
-                    end
-                    RunNextFrame(function()	UpdateAdditionalDisplay(button,InspectFrame.unit); end);
+                    updateButton(button, InspectFrame.unit);
                 end);
 
                 hooksecurefunc("InspectPaperDollFrame_SetLevel",function()
@@ -524,6 +550,112 @@ function Module:OnEnable()
             end
         end
 
+        -- cache list
+        local gemsWeCareAbout = {
+            192989, -- Increased Primary Stat and Versatility Rank 1
+            192990, -- Increased Primary Stat and Versatility Rank 2
+            192991, -- Increased Primary Stat and Versatility Rank 3
+            
+            192983, -- Increased Primary Stat and Haste Rank 1
+            192984, -- Increased Primary Stat and Haste Rank 2
+            192985, -- Increased Primary Stat and Haste Rank 3
+            
+            192980, -- Increased Primary Stat and Critical Strike Rank 1
+            192981, -- Increased Primary Stat and Critical Strike Rank 2
+            192982, -- Increased Primary Stat and Critical Strike Rank 3
+            
+            192986, -- Increased Primary Stat and Mastery Rank 1
+            192987, -- Increased Primary Stat and Mastery Rank 2
+            192988, -- Increased Primary Stat and Mastery Rank 3
+
+            192943, -- Increased Haste and Critical Strike
+            192944, -- Increased Haste and Critical Strike
+            192945, -- Increased Haste and Critical Strike
+            
+            192946, -- Increased Haste and Mastery
+            192947, -- Increased Haste and Mastery
+            192948, -- Increased Haste and Mastery
+            
+            192950, -- Increased Haste and Versatility
+            192951, -- Increased Haste and Versatility
+            192952, -- Increased Haste and Versatility
+            
+            192953, -- Increased Haste
+            192954, -- Increased Haste
+            192955, -- Increased Haste
+
+            192959, -- Increased Mastery and Haste
+            192960, -- Increased Mastery and Haste
+            192961, -- Increased Mastery and Haste
+            
+            192956, -- Increased Mastery and Critical Strike
+            192957, -- Increased Mastery and Critical Strike
+            192958, -- Increased Mastery and Critical Strike
+            
+            192962, -- Increased Mastery and Versatility
+            192963, -- Increased Mastery and Versatility
+            192964, -- Increased Mastery and Versatility
+            
+            192965, -- Increased Mastery
+            192966, -- Increased Mastery
+            192967, -- Increased Mastery
+
+            192917, -- Increased Critical Strike and Haste
+            192918, -- Increased Critical Strike and Haste
+            192919, -- Increased Critical Strike and Haste
+            
+            192923, -- Increased Critical Strike and Versatility
+            192924, -- Increased Critical Strike and Versatility
+            192925, -- Increased Critical Strike and Versatility
+            
+            192920, -- Increased Critical Strike and Mastery
+            192921, -- Increased Critical Strike and Mastery
+            192922, -- Increased Critical Strike and Mastery
+            
+            192926, -- Increased Critical Strike
+            192927, -- Increased Critical Strike
+            192928, -- Increased Critical Strike
+
+            192933, -- Increased Versatility and Haste
+            192934, -- Increased Versatility and Haste
+            192935, -- Increased Versatility and Haste
+            
+            192930, -- Increased Versatility and Critical Strike
+            192931, -- Increased Versatility and Critical Strike
+            192932, -- Increased Versatility and Critical Strike
+            
+            192936, -- Increased Versatility and Mastery
+            192937, -- Increased Versatility and Mastery
+            192938, -- Increased Versatility and Mastery
+            
+            192940, -- Increased Versatility
+            192941, -- Increased Versatility
+            192942, -- Increased Versatility
+
+            192971, -- Increased Stamina and Haste
+            192972, -- Increased Stamina and Haste
+            192973, -- Increased Stamina and Haste
+            
+            192968, -- Increased Stamina and Critical Strike
+            192969, -- Increased Stamina and Critical Strike
+            192970, -- Increased Stamina and Critical Strike
+            
+            192977, -- Increased Stamina and Versatility
+            192978, -- Increased Stamina and Versatility
+            192979, -- Increased Stamina and Versatility
+            
+            192974, -- Increased Stamina and Mastery
+            192975, -- Increased Stamina and Mastery
+            192976, -- Increased Stamina and Mastery
+        };
+
+        -- There is no escaping the cache!!!
+        function addon:PLAYER_ENTERING_WORLD(isInitialLogin, isReloadingUi)
+            for _,gemID in ipairs(gemsWeCareAbout) do
+                GetItemInfo(gemID);
+            end
+        end
+
         local eventListener = CreateFrame("frame");
         eventListener:SetScript("OnEvent",function (self,event,...)
             addon[event](addon,...);
@@ -531,5 +663,6 @@ function Module:OnEnable()
         eventListener:RegisterEvent("ADDON_LOADED");
         eventListener:RegisterEvent("SOCKET_INFO_UPDATE");
         eventListener:RegisterEvent("UNIT_INVENTORY_CHANGED");
+        eventListener:RegisterEvent("PLAYER_ENTERING_WORLD");
     end
 end
