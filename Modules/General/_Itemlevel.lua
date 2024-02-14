@@ -620,7 +620,7 @@ function Module:OnEnable()
             192934, -- Increased Versatility and Haste
             192935, -- Increased Versatility and Haste
             
-            192930, -- Increased Versatility and Critical Strike
+            192929, -- Increased Versatility and Critical Strike
             192931, -- Increased Versatility and Critical Strike
             192932, -- Increased Versatility and Critical Strike
             
