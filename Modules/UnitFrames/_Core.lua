@@ -8,18 +8,20 @@ function Module:OnEnable()
     if db.texture ~= [[Interface\Default]] then
         local function manaTexture(self)
             if self and self.powerType then
-                -- Get Power Color
-                local powerColor = PowerBarColor[self.powerType]
+                if self.unit ~= 'player' then
+                    -- Get Power Color
+                    local powerColor = PowerBarColor[self.powerType]
 
-                -- Set Texture
-                self.texture:SetTexture(db.texture)
+                    -- Set Texture
+                    self.texture:SetTexture(db.texture)
 
-                -- Set Power Color
-                if self.unitFrame and self.unitFrame.manabar then
-                    if self.powerType == 0 then
-                        self.unitFrame.manabar:SetStatusBarColor(0, 0.5, 1)
-                    else
-                        self.unitFrame.manabar:SetStatusBarColor(powerColor.r, powerColor.g, powerColor.b)
+                    -- Set Power Color
+                    if self.unitFrame and self.unitFrame.manabar then
+                        if self.powerType == 0 then
+                            self.unitFrame.manabar:SetStatusBarColor(0, 0.5, 1)
+                        else
+                            self.unitFrame.manabar:SetStatusBarColor(powerColor.r, powerColor.g, powerColor.b)
+                        end
                     end
                 end
             end

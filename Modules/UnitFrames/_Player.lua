@@ -23,8 +23,26 @@ function Module:OnEnable()
             end
         end
 
+        local function manaTexture(self)
+            if self and self.manabar then
+                -- Get Power Color
+                local powerColor = PowerBarColor[self.manabar.powerType]
+
+                -- Set Texture
+                self.manabar.texture:SetTexture(db.texture)
+
+                -- Set Power Color
+                if self.manabar.powerType == 0 then
+                    self.manabar:SetStatusBarColor(0, 0.5, 1)
+                else
+                    self.manabar:SetStatusBarColor(powerColor.r, powerColor.g, powerColor.b)
+                end
+            end
+        end
+
         PlayerFrame:HookScript("OnEvent", function(self, event)
             healthTexture(self, event)
+            manaTexture(self, event)
 
             if not db.unitframes.cornericon then
                 PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual.PlayerPortraitCornerIcon:Hide()
