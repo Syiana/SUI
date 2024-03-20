@@ -8,9 +8,9 @@ function Module:OnEnable()
             GameTimeFrame:Hide()
         end
         if not db.tracking then
-            MinimapCluster.Tracking.Button:UnregisterAllEvents()
-            MinimapCluster.Tracking.Button:Hide()
-            MinimapCluster.Tracking.Background:Hide()
+            MinimapCluster.TrackingFrame.Button:UnregisterAllEvents()
+            MinimapCluster.TrackingFrame.Button:Hide()
+            MinimapCluster.TrackingFrame.Background:Hide()
         end
         if not db.clock then
             TimeManagerClockButton:Hide()
