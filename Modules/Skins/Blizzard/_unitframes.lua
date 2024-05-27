@@ -43,6 +43,7 @@ function Module:OnEnable()
         classBar:RegisterEvent("PLAYER_ENTERING_WORLD")
         classBar:RegisterEvent("PLAYER_LOGIN")
         classBar:RegisterEvent("PLAYER_SPECIALIZATION_CHANGED")
+        classBar:RegisterEvent("UPDATE_SHAPESHIFT_FORM")
         classBar:HookScript("OnEvent", function()
             -- Rogue
             for rogue, v in pairs(RogueComboPointBarFrame.classResourceButtonPool.activeObjects) do
