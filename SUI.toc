@@ -1,6 +1,6 @@
 ## Interface: 100207
 ## Author: Syiana & Muleyo
-## Version: 10.2.18
+## Version: 10.2.19
 ## Title: |cffea00ffS|r|cff00a2ffUI|r
 ## SavedVariables: SUIDB
 ## IconTexture: Interface\AddOns\SUI\Media\Icons\SUI
