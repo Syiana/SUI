@@ -7,15 +7,9 @@ function Module:OnEnable()
         local FONT = STANDARD_TEXT_FONT
         local dominos = IsAddOnLoaded("Dominos")
         local bartender = IsAddOnLoaded("Bartender4")
-        local db = { buttons = SUI.db.profile.actionbar.buttons }
-
-        local Backdrop = {
-            bgFile = "",
-            edgeFile = "Interface\\Addons\\SUI\\Media\\Textures\\Core\\outer_shadow",
-            tile = false,
-            tileSize = 32,
-            edgeSize = 5,
-            insets = { left = 5, right = 5, top = 5, bottom = 5 }
+        local db = { 
+            buttons = SUI.db.profile.actionbar.buttons,
+            menu = SUI.db.profile.actionbar.menu
         }
 
         local Bars = {
@@ -29,10 +23,62 @@ function Module:OnEnable()
             _G["MultiBar7"],
         }
 
-        EventFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
-        EventFrame:RegisterEvent("UPDATE_BINDINGS")
+        local function UpdateHotkeys(Button)
+            local Name = Button:GetName()
+            local HotKey = _G[Name .. "HotKey"]
+            local Macro = _G[Name .. "Name"]
+            local Count = _G[Name .. "Count"]
 
-        function Init()
+            HotKey:SetFont(FONT, db.buttons.size, "OUTLINE")
+            Macro:SetFont(FONT, db.buttons.size, "OUTLINE")
+            Count:SetFont(FONT, db.buttons.size, "OUTLINE")
+
+            local HotKeyAlpha = db.buttons.key and 1 or 0
+            local MacroAlpha = db.buttons.macro and 1 or 0
+
+            HotKey:SetAlpha(HotKeyAlpha)
+            Macro:SetAlpha(MacroAlpha)
+        end
+
+        local function StyleButton(Button, Type)
+            local Name = Button:GetName()
+            local NormalTexture = _G[Name .. "NormalTexture"]
+            local Icon = _G[Name .. "Icon"]
+            local Cooldown = _G[Name .. "Cooldown"]
+
+            if Button.Shadow == nil then
+                NormalTexture:SetDesaturated(true)
+                NormalTexture:SetVertexColor(unpack(SUI:Color(0.15)))
+
+                Cooldown:ClearAllPoints()
+                Cooldown:SetPoint("TOPLEFT", Button, "TOPLEFT", 2, -2.5)
+                Cooldown:SetPoint("BOTTOMRIGHT", Button, "BOTTOMRIGHT", -3, 3)
+
+                Icon:SetTexCoord(.08, .92, .08, .92)
+
+                if bartender then
+                    local ButtonWidth, ButtonHeight = Button:GetSize()
+                    Button:GetNormalTexture():SetSize(ButtonWidth + 2, ButtonHeight + 1)
+
+                   if Type ~= "Stance" and Type ~= "Pet" then
+                        Button:GetNormalTexture():SetTexCoord(0, 1, 0, 1)
+                        Button:GetNormalTexture():SetSize(ButtonWidth + 6, ButtonHeight + 5)
+                   end
+                end
+            end
+        end
+
+        local function StyleAction(Bar, Num)
+            for i = 1, Num do
+                local Name = Bar:GetName()
+                local Button = _G[Name .. "Button" .. i]
+
+                StyleButton(Button, "Actionbar")
+                UpdateHotkeys(Button)
+            end
+        end
+
+        local function Init()
             for j = 1, #Bars do
                 local Bar = Bars[j]
                 if Bar then
@@ -62,76 +108,9 @@ function Module:OnEnable()
             end
         end
 
-        function StyleAction(Bar, Num)
-            for i = 1, Num do
-                local Name = Bar:GetName()
-                local Button = _G[Name .. "Button" .. i]
-
-                StyleButton(Button, "Actionbar")
-                UpdateHotkeys(Button)
-            end
-        end
-
-        function StyleButton(Button, Type)
-            local Name = Button:GetName()
-            local NormalTexture = _G[Name .. "NormalTexture"]
-            local Icon = _G[Name .. "Icon"]
-            local Cooldown = _G[Name .. "Cooldown"]
-
-            if Button.Shadow == nil then
-                NormalTexture:SetDesaturated(true)
-                NormalTexture:SetVertexColor(unpack(SUI:Color(0.15)))
-
-                Cooldown:ClearAllPoints()
-                Cooldown:SetPoint("TOPLEFT", Button, "TOPLEFT", 1, -2)
-                Cooldown:SetPoint("BOTTOMRIGHT", Button, "BOTTOMRIGHT", -2, 2)
-
-                Icon:SetTexCoord(.08, .92, .08, .92)
-
-                Button:SetNormalTexture("Interface\\Addons\\SUI\\Media\\Textures\\Core\\UIActionBar")
-                Button:GetNormalTexture():SetTexCoord(0.701171875, 0.880859375, 0.31689453125, 0.36083984375)
-
-                local ButtonWidth, ButtonHeight = Button:GetSize()
-                Button:GetNormalTexture():SetSize(ButtonWidth + 2, ButtonHeight + 1)
-                
-                
-                if bartender then
-                   if Type ~= "Stance" and Type ~= "Pet" then
-                        Button:GetNormalTexture():SetTexCoord(0, 1, 0, 1)
-                        Button:GetNormalTexture():SetSize(ButtonWidth + 6, ButtonHeight + 5)
-                   end
-                end
-
-                Button.Shadow = CreateFrame("Frame", nil, Button, "BackdropTemplate")
-                Button.Shadow:SetPoint("TOPLEFT", Button, "TOPLEFT", -3, 3)
-                Button.Shadow:SetPoint("BOTTOMRIGHT", Button, "BOTTOMRIGHT", 2, -2)
-                Button.Shadow:SetFrameLevel(Button:GetFrameLevel() - 1)
-                Button.Shadow:SetBackdrop(Backdrop)
-                Button.Shadow:SetBackdropBorderColor(unpack(SUI:Color(0.15)))
-                --Button.Shadow:SetBackdropBorderColor(0, 0, 0)
-            end
-        end
-
-        function UpdateHotkeys(Button)
-            local Name = Button:GetName()
-            local HotKey = _G[Name .. "HotKey"]
-            local Macro = _G[Name .. "Name"]
-            local Count = _G[Name .. "Count"]
-
-            HotKey:SetFont(FONT, db.buttons.size, "OUTLINE")
-            Macro:SetFont(FONT, db.buttons.size, "OUTLINE")
-            Count:SetFont(FONT, db.buttons.size, "OUTLINE")
-
-            local HotKeyAlpha = db.buttons.key and 1 or 0
-            local MacroAlpha = db.buttons.macro and 1 or 0
-
-            HotKey:SetAlpha(HotKeyAlpha)
-            Macro:SetAlpha(MacroAlpha)
-        end
-
         if dominos then
             if IsAddOnLoaded("Masque") then return end
-            for i = 1, 120 do
+            for i = 1, 140 do
                 local ActionButton = _G["DominosActionButton" .. i]
                 if ActionButton then
                     StyleButton(ActionButton)
@@ -175,7 +154,6 @@ function Module:OnEnable()
             end
         end
 
-        EventFrame:SetScript("OnEvent", Init)
-        hooksecurefunc(C_EditMode, "OnEditModeExit", Init)
+        Init()
     end
 end

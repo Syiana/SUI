@@ -90,8 +90,7 @@ local defaults = {
             },
             menu = {
                 micromenu = 'show',
-                bagbar = 'show',
-                size = 0.8
+                bagbar = 'show'
             },
             bars = {
                 bar1 = false,

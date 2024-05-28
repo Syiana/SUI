@@ -9,8 +9,4 @@ function Menu:OnEnable()
         microPos = SUI.db.profile.edit.micromenu,
         menuSize = SUI.db.profile.actionbar.menu.size
     }
-
-    MicroMenu:HookScript("OnUpdate", function(self)
-        self:SetScale(db.menuSize)
-    end)
 end

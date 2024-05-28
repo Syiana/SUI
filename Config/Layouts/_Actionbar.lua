@@ -83,21 +83,6 @@ function Layout:OnEnable()
                         { value = 'mouse_over', text = 'Show on Mouseover' },
                         { value = 'hide', text = 'Hide' }
                     },
-                },
-                micromenuSize = {
-                    key = 'menu.size',
-                    type = 'slider',
-                    label = 'MicroMenu Size',
-                    column = 4,
-                    order = 4,
-                    precision = 1,
-                    min = 0.5,
-                    max = 1,
-                    onChange = function(slider)
-                        MicroMenu:HookScript("OnUpdate", function(self)
-                            self:SetScale(slider.value)
-                        end)
-                    end,
                 }
             },
             {
