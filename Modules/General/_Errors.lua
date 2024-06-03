@@ -1,45 +1,30 @@
 local Module = SUI:NewModule("General.Errors");
 
 function Module:OnEnable()
-    local db = SUI.db.profile.general.cosmetic.errors
-    if not db then
-        local colors = {
-            UI_INFO_MESSAGE = { r = 1.0, g = 1.0, b = 0.0 },
-            UI_ERROR_MESSAGE = { r = 1.0, g = 0.1, b = 0.1 },
-        }
-        
-        local map = {
-            SYSMSG = "system",
-            UI_INFO_MESSAGE = "information",
-            UI_ERROR_MESSAGE = "errors",
-        }
+    local event_frame = CreateFrame("Frame")
+    local errormessage_blocks = {
+      "Ability is not ready yet",
+      "Another action is in progress",
+      "Can't attack while mounted",
+      "Can't do that while moving",
+      "Item is not ready yet",
+      "Not enough",
+      "Nothing to attack",
+      "Spell is not ready yet",
+      "You have no target",
+      "You can't do that yet"
+    }
+    local enable
+    local onevent
+    local uierrorsframe_addmessage
+    local old_uierrosframe_addmessage
+    old_uierrosframe_addmessage = UIErrorsFrame.AddMessage
+    UIErrorsFrame.AddMessage = uierrorsframe_addmessage
 
-        local originalOnEvent = UIErrorsFrame:GetScript("OnEvent")
-        local GetGameMessageInfo, PlayVocalErrorSoundID, PlaySound = GetGameMessageInfo, PlayVocalErrorSoundID, PlaySound
-        UIErrorsFrame:SetScript("OnEvent", function(self, event, ...)
-            local messageType, message, r, g, b
-
-            if event == "SYSMSG" then
-                message, r, g, b = ...
-                return originalOnEvent(self, event, ...)
-            elseif event == "UI_INFO_MESSAGE" then
-                messageType, message = ...
-                return originalOnEvent(self, event, ...)
-            end
-
-            if event ~= "SYSMSG" then
-                messageType, message = ...
-                r, g, b = colors[event].r, colors[event].g, colors[event].b
-                local _, soundKitID, voiceID = GetGameMessageInfo(messageType)
-                if voiceID then
-                    PlayVocalErrorSoundID(voiceID)
-                elseif soundKitID then
-                    PlaySound(soundKitID)
-                end
-            elseif event == "UI_INFO_MESSAGE" then
-                messageType, message = ...
-                return originalOnEvent(self, event, ...)
-            end
-        end)
+    function uierrorsframe_addmessage(frame, text, red, green, blue, id)
+      for i, v in ipairs(errormessage_blocks) do
+        if text and text:match(v) then return end
+      end
+      old_uierrosframe_addmessage(frame, text, red, green, blue, id)
     end
 end

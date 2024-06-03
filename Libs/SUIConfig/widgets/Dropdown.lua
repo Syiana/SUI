@@ -238,10 +238,10 @@ function SUIConfig:Dropdown(parent, width, height, options, value, multi, assoc)
 	-- make it shorter because of arrow
 	dropdown.text:ClearAllPoints();
 	self:GlueAcross(dropdown.text, dropdown, 2, -2, -16, 2);
-
-	local dropTex = self:Texture(dropdown, 10, 12, [[Interface\Buttons\SquareButtonTextures]]);
+	
+	local dropTex = self:Texture(dropdown, 15, 15, [[Interface\Buttons\SquareButtonTextures]]);
 	dropTex:SetTexCoord(0.45312500, 0.64062500, 0.20312500, 0.01562500);
-	self:GlueRight(dropTex, dropdown, -4, 0, true);
+	self:GlueRight(dropTex, dropdown, -2, 0, true);
 
 	self:ApplyBackdrop(dropdown, 'dropdown');
 

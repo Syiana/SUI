@@ -66,9 +66,6 @@ SUIConfig.ScrollFrameEvents = {
 		local scrollUpButton = scrollbar.ScrollUpButton;
 		local thumbTexture = scrollbar.ThumbTexture;
 
-		scrollUpButton:Hide();
-		--scrollUpButton:SetTexture([[Interface\AddOns\SUI\Libs\SUIConfig\media\ScrollUp]])
-
 		if yRange == 0 then
 			if self.scrollBarHideable then
 				scrollbar:Hide();
@@ -144,7 +141,7 @@ function SUIConfig:ScrollFrame(parent, width, height, scrollChild)
 	local panel = self:Panel(parent, width, height);
 	panel.SUIConfig = self;
 	panel.offset = 0;
-	panel.scrollBarWidth = 14;
+	panel.scrollBarWidth = 16;
 
 	local scrollFrame = CreateFrame('ScrollFrame', nil, panel);
 	local scrollBar = self:ScrollBar(panel, panel.scrollBarWidth);

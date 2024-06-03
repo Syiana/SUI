@@ -1,43 +1,27 @@
 local Module = SUI:NewModule("CastBars.Target");
 
+local TargetFrameDragFrame = CreateFrame("Frame", "TargetFrameDragFrame", UIParent)
+TargetFrameDragFrame:SetPoint("CENTER", MainMenuBar, "CENTER", 0, 200)
+
 function Module:OnEnable()
-    local db = SUI.db.profile.castbars
-
-    if (db.style == 'Custom' and db.targetCastbar) then
-        TargetFrameSpellBar:HookScript("OnEvent", function(self)
-            if self:IsForbidden() then return end
-            if InCombatLockdown() then return end
-            TargetFrameSpellBar:SetScale(db.targetSize)
-            self.Icon:SetSize(16, 16)
-            self.Icon:ClearAllPoints()
-            self.Icon:SetPoint("TOPLEFT", self, "TOPLEFT", -20, 2)
-            self.BorderShield:ClearAllPoints()
-            self.BorderShield:SetPoint("CENTER", self.Icon, "CENTER", 0, -2.5)
-            self:SetSize(150, 12)
-            self.TextBorder:ClearAllPoints()
-            self.TextBorder:SetAlpha(0)
-            self.Text:ClearAllPoints()
-            self.Text:SetPoint("TOP", self, "TOP", 0, 1.5)
-            self.Text:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
-            self.Border:SetVertexColor(unpack(SUI:Color(0.15)))
-            self.Background:SetVertexColor(unpack(SUI:Color(0.15)))
-
-            if (db.targetOnTop) then
-                self:ClearAllPoints()
-                self:SetPoint("TOPLEFT", TargetFrame, "TOPLEFT", 45, 0)
-            end
-
-            if not db.icon then
-                self.Icon:Hide()
-            end
-
-            local castText = self.Text:GetText()
-            if castText ~= nil then
-                if (strlen(castText) > 19) then
-                    local newCastText = strsub(castText, 0, 19)
-                    self.Text:SetText(newCastText .. "...")
-                end
-            end
-        end)
+  local db = SUI.db.profile.castbars
+    if (db.style == 'Custom') then
+        if not InCombatLockdown() then
+          TargetFrameSpellBar.ignoreFramePositionManager = true
+          TargetFrameSpellBar:SetMovable(true)
+          TargetFrameSpellBar:ClearAllPoints()
+          TargetFrameSpellBar:SetScale(1.32)
+          TargetFrameSpellBar:SetPoint("CENTER", TargetFrameDragFrame)
+          TargetFrameSpellBar:SetUserPlaced(false)
+          TargetFrameSpellBar:SetMovable(false)
+          TargetFrameSpellBar.Icon:SetPoint("RIGHT", TargetFrameSpellBar, "LEFT", -3, 0)
+          TargetFrameSpellBar.SetPoint = function()end
+          TargetFrameSpellBar:SetStatusBarColor(1, 0, 0)
+          TargetFrameSpellBar.SetStatusBarColor = function()end
+          TargetFrameDragFrame:SetWidth(CastingBarFrame:GetWidth())
+          TargetFrameDragFrame:SetHeight(CastingBarFrame:GetHeight())
+          --Texture
+          TargetFrameSpellBar:SetStatusBarTexture("Interface\\Addons\\SUI\\Media\\Textures\\Unitframes\\UI-StatusBar")
+        end
     end
 end

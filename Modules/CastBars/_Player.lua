@@ -1,25 +1,31 @@
 local Module = SUI:NewModule("CastBars.Player");
 
 function Module:OnEnable()
-    local db = SUI.db.profile.castbars
-
-    if (db.style == 'Custom') then
-        PlayerCastingBarFrame:HookScript("OnEvent", function()
-            PlayerCastingBarFrame.StandardGlow:Hide()
-            PlayerCastingBarFrame.TextBorder:Hide()
-            PlayerCastingBarFrame:SetSize(209, 18)
-            PlayerCastingBarFrame.TextBorder:ClearAllPoints()
-            PlayerCastingBarFrame.TextBorder:SetAlpha(0)
-            PlayerCastingBarFrame.Text:ClearAllPoints()
-            PlayerCastingBarFrame.Text:SetPoint("TOP", PlayerCastingBarFrame, "TOP", 0, -1)
-            PlayerCastingBarFrame.Text:SetFont(STANDARD_TEXT_FONT, 12, "OUTLINE")
-            PlayerCastingBarFrame.Border:SetVertexColor(unpack(SUI:Color(0.15)))
-            PlayerCastingBarFrame.Background:SetVertexColor(unpack(SUI:Color(0.15)))
-
-            if db.icon then
-                PlayerCastingBarFrame.Icon:Show()
-                PlayerCastingBarFrame.Icon:SetSize(20, 20)
-            end
-        end)
+  local db = SUI.db.profile.castbars
+  if (db.style == 'Custom') then
+        if not InCombatLockdown() then
+            CastingBarFrame.ignoreFramePositionManager = true
+            CastingBarFrame:SetMovable(true)
+            CastingBarFrame:ClearAllPoints()
+            CastingBarFrame:SetScale(1)
+            CastingBarFrame:SetUserPlaced(true)
+            CastingBarFrame:SetPoint("CENTER", MainMenuBar, "CENTER", 0, 120)
+            CastingBarFrame.Icon:Show()
+            CastingBarFrame.Icon:ClearAllPoints()
+            CastingBarFrame.Icon:SetSize(20, 20)
+            CastingBarFrame.Icon:SetPoint("RIGHT", CastingBarFrame, "LEFT", -5, 0)
+            CastingBarFrame.Border:SetTexture("Interface\\CastingBar\\UI-CastingBar-Border-Small")
+            CastingBarFrame.Flash:SetTexture("Interface\\CastingBar\\UI-CastingBar-Flash-Small")
+            CastingBarFrame.Text:ClearAllPoints()
+            CastingBarFrame.Text:SetPoint("CENTER", 0, 1)
+            CastingBarFrame.Border:SetWidth(CastingBarFrame.Border:GetWidth() + 4)
+            CastingBarFrame.Flash:SetWidth(CastingBarFrame.Flash:GetWidth() + 4)
+            CastingBarFrame.BorderShield:SetWidth(CastingBarFrame.BorderShield:GetWidth() + 4)
+            CastingBarFrame.Border:SetPoint("TOP", 0, 26)
+            CastingBarFrame.Flash:SetPoint("TOP", 0, 26)
+            CastingBarFrame.BorderShield:SetPoint("TOP", 0, 26)
+            --Texture
+            CastingBarFrame:SetStatusBarTexture("Interface\\Addons\\SUI\\Media\\Textures\\Unitframes\\UI-StatusBar")
+        end
     end
 end

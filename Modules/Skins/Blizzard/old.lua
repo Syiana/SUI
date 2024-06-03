@@ -1,8 +1,8 @@
 local Core = SUI:NewModule("Skins.Core");
 
 function Core:OnEnable()
-	local db = SUI.db.profile.general
-	local color = SUI:Color()
+  local db = SUI.db.profile.general
+  local color = SUI:Color()
 
 	if (db and color) then
 		--Frames
@@ -22,9 +22,8 @@ function Core:OnEnable()
 			StaticPopup1.Border.TopRightCorner,
 			StaticPopup1.Border.TopLeftCorner,
 			StaticPopup1.Border.BottomLeftCorner,
-			StaticPopup1.Border.BottomRightCorner
-		}) do
-			v:SetVertexColor(color)
+			StaticPopup1.Border.BottomRightCorner}) do
+				v:SetVertexColor(color)
 		end
 
 		-- add backdrop mixin if required
@@ -35,44 +34,41 @@ function Core:OnEnable()
 		end
 
 		-- Tooltip
-		local function styleTooltip(self, style)
+		local function styleTooltip(self,style)
 			addBackDropMixin(self)
 			backdrop = {
 				bgFile = "Interface\\Buttons\\WHITE8x8",
-				bgColor = { 0.03, 0.03, 0.03, 0.9 },
+				bgColor = {0.03,0.03,0.03, 0.9},
 				edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
-				borderColor = { 0.03, 0.03, 0.03, 0.9 },
+				borderColor = {0.03,0.03,0.03, 0.9},
 				itemBorderColorAlpha = 0.9,
-				azeriteBorderColor = { 1, 0.3, 0, 0.9 },
+				azeriteBorderColor = {1,0.3,0,0.9},
 				tile = false,
 				tileEdge = false,
 				tileSize = 16,
 				edgeSize = 16,
-				insets = { left = 3, right = 3, top = 3, bottom = 3 }
-			}
+				insets = {left=3, right=3, top=3, bottom=3}
+		  	}
 			self:SetBackdrop(backdrop)
 			self:SetBackdropColor(unpack(backdrop.bgColor))
 			local _, itemLink = self:GetItem()
 			if itemLink then
-				local azerite = C_AzeriteEmpoweredItem.IsAzeriteEmpoweredItemByID(itemLink) or
-					C_AzeriteItem.IsAzeriteItemByID(itemLink) or false
+				local azerite = C_AzeriteEmpoweredItem.IsAzeriteEmpoweredItemByID(itemLink) or C_AzeriteItem.IsAzeriteItemByID(itemLink) or false
 				local _, _, itemRarity = GetItemInfo(itemLink)
-				local r, g, b = 1, 1, 1
-				if itemRarity then r, g, b = GetItemQualityColor(itemRarity) end
+				local r,g,b = 1,1,1
+				if itemRarity then r,g,b = GetItemQualityColor(itemRarity) end
 				if azerite and backdrop.azeriteBorderColor then
 					self:SetBackdropBorderColor(backdrop.azeriteBorderColor)
 				else
-					self:SetBackdropBorderColor(r, g, b, backdrop.itemBorderColorAlpha)
+					self:SetBackdropBorderColor(r,g,b, backdrop.itemBorderColorAlpha)
 				end
 			else
-				self:SetBackdropBorderColor(backdrop.borderColor)
+			  	self:SetBackdropBorderColor(backdrop.borderColor)
 			end
 		end
-
 		hooksecurefunc("SharedTooltip_SetBackdropStyle", styleTooltip)
-		local tooltips = { GameTooltip, ShoppingTooltip1, ShoppingTooltip2, ItemRefTooltip, ItemRefShoppingTooltip1,
-			ItemRefShoppingTooltip2, WorldMapTooltip,
-			WorldMapCompareTooltip1, WorldMapCompareTooltip2, SmallTextTooltip }
+		local tooltips = { GameTooltip,ShoppingTooltip1,ShoppingTooltip2,ItemRefTooltip,ItemRefShoppingTooltip1,ItemRefShoppingTooltip2,WorldMapTooltip,
+		WorldMapCompareTooltip1,WorldMapCompareTooltip2,SmallTextTooltip }
 		for i, tooltip in next, tooltips do styleTooltip(tooltip) end
 
 		-- Unitframes
@@ -134,7 +130,7 @@ function Core:OnEnable()
 			for g = 1, NUM_RAID_GROUPS do
 				local group = _G["CompactRaidGroup" .. g .. "BorderFrame"]
 				if group then
-					for _, region in pairs({ group:GetRegions() }) do
+					for _, region in pairs({group:GetRegions()}) do
 						if region:IsObjectType("Texture") then
 							region:SetVertexColor(.15, .15, .15)
 						end
@@ -144,7 +140,7 @@ function Core:OnEnable()
 					local frame = _G["CompactRaidGroup" .. g .. "Member" .. m]
 					if frame then
 						groupcolored = true
-						for _, region in pairs({ frame:GetRegions() }) do
+						for _, region in pairs({frame:GetRegions()}) do
 							if region:GetName():find("Border") then
 								region:SetVertexColor(.15, .15, .15)
 							end
@@ -153,7 +149,7 @@ function Core:OnEnable()
 					local frame = _G["CompactRaidFrame" .. m]
 					if frame then
 						singlecolored = true
-						for _, region in pairs({ frame:GetRegions() }) do
+						for _, region in pairs({frame:GetRegions()}) do
 							if region:GetName():find("Border") then
 								region:SetVertexColor(.15, .15, .15)
 							end
@@ -161,7 +157,7 @@ function Core:OnEnable()
 					end
 				end
 			end
-			for _, region in pairs({ CompactRaidFrameContainerBorderFrame:GetRegions() }) do
+			for _, region in pairs({CompactRaidFrameContainerBorderFrame:GetRegions()}) do
 				if region:IsObjectType("Texture") then
 					region:SetVertexColor(.15, .15, .15)
 				end
@@ -177,8 +173,8 @@ function Core:OnEnable()
 			PetHitIndicator:SetText(nil)
 			PetHitIndicator.SetText = function()
 			end
-			for _, child in pairs({ WarlockPowerFrame:GetChildren() }) do
-				for _, region in pairs({ child:GetRegions() }) do
+			for _, child in pairs({WarlockPowerFrame:GetChildren()}) do
+				for _, region in pairs({child:GetRegions()}) do
 					if region:GetDrawLayer() == "BORDER" then
 						region:SetVertexColor(.15, .15, .15)
 					end
@@ -187,12 +183,12 @@ function Core:OnEnable()
 
 		end)
 
-		for _, region in pairs({ CompactRaidFrameManager:GetRegions() }) do
+		for _, region in pairs({CompactRaidFrameManager:GetRegions()}) do
 			if region:IsObjectType("Texture") then
 				region:SetVertexColor(.15, .15, .15)
 			end
 		end
-		for _, region in pairs({ CompactRaidFrameManagerContainerResizeFrame:GetRegions() }) do
+		for _, region in pairs({CompactRaidFrameManagerContainerResizeFrame:GetRegions()}) do
 			if region:GetName():find("Border") then
 				region:SetVertexColor(.15, .15, .15)
 			end
@@ -207,10 +203,10 @@ function Core:OnEnable()
 
 		-- Bags
 		for i = 1, 5 do
-			_G["ContainerFrame" .. i .. "BackgroundTop"]:SetVertexColor(.2, .2, .2)
-			_G["ContainerFrame" .. i .. "BackgroundMiddle1"]:SetVertexColor(.2, .2, .2)
-			_G["ContainerFrame" .. i .. "BackgroundMiddle2"]:SetVertexColor(.2, .2, .2)
-			_G["ContainerFrame" .. i .. "BackgroundBottom"]:SetVertexColor(.2, .2, .2)
+			_G["ContainerFrame".. i .."BackgroundTop"]:SetVertexColor(.2, .2, .2)
+			_G["ContainerFrame".. i .."BackgroundMiddle1"]:SetVertexColor(.2, .2, .2)
+			_G["ContainerFrame".. i .."BackgroundMiddle2"]:SetVertexColor(.2, .2, .2)
+			_G["ContainerFrame".. i .."BackgroundBottom"]:SetVertexColor(.2, .2, .2)
 		end
 		BackpackTokenFrame:GetRegions():SetVertexColor(.2, .2, .2)
 
@@ -263,7 +259,7 @@ function Core:OnEnable()
 
 		-- Minimap
 
-		for _, region in pairs({ StopwatchFrame:GetRegions() }) do
+		for _, region in pairs({StopwatchFrame:GetRegions()}) do
 			region:SetVertexColor(.15, .15, .15)
 		end
 
@@ -285,15 +281,14 @@ function Core:OnEnable()
 			PVPReadyDialog.Border.TopRightCorner,
 			PVPReadyDialog.Border.TopLeftCorner,
 			PVPReadyDialog.Border.BottomLeftCorner,
-			PVPReadyDialog.Border.BottomRightCorner,
-		}) do
-			v:SetVertexColor(.3, .3, .3)
+			PVPReadyDialog.Border.BottomRightCorner,}) do
+				v:SetVertexColor(.3, .3, .3)
 		end
 
 		-- Timer
 		TimerTracker:HookScript("OnEvent", function(self, event, timerType, timeSeconds, totalTime)
 			for i = 1, #self.timerList do
-				_G['TimerTrackerTimer' .. i .. 'StatusBarBorder']:SetVertexColor(.3, .3, .3)
+				_G['TimerTrackerTimer'..i..'StatusBarBorder']:SetVertexColor(.3, .3, .3)
 			end
 		end)
 
@@ -309,15 +304,14 @@ function Core:OnEnable()
 			SpellBookFrame.NineSlice.TopLeftCorner,
 			SpellBookFrame.NineSlice.BottomLeftCorner,
 			SpellBookFrame.NineSlice.BottomRightCorner,
-			SpellBookFrameInset.NineSlice.BottomEdge, }) do
-			v:SetVertexColor(.15, .15, .15)
+		 	SpellBookFrameInset.NineSlice.BottomEdge, }) do
+				v:SetVertexColor(.15, .15, .15)
 		end
 		for i, v in pairs({
 			SpellBookFrame.Bg,
 			SpellBookFrame.TitleBg,
-			SpellBookFrameInset.Bg
-		}) do
-			v:SetVertexColor(.3, .3, .3)
+			SpellBookFrameInset.Bg }) do
+				v:SetVertexColor(.3, .3, .3)
 		end
 		SpellBookFrameInset:SetAlpha(0)
 
@@ -330,7 +324,7 @@ function Core:OnEnable()
 			PVEFrame.NineSlice.BottomLeftCorner,
 			PVEFrame.NineSlice.LeftEdge,
 			PVEFrame.NineSlice.TopLeftCorner }) do
-			v:SetVertexColor(.15, .15, .15)
+				v:SetVertexColor(.15, .15, .15)
 		end
 		for i, v in pairs({
 			PVEFrame.Bg,
@@ -376,17 +370,15 @@ function Core:OnEnable()
 			LFGListFrame.CategorySelection.Inset.NineSlice.BottomEdge,
 			LFGListFrame.CategorySelection.Inset.NineSlice.BottomLeftCorner,
 			LFGListFrame.CategorySelection.Inset.NineSlice.LeftEdge,
-			LFGListFrame.CategorySelection.Inset.NineSlice.TopLeftCorner,
-		}) do
-			v:SetVertexColor(.3, .3, .3)
+			LFGListFrame.CategorySelection.Inset.NineSlice.TopLeftCorner, }) do
+				v:SetVertexColor(.3, .3, .3)
 		end
 		for i, v in pairs({
 			PVEFrameTopFiligree,
 			PVEFrameBottomFiligree,
 			PVEFrameBlueBg,
-			LFGListFrame.CategorySelection.Inset.CustomBG
-		}) do
-			v:SetVertexColor(.5, .5, .5)
+			LFGListFrame.CategorySelection.Inset.CustomBG }) do
+				v:SetVertexColor(.5, .5, .5)
 		end
 
 		-- Friends
@@ -407,9 +399,8 @@ function Core:OnEnable()
 			FriendsFriendsFrame.Border.TopRightCorner,
 			FriendsFriendsFrame.Border.TopLeftCorner,
 			FriendsFriendsFrame.Border.BottomLeftCorner,
-			FriendsFriendsFrame.Border.BottomRightCorner,
-		}) do
-			v:SetVertexColor(.15, .15, .15)
+			FriendsFriendsFrame.Border.BottomRightCorner, }) do
+				v:SetVertexColor(.15, .15, .15)
 		end
 		for i, v in pairs({
 			FriendsFrame.Bg,
@@ -422,9 +413,8 @@ function Core:OnEnable()
 			FriendsFrameInset.NineSlice.BottomEdge,
 			FriendsFrameInset.NineSlice.BottomLeftCorner,
 			FriendsFrameInset.NineSlice.LeftEdge,
-			FriendsFrameInset.NineSlice.TopLeftCorner
-		}) do
-			v:SetVertexColor(.3, .3, .3)
+			FriendsFrameInset.NineSlice.TopLeftCorner }) do
+				v:SetVertexColor(.3, .3, .3)
 		end
 		for i, v in pairs({
 			FriendsListFrameScrollFrameTop,
@@ -436,7 +426,7 @@ function Core:OnEnable()
 			FriendsListFrameScrollFrameScrollUpButton.Disabled,
 			FriendsListFrameScrollFrameScrollDownButton.Disabled,
 
-		}) do
+ 		}) do
 			v:SetVertexColor(.4, .4, .4)
 		end
 
@@ -451,22 +441,20 @@ function Core:OnEnable()
 			WorldMapFrame.BorderFrame.NineSlice.BottomLeftCorner,
 			WorldMapFrame.BorderFrame.NineSlice.LeftEdge,
 			WorldMapFrame.BorderFrame.NineSlice.TopLeftCorner, }) do
-			v:SetVertexColor(.15, .15, .15)
+				v:SetVertexColor(.15, .15, .15)
 		end
 		for i, v in pairs({
 			WorldMapFrame.NavBar.InsetBorderBottom,
 			WorldMapFrame.NavBar.InsetBorderBottomLeft,
 			WorldMapFrame.NavBar.InsetBorderBottomRight,
 			WorldMapFrame.NavBar.InsetBorderLeft,
-			WorldMapFrame.NavBar.InsetBorderRight,
-		}) do
-			v:SetVertexColor(.3, .3, .3)
+			WorldMapFrame.NavBar.InsetBorderRight, }) do
+				v:SetVertexColor(.3, .3, .3)
 		end
 		for i, v in pairs({
 			WorldMapFrame.BorderFrame.Bg,
-			WorldMapFrame.BorderFrame.TitleBg,
-		}) do
-			v:SetVertexColor(.3, .3, .3)
+			WorldMapFrame.BorderFrame.TitleBg, }) do
+				v:SetVertexColor(.3, .3, .3)
 		end
 
 		-- Channels
@@ -486,14 +474,13 @@ function Core:OnEnable()
 			ChannelFrame.RightInset.NineSlice.BottomLeftCorner,
 			ChannelFrame.RightInset.NineSlice.BottomRightCorner,
 			ChannelFrameInset.NineSlice.BottomEdge, }) do
-			v:SetVertexColor(.15, .15, .15)
+				v:SetVertexColor(.15, .15, .15)
 		end
 		for i, v in pairs({
 			ChannelFrame.Bg,
 			ChannelFrame.TitleBg,
-			ChannelFrameInset.Bg
-		}) do
-			v:SetVertexColor(.3, .3, .3)
+			ChannelFrameInset.Bg }) do
+				v:SetVertexColor(.3, .3, .3)
 		end
 
 		-- Chat
@@ -517,8 +504,8 @@ function Core:OnEnable()
 			ChatFrame6EditBoxMid,
 			ChatFrame7EditBoxLeft,
 			ChatFrame7EditBoxRight,
-			ChatFrame7EditBoxMid, }) do
-			v:SetVertexColor(.15, .15, .15)
+			ChatFrame7EditBoxMid,	}) do
+				v:SetVertexColor(.15, .15, .15)
 		end
 
 		-- Mail
@@ -538,9 +525,8 @@ function Core:OnEnable()
 			OpenMailFrame.NineSlice.BottomEdge,
 			OpenMailFrame.NineSlice.BottomLeftCorner,
 			OpenMailFrame.NineSlice.LeftEdge,
-			OpenMailFrame.NineSlice.TopLeftCorner,
-		}) do
-			v:SetVertexColor(.15, .15, .15)
+			OpenMailFrame.NineSlice.TopLeftCorner, }) do
+				v:SetVertexColor(.15, .15, .15)
 		end
 		for i, v in pairs({
 			MailFrameInset.NineSlice.TopEdge,
@@ -558,17 +544,15 @@ function Core:OnEnable()
 			OpenMailFrameInset.NineSlice.BottomEdge,
 			OpenMailFrameInset.NineSlice.BottomLeftCorner,
 			OpenMailFrameInset.NineSlice.LeftEdge,
-			OpenMailFrameInset.NineSlice.TopLeftCorner,
-		}) do
-			v:SetVertexColor(.3, .3, .3)
+			OpenMailFrameInset.NineSlice.TopLeftCorner,  }) do
+				v:SetVertexColor(.3, .3, .3)
 		end
 		for i, v in pairs({
 			MailFrame.Bg,
 			MailFrame.TitleBg,
 			OpenMailFrame.Bg,
-			OpenMailFrame.TitleBg
-		}) do
-			v:SetVertexColor(.3, .3, .3)
+			OpenMailFrame.TitleBg }) do
+				v:SetVertexColor(.3, .3, .3)
 		end
 
 		-- Merchant
@@ -581,14 +565,13 @@ function Core:OnEnable()
 			MerchantFrame.NineSlice.BottomLeftCorner,
 			MerchantFrame.NineSlice.BottomRightCorner,
 			StackSplitFrame.SingleItemSplitBackground, }) do
-			v:SetVertexColor(.15, .15, .15)
+				v:SetVertexColor(.15, .15, .15)
 		end
 		for i, v in pairs({
 			MerchantFrame.Bg,
 			MerchantFrame.TitleBg,
-			MerchantFrameInset.Bg
-		}) do
-			v:SetVertexColor(.3, .3, .3)
+			MerchantFrameInset.Bg }) do
+				v:SetVertexColor(.3, .3, .3)
 		end
 
 		-- Addonlist
@@ -600,9 +583,8 @@ function Core:OnEnable()
 			AddonList.NineSlice.TopRightCorner,
 			AddonList.NineSlice.TopLeftCorner,
 			AddonList.NineSlice.BottomLeftCorner,
-			AddonList.NineSlice.BottomRightCorner,
-		}) do
-			v:SetVertexColor(.15, .15, .15)
+			AddonList.NineSlice.BottomRightCorner, }) do
+				v:SetVertexColor(.15, .15, .15)
 		end
 		for i, v in pairs({
 			AddonListInset.NineSlice.TopEdge,
@@ -612,15 +594,13 @@ function Core:OnEnable()
 			AddonListInset.NineSlice.BottomEdge,
 			AddonListInset.NineSlice.BottomLeftCorner,
 			AddonListInset.NineSlice.LeftEdge,
-			AddonListInset.NineSlice.TopLeftCorner,
-		}) do
-			v:SetVertexColor(.3, .3, .3)
+			AddonListInset.NineSlice.TopLeftCorner, }) do
+				v:SetVertexColor(.3, .3, .3)
 		end
 		for i, v in pairs({
 			AddonListBg,
-			AddonList.TitleBg,
-		}) do
-			v:SetVertexColor(.3, .3, .3)
+			AddonList.TitleBg, }) do
+				v:SetVertexColor(.3, .3, .3)
 		end
 		for i, v in pairs({
 			AddonListScrollFrameScrollBarTop,
@@ -632,7 +612,7 @@ function Core:OnEnable()
 			AddonListScrollFrameScrollBarScrollUpButton.Disabled,
 			AddonListScrollFrameScrollBarScrollDownButton.Disabled,
 
-		}) do
+ 		}) do
 			v:SetVertexColor(.4, .4, .4)
 		end
 
@@ -664,9 +644,8 @@ function Core:OnEnable()
 		for i, v in pairs({
 			GossipFrame.Bg,
 			GossipFrame.TitleBg,
-			GossipFrameInset.Bg
-		}) do
-			v:SetVertexColor(.3, .3, .3)
+			GossipFrameInset.Bg }) do
+				v:SetVertexColor(.3, .3, .3)
 		end
 		for i, v in pairs({
 			GossipGreetingScrollFrameTop,
@@ -678,7 +657,7 @@ function Core:OnEnable()
 			GossipGreetingScrollFrameScrollBarScrollUpButton.Disabled,
 			GossipGreetingScrollFrameScrollBarScrollDownButton.Disabled,
 
-		}) do
+ 		}) do
 			v:SetVertexColor(.4, .4, .4)
 		end
 
@@ -690,14 +669,13 @@ function Core:OnEnable()
 			BankFrame.NineSlice.TopRightCorner,
 			BankFrame.NineSlice.TopLeftCorner,
 			BankFrame.NineSlice.BottomLeftCorner,
-			BankFrame.NineSlice.BottomRightCorner, }) do
-			v:SetVertexColor(.15, .15, .15)
+			BankFrame.NineSlice.BottomRightCorner,	}) do
+				v:SetVertexColor(.15, .15, .15)
 		end
 		for i, v in pairs({
 			BankFrame.Bg,
-			BankFrame.TitleBg
-		}) do
-			v:SetVertexColor(.3, .3, .3)
+			BankFrame.TitleBg }) do
+				v:SetVertexColor(.3, .3, .3)
 		end
 
 		-- Quest
@@ -735,14 +713,13 @@ function Core:OnEnable()
 			QuestNPCModelTextBottomLeftCorner,
 			QuestNPCModelTextLeftBorder,
 			QuestNPCModelTextTopLeftCorner, }) do
-			v:SetVertexColor(.15, .15, .15)
+				v:SetVertexColor(.15, .15, .15)
 		end
 		for i, v in pairs({
 			QuestFrame.Bg,
 			QuestFrame.TitleBg,
-			QuestFrameInset.Bg
-		}) do
-			v:SetVertexColor(.3, .3, .3)
+			QuestFrameInset.Bg }) do
+				v:SetVertexColor(.3, .3, .3)
 		end
 		--FIXSL Blizz thinks it is good to add more then 1 QuestFrame
 		-- for i, v in pairs({
@@ -755,7 +732,7 @@ function Core:OnEnable()
 		-- 	QuestScrollFrameScrollBarScrollUpButton.Disabled,
 		-- 	QuestScrollFrameScrollBarScrollDownButton.Disabled,
 
-		-- }) do
+ 		-- }) do
 		-- 	v:SetVertexColor(.4, .4, .4)
 		-- end
 
@@ -769,14 +746,13 @@ function Core:OnEnable()
 			DressUpFrame.NineSlice.BottomLeftCorner,
 			DressUpFrame.NineSlice.BottomRightCorner,
 			DressUpFrameInset.NineSlice.BottomEdge, }) do
-			v:SetVertexColor(.15, .15, .15)
+				v:SetVertexColor(.15, .15, .15)
 		end
 		for i, v in pairs({
 			DressUpFrame.Bg,
 			DressUpFrame.TitleBg,
-			DressUpFrameInset.Bg
-		}) do
-			v:SetVertexColor(.3, .3, .3)
+			DressUpFrameInset.Bg }) do
+				v:SetVertexColor(.3, .3, .3)
 		end
 		for i, v in pairs({
 			DressUpFrameInset.NineSlice.TopEdge,
@@ -786,9 +762,8 @@ function Core:OnEnable()
 			DressUpFrameInset.NineSlice.BottomEdge,
 			DressUpFrameInset.NineSlice.BottomLeftCorner,
 			DressUpFrameInset.NineSlice.LeftEdge,
-			DressUpFrameInset.NineSlice.TopLeftCorner
-		}) do
-			v:SetVertexColor(.3, .3, .3)
+			DressUpFrameInset.NineSlice.TopLeftCorner }) do
+				v:SetVertexColor(.3, .3, .3)
 		end
 
 		-- LootFrame
@@ -800,7 +775,7 @@ function Core:OnEnable()
 			LootFrame.NineSlice.TopLeftCorner,
 			LootFrame.NineSlice.BottomLeftCorner,
 			LootFrame.NineSlice.BottomRightCorner, }) do
-			v:SetVertexColor(.15, .15, .15)
+				v:SetVertexColor(.15, .15, .15)
 		end
 		for i, v in pairs({ LootFrame.NineSlice.TopEdge,
 			LootFrameInset.NineSlice.RightEdge,
@@ -810,14 +785,13 @@ function Core:OnEnable()
 			LootFrameInset.NineSlice.TopLeftCorner,
 			LootFrameInset.NineSlice.BottomLeftCorner,
 			LootFrameInset.NineSlice.BottomRightCorner, }) do
-			v:SetVertexColor(.3, .3, .3)
+				v:SetVertexColor(.3, .3, .3)
 		end
 		for i, v in pairs({
 			LootFrame.Bg,
 			LootFrame.TitleBg,
-			LootFrameInset.Bg
-		}) do
-			v:SetVertexColor(.3, .3, .3)
+			LootFrameInset.Bg }) do
+				v:SetVertexColor(.3, .3, .3)
 		end
 
 		-- -- HelpFrame
@@ -848,7 +822,7 @@ function Core:OnEnable()
 		-- end
 
 		-- ItemTextFrame
-		for i, v in pairs({ ItemTextFrame.NineSlice.TopEdge,
+		for i, v in pairs({	ItemTextFrame.NineSlice.TopEdge,
 			ItemTextFrame.NineSlice.RightEdge,
 			ItemTextFrame.NineSlice.BottomEdge,
 			ItemTextFrame.NineSlice.LeftEdge,
@@ -856,11 +830,11 @@ function Core:OnEnable()
 			ItemTextFrame.NineSlice.TopLeftCorner,
 			ItemTextFrame.NineSlice.BottomLeftCorner,
 			ItemTextFrame.NineSlice.BottomRightCorner, }) do
-			v:SetVertexColor(.15, .15, .15)
+				v:SetVertexColor(.15, .15, .15)
 		end
 
 		-- PetitionFrame
-		for i, v in pairs({ PetitionFrame.NineSlice.TopEdge,
+		for i, v in pairs({	PetitionFrame.NineSlice.TopEdge,
 			PetitionFrame.NineSlice.RightEdge,
 			PetitionFrame.NineSlice.BottomEdge,
 			PetitionFrame.NineSlice.LeftEdge,
@@ -868,18 +842,17 @@ function Core:OnEnable()
 			PetitionFrame.NineSlice.TopLeftCorner,
 			PetitionFrame.NineSlice.BottomLeftCorner,
 			PetitionFrame.NineSlice.BottomRightCorner, }) do
-			v:SetVertexColor(.15, .15, .15)
+				v:SetVertexColor(.15, .15, .15)
 		end
 		for i, v in pairs({
 			PetitionFrame.Bg,
 			PetitionFrame.TitleBg,
-			PetitionFrameInset.Bg
-		}) do
-			v:SetVertexColor(.3, .3, .3)
+			PetitionFrameInset.Bg }) do
+				v:SetVertexColor(.3, .3, .3)
 		end
 
 		-- Guild Register Frame (pt?) & Tabard Frame
-		for i, v in pairs({ GuildRegistrarFrame.NineSlice.TopEdge,
+		for i, v in pairs({	GuildRegistrarFrame.NineSlice.TopEdge,
 			GuildRegistrarFrame.NineSlice.RightEdge,
 			GuildRegistrarFrame.NineSlice.BottomEdge,
 			GuildRegistrarFrame.NineSlice.LeftEdge,
@@ -895,7 +868,7 @@ function Core:OnEnable()
 			TabardFrame.NineSlice.TopLeftCorner,
 			TabardFrame.NineSlice.BottomLeftCorner,
 			TabardFrame.NineSlice.BottomRightCorner, }) do
-			v:SetVertexColor(.15, .15, .15)
+				v:SetVertexColor(.15, .15, .15)
 		end
 		for i, v in pairs({
 			GuildRegistrarFrame.Bg,
@@ -903,9 +876,8 @@ function Core:OnEnable()
 			GuildRegistrarFrameInset.Bg,
 			TabardFrame.Bg,
 			TabardFrame.TitleBg,
-			TabardFrameInset.Bg
-		}) do
-			v:SetVertexColor(.3, .3, .3)
+			TabardFrameInset.Bg }) do
+				v:SetVertexColor(.3, .3, .3)
 		end
 
 		-------------- Frames that need a load to work properly --------------
@@ -932,29 +904,27 @@ function Core:OnEnable()
 					PlayerTalentFrameTalentsPvpTalentFrameTalentList.NineSlice.TopLeftCorner,
 					PlayerTalentFrameTalentsPvpTalentFrameTalentList.NineSlice.BottomLeftCorner,
 					PlayerTalentFrameTalentsPvpTalentFrameTalentList.NineSlice.BottomRightCorner,
-					PlayerTalentFrameTalentsPvpTalentFrameTalentList.NineSlice.BottomEdge,
-				}) do
-					v:SetVertexColor(.15, .15, .15)
+					PlayerTalentFrameTalentsPvpTalentFrameTalentList.NineSlice.BottomEdge, }) do
+						v:SetVertexColor(.15, .15, .15)
 				end
 				for i, v in pairs({
-					PlayerTalentFrameInset.NineSlice.RightEdge,
-					PlayerTalentFrameInset.NineSlice.BottomEdge,
-					PlayerTalentFrameInset.NineSlice.LeftEdge,
-					PlayerTalentFrameInset.NineSlice.TopRightCorner,
-					PlayerTalentFrameInset.NineSlice.TopLeftCorner,
-					PlayerTalentFrameInset.NineSlice.BottomLeftCorner,
-					PlayerTalentFrameInset.NineSlice.BottomRightCorner,
-					PlayerTalentFrameInset.NineSlice.BottomEdge,
-					PlayerTalentFrameTalentsPvpTalentFrameTalentList.Inset.NineSlice.TopEdge,
-					PlayerTalentFrameTalentsPvpTalentFrameTalentList.Inset.NineSlice.RightEdge,
-					PlayerTalentFrameTalentsPvpTalentFrameTalentList.Inset.NineSlice.BottomEdge,
-					PlayerTalentFrameTalentsPvpTalentFrameTalentList.Inset.NineSlice.LeftEdge,
-					PlayerTalentFrameTalentsPvpTalentFrameTalentList.Inset.NineSlice.TopRightCorner,
-					PlayerTalentFrameTalentsPvpTalentFrameTalentList.Inset.NineSlice.TopLeftCorner,
-					PlayerTalentFrameTalentsPvpTalentFrameTalentList.Inset.NineSlice.BottomLeftCorner,
-					PlayerTalentFrameTalentsPvpTalentFrameTalentList.Inset.NineSlice.BottomRightCorner,
-					PlayerTalentFrameTalentsPvpTalentFrameTalentList.Inset.NineSlice.BottomEdge,
-				}) do
+				PlayerTalentFrameInset.NineSlice.RightEdge,
+				PlayerTalentFrameInset.NineSlice.BottomEdge,
+				PlayerTalentFrameInset.NineSlice.LeftEdge,
+				PlayerTalentFrameInset.NineSlice.TopRightCorner,
+				PlayerTalentFrameInset.NineSlice.TopLeftCorner,
+				PlayerTalentFrameInset.NineSlice.BottomLeftCorner,
+				PlayerTalentFrameInset.NineSlice.BottomRightCorner,
+				PlayerTalentFrameInset.NineSlice.BottomEdge,
+				PlayerTalentFrameTalentsPvpTalentFrameTalentList.Inset.NineSlice.TopEdge,
+				PlayerTalentFrameTalentsPvpTalentFrameTalentList.Inset.NineSlice.RightEdge,
+				PlayerTalentFrameTalentsPvpTalentFrameTalentList.Inset.NineSlice.BottomEdge,
+				PlayerTalentFrameTalentsPvpTalentFrameTalentList.Inset.NineSlice.LeftEdge,
+				PlayerTalentFrameTalentsPvpTalentFrameTalentList.Inset.NineSlice.TopRightCorner,
+				PlayerTalentFrameTalentsPvpTalentFrameTalentList.Inset.NineSlice.TopLeftCorner,
+				PlayerTalentFrameTalentsPvpTalentFrameTalentList.Inset.NineSlice.BottomLeftCorner,
+				PlayerTalentFrameTalentsPvpTalentFrameTalentList.Inset.NineSlice.BottomRightCorner,
+				PlayerTalentFrameTalentsPvpTalentFrameTalentList.Inset.NineSlice.BottomEdge, }) do
 					v:SetVertexColor(.3, .3, .3)
 				end
 				for i, v in pairs({
@@ -965,30 +935,26 @@ function Core:OnEnable()
 					PlayerTalentFrameTalentsPvpTalentFrameTalentListScrollFrameScrollBarScrollUpButton.Normal,
 					PlayerTalentFrameTalentsPvpTalentFrameTalentListScrollFrameScrollBarScrollDownButton.Normal,
 					PlayerTalentFrameTalentsPvpTalentFrameTalentListScrollFrameScrollBarScrollUpButton.Disabled,
-					PlayerTalentFrameTalentsPvpTalentFrameTalentListScrollFrameScrollBarScrollDownButton.Disabled
-				}) do
+					PlayerTalentFrameTalentsPvpTalentFrameTalentListScrollFrameScrollBarScrollDownButton.Disabled }) do
 					v:SetVertexColor(.4, .4, .4)
 				end
 				for i, v in pairs({
 					PVEFrameTopFiligree,
 					PVEFrameBottomFiligree,
 					PVEFrameBlueBg,
-					LFGListFrame.CategorySelection.Inset.CustomBG
-				}) do
-					v:SetVertexColor(.5, .5, .5)
+					LFGListFrame.CategorySelection.Inset.CustomBG }) do
+						v:SetVertexColor(.5, .5, .5)
 				end
 				for i, v in pairs({
 					PlayerTalentFrame.Bg,
 					PlayerTalentFrame.TitleBg,
 					PlayerTalentFrameInset.Bg,
-					PlayerTalentFrameTalentsPvpTalentFrameTalentListBg
-				}) do
-					v:SetVertexColor(.3, .3, .3)
+					PlayerTalentFrameTalentsPvpTalentFrameTalentListBg }) do
+						v:SetVertexColor(.3, .3, .3)
 				end
 				for i, v in pairs({
-					PlayerTalentFrameTalents.bg
-				}) do
-					v:SetVertexColor(.5, .5, .5)
+					PlayerTalentFrameTalents.bg }) do
+						v:SetVertexColor(.5, .5, .5)
 				end
 				_G.select(1, PlayerTalentFrameSpecialization:GetRegions()):SetVertexColor(.4, .4, .4)
 				_G.select(5, PlayerTalentFrameSpecialization:GetRegions()):SetVertexColor(.5, .5, .5)
@@ -1009,15 +975,13 @@ function Core:OnEnable()
 					CollectionsJournal.NineSlice.BottomEdge,
 					CollectionsJournal.NineSlice.BottomLeftCorner,
 					CollectionsJournal.NineSlice.LeftEdge,
-					CollectionsJournal.NineSlice.TopLeftCorner
-				}) do
-					v:SetVertexColor(.15, .15, .15)
+					CollectionsJournal.NineSlice.TopLeftCorner}) do
+						v:SetVertexColor(.15, .15, .15)
 				end
 				for i, v in pairs({
 					CollectionsJournal.Bg,
-					CollectionsJournal.TitleBg
-				}) do
-					v:SetVertexColor(.3, .3, .3)
+					CollectionsJournal.TitleBg }) do
+						v:SetVertexColor(.3, .3, .3)
 				end
 				for i, v in pairs({
 					MountJournal.LeftInset.NineSlice.TopEdge,
@@ -1079,9 +1043,8 @@ function Core:OnEnable()
 					PetJournalPetCardInset.NineSlice.TopLeftCorner,
 					PetJournalPetCardInset.NineSlice.BottomLeftCorner,
 					PetJournalPetCardInset.NineSlice.BottomRightCorner,
-					PetJournalPetCardInset.NineSlice.BottomEdge,
-				}) do
-					v:SetVertexColor(.3, .3, .3)
+					PetJournalPetCardInset.NineSlice.BottomEdge, }) do
+						v:SetVertexColor(.3, .3, .3)
 				end
 				for i, v in pairs({
 					MountJournalListScrollFrameScrollBarThumbTexture,
@@ -1099,8 +1062,7 @@ function Core:OnEnable()
 					PetJournalListScrollFrameScrollBarScrollUpButton.Normal,
 					PetJournalListScrollFrameScrollBarScrollDownButton.Normal,
 					PetJournalListScrollFrameScrollBarScrollUpButton.Disabled,
-					PetJournalListScrollFrameScrollBarScrollDownButton.Disabled,
-				}) do
+					PetJournalListScrollFrameScrollBarScrollDownButton.Disabled, }) do
 					v:SetVertexColor(.4, .4, .4)
 				end
 			end
@@ -1120,14 +1082,13 @@ function Core:OnEnable()
 					EncounterJournal.NineSlice.BottomLeftCorner,
 					EncounterJournal.NineSlice.BottomRightCorner,
 					EncounterJournalInset.NineSlice.BottomEdge, }) do
-					v:SetVertexColor(.15, .15, .15)
+						v:SetVertexColor(.15, .15, .15)
 				end
 				EncounterJournalInset:SetAlpha(0)
 				for i, v in pairs({
 					EncounterJournal.Bg,
-					EncounterJournal.TitleBg
-				}) do
-					v:SetVertexColor(.3, .3, .3)
+					EncounterJournal.TitleBg }) do
+						v:SetVertexColor(.3, .3, .3)
 				end
 			end
 		end)
@@ -1153,9 +1114,8 @@ function Core:OnEnable()
 					CommunitiesFrame.GuildMemberDetailFrame.Border.TopRightCorner,
 					CommunitiesFrame.GuildMemberDetailFrame.Border.TopLeftCorner,
 					CommunitiesFrame.GuildMemberDetailFrame.Border.BottomLeftCorner,
-					CommunitiesFrame.GuildMemberDetailFrame.Border.BottomRightCorner,
-				}) do
-					v:SetVertexColor(.15, .15, .15)
+					CommunitiesFrame.GuildMemberDetailFrame.Border.BottomRightCorner, }) do
+						v:SetVertexColor(.15, .15, .15)
 				end
 				for i, v in pairs({
 					CommunitiesFrame.Bg,
@@ -1163,8 +1123,8 @@ function Core:OnEnable()
 					CommunitiesFrameInset.Bg,
 					CommunitiesFrame.MemberList.ColumnDisplay.Background,
 
-				}) do
-					v:SetVertexColor(.3, .3, .3)
+				 }) do
+						v:SetVertexColor(.3, .3, .3)
 				end
 				for i, v in pairs({
 					CommunitiesFrameInset.NineSlice.TopEdge,
@@ -1201,16 +1161,14 @@ function Core:OnEnable()
 					CommunitiesFrame.MemberList.InsetFrame.NineSlice.TopRightCorner,
 					CommunitiesFrame.MemberList.InsetFrame.NineSlice.TopLeftCorner,
 					CommunitiesFrame.MemberList.InsetFrame.NineSlice.BottomLeftCorner,
-					CommunitiesFrame.MemberList.InsetFrame.NineSlice.BottomRightCorner,
-				}) do
-					v:SetVertexColor(.3, .3, .3)
+					CommunitiesFrame.MemberList.InsetFrame.NineSlice.BottomRightCorner, }) do
+						v:SetVertexColor(.3, .3, .3)
 				end
 				for i, v in pairs({
 					CommunitiesFrameCommunitiesList.TopFiligree,
 					CommunitiesFrameCommunitiesList.BottomFiligree,
-					CommunitiesFrameCommunitiesList.Bg
-				}) do
-					v:SetVertexColor(.5, .5, .5)
+					CommunitiesFrameCommunitiesList.Bg}) do
+						v:SetVertexColor(.5, .5, .5)
 				end
 				for i, v in pairs({
 					CommunitiesFrame.MemberList.ListScrollFrame.scrollBar.thumbTexture,
@@ -1236,8 +1194,7 @@ function Core:OnEnable()
 					CommunitiesFrame.Chat.MessageFrame.ScrollBar.ScrollUp.Normal,
 					CommunitiesFrame.Chat.MessageFrame.ScrollBar.ScrollDown.Normal,
 					CommunitiesFrame.Chat.MessageFrame.ScrollBar.ScrollUp.Disabled,
-					CommunitiesFrame.Chat.MessageFrame.ScrollBar.ScrollDown.Disabled,
-				}) do
+					CommunitiesFrame.Chat.MessageFrame.ScrollBar.ScrollDown.Disabled, }) do
 					v:SetVertexColor(.4, .4, .4)
 				end
 			end
@@ -1256,7 +1213,7 @@ function Core:OnEnable()
 					MacroFrame.NineSlice.TopLeftCorner,
 					MacroFrame.NineSlice.BottomLeftCorner,
 					MacroFrame.NineSlice.BottomRightCorner }) do
-					v:SetVertexColor(.15, .15, .15)
+						v:SetVertexColor(.15, .15, .15)
 				end
 				for i, v in pairs({
 					MacroFrameInset.NineSlice.TopEdge,
@@ -1266,15 +1223,13 @@ function Core:OnEnable()
 					MacroFrameInset.NineSlice.BottomEdge,
 					MacroFrameInset.NineSlice.BottomLeftCorner,
 					MacroFrameInset.NineSlice.LeftEdge,
-					MacroFrameInset.NineSlice.TopLeftCorner,
-				}) do
-					v:SetVertexColor(.3, .3, .3)
+					MacroFrameInset.NineSlice.TopLeftCorner, }) do
+						v:SetVertexColor(.3, .3, .3)
 				end
 				for i, v in pairs({
 					MacroFrame.Bg,
-					MacroFrame.TitleBg
-				}) do
-					v:SetVertexColor(.3, .3, .3)
+					MacroFrame.TitleBg }) do
+						v:SetVertexColor(.3, .3, .3)
 				end
 				for i, v in pairs({
 					MacroButtonScrollFrameTop,
@@ -1285,7 +1240,7 @@ function Core:OnEnable()
 					MacroButtonScrollFrameScrollBarScrollDownButton.Normal,
 					MacroButtonScrollFrameScrollBarScrollUpButton.Disabled,
 					MacroButtonScrollFrameScrollBarScrollDownButton.Disabled,
-				}) do
+				 }) do
 					v:SetVertexColor(.4, .4, .4)
 				end
 				MacroHorizontalBarLeft:Hide();
@@ -1326,13 +1281,12 @@ function Core:OnEnable()
 					AuctionHouseFrame.BuyDialog.Border.BottomLeftCorner,
 					AuctionHouseFrame.BuyDialog.Border.BottomRightCorner,
 					AuctionHouseFrame.BuyDialog.Border.BottomEdge, }) do
-					v:SetVertexColor(.15, .15, .15)
+						v:SetVertexColor(.15, .15, .15)
 				end
 				for i, v in pairs({
 					AuctionHouseFrame.Bg,
-					AuctionHouseFrame.TitleBg
-				}) do
-					v:SetVertexColor(.3, .3, .3)
+					AuctionHouseFrame.TitleBg }) do
+						v:SetVertexColor(.3, .3, .3)
 				end
 			end
 		end)
@@ -1349,14 +1303,13 @@ function Core:OnEnable()
 					FlightMapFrame.BorderFrame.NineSlice.TopRightCorner,
 					FlightMapFrame.BorderFrame.NineSlice.TopLeftCorner,
 					FlightMapFrame.BorderFrame.NineSlice.BottomLeftCorner,
-					FlightMapFrame.BorderFrame.NineSlice.BottomRightCorner, }) do
-					v:SetVertexColor(.15, .15, .15)
+					FlightMapFrame.BorderFrame.NineSlice.BottomRightCorner,	}) do
+						v:SetVertexColor(.15, .15, .15)
 				end
 				for i, v in pairs({
 					FlightMapFrame.Bg,
-					FlightMapFrame.TitleBg
-				}) do
-					v:SetVertexColor(.3, .3, .3)
+					FlightMapFrame.TitleBg }) do
+						v:SetVertexColor(.3, .3, .3)
 				end
 			end
 		end)
@@ -1374,13 +1327,12 @@ function Core:OnEnable()
 					TradeSkillFrame.NineSlice.TopLeftCorner,
 					TradeSkillFrame.NineSlice.BottomLeftCorner,
 					TradeSkillFrame.NineSlice.BottomRightCorner, }) do
-					v:SetVertexColor(.15, .15, .15)
+						v:SetVertexColor(.15, .15, .15)
 				end
 				for i, v in pairs({
 					TradeSkillFrame.Bg,
-					TradeSkillFrame.TitleBg
-				}) do
-					v:SetVertexColor(.3, .3, .3)
+					TradeSkillFrame.TitleBg }) do
+						v:SetVertexColor(.3, .3, .3)
 				end
 			end
 		end)
@@ -1399,13 +1351,12 @@ function Core:OnEnable()
 					InspectFrame.NineSlice.BottomLeftCorner,
 					InspectFrame.NineSlice.BottomRightCorner,
 					InspectFrameInset.NineSlice.BottomEdge, }) do
-					v:SetVertexColor(.15, .15, .15)
+						v:SetVertexColor(.15, .15, .15)
 				end
 				for i, v in pairs({
 					InspectFrame.Bg,
-					InspectFrame.TitleBg
-				}) do
-					v:SetVertexColor(.3, .3, .3)
+					InspectFrame.TitleBg }) do
+						v:SetVertexColor(.3, .3, .3)
 				end
 				for i, v in pairs({
 					InspectFrameInset.NineSlice.RightEdge,
@@ -1425,9 +1376,8 @@ function Core:OnEnable()
 					InspectModelFrameBorderBottom,
 					InspectModelFrameBorderBottomLeft,
 					InspectModelFrameBorderBottomRight,
-					InspectModelFrameBorderBottom2
-				}) do
-					v:SetVertexColor(.3, .3, .3)
+					InspectModelFrameBorderBottom2 }) do
+						v:SetVertexColor(.3, .3, .3)
 				end
 				for i, v in pairs({
 					InspectFeetSlotFrame,
@@ -1447,9 +1397,8 @@ function Core:OnEnable()
 					InspectNeckSlotFrame,
 					InspectHeadSlotFrame,
 					InspectMainHandSlotFrame,
-					InspectSecondaryHandSlotFrame
-				}) do
-					v:SetAlpha(0)
+					InspectSecondaryHandSlotFrame }) do
+						v:SetAlpha(0)
 				end
 				_G.select(InspectMainHandSlot:GetNumRegions(), InspectMainHandSlot:GetRegions()):Hide()
 				_G.select(InspectSecondaryHandSlot:GetNumRegions(), InspectSecondaryHandSlot:GetRegions()):Hide()
@@ -1469,15 +1418,13 @@ function Core:OnEnable()
 					WardrobeFrame.NineSlice.TopRightCorner,
 					WardrobeFrame.NineSlice.TopLeftCorner,
 					WardrobeFrame.NineSlice.BottomLeftCorner,
-					WardrobeFrame.NineSlice.BottomRightCorner,
-				}) do
-					v:SetVertexColor(.15, .15, .15)
+					WardrobeFrame.NineSlice.BottomRightCorner, }) do
+						v:SetVertexColor(.15, .15, .15)
 				end
 				for i, v in pairs({
 					WardrobeFrame.Bg,
-					WardrobeFrame.TitleBg
-				}) do
-					v:SetVertexColor(.3, .3, .3)
+					WardrobeFrame.TitleBg }) do
+						v:SetVertexColor(.3, .3, .3)
 				end
 				for i, v in pairs({
 					WardrobeCollectionFrame.ItemsCollectionFrame.NineSlice.TopEdge,
@@ -1503,9 +1450,8 @@ function Core:OnEnable()
 					WardrobeCollectionFrame.SetsCollectionFrame.RightInset.NineSlice.TopRightCorner,
 					WardrobeCollectionFrame.SetsCollectionFrame.RightInset.NineSlice.TopLeftCorner,
 					WardrobeCollectionFrame.SetsCollectionFrame.RightInset.NineSlice.BottomLeftCorner,
-					WardrobeCollectionFrame.SetsCollectionFrame.RightInset.NineSlice.BottomRightCorner
-				}) do
-					v:SetVertexColor(.3, .3, .3)
+					WardrobeCollectionFrame.SetsCollectionFrame.RightInset.NineSlice.BottomRightCorner }) do
+						v:SetVertexColor(.3, .3, .3)
 				end
 				for i, v in pairs({
 					WardrobeCollectionFrameScrollFrameScrollBarBottom,
@@ -1515,8 +1461,7 @@ function Core:OnEnable()
 					WardrobeCollectionFrameScrollFrameScrollBarScrollUpButton.Normal,
 					WardrobeCollectionFrameScrollFrameScrollBarScrollDownButton.Normal,
 					WardrobeCollectionFrameScrollFrameScrollBarScrollUpButton.Disabled,
-					WardrobeCollectionFrameScrollFrameScrollBarScrollDownButton.Disabled,
-				}) do
+					WardrobeCollectionFrameScrollFrameScrollBarScrollDownButton.Disabled, }) do
 					v:SetVertexColor(.4, .4, .4)
 				end
 			end
@@ -1535,13 +1480,12 @@ function Core:OnEnable()
 					ClassTrainerFrame.NineSlice.TopLeftCorner,
 					ClassTrainerFrame.NineSlice.BottomLeftCorner,
 					ClassTrainerFrame.NineSlice.BottomRightCorner }) do
-					v:SetVertexColor(.15, .15, .15)
+						v:SetVertexColor(.15, .15, .15)
 				end
 				for i, v in pairs({
 					ClassTrainerFrame.Bg,
-					ClassTrainerFrame.TitleBg
-				}) do
-					v:SetVertexColor(.3, .3, .3)
+					ClassTrainerFrame.TitleBg }) do
+						v:SetVertexColor(.3, .3, .3)
 				end
 			end
 		end)
@@ -1565,7 +1509,7 @@ function Core:OnEnable()
 					AchievementFrameMetalBorderTop,
 					AchievementFrameMetalBorderTopLeft,
 					AchievementFrameMetalBorderTopRight, }) do
-					v:SetVertexColor(.15, .15, .15)
+						v:SetVertexColor(.15, .15, .15)
 				end
 			end
 		end)
@@ -1583,13 +1527,12 @@ function Core:OnEnable()
 					AzeriteEmpoweredItemUI.BorderFrame.NineSlice.TopLeftCorner,
 					AzeriteEmpoweredItemUI.BorderFrame.NineSlice.BottomLeftCorner,
 					AzeriteEmpoweredItemUI.BorderFrame.NineSlice.BottomRightCorner, }) do
-					v:SetVertexColor(.15, .15, .15)
+						v:SetVertexColor(.15, .15, .15)
 				end
 				for i, v in pairs({
 					AzeriteEmpoweredItemUI.BorderFrame.Bg,
-					AzeriteEmpoweredItemUI.BorderFrame.TitleBg
-				}) do
-					v:SetVertexColor(.3, .3, .3)
+					AzeriteEmpoweredItemUI.BorderFrame.TitleBg }) do
+						v:SetVertexColor(.3, .3, .3)
 				end
 			end
 		end)
@@ -1608,13 +1551,12 @@ function Core:OnEnable()
 					AlliedRacesFrame.NineSlice.BottomLeftCorner,
 					AlliedRacesFrame.NineSlice.BottomRightCorner,
 					AlliedRacesFrameInset.NineSlice.BottomEdge, }) do
-					v:SetVertexColor(.15, .15, .15)
+						v:SetVertexColor(.15, .15, .15)
 				end
 				for i, v in pairs({
 					AlliedRacesFrame.Bg,
-					AlliedRacesFrame.TitleBg
-				}) do
-					v:SetVertexColor(.3, .3, .3)
+					AlliedRacesFrame.TitleBg }) do
+						v:SetVertexColor(.3, .3, .3)
 				end
 			end
 		end)
@@ -1633,13 +1575,12 @@ function Core:OnEnable()
 					IslandsQueueFrame.NineSlice.BottomLeftCorner,
 					IslandsQueueFrame.NineSlice.BottomRightCorner,
 					IslandsQueueFrame.ArtOverlayFrame.PortraitFrame, }) do
-					v:SetVertexColor(.15, .15, .15)
+						v:SetVertexColor(.15, .15, .15)
 				end
 				for i, v in pairs({
 					IslandsQueueFrame.Bg,
-					IslandsQueueFrame.TitleBg
-				}) do
-					v:SetVertexColor(.3, .3, .3)
+					IslandsQueueFrame.TitleBg }) do
+						v:SetVertexColor(.3, .3, .3)
 				end
 			end
 		end)
@@ -1658,13 +1599,12 @@ function Core:OnEnable()
 					GarrisonCapacitiveDisplayFrame.NineSlice.BottomLeftCorner,
 					GarrisonCapacitiveDisplayFrame.NineSlice.BottomRightCorner,
 					GarrisonCapacitiveDisplayFrameInset.NineSlice.BottomEdge, }) do
-					v:SetVertexColor(.15, .15, .15)
+						v:SetVertexColor(.15, .15, .15)
 				end
 				for i, v in pairs({
 					GarrisonCapacitiveDisplayFrame.Bg,
-					GarrisonCapacitiveDisplayFrame.TitleBg
-				}) do
-					v:SetVertexColor(.3, .3, .3)
+					GarrisonCapacitiveDisplayFrame.TitleBg }) do
+						v:SetVertexColor(.3, .3, .3)
 				end
 			end
 		end)
@@ -1702,7 +1642,7 @@ function Core:OnEnable()
 					CalendarViewHolidayFrame.Border.TopLeftCorner,
 					CalendarViewHolidayFrame.Border.BottomLeftCorner,
 					CalendarViewHolidayFrame.Border.BottomRightCorner, }) do
-					v:SetVertexColor(.15, .15, .15)
+						v:SetVertexColor(.15, .15, .15)
 				end
 			end
 		end)
@@ -1729,13 +1669,12 @@ function Core:OnEnable()
 					AzeriteRespecFrame.NineSlice.TopLeftCorner,
 					AzeriteRespecFrame.NineSlice.BottomLeftCorner,
 					AzeriteRespecFrame.NineSlice.BottomRightCorner, }) do
-					v:SetVertexColor(.15, .15, .15)
+						v:SetVertexColor(.15, .15, .15)
 				end
 				for i, v in pairs({
 					AzeriteRespecFrame.Bg,
-					AzeriteRespecFrame.TitleBg
-				}) do
-					v:SetVertexColor(.3, .3, .3)
+					AzeriteRespecFrame.TitleBg }) do
+						v:SetVertexColor(.3, .3, .3)
 				end
 			end
 		end)
@@ -1753,7 +1692,7 @@ function Core:OnEnable()
 					ScrappingMachineFrame.NineSlice.TopLeftCorner,
 					ScrappingMachineFrame.NineSlice.BottomLeftCorner,
 					ScrappingMachineFrame.NineSlice.BottomRightCorner, }) do
-					v:SetVertexColor(.15, .15, .15)
+						v:SetVertexColor(.15, .15, .15)
 				end
 			end
 		end)
@@ -1778,7 +1717,7 @@ function Core:OnEnable()
 					TimeManagerFrameInset.NineSlice.TopRightCorner,
 					TimeManagerFrameInset.NineSlice.TopLeftCorner,
 					StopwatchFrameBackgroundLeft, }) do
-					v:SetVertexColor(.15, .15, .15)
+						v:SetVertexColor(.15, .15, .15)
 				end
 			end
 		end)
@@ -1796,13 +1735,12 @@ function Core:OnEnable()
 					AzeriteEssenceUI.NineSlice.TopLeftCorner,
 					AzeriteEssenceUI.NineSlice.BottomLeftCorner,
 					AzeriteEssenceUI.NineSlice.BottomRightCorner, }) do
-					v:SetVertexColor(.15, .15, .15)
+						v:SetVertexColor(.15, .15, .15)
 				end
 				for i, v in pairs({
 					AzeriteEssenceUI.Bg,
-					AzeriteEssenceUI.TitleBg
-				}) do
-					v:SetVertexColor(.3, .3, .3)
+					AzeriteEssenceUI.TitleBg }) do
+						v:SetVertexColor(.3, .3, .3)
 				end
 				for i, v in pairs({
 					AzeriteEssenceUI.LeftInset.NineSlice.TopEdge,
@@ -1820,8 +1758,7 @@ function Core:OnEnable()
 					AzeriteEssenceUI.RightInset.NineSlice.BottomEdge,
 					AzeriteEssenceUI.RightInset.NineSlice.BottomLeftCorner,
 					AzeriteEssenceUI.RightInset.NineSlice.LeftEdge,
-					AzeriteEssenceUI.RightInset.NineSlice.TopLeftCorner,
-				}) do
+					AzeriteEssenceUI.RightInset.NineSlice.TopLeftCorner, }) do
 					v:SetVertexColor(.3, .3, .3)
 				end
 				for i, v in pairs({
@@ -1832,8 +1769,7 @@ function Core:OnEnable()
 					AzeriteEssenceUI.EssenceList.ScrollBar.ScrollUpButton.Normal,
 					AzeriteEssenceUI.EssenceList.ScrollBar.ScrollDownButton.Normal,
 					AzeriteEssenceUI.EssenceList.ScrollBar.ScrollUpButton.Disabled,
-					AzeriteEssenceUI.EssenceList.ScrollBar.ScrollDownButton.Disabled,
-				}) do
+					AzeriteEssenceUI.EssenceList.ScrollBar.ScrollDownButton.Disabled, }) do
 					v:SetVertexColor(.4, .4, .4)
 				end
 			end
@@ -1846,9 +1782,8 @@ function Core:OnEnable()
 			if name == "Blizzard_PVPUI" then
 				for i, v in pairs({
 					HonorFrame.BonusFrame.WorldBattlesTexture,
-					ConquestFrame.RatedBGTexture,
-				}) do
-					v:SetVertexColor(.2, .2, .2)
+					ConquestFrame.RatedBGTexture, }) do
+						v:SetVertexColor(.2, .2, .2)
 				end
 				for i, v in pairs({
 					PVPQueueFrame.HonorInset.NineSlice.TopEdge,
@@ -1876,9 +1811,8 @@ function Core:OnEnable()
 					ConquestFrame.Inset.NineSlice.LeftEdge,
 					ConquestFrame.Inset.NineSlice.TopLeftCorner,
 					ConquestFrame.ConquestBar.Border,
-					HonorFrame.ConquestBar.Border,
-				}) do
-					v:SetVertexColor(.3, .3, .3)
+					HonorFrame.ConquestBar.Border,}) do
+						v:SetVertexColor(.3, .3, .3)
 				end
 				PVPQueueFrame.HonorInset:Hide();
 			end
@@ -1889,72 +1823,72 @@ function Core:OnEnable()
 		f:RegisterEvent("ADDON_LOADED")
 		f:RegisterEvent("ARENA_PREP_OPPONENT_SPECIALIZATIONS")
 		f:SetScript("OnEvent", function(self, event, name)
-			if name == "Blizzard_ArenaUI" and not (IsAddOnLoaded("Shadowed Unit Frames")) then
-				for i, v in pairs(
-					{
-						ArenaEnemyFrame1Texture,
-						ArenaEnemyFrame2Texture,
-						ArenaEnemyFrame3Texture,
-						ArenaEnemyFrame4Texture,
-						ArenaEnemyFrame5Texture,
-						ArenaEnemyFrame1SpecBorder,
-						ArenaEnemyFrame2SpecBorder,
-						ArenaEnemyFrame3SpecBorder,
-						ArenaEnemyFrame4SpecBorder,
-						ArenaEnemyFrame5SpecBorder,
-						ArenaEnemyFrame1PetFrameTexture,
-						ArenaEnemyFrame2PetFrameTexture,
-						ArenaEnemyFrame3PetFrameTexture,
-						ArenaEnemyFrame4PetFrameTexture,
-						ArenaEnemyFrame5PetFrameTexture
-					}
-				) do
-					v:SetVertexColor(.15, .15, .15)
-				end
-			elseif event == "ARENA_PREP_OPPONENT_SPECIALIZATIONS" or
-				(event == "PLAYER_ENTERING_WORLD" and instanceType == "arena")
-			then
-				for i, v in pairs(
-					{
-						ArenaPrepFrame1Texture,
-						ArenaPrepFrame2Texture,
-						ArenaPrepFrame3Texture,
-						ArenaPrepFrame4Texture,
-						ArenaPrepFrame5Texture,
-						ArenaPrepFrame1SpecBorder,
-						ArenaPrepFrame2SpecBorder,
-						ArenaPrepFrame3SpecBorder,
-						ArenaPrepFrame4SpecBorder,
-						ArenaPrepFrame5SpecBorder
-					}
-				) do
-					v:SetVertexColor(.15, .15, .15)
-				end
-			end
+            if name == "Blizzard_ArenaUI" and not (IsAddOnLoaded("Shadowed Unit Frames")) then
+                for i, v in pairs(
+                    {
+                        ArenaEnemyFrame1Texture,
+                        ArenaEnemyFrame2Texture,
+                        ArenaEnemyFrame3Texture,
+                        ArenaEnemyFrame4Texture,
+                        ArenaEnemyFrame5Texture,
+                        ArenaEnemyFrame1SpecBorder,
+                        ArenaEnemyFrame2SpecBorder,
+                        ArenaEnemyFrame3SpecBorder,
+                        ArenaEnemyFrame4SpecBorder,
+                        ArenaEnemyFrame5SpecBorder,
+                        ArenaEnemyFrame1PetFrameTexture,
+                        ArenaEnemyFrame2PetFrameTexture,
+                        ArenaEnemyFrame3PetFrameTexture,
+                        ArenaEnemyFrame4PetFrameTexture,
+                        ArenaEnemyFrame5PetFrameTexture
+                    }
+                ) do
+                    v:SetVertexColor(.15, .15, .15)
+                end
+            elseif
+                event == "ARENA_PREP_OPPONENT_SPECIALIZATIONS" or (event == "PLAYER_ENTERING_WORLD" and instanceType == "arena")
+            then
+                for i, v in pairs(
+                    {
+                        ArenaPrepFrame1Texture,
+                        ArenaPrepFrame2Texture,
+                        ArenaPrepFrame3Texture,
+                        ArenaPrepFrame4Texture,
+                        ArenaPrepFrame5Texture,
+                        ArenaPrepFrame1SpecBorder,
+                        ArenaPrepFrame2SpecBorder,
+                        ArenaPrepFrame3SpecBorder,
+                        ArenaPrepFrame4SpecBorder,
+                        ArenaPrepFrame5SpecBorder
+                    }
+                ) do
+                    v:SetVertexColor(.15, .15, .15)
+                end
+            end
 
-			if IsAddOnLoaded("Blizzard_ArenaUI") then
-				for i, v in pairs(
-					{
-						ArenaEnemyFrame1Texture,
-						ArenaEnemyFrame2Texture,
-						ArenaEnemyFrame3Texture,
-						ArenaEnemyFrame4Texture,
-						ArenaEnemyFrame5Texture,
-						ArenaEnemyFrame1SpecBorder,
-						ArenaEnemyFrame2SpecBorder,
-						ArenaEnemyFrame3SpecBorder,
-						ArenaEnemyFrame4SpecBorder,
-						ArenaEnemyFrame5SpecBorder,
-						ArenaEnemyFrame1PetFrameTexture,
-						ArenaEnemyFrame2PetFrameTexture,
-						ArenaEnemyFrame3PetFrameTexture,
-						ArenaEnemyFrame4PetFrameTexture,
-						ArenaEnemyFrame5PetFrameTexture
-					}
-				) do
-					v:SetVertexColor(.15, .15, .15)
-				end
-			end
+            if IsAddOnLoaded("Blizzard_ArenaUI") then
+                for i, v in pairs(
+                    {
+                        ArenaEnemyFrame1Texture,
+                        ArenaEnemyFrame2Texture,
+                        ArenaEnemyFrame3Texture,
+                        ArenaEnemyFrame4Texture,
+                        ArenaEnemyFrame5Texture,
+                        ArenaEnemyFrame1SpecBorder,
+                        ArenaEnemyFrame2SpecBorder,
+                        ArenaEnemyFrame3SpecBorder,
+                        ArenaEnemyFrame4SpecBorder,
+                        ArenaEnemyFrame5SpecBorder,
+                        ArenaEnemyFrame1PetFrameTexture,
+                        ArenaEnemyFrame2PetFrameTexture,
+                        ArenaEnemyFrame3PetFrameTexture,
+                        ArenaEnemyFrame4PetFrameTexture,
+                        ArenaEnemyFrame5PetFrameTexture
+                    }
+                ) do
+                    v:SetVertexColor(.15, .15, .15)
+                end
+            end
 		end)
 
 		-- Challenges
@@ -1970,9 +1904,8 @@ function Core:OnEnable()
 					ChallengesFrameInset.NineSlice.BottomEdge,
 					ChallengesFrameInset.NineSlice.BottomLeftCorner,
 					ChallengesFrameInset.NineSlice.LeftEdge,
-					ChallengesFrameInset.NineSlice.TopLeftCorner,
-				}) do
-					v:SetVertexColor(.3, .3, .3)
+					ChallengesFrameInset.NineSlice.TopLeftCorner,}) do
+						v:SetVertexColor(.3, .3, .3)
 				end
 			end
 		end)
@@ -1990,7 +1923,7 @@ function Core:OnEnable()
 					ArchaeologyFrame.NineSlice.TopLeftCorner,
 					ArchaeologyFrame.NineSlice.BottomLeftCorner,
 					ArchaeologyFrame.NineSlice.BottomRightCorner, }) do
-					v:SetVertexColor(.15, .15, .15)
+						v:SetVertexColor(.15, .15, .15)
 				end
 			end
 		end)

@@ -97,7 +97,7 @@ local TabPanelMethods = {
 
 			if tab.layout then
 				self.SUIConfig:BuildWindow(tab.frame, tab.layout);
-				self.SUIConfig:EasyLayout(tab.frame, { padding = { top = 10, left = 5, right = 5 } });
+				self.SUIConfig:EasyLayout(tab.frame, { padding = { top = 10 } });
 
 				tab.frame:SetScript('OnShow', function(of)
 					of:DoLayout();
@@ -158,6 +158,21 @@ local TabPanelMethods = {
 	end
 };
 
+---
+---local t = {
+---    {
+---        name = 'firstTab',
+---        title = 'First',
+---    },
+---    {
+---        name = 'secondTab',
+---        title = 'Second',
+---    },
+---    {
+---        name = 'thirdTab',
+---        title = 'Third'
+---    }
+---}
 function SUIConfig:TabPanel(parent, width, height, tabs, vertical, buttonWidth, buttonHeight)
 	vertical = vertical or false;
 	buttonWidth = buttonWidth or 160;
@@ -171,7 +186,7 @@ function SUIConfig:TabPanel(parent, width, height, tabs, vertical, buttonWidth, 
 	tabFrame.buttonHeight = buttonHeight;
 
 	tabFrame.buttonContainer = self:Frame(tabFrame);
-	tabFrame.container = self:Frame(tabFrame);
+	tabFrame.container = self:Panel(tabFrame);
 
 	if vertical then
 		tabFrame.buttonContainer:SetPoint('TOPLEFT', tabFrame, 'TOPLEFT', 0, 0);

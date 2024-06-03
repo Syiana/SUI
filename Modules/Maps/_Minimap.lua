@@ -1,45 +1,42 @@
-local LibDBIcon = LibStub("LibDBIcon-1.0")
 local Module = SUI:NewModule("Maps.Minimap");
 
 function Module:OnEnable()
-
-    local db = {
-        maps = SUI.db.profile.maps,
-        queueicon = SUI.db.profile.edit.queueicon
-    }
-
-    if db then
-        if not (IsAddOnLoaded("SexyMap")) then
-            if db.maps.buttons then
-                local EventFrame = CreateFrame("Frame")
-                EventFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
-                EventFrame:SetScript("OnEvent", function()
-                    local buttons = LibDBIcon:GetButtonList()
-                    for i = 1, #buttons do
-                        LibDBIcon:ShowOnEnter(buttons[i], true)
-                    end
-                end)
-            end
+  local db = SUI.db.profile.maps
+	if (db) then
+    if not (db.minimap) then MinimapCluster:Hide() return end
+    if not (IsAddOnLoaded("SexyMap")) then
+      if (SUI:Color()) then
+        for i, v in pairs({
+          MinimapBorder,
+          MiniMapMailBorder,
+          QueueStatusMinimapButtonBorder,
+          select(1, TimeManagerClockButton:GetRegions())
+        }) do
+          v:SetVertexColor(unpack(SUI:Color(0.15)))
         end
+      end
+      select(2, TimeManagerClockButton:GetRegions()):SetVertexColor(1, 1, 1)
 
-        local function QueueStatusButton_Reposition()
-            if IsAddOnLoaded("EditModeExpanded") then return end
-            QueueStatusButton:SetParent(UIParent)
-            QueueStatusButton:SetFrameLevel(1)
-            QueueStatusButton:SetScale(0.8, 0.8)
-            QueueStatusButton:ClearAllPoints()
-            QueueStatusButton:SetPoint(db.queueicon.point, UIParent, db.queueicon.point, db.queueicon.x, db.queueicon.y)
+      MinimapZoneText:SetPoint("CENTER", Minimap, 0, 80)
+      Minimap:EnableMouseWheel(true)
+      Minimap:SetScript("OnMouseWheel", function(self, z)
+        local c = Minimap:GetZoom()
+        if (z > 0 and c < 5) then
+          Minimap:SetZoom(c + 1)
+        elseif (z < 0 and c > 0) then
+          Minimap:SetZoom(c - 1)
         end
+      end)
 
-        hooksecurefunc("QueueStatusDropDown_Show", function(button, relativeTo)
-            if not strfind(db.queueicon.point, "BOTTOM") then
-                DropDownList1:ClearAllPoints()
-                DropDownList1:SetPoint("BOTTOMLEFT", QueueStatusButton, "BOTTOMLEFT", -70, -60)
-            end
-        end)
-
-        hooksecurefunc(QueueStatusButton, "UpdatePosition", function()
-            QueueStatusButton_Reposition()
-        end)
+      Minimap:SetScript("OnMouseUp", function(self, btn)
+        if btn == "RightButton" then
+          _G.GameTimeFrame:Click()
+        elseif btn == "MiddleButton" then
+          _G.ToggleDropDownMenu(1, nil, _G.MiniMapTrackingDropDown, self)
+        else
+          _G.Minimap_OnClick(self)
+        end
+      end)
     end
+  end
 end

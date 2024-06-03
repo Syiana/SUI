@@ -1,591 +1,372 @@
 ﻿local Friendlist = SUI:NewModule("Chat.Friendlist");
 
 function Friendlist:OnEnable()
-    local db = SUI.db.profile.chat.friendlist
-    if (db) then
-        function FriendsListByClassColor_Update()
-            local Config = {
-                format = "[if=level][color=level][=level][/color][/if] [color=class][=accountName|name] [if=characterName]([=characterName])[/if][/color]",
-                level = "[if=level][=level][/if]"
-            }
-            local Color
-            do
+  local db = SUI.db.profile.chat.friendlist
+  if (db) then
+    local GUILD_INDEX_MAX = 12
+    local SMOOTH = {1, 0, 0, 1, 1, 0, 0, 1, 0}
+    local BC = {}
+    for k, v in pairs(LOCALIZED_CLASS_NAMES_MALE) do
+      BC[v] = k
+    end
+    for k, v in pairs(LOCALIZED_CLASS_NAMES_FEMALE) do
+      BC[v] = k
+    end
+    local RAID_CLASS_COLORS = CUSTOM_CLASS_COLORS or RAID_CLASS_COLORS
+    local WHITE_HEX = "|cffffffff"
 
-                ---@param r number|ColorMixin
-                ---@param g? number
-                ---@param b? number
-                local function ColorToHex(r, g, b)
-                    if type(r) == "table" then
-                        if r.r then
-                            r, g, b = r.r, r.g, r.b
-                        else
-                            r, g, b = unpack(r)
-                        end
-                    end
-                    if not r then
-                        return "ffffff"
-                    end
-                    return format("%02X%02X%02X", floor(r * 255), floor(g * 255), floor(b * 255))
-                end
+    local function Hex(r, g, b)
+      if type(r) == "table" then
+        if (r.r) then r, g, b = r.r, r.g, r.b else r, g, b = unpack(r) end
+      end
 
-                ---@type table<string, string>
-                local cache
-                do
+      if not r or not g or not b then
+        r, g, b = 1, 1, 1
+      end
 
-                    cache = {}
+      return format("|cff%02x%02x%02x", r * 255, g * 255, b * 255)
+    end
 
-                    ---@diagnostic disable-next-line: undefined-field
-                    local colors = (_G.CUSTOM_CLASS_COLORS or _G.RAID_CLASS_COLORS)
+    local function ColorGradient(perc, ...)
+      if perc >= 1 then
+        local r, g, b = select(select("#", ...) - 2, ...)
+        return r, g, b
+      elseif perc <= 0 then
+        local r, g, b = ...
+        return r, g, b
+      end
 
-                    ---@diagnostic disable-next-line: undefined-field
-                    for k, v in pairs(_G.LOCALIZED_CLASS_NAMES_MALE) do cache[v] = ColorToHex(colors[k]) end
+      local num = select("#", ...) / 3
 
-                    ---@diagnostic disable-next-line: undefined-field
-                    for k, v in pairs(_G.LOCALIZED_CLASS_NAMES_FEMALE) do cache[v] = ColorToHex(colors[k]) end
+      local segment, relperc = math.modf(perc * (num - 1))
+      local r1, g1, b1, r2, g2, b2 = select((segment * 3) + 1, ...)
 
-                    if WOW_PROJECT_ID ~= WOW_PROJECT_MAINLINE then
-                        cache.Evoker = cache.Evoker or "33937F"
-                        cache.Monk = cache.Monk or "00FF98"
-                        cache.Paladin = cache.Paladin or "F48CBA"
-                        cache.Shaman = cache.Shaman or "0070DD"
-                    end
+      return r1 + (r2 - r1) * relperc, g1 + (g2 - g1) * relperc, b1 + (b2 - b1) * relperc
+    end
 
-                end
+    local guildRankColor = setmetatable({}, {
+      __index = function(t, i)
+        if i then
+          local c = Hex(ColorGradient(i / GUILD_INDEX_MAX, unpack(SMOOTH)))
+          if c then
+            t[i] = c
+            return c
+          else
+            t[i] = t[0]
+          end
+        end
+      end
+    })
+    guildRankColor[0] = WHITE_HEX
 
-                Color = {}
+    local diffColor = setmetatable({}, {
+      __index = function(t, i)
+        local c = i and GetQuestDifficultyColor(i)
+        t[i] = c and Hex(c) or t[0]
+        return t[i]
+      end
+    })
+    diffColor[0] = WHITE_HEX
 
-                Color.From = ColorToHex
+    local classColor = setmetatable({}, {
+      __index = function(t, i)
+        local c = i and RAID_CLASS_COLORS[BC[i] or i]
+        if c then
+          t[i] = Hex(c)
+          return t[i]
+        else
+          return WHITE_HEX
+        end
+      end
+    })
 
-                Color.Gray = Color.From(_G.FRIENDS_GRAY_COLOR) ---@diagnostic disable-line: undefined-field
-                Color.BNet = Color.From(_G.FRIENDS_BNET_NAME_COLOR) ---@diagnostic disable-line: undefined-field
-                Color.WoW = Color.From(_G.FRIENDS_WOW_NAME_COLOR) ---@diagnostic disable-line: undefined-field
+    local WHITE = {1, 1, 1}
+    local classColorRaw = setmetatable({}, {
+      __index = function(t, i)
+        local c = i and RAID_CLASS_COLORS[BC[i] or i]
+        if not c then return WHITE end
+        t[i] = c
+        return c
+      end
+    })
 
-                ---@param query any
-                ---@return string?
-                function Color.ForClass(query)
-                    return cache[query]
-                end
+    if CUSTOM_CLASS_COLORS then
+      CUSTOM_CLASS_COLORS:RegisterCallback(function()
+        wipe(classColorRaw)
+        wipe(classColor)
+      end)
+    end
 
-                ---@param level any
-                ---@return string?
-                function Color.ForLevel(level)
-                    if level and type(level) ~= "number" then
-                        level = tonumber(level, 10)
-                    end
-                    if not level then
-                        return
-                    end
-                    local color = _G.GetQuestDifficultyColor(level) ---@diagnostic disable-line: undefined-field
-                    return Color.From(color.r, color.g, color.b)
-                end
+    -- WhoList
+    local function whoFrame()
+      local scrollFrame = WhoListScrollFrame
+      local offset = HybridScrollFrame_GetOffset(scrollFrame)
+      local buttons = scrollFrame.buttons
+      local numWhos = C_FriendList.GetNumWhoResults()
 
+      local playerZone = GetRealZoneText()
+      local playerGuild = GetGuildInfo("player")
+      local playerRace = UnitRace("player")
+
+      for i = 1, #buttons do
+        local button = buttons[i]
+        local index = offset + i
+        if index <= numWhos then
+          local nameText = button.Name
+          local levelText = button.Level
+          local variableText = button.Variable
+
+          local info = C_FriendList.GetWhoInfo(index)
+          if info then
+            local guild = info.fullGuildName
+            local level = info.level
+            local race = info.raceStr
+            local zone = info.area
+            local classFileName = info.filename
+
+            if zone == playerZone then
+              zone = "|cff00ff00"..zone
             end
-
-            local Util
-            do
-
-                Util = {}
-
-                ---@generic K, V
-                ---@param destination K
-                ---@param source V
-                ---@return K
-                function Util.MergeTable(destination, source)
-                    for k, v in pairs(source) do
-                        destination[k] = v
-                    end
-                    return destination
-                end
-
-                ---@param text string
-                function Util.EscapePattern(text)
-                    if type(text) ~= "string" then
-                        return
-                    end
-                    return (
-                        text
-                            :gsub("%%", "%%%%")
-                            :gsub("%|", "%%|")
-                            :gsub("%?", "%%?")
-                            :gsub("%.", "%%.")
-                            :gsub("%-", "%%-")
-                            :gsub("%_", "%%_")
-                            :gsub("%[", "%%[")
-                            :gsub("%]", "%%]")
-                            :gsub("%(", "%%(")
-                            :gsub("%)", "%%)")
-                            :gsub("%*", "%%*")
-                        )
-                end
-
-                ---@param a any
-                ---@param b any
-                ---@param c any
-                function Util.SafeReplace(a, b, c)
-                    if type(a) == "string" and type(b) == "string" and type(c) == "string" then
-                        a = a:gsub(b, c)
-                    end
-                    return a
-                end
-
-                ---@param oldName string
-                ---@param newName string
-                ---@param lineID? number
-                ---@param bnetIDAccount? number
-                function Util.SafeReplaceName(oldName, newName, lineID, bnetIDAccount)
-                    if bnetIDAccount then
-                        -- HOTFIX: Disable custom names when handling chat messages from BNet friends until we figure out a possible workaround.
-                        -- `GetBNPlayerLink` is not working well when used to replace the real BNet name with an alias in the chat the name gets mangled something fierce.
-                        if lineID then
-                            return oldName
-                        end
-                        return _G.GetBNPlayerLink(newName, newName, bnetIDAccount, lineID) ---@diagnostic disable-line: undefined-field
-                    end
-                    return newName
-                end
-
+            if guild == playerGuild then
+              guild = "|cff00ff00"..guild
             end
-
-            local Parse
-            do
-
-                Parse = {}
-
-                ---@param note any
-                ---@return string?
-                function Parse.Note(note)
-                    if type(note) ~= "string" then
-                        return
-                    end
-                    local alias = note:match("%^(.-)%$")
-                    if alias and alias ~= "" then
-                        return alias
-                    end
-                end
-
-                ---@param friendWrapper FriendWrapper
-                ---@param field string
-                function Parse.Color(friendWrapper, field)
-
-                    ---@type string|number|boolean|nil
-                    local out
-
-                    ---@type string|number|boolean|nil
-                    local value = friendWrapper.data[field]
-
-                    if field == "level" or field == "characterLevel" then
-                        out = Color.ForLevel(value)
-                    elseif field == "className" or field == "class" then
-                        out = Color.ForClass(value)
-                    end
-
-                    if not out then
-                        local r, g, b = field:match("^%s*(%d+)%s*,%s*(%d+)%s*,%s*(%d+)%s*$") ---@type string?, string?, string?
-                        if r then
-                            out = Color.From(r / 255, g / 255, b / 255)
-                        else
-                            local hex = field:match("^%s*([0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f])%s*$") ---@type string?
-                            if hex then
-                                out = hex
-                            end
-                        end
-                    end
-
-                    if not out then
-                        ---@diagnostic disable-next-line: undefined-field
-                        local offline = not
-                            friendWrapper.data[
-                            friendWrapper.type == FRIENDS_BUTTON_TYPE_BNET and "isOnline" or "connected"]
-                        if offline then
-                            out = Color.Gray
-                        elseif friendWrapper.type == FRIENDS_BUTTON_TYPE_BNET then ---@diagnostic disable-line: undefined-field
-                            out = Color.BNet
-                        else
-                            out = Color.WoW
-                        end
-                    end
-
-                    if not out then
-                        out = "ffffff"
-                    end
-
-                    return out
-
-                end
-
-                ---@param friendWrapper FriendWrapper
-                ---@param text string
-                ---@param content? string
-                ---@param reverseLogic? boolean
-                function Parse.Logic(friendWrapper, text, content, reverseLogic)
-
-                    ---@type string|number|boolean|nil
-                    local out
-
-                    ---@type string[]
-                    local fields = { strsplit("|", text) }
-
-                    if not fields[1] then
-                        fields = { text }
-                    end
-
-                    for i = 1, #fields do
-
-                        local field = fields[i]
-                        local value = friendWrapper.data[field] ---@type string|number|boolean|nil
-
-                        if value ~= nil then
-
-                            if field == "accountName" or field == "name" then
-
-                                ---@diagnostic disable-next-line: undefined-field
-                                local note = friendWrapper.data[
-                                    friendWrapper.type == FRIENDS_BUTTON_TYPE_BNET and "note" or "notes"] ---@type string?
-                                local alias = Parse.Note(note)
-
-                                if alias then
-                                    out = alias
-                                end
-
-                            end
-
-                            if not out then
-                                out = value
-                            end
-
-                            if (not out) or out == "" or out == 0 or out == "0" then
-                                out = nil
-                            end
-
-                            if out ~= nil then
-                                out = tostring(out)
-                                break
-                            end
-
-                        end
-
-                    end
-
-                    if content and content ~= "" then
-                        if reverseLogic then
-                            if out ~= nil then
-                                out = nil
-                            else
-                                out = content
-                            end
-                        end
-                        if out ~= nil then
-                            return Parse.Format(friendWrapper, content)
-                        end
-                        return ""
-                    end
-
-                    if out == nil then
-                        return ""
-                    elseif type(out) == "string" then
-                        return out
-                    else
-                        return tostring(out)
-                    end
-
-                end
-
-                ---@param friendWrapper FriendWrapper
-                ---@param text string
-                function Parse.Format(friendWrapper, text)
-
-                    -- [=X|Y|Z|...]
-                    for matched, logic in text:gmatch("(%[=(.-)%])") do
-                        text = Util.SafeReplace(
-                            text,
-                            Util.EscapePattern(matched),
-                            Parse.Logic(friendWrapper, logic)
-                        )
-                    end
-
-                    -- [color=X]Y[/color]
-                    for matched, blockText, content in text:gmatch("(%[[cC][oO][lL][oO][rR]=(.-)%](.-)%[%/[cC][oO][lL][oO][rR]%])") do
-                        text = Util.SafeReplace(
-                            text,
-                            Util.EscapePattern(matched),
-                            format("|cff%s%s|r", Parse.Color(friendWrapper, blockText),
-                                Parse.Format(friendWrapper, content))
-                        )
-                    end
-
-                    -- [if=X]Y[/if]
-                    for matched, logic, content in text:gmatch("(%[[iI][fF]=(.-)%](.-)%[%/[iI][fF]%])") do
-                        text = Util.SafeReplace(
-                            text,
-                            Util.EscapePattern(matched),
-                            Parse.Logic(friendWrapper, logic, content)
-                        )
-                    end
-
-                    -- [if~=X]Y[/if]
-                    for matched, logic, content in text:gmatch("(%[[iI][fF][%~%!]=(.-)%](.-)%[%/[iI][fF]%])") do
-                        text = Util.SafeReplace(
-                            text,
-                            Util.EscapePattern(matched),
-                            Parse.Logic(friendWrapper, logic, content, true)
-                        )
-                    end
-
-                    return text
-
-                end
-
+            if race == playerRace then
+              race = "|cff00ff00"..race
             end
+            local columnTable = {zone, guild, race}
 
-            local Friends
-            do
+            local c = classColorRaw[classFileName]
+            nameText:SetTextColor(c.r, c.g, c.b)
+            levelText:SetText(diffColor[level]..level)
+            variableText:SetText(columnTable[UIDropDownMenu_GetSelectedID(WhoFrameDropDown)])
+          end
+        end
+      end
+    end
 
-                ---@class BNetAccountInfoExtended : BNetGameAccountInfo, BNetAccountInfo
-                ---@field bnet boolean
-                ---@field isBNet boolean
+    hooksecurefunc("WhoList_Update", whoFrame)
+    hooksecurefunc(WhoListScrollFrame, "update", whoFrame)
 
-                Friends = {}
+    -- LFRBrowseList
+    hooksecurefunc("LFRBrowseFrameListButton_SetData", function(button, index)
+      local name, level, _, className, _, _, _, class = SearchLFGGetResults(index)
 
-                ---@param friendIndex number
-                ---@param accountIndex number
-                ---@param wowAccountGUID? string
-                ---@return BNetAccountInfoExtended?
-                function Friends.BNGetFriendGameAccountInfo(friendIndex, accountIndex, wowAccountGUID)
-                    local gameAccountInfo = C_BattleNet.GetFriendGameAccountInfo(friendIndex, accountIndex)
-                    local accountInfo = C_BattleNet.GetFriendAccountInfo(friendIndex, wowAccountGUID)
-                    if not gameAccountInfo and not accountInfo then
-                        return
-                    end
-                    return Util.MergeTable(gameAccountInfo or {}, accountInfo or {}) ---@diagnostic disable-line: return-type-mismatch
-                end
+      if index and class and name and level then
+        button.name:SetText(classColor[class]..name)
+        button.class:SetText(classColor[class]..className)
+        button.level:SetText(diffColor[level]..level)
+        button.level:SetWidth(30)
+      end
+    end)
 
-                ---@param friendIndex number
-                ---@param wowAccountGUID? string
-                function Friends.BNGetFriendInfo(friendIndex, wowAccountGUID)
-                    return C_BattleNet.GetFriendAccountInfo(friendIndex, wowAccountGUID)
-                end
+    -- PVPMatchResults
+    hooksecurefunc(PVPCellNameMixin, "Populate", function(self, rowData)
+      local name = rowData.name
+      local className = rowData.className or ""
+      local n, r = strsplit("-", name, 2)
+      n = classColor[className]..n.."|r"
 
-                ---@param id number
-                ---@param wowAccountGUID? string
-                function Friends.BNGetFriendInfoByID(id, wowAccountGUID)
-                    return C_BattleNet.GetAccountInfoByID(id, wowAccountGUID)
-                end
+      if name == UnitName("player") then
+        n = ">>> "..n.." <<<"
+      end
 
-                ---@param friendIndex number
-                function Friends.BNGetNumFriendGameAccounts(friendIndex)
-                    return C_BattleNet.GetFriendNumGameAccounts(friendIndex)
-                end
+      if r then
+        local color
+        local faction = rowData.faction
+        local inArena = IsActiveBattlefieldArena()
+        if inArena then
+          if faction == 1 then
+            color = "|cffffd100"
+          else
+            color = "|cff19ff19"
+          end
+        else
+          if faction == 1 then
+            color = "|cff00adf0"
+          else
+            color = "|cffff1919"
+          end
+        end
+        r = color..r.."|r"
+        n = n.."|cffffffff - |r"..r
+      end
 
-                ---@param query number|string
-                function Friends.GetFriendInfo(query)
-                    local info ---@type FriendInfo?
-                    if type(query) == "number" then
-                        info = C_FriendList.GetFriendInfoByIndex(query)
-                    end
-                    if type(query) == "string" then
-                        info = C_FriendList.GetFriendInfo(query)
-                    end
-                    if not info then
-                        return
-                    end
-                    Friends.AddFieldAlias(info)
-                    return info
-                end
+      local text = self.text
+      text:SetText(n)
+    end)
 
-                ---@param data BNetAccountInfoExtended|BNetAccountInfo
-                ---@param id number
-                function Friends.PackageFriendBNetCharacter(data, id)
-                    for i = 1, Friends.BNGetNumFriendGameAccounts(id) do
-                        local temp = Friends.BNGetFriendGameAccountInfo(id, i)
-                        if temp and temp.clientProgram == _G.BNET_CLIENT_WOW then ---@diagnostic disable-line: undefined-field
-                            for k, v in pairs(temp) do
-                                data[k] = v
-                            end
-                            break
+    local _VIEW
+
+    local function viewChanged(view)
+      _VIEW = view
+    end
+
+    -- GuildList
+    local function update()
+      _VIEW = _VIEW or GetCVar("guildRosterView")
+      local playerArea = GetRealZoneText()
+      local buttons = GuildRosterContainer.buttons
+
+      for _, button in ipairs(buttons) do
+        if button:IsShown() and button.online and button.guildIndex then
+          if _VIEW == "tradeskill" then
+            local _, _, _, headerName, _, _, _, playerName, _, _, _, zone, _, classFileName, isMobile = GetGuildTradeSkillInfo(button.guildIndex)
+            if not headerName and playerName then
+              local c = classColorRaw[classFileName]
+              button.string1:SetTextColor(c.r, c.g, c.b)
+              if not isMobile and zone == playerArea then
+                button.string2:SetText("|cff00ff00"..zone)
+              elseif isMobile then
+                button.string2:SetText("|cffa5a5a5"..REMOTE_CHAT)
+              end
+            end
+          else
+            local name, rank, rankIndex, level, _, zone, _, _, _, isAway, classFileName, _, _, isMobile = GetGuildRosterInfo(button.guildIndex)
+            name = string.gsub(name, "-.*", "")
+            local displayedName = classColor[classFileName]..name
+            if isMobile then
+              if isAway == 1 then
+                displayedName = "|TInterface\\ChatFrame\\UI-ChatIcon-ArmoryChat-AwayMobile:14:14:0:0:16:16:0:16:0:16|t"..displayedName.." |cffE7E716"..L_CHAT_AFK.."|r"
+              elseif isAway == 2 then
+                displayedName = "|TInterface\\ChatFrame\\UI-ChatIcon-ArmoryChat-BusyMobile:14:14:0:0:16:16:0:16:0:16|t"..displayedName.." |cffff0000"..L_CHAT_DND.."|r"
+              else
+                displayedName = ChatFrame_GetMobileEmbeddedTexture(0.3, 1, 0.3)..displayedName
+              end
+            else
+              if isAway == 1 then
+                displayedName = displayedName.." |cffE7E716"..L_CHAT_AFK.."|r"
+              elseif isAway == 2 then
+                displayedName = displayedName.." |cffff0000"..L_CHAT_DND.."|r"
+              end
+            end
+            if _VIEW == "playerStatus" then
+              button.string1:SetText(diffColor[level]..level)
+              button.string2:SetText(displayedName)
+              if not isMobile and zone == playerArea then
+                button.string3:SetText("|cff4cff4c"..zone)
+              elseif isMobile then
+                button.string3:SetText("|cffa5a5a5"..REMOTE_CHAT)
+              end
+            elseif _VIEW == "guildStatus" then
+              button.string1:SetText(displayedName)
+              if rankIndex and rank then
+                button.string2:SetText(guildRankColor[rankIndex]..rank)
+              end
+            elseif _VIEW == "achievement" then
+              button.string1:SetText(diffColor[level]..level)
+              if classFileName and name then
+                button.string2:SetText(displayedName)
+              end
+            elseif _VIEW == "reputation" then
+              button.string1:SetText(diffColor[level]..level)
+              button.string2:SetText(displayedName)
+            end
+          end
+        end
+      end
+    end
+
+    local loaded = false
+    hooksecurefunc("GuildFrame_LoadUI", function()
+      if loaded then
+        return
+      else
+        loaded = true
+        hooksecurefunc("GuildRoster_SetView", viewChanged)
+        hooksecurefunc("GuildRoster_Update", update)
+        hooksecurefunc(GuildRosterContainer, "update", update)
+      end
+    end)
+
+    -- CommunitiesFrame
+    local function RefreshList(self)
+      local playerArea = GetRealZoneText()
+      local scrollFrame = self.ListScrollFrame
+      local offset = HybridScrollFrame_GetOffset(scrollFrame)
+      local buttons = scrollFrame.buttons
+
+      local displayingProfessions = self:IsDisplayingProfessions()
+      local memberList = displayingProfessions and (self.sortedProfessionList) or (self.sortedMemberList or {})
+      for i = 1, #buttons do
+        local displayIndex = i + offset
+        local button = buttons[i]
+        if displayIndex <= #memberList then
+          local memberInfo = memberList[displayIndex]
+          if memberInfo.presence == Enum.ClubMemberPresence.Offline then return end
+
+          if memberInfo.zone and memberInfo.zone == playerArea then
+            button.Zone:SetText("|cff4cff4c"..memberInfo.zone)
+          end
+
+          if memberInfo.level then
+            button.Level:SetText(diffColor[memberInfo.level]..memberInfo.level)
+          end
+
+          if memberInfo.guildRankOrder and memberInfo.guildRank then
+            button.Rank:SetText(guildRankColor[memberInfo.guildRankOrder]..memberInfo.guildRank)
+          end
+        end
+      end
+    end
+
+    local loaded = false
+    hooksecurefunc("Communities_LoadUI", function()
+      if loaded then
+        return
+      else
+        loaded = true
+        hooksecurefunc(CommunitiesFrame.MemberList, "RefreshListDisplay", RefreshList)
+      end
+    end)
+
+    -- FriendsList
+    local FRIENDS_LEVEL_TEMPLATE = FRIENDS_LEVEL_TEMPLATE:gsub("%%d", "%%s")
+    FRIENDS_LEVEL_TEMPLATE = FRIENDS_LEVEL_TEMPLATE:gsub("%$d", "%$s")
+    local function friendsFrame()
+        local scrollFrame = FriendsListFrameScrollFrame
+        local buttons = scrollFrame.buttons
+
+        local playerArea = GetRealZoneText()
+
+        for i = 1, #buttons do
+            local nameText, infoText
+            local button = buttons[i]
+            local index = button.index;
+            if button:IsShown() then
+                if button.buttonType == FRIENDS_BUTTON_TYPE_WOW then
+                    local info = C_FriendList.GetFriendInfoByIndex(button.id);
+                    if info.connected then
+                        nameText = classColor[info.className]..info.name.."|r, "..format(FRIENDS_LEVEL_TEMPLATE, diffColor[info.level]..info.level.."|r", info.className)
+                        if info.area == playerArea then
+                            infoText = format("|cff00ff00%s|r", info.area)
                         end
                     end
-                    Friends.AddFieldAlias(data, true)
-                    return data
+                elseif button.buttonType == FRIENDS_BUTTON_TYPE_BNET then
+            local accountInfo = C_BattleNet.GetFriendAccountInfo(button.id)
+            if accountInfo.gameAccountInfo.isOnline and accountInfo.gameAccountInfo.clientProgram == BNET_CLIENT_WOW then
+              local accountName = accountInfo.accountName
+              local characterName = accountInfo.gameAccountInfo.characterName
+              local class = accountInfo.gameAccountInfo.className
+              local areaName = accountInfo.gameAccountInfo.areaName
+              if accountName and characterName and class then
+                nameText = format(BATTLENET_NAME_FORMAT, accountName, "").." "..FRIENDS_WOW_NAME_COLOR_CODE.."("..classColor[class]..classColor[class]..characterName..FRIENDS_WOW_NAME_COLOR_CODE..")"
+                if areaName == playerArea then
+                  infoText = format("|cff00ff00%s|r", areaName)
                 end
-
-                ---@param data BNetAccountInfoExtended|BNetAccountInfo|FriendInfo
-                ---@param isBNet? boolean
-                function Friends.AddFieldAlias(data, isBNet)
-                    ---@param ... string
-                    ---@return string?, string?, string?
-                    local function first(...)
-                        local temp
-                        for _, v in ipairs({ ... }) do
-                            temp = data[v]
-                            if temp ~= nil then
-                                return temp, temp, temp
-                            end
-                        end
-                        return temp, temp, temp
-                    end
-
-                    isBNet = not not isBNet
-                    data.bnet = isBNet
-                    data.isBNet = isBNet
-                    -- data.name, data.characterName = first("characterName", "name") ---@diagnostic disable-line: assign-type-mismatch
-                    data.level, data.characterLevel = first("characterLevel", "level") ---@diagnostic disable-line: assign-type-mismatch
-                    data.class, data.className = first("className", "class") ---@diagnostic disable-line: assign-type-mismatch
-                    data.race, data.raceName = first("raceName", "race") ---@diagnostic disable-line: assign-type-mismatch
-                    data.faction, data.factionName = first("factionName", "faction") ---@diagnostic disable-line: assign-type-mismatch
-                    data.area, data.areaName = first("areaName", "area") ---@diagnostic disable-line: assign-type-mismatch
-                    data.connected, data.isOnline = first("isOnline", "connected") ---@diagnostic disable-line: assign-type-mismatch
-                    data.mobile, data.isWowMobile = first("isWowMobile", "mobile") ---@diagnostic disable-line: assign-type-mismatch
-                    data.afk, data.isAFK, data.isGameAFK = first("isGameAFK", "isAFK", "afk") ---@diagnostic disable-line: assign-type-mismatch
-                    data.dnd, data.isDND, data.isGameBusy = first("isGameBusy", "isDND", "dnd") ---@diagnostic disable-line: assign-type-mismatch
-                end
-
-                ---@alias FriendType number `2`=`FRIENDS_BUTTON_TYPE_BNET` and `3`=`FRIENDS_BUTTON_TYPE_WOW`
-
-                ---@class FriendWrapper
-                ---@field public type FriendType
-                ---@field public data? BNetAccountInfoExtended|BNetAccountInfo|FriendInfo
-
-                ---@param buttonType FriendType
-                ---@param id number
-                ---@return FriendWrapper?
-                function Friends.PackageFriend(buttonType, id)
-                    local temp ---@type FriendWrapper
-                    if buttonType == FRIENDS_BUTTON_TYPE_BNET then ---@diagnostic disable-line: undefined-field
-                        temp = {
-                            type = buttonType,
-                            data = Friends.PackageFriendBNetCharacter(Friends.BNGetFriendInfo(id), id),
-                        }
-                    elseif buttonType == FRIENDS_BUTTON_TYPE_WOW then ---@diagnostic disable-line: undefined-field
-                        temp = {
-                            type = buttonType,
-                            data = Friends.GetFriendInfo(id),
-                        }
-                    end
-                    if not temp.data then
-                        return
-                    end
-                    return temp
-                end
-
-                ---@param chatType ChatType
-                ---@param name string
-                ---@param lineID? number
-                function Friends.GetAlias(chatType, name, lineID)
-                    if chatType == "WHISPER" then
-                        local friendInfo = Friends.GetFriendInfo(name)
-                        if friendInfo then
-                            local newName = Parse.Note(friendInfo.notes)
-                            if newName then
-                                return Util.SafeReplaceName(name, newName, lineID)
-                            end
-                        end
-                    elseif chatType == "BN_WHISPER" then
-                        local presenceID = GetAutoCompletePresenceID(name)
-                        if presenceID then
-                            local friendInfo = Friends.BNGetFriendInfoByID(presenceID)
-                            if friendInfo then
-                                local newName = Parse.Note(friendInfo.note)
-                                if newName then
-                                    return Util.SafeReplaceName(name, newName, lineID, presenceID)
-                                end
-                            end
-                        end
-                    end
-                    return name
-                end
-
-                ---@param text string
-                function Friends.ReplaceName(text)
-                    if type(text) ~= "string" then
-                        return text
-                    end
-                    return (
-                        text:gsub("|HBNplayer:(.-)|h(.-)|h",
-                            function(data, displayText) return format("|HBNplayer:%s|h%s|h", data,
-                                (Friends.GetAlias("BN_WHISPER", displayText))) end))
-                end
-
+              end
             end
-
-            -- mutex lock when setting text to avoid recursion
-            local isSettingText = false
-
-            ---@class ListFrameButton : Button
-            ---@field buttonType number
-            ---@field id number
-            ---@field gameIcon Texture
-            ---@field name FontString
-
-            ---@param self ListFrameButton
-            ---@param ... any
-            local function SetTextHook(self, ...)
-                if isSettingText then
-                    return
-                end
-                ---@diagnostic disable-next-line: assign-type-mismatch
-                local button = self:GetParent() ---@type ListFrameButton
-                local buttonType, id = button.buttonType, button.id
-                if buttonType ~= FRIENDS_BUTTON_TYPE_BNET and buttonType ~= FRIENDS_BUTTON_TYPE_WOW then
-                    return
-                end
-                local friendWrapper = Friends.PackageFriend(buttonType, id)
-                if not friendWrapper then
-                    return
-                end
-                -- button.gameIcon:SetTexture("Interface\\Buttons\\ui-paidcharactercustomization-button")
-                -- button.gameIcon:SetTexCoord(8/128, 55/128, 72/128, 119/128)
-                MAX_PLAYER_LEVEL_TABLE = {};
-                MAX_PLAYER_LEVEL_TABLE[8] = 60
-                MAX_PLAYER_LEVEL_TABLE[9] = 70
-                maxLevel = MAX_PLAYER_LEVEL_TABLE[GetAccountExpansionLevel()]
-
-                isSettingText = true
-                if (tonumber(Parse.Format(friendWrapper, Config.level)) == maxLevel) then
-                    self:SetText(Parse.Format(friendWrapper,
-                        "[color=class][=accountName|name] [if=characterName][[=characterName]][/if][/color]"))
-                else
-                    self:SetText(Parse.Format(friendWrapper,
-                        "[color=class][=accountName|name] [if=characterName][[=characterName][/if][if=level] - [=level]][/if][/color]"))
-                end
-                --print(Parse.Format(friendWrapper, Config.level))
-                --self:SetText(Parse.Format(friendWrapper, Config.format))
-                isSettingText = false
-            end
-
-            local HookButtons
-            do
-                ---@type table<ListFrameButton, boolean>
-                local hookedButtons = {}
-                ---@param buttons ListFrameButton[]
-                function HookButtons(buttons)
-                    for i = 1, #buttons do
-                        local button = buttons[i]
-                        if button.name and not hookedButtons[button] then
-                            hookedButtons[button] = true
-                            hooksecurefunc(button.name, "SetText", SetTextHook)
-                        end
-                    end
-                end
-            end
-
-            ---@class ListFrame : Frame
-            ---@field ScrollBox? ScrollFrame
-            ---@field buttons? ListFrameButton[]
-
-            ---@type ListFrame
-            local scrollFrame = _G.FriendsListFrameScrollFrame or _G.FriendsFrameFriendsScrollFrame or
-                _G.FriendsListFrame ---@diagnostic disable-line: undefined-field
-
-            if scrollFrame.ScrollBox then
-                scrollFrame.ScrollBox:GetView():RegisterCallback(_G.ScrollBoxListMixin.Event.OnAcquiredFrame,
-                    function(_, button, created) if created then HookButtons({ button }) end end) ---@diagnostic disable-line: undefined-field
-            end
-
-            if scrollFrame.buttons then
-                HookButtons(scrollFrame.buttons)
-            end
+          end
         end
 
-        FriendsListByClassColor_Update()
+        if nameText then
+          button.name:SetText(nameText)
+        end
+        if infoText then
+          button.info:SetText(infoText)
+        end
+      end
     end
+    hooksecurefunc(FriendsListFrameScrollFrame, "update", friendsFrame)
+    hooksecurefunc("FriendsFrame_UpdateFriends", friendsFrame)
+  end
 end

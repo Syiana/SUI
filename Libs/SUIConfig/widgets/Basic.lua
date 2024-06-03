@@ -27,7 +27,7 @@ function SUIConfig:PanelWithLabel(parent, width, height, inherits, text)
 
 	frame.label = self:Header(frame, text, 18);
 	frame.label:SetAllPoints();
-	--frame.label:SetJustifyH('MIDDLE');
+	frame.label:SetJustifyH('MIDDLE');
 
 	return frame;
 end
@@ -60,7 +60,7 @@ end
 
 --- @return Texture
 function SUIConfig:ArrowTexture(parent, direction)
-	local texture = self:Texture(parent, 12, 6, [[Interface\Buttons\Arrow-Up-Down]]);
+	local texture = self:Texture(parent, 16, 8, [[Interface\Buttons\Arrow-Up-Down]]);
 
 	if direction == 'UP' then
 		texture:SetTexCoord(0, 1, 0.5, 1);

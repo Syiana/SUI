@@ -58,9 +58,9 @@ local ColorPickerEvents = {
 		local r, g, b, a = self:GetColorRGBA();
 
 		if not self.skipTextUpdate then
-			self.rEdit:SetValue(math.floor(r * 255));
-			self.gEdit:SetValue(math.floor(g * 255));
-			self.bEdit:SetValue(math.floor(b * 255));
+			self.rEdit:SetValue(r * 255);
+			self.gEdit:SetValue(g * 255);
+			self.bEdit:SetValue(b * 255);
 			self.aEdit:SetValue(100 * a);
 
 			self.rEdit:Validate();
@@ -70,7 +70,7 @@ local ColorPickerEvents = {
 		end
 
 		self.newTexture:SetVertexColor(r, g, b, a);
-		self.alphaTexture:SetGradient('VERTICAL', CreateColor(1, 1, 1, 0), CreateColor(r, g, b, 1));
+		self.alphaTexture:SetGradientAlpha('VERTICAL', 1, 1, 1, 0, r, g, b, 1);
 	end
 };
 
@@ -263,11 +263,7 @@ local ColorInputMethods = {
 			self.color.a = c.a or 1;
 		end
 
-		c.r = self.color.r
-        c.g = self.color.g
-        c.b = self.color.b
-
-		self.target:SetBackdropColor(c.r, c.g, c.b, 1);
+		self.target:SetBackdropColor(c.r, c.g, c.b, c.a or 1);
 		if self.OnValueChanged then
 			self:OnValueChanged(c);
 		end
