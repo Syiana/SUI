@@ -41,9 +41,9 @@ function Module:OnEnable()
       end
       function SUIPartyText()
         for i = 1, 4 do
-          _G["PartyMemberFrame"..i.."ManaBarText"]:SetText(" ");
-          _G["PartyMemberFrame"..i.."ManaBarTextLeft"]:SetText(" ");
-          _G["PartyMemberFrame"..i.."ManaBarTextRight"]:SetText(" ");
+          -- _G["PartyMemberFrame"..i.."ManaBarText"]:SetText(" ");
+          -- _G["PartyMemberFrame"..i.."ManaBarTextLeft"]:SetText(" ");
+          -- _G["PartyMemberFrame"..i.."ManaBarTextRight"]:SetText(" ");
         end
       end
       hooksecurefunc("UnitFrame_Update", SUIPartyFrames)

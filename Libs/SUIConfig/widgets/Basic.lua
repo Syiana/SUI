@@ -27,7 +27,7 @@ function SUIConfig:PanelWithLabel(parent, width, height, inherits, text)
 
 	frame.label = self:Header(frame, text, 18);
 	frame.label:SetAllPoints();
-	frame.label:SetJustifyH('MIDDLE');
+	-- frame.label:SetJustifyH('MIDDLE');
 
 	return frame;
 end

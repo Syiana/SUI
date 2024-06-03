@@ -110,7 +110,7 @@ function SUIConfig:Button(parent, width, height, text, inherit)
 	local button = self:HighlightButton(parent, width, height, text, inherit)
 	button.SUIConfig = self;
 
-	button:SetHighlightTexture(nil);
+	-- button:SetHighlightTexture(nil);
 
 	self:ApplyBackdrop(button);
 	self:HookDisabledBackdrop(button);

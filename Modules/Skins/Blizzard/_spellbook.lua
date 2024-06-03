@@ -2,25 +2,26 @@ local Module = SUI:NewModule("Skins.SpellBook");
 
 function Module:OnEnable()
   if (SUI:Color()) then
-    for i, v in pairs({ SpellBookFrame.NineSlice.TopEdge,
-      SpellBookFrame.NineSlice.RightEdge,
-      SpellBookFrame.NineSlice.LeftEdge,
-      SpellBookFrame.NineSlice.TopEdge,
-      SpellBookFrame.NineSlice.BottomEdge,
-      SpellBookFrame.NineSlice.PortraitFrame,
-      SpellBookFrame.NineSlice.TopRightCorner,
-      SpellBookFrame.NineSlice.TopLeftCorner,
-      SpellBookFrame.NineSlice.BottomLeftCorner,
-      SpellBookFrame.NineSlice.BottomRightCorner,
-      SpellBookFrameInset.NineSlice.BottomEdge, }) do
+    for i, v in pairs({
+      SpellBookFrameTopEdge,
+      SpellBookFrameRightEdge,
+      SpellBookFrameLeftEdge,
+      SpellBookFrameTopEdge,
+      SpellBookFrameBottomEdge,
+      SpellBookFramePortraitFrame,
+      SpellBookFrameTopRightCorner,
+      SpellBookFrameTopLeftCorner,
+      SpellBookFrameBottomLeftCorner,
+      SpellBookFrameBottomRightCorner,
+      SpellBookFrameInsetBottomEdge,
+    }) do
         v:SetVertexColor(unpack(SUI:Color(0.15)))
     end
     for i, v in pairs({
-      SpellBookFrame.Bg,
-      SpellBookFrame.TitleBg,
-      SpellBookFrameInset.Bg }) do
+      SpellBookFrameBg,
+      SpellBookFrameTitleBg,
+      SpellBookFrameInsetBg }) do
         v:SetVertexColor(unpack(SUI:Color()))
     end
-    SpellBookFrameInset:SetAlpha(0)
   end
 end

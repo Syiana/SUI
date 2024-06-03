@@ -14,7 +14,7 @@ local ColorPickerMethods = {
 		self:SetColorAlpha(a);
 		self:SetColorRGB(r, g, b);
 
-		self.newTexture:SetVertexColor(r, g, b, a);
+		self.newTexture:SetVertexColor(r, g, b);
 	end,
 
 	GetColorRGBA = function(self)
@@ -26,7 +26,7 @@ local ColorPickerMethods = {
 		self:SetColorAlpha(c.a or 1);
 		self:SetColorRGB(c.r, c.g, c.b);
 
-		self.newTexture:SetVertexColor(c.r, c.g, c.b, c.a or 1);
+		self.newTexture:SetVertexColor(c.r, c.g, c.b);
 	end,
 
 	GetColor = function(self)

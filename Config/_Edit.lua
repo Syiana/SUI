@@ -89,8 +89,8 @@ function Edit:OnEnable()
 		-- Label
 		SUIConfig:AddLabel(self.DragFrame, self.DragFrame, self:GetName(), 'TOP')
 		self.DragFrame.label:SetAllPoints(true)
-		self.DragFrame.label:SetJustifyH("TOP")
-		self.DragFrame.label:SetJustifyV("TOP")
+		-- self.DragFrame.label:SetJustifyH("TOP")
+		-- self.DragFrame.label:SetJustifyV("TOP")
 
 		-- Tooltip
 		SUIConfig:FrameTooltip(self.DragFrame, 'Hold ALT to move the Frame!', 'Tooltip', 'TOP', true)

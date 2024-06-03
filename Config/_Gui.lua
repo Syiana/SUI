@@ -93,7 +93,7 @@ function Gui:OnEnable()
     end
   end
 
-  GameMenuFrame.Header:Hide()
+  GameMenuFrameHeader:Hide()
   local frame = CreateFrame("Button", "UIPanelButtonTemplateTest",
   GameMenuFrame, "UIPanelButtonTemplate")
   frame:SetHeight(20)

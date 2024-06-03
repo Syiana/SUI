@@ -6,7 +6,6 @@
   <Include file='_Alliedraces.lua'/>
   <Include file='_Archaeology.lua'/>
   <Include file='_Arena.lua'/>
-  <Include file='_Azerite.lua'/>
   <Include file='_Bags.lua'/>
   <Include file='_Bank.lua'/>
   <Include file='_Calendar.lua'/>

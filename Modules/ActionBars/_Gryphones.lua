@@ -4,11 +4,11 @@ function Gryphones:OnEnable()
   local db = SUI.db.profile.actionbar
 
   if (db.gryphones) then
-    MainMenuBarArtFrame.LeftEndCap:Show()
-    MainMenuBarArtFrame.RightEndCap:Show()
+    MainMenuBarLeftEndCap:Show()
+    MainMenuBarRightEndCap:Show()
   else
-    MainMenuBarArtFrame.LeftEndCap:Hide()
-    MainMenuBarArtFrame.RightEndCap:Hide()
+    MainMenuBarLeftEndCap:Hide()
+    MainMenuBarRightEndCap:Hide()
   end
 
 end

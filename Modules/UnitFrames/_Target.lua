@@ -88,7 +88,7 @@ function Module:OnEnable()
 
       if (db.texture ~= 'Default') then
         self.healthbar:SetStatusBarTexture(db.texture);
-        TargetFrameMyHealPredictionBar:SetTexture(db.texture);
+        -- TargetFrameMyHealPredictionBar:SetTexture(db.texture);
       end
     end
 

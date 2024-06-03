@@ -2,7 +2,7 @@
 	<Script file="_Errors.lua"/>
   <Script file="_Commands.lua"/>
   <Script file="_Talkhead.lua"/>
-  <Script file="_Items.lua"/>
+  <!-- <Script file="_Items.lua"/> -->
   <Script file="_AvgIlvl.lua"/>
   <Script file="_Delete.lua"/>
   <Script file="_Decline.lua"/>

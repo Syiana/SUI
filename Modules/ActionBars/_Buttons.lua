@@ -47,18 +47,18 @@ function Module:OnEnable()
       },
     }
 
-    local StatusTexture = CreateFrame("frame")
-    StatusTexture:RegisterEvent("PLAYER_ENTERING_WORLD")
-    StatusTexture:SetScript("OnEvent", function(self,event)
-        local st = { StatusTrackingBarManager:GetChildren() }
-        for _,s in pairs(st) do
-            for k,v in pairs(s) do
-              if k == "StatusBar" then
-                  v:SetStatusBarTexture("Interface\\Addons\\SUI\\Media\\Textures\\unitframes\\UI-StatusBar")
-              end
-            end
-        end
-    end)
+    -- local StatusTexture = CreateFrame("frame")
+    -- StatusTexture:RegisterEvent("PLAYER_ENTERING_WORLD")
+    -- StatusTexture:SetScript("OnEvent", function(self,event)
+    --     local st = { StatusTrackingBarManager:GetChildren() }
+    --     for _,s in pairs(st) do
+    --         for k,v in pairs(s) do
+    --           if k == "StatusBar" then
+    --               v:SetStatusBarTexture("Interface\\Addons\\SUI\\Media\\Textures\\unitframes\\UI-StatusBar")
+    --           end
+    --         end
+    --     end
+    -- end)
 
     local function applyBackground(bu)
       if not bu or (bu and bu.bg) then
@@ -74,9 +74,9 @@ function Module:OnEnable()
       bu.bg:SetPoint("BOTTOMRIGHT", bu, "BOTTOMRIGHT", 4, -4)
       bu.bg:SetFrameLevel(bu:GetFrameLevel() - 1)
       if config.background.showbg and not config.background.useflatbackground then
-        local t = bu.bg:CreateTexture(nil, "BACKGROUND", -8)
-        t:SetTexture(config.textures.buttonback)
-        t:SetVertexColor(unpack(SUI:Color()))
+        -- local t = bu.bg:CreateTexture(nil, "BACKGROUND", -8)
+        -- t:SetTexture(config.textures.buttonback)
+        -- t:SetVertexColor(unpack(SUI:Color()))
       end
       bu.bg:SetBackdrop(config.backdrop)
 
@@ -354,7 +354,6 @@ function Module:OnEnable()
       end
 
       styleExtraActionButton(ExtraActionButton1)
-      styleExtraActionButton(ZoneAbilityFrame.SpellButton)
       SpellFlyoutBackgroundEnd:SetTexture(nil)
       SpellFlyoutHorizontalBackground:SetTexture(nil)
       SpellFlyoutVerticalBackground:SetTexture(nil)
@@ -382,6 +381,7 @@ function Module:OnEnable()
   end
   if not dominos and not bartender then
     local function updateHotkey(self, actionButtonType)
+      if not self then return end
       if not (db.buttons.key) then
         local ho = _G[self:GetName() .. "HotKey"]
         if ho and ho:IsShown() then

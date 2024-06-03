@@ -4,7 +4,7 @@ function Module:OnEnable()
   if (SUI:Color()) then
     local f = CreateFrame("Frame")
     f:RegisterEvent("ADDON_LOADED")
-    f:RegisterEvent("ARENA_PREP_OPPONENT_SPECIALIZATIONS")
+    -- f:RegisterEvent("ARENA_PREP_OPPONENT_SPECIALIZATIONS")
     f:SetScript("OnEvent", function(self, event, name)
       if name == "Blizzard_ArenaUI" and not (IsAddOnLoaded("Shadowed Unit Frames")) then
         for i, v in pairs(
