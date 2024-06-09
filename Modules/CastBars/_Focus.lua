@@ -4,10 +4,21 @@ function Module:OnEnable()
     local db = SUI.db.profile.castbars
 
     if (db.style == 'Custom' and db.focusCastbar) then
+        if (db.focusOnTop) then
+            FocusFrameSpellBar:HookScript("OnUpdate", function(self)
+                self:ClearAllPoints()
+                self:SetPoint("TOPLEFT", FocusFrame, "TOPLEFT", 45, 0)
+            end)
+        end
+
         FocusFrameSpellBar:HookScript("OnEvent", function(self)
             if self:IsForbidden() then return end
             if InCombatLockdown() then return end
-            self:SetScale(db.targetSize)
+
+            if db.focusSize then
+                self:SetScale(db.focusSize)
+            end
+            
             self.Icon:SetSize(16, 16)
             self.Icon:ClearAllPoints()
             self.Icon:SetPoint("TOPLEFT", FocusFrameSpellBar, "TOPLEFT", -20, 2)

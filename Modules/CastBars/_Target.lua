@@ -4,10 +4,21 @@ function Module:OnEnable()
     local db = SUI.db.profile.castbars
 
     if (db.style == 'Custom' and db.targetCastbar) then
+        if (db.targetOnTop) then
+            TargetFrameSpellBar:HookScript("OnUpdate", function(self)
+                self:ClearAllPoints()
+                self:SetPoint("TOPLEFT", TargetFrame, "TOPLEFT", 45, 0)
+            end)
+        end
+        
         TargetFrameSpellBar:HookScript("OnEvent", function(self)
             if self:IsForbidden() then return end
             if InCombatLockdown() then return end
-            TargetFrameSpellBar:SetScale(db.targetSize)
+
+            if db.targetSize then
+                self:SetScale(db.targetSize)
+            end
+
             self.Icon:SetSize(16, 16)
             self.Icon:ClearAllPoints()
             self.Icon:SetPoint("TOPLEFT", self, "TOPLEFT", -20, 2)
@@ -21,11 +32,6 @@ function Module:OnEnable()
             self.Text:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
             self.Border:SetVertexColor(unpack(SUI:Color(0.15)))
             self.Background:SetVertexColor(unpack(SUI:Color(0.15)))
-
-            if (db.targetOnTop) then
-                self:ClearAllPoints()
-                self:SetPoint("TOPLEFT", TargetFrame, "TOPLEFT", 45, 0)
-            end
 
             if not db.icon then
                 self.Icon:Hide()
