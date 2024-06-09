@@ -33,9 +33,11 @@ function Module:OnEnable()
                     CalendarViewHolidayFrame.Border.TopRightCorner,
                     CalendarViewHolidayFrame.Border.TopLeftCorner,
                     CalendarViewHolidayFrame.Border.BottomLeftCorner,
-                    CalendarViewHolidayFrame.Border.BottomRightCorner, }) do
-                    v:SetVertexColor(.15, .15, .15)
+                    CalendarViewHolidayFrame.Border.BottomRightCorner,
+                }) do
+                    v:SetVertexColor(unpack(SUI:Color(0.15)))
                 end
+                
             end
         end)
     end

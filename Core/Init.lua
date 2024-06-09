@@ -1,7 +1,7 @@
 SUI = LibStub("AceAddon-3.0"):NewAddon("SUI", "AceEvent-3.0")
 
-DisableAddOn('LortiUI')
-DisableAddOn('UberUI')
+C_AddOns.DisableAddOn('LortiUI')
+C_AddOns.DisableAddOn('UberUI')
 
 local defaults = {
     profile = {

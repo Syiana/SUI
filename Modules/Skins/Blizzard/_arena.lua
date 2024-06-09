@@ -6,7 +6,7 @@ function Module:OnEnable()
         f:RegisterEvent("ADDON_LOADED")
         f:RegisterEvent("ARENA_PREP_OPPONENT_SPECIALIZATIONS")
         f:SetScript("OnEvent", function(self, event, name)
-            if name == "Blizzard_ArenaUI" and not (IsAddOnLoaded("Shadowed Unit Frames")) then
+            if name == "Blizzard_ArenaUI" and not (C_AddOns.IsAddOnLoaded("Shadowed Unit Frames")) then
                 for i, v in pairs(
                     {
                         ArenaEnemyFrame1Texture,
@@ -26,7 +26,7 @@ function Module:OnEnable()
                         ArenaEnemyFrame5PetFrameTexture
                     }
                 ) do
-                    v:SetVertexColor(.15, .15, .15)
+                    v:SetVertexColor(unpack(SUI:Color(0.15)))
                 end
             elseif event == "ARENA_PREP_OPPONENT_SPECIALIZATIONS" or
                 (event == "PLAYER_ENTERING_WORLD" and instanceType == "arena")
@@ -45,11 +45,11 @@ function Module:OnEnable()
                         ArenaPrepFrame5SpecBorder
                     }
                 ) do
-                    v:SetVertexColor(.15, .15, .15)
+                    v:SetVertexColor(unpack(SUI:Color(0.15)))
                 end
             end
 
-            if IsAddOnLoaded("Blizzard_ArenaUI") then
+            if C_AddOns.IsAddOnLoaded("Blizzard_ArenaUI") then
                 for i, v in pairs(
                     {
                         ArenaEnemyFrame1Texture,
@@ -69,7 +69,7 @@ function Module:OnEnable()
                         ArenaEnemyFrame5PetFrameTexture
                     }
                 ) do
-                    v:SetVertexColor(.15, .15, .15)
+                    v:SetVertexColor(unpack(SUI:Color(0.15)))
                 end
             end
         end)

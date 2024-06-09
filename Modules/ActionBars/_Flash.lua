@@ -79,7 +79,7 @@ function Buttons:OnEnable()
                 end
                 return
             end
-            if (IsAddOnLoaded("Bartender4")) then
+            if (C_AddOns.IsAddOnLoaded("Bartender4")) then
 
             else
                 if OverrideActionBar and OverrideActionBar:IsShown() then

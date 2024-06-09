@@ -3,6 +3,9 @@ local Module = SUI:NewModule("Skins.Frames");
 function Module:OnEnable()
     if (SUI:Color()) then
         for i, v in ipairs({
+            GameMenuFrame.Header.CenterBG,
+            GameMenuFrame.Header.LeftBG,
+            GameMenuFrame.Header.RightBG,
             GameMenuFrame.Border.TopEdge,
             GameMenuFrame.Border.RightEdge,
             GameMenuFrame.Border.BottomEdge,

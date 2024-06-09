@@ -25,7 +25,7 @@ function Module:OnEnable()
                         local _, _, quality, itemlevel, _, _, _, _, _, _, _, itemClassID = GetItemInfo(itemLink)
                         if (itemlevel and itemlevel > 1) and (quality and quality > 1) and
                             (itemClassID == LE_ITEM_CLASS_WEAPON or itemClassID == LE_ITEM_CLASS_ARMOR) then
-                            local _, _, _, color = GetItemQualityColor(quality)
+                            local _, _, _, color = C_Item.GetItemQualityColor(quality)
                             button.text:SetFormattedText('|c%s%s|r', color, itemlevel or '?')
                         end
                     end
@@ -42,7 +42,7 @@ function Module:OnEnable()
         end
 
         function CheckContainerItems(item)
-            local _, _, _, equipLoc, _, itemClass, itemSubClass = GetItemInfoInstant(item:GetItemID())
+            local _, _, _, equipLoc, _, itemClass, itemSubClass = C_Item.GetItemInfoInstant(item:GetItemID())
             return (
                 itemClass == Enum.ItemClass.Weapon or
                     itemClass == Enum.ItemClass.Armor or
@@ -57,13 +57,13 @@ function Module:OnEnable()
                 local itemID = item:GetItemID()
                 local link = item:GetItemLink()
                 local quality = item:GetItemQuality()
-                local _, _, _, equipLoc, _, itemClass, itemSubClass = GetItemInfoInstant(itemID)
-                local minLevel = link and select(5, GetItemInfo(link or itemID))
+                local _, _, _, equipLoc, _, itemClass, itemSubClass = C_Item.GetItemInfoInstant(itemID)
+                local minLevel = link and select(5, C_Item.GetItemInfo(link or itemID))
                 if not item:GetCurrentItemLevel() then
                     button.levelString:Hide()
                 else
                     CreateItemLevelString(button)
-                    local _, _, _, hex = GetItemQualityColor(quality)
+                    local _, _, _, hex = C_Item.GetItemQualityColor(quality)
                     button.levelString:SetFormattedText('|c%s%s|r', hex, item:GetCurrentItemLevel() or '?')
                     button.levelString:Show()
                 end

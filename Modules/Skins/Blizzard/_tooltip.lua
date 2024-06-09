@@ -55,14 +55,13 @@ function Module:OnEnable()
                 if itemLink then
                     local azerite = C_AzeriteEmpoweredItem.IsAzeriteEmpoweredItemByID(itemLink) or
                         C_AzeriteItem.IsAzeriteItemByID(itemLink) or false
-                    local _, _, itemRarity = GetItemInfo(itemLink)
-                    local r, g, b = 0.1, 0.1, 0.1
-                    if itemRarity then
-                        r, g, b = GetItemQualityColor(itemRarity)
-                    end
-
-                    if self.NineSlice then
+                    local _, _, itemRarity = C_Item.GetItemInfo(itemLink)
+                    
+                    if itemRarity and itemRarity >= 2 then
+                        local r, g, b = C_Item.GetItemQualityColor(itemRarity)
                         self.NineSlice:SetBorderColor(r, g, b, 0.9)
+                    else
+                        self.NineSlice:SetBorderColor(unpack(SUI:Color(0.15)))
                     end
                 end
             end
@@ -74,7 +73,7 @@ function Module:OnEnable()
                 local tooltipData = self:GetTooltipData()
                 local tooltipName = tooltipData.lines[2].leftText
                 local tooltipColor = tooltipData.lines[2].leftColor
-                local _, itemLink = GetItemInfo(tooltipName)
+                local _, itemLink = C_Item.GetItemInfo(tooltipName)
                 if itemLink then
                     self.NineSlice:SetBorderColor(tooltipColor.r, tooltipColor.g, tooltipColor.b)
                 end

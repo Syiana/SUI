@@ -2,7 +2,8 @@ local Module = SUI:NewModule("Skins.Quest");
 
 function Module:OnEnable()
     if (SUI:Color()) then
-        for i, v in pairs({ QuestFrame.NineSlice.TopEdge,
+        for i, v in pairs({
+            QuestFrame.NineSlice.TopEdge,
             QuestFrame.NineSlice.RightEdge,
             QuestFrame.NineSlice.BottomEdge,
             QuestFrame.NineSlice.LeftEdge,
@@ -35,15 +36,16 @@ function Module:OnEnable()
             QuestNPCModelTextBottomBorder,
             QuestNPCModelTextBottomLeftCorner,
             QuestNPCModelTextLeftBorder,
-            QuestNPCModelTextTopLeftCorner, }) do
-            v:SetVertexColor(.15, .15, .15)
+            QuestNPCModelTextTopLeftCorner,
+        }) do
+            v:SetVertexColor(unpack(SUI:Color(0.15)))
         end
         for i, v in pairs({
             QuestFrame.Bg,
             QuestFrame.TitleBg,
             QuestFrameInset.Bg
         }) do
-            v:SetVertexColor(.3, .3, .3)
+            v:SetVertexColor(unpack(SUI:Color(0.15)))
         end
     end
 end

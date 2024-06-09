@@ -5,7 +5,7 @@ function Module:OnEnable()
     if (db) then
         local frame = CreateFrame("Frame", "Dampening_Display", UIParent, "UIWidgetTemplateIconAndText")
         local _
-        local dampeningtext = GetSpellInfo(110310)
+        local dampeningtext = C_Spell.GetSpellInfo(110310)
         local widgetSetID = C_UIWidgetManager.GetTopCenterWidgetSetID()
         local widgetSetInfo = C_UIWidgetManager.GetWidgetSetInfo(widgetSetID)
         local C_Commentator_GetDampeningPercent = C_Commentator.GetDampeningPercent

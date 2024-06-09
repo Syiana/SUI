@@ -2,7 +2,8 @@ local Module = SUI:NewModule("Skins.Dressup");
 
 function Module:OnEnable()
     if (SUI:Color()) then
-        for i, v in pairs({ DressUpFrame.NineSlice.TopEdge,
+        for i, v in pairs({ 
+            DressUpFrame.NineSlice.TopEdge,
             DressUpFrame.NineSlice.RightEdge,
             DressUpFrame.NineSlice.BottomEdge,
             DressUpFrame.NineSlice.LeftEdge,
@@ -10,15 +11,18 @@ function Module:OnEnable()
             DressUpFrame.NineSlice.TopLeftCorner,
             DressUpFrame.NineSlice.BottomLeftCorner,
             DressUpFrame.NineSlice.BottomRightCorner,
-            DressUpFrameInset.NineSlice.BottomEdge, }) do
-            v:SetVertexColor(.15, .15, .15)
+            DressUpFrameInset.NineSlice.BottomEdge,
+            DressUpFrame.OutfitDetailsPanel.BlackBackground,
+            DressUpFrame.OutfitDetailsPanel.ClassBackground
+        }) do
+            v:SetVertexColor(unpack(SUI:Color(0.15)))
         end
         for i, v in pairs({
             DressUpFrame.Bg,
             DressUpFrame.TitleBg,
             DressUpFrameInset.Bg
         }) do
-            v:SetVertexColor(.3, .3, .3)
+            v:SetVertexColor(unpack(SUI:Color(0.15)))
         end
         for i, v in pairs({
             DressUpFrameInset.NineSlice.TopEdge,
@@ -30,7 +34,7 @@ function Module:OnEnable()
             DressUpFrameInset.NineSlice.LeftEdge,
             DressUpFrameInset.NineSlice.TopLeftCorner
         }) do
-            v:SetVertexColor(.3, .3, .3)
+            v:SetVertexColor(unpack(SUI:Color(0.15)))
         end
     end
 end

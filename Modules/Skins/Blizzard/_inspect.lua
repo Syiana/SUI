@@ -6,7 +6,8 @@ function Module:OnEnable()
         f:RegisterEvent("ADDON_LOADED")
         f:SetScript("OnEvent", function(self, event, name)
             if name == "Blizzard_InspectUI" then
-                for i, v in pairs({ InspectFrame.NineSlice.TopEdge,
+                for i, v in pairs({
+                    InspectFrame.NineSlice.TopEdge,
                     InspectFrame.NineSlice.RightEdge,
                     InspectFrame.NineSlice.BottomEdge,
                     InspectFrame.NineSlice.LeftEdge,
@@ -14,14 +15,43 @@ function Module:OnEnable()
                     InspectFrame.NineSlice.TopLeftCorner,
                     InspectFrame.NineSlice.BottomLeftCorner,
                     InspectFrame.NineSlice.BottomRightCorner,
-                    InspectFrameInset.NineSlice.BottomEdge, }) do
-                    v:SetVertexColor(.15, .15, .15)
+                    InspectFrameInset.NineSlice.BottomEdge,
+                    InspectFrameTab1.Left,
+                    InspectFrameTab1.Middle,
+                    InspectFrameTab1.Right,
+                    InspectFrameTab1.LeftActive,
+                    InspectFrameTab1.MiddleActive,
+                    InspectFrameTab1.RightActive,
+                    InspectFrameTab1.LeftHighlight,
+                    InspectFrameTab1.MiddleHighlight,
+                    InspectFrameTab1.RightHighlight,
+                    InspectFrameTab2.Left,
+                    InspectFrameTab2.Middle,
+                    InspectFrameTab2.Right,
+                    InspectFrameTab2.LeftActive,
+                    InspectFrameTab2.MiddleActive,
+                    InspectFrameTab2.RightActive,
+                    InspectFrameTab2.LeftHighlight,
+                    InspectFrameTab2.MiddleHighlight,
+                    InspectFrameTab2.RightHighlight,
+                    InspectFrameTab3.Left,
+                    InspectFrameTab3.Middle,
+                    InspectFrameTab3.Right,
+                    InspectFrameTab3.LeftActive,
+                    InspectFrameTab3.MiddleActive,
+                    InspectFrameTab3.RightActive,
+                    InspectFrameTab3.LeftHighlight,
+                    InspectFrameTab3.MiddleHighlight,
+                    InspectFrameTab3.RightHighlight,
+                    InspectPVPFrame.BG,
+                }) do
+                    v:SetVertexColor(unpack(SUI:Color(0.15)))
                 end
                 for i, v in pairs({
                     InspectFrame.Bg,
-                    InspectFrame.TitleBg
+                    InspectFrame.TitleBg,
                 }) do
-                    v:SetVertexColor(.3, .3, .3)
+                    v:SetVertexColor(unpack(SUI:Color(0.15)))
                 end
                 for i, v in pairs({
                     InspectFrameInset.NineSlice.RightEdge,
@@ -41,9 +71,9 @@ function Module:OnEnable()
                     InspectModelFrameBorderBottom,
                     InspectModelFrameBorderBottomLeft,
                     InspectModelFrameBorderBottomRight,
-                    InspectModelFrameBorderBottom2
+                    InspectModelFrameBorderBottom2,
                 }) do
-                    v:SetVertexColor(.3, .3, .3)
+                    v:SetVertexColor(unpack(SUI:Color(0.15)))
                 end
                 for i, v in pairs({
                     InspectFeetSlotFrame,
@@ -63,7 +93,7 @@ function Module:OnEnable()
                     InspectNeckSlotFrame,
                     InspectHeadSlotFrame,
                     InspectMainHandSlotFrame,
-                    InspectSecondaryHandSlotFrame
+                    InspectSecondaryHandSlotFrame,
                 }) do
                     v:SetAlpha(0)
                 end

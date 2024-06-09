@@ -1708,13 +1708,6 @@ function Core:OnEnable()
 		end)
 
 		-- Calendar
-		local f = CreateFrame("Frame")
-		f:RegisterEvent("ADDON_LOADED")
-		f:SetScript("OnEvent", function(self, event, name)
-			if name == "Blizzard_GameMenu" then
-				print('test')
-			end
-		end)
 
 		-- AzeriteRespec
 		local f = CreateFrame("Frame")
@@ -1889,7 +1882,7 @@ function Core:OnEnable()
 		f:RegisterEvent("ADDON_LOADED")
 		f:RegisterEvent("ARENA_PREP_OPPONENT_SPECIALIZATIONS")
 		f:SetScript("OnEvent", function(self, event, name)
-			if name == "Blizzard_ArenaUI" and not (IsAddOnLoaded("Shadowed Unit Frames")) then
+			if name == "Blizzard_ArenaUI" and not (C_AddOns.IsAddOnLoaded("Shadowed Unit Frames")) then
 				for i, v in pairs(
 					{
 						ArenaEnemyFrame1Texture,
@@ -1932,7 +1925,7 @@ function Core:OnEnable()
 				end
 			end
 
-			if IsAddOnLoaded("Blizzard_ArenaUI") then
+			if C_AddOns.IsAddOnLoaded("Blizzard_ArenaUI") then
 				for i, v in pairs(
 					{
 						ArenaEnemyFrame1Texture,

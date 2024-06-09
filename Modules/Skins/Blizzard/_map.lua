@@ -11,8 +11,9 @@ function Module:OnEnable()
             WorldMapFrame.BorderFrame.NineSlice.BottomEdge,
             WorldMapFrame.BorderFrame.NineSlice.BottomLeftCorner,
             WorldMapFrame.BorderFrame.NineSlice.LeftEdge,
-            WorldMapFrame.BorderFrame.NineSlice.TopLeftCorner, }) do
-            v:SetVertexColor(.15, .15, .15)
+            WorldMapFrame.BorderFrame.NineSlice.TopLeftCorner,
+        }) do
+            v:SetVertexColor(unpack(SUI:Color(0.15)))
         end
         for i, v in pairs({
             WorldMapFrame.NavBar.InsetBorderBottom,
@@ -21,13 +22,13 @@ function Module:OnEnable()
             WorldMapFrame.NavBar.InsetBorderLeft,
             WorldMapFrame.NavBar.InsetBorderRight,
         }) do
-            v:SetVertexColor(.3, .3, .3)
+            v:SetVertexColor(unpack(SUI:Color(0.15)))
         end
         for i, v in pairs({
             WorldMapFrame.BorderFrame.Bg,
             WorldMapFrame.BorderFrame.TitleBg,
         }) do
-            v:SetVertexColor(.3, .3, .3)
+            v:SetVertexColor(unpack(SUI:Color(0.15)))
         end
     end
 end

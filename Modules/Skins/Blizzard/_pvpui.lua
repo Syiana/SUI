@@ -10,7 +10,7 @@ function Module:OnEnable()
                     HonorFrame.BonusFrame.WorldBattlesTexture,
                     ConquestFrame.RatedBGTexture,
                 }) do
-                    v:SetVertexColor(.2, .2, .2)
+                    v:SetVertexColor(unpack(SUI:Color(0.15)))
                 end
                 for i, v in pairs({
                     PVPQueueFrame.HonorInset.NineSlice.TopEdge,
@@ -40,7 +40,7 @@ function Module:OnEnable()
                     ConquestFrame.ConquestBar.Border,
                     HonorFrame.ConquestBar.Border,
                 }) do
-                    v:SetVertexColor(.3, .3, .3)
+                    v:SetVertexColor(unpack(SUI:Color(0.15)))
                 end
                 PVPQueueFrame.HonorInset:Hide();
             end

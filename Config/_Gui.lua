@@ -74,46 +74,64 @@ function Gui:OnEnable()
     config.titlePanel:SetPoint('RIGHT', -35, 0)
     config:Hide()
 
-    local version = SUIConfig:Label(config.titlePanel, GetAddOnMetadata("SUI", "version"))
+    local version = SUIConfig:Label(config.titlePanel, C_AddOns.GetAddOnMetadata("SUI", "version"))
     SUIConfig:GlueLeft(version, config.titlePanel, 50, 0)
 
     local logo = SUIConfig:Texture(config.titlePanel, 120, 35, "Interface\\AddOns\\SUI\\Media\\Textures\\Config\\Logo")
     SUIConfig:GlueAbove(logo, config, 0, -35)
 
-    function SUI:Config()
-        if (config:IsVisible()) then
-            local fadeInfo = {}
-            fadeInfo.mode = "OUT"
-            fadeInfo.timeToFade = 0.2
-            fadeInfo.finishedFunc = function()
-                config:Hide()
+    function SUI:Config(toggle)
+        if (toggle) then
+            return function()
+                if (config:IsVisible()) then
+                    local fadeInfo = {}
+                    fadeInfo.mode = "OUT"
+                    fadeInfo.timeToFade = 0.2
+                    fadeInfo.finishedFunc = function()
+                        config:Hide()
+                    end
+                    UIFrameFade(config, fadeInfo)
+                    ToggleGameMenu()
+                else
+                    local fadeInfo = {}
+                    fadeInfo.mode = "IN"
+                    fadeInfo.timeToFade = 0.2
+                    fadeInfo.finishedFunc = function()
+                        config:Show()
+                    end
+                    UIFrameFade(config, fadeInfo)
+                    ToggleGameMenu()
+                end
             end
-            UIFrameFade(config, fadeInfo)
         else
-            local fadeInfo = {}
-            fadeInfo.mode = "IN"
-            fadeInfo.timeToFade = 0.2
-            fadeInfo.finishedFunc = function()
-                config:Show()
+            if (config:IsVisible()) then
+                local fadeInfo = {}
+                fadeInfo.mode = "OUT"
+                fadeInfo.timeToFade = 0.2
+                fadeInfo.finishedFunc = function()
+                    config:Hide()
+                end
+                UIFrameFade(config, fadeInfo)
+            else
+                local fadeInfo = {}
+                fadeInfo.mode = "IN"
+                fadeInfo.timeToFade = 0.2
+                fadeInfo.finishedFunc = function()
+                    config:Show()
+                end
+                UIFrameFade(config, fadeInfo)
             end
-            UIFrameFade(config, fadeInfo)
         end
     end
 
     -- GameMenu
     if db.profile.misc.menubutton then
-        GameMenuFrame.Header:Hide()
-        SUIGameMenuButton = CreateFrame("Button", "SUIGameMenuButton", GameMenuFrame, "UIPanelButtonTemplate")
-        SUIGameMenuButton:SetHeight(20)
-        SUIGameMenuButton:SetWidth(145)
-        SUIGameMenuButton:SetText("|cffea00ffS|r|cff00a2ffUI|r")
-        SUIGameMenuButton:ClearAllPoints()
-        SUIGameMenuButton:SetPoint("TOP", 0, -11)
-        SUIGameMenuButton:RegisterForClicks("AnyUp")
-        SUIGameMenuButton:SetScript("OnClick", function()
-            SUI:Config()
-            ToggleGameMenu()
-        end)
+        local function SUIGameMenuButton(self)
+            self:AddSection();
+            self:AddButton("|cffea00ffS|r|cff00a2ffUI|r", SUI:Config(true))
+        end
+
+        hooksecurefunc(GameMenuFrame, "InitButtons", SUIGameMenuButton)
     end
 
     -- Minimap AddOns Option

@@ -13,8 +13,9 @@ function Module:OnEnable()
                     ArchaeologyFrame.NineSlice.TopRightCorner,
                     ArchaeologyFrame.NineSlice.TopLeftCorner,
                     ArchaeologyFrame.NineSlice.BottomLeftCorner,
-                    ArchaeologyFrame.NineSlice.BottomRightCorner, }) do
-                    v:SetVertexColor(.15, .15, .15)
+                    ArchaeologyFrame.NineSlice.BottomRightCorner,
+                }) do
+                    v:SetVertexColor(unpack(SUI:Color(0.15)))
                 end
             end
         end)

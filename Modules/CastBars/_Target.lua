@@ -10,7 +10,7 @@ function Module:OnEnable()
                 self:SetPoint("TOPLEFT", TargetFrame, "TOPLEFT", 45, 0)
             end)
         end
-        
+
         TargetFrameSpellBar:HookScript("OnEvent", function(self)
             if self:IsForbidden() then return end
             if InCombatLockdown() then return end

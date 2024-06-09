@@ -159,7 +159,7 @@ function Module:OnEnable()
             local data = C_TooltipInfo.GetInventoryItem(unit,slot);
             local textures = {};
             for i,line in ipairs(data.lines) do
-                TooltipUtil.SurfaceArgs(line);
+                TooltipUtil.FindLinesFromData(line);
                 if line.gemIcon then
                     table.insert(textures, line.gemIcon);
                 elseif line.socketType then
@@ -292,10 +292,10 @@ function Module:OnEnable()
             if(not additionalFrame.prevItemLink or itemLink ~= additionalFrame.prevItemLink)then
                 local itemiLvlText = "";
                 if(itemLink)then
-                    local ilvl = GetDetailedItemLevelInfo(itemLink);
+                    local ilvl = C_Item.GetDetailedItemLevelInfo(itemLink);
                     local quality = GetInventoryItemQuality(unit, slot);
                     if(quality)then
-                        local hex = select(4,GetItemQualityColor(quality));
+                        local hex = select(4,C_Item.GetItemQualityColor(quality));
                         itemiLvlText = "|c"..hex..ilvl.."|r";
                     else
                         itemiLvlText = ilvl;
@@ -652,7 +652,7 @@ function Module:OnEnable()
         -- There is no escaping the cache!!!
         function addon:PLAYER_ENTERING_WORLD(isInitialLogin, isReloadingUi)
             for _,gemID in ipairs(gemsWeCareAbout) do
-                GetItemInfo(gemID);
+                C_Item.GetItemInfo(gemID);
             end
         end
 

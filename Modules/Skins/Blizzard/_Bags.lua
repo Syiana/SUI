@@ -10,35 +10,14 @@ function Module:OnEnable()
         container.MoneyFrame.Border.Middle:SetVertexColor(unpack(SUI:Color(0.1)))
         container.MoneyFrame.Border.Right:SetVertexColor(unpack(SUI:Color(0.1)))
 
-        --[[
-    backdrop = {
-      bgFile = "",
-      edgeFile = "Interface\\Addons\\SUI\\Media\\Textures\\Core\\outer_shadow",
-      tile = false,
-      tileSize = 32,
-      edgeSize = 10,
-      insets = { left = 5, right = 5, top = 5, bottom = 5 }
-    }
-    ]]
-
-        --local bH = container.CloseButton:GetHeight()
-        --local bW = container.CloseButton:GetWidth()
-        --local f = CreateFrame("Frame", "SUICloseButtonCorner", container.CloseButton, "BackdropTemplate")
-        --f:SetSize(container.CloseButton.GetWidth(), container.CloseButton:GetHeight())
-        --f:SetSize(bH+12, bW+12)
-        --f:SetAllPoints()
-        --f:SetPoint("TOPLEFT", container.CloseButton, "TOPLEFT", -5, 7)
-        --f:SetBackdrop(backdrop)
-        --f:SetBackdropBorderColor(0, 0, 0, 1)
-        --container.CloseButton:SetTexture('closebutton')
+        hooksecurefunc(ContainerFrameCombinedBags, "Update", function(self)
+            for button, _ in self.itemButtonPool:EnumerateActive() do
+                button.NormalTexture:SetVertexColor(unpack(SUI:Color(0.15)))
+            end
+        end)
     end
 
     function SUIDefaultBags()
-        local nineSlice = {
-            "BottomEdge", "BottomLeftCorner", "BottomRightCorner", "Center", "LeftEdge", "RightEdge", "TopEdge",
-            "TopLeftCorner", "TopRightCorner"
-        }
-
         for i = 1, 6 do
             local container = _G["ContainerFrame" .. i]
 
@@ -46,10 +25,13 @@ function Module:OnEnable()
             SUIStyleBG(container)
 
             -- Bag Slots
-            for b = 1, 36 do
-                local normalTexture = _G["ContainerFrame" .. i .. "Item" .. b .. "NormalTexture"]
-                normalTexture:SetVertexColor(unpack(SUI:Color(0.1)))
-            end
+            local bagSlots = _G["ContainerFrame" .. i]
+            hooksecurefunc(bagSlots, "Update", function(self)
+                for button, _ in self.itemButtonPool:EnumerateActive() do
+                    button.NormalTexture:SetVertexColor(unpack(SUI:Color(0.15)))
+                end
+            end)
+            --print(bagSlots.NormalTexture)
         end
 
         ContainerFrame1MoneyFrame.Border.Left:SetVertexColor(unpack(SUI:Color(0.1)))
@@ -70,8 +52,15 @@ function Module:OnEnable()
 
     function SUIStyleNineSlice(container)
         local nineSlice = {
-            "BottomEdge", "BottomLeftCorner", "BottomRightCorner", "Center", "LeftEdge", "RightEdge", "TopEdge",
-            "TopLeftCorner", "TopRightCorner"
+            "BottomEdge",
+            "BottomLeftCorner",
+            "BottomRightCorner",
+            "Center",
+            "LeftEdge",
+            "RightEdge",
+            "TopEdge",
+            "TopLeftCorner",
+            "TopRightCorner"
         }
 
         container.NineSlice:SetVertexColor(unpack(SUI:Color(1)))

@@ -6,7 +6,8 @@ function Module:OnEnable()
         f:RegisterEvent("ADDON_LOADED")
         f:SetScript("OnEvent", function(self, event, name)
             if name == "Blizzard_EncounterJournal" then
-                for i, v in pairs({ EncounterJournal.NineSlice.TopEdge,
+                for i, v in pairs({
+                    EncounterJournal.NineSlice.TopEdge,
                     EncounterJournal.NineSlice.RightEdge,
                     EncounterJournal.NineSlice.BottomEdge,
                     EncounterJournal.NineSlice.LeftEdge,
@@ -14,15 +15,66 @@ function Module:OnEnable()
                     EncounterJournal.NineSlice.TopLeftCorner,
                     EncounterJournal.NineSlice.BottomLeftCorner,
                     EncounterJournal.NineSlice.BottomRightCorner,
-                    EncounterJournalInset.NineSlice.BottomEdge, }) do
-                    v:SetVertexColor(.15, .15, .15)
+                    EncounterJournalInset.NineSlice.BottomEdge,
+                    EncounterJournalInstanceSelectBG,
+                    EncounterJournalNavBarInsetTopBorder,
+                    EncounterJournalNavBarInsetLeftBorder,
+                    EncounterJournalNavBarInsetBottomBorder,
+                    EncounterJournalNavBarInsetRightBorder,
+                    EncounterJournalMonthlyActivitiesTab.Left,
+                    EncounterJournalMonthlyActivitiesTab.Middle,
+                    EncounterJournalMonthlyActivitiesTab.Right,
+                    EncounterJournalMonthlyActivitiesTab.LeftActive,
+                    EncounterJournalMonthlyActivitiesTab.MiddleActive,
+                    EncounterJournalMonthlyActivitiesTab.RightActive,
+                    EncounterJournalMonthlyActivitiesTab.LeftHighlight,
+                    EncounterJournalMonthlyActivitiesTab.MiddleHighlight,
+                    EncounterJournalMonthlyActivitiesTab.RightHighlight,
+                    EncounterJournalSuggestTab.Left,
+                    EncounterJournalSuggestTab.Middle,
+                    EncounterJournalSuggestTab.Right,
+                    EncounterJournalSuggestTab.LeftActive,
+                    EncounterJournalSuggestTab.MiddleActive,
+                    EncounterJournalSuggestTab.RightActive,
+                    EncounterJournalSuggestTab.LeftHighlight,
+                    EncounterJournalSuggestTab.MiddleHighlight,
+                    EncounterJournalSuggestTab.RightHighlight,
+                    EncounterJournalDungeonTab.Left,
+                    EncounterJournalDungeonTab.Middle,
+                    EncounterJournalDungeonTab.Right,
+                    EncounterJournalDungeonTab.LeftActive,
+                    EncounterJournalDungeonTab.MiddleActive,
+                    EncounterJournalDungeonTab.RightActive,
+                    EncounterJournalDungeonTab.LeftHighlight,
+                    EncounterJournalDungeonTab.MiddleHighlight,
+                    EncounterJournalDungeonTab.RightHighlight,
+                    EncounterJournalRaidTab.Left,
+                    EncounterJournalRaidTab.Middle,
+                    EncounterJournalRaidTab.Right,
+                    EncounterJournalRaidTab.LeftActive,
+                    EncounterJournalRaidTab.MiddleActive,
+                    EncounterJournalRaidTab.RightActive,
+                    EncounterJournalRaidTab.LeftHighlight,
+                    EncounterJournalRaidTab.MiddleHighlight,
+                    EncounterJournalRaidTab.RightHighlight,
+                    EncounterJournalLootJournalTab.Left,
+                    EncounterJournalLootJournalTab.Middle,
+                    EncounterJournalLootJournalTab.Right,
+                    EncounterJournalLootJournalTab.LeftActive,
+                    EncounterJournalLootJournalTab.MiddleActive,
+                    EncounterJournalLootJournalTab.RightActive,
+                    EncounterJournalLootJournalTab.LeftHighlight,
+                    EncounterJournalLootJournalTab.MiddleHighlight,
+                    EncounterJournalLootJournalTab.RightHighlight,
+                }) do
+                    v:SetVertexColor(unpack(SUI:Color(0.15)))
                 end
                 EncounterJournalInset:SetAlpha(0)
                 for i, v in pairs({
                     EncounterJournal.Bg,
                     EncounterJournal.TitleBg
                 }) do
-                    v:SetVertexColor(.3, .3, .3)
+                    v:SetVertexColor(unpack(SUI:Color(0.15)))
                 end
             end
         end)

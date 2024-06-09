@@ -18,7 +18,7 @@ function Module:OnEnable()
             if db.focusSize then
                 self:SetScale(db.focusSize)
             end
-            
+
             self.Icon:SetSize(16, 16)
             self.Icon:ClearAllPoints()
             self.Icon:SetPoint("TOPLEFT", FocusFrameSpellBar, "TOPLEFT", -20, 2)
@@ -32,11 +32,6 @@ function Module:OnEnable()
             self.Text:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
             self.Border:SetVertexColor(unpack(SUI:Color(0.15)))
             self.Background:SetVertexColor(unpack(SUI:Color(0.15)))
-
-            if (db.focusOnTop) then
-                self:ClearAllPoints()
-                self:SetPoint("TOPLEFT", FocusFrame, "TOPLEFT", 45, 0)
-            end
 
             if not db.icon then
                 self.Icon:Hide()

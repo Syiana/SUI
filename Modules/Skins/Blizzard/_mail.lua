@@ -19,8 +19,26 @@ function Module:OnEnable()
             OpenMailFrame.NineSlice.BottomLeftCorner,
             OpenMailFrame.NineSlice.LeftEdge,
             OpenMailFrame.NineSlice.TopLeftCorner,
+            MailFrameTab1.Left,
+            MailFrameTab1.Middle,
+            MailFrameTab1.Right,
+            MailFrameTab1.LeftActive,
+            MailFrameTab1.MiddleActive,
+            MailFrameTab1.RightActive,
+            MailFrameTab1.LeftHighlight,
+            MailFrameTab1.MiddleHighlight,
+            MailFrameTab1.RightHighlight,
+            MailFrameTab2.Left,
+            MailFrameTab2.Middle,
+            MailFrameTab2.Right,
+            MailFrameTab2.LeftActive,
+            MailFrameTab2.MiddleActive,
+            MailFrameTab2.RightActive,
+            MailFrameTab2.LeftHighlight,
+            MailFrameTab2.MiddleHighlight,
+            MailFrameTab2.RightHighlight,
         }) do
-            v:SetVertexColor(.15, .15, .15)
+            v:SetVertexColor(unpack(SUI:Color(0.15)))
         end
         for i, v in pairs({
             MailFrameInset.NineSlice.TopEdge,
@@ -40,7 +58,7 @@ function Module:OnEnable()
             OpenMailFrameInset.NineSlice.LeftEdge,
             OpenMailFrameInset.NineSlice.TopLeftCorner,
         }) do
-            v:SetVertexColor(.3, .3, .3)
+            v:SetVertexColor(unpack(SUI:Color(0.15)))
         end
         for i, v in pairs({
             MailFrame.Bg,
@@ -48,7 +66,7 @@ function Module:OnEnable()
             OpenMailFrame.Bg,
             OpenMailFrame.TitleBg
         }) do
-            v:SetVertexColor(.3, .3, .3)
+            v:SetVertexColor(unpack(SUI:Color(0.15)))
         end
     end
 end

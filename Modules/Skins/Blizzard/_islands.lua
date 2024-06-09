@@ -6,7 +6,8 @@ function Module:OnEnable()
         f:RegisterEvent("ADDON_LOADED")
         f:SetScript("OnEvent", function(self, event, name)
             if name == "Blizzard_IslandsQueueUI" then
-                for i, v in pairs({ IslandsQueueFrame.NineSlice.TopEdge,
+                for i, v in pairs({
+                    IslandsQueueFrame.NineSlice.TopEdge,
                     IslandsQueueFrame.NineSlice.RightEdge,
                     IslandsQueueFrame.NineSlice.BottomEdge,
                     IslandsQueueFrame.NineSlice.LeftEdge,
@@ -14,14 +15,15 @@ function Module:OnEnable()
                     IslandsQueueFrame.NineSlice.TopLeftCorner,
                     IslandsQueueFrame.NineSlice.BottomLeftCorner,
                     IslandsQueueFrame.NineSlice.BottomRightCorner,
-                    IslandsQueueFrame.ArtOverlayFrame.PortraitFrame, }) do
-                    v:SetVertexColor(.15, .15, .15)
+                    IslandsQueueFrame.ArtOverlayFrame.PortraitFrame,
+                }) do
+                    v:SetVertexColor(unpack(SUI:Color(0.15)))
                 end
                 for i, v in pairs({
                     IslandsQueueFrame.Bg,
                     IslandsQueueFrame.TitleBg
                 }) do
-                    v:SetVertexColor(.3, .3, .3)
+                    v:SetVertexColor(unpack(SUI:Color(0.15)))
                 end
             end
         end)

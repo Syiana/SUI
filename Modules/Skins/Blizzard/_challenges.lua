@@ -16,7 +16,7 @@ function Module:OnEnable()
                     ChallengesFrameInset.NineSlice.LeftEdge,
                     ChallengesFrameInset.NineSlice.TopLeftCorner,
                 }) do
-                    v:SetVertexColor(.3, .3, .3)
+                    v:SetVertexColor(unpack(SUI:Color(0.15)))
                 end
             end
         end)
