@@ -45,5 +45,4 @@
   <Include file='_Tooltip.lua'/>
   <Include file='_Tradeskill.lua'/>
   <Include file='_Unitframes.lua'/>
-  <Include file='_Wardrobe.lua'/>
 </Ui>
