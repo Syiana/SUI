@@ -7,4 +7,6 @@ function Module:OnEnable()
       FocusFrameSpellBar:SetStatusBarTexture("Interface\\Addons\\SUI\\Media\\Textures\\Unitframes\\UI-StatusBar")
     end
   end
+  -- Color
+  FocusFrameSpellBar.Border:SetVertexColor(unpack(SUI:Color(0.15)))
 end

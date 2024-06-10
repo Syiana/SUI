@@ -39,9 +39,6 @@ function Module:OnEnable()
       Boss3TargetFrameSpellBar.Border,
       Boss4TargetFrameSpellBar.Border,
       Boss5TargetFrameSpellBar.Border,
-      CastingBarFrame.Border,
-      FocusFrameSpellBar.Border,
-      TargetFrameSpellBar.Border,
       -- StatusTrackingBarManager.SingleBarLargeUpper,
       -- StatusTrackingBarManager.SingleBarSmallUpper,
     }) do

@@ -50,6 +50,7 @@ Data.supporter = {
   {text = Colors.mod .. 'GB|r'},
   {text = Colors.mod .. 'Grave|r'},
   {text = Colors.mod .. 'Gouger|r'},
+  {text = Colors.mod .. 'Towlito|r'},
 }
 
 Data.banned = {}

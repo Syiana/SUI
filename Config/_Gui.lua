@@ -178,16 +178,16 @@ function Gui:OnEnable()
             order = 3
           }
         },
-        {
-          color = {
-            key = 'color',
-            type = 'color',
-            label = 'Custom Color',
-            column = 3,
-            update = function() end,
-            cancel = function() end
-          }
-        },
+        -- {
+        --   color = {
+        --     key = 'color',
+        --     type = 'color',
+        --     label = 'Custom Color',
+        --     column = 3,
+        --     update = function() end,
+        --     cancel = function() end
+        --   }
+        -- },
         {
           header = {
             type = 'header',

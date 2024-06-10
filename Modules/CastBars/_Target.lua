@@ -20,6 +20,7 @@ function Module:OnEnable()
           TargetFrameSpellBar.SetStatusBarColor = function()end
           TargetFrameDragFrame:SetWidth(CastingBarFrame:GetWidth())
           TargetFrameDragFrame:SetHeight(CastingBarFrame:GetHeight())
+          TargetFrameSpellBar.Border:SetVertexColor(unpack(SUI:Color(0.15)))
           --Texture
           TargetFrameSpellBar:SetStatusBarTexture("Interface\\Addons\\SUI\\Media\\Textures\\Unitframes\\UI-StatusBar")
         end
