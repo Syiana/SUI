@@ -7,7 +7,7 @@ function Module:OnEnable()
             CastingBarFrame.ignoreFramePositionManager = true
             CastingBarFrame:SetMovable(true)
             CastingBarFrame:ClearAllPoints()
-            CastingBarFrame:SetScale(1.05)
+            CastingBarFrame:SetScale(1)
             CastingBarFrame:SetUserPlaced(true)
             CastingBarFrame:SetPoint("CENTER", MainMenuBar, "CENTER", 0, 120)
             CastingBarFrame.Icon:Show()
@@ -18,14 +18,14 @@ function Module:OnEnable()
             CastingBarFrame.Flash:SetTexture("Interface\\CastingBar\\UI-CastingBar-Flash-Small")
             CastingBarFrame.Text:ClearAllPoints()
             CastingBarFrame.Text:SetPoint("CENTER", 0, 1)
-            CastingBarFrame.Border:SetWidth(CastingBarFrame.Border:GetWidth() + 4)
-            CastingBarFrame.Flash:SetWidth(CastingBarFrame.Flash:GetWidth() + 4)
-            CastingBarFrame.BorderShield:SetWidth(CastingBarFrame.BorderShield:GetWidth() + 4)
+   
+            CastingBarFrame.BorderShield:SetWidth(CastingBarFrame.BorderShield:GetWidth())
             CastingBarFrame.Border:SetPoint("TOP", 0, 26)
             CastingBarFrame.Flash:SetPoint("TOP", 0, 26)
             CastingBarFrame.BorderShield:SetPoint("TOP", 0, 26)
             CastingBarFrame.Border:SetVertexColor(unpack(SUI:Color(0.15)))
             --Texture
+            CastingBarFrame.Border:SetDrawLayer("OVERLAY", 1)
             CastingBarFrame:SetStatusBarTexture("Interface\\Addons\\SUI\\Media\\Textures\\Unitframes\\UI-StatusBar")
         end
     end
