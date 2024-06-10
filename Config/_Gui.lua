@@ -70,7 +70,7 @@ function Gui:OnEnable()
   local version = SUIConfig:Label(config.titlePanel, GetAddOnMetadata("SUI", "version"))
   SUIConfig:GlueLeft(version, config.titlePanel, 35, 0)
 
-  local logo = SUIConfig:Texture(config.titlePanel, 120, 35, "Interface\\AddOns\\SUI\\Media\\Textures\\Config\\Logo")
+  local logo = SUIConfig:Texture(config.titlePanel, 120, 35, "Interface\\AddOns\\SUI\\Media\\Textures\\Config\\Logo_cata")
   SUIConfig:GlueAbove(logo, config, 0, -35)
 
   function SUI:Config()
