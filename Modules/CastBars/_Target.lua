@@ -4,20 +4,26 @@ local TargetFrameDragFrame = CreateFrame("Frame", "TargetFrameDragFrame", UIPare
 TargetFrameDragFrame:SetPoint("CENTER", MainMenuBar, "CENTER", 0, 200)
 
 function Module:OnEnable()
-    local db = SUI.db.profile.castbars
+    local db = {
+        style = SUI.db.profile.castbars.style,
+        target = SUI.db.profile.castbars.target,
+        texture = SUI.db.profile.general.texture
+    }
     if (db.style == 'Custom') then
         if not InCombatLockdown() then
-            TargetFrameSpellBar.ignoreFramePositionManager = false
+            --TargetFrameSpellBar.ignoreFramePositionManager = false
             TargetFrameSpellBar:SetScale(1)
             TargetFrameSpellBar.Icon:SetPoint("RIGHT", TargetFrameSpellBar, "LEFT", -4, 0)
             TargetFrameSpellBar.Icon:SetScale(0.9)
-            TargetFrameSpellBar.SetPoint = function() end
-            TargetFrameSpellBar:SetStatusBarColor(1, 0, 0)
-            TargetFrameSpellBar.SetStatusBarColor = function() end
             TargetFrameSpellBar.Border:SetVertexColor(unpack(SUI:Color(0.15)))
             TargetFrameSpellBar.Border:SetDrawLayer("OVERLAY", 1)
+            TargetFrameSpellBar:SetWidth(TargetFrameSpellBar:GetWidth()-0.3)
             --Texture
-            TargetFrameSpellBar:SetStatusBarTexture("Interface\\Addons\\SUI\\Media\\Textures\\Unitframes\\UI-StatusBar")
+            if (db.texture ~= 'Default') then
+                TargetFrameSpellBar:SetStatusBarTexture(db.texture)
+            else
+                TargetFrameSpellBar:SetStatusBarTexture("Interface\\Addons\\SUI\\Media\\Textures\\Unitframes\\UI-StatusBar")
+            end
 
             if (db.target) then
                 TargetFrameSpellBar.ignoreFramePositionManager = true
@@ -29,6 +35,7 @@ function Module:OnEnable()
                 TargetFrameDragFrame:SetHeight(CastingBarFrame:GetHeight())
                 TargetFrameSpellBar:SetMovable(false)
                 TargetFrameSpellBar:SetScale(1.3)
+                TargetFrameSpellBar.SetPoint = function() end
             end
         end
     end

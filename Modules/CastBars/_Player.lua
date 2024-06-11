@@ -1,7 +1,10 @@
 local Module = SUI:NewModule("CastBars.Player");
 
 function Module:OnEnable()
-    local db = SUI.db.profile.castbars
+    local db = {
+        style = SUI.db.profile.castbars.style,
+        texture = SUI.db.profile.general.texture
+    }
     if (db.style == 'Custom') then
         if not InCombatLockdown() then
             CastingBarFrame.ignoreFramePositionManager = true
@@ -26,7 +29,14 @@ function Module:OnEnable()
             CastingBarFrame.Border:SetVertexColor(unpack(SUI:Color(0.15)))
             --Texture
             CastingBarFrame.Border:SetDrawLayer("OVERLAY", 1)
-            CastingBarFrame:SetStatusBarTexture("Interface\\Addons\\SUI\\Media\\Textures\\Unitframes\\UI-StatusBar")
+
+            if (db.texture ~= 'Default') then
+                CastingBarFrame:SetStatusBarTexture(db.texture)
+            else
+                CastingBarFrame:SetStatusBarTexture("Interface\\Addons\\SUI\\Media\\Textures\\Unitframes\\UI-StatusBar")
+            end
+
+            CastingBarFrame:SetWidth(CastingBarFrame:GetWidth()-0.7)
         end
     end
 end

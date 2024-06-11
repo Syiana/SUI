@@ -129,6 +129,7 @@ function Module:OnEnable()
 			SlidingActionBarTexture0,
 			SlidingActionBarTexture1,
 			MainMenuBarTextureExtender,
+			MainMenuBarMaxLevelBar
 		}
 
 		for _, frame in pairs(BlizzArt) do
@@ -148,6 +149,8 @@ function Module:OnEnable()
 		SUIMultiBarBottomRight = CreateFrame("Frame", "SUIMultiBarBottomRight", UIParent)
 		SUIMultiBarBottomRight:SetSize(size * 12 + spacing * 13, size)
 		SUIMultiBarBottomRight:SetPoint("TOP", SUIMultiBarBottomLeft, "TOP", 0, 0)
+
+		
 
 		local function updatePositions()
 			for i = 1, NUM_ACTIONBAR_BUTTONS do
@@ -216,11 +219,8 @@ function Module:OnEnable()
 			StanceBarFrame:SetMovable(true)
 			StanceBarFrame:ClearAllPoints()
 			StanceBarFrame:SetUserPlaced(true)
-			if (SHOW_MULTI_ACTIONBAR_2) then
-				StanceBarFrame:SetPoint("TOPLEFT", MultiBarBottomRightButton1, "TOPLEFT", 0, 35)
-			else
-				StanceBarFrame:SetPoint("TOPLEFT", MultiBarBottomRightButton1, "TOPLEFT", 0, -5)
-			end
+			StanceBarFrame:SetPoint("TOP", MultiBarBottomRightButton1, "TOP", 0, 50)
+			
 		end
 
 		updatePositions()
@@ -239,12 +239,8 @@ function Module:OnEnable()
 			ab:SetSize(size, size)
 			mbbl:SetSize(size, size)
 			mbbr:SetSize(size, size)
-			mbl:SetSize(size, size)
-			mbr:SetSize(size, size)
-
-			if pab then
-				--pab:SetSize(size, size)
-			end
+			mbl:SetSize(38, 38)
+			mbr:SetSize(38, 38)
 
 			if pb then
 				pb:SetSize(size, size)

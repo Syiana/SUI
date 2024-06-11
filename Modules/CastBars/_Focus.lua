@@ -1,12 +1,23 @@
 local Module = SUI:NewModule("CastBars.Focus");
 
 function Module:OnEnable()
-    local db = SUI.db.profile.castbars
+    local db = {
+        style = SUI.db.profile.castbars.style,
+        texture = SUI.db.profile.general.texture
+    }
     if (db.style == 'Custom') then
         if not InCombatLockdown() then
-            FocusFrameSpellBar:SetStatusBarTexture("Interface\\Addons\\SUI\\Media\\Textures\\Unitframes\\UI-StatusBar")
+            if (db.texture ~= 'Default') then
+                FocusFrameSpellBar:SetStatusBarTexture(db.texture)
+            else
+                FocusFrameSpellBar:SetStatusBarTexture("Interface\\Addons\\SUI\\Media\\Textures\\Unitframes\\UI-StatusBar")
+            end
+            
         end
     end
     -- Color
     FocusFrameSpellBar.Border:SetVertexColor(unpack(SUI:Color(0.15)))
+    FocusFrameSpellBar.Border:SetDrawLayer("OVERLAY", 1)
+    FocusFrameSpellBar:SetWidth(FocusFrameSpellBar:GetWidth()-0.5)
+    FocusFrameSpellBar:SetHeight(FocusFrameSpellBar:GetHeight()+0.1)
 end

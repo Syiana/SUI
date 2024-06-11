@@ -146,14 +146,14 @@ function Module:OnEnable()
                 fobs:SetTexture(nil)
             end
             bo:SetTexture(nil)
-            --ho:SetFont(FONT, 12, "OUTLINE")
+            ho:SetFont(FONT, 12, "OUTLINE")
             ho:ClearAllPoints()
             ho:SetPoint("TOPRIGHT", bu)
             ho:SetPoint("TOPLEFT", bu)
             if not dominos and not bartender and not (db.buttons.key) then
                 ho:Hide()
             end
-            --na:SetFont(FONT, 12, "OUTLINE")
+            na:SetFont(FONT, 12, "OUTLINE")
             na:ClearAllPoints()
             na:SetPoint("BOTTOMLEFT", bu)
             na:SetPoint("BOTTOMRIGHT", bu)
