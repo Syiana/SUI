@@ -70,8 +70,8 @@ function Gui:OnEnable()
   local version = SUIConfig:Label(config.titlePanel, GetAddOnMetadata("SUI", "version"))
   SUIConfig:GlueLeft(version, config.titlePanel, 35, 0)
 
-  local logo = SUIConfig:Texture(config.titlePanel, 120, 35, "Interface\\AddOns\\SUI\\Media\\Textures\\Config\\Logo_cata")
-  SUIConfig:GlueAbove(logo, config, 0, -35)
+  local logo = SUIConfig:Texture(config.titlePanel, 120, 120, "Interface\\AddOns\\SUI\\Media\\Textures\\Config\\Logo_Cata")
+  SUIConfig:GlueAbove(logo, config, 0, -82)
 
   function SUI:Config()
     if (config:IsVisible()) then
