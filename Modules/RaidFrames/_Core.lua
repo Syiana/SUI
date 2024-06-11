@@ -10,9 +10,6 @@ function Module:OnEnable()
 				if name and name:match("^Compact") then
 					if self:IsForbidden() then return end
 					if db.texture ~= 'Default' then
-						for x, y in pairs(self) do
-							print(x)
-						end
 						self.healthBar:SetStatusBarTexture(db.texture)
 						self.healthBar:GetStatusBarTexture():SetDrawLayer("BORDER")
 						self.powerBar:SetStatusBarTexture(db.texture)
