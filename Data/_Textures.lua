@@ -14,5 +14,10 @@ Textures.data = {
   { text = 'Perl', value = 'Interface\\AddOns\\SUI\\Media\\Textures\\Status\\Perl' },
   { text = 'Smooth', value = 'Interface\\AddOns\\SUI\\Media\\Textures\\Status\\Smooth' },
   { text = 'Striped', value = 'Interface\\AddOns\\SUI\\Media\\Textures\\Status\\Striped' },
-  { text = 'Swag', value = 'Interface\\AddOns\\SUI\\Media\\Textures\\Status\\Swag' }
+  { text = 'Swag', value = 'Interface\\AddOns\\SUI\\Media\\Textures\\Status\\Swag' },
+  { text = "Melli", value = 'Interface\\AddOns\\SUI\\Media\\Textures\\Status\\Melli' },
+  { text = "Melli 6px", value = 'Interface\\AddOns\\SUI\\Media\\Textures\\Status\\Melli6px' },
+  { text = "Melli Dark", value = 'Interface\\AddOns\\SUI\\Media\\Textures\\Status\\MelliDark' },
+  { text = "Melli Dark Rough", value = 'Interface\\AddOns\\SUI\\Media\\Textures\\Status\\MelliDarkRough' },
+  { text = "Smooth v2", value = 'Interface\\AddOns\\SUI\\Media\\Textures\\Status\\Smoothv2' }
 }

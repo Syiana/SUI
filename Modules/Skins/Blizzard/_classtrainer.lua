@@ -9,6 +9,9 @@ function Module:OnEnable()
         SUI:Skin(ClassTrainerFrame)
         SUI:Skin(ClassTrainerTrainButton)
         SUI:Skin(ClassTrainerCancelButton)
+        SUI:Skin(ClassTrainerListScrollFrame)
+        SUI:Skin(ClassTrainerDetailScrollFrame)
+        SUI:Skin(ClassTrainerCollapseAllButton)
       end
     end)
   end

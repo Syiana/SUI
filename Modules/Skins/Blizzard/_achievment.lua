@@ -9,6 +9,9 @@ function Module:OnEnable()
         SUI:Skin(AchievementFrame)
         SUI:Skin(AchievementFrameHeader)
         SUI:Skin(AchievementFrameSummary)
+        SUI:Skin(AchievementFrameTab1)
+        SUI:Skin(AchievementFrameTab2)
+        SUI:Skin(AchievementFrameTab3)
       end
     end)
   end

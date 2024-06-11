@@ -6,21 +6,13 @@ function Module:OnEnable()
     f:RegisterEvent("ADDON_LOADED")
     f:SetScript("OnEvent", function(self, event, name)
       if name == "Blizzard_TradeSkillUI" then
-        local frameList = {
-            TradeSkillSubClassDropDownLeft,
-            TradeSkillSubClassDropDownMiddle,
-            TradeSkillSubClassDropDownRight,
-            TradeSkillInvSlotDropDownLeft,
-            TradeSkillInvSlotDropDownMiddle,
-            TradeSkillInvSlotDropDownRight,
-            TradeSkillHorizontalBarLeft,
-            TradeSkillExpandTabLeft,
-            TradeSkillExpandTabMiddle,
-            TradeSkillExpandTabRight
-        }
-
         SUI:Skin(TradeSkillFrame)
-        SUI:Skin(frameList, false, true)
+        SUI:Skin(TradeSkillExpandButtonFrame)
+        SUI:Skin(TradeSkillSubClassDropDown)
+        SUI:Skin(TradeSkillInvSlotDropDown)
+        SUI:Skin(TradeSkillCreateAllButton)
+        SUI:Skin(TradeSkillCreateButton)
+        SUI:Skin(TradeSkillCancelButton)
       end
     end)
   end
