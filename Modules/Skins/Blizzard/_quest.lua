@@ -4,6 +4,7 @@ function Module:OnEnable()
     if (SUI:Color()) then
         SUI:Skin(QuestLogFrame)
         SUI:Skin(QuestFrame)
+        SUI:Skin(QuestLogDetailFrame)
         SUI:Skin(QuestFrameDetailPanel)
         SUI:Skin(QuestFrameAcceptButton)
         SUI:Skin(QuestFrameDeclineButton)
