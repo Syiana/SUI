@@ -28,7 +28,6 @@ function Module:OnEnable()
         border:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\Core\\gloss")
         border:SetTexCoord(0, 1, 0, 1)
         border:SetDrawLayer("BACKGROUND", -7)
-        --border:SetVertexColor(unpack(SUI:Color()))
         border:ClearAllPoints()
         border:SetPoint("TOPLEFT", icon, "TOPLEFT", -1, 1)
         border:SetPoint("BOTTOMRIGHT", icon, "BOTTOMRIGHT", 1, -1)
@@ -54,6 +53,16 @@ function Module:OnEnable()
                 PixelUtil.SetPoint(self.Icon, "CENTER", self, "LEFT", -11.25, 2.5);
                 self.Text:SetFont(STANDARD_TEXT_FONT, 10, "OUTLINE")
                 iconSkin(self.Icon, self)
+
+                if not self.castText then
+                    self.castText = self:CreateFontString(nil)
+                    self.castText:SetPoint("CENTER", 0, 1.2)
+                    self.castText:SetFont(STANDARD_TEXT_FONT, 8, 'OUTLINE')
+                else
+                    local nameChannel  = UnitChannelInfo(self.unit)
+		            local nameSpell  = UnitCastingInfo(self.unit)
+                    self.castText:SetText(nameChannel or nameSpell)
+                end
 
                 if db.casttime then
                     if not self.timer then
@@ -87,8 +96,6 @@ function Module:OnEnable()
                 if not self.barFixed then
                     self.healthBar:SetHeight(self.healthBar:GetHeight()-0.4)
                     self.healthBar:SetWidth(self.healthBar:GetWidth()-0.5)
-                    self.CastBar:SetHeight(self.CastBar:GetHeight() - 0.05)
-                    self.CastBar:SetWidth(self.CastBar:GetWidth() - 0.02)
 
                     self.barFixed = true
                 end
