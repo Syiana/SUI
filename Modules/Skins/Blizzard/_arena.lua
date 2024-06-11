@@ -25,7 +25,7 @@ function Module:OnEnable()
                     ArenaEnemyFrame5PetFrameTexture
                 }
 
-                SUI:Skin(frameList, true)
+                SUI:Skin(frameList, false, true)
             elseif event == "ARENA_PREP_OPPONENT_SPECIALIZATIONS" or (event == "PLAYER_ENTERING_WORLD" and instanceType == "arena") then
                 local frameList = {
                     ArenaPrepFrame1Texture,
@@ -40,7 +40,7 @@ function Module:OnEnable()
                     ArenaPrepFrame5SpecBorder
                 }
 
-                SUI:Skin(frameList, true)
+                SUI:Skin(frameList, false, true)
             end
         end)
     end

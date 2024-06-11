@@ -89,9 +89,9 @@ function Module:OnEnable()
         if self.unit and self.unit:find('nameplate%d') then
             if self.healthBar then
                 self.healthBar:SetStatusBarTexture(db.texture)
-                self.healthBar:GetStatusBarTexture():SetDrawLayer("BORDER")
+                self.healthBar:GetStatusBarTexture():SetDrawLayer("BACKGROUND")
                 self.CastBar:SetStatusBarTexture(db.texture)
-                self.CastBar:GetStatusBarTexture():SetDrawLayer("BORDER")
+                self.CastBar:GetStatusBarTexture():SetDrawLayer("BACKGROUND")
 
                 if not self.barFixed then
                     self.healthBar:SetHeight(self.healthBar:GetHeight()-0.4)
