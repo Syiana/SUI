@@ -604,7 +604,8 @@ function Gui:OnEnable()
                         key = 'buttons.padding',
                         type = 'slider',
                         label = 'Padding',
-                        max = 50,
+                        min = 1,
+                        max = 5,
                         column = 4,
                         order = 2
                     }

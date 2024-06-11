@@ -102,7 +102,7 @@ function Module:OnEnable()
 		end
 
 		local size = db.buttons.size
-		local spacing = 5
+		local spacing = db.buttons.padding
 
 		local invisible = CreateFrame("Frame", nil)
 		invisible:EnableMouse(false)
@@ -141,17 +141,54 @@ function Module:OnEnable()
 		SUIMainMenuBar:SetPoint("BOTTOM", UIParent, "BOTTOM", 0, 0)
 		SUIMainMenuBar:SetMovable(true)
 
+		SUIMultiBarBottomLeft = CreateFrame("Frame", "SUIMultiBarBottomLeft", UIParent)
+		SUIMultiBarBottomLeft:SetSize(size * 12 + spacing * 13, size)
+		SUIMultiBarBottomLeft:SetPoint("TOP", SUIMainMenuBar, "TOP", 0, 0)
+
+		SUIMultiBarBottomRight = CreateFrame("Frame", "SUIMultiBarBottomRight", UIParent)
+		SUIMultiBarBottomRight:SetSize(size * 12 + spacing * 13, size)
+		SUIMultiBarBottomRight:SetPoint("TOP", SUIMultiBarBottomLeft, "TOP", 0, 0)
+
 		local function updatePositions()
-			for i = 1, 12 do
+			for i = 1, NUM_ACTIONBAR_BUTTONS do
 				local MainButton = _G["ActionButton" .. 1]
 				local button = _G["ActionButton" .. i]
 				local prevButton = _G["ActionButton" .. i - 1]
 
 				button:ClearAllPoints()
+
 				if (button == MainButton) then
 					button:SetPoint("LEFT", SUIMainMenuBar, 0, 0)
 				else
-					button:SetPoint("LEFT", prevButton, 44, 0)
+					button:SetPoint("LEFT", prevButton, size+spacing, 0)
+				end
+			end
+
+			for i = 1, NUM_ACTIONBAR_BUTTONS do
+				local MainButton = _G["MultiBarBottomLeftButton" .. 1]
+				local button = _G["MultiBarBottomLeftButton" .. i]
+				local prevButton = _G["MultiBarBottomLeftButton" .. i - 1]
+
+				button:ClearAllPoints()
+
+				if (button == MainButton) then
+					button:SetPoint("LEFT", SUIMultiBarBottomLeft, 0, 0)
+				else
+					button:SetPoint("LEFT", prevButton, size+spacing, 0)
+				end
+			end
+
+			for i = 1, NUM_ACTIONBAR_BUTTONS do
+				local MainButton = _G["MultiBarBottomRightButton" .. 1]
+				local button = _G["MultiBarBottomRightButton" .. i]
+				local prevButton = _G["MultiBarBottomRightButton" .. i - 1]
+
+				button:ClearAllPoints()
+
+				if (button == MainButton) then
+					button:SetPoint("LEFT", SUIMultiBarBottomRight, 0, 0)
+				else
+					button:SetPoint("LEFT", prevButton, size+spacing, 0)
 				end
 			end
 
@@ -185,6 +222,7 @@ function Module:OnEnable()
 				StanceBarFrame:SetPoint("TOPLEFT", MultiBarBottomRightButton1, "TOPLEFT", 0, -5)
 			end
 		end
+
 		updatePositions()
 		hooksecurefunc("SetActionBarToggles", updatePositions)
 
