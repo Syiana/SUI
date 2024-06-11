@@ -37,16 +37,16 @@ function Module:OnEnable()
                     forceNormalTexture = true;
                 elseif (classification == "worldboss" or classification == "elite") then
                     self.borderTexture:SetTexture(
-                    "Interface\\Addons\\SUI\\Media\\Textures\\UnitFrames\\UI-TargetingFrame-Elite");
+                        "Interface\\Addons\\SUI\\Media\\Textures\\UnitFrames\\UI-TargetingFrame-Elite");
                 elseif (classification == "rareelite") then
                     self.borderTexture:SetTexture(
-                    "Interface\\Addons\\SUI\\Media\\Textures\\UnitFrames\\UI-TargetingFrame-Rare-Elite");
+                        "Interface\\Addons\\SUI\\Media\\Textures\\UnitFrames\\UI-TargetingFrame-Rare-Elite");
                 elseif (classification == "rare") then
                     self.borderTexture:SetTexture(
-                    "Interface\\Addons\\SUI\\Media\\Textures\\UnitFrames\\UI-TargetingFrame-Rare");
+                        "Interface\\Addons\\SUI\\Media\\Textures\\UnitFrames\\UI-TargetingFrame-Rare");
                 else
                     self.borderTexture:SetTexture(
-                    "Interface\\Addons\\SUI\\Media\\Textures\\UnitFrames\\UI-TargetingFrame");
+                        "Interface\\Addons\\SUI\\Media\\Textures\\UnitFrames\\UI-TargetingFrame");
                     forceNormalTexture = true;
                 end
                 if (forceNormalTexture) then
@@ -132,7 +132,6 @@ function Module:OnEnable()
                 TargetFrameTextureFramePVPIcon:Hide()
                 FocusFrameTextureFramePVPIcon:Hide()
             end)
-            
         end
 
         local Size = CreateFrame("Frame")
@@ -142,7 +141,7 @@ function Module:OnEnable()
             FocusFrame:SetScale(db.unitframes.size)
         end)
 
-        hooksecurefunc("TargetFrame_CheckClassification", SUITargetFrame)
-        hooksecurefunc("TargetFrame_CheckClassification", SUIToTFrame)
+        hooksecurefunc("TargetFrame_Update", SUITargetFrame)
+        hooksecurefunc("TargetofTarget_Update", SUIToTFrame)
     end
 end

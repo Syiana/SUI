@@ -1,15 +1,15 @@
 local Module = SUI:NewModule("CastBars.Player");
 
 function Module:OnEnable()
-  local db = SUI.db.profile.castbars
-  if (db.style == 'Custom') then
+    local db = SUI.db.profile.castbars
+    if (db.style == 'Custom') then
         if not InCombatLockdown() then
             CastingBarFrame.ignoreFramePositionManager = true
             CastingBarFrame:SetMovable(true)
             CastingBarFrame:ClearAllPoints()
             CastingBarFrame:SetScale(1)
             CastingBarFrame:SetUserPlaced(true)
-            CastingBarFrame:SetPoint("CENTER", MainMenuBar, "CENTER", 0, 120)
+            CastingBarFrame:SetPoint("CENTER", UIParent, "CENTER", 0, -120)
             CastingBarFrame.Icon:Show()
             CastingBarFrame.Icon:ClearAllPoints()
             CastingBarFrame.Icon:SetSize(20, 20)
@@ -18,7 +18,7 @@ function Module:OnEnable()
             CastingBarFrame.Flash:SetTexture("Interface\\CastingBar\\UI-CastingBar-Flash-Small")
             CastingBarFrame.Text:ClearAllPoints()
             CastingBarFrame.Text:SetPoint("CENTER", 0, 1)
-   
+
             CastingBarFrame.BorderShield:SetWidth(CastingBarFrame.BorderShield:GetWidth())
             CastingBarFrame.Border:SetPoint("TOP", 0, 26)
             CastingBarFrame.Flash:SetPoint("TOP", 0, 26)

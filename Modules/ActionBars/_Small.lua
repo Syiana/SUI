@@ -16,14 +16,14 @@ function Module:OnEnable()
 		local ignore
 
 		local function setFrameAlpha(b, a)
-		if ignore then return end
-		ignore = true
-		if b:IsMouseOver() then
-			b:SetAlpha(1)
-		else
-			b:SetAlpha(0)
-		end
-		ignore = nil
+			if ignore then return end
+			ignore = true
+			if b:IsMouseOver() then
+				b:SetAlpha(1)
+			else
+				b:SetAlpha(0)
+			end
+			ignore = nil
 		end
 
 		local function showFrame(name)
@@ -70,7 +70,7 @@ function Module:OnEnable()
 		MainMenuBarBackpackButton:SetPoint("BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", -2.5, 40)
 
 		-- MicroMenu Mouseover
-		if (db.menu.mouseovermicro) then			
+		if (db.menu.mouseovermicro) then
 			for _, frame in ipairs(MICRO_BUTTONS) do
 				frame = _G[frame]
 				hooksecurefunc(frame, "SetAlpha", setFrameAlpha)
@@ -87,7 +87,7 @@ function Module:OnEnable()
 		-- Bag Buttons Mouseover
 		if (db.menu.mouseoverbags) then
 			-- Bags bar
-			  for frame, _ in pairs(BagButtons) do
+			for frame, _ in pairs(BagButtons) do
 				frame = BagButtons[frame]
 
 				hooksecurefunc(frame, "SetAlpha", setFrameAlpha)
@@ -136,16 +136,24 @@ function Module:OnEnable()
 			MainMenuExpBar:SetAlpha(0)
 		end
 
-		local holder = CreateFrame("Frame", "MainMenuBarHolderFrame", UIParent)
-		holder:SetSize(size * 12 + spacing * 11, size)
-		holder:SetPoint("BOTTOM", UIParent, 0, 22)
-		holder:SetMovable(true)
+		SUIMainMenuBar = CreateFrame("Frame", "SUIMainMenuBar", UIParent)
+		SUIMainMenuBar:SetSize(size * 12 + spacing * 13, size)
+		SUIMainMenuBar:SetPoint("BOTTOM", UIParent, "BOTTOM", 0, 0)
+		SUIMainMenuBar:SetMovable(true)
 
 		local function updatePositions()
-			MainMenuBar:SetMovable(true)
-			MainMenuBar:ClearAllPoints()
-			ActionButton1:ClearAllPoints()
-			ActionButton1:SetPoint("BOTTOMLEFT", holder, 0, 0)
+			for i = 1, 12 do
+				local MainButton = _G["ActionButton" .. 1]
+				local button = _G["ActionButton" .. i]
+				local prevButton = _G["ActionButton" .. i - 1]
+
+				button:ClearAllPoints()
+				if (button == MainButton) then
+					button:SetPoint("LEFT", SUIMainMenuBar, 0, 0)
+				else
+					button:SetPoint("LEFT", prevButton, 44, 0)
+				end
+			end
 
 			MultiBarBottomLeftButton1:ClearAllPoints()
 			MultiBarBottomLeftButton1:SetPoint("BOTTOMLEFT", ActionButton1, "TOPLEFT", 0, 5)

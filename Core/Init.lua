@@ -89,7 +89,8 @@ local defaults = {
         castbars = {
             style = 'Custom',
             timer = true,
-            icon = true
+            icon = true,
+            target = false
         },
         tooltip = {
             style = 'Custom',

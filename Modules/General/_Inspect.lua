@@ -6,15 +6,15 @@ function Module:OnEnable()
     if (db) then
         local alreadyInitialized = false
         local Slots = {
-            "HeadSlot","NeckSlot","ShoulderSlot","BackSlot","ChestSlot","WristSlot",
-            "HandsSlot","WaistSlot","LegsSlot","FeetSlot","Finger0Slot","Finger1Slot",
-            "Trinket0Slot","Trinket1Slot","MainHandSlot", "SecondaryHandSlot"
+            "HeadSlot", "NeckSlot", "ShoulderSlot", "BackSlot", "ChestSlot", "WristSlot",
+            "HandsSlot", "WaistSlot", "LegsSlot", "FeetSlot", "Finger0Slot", "Finger1Slot",
+            "Trinket0Slot", "Trinket1Slot", "MainHandSlot", "SecondaryHandSlot"
         }
         local SlotIDs = {}
         for _, slotName in ipairs(Slots) do
             local id = GetInventorySlotInfo(slotName)
             SlotIDs[slotName] = id
-        end 
+        end
         local ItemLinks = {}
         local InspectFrameList = {}
         local InspectFontStrings = {}
@@ -26,9 +26,11 @@ function Module:OnEnable()
             end
 
             InspectFrameList = {
-                InspectHeadSlot,InspectNeckSlot,InspectShoulderSlot,InspectBackSlot,InspectChestSlot,InspectWristSlot,
-                InspectHandsSlot,InspectWaistSlot,InspectLegsSlot,InspectFeetSlot,InspectFinger0Slot,InspectFinger1Slot,
-                InspectTrinket0Slot,InspectTrinket1Slot,InspectMainHandSlot,InspectSecondaryHandSlot
+                InspectHeadSlot, InspectNeckSlot, InspectShoulderSlot, InspectBackSlot, InspectChestSlot,
+                InspectWristSlot,
+                InspectHandsSlot, InspectWaistSlot, InspectLegsSlot, InspectFeetSlot, InspectFinger0Slot,
+                InspectFinger1Slot,
+                InspectTrinket0Slot, InspectTrinket1Slot, InspectMainHandSlot, InspectSecondaryHandSlot
             }
 
             for _, f in ipairs(InspectFrameList) do
@@ -43,9 +45,9 @@ function Module:OnEnable()
 
 
         -- Heirloom gear uses the level of the inspecting player; this changes it to the inspected player
-        local ITEMLINK_PATTERN_LINKLEVEL = "(item:"..("[^:]*:"):rep(8)..")(%d*)(.+)";
-        local function FixHeirloomLevel(link,level)
-            return (link and level) and link:gsub(ITEMLINK_PATTERN_LINKLEVEL,"%1"..level.."%3") or link;
+        local ITEMLINK_PATTERN_LINKLEVEL = "(item:" .. ("[^:]*:"):rep(8) .. ")(%d*)(.+)";
+        local function FixHeirloomLevel(link, level)
+            return (link and level) and link:gsub(ITEMLINK_PATTERN_LINKLEVEL, "%1" .. level .. "%3") or link;
         end
 
 
@@ -63,11 +65,11 @@ function Module:OnEnable()
             end
 
             for _, slotName in ipairs(Slots) do
-                local frameName = "Inspect"..slotName
+                local frameName = "Inspect" .. slotName
                 local slotilvl = ""
                 if ItemLinks[slotName] then
                     slotilvl = GetDetailedItemLevelInfo(ItemLinks[slotName])
-                    InspectFontStrings[frameName]:SetTextColor(1,1,0)
+                    InspectFontStrings[frameName]:SetTextColor(1, 1, 0)
                 end
                 InspectFontStrings[frameName]:SetText(slotilvl)
             end
@@ -76,7 +78,7 @@ function Module:OnEnable()
 
         local function main()
             if CanInspect("target") then
-                if not(alreadyInitialized) then
+                if not (alreadyInitialized) then
                     initialize()
                 end
                 scanGear()

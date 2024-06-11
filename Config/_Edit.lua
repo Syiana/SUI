@@ -61,8 +61,8 @@ function Edit:OnEnable()
 		"TooltipFrame",
 		"StatsFrame",
 		"TargetFrameDragFrame",
-		"MainMenuBarHolderFrame"
-		--{ name = "TargetFrameDragFrame", label = "Target Castbar" },
+		"SUIMainMenuBar",
+		"StanceBarFrame"
 	}
 
 	-- Create DragFrame for Elements

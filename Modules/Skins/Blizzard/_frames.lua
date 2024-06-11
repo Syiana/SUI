@@ -11,7 +11,6 @@ function Module:OnEnable()
         SUI:Skin(GameMenuButtonLogout)
         SUI:Skin(GameMenuButtonQuit)
         SUI:Skin(GameMenuButtonContinue)
-        SUI:Skin(SUIMenuButton)
         SUI:Skin(StaticPopup1)
         SUI:Skin(StaticPopup1Button1)
         SUI:Skin(StaticPopup1Button2)
@@ -27,7 +26,7 @@ function Module:OnEnable()
         SUI:Skin(SettingsPanel.Container.SettingsList.Header.DefaultsButton)
         SUI:Skin(SettingsPanel.CloseButton)
         SUI:Skin(SettingsPanel.Container.SettingsList.ScrollBox.ScrollTarget)
-        
+
         local f = CreateFrame("Frame")
         f:RegisterEvent("ADDON_LOADED")
         f:SetScript("OnEvent", function(self, event, name)
@@ -36,7 +35,7 @@ function Module:OnEnable()
                 SUI:Skin(TableAttributeDisplay.TitleButton)
             end
         end)
-        
+
 
         if MICRO_BUTTONS then
             for _, name in pairs(MICRO_BUTTONS) do

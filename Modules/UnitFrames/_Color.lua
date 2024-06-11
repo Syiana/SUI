@@ -4,7 +4,6 @@ function Module:OnEnable()
     local db = SUI.db.profile.unitframes
 
     if (db) then
-
         if (db.classcolor) then
             function SUIUnitClass(healthbar, unit)
                 if UnitIsPlayer(unit) and UnitIsConnected(unit) and UnitClass(unit) then
@@ -12,11 +11,12 @@ function Module:OnEnable()
                     local c = RAID_CLASS_COLORS[class];
                     healthbar:SetStatusBarColor(c.r, c.g, c.b);
                 elseif UnitIsPlayer(unit) and (not UnitIsConnected(unit)) then
-                    healthbar:SetStatusBarColor(0.5,0.5,0.5);
+                    healthbar:SetStatusBarColor(0.5, 0.5, 0.5);
                 else
-                    healthbar:SetStatusBarColor(0,0.9,0);
+                    healthbar:SetStatusBarColor(0, 0.9, 0);
                 end
             end
+
             hooksecurefunc("UnitFrameHealthBar_Update", SUIUnitClass)
             hooksecurefunc("HealthBar_OnValueChanged", function(self)
                 SUIUnitClass(self, self.unit)
@@ -30,11 +30,11 @@ function Module:OnEnable()
                         if (UnitIsTapDenied(unit)) and not UnitPlayerControlled(unit) then
                             healthbar:SetStatusBarColor(0.5, 0.5, 0.5)
                         elseif (not UnitIsTapDenied(unit)) then
-                            local reaction = FACTION_BAR_COLORS[UnitReaction(unit,"player")];
+                            local reaction = FACTION_BAR_COLORS[UnitReaction(unit, "player")];
                             if reaction then
                                 healthbar:SetStatusBarColor(reaction.r, reaction.g, reaction.b);
                             else
-                                healthbar:SetStatusBarColor(0,0.6,0.1)
+                                healthbar:SetStatusBarColor(0, 0.6, 0.1)
                             end
                         end
                     end
@@ -43,21 +43,21 @@ function Module:OnEnable()
                         if (UnitIsTapDenied(unit)) and not UnitPlayerControlled(unit) then
                             healthbar:SetStatusBarColor(0.5, 0.5, 0.5)
                         elseif (not UnitIsTapDenied(unit)) then
-                            local reaction = FACTION_BAR_COLORS[UnitReaction(unit,"player")];
+                            local reaction = FACTION_BAR_COLORS[UnitReaction(unit, "player")];
                             if reaction then
                                 healthbar:SetStatusBarColor(reaction.r, reaction.g, reaction.b);
                             else
-                                healthbar:SetStatusBarColor(0,0.6,0.1)
+                                healthbar:SetStatusBarColor(0, 0.6, 0.1)
                             end
                         end
                     end
                 end
             end
+
             hooksecurefunc("UnitFrameHealthBar_Update", SUIUnitReaction)
             hooksecurefunc("HealthBar_OnValueChanged", function(self)
                 SUIUnitReaction(self, self.unit)
             end)
         end
-
     end
 end

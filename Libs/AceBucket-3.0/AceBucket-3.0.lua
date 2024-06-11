@@ -53,7 +53,7 @@ local type, next, pairs, select = type, next, pairs, select
 local tonumber, tostring, rawset = tonumber, tostring, rawset
 local assert, loadstring, error = assert, loadstring, error
 
-local bucketCache = setmetatable({}, {__mode='k'})
+local bucketCache = setmetatable({}, { __mode = 'k' })
 
 --[[
 	 xpcall safecall implementation
@@ -129,7 +129,8 @@ local function RegisterBucket(self, event, interval, callback, isMessage)
 		end
 	end
 
-	if type(event) ~= "string" and type(event) ~= "table" then error("Usage: RegisterBucket(event, interval, callback): 'event' - string or table expected.", 3) end
+	if type(event) ~= "string" and type(event) ~= "table" then error(
+		"Usage: RegisterBucket(event, interval, callback): 'event' - string or table expected.", 3) end
 	if not callback then
 		if type(event) == "string" then
 			callback = event
@@ -137,9 +138,12 @@ local function RegisterBucket(self, event, interval, callback, isMessage)
 			error("Usage: RegisterBucket(event, interval, callback): cannot omit callback when event is not a string.", 3)
 		end
 	end
-	if not tonumber(interval) then error("Usage: RegisterBucket(event, interval, callback): 'interval' - number expected.", 3) end
-	if type(callback) ~= "string" and type(callback) ~= "function" then error("Usage: RegisterBucket(event, interval, callback): 'callback' - string or function or nil expected.", 3) end
-	if type(callback) == "string" and type(self[callback]) ~= "function" then error("Usage: RegisterBucket(event, interval, callback): 'callback' - method not found on target object.", 3) end
+	if not tonumber(interval) then error(
+		"Usage: RegisterBucket(event, interval, callback): 'interval' - number expected.", 3) end
+	if type(callback) ~= "string" and type(callback) ~= "function" then error(
+		"Usage: RegisterBucket(event, interval, callback): 'callback' - string or function or nil expected.", 3) end
+	if type(callback) == "string" and type(self[callback]) ~= "function" then error(
+		"Usage: RegisterBucket(event, interval, callback): 'callback' - method not found on target object.", 3) end
 
 	local bucket = next(bucketCache)
 	if bucket then
@@ -152,7 +156,7 @@ local function RegisterBucket(self, event, interval, callback, isMessage)
 	local regFunc = isMessage and AceEvent.RegisterMessage or AceEvent.RegisterEvent
 
 	if type(event) == "table" then
-		for _,e in pairs(event) do
+		for _, e in pairs(event) do
 			regFunc(bucket, e, "handler")
 		end
 	else
@@ -231,8 +235,6 @@ function AceBucket:UnregisterAllBuckets()
 	end
 end
 
-
-
 -- embedding and embed handling
 local mixins = {
 	"RegisterBucketEvent",
@@ -243,15 +245,15 @@ local mixins = {
 
 -- Embeds AceBucket into the target object making the functions from the mixins list available on target:..
 -- @param target target object to embed AceBucket in
-function AceBucket:Embed( target )
-	for _, v in pairs( mixins ) do
+function AceBucket:Embed(target)
+	for _, v in pairs(mixins) do
 		target[v] = self[v]
 	end
 	self.embeds[target] = true
 	return target
 end
 
-function AceBucket:OnEmbedDisable( target )
+function AceBucket:OnEmbedDisable(target)
 	target:UnregisterAllBuckets()
 end
 

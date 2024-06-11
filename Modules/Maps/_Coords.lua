@@ -1,7 +1,7 @@
 local Module = SUI:NewModule("Maps.Coords");
 
 function Module:OnEnable()
-  local db = SUI.db.profile.maps.coords
+	local db = SUI.db.profile.maps.coords
 	if (db) then
 		local coords = CreateFrame("Frame", "CoordsFrame", WorldMapFrame)
 		coords:SetFrameLevel(WorldMapFrame.BorderFrame:GetFrameLevel() + 2)
@@ -9,7 +9,7 @@ function Module:OnEnable()
 		coords.PlayerText = coords:CreateFontString("PlayerCoords", "ARTWORK", "GameFontNormal")
 		coords.PlayerText:SetPoint("BOTTOMLEFT", WorldMapFrame.ScrollContainer, "BOTTOMLEFT", 0, -20)
 		coords.PlayerText:SetJustifyH("LEFT")
-		coords.PlayerText:SetText(UnitName("player")..": 0,0")
+		coords.PlayerText:SetText(UnitName("player") .. ": 0,0")
 
 		coords.MouseText = coords:CreateFontString("MouseCoords", "ARTWORK", "GameFontNormal")
 		coords.MouseText:SetJustifyH("LEFT")
@@ -33,9 +33,9 @@ function Module:OnEnable()
 				x = math.floor(100 * x)
 				y = math.floor(100 * y)
 				if x ~= 0 and y ~= 0 then
-					coords.PlayerText:SetText(UnitName("player")..": "..x..","..y)
+					coords.PlayerText:SetText(UnitName("player") .. ": " .. x .. "," .. y)
 				else
-					coords.PlayerText:SetText(UnitName("player")..": ".."|cffff0000".."|r")
+					coords.PlayerText:SetText(UnitName("player") .. ": " .. "|cffff0000" .. "|r")
 				end
 
 				local scale = WorldMapFrame.ScrollContainer:GetEffectiveScale()
@@ -43,15 +43,15 @@ function Module:OnEnable()
 				local height = WorldMapFrame.ScrollContainer:GetHeight()
 				local centerX, centerY = WorldMapFrame.ScrollContainer:GetCenter()
 				local x, y = GetCursorPosition()
-				local adjustedX = (x / scale - (centerX - (width/2))) / width
-				local adjustedY = (centerY + (height/2) - y / scale) / height
+				local adjustedX = (x / scale - (centerX - (width / 2))) / width
+				local adjustedY = (centerY + (height / 2) - y / scale) / height
 
 				if adjustedX >= 0 and adjustedY >= 0 and adjustedX <= 1 and adjustedY <= 1 then
 					adjustedX = math.floor(100 * adjustedX)
 					adjustedY = math.floor(100 * adjustedY)
-					coords.MouseText:SetText("Mouse: "..adjustedX..","..adjustedY)
+					coords.MouseText:SetText("Mouse: " .. adjustedX .. "," .. adjustedY)
 				else
-					coords.MouseText:SetText("|cffff0000".."|r")
+					coords.MouseText:SetText("|cffff0000" .. "|r")
 				end
 				int = 0
 			end

@@ -21,7 +21,7 @@ local totemStartTimes = setmetatable({ __mode = "v" }, {})
 -- nameplateShowEnemyMinus     = "0",
 -- nameplateShowEnemyTotems    = "1",
 -- nameplateShowEnemyPets      = "1",
-local APILevel = math.floor(select(4,GetBuildInfo())/10000)
+local APILevel = math.floor(select(4, GetBuildInfo()) / 10000)
 
 local function GetNPCIDByGUID(guid)
     local _, _, _, _, _, npcID = strsplit("-", guid);
@@ -32,22 +32,22 @@ local totemNpcIDs
 if APILevel >= 8 then
     totemNpcIDs = {
         -- [npcID] = { spellID, duration }
-        [2630] = { 2484, 20 }, -- Earthbind
-        [3527] = { 5394, 15 }, -- Healing Stream
-        [6112] = { 8512, 120 }, -- Windfury
-        [97369] = { 192222, 15 }, -- Liquid Magma
-        [5913] = { 8143, 10 }, -- Tremor
-        [5925] = { 204336, 3 }, -- Grounding
-        [78001] = { 157153, 15 }, -- Cloudburst
-        [53006] = { 98008, 6 }, -- Spirit Link
-        [59764] = { 108280, 12 }, -- Healing Tide
-        [61245] = { 192058, 2 }, -- Static Charge
+        [2630] = { 2484, 20 },     -- Earthbind
+        [3527] = { 5394, 15 },     -- Healing Stream
+        [6112] = { 8512, 120 },    -- Windfury
+        [97369] = { 192222, 15 },  -- Liquid Magma
+        [5913] = { 8143, 10 },     -- Tremor
+        [5925] = { 204336, 3 },    -- Grounding
+        [78001] = { 157153, 15 },  -- Cloudburst
+        [53006] = { 98008, 6 },    -- Spirit Link
+        [59764] = { 108280, 12 },  -- Healing Tide
+        [61245] = { 192058, 2 },   -- Static Charge
         [100943] = { 198838, 15 }, -- Earthen Wall
-        [97285] = { 192077, 15 }, -- Wind Rush
+        [97285] = { 192077, 15 },  -- Wind Rush
         [105451] = { 204331, 15 }, -- Counterstrike
         [104818] = { 207399, 30 }, -- Ancestral
         [105427] = { 204330, 15 }, -- Skyfury
-        [179867] = { 355580, 6 }, -- Static Field
+        [179867] = { 355580, 6 },  -- Static Field
 
         -- Warrior
         [119052] = { 236320, 15 }, -- War Banner
@@ -55,41 +55,41 @@ if APILevel >= 8 then
 elseif APILevel <= 2 then
     totemNpcIDs = {
         -- [npcID] = { spellID, duration }
-        [2630] = { 2484, 20 }, -- Earthbind
-        [5925] = { 8177, 45 }, -- Grounding
-        [3968] = { 6495, 300 }, -- Sentry
-        [15430] = { 2062, 120 }, -- Earth Elemental Totem
-        [15439] = { 2894, 120 }, -- Fire Elemental Totem
-        [15447] = { 3738, 120 }, -- Wrath of Air Totem
+        [2630] = { 2484, 20 },    -- Earthbind
+        [5925] = { 8177, 45 },    -- Grounding
+        [3968] = { 6495, 300 },   -- Sentry
+        [15430] = { 2062, 120 },  -- Earth Elemental Totem
+        [15439] = { 2894, 120 },  -- Fire Elemental Totem
+        [15447] = { 3738, 120 },  -- Wrath of Air Totem
         [17539] = { 30706, 120 }, -- Totem of Wrath
-        [5924] = { 8170, 120 }, -- Disease Cleansing Totem
-        [5923] = { 8166, 120 }, -- Poison Cleansing Totem
+        [5924] = { 8170, 120 },   -- Disease Cleansing Totem
+        [5923] = { 8166, 120 },   -- Poison Cleansing Totem
         [15803] = { 25908, 120 }, -- Tranquil Air Totem
-        [5913] = { 8143, 120 }, -- Tremor
+        [5913] = { 8143, 120 },   -- Tremor
     }
     local function addTotem(data, ...)
-        local numArgs = select("#",...)
-        for i=1, numArgs do
+        local numArgs = select("#", ...)
+        for i = 1, numArgs do
             local npcID = select(i, ...)
             totemNpcIDs[npcID] = data
         end
     end
 
-    addTotem({ 5675, 120 }, 3573, 7414, 7415, 7416, 15489) -- Mana Spring Totem
-    addTotem({ 1535, 5 }, 5879,  6110, 6111, 7844, 7845, 15482, 15483) -- Fire Nova Totem
-    addTotem({ 8187, 20 }, 5929, 7464, 7465, 7466, 15484) -- Magma Totem
-    addTotem({ 3599, 60 }, 2523, 3902, 3903, 3904, 7400, 7402, 15480) -- Searing Totem
-    addTotem({ 5730, 15 }, 3579, 3911, 3912, 3913, 7398, 7399, 15478) -- Stoneclaw Totem
-    addTotem({ 8184, 120 }, 5927, 7424, 7425, 15487) -- Fire Resistance Totem
-    addTotem({ 8227, 120 }, 5950, 6012, 7423, 10557, 15485) -- Flametongue Totem
-    addTotem({ 8181, 120 }, 5926, 7412, 7413, 15486) -- Frost Resistance Totem
-    addTotem({ 8835, 120 }, 7486, 7487, 15463) -- Grace of Air Totem
-    addTotem({ 10595, 120 }, 7467, 7468, 7469, 15490) -- Nature Resistance Totem
+    addTotem({ 5675, 120 }, 3573, 7414, 7415, 7416, 15489)                    -- Mana Spring Totem
+    addTotem({ 1535, 5 }, 5879, 6110, 6111, 7844, 7845, 15482, 15483)         -- Fire Nova Totem
+    addTotem({ 8187, 20 }, 5929, 7464, 7465, 7466, 15484)                     -- Magma Totem
+    addTotem({ 3599, 60 }, 2523, 3902, 3903, 3904, 7400, 7402, 15480)         -- Searing Totem
+    addTotem({ 5730, 15 }, 3579, 3911, 3912, 3913, 7398, 7399, 15478)         -- Stoneclaw Totem
+    addTotem({ 8184, 120 }, 5927, 7424, 7425, 15487)                          -- Fire Resistance Totem
+    addTotem({ 8227, 120 }, 5950, 6012, 7423, 10557, 15485)                   -- Flametongue Totem
+    addTotem({ 8181, 120 }, 5926, 7412, 7413, 15486)                          -- Frost Resistance Totem
+    addTotem({ 8835, 120 }, 7486, 7487, 15463)                                -- Grace of Air Totem
+    addTotem({ 10595, 120 }, 7467, 7468, 7469, 15490)                         -- Nature Resistance Totem
     addTotem({ 8071, 120 }, 5873, 5919, 5920, 7366, 7367, 7368, 15470, 15474) -- Stoneskin Totem
-    addTotem({ 31634, 300 }, 5874, 5921, 5922, 7403, 15464, 15479) -- Strength of Earth
-    addTotem({ 8512, 120 }, 6112, 7483, 7484, 15496, 15497) -- Windfury Totem
-    addTotem({ 15107, 120 }, 9687, 9688, 9689, 15492) -- Windwall Totem
-    addTotem({ 5394, 120 }, 3527, 3906, 3907, 3908, 3909, 15488) -- Healing Stream Totem
+    addTotem({ 31634, 300 }, 5874, 5921, 5922, 7403, 15464, 15479)            -- Strength of Earth
+    addTotem({ 8512, 120 }, 6112, 7483, 7484, 15496, 15497)                   -- Windfury Totem
+    addTotem({ 15107, 120 }, 9687, 9688, 9689, 15492)                         -- Windwall Totem
+    addTotem({ 5394, 120 }, 3527, 3906, 3907, 3908, 3909, 15488)              -- Healing Stream Totem
 end
 
 local function CreateIcon(nameplate)
