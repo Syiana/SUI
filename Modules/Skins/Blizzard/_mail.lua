@@ -13,5 +13,7 @@ function Module:OnEnable()
         SUI:Skin(MailEditBoxScrollBar.Background)
         SUI:Skin(SendMailMoneyInset)
         SUI:Skin(SendMailMoneyBg)
+        SUI:Skin(OpenMailFrame)
+        SUI:Skin(OpenMailFrameInset)
     end
 end

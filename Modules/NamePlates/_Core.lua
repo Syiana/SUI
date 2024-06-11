@@ -81,6 +81,8 @@ function Module:OnEnable()
             if self.healthBar then
                 self.healthBar:SetStatusBarTexture(db.texture)
                 self.healthBar:GetStatusBarTexture():SetDrawLayer("BORDER")
+                self.healthBar:SetHeight(self.healthBar:GetHeight()-0.4)
+                self.healthBar:SetWidth(self.healthBar:GetWidth()-0.5)
 
                 self.CastBar:SetHeight(self.CastBar:GetHeight() - 0.05)
                 self.CastBar:SetWidth(self.CastBar:GetWidth() - 0.02)

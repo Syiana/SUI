@@ -29,6 +29,7 @@ function Module:OnEnable()
     end
 
     if db.health then
+        hooksecurefunc("CompactUnitFrame_UpdateHealthColor", nameplateHealthTextFrame)
         hooksecurefunc("CompactUnitFrame_UpdateHealth", nameplateHealthTextFrame)
     end
 end
