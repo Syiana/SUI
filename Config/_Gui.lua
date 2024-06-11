@@ -611,30 +611,19 @@ function Gui:OnEnable()
           },
         },
         {
-          style = {
-            key = 'menu.style',
-            type = 'dropdown',
-            options = {
-              { value = 'Default', text = 'Default' },
-              { value = 'Custom', text = 'Custom' }
-            },
-            initialValue = 1,
-            column = 4,
-            order = 1
-          },
-          mouseover = {
-            key = 'menu.mouseover',
+          mouseoverMicro = {
+            key = 'menu.mouseovermicro',
             type = 'checkbox',
-            label = 'Show on Mouseover',
-            tooltip = 'Show micromenu on mouseover',
+            label = 'MicroMenu Mouseover',
+            tooltip = 'Show MicroMenu on mouseover',
             column = 4,
             order = 2
           },
-          bagbuttons = {
-            key = 'menu.hidebag',
+          mouseoverBagButtons = {
+            key = 'menu.mouseoverbags',
             type = 'checkbox',
-            label = 'Hide bag buttons',
-            tooltip = 'Hide background & bag buttons in the micromenu',
+            label = 'BagButtons Mouseover',
+            tooltip = 'Show Bag Buttons on mouseover',
             column = 4,
             order = 3
           },
@@ -839,14 +828,6 @@ function Gui:OnEnable()
           }
         },
         {
-          small = {
-		      	key = 'small',
-            type = 'checkbox',
-            label = 'Small Map',
-            tooltip = 'coming soon.',
-            column = 4,
-            order = 1
-          },
           cords = {
 		      	key = 'coords',
             type = 'checkbox',
@@ -855,33 +836,11 @@ function Gui:OnEnable()
             column = 4,
             order = 2
           },
-          opacity = {
-		  	    key = 'opacity',
-            type = 'checkbox',
-            label = 'Opacity',
-            tooltip = 'coming soon.',
-            column = 4,
-            order = 3
-          }
         },
         {
           header = {
             type = 'header',
             label = 'Minimap'
-          }
-        },
-        {
-          style = {
-            key = 'style',
-            type = 'dropdown',
-            label = 'Style',
-            options = {
-              { value = 'Default', text = 'Default' },
-              { value = 'Legion', text = 'Legion' }
-            },
-            initialValue = 1,
-            column = 5,
-            order = 1
           }
         },
         {
@@ -911,14 +870,6 @@ function Gui:OnEnable()
           }
         },
         {
-          showgarrison = {
-			      key = 'garrison',
-            type = 'checkbox',
-            label = 'Garrison Symbol',
-            tooltip = 'Show/Hide covenant icon on minimap',
-            column = 4,
-            order = 1
-          },
           showtracking = {
 			      key = 'tracking',
             type = 'checkbox',

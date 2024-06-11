@@ -6,14 +6,14 @@ function Module:OnEnable()
 		local coords = CreateFrame("Frame", "CoordsFrame", WorldMapFrame)
 		coords:SetFrameLevel(WorldMapFrame.BorderFrame:GetFrameLevel() + 2)
 		coords:SetFrameStrata(WorldMapFrame.BorderFrame:GetFrameStrata())
-		coords.PlayerText = coords:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-		coords.PlayerText:SetPoint("BOTTOM", WorldMapFrame.ScrollContainer, "BOTTOM", 5, 20)
+		coords.PlayerText = coords:CreateFontString("PlayerCoords", "ARTWORK", "GameFontNormal")
+		coords.PlayerText:SetPoint("BOTTOMLEFT", WorldMapFrame.ScrollContainer, "BOTTOMLEFT", 0, -20)
 		coords.PlayerText:SetJustifyH("LEFT")
 		coords.PlayerText:SetText(UnitName("player")..": 0,0")
 
-		coords.MouseText = coords:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+		coords.MouseText = coords:CreateFontString("MouseCoords", "ARTWORK", "GameFontNormal")
 		coords.MouseText:SetJustifyH("LEFT")
-		coords.MouseText:SetPoint("BOTTOMLEFT", coords.PlayerText, "TOPLEFT", 0, 5)
+		coords.MouseText:SetPoint("BOTTOMLEFT", WorldMapFrame.ScrollContainer, "BOTTOMLEFT", 125, -20)
 		coords.MouseText:SetText(": 0,0")
 
 		local int = 0

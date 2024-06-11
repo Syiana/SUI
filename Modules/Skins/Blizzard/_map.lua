@@ -5,5 +5,7 @@ function Module:OnEnable()
         SUI:Skin(WorldMapTitleButton)
         SUI:Skin(WorldMapFrame)
         SUI:Skin(WorldMapFrame.MiniBorderFrame)
+        SUI:Skin(WorldMapFrame.BorderFrame)
+        SUI:Skin(WorldMapFrame.BlackoutFrame)
     end
 end

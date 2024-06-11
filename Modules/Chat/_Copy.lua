@@ -75,7 +75,7 @@ function Module:OnEnable()
     local function CreateCopyButton(self)
         self.Copy = CreateFrame("Button", nil, self)
         self.Copy:SetSize(20, 20)
-        self.Copy:SetPoint("TOPRIGHT", self, 15, -5)
+        self.Copy:SetPoint("TOPRIGHT", self, 0, -5)
 
         self.Copy:SetNormalTexture("Interface\\AddOns\\SUI\\Media\\Textures\\Chat\\copynormal")
         self.Copy:GetNormalTexture():SetSize(20, 20)

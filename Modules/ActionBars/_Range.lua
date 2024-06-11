@@ -106,10 +106,13 @@ function Range:OnEnable()
     end
 
     function Module:RegisterButtonRange(button)
-        if button.Update then
+        if button.UpdateAction then
             Module.Register(button)
-            hooksecurefunc(button, "Update", Module.UpdateButtonStatus)
-            hooksecurefunc(button, "UpdateUsable", button_UpdateUsable)
+            hooksecurefunc(button, "UpdateAction", Module.UpdateButtonStatus)
+            hooksecurefunc("ActionButton_UpdateUsable", function()
+                button_UpdateUsable(button)
+            end)
+            --hooksecurefunc(button, "UpdateUsable", button_UpdateUsable)
         end
     end
 

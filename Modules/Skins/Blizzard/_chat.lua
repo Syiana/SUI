@@ -4,7 +4,7 @@ function Module:OnEnable()
   if (SUI:Color()) then
     for i = 1, 10 do
       SUI:Skin(_G["ChatFrame"..i])
-      SUI:Skin(_G["ChatFrame"..i.."EditBox"])
+      --SUI:Skin(_G["ChatFrame"..i.."EditBox"])
     end
 
     SUI:Skin(ChatConfigFrame)

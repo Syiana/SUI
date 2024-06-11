@@ -12,6 +12,8 @@ function Module:OnEnable()
         SUI:Skin(CommunitiesFrame.ChatEditBox)
         SUI:Skin(CommunitiesFrame.CommunitiesControlFrame.CommunitiesSettingsButton)
         SUI:Skin(CommunitiesFrame.InviteButton)
+        SUI:Skin(CommunitiesFrame.MemberList.InsetFrame)
+        SUI:Skin(CommunitiesFrame.MemberList.ColumnDisplay)
       end
     end)
   end

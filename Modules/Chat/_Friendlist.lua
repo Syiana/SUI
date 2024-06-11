@@ -97,70 +97,8 @@ function Friendlist:OnEnable()
       end)
     end
 
-    -- WhoList
-    local function whoFrame()
-      local scrollFrame = WhoListScrollFrame
-      local offset = HybridScrollFrame_GetOffset(scrollFrame)
-      local buttons = scrollFrame.buttons
-      local numWhos = C_FriendList.GetNumWhoResults()
-
-      local playerZone = GetRealZoneText()
-      local playerGuild = GetGuildInfo("player")
-      local playerRace = UnitRace("player")
-
-      for i = 1, #buttons do
-        local button = buttons[i]
-        local index = offset + i
-        if index <= numWhos then
-          local nameText = button.Name
-          local levelText = button.Level
-          local variableText = button.Variable
-
-          local info = C_FriendList.GetWhoInfo(index)
-          if info then
-            local guild = info.fullGuildName
-            local level = info.level
-            local race = info.raceStr
-            local zone = info.area
-            local classFileName = info.filename
-
-            if zone == playerZone then
-              zone = "|cff00ff00"..zone
-            end
-            if guild == playerGuild then
-              guild = "|cff00ff00"..guild
-            end
-            if race == playerRace then
-              race = "|cff00ff00"..race
-            end
-            local columnTable = {zone, guild, race}
-
-            local c = classColorRaw[classFileName]
-            nameText:SetTextColor(c.r, c.g, c.b)
-            levelText:SetText(diffColor[level]..level)
-            variableText:SetText(columnTable[UIDropDownMenu_GetSelectedID(WhoFrameDropDown)])
-          end
-        end
-      end
-    end
-
-    hooksecurefunc("WhoList_Update", whoFrame)
-    hooksecurefunc(WhoListScrollFrame, "update", whoFrame)
-
-    -- LFRBrowseList
-    hooksecurefunc("LFRBrowseFrameListButton_SetData", function(button, index)
-      local name, level, _, className, _, _, _, class = SearchLFGGetResults(index)
-
-      if index and class and name and level then
-        button.name:SetText(classColor[class]..name)
-        button.class:SetText(classColor[class]..className)
-        button.level:SetText(diffColor[level]..level)
-        button.level:SetWidth(30)
-      end
-    end)
-
     -- PVPMatchResults
-    hooksecurefunc(PVPCellNameMixin, "Populate", function(self, rowData)
+    hooksecurefunc("TogglePVPScoreboardOrResults", function(self, rowData)
       local name = rowData.name
       local className = rowData.className or ""
       local n, r = strsplit("-", name, 2)
@@ -195,135 +133,11 @@ function Friendlist:OnEnable()
       text:SetText(n)
     end)
 
-    local _VIEW
-
-    local function viewChanged(view)
-      _VIEW = view
-    end
-
-    -- GuildList
-    local function update()
-      _VIEW = _VIEW or GetCVar("guildRosterView")
-      local playerArea = GetRealZoneText()
-      local buttons = GuildRosterContainer.buttons
-
-      for _, button in ipairs(buttons) do
-        if button:IsShown() and button.online and button.guildIndex then
-          if _VIEW == "tradeskill" then
-            local _, _, _, headerName, _, _, _, playerName, _, _, _, zone, _, classFileName, isMobile = GetGuildTradeSkillInfo(button.guildIndex)
-            if not headerName and playerName then
-              local c = classColorRaw[classFileName]
-              button.string1:SetTextColor(c.r, c.g, c.b)
-              if not isMobile and zone == playerArea then
-                button.string2:SetText("|cff00ff00"..zone)
-              elseif isMobile then
-                button.string2:SetText("|cffa5a5a5"..REMOTE_CHAT)
-              end
-            end
-          else
-            local name, rank, rankIndex, level, _, zone, _, _, _, isAway, classFileName, _, _, isMobile = GetGuildRosterInfo(button.guildIndex)
-            name = string.gsub(name, "-.*", "")
-            local displayedName = classColor[classFileName]..name
-            if isMobile then
-              if isAway == 1 then
-                displayedName = "|TInterface\\ChatFrame\\UI-ChatIcon-ArmoryChat-AwayMobile:14:14:0:0:16:16:0:16:0:16|t"..displayedName.." |cffE7E716"..L_CHAT_AFK.."|r"
-              elseif isAway == 2 then
-                displayedName = "|TInterface\\ChatFrame\\UI-ChatIcon-ArmoryChat-BusyMobile:14:14:0:0:16:16:0:16:0:16|t"..displayedName.." |cffff0000"..L_CHAT_DND.."|r"
-              else
-                displayedName = ChatFrame_GetMobileEmbeddedTexture(0.3, 1, 0.3)..displayedName
-              end
-            else
-              if isAway == 1 then
-                displayedName = displayedName.." |cffE7E716"..L_CHAT_AFK.."|r"
-              elseif isAway == 2 then
-                displayedName = displayedName.." |cffff0000"..L_CHAT_DND.."|r"
-              end
-            end
-            if _VIEW == "playerStatus" then
-              button.string1:SetText(diffColor[level]..level)
-              button.string2:SetText(displayedName)
-              if not isMobile and zone == playerArea then
-                button.string3:SetText("|cff4cff4c"..zone)
-              elseif isMobile then
-                button.string3:SetText("|cffa5a5a5"..REMOTE_CHAT)
-              end
-            elseif _VIEW == "guildStatus" then
-              button.string1:SetText(displayedName)
-              if rankIndex and rank then
-                button.string2:SetText(guildRankColor[rankIndex]..rank)
-              end
-            elseif _VIEW == "achievement" then
-              button.string1:SetText(diffColor[level]..level)
-              if classFileName and name then
-                button.string2:SetText(displayedName)
-              end
-            elseif _VIEW == "reputation" then
-              button.string1:SetText(diffColor[level]..level)
-              button.string2:SetText(displayedName)
-            end
-          end
-        end
-      end
-    end
-
-    local loaded = false
-    hooksecurefunc("GuildFrame_LoadUI", function()
-      if loaded then
-        return
-      else
-        loaded = true
-        hooksecurefunc("GuildRoster_SetView", viewChanged)
-        hooksecurefunc("GuildRoster_Update", update)
-        hooksecurefunc(GuildRosterContainer, "update", update)
-      end
-    end)
-
-    -- CommunitiesFrame
-    local function RefreshList(self)
-      local playerArea = GetRealZoneText()
-      local scrollFrame = self.ListScrollFrame
-      local offset = HybridScrollFrame_GetOffset(scrollFrame)
-      local buttons = scrollFrame.buttons
-
-      local displayingProfessions = self:IsDisplayingProfessions()
-      local memberList = displayingProfessions and (self.sortedProfessionList) or (self.sortedMemberList or {})
-      for i = 1, #buttons do
-        local displayIndex = i + offset
-        local button = buttons[i]
-        if displayIndex <= #memberList then
-          local memberInfo = memberList[displayIndex]
-          if memberInfo.presence == Enum.ClubMemberPresence.Offline then return end
-
-          if memberInfo.zone and memberInfo.zone == playerArea then
-            button.Zone:SetText("|cff4cff4c"..memberInfo.zone)
-          end
-
-          if memberInfo.level then
-            button.Level:SetText(diffColor[memberInfo.level]..memberInfo.level)
-          end
-
-          if memberInfo.guildRankOrder and memberInfo.guildRank then
-            button.Rank:SetText(guildRankColor[memberInfo.guildRankOrder]..memberInfo.guildRank)
-          end
-        end
-      end
-    end
-
-    local loaded = false
-    hooksecurefunc("Communities_LoadUI", function()
-      if loaded then
-        return
-      else
-        loaded = true
-        hooksecurefunc(CommunitiesFrame.MemberList, "RefreshListDisplay", RefreshList)
-      end
-    end)
-
     -- FriendsList
     local FRIENDS_LEVEL_TEMPLATE = FRIENDS_LEVEL_TEMPLATE:gsub("%%d", "%%s")
     FRIENDS_LEVEL_TEMPLATE = FRIENDS_LEVEL_TEMPLATE:gsub("%$d", "%$s")
     local function friendsFrame()
-        local scrollFrame = FriendsListFrameScrollFrame
+        local scrollFrame = FriendsFrameFriendsScrollFrame
         local buttons = scrollFrame.buttons
 
         local playerArea = GetRealZoneText()
@@ -366,7 +180,7 @@ function Friendlist:OnEnable()
         end
       end
     end
-    hooksecurefunc(FriendsListFrameScrollFrame, "update", friendsFrame)
+    hooksecurefunc(FriendsFrameFriendsScrollFrame, "update", friendsFrame)
     hooksecurefunc("FriendsFrame_UpdateFriends", friendsFrame)
   end
 end
