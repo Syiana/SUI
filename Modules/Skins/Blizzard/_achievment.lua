@@ -6,22 +6,9 @@ function Module:OnEnable()
     f:RegisterEvent("ADDON_LOADED")
     f:SetScript("OnEvent", function(self, event, name)
       if name == "Blizzard_AchievementUI" then
-        for i, v in pairs({ AchievementFrameHeaderRight,
-          AchievementFrameHeaderLeft,
-          AchievementFrameWoodBorderTopLeft,
-          AchievementFrameWoodBorderBottomLeft,
-          AchievementFrameWoodBorderTopRight,
-          AchievementFrameWoodBorderBottomRight,
-          AchievementFrameMetalBorderBottom,
-          AchievementFrameMetalBorderBottomLeft,
-          AchievementFrameMetalBorderBottomRight,
-          AchievementFrameMetalBorderLeft,
-          AchievementFrameMetalBorderRight,
-          AchievementFrameMetalBorderTop,
-          AchievementFrameMetalBorderTopLeft,
-          AchievementFrameMetalBorderTopRight, }) do
-            v:SetVertexColor(.15, .15, .15)
-        end
+        SUI:Skin(AchievementFrame)
+        SUI:Skin(AchievementFrameHeader)
+        SUI:Skin(AchievementFrameSummary)
       end
     end)
   end

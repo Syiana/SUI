@@ -6,66 +6,40 @@ function Module:OnEnable()
     f:RegisterEvent("ADDON_LOADED")
     f:SetScript("OnEvent", function(self, event, name)
       if name == "Blizzard_InspectUI" then
-        for i, v in pairs({ InspectFrame.NineSlice.TopEdge,
-          InspectFrame.NineSlice.RightEdge,
-          InspectFrame.NineSlice.BottomEdge,
-          InspectFrame.NineSlice.LeftEdge,
-          InspectFrame.NineSlice.TopRightCorner,
-          InspectFrame.NineSlice.TopLeftCorner,
-          InspectFrame.NineSlice.BottomLeftCorner,
-          InspectFrame.NineSlice.BottomRightCorner,
-          InspectFrameInset.NineSlice.BottomEdge, }) do
-            v:SetVertexColor(.15, .15, .15)
+        SUI:Skin(InspectFrame)
+        SUI:Skin(InspectPaperDollItemsFrame)
+        SUI:Skin(InspectPaperDollFrame)
+        SUI:Skin(InspectHeadSlot)
+        SUI:Skin(InspectNeckSlot)
+        SUI:Skin(InspectShoulderSlot)
+        SUI:Skin(InspectBackSlot)
+        SUI:Skin(InspectChestSlot)
+        SUI:Skin(InspectShirtSlot)
+        SUI:Skin(InspectTabardSlot)
+        SUI:Skin(InspectWristSlot)
+        SUI:Skin(InspectHandsSlot)
+        SUI:Skin(InspectWaistSlot)
+        SUI:Skin(InspectLegsSlot)
+        SUI:Skin(InspectFeetSlot)
+        SUI:Skin(InspectFinger0Slot)
+        SUI:Skin(InspectFinger1Slot)
+        SUI:Skin(InspectTrinket0Slot)
+        SUI:Skin(InspectTrinket1Slot)
+        SUI:Skin(InspectMainHandSlot)
+        SUI:Skin(InspectSecondaryHandSlot)
+        SUI:Skin(InspectRangedSlot)
+        SUI:Skin(InspectPVPFrame)
+        SUI:Skin(InspectTalentFrame)
+        SUI:Skin(InspectTalentFrameTab1)
+        SUI:Skin(InspectTalentFrameTab2)
+        SUI:Skin(InspectTalentFrameTab3)
+        if (InspectTalentFrameTab4) then
+          SUI:Skin(InspectTalentFrameTab4)
         end
-        for i, v in pairs({
-          InspectFrame.Bg,
-          InspectFrame.TitleBg }) do
-            v:SetVertexColor(.3, .3, .3)
-        end
-        for i, v in pairs({
-          InspectFrameInset.NineSlice.RightEdge,
-          InspectFrameInset.NineSlice.LeftEdge,
-          InspectFrameInset.NineSlice.TopEdge,
-          InspectFrameInset.NineSlice.BottomEdge,
-          InspectFrameInset.NineSlice.PortraitFrame,
-          InspectFrameInset.NineSlice.TopRightCorner,
-          InspectFrameInset.NineSlice.TopLeftCorner,
-          InspectFrameInset.NineSlice.BottomLeftCorner,
-          InspectFrameInset.NineSlice.BottomRightCorner,
-          InspectModelFrameBorderLeft,
-          InspectModelFrameBorderRight,
-          InspectModelFrameBorderTop,
-          InspectModelFrameBorderTopLeft,
-          InspectModelFrameBorderTopRight,
-          InspectModelFrameBorderBottom,
-          InspectModelFrameBorderBottomLeft,
-          InspectModelFrameBorderBottomRight,
-          InspectModelFrameBorderBottom2 }) do
-            v:SetVertexColor(.3, .3, .3)
-        end
-        for i, v in pairs({
-          InspectFeetSlotFrame,
-          InspectHandsSlotFrame,
-          InspectWaistSlotFrame,
-          InspectLegsSlotFrame,
-          InspectFinger0SlotFrame,
-          InspectFinger1SlotFrame,
-          InspectTrinket0SlotFrame,
-          InspectTrinket1SlotFrame,
-          InspectWristSlotFrame,
-          InspectTabardSlotFrame,
-          InspectShirtSlotFrame,
-          InspectChestSlotFrame,
-          InspectBackSlotFrame,
-          InspectShoulderSlotFrame,
-          InspectNeckSlotFrame,
-          InspectHeadSlotFrame,
-          InspectMainHandSlotFrame,
-          InspectSecondaryHandSlotFrame }) do
-            v:SetAlpha(0)
-        end
-        _G.select(InspectMainHandSlot:GetNumRegions(), InspectMainHandSlot:GetRegions()):Hide()
-        _G.select(InspectSecondaryHandSlot:GetNumRegions(), InspectSecondaryHandSlot:GetRegions()):Hide()
+        SUI:Skin(InspectTalentFramePointsBar)
+        SUI:Skin(InspectFrameTab1)
+        SUI:Skin(InspectFrameTab2)
+        SUI:Skin(InspectFrameTab3)
       end
     end)
   end

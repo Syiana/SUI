@@ -3,7 +3,6 @@
   <Include file='_Actionbar.lua'/>
   <Include file='_Actionhouse.lua'/>
   <Include file='_Addonlist.lua'/>
-  <Include file='_Alliedraces.lua'/>
   <Include file='_Archaeology.lua'/>
   <Include file='_Arena.lua'/>
   <Include file='_Bags.lua'/>
@@ -24,7 +23,6 @@
   <Include file='_Gossip.lua'/>
   <Include file='_Guild.lua'/>
   <Include file='_Inspect.lua'/>
-  <Include file='_Islands.lua'/>
   <Include file='_Item.lua'/>
   <Include file='_Lfg.lua'/>
   <Include file='_Loot.lua'/>

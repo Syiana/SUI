@@ -6,105 +6,38 @@ function Module:OnEnable()
     f:RegisterEvent("ADDON_LOADED")
     f:SetScript("OnEvent", function(self, event, name)
       if name == "Blizzard_Collections" then
-        for x, y in pairs(MountJournal.RightInset) do
-          print(x)
-        end
-        for i, v in pairs({
-          -- Collections Journal - General
-          CollectionsJournalTopLeftCorner,
-          CollectionsJournalTopRightCorner,
-          CollectionsJournalPortraitFrame,
-          CollectionsJournalTitleBg,
-          CollectionsJournalTopBorder,
-          CollectionsJournalTopTileStreaks,
-          MountJournalInsetTopBorder,
-          MountJournalInsetLeftBorder,
-          MountJournalInsetRightBorder,
-          CollectionsJournalBg,
-          CollectionsJournalRightBorder,
-          CollectionsJournalLeftBorder,
-          CollectionsJournalBotRightCorner,
-          CollectionsJournalBotLeftCorner,
-          CollectionsJournalBottomBorder,
+        -- Collections Journal
+        SUI:Skin(CollectionsJournal)
+        SUI:Skin(CollectionsJournalTab1)
+        SUI:Skin(CollectionsJournalTab2)
+        SUI:Skin(CollectionsJournalTab3)
+        SUI:Skin(CollectionsJournalTab4)
+        SUI:Skin(CollectionsJournalTab5)
 
-          -- Mount Journal
-          MountJournalBg,
-          MountJournal.RightInset.InsetBorderBottom,
-          MountJournal.RightInset.InsetBorderRight,
-          MountJournal.RightInset.InsetBorderBottomLeft,
-          MountJournal.RightInset.InsetBorderBottomRight,
-          MountJournal.RightInset.InsetBorderTop,
-          MountJournal.RightInset.InsetBorderTopRight,
-          MountJournal.RightInset.InsetBorderTopLeft,
-          MountJournal.RightInset.InsetBorderLeft,
-          MountJournalInsetBottomBorder,
-          MountJournalMountButton_RightSeparator,
-          MountJournalMountButton_LeftSeparator,
-          MountJournalInsetTopRightCorner,
-          MountJournalInsetTopLeftCorner,
-          MountJournalInsetBotRightCorner,
-          MountJournalInsetBotLeftCorner,
-          MountJournal.ScrollBar.Background.Begin,
-          MountJournal.ScrollBar.Background.Middle,
-          MountJournal.ScrollBar.Background.End,
+        -- Mount Journal
+        SUI:Skin(MountJournal)
+        SUI:Skin(MountJournal.RightInset)
+        SUI:Skin(MountJournal.LeftInset)
+        SUI:Skin(MountJournal.ScrollBar)
+        SUI:Skin(MountJournal.ScrollBar.Background)
+        SUI:Skin(MountJournalMountButton)
 
-          -- Pet Journal
-          PetJournalBg,
-          PetJournal.RightInset.InsetBorderBottom,
-          PetJournal.RightInset.InsetBorderRight,
-          PetJournal.RightInset.InsetBorderBottomLeft,
-          PetJournal.RightInset.InsetBorderBottomRight,
-          PetJournal.RightInset.InsetBorderTop,
-          PetJournal.RightInset.InsetBorderTopRight,
-          PetJournal.RightInset.InsetBorderTopLeft,
-          PetJournal.RightInset.InsetBorderLeft,
-          PetJournalLeftInsetBg,
-          PetJournalLeftInsetInsetTopBorder,
-          PetJournalLeftInsetInsetLeftBorder,
-          PetJournalLeftInsetInsetBottomBorder,
-          PetJournalSummonButton_RightSeparator,
-          PetJournalSummonButton_LeftSeparator,
-          PetJournalLeftInsetInsetTopRightCorner,
-          PetJournalLeftInsetInsetTopLeftCorner,
-          PetJournalLeftInsetInsetBotRightCorner,
-          PetJournalLeftInsetInsetBotLeftCorner,
-          PetJournalLeftInsetInsetRightBorder,
-          PetJournal.ScrollBar.Background.Begin,
-          PetJournal.ScrollBar.Background.Middle,
-          PetJournal.ScrollBar.Background.End,
+        -- Pet Journal
+        SUI:Skin(PetJournal)
+        SUI:Skin(PetJournal.RightInset)
+        SUI:Skin(PetJournal.LeftInset)
+        SUI:Skin(PetJournal.ScrollBar)
+        SUI:Skin(PetJournal.ScrollBar.Background)
+        SUI:Skin(PetJournalSummonButton)
 
-          -- Toy Journal
-          ToyBoxInsetTopBorder,
-          ToyBoxInsetTopLeftCorner,
-          ToyBoxInsetTopRightCorner,
-          ToyBoxInsetLeftBorder,
-          ToyBoxInsetRightBorder,
-          ToyBoxInsetBottomBorder,
-          ToyBoxInsetBotRightCorner,
-          ToyBoxInsetBotLeftCorner,
+        -- Toy Box
+        SUI:Skin(ToyBox)
 
-          -- Heirlooms Journal
-          HeirloomsJournalInsetTopBorder,
-          HeirloomsJournalInsetTopLeftCorner,
-          HeirloomsJournalInsetTopRightCorner,
-          HeirloomsJournalInsetLeftBorder,
-          HeirloomsJournalInsetRightBorder,
-          HeirloomsJournalInsetBottomBorder,
-          HeirloomsJournalInsetBotRightCorner,
-          HeirloomsJournalInsetBotLeftCorner,
+        -- Heirlooms Journal
+        SUI:Skin(HeirloomsJournal)
 
-          -- Wardrobe Journal
-          WardrobeCollectionFrameInsetTopBorder,
-          WardrobeCollectionFrameInsetTopLeftCorner,
-          WardrobeCollectionFrameInsetTopRightCorner,
-          WardrobeCollectionFrameInsetLeftBorder,
-          WardrobeCollectionFrameInsetRightBorder,
-          WardrobeCollectionFrameInsetBottomBorder,
-          WardrobeCollectionFrameInsetBotRightCorner,
-          WardrobeCollectionFrameInsetBotLeftCorner,
-        }) do
-            v:SetVertexColor(.15, .15, .15)
-        end
+        -- Wardrobe Journal
+        SUI:Skin(WardrobeCollectionFrame)
       end
     end)
   end

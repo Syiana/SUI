@@ -2,7 +2,7 @@ local Module = SUI:NewModule("Skins.UnitFrames");
 
 function Module:OnEnable()
   if (SUI:Color()) then
-    for i, v in ipairs({
+    local frameList = {
       PartyMemberFrame1Texture,
       PartyMemberFrame2Texture,
       PartyMemberFrame3Texture,
@@ -28,9 +28,9 @@ function Module:OnEnable()
       FocusFrameTextureFrameTexture,
       TargetFrameTextureFrameTexture,
       TargetFrameToTTextureFrameTexture,
-      FocusFrameToTTextureFrameTexture,
-    }) do
-      v:SetVertexColor(unpack(SUI:Color(0.15)))
-    end
+      FocusFrameToTTextureFrameTexture
+    }
+
+    SUI:Skin(frameList, true, true)
   end
 end

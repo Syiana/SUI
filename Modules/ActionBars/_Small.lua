@@ -10,16 +10,18 @@ function Module:OnEnable()
     local invisible = CreateFrame("Frame", nil)
     invisible:EnableMouse(false)
     invisible:Hide()
-
+    
     local BlizzArt = {
-      MainMenuBarArtFrameBackground.BackgroundLarge,
-      MainMenuBarArtFrameBackground.BackgroundSmall,
       MainMenuBarTexture0,
       MainMenuBarTexture1,
       MainMenuBarTexture2,
       MainMenuBarTexture3,
-      MainMenuBarArtFrame.LeftEndCap,
-      MainMenuBarArtFrame.RightEndCap,
+      MainMenuBarTexture0,
+      MainMenuBarTexture1,
+      MainMenuBarTexture2,
+      MainMenuBarTexture3,
+      MainMenuBarLeftEndCap,
+      MainMenuBarRightEndCap,
       ActionBarUpButton,
       ActionBarDownButton,
       ReputationWatchBar,
@@ -29,11 +31,12 @@ function Module:OnEnable()
       MainMenuBarArtFrame.PageNumber,
       SlidingActionBarTexture0,
       SlidingActionBarTexture1,
+      MainMenuBarTextureExtender,
     }
 
     for _, frame in pairs(BlizzArt) do
       frame:SetParent(invisible)
-      StatusTrackingBarManager:SetAlpha(0)
+      MainMenuExpBar:SetAlpha(0)
     end
 
     local holder = CreateFrame("Frame", "MainMenuBarHolderFrame", UIParent)

@@ -196,4 +196,77 @@ function SUI:OnInitialize()
       return color
     end
   end
+
+  function self:Skin(frame, customColor, isTable)
+    local forbiddenFrames = {
+      ["FriendsFrameIcon"] = true,
+      ["TradeSkillFramePortrait"] = true,
+      ["CollectionsJournalPortrait"] = true,
+      ["AuctionPortraitTexture"] = true,
+      ["ArchaeologyFramePortrait"] = true,
+      ["ArchaeologyFrameBgLeft"] = true,
+      ["ContainerFrame2Portrait"] = true,
+      ["ContainerFrame3Portrait"] = true,
+      ["ContainerFrame4Portrait"] = true,
+      ["ContainerFrame5Portrait"] = true,
+      ["BankPortraitTexture"] = true,
+      ["CharacterFramePortrait"] = true,
+      ["ClassTrainerFramePortrait"] = true,
+      ["CommunitiesFrame.PortraitOverlay.Portrait"] = true,
+      ["InspectFramePortrait"] = true,
+      ["InspectHeadSlotIconTexture"] = true,
+      ["InspectNeckSlotIconTexture"] = true,
+      ["InspectShoulderSlotIconTexture"] = true,
+      ["InspectBackSlotIconTexture"] = true,
+      ["InspectChestSlotIconTexture"] = true,
+      ["InspectShirtSlotIconTexture"] = true,
+      ["InspectTabardSlotIconTexture"] = true,
+      ["InspectWristSlotIconTexture"] = true,
+      ["InspectHandsSlotIconTexture"] = true,
+      ["InspectWaistSlotIconTexture"] = true,
+      ["InspectLegsSlotIconTexture"] = true,
+      ["InspectFeetSlotIconTexture"] = true,
+      ["InspectFinger0SlotIconTexture"] = true,
+      ["InspectFinger1SlotIconTexture"] = true,
+      ["InspectTrinket0SlotIconTexture"] = true,
+      ["InspectTrinket1SlotIconTexture"] = true,
+      ["InspectMainHandSlotIconTexture"] = true,
+      ["InspectSecondarySlotIconTexture"] = true,
+      ["InspectRangedSlotIconTexture"] = true,
+      ["GossipFrame.ParchmentFrame"] = true,
+      ["QuestFrameDetailPanel.ParchmentFrame"] = true,
+      ["QuestFrameRewardPanel.ParchmentFrame"] = true,
+      ["QuestFrameProgressPanel.ParchmentFrame"] = true,
+      ["QuestFrameGreetingPanel.ParchmentFrame"] = true,
+      ["QuestLogFrame.ParchmentFrame"] = true,
+      ["QuestFramePortrait"] = true,
+      ["PlayerTalentFramePortrait"] = true,
+      ["PVPFramePortrait"] = true,
+      ["PVEFramePortrait"] = true,
+      ["EncounterJournalPortrait"] = true,
+      ["ChannelFrame.Icon"] = true,
+    }
+
+    if (isTable) then
+      for _, v in pairs(frame) do
+        if (customColor) then
+          v:SetVertexColor(unpack(SUI:Color(.15)))
+        else
+          v:SetVertexColor(.15, .15, .15)
+        end
+      end
+    else
+      for _, v in pairs({frame:GetRegions()}) do
+        if v:GetObjectType() == "Texture" then
+            if not (forbiddenFrames[v:GetName()]) then
+              if (customColor) then
+                  v:SetVertexColor(unpack(SUI:Color(.15)))
+              else
+                  v:SetVertexColor(.15, .15, .15)
+              end
+            end
+        end
+      end
+    end
+  end
 end

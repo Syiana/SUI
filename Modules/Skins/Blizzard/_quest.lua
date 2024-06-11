@@ -2,49 +2,40 @@ local Module = SUI:NewModule("Skins.Quest");
 
 function Module:OnEnable()
   if (SUI:Color()) then
-    for i, v in pairs({
-      QuestFrameTopEdge,
-      QuestFrameRightEdge,
-      QuestFrameBottomEdge,
-      QuestFrameLeftEdge,
-      QuestFrameTopRightCorner,
-      QuestFrameTopLeftCorner,
-      QuestFrameBottomLeftCorner,
-      QuestFrameBottomRightCorner,
-      QuestFrameInsetBottomEdge,
-      QuestLogPopupDetailFrameTopEdge,
-      QuestLogPopupDetailFrameRightEdge,
-      QuestLogPopupDetailFrameBottomEdge,
-      QuestLogPopupDetailFrameLeftEdge,
-      QuestLogPopupDetailFrameTopRightCorner,
-      QuestLogPopupDetailFrameTopLeftCorner,
-      QuestLogPopupDetailFrameBottomLeftCorner,
-      QuestLogPopupDetailFrameBottomRightCorner,
-      QuestLogPopupDetailFrameBottomEdge,
-      QuestNPCModelTopBorder,
-      QuestNPCModelRightBorder,
-      QuestNPCModelTopRightCorner,
-      QuestNPCModelBottomRightCorner,
-      QuestNPCModelBottomBorder,
-      QuestNPCModelBottomLeftCorner,
-      QuestNPCModelLeftBorder,
-      QuestNPCModelTopLeftCorner,
-      QuestNPCModelTextTopBorder,
-      QuestNPCModelTextRightBorder,
-      QuestNPCModelTextTopRightCorner,
-      QuestNPCModelTextBottomRightCorner,
-      QuestNPCModelTextBottomBorder,
-      QuestNPCModelTextBottomLeftCorner,
-      QuestNPCModelTextLeftBorder,
-      QuestNPCModelTextTopLeftCorner, 
-    }) do
-      v:SetVertexColor(.15, .15, .15)
+    SUI:Skin(QuestLogFrame)
+    SUI:Skin(QuestFrame)
+    SUI:Skin(QuestFrameDetailPanel)
+    SUI:Skin(QuestFrameAcceptButton)
+    SUI:Skin(QuestFrameDeclineButton)
+
+    if not QuestFrameDetailPanel.ParchmentFrame then
+      QuestFrameDetailPanel.ParchmentFrame = QuestFrameDetailPanel:CreateTexture(nil, "OVERLAY", nil, 1)
+      QuestFrameDetailPanel.ParchmentFrame:SetTexture("Interface\\Stationery\\StationeryTest1.blp")
+      QuestFrameDetailPanel.ParchmentFrame:SetAllPoints(QuestDetailScrollFrame)
     end
-    for i, v in pairs({
-      QuestFrameBg,
-      QuestFrameTitleBg,
-      QuestFrameInsetBg }) do
-        v:SetVertexColor(.3, .3, .3)
+
+    if not QuestFrameRewardPanel.ParchmentFrame then
+        QuestFrameRewardPanel.ParchmentFrame = QuestFrameRewardPanel:CreateTexture(nil, "OVERLAY", nil, 1)
+        QuestFrameRewardPanel.ParchmentFrame:SetTexture("Interface\\Stationery\\StationeryTest1.blp")
+        QuestFrameRewardPanel.ParchmentFrame:SetAllPoints(QuestRewardScrollFrame)
+    end
+
+    if not QuestFrameProgressPanel.ParchmentFrame then
+        QuestFrameProgressPanel.ParchmentFrame = QuestFrameProgressPanel:CreateTexture(nil, "OVERLAY", nil, 1)
+        QuestFrameProgressPanel.ParchmentFrame:SetTexture("Interface\\Stationery\\StationeryTest1.blp")
+        QuestFrameProgressPanel.ParchmentFrame:SetAllPoints(QuestProgressScrollFrame)
+    end
+
+    if not QuestFrameGreetingPanel.ParchmentFrame then
+        QuestFrameGreetingPanel.ParchmentFrame = QuestFrameGreetingPanel:CreateTexture(nil, "OVERLAY", nil, 1)
+        QuestFrameGreetingPanel.ParchmentFrame:SetTexture("Interface\\Stationery\\StationeryTest1.blp")
+        QuestFrameGreetingPanel.ParchmentFrame:SetAllPoints(QuestGreetingScrollChildFrame)
+    end
+
+    if not QuestLogFrame.ParchmentFrame then
+      QuestLogFrame.ParchmentFrame = QuestLogFrame:CreateTexture(nil, "OVERLAY", nil, 1)
+      QuestLogFrame.ParchmentFrame:SetTexture("Interface\\Stationery\\StationeryTest1.blp")
+      QuestLogFrame.ParchmentFrame:SetAllPoints(QuestLogDetailScrollFrame)
     end
   end
 end

@@ -2,25 +2,20 @@ local Module = SUI:NewModule("Skins.Frames");
 
 function Module:OnEnable()
   if (SUI:Color()) then
-    for i, v in ipairs({
-      GameMenuFrame.TopEdge,
-      GameMenuFrame.RightEdge,
-      GameMenuFrame.BottomEdge,
-      GameMenuFrame.LeftEdge,
-      GameMenuFrame.TopRightCorner,
-      GameMenuFrame.TopLeftCorner,
-      GameMenuFrame.BottomLeftCorner,
-      GameMenuFrame.BottomRightCorner,
-      StaticPopup1.TopEdge,
-      StaticPopup1.RightEdge,
-      StaticPopup1.BottomEdge,
-      StaticPopup1.LeftEdge,
-      StaticPopup1.TopRightCorner,
-      StaticPopup1.TopLeftCorner,
-      StaticPopup1.BottomLeftCorner,
-      StaticPopup1.BottomRightCorner
-    }) do
-      v:SetVertexColor(unpack(SUI:Color(0.15)))
-    end
+    SUI:Skin(GameMenuFrame)
+    SUI:Skin(GameMenuButtonHelp)
+    SUI:Skin(GameMenuButtonStore)
+    SUI:Skin(GameMenuButtonOptions)
+    SUI:Skin(GameMenuButtonMacros)
+    SUI:Skin(GameMenuButtonAddons)
+    SUI:Skin(GameMenuButtonLogout)
+    SUI:Skin(GameMenuButtonQuit)
+    SUI:Skin(GameMenuButtonContinue)
+    SUI:Skin(SUIMenuButton)
+    SUI:Skin(StaticPopup1)
+    SUI:Skin(StaticPopup1Button1)
+    SUI:Skin(StaticPopup1Button2)
+    SUI:Skin(HelpFrame)
+    SUI:Skin(HelpFrame.NineSlice)
   end
 end

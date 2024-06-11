@@ -94,7 +94,7 @@ function Gui:OnEnable()
   end
 
   GameMenuFrameHeader:Hide()
-  local frame = CreateFrame("Button", "UIPanelButtonTemplateTest",
+  local frame = CreateFrame("Button", "SUIMenuButton",
   GameMenuFrame, "UIPanelButtonTemplate")
   frame:SetHeight(20)
   frame:SetWidth(145)
