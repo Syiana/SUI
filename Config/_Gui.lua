@@ -1015,9 +1015,17 @@ function Gui:OnEnable()
             label = 'Tab Binder',
             tooltip = 'Only target players with TAB in PVP-Combat',
             column = 3,
-            order = 1
+            order = 2
           },
-          losecontrol = {
+          arenanameplate = {
+            key = 'arenanameplate',
+            type = 'checkbox',
+            label = 'Arena Nameplate',
+            tooltip = 'Shows Arena number instead of name over nameplate',
+            column = 3,
+            order = 3
+          },
+          --[[losecontrol = {
             key = 'losecontrol',
             type = 'checkbox',
             label = 'Losecontrol',
@@ -1032,17 +1040,9 @@ function Gui:OnEnable()
             tooltip = 'Shows dampening right below the arena timer',
             column = 3,
             order = 1
-          }
+          }]]
         },
         {
-          arenanameplate = {
-            key = 'arenanameplate',
-            type = 'checkbox',
-            label = 'Arena Nameplate',
-            tooltip = 'Shows Arena number instead of name over nameplate',
-            column = 3,
-            order = 1
-          },
           surrender = {
             key = 'surrender',
             type = 'checkbox',

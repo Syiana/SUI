@@ -139,8 +139,11 @@ function Module:OnEnable()
 		local holder = CreateFrame("Frame", "MainMenuBarHolderFrame", UIParent)
 		holder:SetSize(size * 12 + spacing * 11, size)
 		holder:SetPoint("BOTTOM", UIParent, 0, 22)
+		holder:SetMovable(true)
 
 		local function updatePositions()
+			MainMenuBar:SetMovable(true)
+			MainMenuBar:ClearAllPoints()
 			ActionButton1:ClearAllPoints()
 			ActionButton1:SetPoint("BOTTOMLEFT", holder, 0, 0)
 
