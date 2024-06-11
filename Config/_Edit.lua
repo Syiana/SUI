@@ -62,7 +62,7 @@ function Edit:OnEnable()
 		"StatsFrame",
 		"TargetFrameDragFrame",
 		"SUIMainMenuBar",
-		"StanceBarFrame"
+		"SUIStanceBar"
 	}
 
 	-- Create DragFrame for Elements

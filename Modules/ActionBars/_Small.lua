@@ -150,7 +150,16 @@ function Module:OnEnable()
 		SUIMultiBarBottomRight:SetSize(size * 12 + spacing * 13, size)
 		SUIMultiBarBottomRight:SetPoint("TOP", SUIMultiBarBottomLeft, "TOP", 0, 0)
 
-		
+		SUIStanceBar = CreateFrame("Frame", "SUIStanceBar", UIParent)
+		SUIStanceBar:SetSize(18 * NUM_STANCE_SLOTS, size)
+		SUIStanceBar:SetPoint("TOP", SUIMultiBarBottomRight, "TOP", -45, 150)
+		SUIStanceBar:SetMovable(true)
+
+		hooksecurefunc("StanceBar_Update", function()
+			StanceBarLeft:Hide();
+			StanceBarMiddle:Hide();
+			StanceBarRight:Hide();
+		end)
 
 		local function updatePositions()
 			for i = 1, NUM_ACTIONBAR_BUTTONS do
@@ -195,6 +204,20 @@ function Module:OnEnable()
 				end
 			end
 
+			for i = 1, NUM_STANCE_SLOTS do
+				local MainButton = _G["StanceButton"..1]
+				local button = _G["StanceButton"..i]
+				local prevButton = _G["StanceButton"..i-1]
+
+				button:ClearAllPoints()
+
+				if (button == MainButton) then
+					button:SetPoint("LEFT", SUIStanceBar, 0, 0)
+				else
+					button:SetPoint("LEFT", prevButton, 37.5, 0)
+				end
+			end
+
 			MultiBarBottomLeftButton1:ClearAllPoints()
 			MultiBarBottomLeftButton1:SetPoint("BOTTOMLEFT", ActionButton1, "TOPLEFT", 0, 5)
 
@@ -214,13 +237,7 @@ function Module:OnEnable()
 			PetActionButton1:SetPoint("BOTTOMLEFT", MultiBarBottomRightButton1, "TOPLEFT", 25, 15)
 
 			PossessButton1:ClearAllPoints()
-			PossessButton1:SetPoint("BOTTOMLEFT", MultiBarBottomRightButton1, "TOPLEFT", 25, 30)
-
-			StanceBarFrame:SetMovable(true)
-			StanceBarFrame:ClearAllPoints()
-			StanceBarFrame:SetUserPlaced(true)
-			StanceBarFrame:SetPoint("TOP", MultiBarBottomRightButton1, "TOP", 0, 50)
-			
+			PossessButton1:SetPoint("BOTTOMLEFT", MultiBarBottomRightButton1, "TOPLEFT", 25, 30)			
 		end
 
 		updatePositions()
