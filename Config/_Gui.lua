@@ -126,7 +126,7 @@ function Gui:OnEnable()
   local categories = {
     {title = 'General', name = 'General'},
     {title = 'Unitframes', name = 'Unitframes'},
-    -- {title = 'Nameplates', name = 'Nameplates'},
+    {title = 'Nameplates', name = 'Nameplates'},
     {title = 'Actionbar', name = 'Actionbar'},
     {title = 'Castbars', name = 'Castbars'},
     {title = 'Tooltip', name = 'Tooltip'},
@@ -445,6 +445,7 @@ function Gui:OnEnable()
     },
     Nameplates = {
       layoutConfig = { padding = { top = 15 } },
+      database = db.profile,
       rows = {
         {
           header = {
@@ -454,44 +455,21 @@ function Gui:OnEnable()
         },
         {
           style = {
+            key = 'nameplates.style',
             type = 'dropdown',
             label = 'Style',
             options = {
               { value = 1, text = 'Default' },
               { value = 2, text = 'Custom' }
             },
-            initialValue = 1,
             column = 5,
             order = 1
           },
           texture = {
+            key = 'nameplates.texture',
             type = 'dropdown',
             label = 'Texture',
-            options = {
-              { value = 1, text = 'Stack' },
-              { value = 2, text = 'Overlap' },
-            },
-            initialValue = 1,
-            column = 5,
-            order = 1
-          }
-        },
-        {
-          size = {
-            type = 'slider',
-            label = 'Size',
-            max = 5,
-            column = 5,
-            order = 1
-          },
-          typ = {
-            type = 'dropdown',
-            label = 'Typ',
-            options = {
-              { value = 1, text = 'Stack' },
-              { value = 2, text = 'Overlap' },
-            },
-            initialValue = 1,
+            options = Textures.data,
             column = 5,
             order = 1
           }
@@ -504,11 +482,35 @@ function Gui:OnEnable()
         },
         {
           arena = {
+            key = 'nameplates.arena',
             type = 'checkbox',
             label = 'Arena Number',
             column = 4,
             order = 1
           },
+          health = {
+            key = 'nameplates.health',
+            type = 'checkbox',
+            label = 'Health (%)',
+            column = 4,
+            order = 2
+          },
+          casttime = {
+            key = 'nameplates.casttime',
+            type = 'checkbox',
+            label = 'Cast Time',
+            column = 4,
+            order = 3
+          },
+        },
+        {
+          classcolor = {
+            key = 'nameplates.classcolor',
+            type = 'checkbox',
+            label = 'Name in Class Color',
+            column = 4,
+            order = 1
+          }
         }
       },
     },

@@ -61,6 +61,14 @@ local defaults = {
             texture = 'Interface\\AddOns\\SUI\\Media\\Textures\\Status\\Flat',
             alwaysontop = false
         },
+        nameplates = {
+            style = 'Custom',
+            texture = 'Interface\\AddOns\\SUI\\Media\\Textures\\Status\\Flat',
+            arena = true,
+            health = true,
+            casttime = true,
+            classcolor = true,
+        },
         actionbar = {
             style = 'Default',
             buttons = {
@@ -255,7 +263,8 @@ function SUI:OnInitialize()
             ["SpellbookMicroButton.NormalTexture"] = true,
             ["AchievementFrameHeaderShield"] = true,
             ["MerchantFramePortrait"] = true,
-            ["TimeManagerGlobe"] = true
+            ["TimeManagerGlobe"] = true,
+            ["MacroFramePortrait"] = true
         }
 
         if (isTable) then
