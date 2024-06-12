@@ -15,6 +15,9 @@ function Module:OnEnable()
                 if (PlayerTalentFramePanel4) then
                     SUI:Skin(PlayerTalentFramePanel4)
                 end
+
+                SUI:Skin(PlayerTalentFrameLearnButton)
+                SUI:Skin(PlayerTalentFrameResetButton)
                 SUI:Skin({
                         PlayerTalentFramePanel1HeaderIconPrimaryBorder,
                         PlayerTalentFramePanel1HeaderIconSecondaryBorder,
