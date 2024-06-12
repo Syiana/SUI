@@ -1,7 +1,13 @@
 local Module = SUI:NewModule("Tooltip.Core");
 
 function Module:OnEnable()
-    local db = SUI.db.profile.tooltip
+    local db = {
+        style = SUI.db.profile.tooltip.style,
+        mouseanchor = SUI.db.profile.tooltip.mouseanchor,
+        lifeontop = SUI.db.profile.tooltip.lifeontop,
+        hideincombat = SUI.db.profile.tooltip.hideincombat,
+        texture = SUI.db.profile.general.texture
+    }
 
     local TooltipFrame = CreateFrame('Frame', "TooltipFrame", UIParent)
     TooltipFrame:SetPoint("BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", -50, 120)
@@ -39,7 +45,9 @@ function Module:OnEnable()
             fontFamily = STANDARD_TEXT_FONT,
         }
 
-        if (db) then
+        if (db.texture ~= 'Default') then
+            GameTooltipStatusBar:SetStatusBarTexture(db.texture)
+        else
             GameTooltipStatusBar:SetStatusBarTexture(
             "Interface\\Addons\\SUI\\Media\\Textures\\Tooltip\\UI-TargetingFrame-BarFill_test")
         end

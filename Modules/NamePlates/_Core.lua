@@ -54,6 +54,9 @@ function Module:OnEnable()
                 self.Text:SetFont(STANDARD_TEXT_FONT, 10, "OUTLINE")
                 iconSkin(self.Icon, self)
 
+                self.Border:ClearAllPoints()
+                self.Border:SetPoint("CENTER", self, -8.6, 8)
+
                 if not self.castText then
                     self.castText = self:CreateFontString(nil)
                     self.castText:SetPoint("CENTER", 0, 1.2)
@@ -89,13 +92,15 @@ function Module:OnEnable()
         if self.unit and self.unit:find('nameplate%d') then
             if self.healthBar then
                 self.healthBar:SetStatusBarTexture(db.texture)
-                self.healthBar:GetStatusBarTexture():SetDrawLayer("BACKGROUND")
+                self.healthBar:GetStatusBarTexture():SetDrawLayer("BORDER")
                 self.CastBar:SetStatusBarTexture(db.texture)
-                self.CastBar:GetStatusBarTexture():SetDrawLayer("BACKGROUND")
+                self.CastBar:GetStatusBarTexture():SetDrawLayer("BORDER")
 
                 if not self.barFixed then
-                    self.healthBar:SetHeight(self.healthBar:GetHeight()-0.4)
-                    self.healthBar:SetWidth(self.healthBar:GetWidth()-0.5)
+                    self.healthBar:SetWidth(self.healthBar:GetWidth()-0.7)
+
+                    self.CastBar:SetHeight(self.CastBar:GetHeight()-0.5)
+                    self.CastBar:SetWidth(self.CastBar:GetWidth()-1)
 
                     self.barFixed = true
                 end
