@@ -99,8 +99,8 @@ function Module:OnEnable()
                 if not self.barFixed then
                     self.healthBar:SetWidth(self.healthBar:GetWidth()-0.7)
 
-                    self.CastBar:SetHeight(self.CastBar:GetHeight()-0.5)
-                    self.CastBar:SetWidth(self.CastBar:GetWidth()-1)
+                    --self.CastBar:SetHeight(self.CastBar:GetHeight()-0.5)
+                    --self.CastBar:SetWidth(self.CastBar:GetWidth()-1)
 
                     self.barFixed = true
                 end
