@@ -249,7 +249,7 @@ function Module:OnEnable()
             local name = self:GetName()
             for i = 1, self.size do
                 local button = _G[name .. "Item" .. i]
-                SetContainerItemLevel(button, GetContainerItemLink(self:GetID(), button:GetID()))
+                SetContainerItemLevel(button, C_Container.GetContainerItemLink(self:GetID(), button:GetID()))
             end
         end
         )

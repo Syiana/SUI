@@ -16,7 +16,6 @@ local defaults = {
                 decline = false,
                 repair = true,
                 sell = true,
-                stackbuy = true,
                 invite = false,
                 release = false,
                 resurrect = false,
