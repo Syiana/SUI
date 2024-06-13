@@ -10,9 +10,15 @@ function Module:OnEnable()
         local function SUIPlayerFrame(self)
             if (db.texture ~= 'Default') then
                 self.healthbar:SetStatusBarTexture(db.texture);
-                -- self.healthbar.AnimatedLossBar:SetStatusBarTexture(db.texture);
-                -- PlayerFrameMyHealPredictionBar:SetTexture(db.texture);
-                PlayerFrameAlternateManaBar:SetStatusBarTexture(db.texture);
+                --self.healthbar.AnimatedLossBar:SetStatusBarTexture(db.texture);
+                PlayerFrameHealthBar.MyHealPredictionBar.Fill:SetTexture(db.texture)
+                PlayerFrameHealthBar.MyHealPredictionBar.Fill:SetDrawLayer("BORDER")
+
+                PlayerFrameHealthBar.MyHealPredictionBar.FillMask:SetTexture(db.texture)
+                PlayerFrameHealthBar.MyHealPredictionBar.FillMask:SetDrawLayer("BORDER")
+                --PlayerFrameHealthBar.MyHealPredictionBar.FillMask:SetTexture(db.texture)
+                --PlayerFrameHealthBar.MyHealPredictionBar.FillMask:GetTexture()
+                PlayerFrameAlternateManaBar:SetStatusBarTexture(db.texture)
                 -- PlayerFrameManaBar.FeedbackFrame.BarTexture:SetTexture(db.texture);
                 -- PlayerFrameManaBar.FeedbackFrame.LossGlowTexture:SetTexture(db.texture);
                 -- PlayerFrameManaBar.FeedbackFrame.GainGlowTexture:SetTexture(db.texture);

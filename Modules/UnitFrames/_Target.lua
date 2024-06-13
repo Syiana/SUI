@@ -92,7 +92,11 @@ function Module:OnEnable()
 
             if (db.texture ~= 'Default') then
                 self.healthbar:SetStatusBarTexture(db.texture);
-                -- TargetFrameMyHealPredictionBar:SetTexture(db.texture);
+                TargetFrameHealthBar.MyHealPredictionBar.Fill:SetTexture(db.texture)
+                TargetFrameHealthBar.MyHealPredictionBar.Fill:SetDrawLayer("BORDER")
+
+                TargetFrameHealthBar.MyHealPredictionBar.FillMask:SetTexture(db.texture)
+                TargetFrameHealthBar.MyHealPredictionBar.FillMask:SetDrawLayer("BORDER")
             end
         end
 
@@ -101,6 +105,12 @@ function Module:OnEnable()
             if (db.texture ~= 'Default') then
                 TargetFrameToTHealthBar:SetStatusBarTexture(db.texture);
                 TargetFrameToTManaBar:SetStatusBarTexture(db.texture);
+
+                FocusFrameHealthBar.MyHealPredictionBar.Fill:SetTexture(db.texture)
+                FocusFrameHealthBar.MyHealPredictionBar.Fill:SetDrawLayer("BORDER")
+
+                FocusFrameHealthBar.MyHealPredictionBar.FillMask:SetTexture(db.texture)
+                FocusFrameHealthBar.MyHealPredictionBar.FillMask:SetDrawLayer("BORDER")
             end
 
             TargetFrameToTTextureFrameDeadText:ClearAllPoints();
@@ -136,6 +146,7 @@ function Module:OnEnable()
 
         local Size = CreateFrame("Frame")
         Size:RegisterEvent("ADDON_LOADED")
+        Size:RegisterEvent("PLAYER_ENTERING_WORLD")
         Size:SetScript("OnEvent", function()
             TargetFrame:SetScale(db.unitframes.size)
             FocusFrame:SetScale(db.unitframes.size)
