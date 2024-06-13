@@ -304,14 +304,6 @@ function Gui:OnEnable()
                         column = 3,
                         order = 1
                     },
-                    avgilvl = {
-                        key = 'display.avgilvl',
-                        type = 'checkbox',
-                        label = 'Average iLvl',
-                        tooltip = 'Display average item level on inspected players',
-                        column = 3,
-                        order = 1
-                    },
                     fps = {
                         key = 'display.fps',
                         type = 'checkbox',
