@@ -17,7 +17,10 @@ function Module:OnEnable()
             CHAT_FRAME_TAB_NORMAL_NOMOUSE_ALPHA = 0
 
             for i = 1, 7 do
-                _G["ChatFrame" .. i]:SetFading(1)
+                local chat = _G["ChatFrame" .. i]
+                chat:SetFading(1)
+                local font, path = chat:GetFont()
+                chat:SetFont(font, path, 'THINOUTLINE')
             end
 
             BNToastFrame:SetClampedToScreen(true)
