@@ -7,7 +7,7 @@ function Module:OnEnable()
         if (db.classcolor) then
             function SUIUnitClass(healthbar, unit)
                 if UnitIsPlayer(unit) and UnitIsConnected(unit) and UnitClass(unit) then
-                    _, class = UnitClass(unit);
+                    local _, class = UnitClass(unit);
                     local c = RAID_CLASS_COLORS[class];
                     healthbar:SetStatusBarColor(c.r, c.g, c.b);
                 elseif UnitIsPlayer(unit) and (not UnitIsConnected(unit)) then
@@ -57,6 +57,9 @@ function Module:OnEnable()
             hooksecurefunc("UnitFrameHealthBar_Update", SUIUnitReaction)
             hooksecurefunc("HealthBar_OnValueChanged", function(self)
                 SUIUnitReaction(self, self.unit)
+            end)
+            hooksecurefunc("TargetofTargetHealthCheck", function(self)
+                SUIUnitReaction(self.healthbar, self.unit)
             end)
         end
     end
