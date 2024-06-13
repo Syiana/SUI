@@ -14,6 +14,10 @@ function Module:OnEnable()
                 SUI:Skin(CommunitiesFrame.InviteButton)
                 SUI:Skin(CommunitiesFrame.MemberList.InsetFrame)
                 SUI:Skin(CommunitiesFrame.MemberList.ColumnDisplay)
+                SUI:Skin(CommunitiesFrame.GuildMemberDetailFrame)
+                SUI:Skin(CommunitiesFrame.GuildMemberDetailFrame.Border)
+                SUI:Skin(CommunitiesFrame.GuildMemberDetailFrame.RemoveButton)
+                SUI:Skin(CommunitiesFrame.GuildMemberDetailFrame.GroupInviteButton)
             end
         end)
     end
