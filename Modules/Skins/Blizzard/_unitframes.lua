@@ -28,7 +28,8 @@ function Module:OnEnable()
             FocusFrameTextureFrameTexture,
             TargetFrameTextureFrameTexture,
             TargetFrameToTTextureFrameTexture,
-            FocusFrameToTTextureFrameTexture
+            FocusFrameToTTextureFrameTexture,
+            PlayerFrameVehicleTexture
         }
 
         SUI:Skin(frameList, true, true)

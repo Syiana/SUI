@@ -9,13 +9,17 @@ function Module:OnEnable()
         target = SUI.db.profile.castbars.target,
         texture = SUI.db.profile.general.texture
     }
+
+    if (SUI:Color()) then
+        TargetFrameSpellBar.Border:SetVertexColor(unpack(SUI:Color(0.15)))
+    end
+    
     if (db.style == 'Custom') then
         if not InCombatLockdown() then
             --TargetFrameSpellBar.ignoreFramePositionManager = false
             TargetFrameSpellBar:SetScale(1)
             TargetFrameSpellBar.Icon:SetPoint("RIGHT", TargetFrameSpellBar, "LEFT", -4, 0)
             TargetFrameSpellBar.Icon:SetScale(0.9)
-            TargetFrameSpellBar.Border:SetVertexColor(unpack(SUI:Color(0.15)))
             TargetFrameSpellBar.Border:SetDrawLayer("OVERLAY", 1)
             TargetFrameSpellBar:SetWidth(TargetFrameSpellBar:GetWidth()-0.3)
             --Texture

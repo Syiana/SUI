@@ -5,6 +5,12 @@ function Module:OnEnable()
         style = SUI.db.profile.castbars.style,
         texture = SUI.db.profile.general.texture
     }
+
+    if (SUI:Color()) then
+        CastingBarFrame.Border:SetVertexColor(unpack(SUI:Color(0.15)))
+        MirrorTimer1Border:SetVertexColor(.15, .15, .15)
+    end
+    
     if (db.style == 'Custom') then
         if not InCombatLockdown() then
             CastingBarFrame.ignoreFramePositionManager = true
@@ -30,10 +36,17 @@ function Module:OnEnable()
             --Texture
             CastingBarFrame.Border:SetDrawLayer("OVERLAY", 1)
 
+            MirrorTimer1Border:SetTexture("Interface\\CastingBar\\UI-CastingBar-Border-Small")
+            MirrorTimer1Border:SetPoint("TOP", 0, 26)
+
             if (db.texture ~= 'Default') then
                 CastingBarFrame:SetStatusBarTexture(db.texture)
+                MirrorTimer1StatusBar:SetStatusBarTexture(db.texture)
+                MirrorTimer1StatusBar:GetStatusBarTexture():SetDrawLayer("BORDER")
             else
                 CastingBarFrame:SetStatusBarTexture("Interface\\Addons\\SUI\\Media\\Textures\\Unitframes\\UI-StatusBar")
+                MirrorTimer1StatusBar:SetStatusBarTexture("Interface\\Addons\\SUI\\Media\\Textures\\Unitframes\\UI-StatusBar")
+                MirrorTimer1StatusBar:GetStatusBarTexture():SetDrawLayer("BORDER")
             end
 
             CastingBarFrame:SetWidth(CastingBarFrame:GetWidth()-0.7)

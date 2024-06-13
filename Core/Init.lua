@@ -266,7 +266,7 @@ function SUI:OnInitialize()
             ["MerchantFramePortrait"] = true,
             ["TimeManagerGlobe"] = true,
             ["MacroFramePortrait"] = true,
-            ["OpenMailFrameIcon"] = true
+            ["OpenMailFrameIcon"] = true,
         }
 
         if (isTable) then

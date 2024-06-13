@@ -5,13 +5,21 @@ function Module:OnEnable()
         local frameList = {
             StanceBarLeft,
             StanceBarMiddle,
-            StanceBarRight
+            StanceBarRight,
+            OverrideActionBarHealthBarOverlay,
+            OverrideActionBarHealthBarBackground,
+            OverrideActionBarPowerBarOverlay,
+            OverrideActionBarPowerBarBackground
         }
 
         SUI:Skin(MainMenuBarArtFrame)
         SUI:Skin(MainMenuExpBar)
         SUI:Skin(ActionBarUpButton, true)
         SUI:Skin(ActionBarDownButton, true)
+        SUI:Skin(MainMenuBarMaxLevelBar)
         SUI:Skin(frameList, true, true)
+        SUI:Skin(OverrideActionBar)
+        SUI:Skin(OverrideActionBarExpBarOverlayFrame)
+        SUI:Skin(OverrideActionBarExpBar)
     end
 end
