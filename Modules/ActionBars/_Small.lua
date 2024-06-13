@@ -155,6 +155,14 @@ function Module:OnEnable()
 		SUIStanceBar:SetPoint("TOP", SUIMultiBarBottomRight, "TOP", -45, 150)
 		SUIStanceBar:SetMovable(true)
 
+		MultiCastActionBarFrame:SetMovable(true)
+		MultiCastActionBarFrame:ClearAllPoints()
+		MultiCastActionBarFrame:SetParent(UIParent)
+
+		hooksecurefunc("MultiCastActionBarFrame_Update", function()
+			MultiCastActionBarFrame.SetPoint = function() end
+		end)
+
 		hooksecurefunc("StanceBar_Update", function()
 			StanceBarLeft:Hide();
 			StanceBarMiddle:Hide();
@@ -163,13 +171,12 @@ function Module:OnEnable()
 
 		local function updatePositions()
 			for i = 1, NUM_ACTIONBAR_BUTTONS do
-				local MainButton = _G["ActionButton" .. 1]
 				local button = _G["ActionButton" .. i]
 				local prevButton = _G["ActionButton" .. i - 1]
 
 				button:ClearAllPoints()
 
-				if (button == MainButton) then
+				if (i == 1) then
 					button:SetPoint("LEFT", SUIMainMenuBar, 0, 0)
 				else
 					button:SetPoint("LEFT", prevButton, size+spacing, 0)
@@ -177,13 +184,12 @@ function Module:OnEnable()
 			end
 
 			for i = 1, NUM_ACTIONBAR_BUTTONS do
-				local MainButton = _G["MultiBarBottomLeftButton" .. 1]
 				local button = _G["MultiBarBottomLeftButton" .. i]
 				local prevButton = _G["MultiBarBottomLeftButton" .. i - 1]
 
 				button:ClearAllPoints()
 
-				if (button == MainButton) then
+				if (i == 1) then
 					button:SetPoint("LEFT", SUIMultiBarBottomLeft, 0, 0)
 				else
 					button:SetPoint("LEFT", prevButton, size+spacing, 0)
@@ -191,13 +197,12 @@ function Module:OnEnable()
 			end
 
 			for i = 1, NUM_ACTIONBAR_BUTTONS do
-				local MainButton = _G["MultiBarBottomRightButton" .. 1]
 				local button = _G["MultiBarBottomRightButton" .. i]
 				local prevButton = _G["MultiBarBottomRightButton" .. i - 1]
 
 				button:ClearAllPoints()
 
-				if (button == MainButton) then
+				if (i == 1) then
 					button:SetPoint("LEFT", SUIMultiBarBottomRight, 0, 0)
 				else
 					button:SetPoint("LEFT", prevButton, size+spacing, 0)
@@ -205,13 +210,12 @@ function Module:OnEnable()
 			end
 
 			for i = 1, NUM_STANCE_SLOTS do
-				local MainButton = _G["StanceButton"..1]
 				local button = _G["StanceButton"..i]
 				local prevButton = _G["StanceButton"..i-1]
 
 				button:ClearAllPoints()
 
-				if (button == MainButton) then
+				if (i == 1) then
 					button:SetPoint("LEFT", SUIStanceBar, 0, 0)
 				else
 					button:SetPoint("LEFT", prevButton, 37.5, 0)
@@ -233,11 +237,19 @@ function Module:OnEnable()
 			MultiBarRightButton1:ClearAllPoints()
 			MultiBarRightButton1:SetPoint("RIGHT", UIParent, "RIGHT", -2, 150)
 
-			PetActionButton1:ClearAllPoints()
-			PetActionButton1:SetPoint("BOTTOMLEFT", MultiBarBottomRightButton1, "TOPLEFT", 25, 15)
+			if (SHOW_MULTI_ACTIONBAR_2) then
+				PetActionButton1:ClearAllPoints()
+          		PetActionButton1:SetPoint("BOTTOMLEFT", MultiBarBottomRightButton1, "TOPLEFT", 178, 11)
+			elseif (SHOW_MULTI_ACTIONBAR_1) then
+				PetActionButton1:ClearAllPoints()
+          		PetActionButton1:SetPoint("BOTTOMLEFT", MultiBarBottomRightButton1, "TOPLEFT", 178, -33)
+			else
+				PetActionButton1:ClearAllPoints()
+          		PetActionButton1:SetPoint("BOTTOMLEFT", MultiBarBottomRightButton1, "TOPLEFT", 178, -55)
+			end
 
 			PossessButton1:ClearAllPoints()
-			PossessButton1:SetPoint("BOTTOMLEFT", MultiBarBottomRightButton1, "TOPLEFT", 25, 30)			
+			PossessButton1:SetPoint("BOTTOMLEFT", MultiBarBottomRightButton1, "TOPLEFT", 25, 30)
 		end
 
 		updatePositions()
