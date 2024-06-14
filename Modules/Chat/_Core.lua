@@ -45,6 +45,31 @@ function Module:OnEnable()
                     frame:SetFont(frameFont, framePath, 'THINOUTLINE')
                     editBox:SetFont(editBoxFont, editBoxPath, 'THINOUTLINE')
                     editBoxHead:SetFont(editBoxHeadFont, editBoxHeadPath, 'THINOUTLINE')
+
+                    Mixin(editBox, BackdropTemplateMixin)
+                    editBox:SetBackdrop({
+                        bgFile = "Interface\\Buttons\\WHITE8x8",
+                        insets = {
+                            left = 3, right = 3, top = 2, bottom = 2
+                        }
+                    })
+
+                    editBox:SetBackdropColor(0, 0, 0, 0.5)
+                    CreateBorder(editBox, 11)
+                    editBox:SetBorderPadding(-2, -1, -2, -1, -2, -1, -2, -1)
+                    --editBox:SetBorderTexture("Interface\\AddOns\\SUI\\Libs\\!Beautycase\\media\\textureNormalWhite")
+                    editBox:SetBorderTexture("Interface\\AddOns\\SUI\\Media\\Textures\\Chat\\border")
+                end
+            end)
+
+            hooksecurefunc("ChatEdit_UpdateHeader", function(frame)
+                local chatType = frame:GetAttribute("chatType")
+                if not chatType then return end
+
+                for _, frameName in pairs(CHAT_FRAMES) do
+                    local editBox = _G[frameName .. "EditBox"]
+                    local info = ChatTypeInfo[chatType]
+                    ColorBorder(editBox, info.r, info.g, info.b)
                 end
             end)
 
