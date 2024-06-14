@@ -12,5 +12,18 @@ function Module:OnEnable()
                 subText:SetTextColor(.8, .8, .8)
             end
         end
+
+        PrimaryProfession1Missing:GetTextColor()
+        PrimaryProfession1.missingText:SetTextColor(.8, .8, .8)
+        PrimaryProfession2.missingText:SetTextColor(.8, .8, .8)
+        SecondaryProfession1Missing:SetTextColor(.85, .7, .6)
+        SecondaryProfession2Missing:SetTextColor(.85, .7, .6)
+        SecondaryProfession3Missing:SetTextColor(.85, .7, .6)
+        SecondaryProfession4Missing:SetTextColor(.85, .7, .6)
+
+        SecondaryProfession1.missingText:SetTextColor(.8, .8, .8)
+        SecondaryProfession2.missingText:SetTextColor(.8, .8, .8)
+        SecondaryProfession3.missingText:SetTextColor(.8, .8, .8)
+        SecondaryProfession4.missingText:SetTextColor(.8, .8, .8)
     end
 end
