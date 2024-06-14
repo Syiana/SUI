@@ -10,7 +10,13 @@ function Module:OnEnable()
         CastingBarFrame.Border:SetVertexColor(unpack(SUI:Color(0.15)))
         MirrorTimer1Border:SetVertexColor(.15, .15, .15)
     end
-    
+
+    CastingBarFrame:HookScript("OnEvent", function(self)
+        if (self.notInterruptible) then
+            self:SetStatusBarColor(.7, .7, .7)
+        end
+    end)
+
     if (db.style == 'Custom') then
         if not InCombatLockdown() then
             CastingBarFrame.ignoreFramePositionManager = true

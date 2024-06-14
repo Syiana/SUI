@@ -13,6 +13,12 @@ function Module:OnEnable()
     if (SUI:Color()) then
         TargetFrameSpellBar.Border:SetVertexColor(unpack(SUI:Color(0.15)))
     end
+
+    TargetFrameSpellBar:HookScript("OnEvent", function(self)
+        if (self.notInterruptible) then
+            self:SetStatusBarColor(.7, .7, .7)
+        end
+    end)
     
     if (db.style == 'Custom') then
         if not InCombatLockdown() then

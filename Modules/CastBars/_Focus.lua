@@ -15,6 +15,13 @@ function Module:OnEnable()
             
         end
     end
+
+    FocusFrameSpellBar:HookScript("OnEvent", function(self)
+        if (self.notInterruptible) then
+            self:SetStatusBarColor(.7, .7, .7)
+        end
+    end)
+
     -- Color
     FocusFrameSpellBar.Border:SetVertexColor(unpack(SUI:Color(0.15)))
     FocusFrameSpellBar.Border:SetDrawLayer("OVERLAY", 1)
