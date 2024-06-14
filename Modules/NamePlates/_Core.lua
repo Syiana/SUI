@@ -96,6 +96,19 @@ function Module:OnEnable()
                 self.CastBar:SetStatusBarTexture(db.texture)
                 self.CastBar:GetStatusBarTexture():SetDrawLayer("BORDER")
 
+                if (db.totems) then
+                    if UnitCanAttack("player", self.unit) then
+                        local _, _, _, _, _, id = strsplit("-", UnitGUID(self.unit) or "")
+                        if id == "3527" then
+                            self.healthBar:SetStatusBarColor(0, 0.85, 1)
+                        elseif id == "5925" then
+                            self.healthBar:SetStatusBarColor(0.68, 0, 1)
+                        elseif id == "53006" then
+                            self.healthBar:SetStatusBarColor(0.7, 1, 0.48)
+                        end
+                    end
+                end
+
                 if not self.barFixed then
                     self.healthBar:SetWidth(self.healthBar:GetWidth()-0.7)
 
