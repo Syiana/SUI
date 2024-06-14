@@ -34,42 +34,28 @@ function Module:OnEnable()
         end
 
         local function _updateItems(unit, frame)
-            for i = 1, 17 do
-                local color = '|cFFFFFF00'
+            for i = 1, 18 do
                 local itemLink = GetInventoryItemLink(unit, i)
+                local quality = GetInventoryItemQuality(unit, i)
+
                 if i ~= 4 and ((frame == f and (equiped[i] ~= itemLink or frame[i]:GetText() == nil or itemLink == nil and frame[i]:GetText() ~= "")) or frame == g) then
                     if frame == f then
                         equiped[i] = itemLink
                     end
 
-                    local delay = false
                     if itemLink then
-                        local _, _, quality = GetItemInfo(itemLink)
-                        if (quality == 6) and (i == 16 or i == 17) then
-                            local relics = { select(4, strsplit(":", itemLink)) }
-                            for i = 1, 3 do
-                                local relicID = relics[i] ~= "" and relics[i]
-                                local relicLink = select(2, GetItemGem(itemLink, i))
-                                if relicID and not relicLink then
-                                    delay = true
-                                end
-                            end
-                            if delay then
-                                C_Timer.After(0.1, function()
-                                    local realItemLevel = _getRealItemLevel(i, unit)
-                                    realItemLevel = realItemLevel or ""
-                                    frame[i]:SetText(color .. realItemLevel)
-                                end)
-                            end
-                        end
-                    end
+                        local realItemLevel = _getRealItemLevel(i, unit)
+                        realItemLevel = realItemLevel or ""
 
-                    local realItemLevel = _getRealItemLevel(i, unit)
-                    realItemLevel = realItemLevel or ""
-                    if realItemLevel and realItemLevel == 1 then
-                        realItemLevel = ""
+                        local itemiLvlText = "";
+                        if(quality)then
+                            local hex = select(4,GetItemQualityColor(quality));
+                            itemiLvlText = "|c"..hex..realItemLevel.."|r";
+                        else
+                            itemiLvlText = realItemLevel;
+                        end
+                        frame[i]:SetText(itemiLvlText)
                     end
-                    frame[i]:SetText(color .. realItemLevel)
                 end
             end
         end
@@ -102,6 +88,7 @@ function Module:OnEnable()
 
             f[16] = _stringFactory(_G.CharacterMainHandSlot)
             f[17] = _stringFactory(_G.CharacterSecondaryHandSlot)
+            f[18] = _stringFactory(_G.CharacterRangedSlot)
 
             f:Hide()
         end
@@ -134,6 +121,7 @@ function Module:OnEnable()
 
             g[16] = _stringFactory(_G.InspectMainHandSlot)
             g[17] = _stringFactory(_G.InspectSecondaryHandSlot)
+            g[18] = _stringFactory(_G.InspectRangedSlot)
 
             g:Hide()
         end
@@ -153,7 +141,7 @@ function Module:OnEnable()
 
                 _G.PaperDollFrame:HookScript("OnShow", function(self)
                     f:RegisterEvent("PLAYER_EQUIPMENT_CHANGED")
-                    f:RegisterEvent("ARTIFACT_UPDATE")
+                    --f:RegisterEvent("ARTIFACT_UPDATE")
                     f:RegisterEvent("SOCKET_INFO_UPDATE")
                     f:RegisterEvent("COMBAT_RATING_UPDATE")
                     _updateItems("player", f)
@@ -162,7 +150,7 @@ function Module:OnEnable()
 
                 _G.PaperDollFrame:HookScript("OnHide", function(self)
                     f:UnregisterEvent("PLAYER_EQUIPMENT_CHANGED")
-                    f:UnregisterEvent("ARTIFACT_UPDATE")
+                    --f:UnregisterEvent("ARTIFACT_UPDATE")
                     f:UnregisterEvent("SOCKET_INFO_UPDATE")
                     f:UnregisterEvent("COMBAT_RATING_UPDATE")
                     f:Hide()
@@ -172,6 +160,7 @@ function Module:OnEnable()
                 if (...) == 16 then
                     equiped[16] = nil
                     equiped[17] = nil
+                    equiped[18] = nil
                 end
                 _updateItems("player", f)
             end
@@ -223,22 +212,18 @@ function Module:OnEnable()
                 return
             end
             if ItemLink then
-                local itemName, itemLink, itemRarity, itemLevel, itemMinLevel, itemType, itemSubType, itemStackCount, itemEquipLoc, itemTexture, itemSellPrice =
-                GetItemInfo(ItemLink)
-                local name, _ = GetItemSpell(ItemLink)
-                local _, equipped, _ = GetAverageItemLevel()
-                if itemLevel == nil then return end
-                if itemLevel >= (98 * equipped / 100) then
-                    button.levelString:SetTextColor(0, 1, 0)
+                local itemiLvlText = ""
+                local ilvl = GetDetailedItemLevelInfo(ItemLink)
+                local _, _, quality, _, _, _, _, _, _, _ = C_Item.GetItemInfo(ItemLink)
+                --local quality = GetInventoryItemQuality(unit, slot)
+                if (quality) then
+                    local hex = select(4,GetItemQualityColor(quality))
+                    itemiLvlText = "|c"..hex..ilvl.."|r"
                 else
-                    button.levelString:SetTextColor(1, 1, 1)
+                    itemiLvlText = ilvl
                 end
-                if itemEquipLoc >= " " and itemLevel > 0 and itemRarity > 1 then
-                    if itemRarity < 7 then
-                        button.levelString:SetText(itemLevel)
-                    end
-                else
-                    button.levelString:SetText("")
+                if ilvl > 200 then
+                    button.levelString:SetText(itemiLvlText)
                 end
             else
                 button.levelString:SetText("")

@@ -8,7 +8,7 @@ function Module:OnEnable()
         local Slots = {
             "HeadSlot", "NeckSlot", "ShoulderSlot", "BackSlot", "ChestSlot", "WristSlot",
             "HandsSlot", "WaistSlot", "LegsSlot", "FeetSlot", "Finger0Slot", "Finger1Slot",
-            "Trinket0Slot", "Trinket1Slot", "MainHandSlot", "SecondaryHandSlot"
+            "Trinket0Slot", "Trinket1Slot", "MainHandSlot", "SecondaryHandSlot", "RangedSlot"
         }
         local SlotIDs = {}
         for _, slotName in ipairs(Slots) do
@@ -30,7 +30,8 @@ function Module:OnEnable()
                 InspectWristSlot,
                 InspectHandsSlot, InspectWaistSlot, InspectLegsSlot, InspectFeetSlot, InspectFinger0Slot,
                 InspectFinger1Slot,
-                InspectTrinket0Slot, InspectTrinket1Slot, InspectMainHandSlot, InspectSecondaryHandSlot
+                InspectTrinket0Slot, InspectTrinket1Slot, InspectMainHandSlot, InspectSecondaryHandSlot,
+                InspectRangedSlot
             }
 
             for _, f in ipairs(InspectFrameList) do
@@ -65,13 +66,20 @@ function Module:OnEnable()
             end
 
             for _, slotName in ipairs(Slots) do
+                local itemiLvlText = ""
                 local frameName = "Inspect" .. slotName
                 local slotilvl = ""
                 if ItemLinks[slotName] then
                     slotilvl = GetDetailedItemLevelInfo(ItemLinks[slotName])
-                    InspectFontStrings[frameName]:SetTextColor(1, 1, 0)
+                    local _, _, quality, _, _, _, _, _, _, _ = C_Item.GetItemInfo(ItemLinks[slotName])
+                    if (quality) then
+                        local hex = select(4,GetItemQualityColor(quality))
+                        itemiLvlText = "|c"..hex..slotilvl.."|r"
+                    else
+                        itemiLvlText = slotilvl
+                    end
                 end
-                InspectFontStrings[frameName]:SetText(slotilvl)
+                InspectFontStrings[frameName]:SetText(itemiLvlText)
             end
         end
 
