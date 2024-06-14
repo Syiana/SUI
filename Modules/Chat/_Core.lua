@@ -16,12 +16,37 @@ function Module:OnEnable()
             CHAT_FRAME_TAB_NORMAL_MOUSEOVER_ALPHA = 1
             CHAT_FRAME_TAB_NORMAL_NOMOUSE_ALPHA = 0
 
-            for i = 1, 7 do
-                local chat = _G["ChatFrame" .. i]
-                chat:SetFading(1)
-                local font, path = chat:GetFont()
-                chat:SetFont(font, path, 'THINOUTLINE')
-            end
+            local chatFrame = CreateFrame("Frame")
+            chatFrame:RegisterEvent("UPDATE_CHAT_WINDOWS")
+            chatFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
+            chatFrame:RegisterEvent("UPDATE_CHAT_COLOR")
+            chatFrame:RegisterEvent("UPDATE_CHAT_WINDOWS")
+            chatFrame:RegisterEvent("CHAT_MSG_CHANNEL")
+            chatFrame:RegisterEvent("CHAT_MSG_COMMUNITIES_CHANNEL")
+            chatFrame:RegisterEvent("CHAT_MSG_WHISPER")
+            chatFrame:RegisterEvent("CHAT_MSG_WHISPER_INFORM")
+            chatFrame:RegisterEvent("CHAT_SERVER_DISCONNECTED")
+            chatFrame:RegisterEvent("CHAT_SERVER_RECONNECTED")
+            chatFrame:RegisterEvent("BN_CONNECTED")
+            chatFrame:RegisterEvent("BN_DISCONNECTED")
+            chatFrame:RegisterEvent("CHAT_MSG_BN_WHISPER")
+            chatFrame:RegisterEvent("CHAT_MSG_BN_WHISPER_INFORM")
+            chatFrame:HookScript("OnEvent", function(self, event)
+                for _, frameName in pairs(CHAT_FRAMES) do
+                    local frame = _G[frameName]
+                    local editBox = _G[frameName .. "EditBox"]
+                    local editBoxHead = _G[frameName .. "EditBoxHeader"]
+
+                    local frameFont, framePath = frame:GetFont()
+                    local editBoxFont, editBoxPath = editBox:GetFont()
+                    local editBoxHeadFont, editBoxHeadPath = editBoxHead:GetFont()
+
+                    frame:SetFading(1)
+                    frame:SetFont(frameFont, framePath, 'THINOUTLINE')
+                    editBox:SetFont(editBoxFont, editBoxPath, 'THINOUTLINE')
+                    editBoxHead:SetFont(editBoxHeadFont, editBoxHeadPath, 'THINOUTLINE')
+                end
+            end)
 
             BNToastFrame:SetClampedToScreen(true)
             BNToastFrame:SetClampRectInsets(-15, 15, 15, -15)
