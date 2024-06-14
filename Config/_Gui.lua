@@ -505,6 +505,14 @@ function Gui:OnEnable()
                         label = 'Name in Class Color',
                         column = 4,
                         order = 1
+                    },
+                    totems = {
+                        key = 'nameplates.totems',
+                        type = 'checkbox',
+                        label = 'Highlight Totems',
+                        tooltip = 'Colorize Grounding/Healing Stream/Spirit Link Totem-Nameplates',
+                        column = 4,
+                        order = 2
                     }
                 }
             },

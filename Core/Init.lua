@@ -67,6 +67,7 @@ local defaults = {
             health = true,
             casttime = true,
             classcolor = true,
+            totems = true,
         },
         actionbar = {
             style = 'Default',
@@ -241,6 +242,7 @@ function SUI:OnInitialize()
             ["InspectTrinket1SlotIconTexture"] = true,
             ["InspectMainHandSlotIconTexture"] = true,
             ["InspectSecondarySlotIconTexture"] = true,
+            ["InspectSecondaryHandSlotIconTexture"] = true,
             ["InspectRangedSlotIconTexture"] = true,
             ["GossipFrame.ParchmentFrame"] = true,
             ["QuestFrameDetailPanel.ParchmentFrame"] = true,
