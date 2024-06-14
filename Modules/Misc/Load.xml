@@ -6,4 +6,5 @@
 	<!-- <Script file="_Dampening.lua"/> -->
 	<Script file="_Arenanameplate.lua"/>
 	<Script file="_Surrender.lua"/>
+	<Script file="_Vendorprice.lua"/>
 </Ui>
