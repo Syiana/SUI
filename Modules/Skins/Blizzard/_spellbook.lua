@@ -13,6 +13,8 @@ function Module:OnEnable()
             end
         end
 
+        SpellBookPageText:SetTextColor(.8, .8, .8)
+
         PrimaryProfession1Missing:GetTextColor()
         PrimaryProfession1.missingText:SetTextColor(.8, .8, .8)
         PrimaryProfession2.missingText:SetTextColor(.8, .8, .8)

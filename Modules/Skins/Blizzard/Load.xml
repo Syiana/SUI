@@ -36,6 +36,7 @@
   <Include file='_Pvpui.lua'/>
   <Include file='_Quest.lua'/>
   <Include file='_Raidframe.lua'/>
+  <Include file='_Reforge.lua'/>
   <Include file='_Scrappingmachine.lua'/>
   <Include file='_Spellbook.lua'/>
   <Include file='_Talents.lua'/>
@@ -44,4 +45,5 @@
   <Include file='_Tooltip.lua'/>
   <Include file='_Tradeskill.lua'/>
   <Include file='_Unitframes.lua'/>
+  <Include file='_Wardrobe.lua'/>
 </Ui>

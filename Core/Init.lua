@@ -268,6 +268,18 @@ function SUI:OnInitialize()
             ["TimeManagerGlobe"] = true,
             ["MacroFramePortrait"] = true,
             ["OpenMailFrameIcon"] = true,
+            ["ChatFrame1Background"] = true,
+            ["ChatFrame2Background"] = true,
+            ["ChatFrame3Background"] = true,
+            ["ChatFrame4Background"] = true,
+            ["ChatFrame5Background"] = true,
+            ["ChatFrame6Background"] = true,
+            ["ChatFrame7Background"] = true,
+            ["ChatFrame8Background"] = true,
+            ["ChatFrame9Background"] = true,
+            ["ChatFrame10Background"] = true,
+            ["ReforgingFramePortrait"] = true,
+            ["SpellBookSkillLineTab1.Portrait"] = true
         }
 
         if (isTable) then
