@@ -11,8 +11,6 @@ function Module:OnEnable()
         MirrorTimer1Border:SetVertexColor(.15, .15, .15)
     end
 
-
-
     CastingBarFrame:HookScript("OnEvent", function()
         local name, text, texture, startTime, endTime, isTradeSkill, castID, notInterruptible = UnitCastingInfo("player")
         if (notInterruptible) then
@@ -58,6 +56,9 @@ function Module:OnEnable()
 
             MirrorTimer1Border:SetTexture("Interface\\CastingBar\\UI-CastingBar-Border-Small")
             MirrorTimer1Border:SetPoint("TOP", 0, 26)
+
+            --TimerTrackerTimer1StatusBarBorder:SetTexture("Interface\\CastingBar\\UI-CastingBar-Border-Small")
+            --TimerTrackerTimer1StatusBarBorder:SetPoint("TOP", 0, 26)
 
             if (db.texture ~= 'Default') then
                 CastingBarFrame:SetStatusBarTexture(db.texture)

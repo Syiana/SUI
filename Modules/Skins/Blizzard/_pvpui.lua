@@ -23,5 +23,16 @@ function Module:OnEnable()
         SUI:Skin(WarGamesFrameInfoScrollFrameScrollBar)
         SUI:Skin(WarGamesFrameInfoScrollFrame.ScrollBar)
         SUI:Skin(WarGamesFrameInfoScrollFrame.ScrollBar.Background)
+
+        local f = CreateFrame("Frame")
+        f:RegisterEvent("ADDON_LOADED")
+        f:SetScript("OnEvent", function(self, event, name)
+            if name == "Blizzard_ArenaUI" then
+                SUI:Skin(WorldStateScoreFrame)
+                SUI:Skin(WorldStateScoreFrameTab1)
+                SUI:Skin(WorldStateScoreFrameTab2)
+                SUI:Skin(WorldStateScoreFrameTab3)
+            end
+        end)
     end
 end

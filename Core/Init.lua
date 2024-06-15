@@ -284,22 +284,24 @@ function SUI:OnInitialize()
             ["TradeFramePlayerPortrait"] = true
         }
 
-        if (isTable) then
-            for _, v in pairs(frame) do
-                if (customColor) then
-                    v:SetVertexColor(unpack(SUI:Color(.15)))
-                else
-                    v:SetVertexColor(.15, .15, .15)
+        if (frame) then
+            if (isTable) then
+                for _, v in pairs(frame) do
+                    if (customColor) then
+                        v:SetVertexColor(unpack(SUI:Color(.15)))
+                    else
+                        v:SetVertexColor(.15, .15, .15)
+                    end
                 end
-            end
-        else
-            for _, v in pairs({ frame:GetRegions() }) do
-                if v:GetObjectType() == "Texture" then
-                    if not (forbiddenFrames[v:GetName()]) then
-                        if (customColor) then
-                            v:SetVertexColor(unpack(SUI:Color(.15)))
-                        else
-                            v:SetVertexColor(.15, .15, .15)
+            else
+                for _, v in pairs({ frame:GetRegions() }) do
+                    if v:GetObjectType() == "Texture" then
+                        if not (forbiddenFrames[v:GetName()]) then
+                            if (customColor) then
+                                v:SetVertexColor(unpack(SUI:Color(.15)))
+                            else
+                                v:SetVertexColor(.15, .15, .15)
+                            end
                         end
                     end
                 end
