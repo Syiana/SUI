@@ -11,9 +11,23 @@ function Module:OnEnable()
         MirrorTimer1Border:SetVertexColor(.15, .15, .15)
     end
 
-    CastingBarFrame:HookScript("OnEvent", function(self)
-        if (self.notInterruptible) then
-            self:SetStatusBarColor(.7, .7, .7)
+
+
+    CastingBarFrame:HookScript("OnEvent", function()
+        local name, text, texture, startTime, endTime, isTradeSkill, castID, notInterruptible = UnitCastingInfo("player");
+        if (notInterruptible) then
+            CastingBarFrame:SetStatusBarColor(.7, .7, .7)
+        else
+            local color
+            local isChannel = UnitChannelInfo("player");
+
+            if (isChannel) then
+                color = CastingBarFrame.startChannelColor
+            else
+                color = CastingBarFrame.startCastColor
+            end
+
+            CastingBarFrame:SetStatusBarColor(color.r, color.g, color.b)
         end
     end)
 

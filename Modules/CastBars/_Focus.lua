@@ -17,8 +17,20 @@ function Module:OnEnable()
     end
 
     FocusFrameSpellBar:HookScript("OnEvent", function(self)
-        if (self.notInterruptible) then
+        local name, text, texture, startTime, endTime, isTradeSkill, castID, notInterruptible = UnitCastingInfo(self.unit);
+        if (notInterruptible) then
             self:SetStatusBarColor(.7, .7, .7)
+        else
+            local color
+            local isChannel = UnitChannelInfo(self.unit);
+
+            if (isChannel) then
+                color = self.startChannelColor
+            else
+                color = self.startCastColor
+            end
+
+            self:SetStatusBarColor(color.r, color.g, color.b)
         end
     end)
 
