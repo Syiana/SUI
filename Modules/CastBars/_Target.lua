@@ -15,7 +15,7 @@ function Module:OnEnable()
     end
 
     TargetFrameSpellBar:HookScript("OnEvent", function(self)
-        local name, text, texture, startTime, endTime, isTradeSkill, castID, notInterruptible = UnitCastingInfo(self.unit);
+        local name, text, texture, startTime, endTime, isTradeSkill, castID, notInterruptible = UnitCastingInfo(self.unit)
         if (notInterruptible) then
             self:SetStatusBarColor(.7, .7, .7)
         else

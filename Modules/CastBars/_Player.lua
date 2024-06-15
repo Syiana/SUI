@@ -14,7 +14,7 @@ function Module:OnEnable()
 
 
     CastingBarFrame:HookScript("OnEvent", function()
-        local name, text, texture, startTime, endTime, isTradeSkill, castID, notInterruptible = UnitCastingInfo("player");
+        local name, text, texture, startTime, endTime, isTradeSkill, castID, notInterruptible = UnitCastingInfo("player")
         if (notInterruptible) then
             CastingBarFrame:SetStatusBarColor(.7, .7, .7)
         else
