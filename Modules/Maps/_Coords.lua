@@ -7,17 +7,30 @@ function Module:OnEnable()
 		coords:SetFrameLevel(WorldMapFrame.BorderFrame:GetFrameLevel() + 2)
 		coords:SetFrameStrata(WorldMapFrame.BorderFrame:GetFrameStrata())
 		coords.PlayerText = coords:CreateFontString("PlayerCoords", "ARTWORK", "GameFontNormal")
-		coords.PlayerText:SetPoint("BOTTOMLEFT", WorldMapFrame.ScrollContainer, "BOTTOMLEFT", 0, -20)
-		coords.PlayerText:SetJustifyH("LEFT")
+		local playerFont = coords.PlayerText:GetFont()
+		coords.PlayerText:SetFont(playerFont, 10)
 		coords.PlayerText:SetText(UnitName("player") .. ": 0,0")
 
 		coords.MouseText = coords:CreateFontString("MouseCoords", "ARTWORK", "GameFontNormal")
-		coords.MouseText:SetJustifyH("LEFT")
-		coords.MouseText:SetPoint("BOTTOMLEFT", WorldMapFrame.ScrollContainer, "BOTTOMLEFT", 125, -20)
+		local mouseFont = coords.MouseText:GetFont()
+		coords.MouseText:SetFont(mouseFont, 10)
 		coords.MouseText:SetText(": 0,0")
 
 		local int = 0
 		WorldMapFrame:HookScript("OnUpdate", function(self)
+			if (WorldMapFrame:GetHeight() == 768) then
+				coords.PlayerText:SetPoint("TOPLEFT", WorldMapFrame.ScrollContainer, "TOPLEFT", 0, 65)
+				coords.PlayerText:SetJustifyH("LEFT")
+
+				coords.MouseText:SetJustifyH("LEFT")
+				coords.MouseText:SetPoint("TOPLEFT", WorldMapFrame.ScrollContainer, "TOPLEFT", 125, 65)
+			else
+				coords.PlayerText:SetPoint("TOPLEFT", WorldMapFrame.ScrollContainer, "TOPLEFT", 0, 20)
+				coords.PlayerText:SetJustifyH("LEFT")
+
+				coords.MouseText:SetJustifyH("LEFT")
+				coords.MouseText:SetPoint("TOPLEFT", WorldMapFrame.ScrollContainer, "TOPLEFT", 125, 20)
+			end
 			int = int + 1
 			if int >= 3 then
 				local UnitMap = C_Map.GetBestMapForUnit("player")

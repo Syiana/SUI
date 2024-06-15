@@ -279,7 +279,9 @@ function SUI:OnInitialize()
             ["ChatFrame9Background"] = true,
             ["ChatFrame10Background"] = true,
             ["ReforgingFramePortrait"] = true,
-            ["SpellBookSkillLineTab1.Portrait"] = true
+            ["SpellBookSkillLineTab1.Portrait"] = true,
+            ["TradeFrameRecipientPortrait"] = true,
+            ["TradeFramePlayerPortrait"] = true
         }
 
         if (isTable) then
