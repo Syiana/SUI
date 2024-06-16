@@ -84,6 +84,12 @@ local defaults = {
                 mouseovermicro = false,
                 mouseoverbags = false,
             },
+            mouseover = {
+                bar3 = false,
+                bar4 = false,
+                bar5 = false,
+                stancebar = false
+            },
             gryphones = true,
         },
         castbars = {

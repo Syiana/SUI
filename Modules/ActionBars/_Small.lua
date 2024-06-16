@@ -64,6 +64,8 @@ function Module:OnEnable()
 
 		-- MicroMenu Position
 		MoveMicroButtons("BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", -275, 0)
+		CharacterMicroButton.ClearAllPoints = function() end
+		CharacterMicroButton.SetPoint = function() end
 
 		-- Bag Buttons Position
 		MainMenuBarBackpackButton:ClearAllPoints()
@@ -155,9 +157,15 @@ function Module:OnEnable()
 		SUIStanceBar:SetPoint("TOP", SUIMultiBarBottomRight, "TOP", -45, 150)
 		SUIStanceBar:SetMovable(true)
 
+		SUIPetActionBar = CreateFrame("Frame", "SUIPetActionBar", UIParent)
+		SUIPetActionBar:SetSize(14 * 10, size)
+		SUIPetActionBar:SetPoint("TOP", SUIMultiBarBottomRight, "TOP", -45, 150)
+		SUIPetActionBar:SetMovable(true)
+
 		MultiCastActionBarFrame:SetMovable(true)
 		MultiCastActionBarFrame:ClearAllPoints()
 		MultiCastActionBarFrame:SetParent(UIParent)
+		MultiCastActionBarFrame:SetPoint("BOTTOM", UIParent, "BOTTOM", 45, 150)
 
 		hooksecurefunc("MultiCastActionBarFrame_Update", function()
 			MultiCastActionBarFrame.SetPoint = function() end
@@ -214,9 +222,23 @@ function Module:OnEnable()
 				local prevButton = _G["StanceButton"..i-1]
 
 				button:ClearAllPoints()
+				button:SetParent(SUIStanceBar)
 
 				if (i == 1) then
 					button:SetPoint("LEFT", SUIStanceBar, 0, 0)
+				else
+					button:SetPoint("LEFT", prevButton, 37.5, 0)
+				end
+			end
+
+			for i = 1, NUM_PET_ACTION_SLOTS do
+				local button = _G["PetActionButton"..i]
+				local prevButton = _G["PetActionButton"..i-1]
+
+				button:ClearAllPoints()
+
+				if (i == 1) then
+					button:SetPoint("LEFT", SUIPetActionBar, 0, 0)
 				else
 					button:SetPoint("LEFT", prevButton, 37.5, 0)
 				end
@@ -236,17 +258,6 @@ function Module:OnEnable()
 
 			MultiBarRightButton1:ClearAllPoints()
 			MultiBarRightButton1:SetPoint("RIGHT", UIParent, "RIGHT", -2, 150)
-
-			if (SHOW_MULTI_ACTIONBAR_2) then
-				PetActionButton1:ClearAllPoints()
-          		PetActionButton1:SetPoint("BOTTOMLEFT", MultiBarBottomRightButton1, "TOPLEFT", 178, 11)
-			elseif (SHOW_MULTI_ACTIONBAR_1) then
-				PetActionButton1:ClearAllPoints()
-          		PetActionButton1:SetPoint("BOTTOMLEFT", MultiBarBottomRightButton1, "TOPLEFT", 178, -33)
-			else
-				PetActionButton1:ClearAllPoints()
-          		PetActionButton1:SetPoint("BOTTOMLEFT", MultiBarBottomRightButton1, "TOPLEFT", 178, -55)
-			end
 
 			PossessButton1:ClearAllPoints()
 			PossessButton1:SetPoint("BOTTOMLEFT", MultiBarBottomRightButton1, "TOPLEFT", 25, 30)

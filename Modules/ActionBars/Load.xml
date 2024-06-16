@@ -3,6 +3,7 @@
 	<Script file = "_Gryphones.lua"/>
 	<Script file = "_Range.lua"/>
 	<Script file = "_Flash.lua"/>
-  <Script file = "_Small.lua"/>
+  	<Script file = "_Small.lua"/>
 	<Script file = "_DefaultNoBg.lua" />
+	<Script file = "_Mouseover.lua" />
 </Ui>

@@ -613,27 +613,61 @@ function Gui:OnEnable()
                 {
                     header = {
                         type = 'header',
-                        label = 'Micro Menu'
+                        label = 'Mouseover'
                     },
                 },
                 {
                     mouseoverMicro = {
                         key = 'menu.mouseovermicro',
                         type = 'checkbox',
-                        label = 'MicroMenu Mouseover',
+                        label = 'MicroMenu',
                         tooltip = 'Show MicroMenu on mouseover',
                         column = 4,
-                        order = 2
+                        order = 1
                     },
                     mouseoverBagButtons = {
                         key = 'menu.mouseoverbags',
                         type = 'checkbox',
-                        label = 'BagButtons Mouseover',
+                        label = 'BagButtons',
                         tooltip = 'Show Bag Buttons on mouseover',
                         column = 4,
-                        order = 3
+                        order = 2
                     },
+                    actionBar3 = {
+                        key = 'mouseover.bar3',
+                        type = 'checkbox',
+                        label = 'ActionBar 3',
+                        tooltip = 'Show ActionBar 3 on mouseover',
+                        column = 4,
+                        order = 3
+                    }
                 },
+                {
+                    actionBar4 = {
+                        key = 'mouseover.bar4',
+                        type = 'checkbox',
+                        label = 'ActionBar 4',
+                        tooltip = 'Show ActionBar 4 on mouseover',
+                        column = 4,
+                        order = 1
+                    },
+                    actionBar5 = {
+                        key = 'mouseover.bar5',
+                        type = 'checkbox',
+                        label = 'ActionBar 5',
+                        tooltip = 'Show ActionBar 5 on mouseover',
+                        column = 4,
+                        order = 2
+                    },
+                    stanceBar = {
+                        key = 'mouseover.stancebar',
+                        type = 'checkbox',
+                        label = 'Stance Bar',
+                        tooltip = 'Show Stance Bar on mouseover',
+                        column = 4,
+                        order = 3
+                    }
+                }
             },
         },
         Castbars = {

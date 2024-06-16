@@ -22,5 +22,8 @@ function Module:OnEnable()
         SUI:Skin(LFGListFrame.EntryCreation.CancelButton)
         SUI:Skin(LFGListFrame.EntryCreation.ListGroupButton)
         SUI:Skin(LFGListFrame.EntryCreation.Inset)
+        SUI:Skin(LFGListApplicationDialog.SignUpButton)
+        SUI:Skin(LFGListApplicationDialog.CancelButton)
+        SUI:Skin(LFGListApplicationDialog.Border)
     end
 end
