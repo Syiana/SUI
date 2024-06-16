@@ -64,7 +64,8 @@ function Edit:OnEnable()
 		"SUIMainMenuBar",
 		"SUIStanceBar",
 		"MultiCastActionBarFrame",
-		"SUIPetActionBar"
+		"SUIPetActionBar",
+		"PossessButton1"
 	}
 
 	-- Create DragFrame for Elements

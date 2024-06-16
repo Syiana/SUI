@@ -25,5 +25,8 @@ function Module:OnEnable()
         SUI:Skin(LFGListApplicationDialog.SignUpButton)
         SUI:Skin(LFGListApplicationDialog.CancelButton)
         SUI:Skin(LFGListApplicationDialog.Border)
+        SUI:Skin(LFDRoleCheckPopup.Border)
+        SUI:Skin(LFDRoleCheckPopupAcceptButton)
+        SUI:Skin(LFDRoleCheckPopupDeclineButton)
     end
 end

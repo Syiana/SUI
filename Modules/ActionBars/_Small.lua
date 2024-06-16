@@ -1,4 +1,4 @@
-local Module = SUI:NewModule("ActionBars.Small");
+local Module = SUI:NewModule("ActionBars.Small")
 
 function Module:OnEnable()
 	local db = SUI.db.profile.actionbar
@@ -64,8 +64,6 @@ function Module:OnEnable()
 
 		-- MicroMenu Position
 		MoveMicroButtons("BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", -275, 0)
-		CharacterMicroButton.ClearAllPoints = function() end
-		CharacterMicroButton.SetPoint = function() end
 
 		-- Bag Buttons Position
 		MainMenuBarBackpackButton:ClearAllPoints()
@@ -167,14 +165,27 @@ function Module:OnEnable()
 		MultiCastActionBarFrame:SetParent(UIParent)
 		MultiCastActionBarFrame:SetPoint("BOTTOM", UIParent, "BOTTOM", 45, 150)
 
+		PossessButton1:SetMovable(true)
+		PossessButton1:ClearAllPoints()
+		PossessButton1:SetPoint("BOTTOM", UIParent, "BOTTOM", -300, 160)
+
 		hooksecurefunc("MultiCastActionBarFrame_Update", function()
 			MultiCastActionBarFrame.SetPoint = function() end
 		end)
 
 		hooksecurefunc("StanceBar_Update", function()
-			StanceBarLeft:Hide();
-			StanceBarMiddle:Hide();
-			StanceBarRight:Hide();
+			StanceBarLeft:Hide()
+			StanceBarMiddle:Hide()
+			StanceBarRight:Hide()
+		end)
+
+		OverrideActionBar:HookScript("OnEvent", function(self)
+			if (self:IsShown()) then
+				SUIStanceBar:Hide()
+			else
+				SUIStanceBar:Show()
+				MoveMicroButtons("BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", -275, 0)
+			end
 		end)
 
 		local function updatePositions()
@@ -263,9 +274,6 @@ function Module:OnEnable()
 
 			MultiBarRightButton1:ClearAllPoints()
 			MultiBarRightButton1:SetPoint("RIGHT", UIParent, "RIGHT", -2, 150)
-
-			PossessButton1:ClearAllPoints()
-			PossessButton1:SetPoint("BOTTOMLEFT", MultiBarBottomRightButton1, "TOPLEFT", 25, 30)
 		end
 
 		updatePositions()
