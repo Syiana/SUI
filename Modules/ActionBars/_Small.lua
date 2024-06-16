@@ -178,6 +178,11 @@ function Module:OnEnable()
 		end)
 
 		local function updatePositions()
+			if (GetNumShapeshiftForms() > 0) then
+				SUIStanceBar:Show()
+			else
+				SUIStanceBar:Hide()
+			end
 			for i = 1, NUM_ACTIONBAR_BUTTONS do
 				local button = _G["ActionButton" .. i]
 				local prevButton = _G["ActionButton" .. i - 1]
