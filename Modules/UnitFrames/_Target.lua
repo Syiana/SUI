@@ -103,8 +103,10 @@ function Module:OnEnable()
         local function SUIToTFrame()
             --textures
             if (db.texture ~= 'Default') then
-                TargetFrameToTHealthBar:SetStatusBarTexture(db.texture);
-                TargetFrameToTManaBar:SetStatusBarTexture(db.texture);
+                TargetFrameToTHealthBar:SetStatusBarTexture(db.texture)
+                TargetFrameToTManaBar:SetStatusBarTexture(db.texture)
+                FocusFrameToTHealthBar:SetStatusBarTexture(db.texture)
+                FocusFrameToTManaBar:SetStatusBarTexture(db.texture)
 
                 FocusFrameHealthBar.MyHealPredictionBar.Fill:SetTexture(db.texture)
                 FocusFrameHealthBar.MyHealPredictionBar.Fill:SetDrawLayer("BORDER")
