@@ -1,7 +1,6 @@
 local Module = SUI:NewModule("ActionBars.Mouseover");
 
 function Module:OnEnable()
-    if IsAddOnLoaded('Bartender4') or IsAddOnLoaded('Dominos') then return end
     MouseoverDefaultBars = LibStub("AceAddon-3.0"):NewAddon("MouseoverDefaultBars", "AceConsole-3.0", "AceTimer-3.0",
         "AceEvent-3.0", "AceHook-3.0")
     local db = SUI.db.profile.actionbar.mouseover
