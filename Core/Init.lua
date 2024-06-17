@@ -287,7 +287,8 @@ function SUI:OnInitialize()
             ["ReforgingFramePortrait"] = true,
             ["SpellBookSkillLineTab1.Portrait"] = true,
             ["TradeFrameRecipientPortrait"] = true,
-            ["TradeFramePlayerPortrait"] = true
+            ["TradeFramePlayerPortrait"] = true,
+            ["DressUpFramePortrait"] = true
         }
 
         if (frame) then
