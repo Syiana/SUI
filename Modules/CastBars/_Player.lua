@@ -12,8 +12,12 @@ function Module:OnEnable()
     end
 
     CastingBarFrame:HookScript("OnEvent", function()
-        local name, text, texture, startTime, endTime, isTradeSkill, castID, notInterruptible = UnitCastingInfo("player")
-        if (notInterruptible) then
+        local _, _, _, _, _, _, _, notInterruptibleCast = UnitCastingInfo("player")
+        local _, _, _, _, _, _, notInterruptibleChannel = UnitChannelInfo("player")
+
+        if (notInterruptibleCast) then
+            CastingBarFrame:SetStatusBarColor(.7, .7, .7)
+        elseif (notInterruptibleChannel) then
             CastingBarFrame:SetStatusBarColor(.7, .7, .7)
         else
             local color

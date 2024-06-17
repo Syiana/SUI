@@ -301,8 +301,8 @@ function SUI:OnInitialize()
                 end
             else
                 for _, v in pairs({ frame:GetRegions() }) do
-                    if v:GetObjectType() == "Texture" then
-                        if not (forbiddenFrames[v:GetName()]) then
+                    if not (forbiddenFrames[v:GetName()]) then
+                        if v:GetObjectType() == "Texture" then
                             if (customColor) then
                                 v:SetVertexColor(unpack(SUI:Color(.15)))
                             else

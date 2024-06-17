@@ -15,12 +15,16 @@ function Module:OnEnable()
     end
 
     TargetFrameSpellBar:HookScript("OnEvent", function(self)
-        local name, text, texture, startTime, endTime, isTradeSkill, castID, notInterruptible = UnitCastingInfo(self.unit)
-        if (notInterruptible) then
+        local _, _, _, _, _, _, _, notInterruptibleCast = UnitCastingInfo(self.unit)
+        local _, _, _, _, _, _, notInterruptibleChannel = UnitChannelInfo(self.unit)
+
+        if (notInterruptibleCast) then
+            self:SetStatusBarColor(.7, .7, .7)
+        elseif (notInterruptibleChannel) then
             self:SetStatusBarColor(.7, .7, .7)
         else
             local color
-            local isChannel = UnitChannelInfo(self.unit);
+            local isChannel = UnitChannelInfo("player");
 
             if (isChannel) then
                 color = self.startChannelColor
