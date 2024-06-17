@@ -2,6 +2,7 @@
 ## Author: Syiana & Muleyo
 ## Version: 4.4.0
 ## Title: |cfff58cbaS|r|cff009cffUI|r
+## Notes: Made with <3 by Syiana & Muleyo
 ## SavedVariables: SUIDB
 
 ## LIBS
