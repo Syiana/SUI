@@ -14,8 +14,6 @@ function Module:OnEnable()
                 PlayerFrameHealthBar.MyHealPredictionBar.Fill:SetTexture(db.texture)
                 PlayerFrameHealthBar.MyHealPredictionBar.Fill:SetDrawLayer("BORDER")
 
-                PlayerFrameHealthBar.MyHealPredictionBar.FillMask:SetTexture(db.texture)
-                PlayerFrameHealthBar.MyHealPredictionBar.FillMask:SetDrawLayer("BORDER")
                 --PlayerFrameHealthBar.MyHealPredictionBar.FillMask:SetTexture(db.texture)
                 --PlayerFrameHealthBar.MyHealPredictionBar.FillMask:GetTexture()
                 PlayerFrameAlternateManaBar:SetStatusBarTexture(db.texture)

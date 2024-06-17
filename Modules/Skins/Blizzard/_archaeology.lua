@@ -7,6 +7,8 @@ function Module:OnEnable()
         f:SetScript("OnEvent", function(self, event, name)
             if name == "Blizzard_ArchaeologyUI" then
                 SUI:Skin(ArchaeologyFrame)
+                SUI:Skin(ArchaeologyFrameArtifactPageSolveFrameSolveButton)
+                SUI:Skin(ArchaeologyFrameRaceFilter)
             end
         end)
     end
