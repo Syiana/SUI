@@ -127,7 +127,7 @@ function Module:OnEnable()
             if self:IsForbidden() then return end
 
             -- Classcolor Playername
-            if self.unit then
+            if self.unit and self.unit:find('nameplate%d') then
                 local _, class = UnitClass(self.unit)
                 local color = RAID_CLASS_COLORS[class]
                 if color then
