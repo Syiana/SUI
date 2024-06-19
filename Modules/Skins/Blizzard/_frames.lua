@@ -33,6 +33,11 @@ function Module:OnEnable()
         SUI:Skin(PVPReadyDialog)
         SUI:Skin(PVPReadyDialogEnterBattleButton)
         SUI:Skin(PVPReadyDialogHideButton)
+
+        SUI:Skin(ReadyCheckListenerFrame)
+        SUI:Skin(ReadyCheckFrameYesButton)
+        SUI:Skin(ReadyCheckFrameNoButton)
+
         local f = CreateFrame("Frame")
         f:RegisterEvent("ADDON_LOADED")
         f:SetScript("OnEvent", function(self, event, name)

@@ -31,5 +31,14 @@ function Module:OnEnable()
         SUI:Skin(CharacterFrameTab3)
         SUI:Skin(CharacterFrameTab4)
         SUI:Skin(ReputationListScrollFrame)
+
+        local f = CreateFrame("Frame")
+        f:RegisterEvent("ADDON_LOADED")
+        f:SetScript("OnEvent", function(self, event, name)
+            if name == "Blizzard_ItemSocketingUI" then
+                SUI:Skin(ItemSocketingFrame)
+                SUI:Skin(ItemSocketingSocketButton)
+            end
+        end)
     end
 end
