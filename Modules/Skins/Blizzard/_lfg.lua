@@ -34,5 +34,9 @@ function Module:OnEnable()
         SUI:Skin(LFGListFrame.ApplicationViewer.RemoveEntryButton)
         SUI:Skin(LFGListFrame.ApplicationViewer.EditButton)
         SUI:Skin(LFGListFrame.SearchPanel.BackToGroupButton)
+        SUI:Skin(LFGListFrame.ApplicationViewer.NameColumnHeader)
+        SUI:Skin(LFGListFrame.ApplicationViewer.RoleColumnHeader)
+        SUI:Skin(LFGListFrame.ApplicationViewer.ItemLevelColumnHeader)
+        LFGListFrame.ApplicationViewer.ScrollBox.NoApplicants:SetTextColor(.7, .7, .7)
     end
 end
