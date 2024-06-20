@@ -65,7 +65,6 @@ function Edit:OnEnable()
 		"SUIStanceBar",
 		"MultiCastActionBarFrame",
 		"SUIPetActionBar",
-		"PossessButton1"
 	}
 
 	-- Create DragFrame for Elements

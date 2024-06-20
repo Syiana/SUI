@@ -165,9 +165,14 @@ function Module:OnEnable()
 		MultiCastActionBarFrame:SetParent(UIParent)
 		MultiCastActionBarFrame:SetPoint("BOTTOM", UIParent, "BOTTOM", 45, 150)
 
-		PossessButton1:SetMovable(true)
-		PossessButton1:ClearAllPoints()
-		PossessButton1:SetPoint("BOTTOM", UIParent, "BOTTOM", -300, 160)
+		hooksecurefunc("MainMenuBarVehicleLeaveButton_Update", function()
+			MainMenuBarVehicleLeaveButton:ClearAllPoints()
+			MainMenuBarVehicleLeaveButton:SetPoint("LEFT", SUIMainMenuBar, "LEFT", -35, 25)
+		end)
+
+		MainMenuBarVehicleLeaveButton:ClearAllPoints()
+		MainMenuBarVehicleLeaveButton:SetParent(UIParent)
+		MainMenuBarVehicleLeaveButton:SetPoint("BOTTOM", UIParent, "BOTTOM", 45, 150)
 
 		hooksecurefunc("MultiCastActionBarFrame_Update", function()
 			MultiCastActionBarFrame.SetPoint = function() end
