@@ -98,14 +98,18 @@ function Module:OnEnable()
                 self.CastBar:GetStatusBarTexture():SetDrawLayer("BORDER")
 
                 if (db.totems) then
-                    if UnitCanAttack("player", self.unit) then
-                        local _, _, _, _, _, id = strsplit("-", UnitGUID(self.unit) or "")
-                        if id == "3527" then
-                            self.healthBar:SetStatusBarColor(0, 0.85, 1)
-                        elseif id == "5925" then
-                            self.healthBar:SetStatusBarColor(0.68, 0, 1)
-                        elseif id == "53006" then
-                            self.healthBar:SetStatusBarColor(0.7, 1, 0.48)
+                    if not (UnitIsPlayer(self.unit)) then
+                        if UnitCanAttack("player", self.unit) then
+                            local _, _, _, _, _, id = strsplit("-", UnitGUID(self.unit) or "")
+                            if id == "3527" then
+                                self.healthBar:SetStatusBarColor(0, 1, 0.55)
+                            elseif id == "5925" then
+                                self.healthBar:SetStatusBarColor(0.68, 0, 1)
+                            elseif id == "53006" then
+                                self.healthBar:SetStatusBarColor(0.58, 0.65, 0.81)
+                            else
+                                self.healthBar:SetStatusBarColor(1, 0, 0)
+                            end
                         end
                     end
                 end

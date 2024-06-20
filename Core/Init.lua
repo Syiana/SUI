@@ -135,14 +135,8 @@ local defaults = {
             tracking = false,
         },
         misc = {
-            safequeue = true,
-            losecontrol = true,
             tabbinder = false,
-            pulltimer = false,
             interrupt = false,
-            dampening = true,
-            arenanameplate = false,
-            surrender = false
         },
         edit = {}
     }

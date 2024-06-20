@@ -1046,14 +1046,6 @@ function Gui:OnEnable()
                     }
                 },
                 {
-                    safequeue = {
-                        key = 'safequeue',
-                        type = 'checkbox',
-                        label = 'SafeQueue',
-                        tooltip = 'Show time left to join and remove leave-button on queuepop-window',
-                        column = 3,
-                        order = 1
-                    },
                     tabbinder = {
                         key = 'tabbinder',
                         type = 'checkbox',
@@ -1061,40 +1053,6 @@ function Gui:OnEnable()
                         tooltip = 'Only target players with TAB in PVP-Combat',
                         column = 3,
                         order = 2
-                    },
-                    arenanameplate = {
-                        key = 'arenanameplate',
-                        type = 'checkbox',
-                        label = 'Arena Nameplate',
-                        tooltip = 'Shows Arena number instead of name over nameplate',
-                        column = 3,
-                        order = 3
-                    },
-                    --[[losecontrol = {
-            key = 'losecontrol',
-            type = 'checkbox',
-            label = 'Losecontrol',
-            tooltip = 'Shows crowd-control icons with timer for yourself',
-            column = 3,
-            order = 1
-          },
-          dampening = {
-            key = 'dampening',
-            type = 'checkbox',
-            label = 'Show Dampening',
-            tooltip = 'Shows dampening right below the arena timer',
-            column = 3,
-            order = 1
-          }]]
-                },
-                {
-                    surrender = {
-                        key = 'surrender',
-                        type = 'checkbox',
-                        label = 'Surrender',
-                        tooltip = 'Allows you to surrender by typing /gg',
-                        column = 3,
-                        order = 1
                     }
                 }
             },
