@@ -28,5 +28,11 @@ function Module:OnEnable()
         SUI:Skin(LFDRoleCheckPopup.Border)
         SUI:Skin(LFDRoleCheckPopupAcceptButton)
         SUI:Skin(LFDRoleCheckPopupDeclineButton)
+        SUI:Skin(LFGListFrame.ApplicationViewer)
+        SUI:Skin(LFGListFrame.ApplicationViewer.Inset)
+        SUI:Skin(LFGListFrame.ApplicationViewer.BrowseGroupsButton)
+        SUI:Skin(LFGListFrame.ApplicationViewer.RemoveEntryButton)
+        SUI:Skin(LFGListFrame.ApplicationViewer.EditButton)
+        SUI:Skin(LFGListFrame.SearchPanel.BackToGroupButton)
     end
 end

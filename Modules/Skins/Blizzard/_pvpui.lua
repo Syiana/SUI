@@ -31,6 +31,7 @@ function Module:OnEnable()
         --PVPHonorFrameBGTex:SetVertexColor(.5, .5, .5)
         PVPHonorFrameInfoScrollFrameChildFrameDescription:SetTextColor(.7, .7, .7)
         PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoDescription:SetTextColor(.7, .7, .7)
+        WarGamesFrameDescription:SetTextColor(.7, .7, .7)
 
         local f = CreateFrame("Frame")
         f:RegisterEvent("ADDON_LOADED")
