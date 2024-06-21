@@ -188,14 +188,16 @@ function Module:OnEnable()
                     if itemLink then
                         local _, _, quality, itemlevel, _, _, _, _, _, _, _, itemClassID = GetItemInfo(itemLink)
 
-                        local itemiLvlText = ""
-                        if (quality) then
-                            local hex = select(4,GetItemQualityColor(quality))
-                            itemiLvlText = "|c"..hex..itemlevel.."|r"
-                        else
-                            itemiLvlText = realItemLevel
-                        end
+                        if (itemlevel > 100) then
+                            local itemiLvlText = ""
+                            if (quality) then
+                                local hex = select(4,GetItemQualityColor(quality))
+                                itemiLvlText = "|c"..hex..itemlevel.."|r"
+                            else
+                                itemiLvlText = itemlevel
+                            end
                             button.text:SetText(itemiLvlText)
+                        end
                     end
                 end
             end
