@@ -179,8 +179,7 @@ function Module:OnEnable()
                 if button and button:IsShown() then
                     if not button.text then
                         button.text = button:CreateFontString(nil, "OVERLAY", "SystemFont_Outline")
-                        button.text:SetPoint("TOPLEFT", 1, -1)
-                        button.text:SetTextColor(1, 1, 0)
+                        button.text:SetPoint("CENTER", button, "TOP", 0, -5)
                     else
                         button.text:SetText("")
                     end
@@ -188,9 +187,15 @@ function Module:OnEnable()
                     local itemLink = GetMerchantItemLink(index)
                     if itemLink then
                         local _, _, quality, itemlevel, _, _, _, _, _, _, _, itemClassID = GetItemInfo(itemLink)
-                        if (itemlevel and itemlevel > 1) and (quality and quality > 1) and (itemClassID == LE_ITEM_CLASS_WEAPON or itemClassID == LE_ITEM_CLASS_ARMOR) then
-                            button.text:SetText(itemlevel)
+
+                        local itemiLvlText = ""
+                        if (quality) then
+                            local hex = select(4,GetItemQualityColor(quality))
+                            itemiLvlText = "|c"..hex..itemlevel.."|r"
+                        else
+                            itemiLvlText = realItemLevel
                         end
+                            button.text:SetText(itemiLvlText)
                     end
                 end
             end
