@@ -97,8 +97,8 @@ function Module:OnEnable()
                 self.CastBar:SetStatusBarTexture(db.texture)
                 self.CastBar:GetStatusBarTexture():SetDrawLayer("BORDER")
 
-                if (db.totems) then
-                    if not (UnitIsPlayer(self.unit)) then
+                if (db.totems) then                    
+                    if (UnitPlayerControlled(self.unit)) then
                         if UnitCanAttack("player", self.unit) then
                             local _, _, _, _, _, id = strsplit("-", UnitGUID(self.unit) or "")
                             if id == "3527" then
