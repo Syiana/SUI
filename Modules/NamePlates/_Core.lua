@@ -97,7 +97,7 @@ function Module:OnEnable()
                 self.CastBar:SetStatusBarTexture(db.texture)
                 self.CastBar:GetStatusBarTexture():SetDrawLayer("BORDER")
 
-                if (db.totems) then                    
+                if (db.totems) then
                     if (not UnitIsPlayer(self.unit)) and (UnitPlayerControlled(self.unit)) then
                         if UnitCanAttack("player", self.unit) then
                             local _, _, _, _, _, id = strsplit("-", UnitGUID(self.unit) or "")
@@ -116,10 +116,6 @@ function Module:OnEnable()
 
                 if not self.barFixed then
                     self.healthBar:SetWidth(self.healthBar:GetWidth()-0.7)
-
-                    --self.CastBar:SetHeight(self.CastBar:GetHeight()-0.5)
-                    --self.CastBar:SetWidth(self.CastBar:GetWidth()-1)
-
                     self.barFixed = true
                 end
             end
