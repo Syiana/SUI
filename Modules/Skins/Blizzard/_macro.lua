@@ -16,6 +16,9 @@ function Module:OnEnable()
                 SUI:Skin(MacroFrame.MacroSelector.ScrollBar.Background)
                 SUI:Skin(MacroFrameTextBackground.NineSlice)
                 SUI:Skin(MacroFrameTextBackground)
+                SUI:Skin(MacroEditButton)
+                SUI:Skin(MacroSaveButton)
+                SUI:Skin(MacroCancelButton)
             end
         end)
     end

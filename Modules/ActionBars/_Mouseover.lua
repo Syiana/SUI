@@ -49,6 +49,7 @@ function Module:OnEnable()
         end
 
         if db.stancebar then
+            if not SUIStanceBar then return end
             if SUIStanceBar:GetEffectiveAlpha() and SUIStanceBar:GetEffectiveAlpha() > 0.001 then
                 showGCD("StanceButton")
             else
@@ -96,6 +97,7 @@ function Module:OnEnable()
         elseif actionbar == "bar5" then
             MultiBarLeft:SetAlpha(alpha)
         elseif actionbar == "stancebar" then
+            if not SUIStanceBar then return end
             SUIStanceBar:SetAlpha(alpha)
         end
     end
