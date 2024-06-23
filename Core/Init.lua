@@ -1,4 +1,4 @@
-SUI = LibStub("AceAddon-3.0"):NewAddon("SUI", "AceEvent-3.0")
+SUI = LibStub("AceAddon-3.0"):NewAddon("SUI", "AceEvent-3.0", "AceComm-3.0")
 local addonName, addon = ...
 
 DisableAddOn('LortiUI')
@@ -314,6 +314,9 @@ function SUI:OnInitialize()
         end
     end
 
+    -- SUI Version check
+    local currentVersion = C_AddOns.GetAddOnMetadata(addonName, "Version")
+
     local function GetDefaultCommChannel()
         if IsInRaid() then
             return IsInRaid(LE_PARTY_CATEGORY_INSTANCE) and "INSTANCE_CHAT" or "RAID"
@@ -326,46 +329,34 @@ function SUI:OnInitialize()
         end
     end
 
-    function self:Version(event, self, version)
-        local curVersion = C_AddOns.GetAddOnMetadata(addonName, "Version")
-        local prefix = "SUIVersion"
-
-        if event == "CHAT_MSG_ADDON" then
-            if (self == prefix) then
-                if not SUI.db.profile.new_version then
-                    if (version > curVersion) then
-                        print("|cfff58cbaS|r|cff009cffUI|r:", "A newer version is available. If you experience any errors or bugs, updating is highly recommended.")
-                    end
-    
-                    SUI.db.profile.new_version = version
-                elseif (SUI.db.profile.new_version == curVersion) or (SUI.db.profile.new_version <= curVersion) then
-                    SUI.db.profile.new_version = false
-                end
-            end
-        elseif event == "PLAYER_ENTERING_WORLD" then
-            C_ChatInfo.RegisterAddonMessagePrefix(prefix)
-
-            if (IsInGuild()) then
-                C_ChatInfo.SendAddonMessage(prefix, curVersion, "GUILD")
-            else
-                C_ChatInfo.SendAddonMessage(prefix, curVersion, GetDefaultCommChannel())
-            end
-
-            if (SUI.db.profile.new_version) then
+    function self:ReceiveVersion(_, version, _, sender)
+        if not SUI.db.profile.new_version then
+            if (version > currentVersion) then
                 print("|cfff58cbaS|r|cff009cffUI|r:", "A newer version is available. If you experience any errors or bugs, updating is highly recommended.")
+
+                SUI.db.profile.new_version = version
             end
-        elseif event == "ZONE_CHANGED_NEW_AREA" then
-            if (IsInGuild()) then
-                C_ChatInfo.SendAddonMessage(prefix, curVersion, "GUILD")
-            else
-                C_ChatInfo.SendAddonMessage(prefix, curVersion, GetDefaultCommChannel())
-            end
+        elseif (SUI.db.profile.new_version == currentVersion) or (SUI.db.profile.new_version <= currentVersion) then
+            SUI.db.profile.new_version = false
         end
     end
 
-    local SUIVersion = CreateFrame("Frame")
-    SUIVersion:RegisterEvent("CHAT_MSG_ADDON")
-    SUIVersion:RegisterEvent("PLAYER_ENTERING_WORLD")
-    SUIVersion:RegisterEvent("ZONE_CHANGED_NEW_AREA")
-    SUIVersion:SetScript("OnEvent", self.Version)
+    function self:SendVersion(channel)
+        self:SendCommMessage("SUIVersion", currentVersion, channel or GetDefaultCommChannel())
+    end
+
+    self:RegisterComm("SUIVersion", "ReceiveVersion")
+    self:RegisterEvent("ZONE_CHANGED_NEW_AREA", function()
+        self:SendVersion()
+        if IsInGuild() then self:SendVersion("GUILD") end
+    end)
+    C_Timer.After(10, function()
+        self:SendVersion()
+        if IsInGuild() then self:SendVersion("GUILD") end
+        self:SendVersion("YELL")
+    end)
+
+    if (SUI.db.profile.new_version and SUI.db.profile.new_version > currentVersion) then
+        print("|cfff58cbaS|r|cff009cffUI|r:", "A newer version is available. If you experience any errors or bugs, updating is highly recommended.")
+    end
 end
