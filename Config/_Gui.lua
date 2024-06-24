@@ -68,7 +68,7 @@ function Gui:OnEnable()
     config:Hide()
 
     local version = SUIConfig:Label(config.titlePanel, GetAddOnMetadata("SUI", "version"))
-    SUIConfig:GlueLeft(version, config.titlePanel, 35, 0)
+    SUIConfig:GlueLeft(version, config.titlePanel, 40, 0)
 
     local logo = SUIConfig:Texture(config.titlePanel, 120, 120,
         "Interface\\AddOns\\SUI\\Media\\Textures\\Config\\Logo_Cata")
