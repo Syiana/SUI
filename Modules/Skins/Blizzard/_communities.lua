@@ -20,6 +20,7 @@ function Module:OnEnable()
                 SUI:Skin(CommunitiesFrame.GuildMemberDetailFrame.GroupInviteButton)
                 SUI:Skin(CommunitiesFrameCommunitiesList.FilligreeOverlay)
                 SUI:Skin(CommunitiesFrame.Chat.InsetFrame)
+                SUI:Skin(CommunitiesFrame.GuildLogButton)
             end
         end)
     end
