@@ -92,6 +92,7 @@ local defaults = {
                 stancebar = false
             },
             gryphones = true,
+            bindings = false,
         },
         castbars = {
             style = 'Custom',
@@ -138,6 +139,9 @@ local defaults = {
         misc = {
             tabbinder = false,
             interrupt = false,
+            fastloot = false,
+            searchbags = false,
+            sortbags = false,
         },
         new_version = false,
         edit = {}

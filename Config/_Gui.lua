@@ -534,6 +534,8 @@ function Gui:OnEnable()
                         options = {
                             { value = 'Default',     text = 'Default' },
                             { value = 'DefaultNoBg', text = 'Default (hide background)' },
+                            { value = 'BFA', text = 'BFA Style' },
+                            { value = 'BFATransparent', text = 'BFA (hide background)' },
                             { value = 'Small',       text = 'Small' }
                         },
                         initialValue = 1,
@@ -589,6 +591,14 @@ function Gui:OnEnable()
                         tooltip = 'Flash spell-icon when pressing it',
                         column = 4,
                         order = 2
+                    },
+                    bindings = {
+                        key = 'bindings',
+                        type = 'checkbox',
+                        label = 'Quick Binds',
+                        tooltip = 'Use /hb to quick bind your actionbar abilities',
+                        column = 4,
+                        order = 3
                     }
                 },
                 {
@@ -1037,7 +1047,33 @@ function Gui:OnEnable()
                         tooltip = 'Announce successful interrupts party',
                         column = 3,
                         order = 1
-                    }
+                    },
+                    fastloot = {
+                        key = 'fastloot',
+                        type = 'checkbox',
+                        label = 'Fast Loot',
+                        tooltip = 'Fast loot mobs without delay',
+                        column = 3,
+                        order = 2
+                    },
+                    searchbags = {
+                        key = 'searchbags',
+                        type = 'checkbox',
+                        label = 'Search Bags',
+                        tooltip = 'Adds a searchbox to the bags.',
+                        column = 3,
+                        order = 3
+                      },
+                },
+                {
+                    sortbags = {
+                        key = 'sortbags',
+                        type = 'checkbox',
+                        label = 'Sort Bags',
+                        tooltip = 'Adds a sort button to the bags.',
+                        column = 3,
+                        order = 1
+                      },
                 },
                 {
                     header = {
