@@ -987,11 +987,21 @@ function Gui:OnEnable()
                     },
                 },
                 {
+                    outline = {
+                        key = 'outline',
+                        type = 'checkbox',
+                        label = 'Chat Outline',
+                        tooltip = 'Add outline to chat messages',
+                        column = 4,
+                        order = 1
+                    },
                     quickjoin = {
                         key = 'quickjoin',
                         type = 'checkbox',
                         label = 'Friendlist Button',
-                        tooltip = 'Show/Hide friendlist button'
+                        tooltip = 'Show/Hide friendlist button',
+                        column = 4,
+                        order = 2
                     }
                 },
                 {
@@ -1007,7 +1017,7 @@ function Gui:OnEnable()
                         label = 'Class-Friendlist',
                         tooltip = 'Show character names in class color in friendlist',
                         column = 4,
-                        order = 1
+                        order = 2
                     }
                 }
             },

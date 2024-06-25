@@ -37,14 +37,16 @@ function Module:OnEnable()
                     local editBox = _G[frameName .. "EditBox"]
                     local editBoxHead = _G[frameName .. "EditBoxHeader"]
 
-                    local frameFont, framePath = frame:GetFont()
-                    local editBoxFont, editBoxPath = editBox:GetFont()
-                    local editBoxHeadFont, editBoxHeadPath = editBoxHead:GetFont()
+                    if (db.outline) then
+                        local frameFont, framePath = frame:GetFont()
+                        local editBoxFont, editBoxPath = editBox:GetFont()
+                        local editBoxHeadFont, editBoxHeadPath = editBoxHead:GetFont()
 
-                    frame:SetFading(1)
-                    frame:SetFont(frameFont, framePath, 'THINOUTLINE')
-                    editBox:SetFont(editBoxFont, editBoxPath, 'THINOUTLINE')
-                    editBoxHead:SetFont(editBoxHeadFont, editBoxHeadPath, 'THINOUTLINE')
+                        frame:SetFading(1)
+                        frame:SetFont(frameFont, framePath, 'THINOUTLINE')
+                        editBox:SetFont(editBoxFont, editBoxPath, 'THINOUTLINE')
+                        editBoxHead:SetFont(editBoxHeadFont, editBoxHeadPath, 'THINOUTLINE')
+                    end
 
                     Mixin(editBox, BackdropTemplateMixin)
                     editBox:SetBackdrop({

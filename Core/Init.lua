@@ -123,7 +123,8 @@ local defaults = {
             link = true,
             copy = true,
             friendlist = true,
-            quickjoin = true
+            quickjoin = true,
+            outline = true,
         },
         maps = {
             style = 'Default',
