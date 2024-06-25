@@ -78,8 +78,10 @@ function Module:OnEnable()
                     else
                         itemiLvlText = slotilvl
                     end
+                    InspectFontStrings[frameName]:SetText(itemiLvlText)
+                else
+                    InspectFontStrings[frameName]:SetText("")
                 end
-                InspectFontStrings[frameName]:SetText(itemiLvlText)
             end
         end
 
@@ -89,14 +91,22 @@ function Module:OnEnable()
                 if not (alreadyInitialized) then
                     initialize()
                 end
-                scanGear()
-                updateText()
             end
         end
         local inspectEventHandler = CreateFrame("Frame", nil, UIParent)
         inspectEventHandler:RegisterEvent("INSPECT_READY")
         inspectEventHandler:SetScript("OnEvent", main)
 
+        local f = CreateFrame("Frame")
+        f:RegisterEvent("ADDON_LOADED")
+        f:SetScript("OnEvent", function(self, event, name)
+            if name == "Blizzard_InspectUI" then
+                InspectPaperDollItemsFrame:HookScript("OnUpdate", function()
+                    scanGear()
+                    updateText()
+                end)
+            end
+        end)
 
         local function newTarget()
             if InspectModelFrame == nil then

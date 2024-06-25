@@ -55,6 +55,8 @@ function Module:OnEnable()
                             itemiLvlText = realItemLevel;
                         end
                         frame[i]:SetText(itemiLvlText)
+                    else
+                        frame[i]:SetText("")
                     end
                 end
             end
@@ -229,8 +231,11 @@ function Module:OnEnable()
                 else
                     itemiLvlText = ilvl
                 end
-                if ilvl > 200 then
+
+                if (ilvl > 100) then
                     button.levelString:SetText(itemiLvlText)
+                else
+                    button.levelString:SetText("")
                 end
             else
                 button.levelString:SetText("")
