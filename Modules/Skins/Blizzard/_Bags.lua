@@ -7,5 +7,6 @@ function Module:OnEnable()
         end
 
         SUI:Skin(BackpackTokenFrame)
+        SUI:Skin(SortBagsButton)
     end
 end
