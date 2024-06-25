@@ -4,6 +4,56 @@ function Module:OnEnable()
     if IsAddOnLoaded('Plater') or IsAddOnLoaded('TidyPlates_ThreatPlates') or IsAddOnLoaded('TidyPlates') or IsAddOnLoaded('Kui_Nameplates') then return end
     local db = SUI.db.profile.nameplates
 
+    local totems = {
+        -- NPC ID, SpellID, Totem Name
+        ["10467"] = { 16190, "Mana Tide Totem" },
+        ["5913"] = { 8143, "Tremor Totem" },
+        ["2630"] = { 2484, "Earthbind Totem" },
+        ["3527"] = { 5394, "Healing Stream Totem" },
+        ["5925"] = { 8177, "Grounding Totem" },
+        ["53006"] = { 98008, "Spirit Link Totem" },
+        ["5950"] = { 8227, "Flametongue Totem" },
+        ["6112"] = { 8512, "Windfury Totem" },
+        ["15447"] = { 3738, "Wrath of Air Totem" },
+        ["2523"] = { 3599, "Searing Totem" },
+        ["3573"] = { 5675, "Mana Spring Totem" }
+    }
+
+    local hiddenTotems = {
+        -- NPC ID, SpellID, Totem Name
+        ["15430"] = { 2062, "Earth Elemental Totem" },
+        ["15439"] = { 2894, "Fire Elemental Totem" },
+        ["3579"] = { 5730, "Stoneclaw Totem" },
+        ["5873"] = { 8071, "Stoneskin Totem" },
+        ["5874"] = { 8075, "Strength of Earth Totem" },
+        ["5929"] = { 8190, "Magma Totem" },
+        ["5927"] = { 8184, "Elemental Resistance Totem" },
+        ["47069"] = { 87718, "Totem of Tranquil Mind" },
+    }
+
+    local activeTotems = {}
+
+    local function createIcon(nameplate)
+        local frame = CreateFrame("Frame")
+        frame:SetSize(30, 30)
+        frame:SetPoint("BOTTOM", nameplate, "TOP", 0, -30)
+
+        local icon = frame:CreateTexture(nil, "ARTWORK")
+        icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+        icon:SetAllPoints()
+
+        local bg = frame:CreateTexture(nil, "BACKGROUND")
+        bg:SetTexture("Interface\\BUTTONS\\WHITE8X8")
+        bg:SetVertexColor(0, 0, 0, 0.5)
+        bg:SetPoint("TOPLEFT", frame, "TOPLEFT", -2, 2)
+        bg:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", 2, -2)
+
+        frame.icon = icon
+        frame.bg = bg
+
+        return frame
+    end
+
     local function iconSkin(icon, parent)
         if not icon or (icon and icon.styled) then return end
 
@@ -63,8 +113,8 @@ function Module:OnEnable()
                     self.castText:SetPoint("CENTER", 0, 1.2)
                     self.castText:SetFont(STANDARD_TEXT_FONT, 8, 'OUTLINE')
                 else
-                    local nameChannel  = UnitChannelInfo(self.unit)
-		            local nameSpell  = UnitCastingInfo(self.unit)
+                    local nameChannel = UnitChannelInfo(self.unit)
+                    local nameSpell   = UnitCastingInfo(self.unit)
                     self.castText:SetText(nameChannel or nameSpell)
                 end
 
@@ -98,24 +148,44 @@ function Module:OnEnable()
                 self.CastBar:GetStatusBarTexture():SetDrawLayer("BORDER")
 
                 if (db.totems) then
+                    if (self.totemIcon) then
+                        self.totemIcon:Hide()
+                    end
+
+                    self.name:SetAlpha(1)
+                    self.healthBar:Show()
+                    self.LevelFrame:Show()
+
                     if (not UnitIsPlayer(self.unit)) and (UnitPlayerControlled(self.unit)) then
-                        if UnitCanAttack("player", self.unit) then
+                        if (UnitCanAttack("player", self.unit)) then
                             local _, _, _, _, _, id = strsplit("-", UnitGUID(self.unit) or "")
-                            if id == "3527" then
-                                self.healthBar:SetStatusBarColor(0, 1, 0.55)
-                            elseif id == "5925" then
-                                self.healthBar:SetStatusBarColor(0.68, 0, 1)
-                            elseif id == "53006" then
-                                self.healthBar:SetStatusBarColor(0.58, 0.65, 0.81)
-                            else
-                                self.healthBar:SetStatusBarColor(1, 0, 0)
+
+                            if (id and hiddenTotems[id]) then
+                                self.healthBar:Hide()
+                                self.name:SetAlpha(0)
+                                self.LevelFrame:Hide()
+                            elseif (id and totems[id]) then
+                                if not (self.totemIcon) then
+                                    self.totemIcon = createIcon(self)
+                                end
+
+                                local iconFrame = self.totemIcon
+                                iconFrame:Show()
+
+                                local spellID = unpack(totems[id])
+                                local texture = GetSpellTexture(spellID)
+
+                                iconFrame.icon:SetTexture(texture)
+                                self.name:SetAlpha(0)
+                                self.healthBar:Hide()
+                                self.LevelFrame:Hide()
                             end
                         end
                     end
                 end
 
                 if not self.barFixed then
-                    self.healthBar:SetWidth(self.healthBar:GetWidth()-0.7)
+                    self.healthBar:SetWidth(self.healthBar:GetWidth() - 0.7)
                     self.barFixed = true
                 end
             end

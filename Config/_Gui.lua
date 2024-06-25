@@ -509,8 +509,8 @@ function Gui:OnEnable()
                     totems = {
                         key = 'nameplates.totems',
                         type = 'checkbox',
-                        label = 'Highlight Totems',
-                        tooltip = 'Colorize Grounding/Healing Stream/Spirit Link Totem-Nameplates',
+                        label = 'Totem Icons',
+                        tooltip = 'Show Totem Icons instead of a Healthbar on enemy totems',
                         column = 4,
                         order = 2
                     }
