@@ -21,5 +21,6 @@ function Module:OnEnable()
         SUI:Skin(OverrideActionBar)
         SUI:Skin(OverrideActionBarExpBarOverlayFrame)
         SUI:Skin(OverrideActionBarExpBar)
+        SUI:Skin(RetailUIArtFrame)
     end
 end
