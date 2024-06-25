@@ -65,6 +65,10 @@ function Module:OnEnable()
         -- MicroMenu Position
         MoveMicroButtons("BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", -275, 0)
 
+        OverrideActionBar:HookScript("OnEvent", function(self)
+			MoveMicroButtons("BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", -275, 0)
+		end)
+
         -- Bag Buttons Position
         MainMenuBarBackpackButton:ClearAllPoints()
         MainMenuBarBackpackButton:SetPoint("BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", -2.5, 40)

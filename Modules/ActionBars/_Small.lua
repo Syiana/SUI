@@ -92,7 +92,6 @@ function Module:OnEnable()
 				SUIStanceBar:Hide()
 			else
 				SUIStanceBar:Show()
-				MoveMicroButtons("BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", -275, 0)
 			end
 		end)
 
