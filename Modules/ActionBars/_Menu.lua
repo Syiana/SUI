@@ -65,9 +65,19 @@ function Module:OnEnable()
         -- MicroMenu Position
         MoveMicroButtons("BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", -275, 0)
 
-        OverrideActionBar:HookScript("OnEvent", function(self)
-			MoveMicroButtons("BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", -275, 0)
-		end)
+        local vehicle = CreateFrame("Frame")
+        vehicle:RegisterEvent("UNIT_ENTERED_VEHICLE")
+        vehicle:RegisterEvent("UNIT_EXITED_VEHICLE")
+        vehicle:HookScript("OnEvent", function(self, event, unit)
+            if unit == "player" then
+                if event == "UNIT_EXITED_VEHICLE" then
+                    MoveMicroButtons("BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", -275, 0)
+                    SUIStanceBar:Show()
+                else
+                    SUIStanceBar:Hide()
+                end
+            end
+        end)
 
         -- Bag Buttons Position
         MainMenuBarBackpackButton:ClearAllPoints()

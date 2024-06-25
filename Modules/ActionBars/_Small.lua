@@ -87,14 +87,6 @@ function Module:OnEnable()
 			StanceBarRight:Hide()
 		end)
 
-		OverrideActionBar:HookScript("OnEvent", function(self)
-			if (self:IsShown()) then
-				SUIStanceBar:Hide()
-			else
-				SUIStanceBar:Show()
-			end
-		end)
-
 		local function updatePositions()
 			if (GetNumShapeshiftForms() > 0) then
 				SUIStanceBar:Show()
