@@ -365,8 +365,10 @@ function Module:OnEnable()
             end
             SpellFlyout:HookScript("OnShow", checkForFlyoutButtons)
             if dominos then
-                for i = 1, 60 do
-                    styleActionButton(_G["DominosActionButton" .. i])
+                for i = 1, 120 do
+                    if (_G["DominosActionButton" .. i]) then
+                        styleActionButton(_G["DominosActionButton" .. i])
+                    end
                 end
             end
             if bartender then
