@@ -134,6 +134,26 @@ function Module:OnEnable()
                         end
                     end
                 end
+
+                local _, _, _, _, _, _, _, notInterruptibleCast = UnitCastingInfo(self.unit)
+                local _, _, _, _, _, _, notInterruptibleChannel = UnitChannelInfo(self.unit)
+
+                if (notInterruptibleCast) then
+                    self:SetStatusBarColor(.7, .7, .7)
+                elseif (notInterruptibleChannel) then
+                    self:SetStatusBarColor(.7, .7, .7)
+                else
+                    local color
+                    local isChannel = UnitChannelInfo("player");
+
+                    if (isChannel) then
+                        color = self.startChannelColor
+                    else
+                        color = self.startCastColor
+                    end
+
+                    self:SetStatusBarColor(color.r, color.g, color.b)
+                end
             end
         end
     end
