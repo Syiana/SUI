@@ -149,22 +149,24 @@ function Module:OnEnable()
             if event == "PLAYER_FLAGS_CHANGED" then
                 local isArena = IsActiveBattlefieldArena()
                 if unit == "player" then
-                    if UnitIsAFK(unit) and not UnitIsDead(unit) and not InCombatLockdown() and not isArena then
-                        SpinStart()
-                        AFKPanel:Show()
-                        AFKPanelTop:Show()
-                        
-                        if ((IsInGroup() or IsInRaid()) and CompactRaidFrameContainer:IsShown() and useCompact) then
-                            CompactRaidFrameContainer:Hide()
-                        end
-                        Minimap:Hide()
-                    else
-                        SpinStop()
-                        AFKPanel:Hide()
-                        AFKPanelTop:Hide()
-                        Minimap:Show()
-                        if ((IsInGroup() or IsInRaid()) and useCompact) then
-                            CompactRaidFrameContainer:Show()
+                    if not (isArena) then
+                        if UnitIsAFK(unit) and not UnitIsDead(unit) and not InCombatLockdown() then
+                            SpinStart()
+                            AFKPanel:Show()
+                            AFKPanelTop:Show()
+                            
+                            if ((IsInGroup() or IsInRaid()) and CompactRaidFrameContainer:IsShown() and useCompact) then
+                                CompactRaidFrameContainer:Hide()
+                            end
+                            Minimap:Hide()
+                        else
+                            SpinStop()
+                            AFKPanel:Hide()
+                            AFKPanelTop:Hide()
+                            Minimap:Show()
+                            if ((IsInGroup() or IsInRaid()) and useCompact) then
+                                CompactRaidFrameContainer:Show()
+                            end
                         end
                     end
                 end
