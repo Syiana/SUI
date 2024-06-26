@@ -14,25 +14,29 @@ function Module:OnEnable()
         TargetFrameSpellBar.Border:SetVertexColor(unpack(SUI:Color(0.15)))
     end
 
-    TargetFrameSpellBar:HookScript("OnEvent", function(self)
-        local _, _, _, _, _, _, _, notInterruptibleCast = UnitCastingInfo(self.unit)
-        local _, _, _, _, _, _, notInterruptibleChannel = UnitChannelInfo(self.unit)
-
-        if (notInterruptibleCast) then
-            self:SetStatusBarColor(.7, .7, .7)
-        elseif (notInterruptibleChannel) then
-            self:SetStatusBarColor(.7, .7, .7)
+    TargetFrameSpellBar:HookScript("OnEvent", function(self, event)
+        if (event == "UNIT_SPELLCAST_INTERRUPTED") then
+            self:SetStatusBarColor(self.failedCastColor.r, self.failedCastColor.g, self.failedCastColor.b)
         else
-            local color
-            local isChannel = UnitChannelInfo("player");
+            local _, _, _, _, _, _, _, notInterruptibleCast = UnitCastingInfo(self.unit)
+            local _, _, _, _, _, _, notInterruptibleChannel = UnitChannelInfo(self.unit)
 
-            if (isChannel) then
-                color = self.startChannelColor
+            if (notInterruptibleCast) then
+                self:SetStatusBarColor(.7, .7, .7)
+            elseif (notInterruptibleChannel) then
+                self:SetStatusBarColor(.7, .7, .7)
             else
-                color = self.startCastColor
-            end
+                local color
+                local isChannel = UnitChannelInfo(self.unit);
 
-            self:SetStatusBarColor(color.r, color.g, color.b)
+                if (isChannel) then
+                    color = self.startChannelColor
+                else
+                    color = self.startCastColor
+                end
+
+                self:SetStatusBarColor(color.r, color.g, color.b)
+            end
         end
     end)
     
@@ -43,7 +47,7 @@ function Module:OnEnable()
             TargetFrameSpellBar.Icon:SetPoint("RIGHT", TargetFrameSpellBar, "LEFT", -4, 0)
             TargetFrameSpellBar.Icon:SetScale(0.9)
             TargetFrameSpellBar.Border:SetDrawLayer("OVERLAY", 1)
-            TargetFrameSpellBar:SetWidth(TargetFrameSpellBar:GetWidth()-0.3)
+            TargetFrameSpellBar:SetWidth(TargetFrameSpellBar:GetWidth()-1)
             --Texture
             if (db.texture ~= 'Default') then
                 TargetFrameSpellBar:SetStatusBarTexture(db.texture)

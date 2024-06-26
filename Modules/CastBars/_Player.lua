@@ -11,25 +11,29 @@ function Module:OnEnable()
         MirrorTimer1Border:SetVertexColor(.15, .15, .15)
     end
 
-    CastingBarFrame:HookScript("OnEvent", function()
-        local _, _, _, _, _, _, _, notInterruptibleCast = UnitCastingInfo("player")
-        local _, _, _, _, _, _, notInterruptibleChannel = UnitChannelInfo("player")
-
-        if (notInterruptibleCast) then
-            CastingBarFrame:SetStatusBarColor(.7, .7, .7)
-        elseif (notInterruptibleChannel) then
-            CastingBarFrame:SetStatusBarColor(.7, .7, .7)
+    CastingBarFrame:HookScript("OnEvent", function(self, event)
+        if (event == "UNIT_SPELLCAST_INTERRUPTED") then
+            self:SetStatusBarColor(self.failedCastColor.r, self.failedCastColor.g, self.failedCastColor.b)
         else
-            local color
-            local isChannel = UnitChannelInfo("player");
-
-            if (isChannel) then
-                color = CastingBarFrame.startChannelColor
+            local _, _, _, _, _, _, _, notInterruptibleCast = UnitCastingInfo("player")
+            local _, _, _, _, _, _, notInterruptibleChannel = UnitChannelInfo("player")
+    
+            if (notInterruptibleCast) then
+                self:SetStatusBarColor(.7, .7, .7)
+            elseif (notInterruptibleChannel) then
+                self:SetStatusBarColor(.7, .7, .7)
             else
-                color = CastingBarFrame.startCastColor
+                local color
+                local isChannel = UnitChannelInfo("player");
+    
+                if (isChannel) then
+                    color = self.startChannelColor
+                else
+                    color = self.startCastColor
+                end
+    
+                self:SetStatusBarColor(color.r, color.g, color.b)
             end
-
-            CastingBarFrame:SetStatusBarColor(color.r, color.g, color.b)
         end
     end)
 
