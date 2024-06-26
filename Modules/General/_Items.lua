@@ -208,7 +208,7 @@ function Module:OnEnable()
 
         function SetContainerItemLevel(button, ItemLink)
             if not button then
-                print("error")
+                return
             end
             if not button.levelString then
                 button.levelString = button:CreateFontString(nil, "OVERLAY")
