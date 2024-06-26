@@ -154,7 +154,7 @@ function Module:OnEnable()
                         AFKPanel:Show()
                         AFKPanelTop:Show()
                         
-                        if (IsInGroup() and CompactRaidFrameContainer:IsShown() and useCompact) then
+                        if ((IsInGroup() or IsInRaid()) and CompactRaidFrameContainer:IsShown() and useCompact) then
                             CompactRaidFrameContainer:Hide()
                         end
                         Minimap:Hide()
@@ -163,7 +163,7 @@ function Module:OnEnable()
                         AFKPanel:Hide()
                         AFKPanelTop:Hide()
                         Minimap:Show()
-                        if (IsInGroup() and useCompact) then
+                        if ((IsInGroup() or IsInRaid()) and useCompact) then
                             CompactRaidFrameContainer:Show()
                         end
                     end
