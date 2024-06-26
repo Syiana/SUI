@@ -54,7 +54,7 @@ function Module:OnEnable()
             CastingBarFrame.Border:SetPoint("TOP", 0, 26)
             CastingBarFrame.Flash:SetPoint("TOP", 0, 26)
             CastingBarFrame.BorderShield:SetPoint("TOP", 0, 26)
-            CastingBarFrame.Border:SetVertexColor(unpack(SUI:Color(0.15)))
+            
             --Texture
             CastingBarFrame.Border:SetDrawLayer("OVERLAY", 1)
 

@@ -39,7 +39,10 @@ function Module:OnEnable()
     end)
 
     -- Color
-    FocusFrameSpellBar.Border:SetVertexColor(unpack(SUI:Color(0.15)))
+    if (SUI:Color()) then
+        FocusFrameSpellBar.Border:SetVertexColor(unpack(SUI:Color(0.15)))
+    end
+    
     FocusFrameSpellBar.Border:SetDrawLayer("OVERLAY", 1)
     FocusFrameSpellBar:SetWidth(FocusFrameSpellBar:GetWidth()-0.5)
     FocusFrameSpellBar:SetHeight(FocusFrameSpellBar:GetHeight()+0.1)
