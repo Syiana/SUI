@@ -37,6 +37,11 @@ function Module:OnEnable()
         SUI:Skin(LFGListFrame.ApplicationViewer.NameColumnHeader)
         SUI:Skin(LFGListFrame.ApplicationViewer.RoleColumnHeader)
         SUI:Skin(LFGListFrame.ApplicationViewer.ItemLevelColumnHeader)
+        SUI:Skin(LFGListCreateRoleDialog.Border)
+        SUI:Skin(LFGListCreateRoleDialog.SignUpButton)
+        SUI:Skin(LFGListCreateRoleDialog.CancelButton)
+        SUI:Skin(RolePollPopup.Border)
+        SUI:Skin(RolePollPopupAcceptButton)
         LFGListFrame.ApplicationViewer.ScrollBox.NoApplicants:SetTextColor(.7, .7, .7)
     end
 end
