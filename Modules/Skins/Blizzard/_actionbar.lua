@@ -22,5 +22,6 @@ function Module:OnEnable()
         SUI:Skin(OverrideActionBarExpBarOverlayFrame)
         SUI:Skin(OverrideActionBarExpBar)
         SUI:Skin(RetailUIArtFrame)
+        SUI:Skin(PetActionBarFrame)
     end
 end
