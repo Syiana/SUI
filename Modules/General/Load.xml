@@ -6,6 +6,7 @@
   <Script file="_Delete.lua"/>
   <Script file="_Decline.lua"/>
   <Script file="_Release.lua"/>
+  <Script file="_Resurrection.lua"/>
   <Script file="_Repair.lua"/>
   <Script file="_Sell.lua"/>
   <Script file="_StackBuy.lua"/>
@@ -13,4 +14,6 @@
   <Script file="_Fonts.lua"/>
   <Script file="_Inspect.lua"/>
   <Script file="_Cinematic.lua"/>
+  <Script file="_AutoInvite.lua"/>
+  <Script file="_AfkCam.lua"/>
 </Ui>
