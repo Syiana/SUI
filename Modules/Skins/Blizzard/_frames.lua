@@ -39,6 +39,13 @@ function Module:OnEnable()
         SUI:Skin(ReadyCheckFrameYesButton)
         SUI:Skin(ReadyCheckFrameNoButton)
 
+        SUI:Skin(DropDownList1)
+        SUI:Skin(DropDownList1MenuBackdrop.NineSlice)        
+        SUI:Skin(DropDownList2)
+        SUI:Skin(DropDownList2MenuBackdrop.NineSlice)
+        SUI:Skin(DropDownList3)
+        SUI:Skin(DropDownList3MenuBackdrop.NineSlice)
+
         local f = CreateFrame("Frame")
         f:RegisterEvent("ADDON_LOADED")
         f:SetScript("OnEvent", function(self, event, name)
