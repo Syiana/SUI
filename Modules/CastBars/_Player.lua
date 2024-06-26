@@ -12,7 +12,7 @@ function Module:OnEnable()
     end
 
     CastingBarFrame:HookScript("OnEvent", function(self, event)
-        if (event == "UNIT_SPELLCAST_INTERRUPTED") then
+        if (event == "UNIT_SPELLCAST_INTERRUPTED" or event == "UNIT_SPELLCAST_FAILED") then
             self:SetStatusBarColor(self.failedCastColor.r, self.failedCastColor.g, self.failedCastColor.b)
         else
             local _, _, _, _, _, _, _, notInterruptibleCast = UnitCastingInfo("player")
