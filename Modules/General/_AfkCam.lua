@@ -145,6 +145,7 @@ function Module:OnEnable()
         end)
 
         local OnEvent = function(self, event, unit)
+            local useCompact = GetCVarBool("useCompactPartyFrames")
             if event == "PLAYER_FLAGS_CHANGED" then
                 local isArena = IsActiveBattlefieldArena()
                 if unit == "player" then
@@ -152,12 +153,19 @@ function Module:OnEnable()
                         SpinStart()
                         AFKPanel:Show()
                         AFKPanelTop:Show()
+                        
+                        if (IsInGroup() and CompactRaidFrameContainer:IsShown() and useCompact) then
+                            CompactRaidFrameContainer:Hide()
+                        end
                         Minimap:Hide()
                     else
                         SpinStop()
                         AFKPanel:Hide()
                         AFKPanelTop:Hide()
                         Minimap:Show()
+                        if (IsInGroup() and useCompact) then
+                            CompactRaidFrameContainer:Show()
+                        end
                     end
                 end
             elseif event == "PLAYER_LEAVING_WORLD" then
