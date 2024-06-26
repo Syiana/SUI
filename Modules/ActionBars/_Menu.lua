@@ -72,7 +72,9 @@ function Module:OnEnable()
             if unit == "player" then
                 if event == "UNIT_EXITED_VEHICLE" then
                     MoveMicroButtons("BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", -275, 0)
-                    SUIStanceBar:Show()
+                    if (GetNumShapeshiftForms() > 0) then
+                        SUIStanceBar:Show()
+                    end
                 else
                     SUIStanceBar:Hide()
                 end
