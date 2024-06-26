@@ -11,7 +11,7 @@ function Module:OnEnable()
         Install.text = Install:CreateFontString(nil, "ARTWORK", "QuestMapRewardsFont")
         Install.text:SetScale(4)
         Install.text:SetPoint("CENTER", 0, 30)
-        Install.text:SetText("Welcome to |cfff58cbaS|r|cff009cffUI|r")
+        Install.text:SetText("Welcome to |cffff00d5S|r|cff027bffUI|r")
 
         local Texture = Install:CreateTexture(nil, "BACKGROUND")
         Texture:SetTexture("Interface\\DialogFrame\\UI-DialogBox-Background")

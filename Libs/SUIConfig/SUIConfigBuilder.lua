@@ -148,7 +148,7 @@ function SUIConfig:BuildElement(frame, row, info, dataKey, db)
 	end
 
 	if not element then
-		print('Could not build element with type: ', info.type);
+		print('|cffff00d5S|r|cff027bffUI|r: Could not build element with type: ', info.type);
 	end
 
 	-- Widgets can have initialization code

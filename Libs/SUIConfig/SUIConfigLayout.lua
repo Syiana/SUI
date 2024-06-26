@@ -129,7 +129,7 @@ local EasyLayoutRow = {
 			frame:SetWidth(w);
 
 			if columnsTaken + col > self.parent.layout.columns then
-				print('Element will not fit row capacity: ' .. l.columns);
+				print('|cffff00d5S|r|cff027bffUI|r: Element will not fit row capacity: ' .. l.columns);
 				return totalHeight;
 			end
 

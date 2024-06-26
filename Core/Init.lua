@@ -154,7 +154,7 @@ function SUI:OnInitialize()
     if (SUIDB and SUIDB.A_DEFAULTS) then
         SUIDB = {}
         print(
-            '|cfff58cbaS|r|cff009cffUI|r: |cffff0000You had a broken database from a previous version of SUI, unfortunately we had to reset the profile.|r')
+            '|cffff00d5S|r|cff027bffUI|r: |cffff0000You had a broken database from a previous version of SUI, unfortunately we had to reset the profile.|r')
     end
 
     -- Database
@@ -337,7 +337,7 @@ function SUI:OnInitialize()
     function self:ReceiveVersion(_, version, _, sender)
         if not SUI.db.profile.new_version then
             if (version > currentVersion) then
-                print("|cfff58cbaS|r|cff009cffUI|r:", "A newer version is available. If you experience any errors or bugs, updating is highly recommended.")
+                print("|cffff00d5S|r|cff027bffUI|r:", "A newer version is available. If you experience any errors or bugs, updating is highly recommended.")
 
                 SUI.db.profile.new_version = version
             end
@@ -355,13 +355,13 @@ function SUI:OnInitialize()
         self:SendVersion()
         if IsInGuild() then self:SendVersion("GUILD") end
     end)
-    C_Timer.After(10, function()
+    C_Timer.After(30, function()
         self:SendVersion()
         if IsInGuild() then self:SendVersion("GUILD") end
         self:SendVersion("YELL")
     end)
 
     if (SUI.db.profile.new_version and SUI.db.profile.new_version > currentVersion) then
-        print("|cfff58cbaS|r|cff009cffUI|r:", "A newer version is available. If you experience any errors or bugs, updating is highly recommended.")
+        print("|cffff00d5S|r|cff027bffUI|r:", "A newer version is available. If you experience any errors or bugs, updating is highly recommended.")
     end
 end

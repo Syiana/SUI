@@ -18,15 +18,15 @@ function Module:OnEnable()
 
                         if guildMoney > cost and CanGuildBankRepair() then
                             RepairAllItems(1)
-                            print(format("|cfff07100Repair cost covered by G-Bank: %.1fg|r", cost * 0.0001))
+                            print(format("|cffff00d5S|r|cff027bffUI|r: Repair cost covered by G-Bank: %.1fg|r", cost * 0.0001))
                             return
                         end
                     end
                     if money > cost then
                         RepairAllItems()
-                        print(format("|cffead000Repair cost: %.1fg|r", cost * 0.0001))
+                        print(format("|cffff00d5S|r|cff027bffUI|r: Repair cost: %.1fg|r", cost * 0.0001))
                     else
-                        print("Not enough gold to cover the repair cost.")
+                        print("|cffff00d5S|r|cff027bffUI|r: Not enough gold to cover the repair cost.")
                     end
                 end
             end

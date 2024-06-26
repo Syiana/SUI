@@ -6,7 +6,7 @@ function Module:OnEnable()
 		local bind, localmacros = CreateFrame("Frame", "ncHoverBind", UIParent), 0
 		-- SLASH COMMAND
 		SlashCmdList.MOUSEOVERBIND = function()
-			if InCombatLockdown() then print("You can't bind keys in combat.") return end
+			if InCombatLockdown() then print("|cffff00d5S|r|cff027bffUI|r: You can't bind keys in combat.") return end
 			if not bind.loaded then
 				local find = string.find
 				local _G = getfenv(0)
@@ -175,7 +175,7 @@ function Module:OnEnable()
 						for i = 1, #self.button.bindings do
 							SetBinding(self.button.bindings[i])
 						end
-						print("All keybindings cleared for |cff00ff00"..self.button.name.."|r.")
+						print("|cffff00d5S|r|cff027bffUI|r: All keybindings cleared for |cff00ff00"..self.button.name.."|r.")
 						self:Update(self.button, self.spellmacro)
 						if self.spellmacro~="MACRO" then GameTooltip:Hide() end
 						return
@@ -205,7 +205,7 @@ function Module:OnEnable()
 					else
 						SetBinding(alt..ctrl..shift..key, self.spellmacro.." "..self.button.name)
 					end
-					print(alt..ctrl..shift..key.." |cff00ff00bound to |r"..self.button.name..".")
+					print("|cffff00d5S|r|cff027bffUI|r: "..alt..ctrl..shift..key.." |cff00ff00bound to |r"..self.button.name..".")
 					self:Update(self.button, self.spellmacro)
 					if self.spellmacro~="MACRO" then GameTooltip:Hide() end
 				end
@@ -221,10 +221,10 @@ function Module:OnEnable()
 				function bind:Deactivate(save)
 					if save then
 						SaveBindings(2)
-						print("All keybindings have been saved.")
+						print("|cffff00d5S|r|cff027bffUI|r: All keybindings have been saved.")
 					else
 						LoadBindings(2)
-						print("All newly set keybindings have been discarded.")
+						print("|cffff00d5S|r|cff027bffUI|r: All newly set keybindings have been discarded.")
 					end
 					self.enabled = false
 					self:HideFrame()

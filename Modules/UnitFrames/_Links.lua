@@ -19,13 +19,13 @@ function Module:OnEnable()
             if dropdownMenu and dropdownMenu.name then
                 name = dropdownMenu.name:lower()
             else
-                print("|cfff58cbaS|r|cff009cffUI|r: Cannot find player name to create character link.")
+                print("|cffff00d5S|r|cff027bffUI|r: Cannot find player name to create character link.")
                 return
             end
 
             local server = fixServerName(dropdownMenu.server) or fixServerName(GetNormalizedRealmName())
             if server == nil or server == "" then
-                print("|cfff58cbaS|r|cff009cffUI|r: Cannot find server to create character link.")
+                print("|cffff00d5S|r|cff027bffUI|r: Cannot find server to create character link.")
                 return
             end
 
@@ -37,7 +37,7 @@ function Module:OnEnable()
                 url = "https://ironforge.pro/pvp/player/" .. server .. "/" .. name
             end
             if not url then
-                print("|cfff58cbaS|r|cff009cffUI|r: Character Link does not exist.")
+                print("|cffff00d5S|r|cff027bffUI|r: Character Link does not exist.")
                 return
             end
             return url
@@ -49,7 +49,7 @@ function Module:OnEnable()
             StaticPopupDialogs["SUIpopup"] = nil
             StaticPopupDialogs["SUIpopup"] = {
 
-                text = "|cfff58cbaS|r|cff009cffUI|r\n\n|cffffcc00Copy the link below ( CTRL + C )|r",
+                text = "|cffff00d5S|r|cff027bffUI|r\n\n|cffffcc00Copy the link below ( CTRL + C )|r",
                 button1 = CLOSE,
                 whileDead = true,
                 hideOnEscape = true,

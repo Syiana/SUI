@@ -99,7 +99,7 @@ function Gui:OnEnable()
         GameMenuFrame, "UIPanelButtonTemplate")
     frame:SetHeight(20)
     frame:SetWidth(145)
-    frame:SetText("|cfff58cbaS|r|cff009cffUI|r")
+    frame:SetText("|cffff00d5S|r|cff027bffUI|r")
     frame:ClearAllPoints()
     frame:SetPoint("TOP", 0, -11)
     frame:RegisterForClicks("AnyUp")
@@ -108,7 +108,9 @@ function Gui:OnEnable()
         ToggleGameMenu()
     end)
 
-    SUI:Skin(SUIMenuButton)
+    if (SUI:Color()) then
+        SUI:Skin(SUIMenuButton)
+    end
 
     --Edit
     local edit = SUIConfig:Button(config, 160, 25, 'Edit')
