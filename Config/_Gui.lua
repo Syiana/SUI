@@ -515,6 +515,14 @@ function Gui:OnEnable()
                         tooltip = 'Show Totem Icons instead of a Healthbar on enemy totems',
                         column = 4,
                         order = 2
+                    },
+                    highlight = {
+                        key = 'nameplates.highlight',
+                        type = 'checkbox',
+                        label = 'Target Highlight',
+                        tooltip = 'Change Nameplate Border of current Target for better visibility',
+                        column = 4,
+                        order = 3
                     }
                 }
             },

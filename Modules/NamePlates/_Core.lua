@@ -241,6 +241,24 @@ function Module:OnEnable()
         end
     end
 
+    local function nameplateBorderColor(self)
+        if self:IsForbidden() then return end
+
+        if self.unit and self.unit:find('nameplate%d') then
+            if db.highlight then
+                if (UnitIsUnit("target", self.unit)) then
+                    SUI:Skin(self.healthBar.border, false, false, {r = .6, g = .6, b = .6})
+                else
+                    SUI:Skin(self.healthBar.border)
+                end
+            else
+                SUI:Skin(self.healthBar.border)
+            end
+
+            SUI:Skin({ self.CastBar.Border, self.CastBar.BorderShield }, false, true)
+        end
+    end
+
     if db.style ~= 'Default' then
         if db.texture ~= 'Default' then
             hooksecurefunc("CompactUnitFrame_UpdateHealthColor", nameplateTexture)
@@ -253,5 +271,10 @@ function Module:OnEnable()
         end
 
         hooksecurefunc("CastingBarFrame_OnUpdate", nameplateCastbar)
+
+        if SUI:Color() then
+            hooksecurefunc("CompactUnitFrame_UpdateHealth", nameplateBorderColor)
+            hooksecurefunc("CompactUnitFrame_OnEvent", nameplateBorderColor)
+        end
     end
 end

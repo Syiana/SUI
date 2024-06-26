@@ -26,7 +26,6 @@
   <Include file='_Item.lua'/>
   <Include file='_Lfg.lua'/>
   <Include file='_Loot.lua'/>
-  <Include file='_Nameplates.lua'/>
   <Include file='_Macro.lua'/>
   <Include file='_Mail.lua'/>
   <Include file='_Map.lua'/>
