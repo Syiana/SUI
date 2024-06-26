@@ -1,7 +1,7 @@
 ## Interface: 40400
 ## Author: Syiana & Muleyo
-## Version: 4.4.08
-## Title: |cfff58cbaS|r|cff009cffUI|r
+## Version: 4.4.09
+## Title: |cffff00d5S|r|cff027bffUI|r
 ## Notes: Made with <3 by Syiana & Muleyo
 ## SavedVariables: SUIDB
 ## X-Curse-Project-ID: 283939
