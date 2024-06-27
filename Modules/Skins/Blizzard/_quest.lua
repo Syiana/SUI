@@ -21,6 +21,7 @@ function Module:OnEnable()
         SUI:Skin(QuestFrameGoodbyeButton)
         SUI:Skin(QuestFrameCompleteQuestButton)
         SUI:Skin(QuestFrameCancelButton)
+        SUI:Skin(QuestFrameGreetingPanel)
 
         if not QuestFrameDetailPanel.ParchmentFrame then
             QuestFrameDetailPanel.ParchmentFrame = QuestFrameDetailPanel:CreateTexture(nil, "OVERLAY", nil, 1)

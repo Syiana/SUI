@@ -17,28 +17,24 @@ function Module:OnEnable()
     end
 
     FocusFrameSpellBar:HookScript("OnEvent", function(self, event)
-        if (event == "UNIT_SPELLCAST_INTERRUPTED" or event == "UNIT_SPELLCAST_FAILED") then
-            self:SetStatusBarColor(self.failedCastColor.r, self.failedCastColor.g, self.failedCastColor.b)
+        local _, _, _, _, _, _, _, notInterruptibleCast = UnitCastingInfo(self.unit)
+        local _, _, _, _, _, _, notInterruptibleChannel = UnitChannelInfo(self.unit)
+
+        if (notInterruptibleCast) then
+            self:SetStatusBarColor(.7, .7, .7)
+        elseif (notInterruptibleChannel) then
+            self:SetStatusBarColor(.7, .7, .7)
         else
-            local _, _, _, _, _, _, _, notInterruptibleCast = UnitCastingInfo(self.unit)
-            local _, _, _, _, _, _, notInterruptibleChannel = UnitChannelInfo(self.unit)
+            local color
+            local isChannel = UnitChannelInfo(self.unit);
 
-            if (notInterruptibleCast) then
-                self:SetStatusBarColor(.7, .7, .7)
-            elseif (notInterruptibleChannel) then
-                self:SetStatusBarColor(.7, .7, .7)
+            if (isChannel) then
+                color = self.startChannelColor
             else
-                local color
-                local isChannel = UnitChannelInfo(self.unit);
-
-                if (isChannel) then
-                    color = self.startChannelColor
-                else
-                    color = self.startCastColor
-                end
-
-                self:SetStatusBarColor(color.r, color.g, color.b)
+                color = self.startCastColor
             end
+
+            self:SetStatusBarColor(color.r, color.g, color.b)
         end
     end)
 
