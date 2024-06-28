@@ -8,9 +8,6 @@ Data.team = {
     { text = Colors.dev .. 'Rulez|r' },
     { text = Colors.mod .. 'Obscurrium|r' },
     { text = Colors.mod .. 'SuperTkle|r' },
-    { text = Colors.mod .. 'Proxy|r' },
-    { text = Colors.sup .. 'Marcelian|r' },
-    { text = Colors.sup .. 'Umren|r' }
 }
 
 Data.specials = {
@@ -46,11 +43,32 @@ Data.specials = {
 }
 
 Data.supporter = {
-    { text = Colors.mod .. 'sMuve|r' },
-    { text = Colors.mod .. 'GB|r' },
-    { text = Colors.mod .. 'Grave|r' },
-    { text = Colors.mod .. 'Gouger|r' },
-    { text = Colors.mod .. 'Towlito|r' },
+    { text = Colors.sup .. 'Proxy|r' },
+    { text = Colors.sup .. 'Marcelian|r' },
+    { text = Colors.sup .. 'Umren|r' },
+    { text = Colors.sup .. 'Smuve|r' },
+    { text = Colors.sup .. 'GB|r' },
+    { text = Colors.sup .. 'Grave|r' },
+    { text = Colors.sup .. 'Gouger|r' },
+    { text = Colors.sup .. 'Akelard|r' },
+    { text = Colors.sup .. 'Benedito|r' },
+    { text = Colors.sup .. 'Button|r' },
+    { text = Colors.sup .. 'Gib|r' },
+    { text = Colors.sup .. 'Kaeotik|r' },
+    { text = Colors.sup .. 'kilian|r' },
+    { text = Colors.sup .. 'Leasy|r' },
+    { text = Colors.sup .. 'Morph|r' },
+    { text = Colors.sup .. 'mrStark|r' },
+    { text = Colors.sup .. 'N1ntex|r' },
+    { text = Colors.sup .. 'Newling|r' },
+    { text = Colors.sup .. 'Oadzie|r' },
+    { text = Colors.sup .. 'Robin|r' },
+    { text = Colors.sup .. 'Sanurok|r' },
+    { text = Colors.sup .. 'ship|r' },
+    { text = Colors.sup .. 'Siccarius|r' },
+    { text = Colors.sup .. 'szexi|r' },
+    { text = Colors.sup .. 'xeno|r' },
+    { text = Colors.sup .. 'Zitna|r' },
 }
 
 Data.banned = {}
