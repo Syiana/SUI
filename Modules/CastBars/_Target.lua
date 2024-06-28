@@ -15,24 +15,26 @@ function Module:OnEnable()
     end
 
     TargetFrameSpellBar:HookScript("OnEvent", function(self, event, unit)
-        local _, _, _, _, _, _, _, notInterruptibleCast = UnitCastingInfo(self.unit)
-        local _, _, _, _, _, _, notInterruptibleChannel = UnitChannelInfo(self.unit)
+        if self.unit == "target" then
+            local _, _, _, _, _, _, _, notInterruptibleCast = UnitCastingInfo(self.unit)
+            local _, _, _, _, _, _, notInterruptibleChannel = UnitChannelInfo(self.unit)
 
-        if (notInterruptibleCast) then
-            self:SetStatusBarColor(.7, .7, .7)
-        elseif (notInterruptibleChannel) then
-            self:SetStatusBarColor(.7, .7, .7)
-        else
-            local color
-            local isChannel = UnitChannelInfo(self.unit);
-
-            if (isChannel) then
-                color = self.startChannelColor
+            if (notInterruptibleCast) then
+                TargetFrameSpellBar:SetStatusBarColor(.7, .7, .7)
+            elseif (notInterruptibleChannel) then
+                TargetFrameSpellBar:SetStatusBarColor(.7, .7, .7)
             else
-                color = self.startCastColor
-            end
+                local color
+                local isChannel = UnitChannelInfo(self.unit);
 
-            self:SetStatusBarColor(color.r, color.g, color.b)
+                if (isChannel) then
+                    color = TargetFrameSpellBar.startChannelColor
+                else
+                    color = TargetFrameSpellBar.startCastColor
+                end
+
+                TargetFrameSpellBar:SetStatusBarColor(color.r, color.g, color.b)
+            end
         end
     end)
     

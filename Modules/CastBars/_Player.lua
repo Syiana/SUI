@@ -12,24 +12,26 @@ function Module:OnEnable()
     end
 
     CastingBarFrame:HookScript("OnEvent", function(self, event)
-        local _, _, _, _, _, _, _, notInterruptibleCast = UnitCastingInfo("player")
-        local _, _, _, _, _, _, notInterruptibleChannel = UnitChannelInfo("player")
+        if self.unit == "player" then
+            local _, _, _, _, _, _, _, notInterruptibleCast = UnitCastingInfo("player")
+            local _, _, _, _, _, _, notInterruptibleChannel = UnitChannelInfo("player")
 
-        if (notInterruptibleCast) then
-            self:SetStatusBarColor(.7, .7, .7)
-        elseif (notInterruptibleChannel) then
-            self:SetStatusBarColor(.7, .7, .7)
-        else
-            local color
-            local isChannel = UnitChannelInfo("player");
-
-            if (isChannel) then
-                color = self.startChannelColor
+            if (notInterruptibleCast) then
+                CastingBarFrame:SetStatusBarColor(.7, .7, .7)
+            elseif (notInterruptibleChannel) then
+                CastingBarFrame:SetStatusBarColor(.7, .7, .7)
             else
-                color = self.startCastColor
-            end
+                local color
+                local isChannel = UnitChannelInfo("player");
 
-            self:SetStatusBarColor(color.r, color.g, color.b)
+                if (isChannel) then
+                    color = CastingBarFrame.startChannelColor
+                else
+                    color = CastingBarFrame.startCastColor
+                end
+
+                CastingBarFrame:SetStatusBarColor(color.r, color.g, color.b)
+            end
         end
     end)
 
@@ -57,21 +59,14 @@ function Module:OnEnable()
             
             --Texture
             CastingBarFrame.Border:SetDrawLayer("OVERLAY", 1)
-
             MirrorTimer1Border:SetTexture("Interface\\CastingBar\\UI-CastingBar-Border-Small")
-            MirrorTimer1Border:SetPoint("TOP", 0, 26)
-
-            --TimerTrackerTimer1StatusBarBorder:SetTexture("Interface\\CastingBar\\UI-CastingBar-Border-Small")
-            --TimerTrackerTimer1StatusBarBorder:SetPoint("TOP", 0, 26)
 
             if (db.texture ~= 'Default') then
                 CastingBarFrame:SetStatusBarTexture(db.texture)
                 MirrorTimer1StatusBar:SetStatusBarTexture(db.texture)
                 MirrorTimer1StatusBar:GetStatusBarTexture():SetDrawLayer("BORDER")
-            else
-                CastingBarFrame:SetStatusBarTexture("Interface\\Addons\\SUI\\Media\\Textures\\Unitframes\\UI-StatusBar")
-                MirrorTimer1StatusBar:SetStatusBarTexture("Interface\\Addons\\SUI\\Media\\Textures\\Unitframes\\UI-StatusBar")
-                MirrorTimer1StatusBar:GetStatusBarTexture():SetDrawLayer("BORDER")
+                MirrorTimer1StatusBar:ClearAllPoints()
+                MirrorTimer1StatusBar:SetPoint("CENTER", MirrorTimer1, "CENTER", 0, 6)
             end
 
             CastingBarFrame:SetWidth(CastingBarFrame:GetWidth()-0.7)
