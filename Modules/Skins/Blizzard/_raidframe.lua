@@ -2,6 +2,12 @@ local Module = SUI:NewModule("Skins.RaidFrame");
 
 function Module:OnEnable()
     if (SUI:Color()) then
+        for i = 1, 5 do
+            local frame = _G["CompactRaidFrame" .. i .. "HorizDivider"]
+            if frame then
+                SUI:Skin({frame}, false, true)
+            end
+        end
         local frame = CreateFrame("Frame")
         frame:RegisterEvent("GROUP_ROSTER_UPDATE")
         frame:SetScript("OnEvent", function(self, event)
@@ -19,21 +25,16 @@ function Module:OnEnable()
                     if frame then
                         SUI:Skin(frame)
                     end
+                end
+            end
 
-                    local frame = _G["CompactRaidFrame" .. m]
-                    if frame then
-                        SUI:Skin(frame)
-                    end
+            for i = 1, 5 do
+                local frame = _G["CompactRaidFrame" .. i .. "HorizDivider"]
+                if frame then
+                    SUI:Skin({frame}, false, true)
                 end
             end
         end)
-
-        for i = 1, 5 do
-            local frame = _G["CompactRaidFrame" .. i .. "HorizDivider"]
-            if frame then
-                SUI:Skin({frame}, false, true)
-            end
-        end
         CompactRaidFrameManagerToggleButton:SetNormalTexture(
         "Interface\\Addons\\SUI\\Media\\Textures\\RaidFrames\\RaidPanel-Toggle")
         for i = 1, 4 do
