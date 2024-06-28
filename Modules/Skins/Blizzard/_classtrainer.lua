@@ -12,6 +12,7 @@ function Module:OnEnable()
                 SUI:Skin(ClassTrainerListScrollFrame)
                 SUI:Skin(ClassTrainerDetailScrollFrame)
                 SUI:Skin(ClassTrainerCollapseAllButton)
+                SUI:Skin(ClassTrainerFrameFilterDropDown)
             end
         end)
     end

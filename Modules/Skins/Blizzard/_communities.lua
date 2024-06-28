@@ -21,6 +21,11 @@ function Module:OnEnable()
                 SUI:Skin(CommunitiesFrameCommunitiesList.FilligreeOverlay)
                 SUI:Skin(CommunitiesFrame.Chat.InsetFrame)
                 SUI:Skin(CommunitiesFrame.GuildLogButton)
+                SUI:Skin(CommunitiesFrame.StreamDropDownMenu)
+                select(1, CommunitiesFrame.ChatTab:GetRegions()):SetVertexColor(.15, .15, .15)
+                select(1, CommunitiesFrame.RosterTab:GetRegions()):SetVertexColor(.15, .15, .15)
+                select(1, CommunitiesFrame.GuildBenefitsTab:GetRegions()):SetVertexColor(.15, .15, .15)
+                select(1, CommunitiesFrame.GuildInfoTab:GetRegions()):SetVertexColor(.15, .15, .15)
             end
         end)
     end

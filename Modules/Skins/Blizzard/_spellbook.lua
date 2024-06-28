@@ -13,6 +13,10 @@ function Module:OnEnable()
             end
         end
 
+        for i = 1, GetNumSpellTabs() do
+            SUI:Skin(_G["SpellBookSkillLineTab" .. i])
+        end
+
         SpellBookPageText:SetTextColor(.8, .8, .8)
 
         PrimaryProfession1Missing:GetTextColor()

@@ -8,5 +8,6 @@ function Module:OnEnable()
         SUI:Skin(MerchantMoneyInset)
         SUI:Skin(MerchantFrameTab1)
         SUI:Skin(MerchantFrameTab2)
+        SUI:Skin(MerchantMoneyBg)
     end
 end

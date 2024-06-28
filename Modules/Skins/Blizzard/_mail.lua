@@ -16,6 +16,11 @@ function Module:OnEnable()
             SUI:Skin(SendMailMoneyBg)
             SUI:Skin(OpenMailFrame)
             SUI:Skin(OpenMailFrameInset)
+            SUI:Skin(SendMailNameEditBox)
+            SUI:Skin(SendMailSubjectEditBox)
+            SUI:Skin(SendMailMoneyGold)
+            SUI:Skin(SendMailMoneySilver)
+            SUI:Skin(SendMailMoneyCopper)
         end)
     end
 end

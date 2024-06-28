@@ -8,6 +8,9 @@ function Module:OnEnable()
             if name == "Blizzard_Collections" then
                 SUI:Skin(WardrobeFrame)
                 SUI:Skin(WardrobeTransmogFrame)
+                SUI:Skin(WardrobeTransmogFrame.Inset)
+                SUI:Skin(WardrobeTransmogFrame.ApplyButton)
+                SUI:Skin(WardrobeCollectionFrameTab1)
             end
         end)
     end

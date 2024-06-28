@@ -19,6 +19,7 @@ function Module:OnEnable()
                 SUI:Skin(MacroEditButton)
                 SUI:Skin(MacroSaveButton)
                 SUI:Skin(MacroCancelButton)
+                SUI:Skin(MacroFrame.MacroSelector.ScrollBox.Shadows)
             end
         end)
     end

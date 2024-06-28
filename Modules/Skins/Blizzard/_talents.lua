@@ -13,9 +13,8 @@ function Module:OnEnable()
                 SUI:Skin(PlayerTalentFramePanel1)
                 SUI:Skin(PlayerTalentFramePanel2)
                 SUI:Skin(PlayerTalentFramePanel3)
-                if (PlayerTalentFramePanel4) then
-                    SUI:Skin(PlayerTalentFramePanel4)
-                end
+                SUI:Skin(GlyphFrameFilterDropDown)
+                SUI:Skin(GlyphFrameSearchBox)
 
                 SUI:Skin(PlayerTalentFrameLearnButton)
                 SUI:Skin(PlayerTalentFrameResetButton)
@@ -46,6 +45,10 @@ function Module:OnEnable()
                 -- Tabs
                 SUI:Skin(PlayerTalentFrameTab1)
                 SUI:Skin(PlayerTalentFrameTab3)
+
+                -- Spec Tabs
+                select(1, PlayerSpecTab1:GetRegions()):SetVertexColor(.15, .15, .15)
+                select(1, PlayerSpecTab2:GetRegions()):SetVertexColor(.15, .15, .15)
             end
 
             if (GlyphFrame) then
@@ -56,6 +59,8 @@ function Module:OnEnable()
                 SUI:Skin(GlyphFrameSideInset)
                 SUI:Skin(GlyphFrameHeader1)
                 SUI:Skin(GlyphFrameHeader2)
+                SUI:Skin(GlyphFrameFilterDropDown)
+                SUI:Skin(GlyphFrameSearchBox)
                 SUI:Skin({
                         GlyphFrameScrollFrameScrollBarTop,
                         GlyphFrameScrollFrameScrollBarMiddle,

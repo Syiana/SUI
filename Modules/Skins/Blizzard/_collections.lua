@@ -21,6 +21,9 @@ function Module:OnEnable()
                 SUI:Skin(MountJournal.ScrollBar)
                 SUI:Skin(MountJournal.ScrollBar.Background)
                 SUI:Skin(MountJournalMountButton)
+                SUI:Skin(MountJournalFilterButton)
+                SUI:Skin(MountJournalSearchBox)
+                SUI:Skin(MountJournal.MountCount)
 
                 -- Pet Journal
                 SUI:Skin(PetJournal)
@@ -29,15 +32,32 @@ function Module:OnEnable()
                 SUI:Skin(PetJournal.ScrollBar)
                 SUI:Skin(PetJournal.ScrollBar.Background)
                 SUI:Skin(PetJournalSummonButton)
+                SUI:Skin(PetJournalFilterButton)
+                SUI:Skin(PetJournalSearchBox)
+                SUI:Skin(PetJournal.PetCount)
 
                 -- Toy Box
                 SUI:Skin(ToyBox)
+                SUI:Skin(ToyBox.iconsFrame)
+                SUI:Skin(ToyBox.searchBox)
+                SUI:Skin(ToyBoxFilterButton)
+                SUI:Skin({ToyBox.progressBar.border}, false, true)
 
                 -- Heirlooms Journal
                 SUI:Skin(HeirloomsJournal)
+                SUI:Skin(HeirloomsJournal.iconsFrame)
+                SUI:Skin(HeirloomsJournalClassDropDown)
+                SUI:Skin(HeirloomsJournalSearchBox)
+                SUI:Skin(HeirloomsJournal.FilterButton)
+                SUI:Skin({HeirloomsJournal.progressBar.border}, false, true)
 
                 -- Wardrobe Journal
                 SUI:Skin(WardrobeCollectionFrame)
+                SUI:Skin(WardrobeCollectionFrame.ItemsCollectionFrame)
+                SUI:Skin(WardrobeCollectionFrameWeaponDropDown)
+                SUI:Skin({WardrobeCollectionFrame.progressBar.border}, false, true)
+                SUI:Skin(WardrobeCollectionFrameSearchBox)
+                SUI:Skin(WardrobeCollectionFrame.FilterButton)
             end
         end)
     end

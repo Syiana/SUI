@@ -9,5 +9,6 @@ function Module:OnEnable()
         SUI:Skin(AddonListOkayButton)
         SUI:Skin(AddonListCancelButton)
         SUI:Skin(AddonListScrollFrame)
+        SUI:Skin(AddonCharacterDropDown)
     end
 end

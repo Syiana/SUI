@@ -2,35 +2,28 @@ local Module = SUI:NewModule("Skins.Guild");
 
 function Module:OnEnable()
     if (SUI:Color()) then
-        for i, v in pairs({
-            GuildRegistrarFrameTopEdge,
-            GuildRegistrarFrameRightEdge,
-            GuildRegistrarFrameBottomEdge,
-            GuildRegistrarFrameLeftEdge,
-            GuildRegistrarFrameTopRightCorner,
-            GuildRegistrarFrameTopLeftCorner,
-            GuildRegistrarFrameBottomLeftCorner,
-            GuildRegistrarFrameBottomRightCorner,
-            TabardFrameTopEdge,
-            TabardFrameRightEdge,
-            TabardFrameBottomEdge,
-            TabardFrameLeftEdge,
-            TabardFrameTopRightCorner,
-            TabardFrameTopLeftCorner,
-            TabardFrameBottomLeftCorner,
-            TabardFrameBottomRightCorner,
-        }) do
-            v:SetVertexColor(.15, .15, .15)
+        SUI:Skin(TabardFrame)
+        SUI:Skin(TabardFrameAcceptButton)
+        SUI:Skin(TabardFrameCancelButton)
+
+        SUI:Skin(GuildRegistrarFrame)
+        SUI:Skin(GuildRegistrarGreetingFrame)
+        SUI:Skin(GuildRegistrarFrameGoodbyeButton)
+        SUI:Skin(GuildRegistrarFrameEditBox)
+        SUI:Skin(GuildRegistrarFramePurchaseButton)
+        SUI:Skin(GuildRegistrarFrameCancelButton)
+        select(3, GuildRegistrarButton1:GetRegions()):SetTextColor(.8, .8, .8)
+        select(3, GuildRegistrarButton2:GetRegions()):SetTextColor(.8, .8, .8)
+
+        local texts = {
+            GuildAvailableServicesText,
+            GuildRegistrarPurchaseText
+        }
+
+        for _, v in pairs(texts) do
+            v:SetTextColor(.8, .8, .8)
         end
-        for i, v in pairs({
-            GuildRegistrarFrameBg,
-            GuildRegistrarFrameTitleBg,
-            GuildRegistrarFrameInsetBg,
-            TabardFrameBg,
-            TabardFrameTitleBg,
-            TabardFrameInsetBg }) do
-            v:SetVertexColor(.3, .3, .3)
-        end
+
         local f = CreateFrame("Frame")
         f:RegisterEvent("ADDON_LOADED")
         f:SetScript("OnEvent", function(self, event, name)

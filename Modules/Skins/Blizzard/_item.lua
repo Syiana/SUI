@@ -2,37 +2,10 @@ local Module = SUI:NewModule("Skins.Item");
 
 function Module:OnEnable()
     if (SUI:Color()) then
-        for i, v in pairs({
-            ItemTextFrameTopEdge,
-            ItemTextFraightEdge,
-            ItemTextFrameBottomEdge,
-            ItemTextFrameLeftEdge,
-            ItemTextFrameTopRightCorner,
-            ItemTextFrameTopLeftCorner,
-            ItemTextFrameBottomLeftCorner,
-            ItemTextFrameBottomRightCorner,
-        }) do
-            v:SetVertexColor(.15, .15, .15)
-        end
-
-        -- PetitionFrame
-        for i, v in pairs({
-            PetitionFrameTopEdge,
-            PetitionFrameRightEdge,
-            PetitionFrameBottomEdge,
-            PetitionFrameLeftEdge,
-            PetitionFrameTopRightCorner,
-            PetitionFrameTopLeftCorner,
-            PetitionFrameBottomLeftCorner,
-            PetitionFrameBottomRightCorner,
-        }) do
-            v:SetVertexColor(.15, .15, .15)
-        end
-        for i, v in pairs({
-            PetitionFrameBg,
-            PetitionFrameTitleBg,
-            PetitionFrameInsetBg }) do
-            v:SetVertexColor(.3, .3, .3)
-        end
+        SUI:Skin(ItemTextFrame)
+        SUI:Skin(ItemTextScrollFrame)
+        ItemTextPageText:HookScript("OnUpdate", function(self)
+            select(1, self:GetRegions()):SetVertexColor(.8, .8, .8)
+        end)
     end
 end

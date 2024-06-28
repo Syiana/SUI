@@ -7,6 +7,7 @@ function Module:OnEnable()
         f:SetScript("OnEvent", function(self, event, name)
             if name == "Blizzard_Calendar" then
                 SUI:Skin(CalendarFrame)
+                SUI:Skin(CalendarFilterFrame)
             end
         end)
     end

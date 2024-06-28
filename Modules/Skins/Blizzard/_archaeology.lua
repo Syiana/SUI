@@ -9,6 +9,7 @@ function Module:OnEnable()
                 SUI:Skin(ArchaeologyFrame)
                 SUI:Skin(ArchaeologyFrameArtifactPageSolveFrameSolveButton)
                 SUI:Skin(ArchaeologyFrameRaceFilter)
+                SUI:Skin({ArchaeologyFrameRankBarBorder}, false, true)
             end
         end)
     end

@@ -299,7 +299,29 @@ function SUI:OnInitialize()
             ["TradeFramePlayerPortrait"] = true,
             ["DressUpFramePortrait"] = true,
             ["ReadyCheckPortrait"] = true,
-            ["ItemSocketingFramePortrait"] = true
+            ["ItemSocketingFramePortrait"] = true,
+            ["FriendsFrameStatusDropDownStatus"] = true,
+            ["WardrobeFramePortrait"] = true,
+            ["TaxiPortrait"] = true,
+            ["TaxiMap"] = true,
+            ["TabardFramePortrait"] = true,
+            ["TabardFrameEmblemTopLeft"] = true,
+            ["TabardFrameEmblemTopRight"] = true,
+            ["TabardFrameEmblemBottomLeft"] = true,
+            ["TabardFrameEmblemBottomRight"] = true,
+            ["GuildRegistrarFramePortrait"] = true,
+            ["PetitionFramePortrait"] = true,
+            ["LootFramePortraitOverlay"] = true,
+            [select(1,QuestLogFrame:GetRegions())] = true,
+            [select(18, MailFrame:GetRegions())] = true,
+            [select(2, SpellBookSkillLineTab1:GetRegions())] = true,
+            [select(2, SpellBookSkillLineTab2:GetRegions())] = true,
+            [select(2, SpellBookSkillLineTab3:GetRegions())] = true,
+            [select(2, SpellBookSkillLineTab4:GetRegions())] = true,
+            [select(1, ItemTextFrame:GetRegions())] = true,
+            [select(6, SendMailMoneyGold:GetRegions())] = true,
+            [select(6, SendMailMoneySilver:GetRegions())] = true,
+            [select(6, SendMailMoneyCopper:GetRegions())] = true,
         }
 
         if (frame) then
@@ -313,7 +335,7 @@ function SUI:OnInitialize()
                 end
             else
                 for _, v in pairs({ frame:GetRegions() }) do
-                    if not (forbiddenFrames[v:GetName()]) then
+                    if (not forbiddenFrames[v:GetName()]) and (not forbiddenFrames[v]) then
                         if v:GetObjectType() == "Texture" then
                             if (color) then
                                 v:SetVertexColor(color.r, color.g, color.b)

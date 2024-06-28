@@ -12,6 +12,7 @@ function Module:OnEnable()
                 SUI:Skin(EncounterJournalDungeonTab)
                 SUI:Skin(EncounterJournalRaidTab)
                 SUI:Skin(EncounterJournalNavBar)
+                SUI:Skin(EncounterJournalSearchBox)
             end
         end)
     end

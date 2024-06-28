@@ -14,6 +14,8 @@ function Module:OnEnable()
                 SUI:Skin(TradeSkillCreateButton)
                 SUI:Skin(TradeSkillCancelButton)
                 SUI:Skin(TradeSkillListScrollFrame)
+                SUI:Skin(TradeSkillFrameEditBox)
+                SUI:Skin(TradeSkillInputBox)
             end
         end)
     end
