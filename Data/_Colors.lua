@@ -3,7 +3,9 @@ local Colors  = SUI:NewModule('Data.Colors');
 Colors.aut    = '|cfff72a53'
 Colors.mod    = '|cff2a91f7'
 Colors.dev    = '|cff2af7af'
-Colors.sup    = '|cffe08000'
+Colors.sup    = '|cff03fce3'
+
+-- Class Colors
 Colors.dk     = '|cffC41E3A'
 Colors.druid  = '|cffFF7C0A'
 Colors.pala   = '|cffF48CBA'
