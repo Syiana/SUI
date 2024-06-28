@@ -5,9 +5,12 @@ local Themes = SUI:GetModule("Data.Themes")
 local Fonts = SUI:GetModule("Data.Fonts")
 local Textures = SUI:GetModule("Data.Textures")
 local User = SUI:GetModule("Data.User")
+local Colors = SUI:GetModule('Data.Colors');
 
 -- Components
 local CvarsBrowser = SUI:GetModule("Config.Components.CvarsBrowser")
+local ProfileExport = SUI:GetModule("Config.Components.ProfileExport")
+local ProfileImport = SUI:GetModule("Config.Components.ProfileImport")
 
 function Gui:OnEnable()
     local SUIConfig = LibStub('SUIConfig')
@@ -61,7 +64,7 @@ function Gui:OnEnable()
     local db = SUI.db
 
     -- Config
-    local config = SUIConfig:Window(UIParent, 700, 400)
+    local config = SUIConfig:Window(UIParent, 700, 425)
     config:SetPoint('CENTER')
     config.titlePanel:SetPoint('LEFT', 10, 0)
     config.titlePanel:SetPoint('RIGHT', -35, 0)
@@ -92,6 +95,36 @@ function Gui:OnEnable()
             end
             UIFrameFade(config, fadeInfo)
         end
+    end
+
+    local function popupLink(url)
+        if not url then return end
+        StaticPopupDialogs["SUIpopup"] = nil
+        StaticPopupDialogs["SUIpopup"] = {
+
+            text = "|cffff00d5S|r|cff027bffUI|r\n\n|cffffcc00Copy the link below ( CTRL + C )|r",
+            button1 = CLOSE,
+            whileDead = true,
+            hideOnEscape = true,
+            hasEditBox = true,
+            editBoxWidth = #url * 6.5,
+            EditBoxOnEscapePressed = function(self)
+                self:GetParent():Hide()
+            end,
+            OnShow = function(self, data)
+                self.editBox:SetText(data.url)
+                self.editBox:HighlightText()
+                self.editBox:SetScript("OnKeyDown", function(_, key)
+                    if key == "C" and IsControlKeyDown() then
+                        C_Timer.After(0.3, function()
+                            self.editBox:GetParent():Hide()
+                            UIErrorsFrame:AddMessage("Link copied to clipboard")
+                        end)
+                    end
+                end)
+            end,
+        }
+        StaticPopup_Show("SUIpopup", "", "", { url = url })
     end
 
     GameMenuFrameHeader:Hide()
@@ -139,8 +172,8 @@ function Gui:OnEnable()
         { title = 'Map',        name = 'Map' },
         { title = 'Chat',       name = 'Chat' },
         { title = 'Misc',       name = 'Misc' },
+        { title = 'Profile',    name = 'Profile' },
         { title = 'FAQ',        name = 'FAQ' },
-        -- {title = 'Profiles', name = 'Profiles'},
     }
     local tabs = SUIConfig:TabPanel(config, nil, nil, categories, true, nil, 25)
     SUIConfig:GlueAcross(tabs, config, 10, -35, -10, 10)
@@ -1113,6 +1146,59 @@ function Gui:OnEnable()
                 }
             },
         },
+        Profile = {
+            layoutConfig = { padding = { top = 15 } },
+            rows = {
+                {
+                    header = {
+                        type = 'header',
+                        label = 'Profile Sharing'
+                    },
+                },
+                {
+                    export = {
+                        type = 'button',
+                        text = 'Export',
+                        onClick = function()
+                            ProfileExport.Show(tostring(db))
+                        end,
+                        column = 3,
+                        order = 1
+                    },
+                    import = {
+                        type = 'button',
+                        text = 'Import',
+                        onClick = function()
+                            ProfileImport.Show()
+                        end,
+                        column = 3,
+                        order = 2
+                    },
+                    reset = {
+                        type = 'button',
+                        text = 'Reset UI',
+                        onClick = function()
+                            local buttons = {
+                                ok = {
+                                    text    = 'Confirm',
+                                    onClick = function()
+                                        db:ResetProfile()
+                                        ReloadUI()
+                                    end
+                                },
+                                cancel = {
+                                    text    = 'Cancel',
+                                    onClick = function(self) self:GetParent():Hide() end
+                                }
+                            }
+                            SUIConfig:Confirm('Reset Profile', 'This will reset all your settings to default!', buttons)
+                        end,
+                        column = 3,
+                        order = 3
+                    }
+                }
+            },
+        },
         FAQ = {
             layoutConfig = { padding = { top = 15 } },
             rows = {
@@ -1182,9 +1268,9 @@ function Gui:OnEnable()
                     },
                 },
                 {
-                    header = {
-                        type = 'header',
-                        label = 'Help'
+                    label = {
+                        type = 'label',
+                        label = 'Legend: ' .. Colors.aut .. 'Owner|r, ' .. Colors.mod .. 'Moderator|r, ' .. Colors.dev .. 'Developer|r, ' .. Colors.sup .. 'Supporter|r'
                     }
                 },
                 {
@@ -1192,111 +1278,33 @@ function Gui:OnEnable()
                         type = 'button',
                         text = 'Discord',
                         onClick = function()
-                            SUIConfig:Dialog('Discord', 'discord.gg/yBWkxxR')
+                            popupLink('https://discord.gg/yBWkxxR')
+                            --SUIConfig:Dialog('Discord', 'discord.gg/yBWkxxR')
                         end,
                         column = 3,
                         order = 1
                     },
-                    twitch = {
+                    twitch_syiana = {
                         type = 'button',
-                        text = 'Twitch',
+                        text = 'Twitch (Syiana)',
                         onClick = function()
-                            SUIConfig:Dialog('Twitch', 'twitch.tv/syiana')
+                            popupLink('https://twitch.tv/syiana')
                         end,
                         column = 3,
                         order = 2
                     },
-                    reset = {
+                    twitch_muleyo = {
                         type = 'button',
-                        text = 'Reset UI',
+                        text = 'Twitch (Muleyo)',
                         onClick = function()
-                            local buttons = {
-                                ok = {
-                                    text    = 'Confirm',
-                                    onClick = function()
-                                        db:ResetProfile()
-                                        ReloadUI()
-                                    end
-                                },
-                                cancel = {
-                                    text    = 'Cancel',
-                                    onClick = function(self) self:GetParent():Hide() end
-                                }
-                            }
-                            SUIConfig:Confirm('Reset UI', 'This will reset your profile', buttons)
+                            popupLink('https://twitch.tv/muleyo')
                         end,
                         column = 3,
                         order = 3
-                    }
+                    },
                 }
             },
-        },
-        Profiles = {
-            layoutConfig = { padding = { top = 15 } },
-            rows = {
-                {
-                    header = {
-                        type = 'header',
-                        label = 'Profiles'
-                    }
-                },
-                {
-                    profile = {
-                        type = 'dropdown',
-                        label = 'Profile',
-                        options = {
-                            { value = 1, text = 'Default' },
-                            { value = 2, text = 'Custom' }
-                        },
-                        initialValue = 1,
-                        column = 6,
-                        order = 1
-                    }
-                },
-                {
-                    copy = {
-                        type = 'dropdown',
-                        label = 'Copy from',
-                        options = {
-                            { value = 1, text = 'Default' },
-                            { value = 2, text = 'Custom' }
-                        },
-                        initialValue = 1,
-                        column = 6,
-                        order = 1
-                    }
-                },
-                {
-                    new = {
-                        type = 'button',
-                        text = 'New',
-                        onClick = function()
-                            print("new profile");
-                        end,
-                        column = 3,
-                        order = 1
-                    },
-                    delete = {
-                        type = 'button',
-                        text = 'Delete',
-                        column = 3,
-                        order = 2
-                    },
-                    export = {
-                        type = 'button',
-                        text = 'Export',
-                        column = 3,
-                        order = 3
-                    },
-                    import = {
-                        type = 'button',
-                        text = 'Import',
-                        column = 3,
-                        order = 4
-                    }
-                }
-            },
-        },
+        }
     }
 
     tabs:EnumerateTabs(function(tab)

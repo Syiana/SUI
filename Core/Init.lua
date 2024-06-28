@@ -1,4 +1,4 @@
-SUI = LibStub("AceAddon-3.0"):NewAddon("SUI", "AceEvent-3.0", "AceComm-3.0")
+SUI = LibStub("AceAddon-3.0"):NewAddon("SUI", "AceEvent-3.0", "AceComm-3.0", "AceSerializer-3.0")
 local addonName, addon = ...
 
 DisableAddOn('LortiUI')
