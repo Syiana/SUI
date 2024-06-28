@@ -28,6 +28,7 @@ local defaults = {
             },
             display = {
                 ilvl = true,
+                --avgilvl = false,
                 fps = true,
                 ms = true
             }
@@ -322,6 +323,7 @@ function SUI:OnInitialize()
             [select(6, SendMailMoneyGold:GetRegions())] = true,
             [select(6, SendMailMoneySilver:GetRegions())] = true,
             [select(6, SendMailMoneyCopper:GetRegions())] = true,
+            [select(12, CompactRaidFrameManagerDisplayFrameLeaderOptionsRaidWorldMarkerButton:GetRegions())] = true,
         }
 
         if (frame) then

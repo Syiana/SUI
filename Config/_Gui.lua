@@ -339,13 +339,21 @@ function Gui:OnEnable()
                         column = 3,
                         order = 1
                     },
+                    --[[avgilvl = {
+                        key = 'display.avgilvl',
+                        type = 'checkbox',
+                        label = 'Average ItemLevel',
+                        tooltip = 'Display Average ItemLevel on inspected targets',
+                        column = 4,
+                        order = 2
+                    },]]
                     fps = {
                         key = 'display.fps',
                         type = 'checkbox',
                         label = 'FPS',
                         tooltip = 'Show current FPS',
                         column = 2,
-                        order = 2
+                        order = 3
                     },
                     ms = {
                         key = 'display.ms',
@@ -353,7 +361,7 @@ function Gui:OnEnable()
                         label = 'MS',
                         tooltip = 'Show current ping',
                         column = 2,
-                        order = 3
+                        order = 4
                     }
                 }
             },

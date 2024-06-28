@@ -16,12 +16,6 @@ function Module:OnEnable()
 						self.powerBar:GetStatusBarTexture():SetDrawLayer("BORDER")
 					end
 
-					if name:find('CompactRaidFrame') then
-						if SUI:Color() then
-							SUI:Skin(CompactRaidFrameContainerBorderFrame)
-						end
-					end
-
 					self.vertLeftBorder:Hide()
 					self.vertRightBorder:Hide()
 					self.horizTopBorder:Hide()
