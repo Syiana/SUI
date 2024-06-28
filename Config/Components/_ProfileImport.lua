@@ -19,7 +19,7 @@ function ProfileImport:ImportProfile(string, doImport)
     --LibDefalte uncompress
     local uncompressed_profile = LibDeflate:DecompressZlib(decoded_profile)
     if uncompressed_profile == nil then
-        return "< ERROR: Invalid Import string >"
+        return "< ERROR: Invalid Import String >"
     end
     --AceSerialize
     --deserialize the profile and overwirte the current values
@@ -122,30 +122,32 @@ local function buildProfileImport()
         UIFrameFade(window, fadeInfo)
     end)
 
-    importButton:SetScript("OnClick", function(self)
-        -- Initiate Variable
-        local importString
+    -- Initiate Variable
+    local importString
 
+    importButton:SetScript("OnClick", function(self)
         -- Get Button Text
         local text = importButton:GetText()
 
         -- Check Import String
         if (ProfileImport:ImportProfile(editBox:GetValue())) then
-            local response = ProfileImport:ImportProfile(editBox:GetValue())
+            local string = editBox:GetValue()
+            local response = ProfileImport:ImportProfile(importString or string)
 
+            -- Check Import String
             if (text == 'Validate') then
-                -- Set String into variable
-                importString = editBox:GetValue()
+                if (string.find(response, 'OK')) then
+                    -- set importString value
+                    importString = string
 
-                -- Set Response as EditBox value
-                editBox:SetValue(response)
-
-                if string.find(response, 'ERROR') then
+                    -- Set Response as EditBox value
+                    editBox:SetValue(response)
+                    self:SetText('Import')
+                    editBox:Disable()
+                elseif (string.find(response, 'ERROR')) then
+                    editBox:SetValue(response)
                     editBox.editBox:HighlightText()
-                    return
                 end
-                self:SetText('Import')
-                editBox:Disable()
             elseif (text == 'Import') then
                 -- Hide Import Window
                 local fadeInfo = {}
