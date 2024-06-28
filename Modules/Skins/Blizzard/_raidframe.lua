@@ -44,7 +44,7 @@ function Module:OnEnable()
                 end
             end
 
-            for i = 1, 5 do
+            for i = 1, 40 do
                 local frame = _G["CompactRaidFrame" .. i .. "HorizDivider"]
                 if frame then
                     SUI:Skin({frame}, false, true)
