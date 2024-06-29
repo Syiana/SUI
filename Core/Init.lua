@@ -108,6 +108,7 @@ local defaults = {
             mouseanchor = false
         },
         buffs = {
+            fading = false,
             buff = {
                 size = 32,
                 padding = 2,

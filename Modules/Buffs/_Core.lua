@@ -5,6 +5,13 @@ function Buffs:OnEnable()
     if (db) then
         FONT = STANDARD_TEXT_FONT
 
+        -- Prevent Buff Fading Animation
+        if (db.fading) then
+            BuffFrame:HookScript("OnUpdate", function(self)
+                self.BuffAlphaValue = 1
+            end)
+        end
+
         --Buffs
         local bf = CreateFrame("Frame", "BuffDragFrame", UIParent)
         bf:SetSize(32, 32)
@@ -218,6 +225,7 @@ function Buffs:OnEnable()
                 local button = _G[buttonName .. index]
                 if not button then return end
                 if not button.consolidated then
+                    button.BuffFrameFlashState = 0
                     buffCounter = buffCounter + 1
                     if not button.styled then applySkin(button) end
                     button:ClearAllPoints()

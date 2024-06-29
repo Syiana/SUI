@@ -846,7 +846,17 @@ function Gui:OnEnable()
                 {
                     header = {
                         type = 'header',
-                        label = 'Minimap'
+                        label = 'Player'
+                    }
+                },
+                {
+                    fading = {
+                        key = 'buffs.fading',
+                        type = 'checkbox',
+                        label = 'No Fading',
+                        tooltip = 'No Buff/Debuff fading when expiring',
+                        column = 3,
+                        order = 1
                     }
                 },
                 {
