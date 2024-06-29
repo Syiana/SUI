@@ -315,13 +315,21 @@ function Gui:OnEnable()
                         column = 3,
                         order = 1
                     },
+                    errors = {
+                        key = 'cosmetic.errors',
+                        type = 'checkbox',
+                        label = 'Error Messages',
+                        tooltip = 'Show Error Messages',
+                        column = 3,
+                        order = 2
+                    },
                     talkhead = {
                         key = 'cosmetic.talkinghead',
                         type = 'checkbox',
                         label = 'Talkinghead',
                         tooltip = 'Show Talkinghead frame',
                         column = 3,
-                        order = 2
+                        order = 3
                     }
                 },
                 {

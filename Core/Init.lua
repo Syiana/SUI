@@ -24,6 +24,7 @@ local defaults = {
             },
             cosmetic = {
                 afkscreen = true,
+                errors = false,
                 talkhead = false,
             },
             display = {
