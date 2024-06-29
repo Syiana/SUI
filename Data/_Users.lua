@@ -47,6 +47,7 @@ Data.supporter = {
     { text = Colors.sup .. 'Marcelian|r' },
     { text = Colors.sup .. 'Umren|r' },
     { text = Colors.sup .. 'Smuve|r' },
+    { text = Colors.sup .. 'Towlito|r' },
     { text = Colors.sup .. 'GB|r' },
     { text = Colors.sup .. 'Grave|r' },
     { text = Colors.sup .. 'Gouger|r' },
