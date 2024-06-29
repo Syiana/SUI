@@ -2,13 +2,6 @@ local Module = SUI:NewModule("Skins.RaidFrame");
 
 function Module:OnEnable()
     if (SUI:Color()) then
-        for i = 1, 5 do
-            local frame = _G["CompactRaidFrame" .. i .. "HorizDivider"]
-            if frame then
-                SUI:Skin({frame}, false, true)
-            end
-        end
-
         local frame = CreateFrame("Frame")
         frame:RegisterEvent("GROUP_ROSTER_UPDATE")
         frame:RegisterEvent("PLAYER_ENTERING_WORLD")
@@ -23,41 +16,27 @@ function Module:OnEnable()
             SUI:Skin(CompactRaidFrameManagerDisplayFrameConvertToRaid)
             SUI:Skin(CompactRaidFrameManagerDisplayFrameLockedModeToggle)
             SUI:Skin(CompactRaidFrameManagerDisplayFrameHiddenModeToggle)
+        end)
 
-            for g = 1, NUM_RAID_GROUPS do
-                local group = _G["CompactRaidGroup" .. g .. "BorderFrame"]
-                if group then
-                    SUI:Skin(group)
-                end
-                
-                for m = 1, 5 do
-                    local frame = _G["CompactRaidGroup" .. g .. "Member" .. m]
-                    if frame then
-                        SUI:Skin({
-                            _G[frame .. "horizTopBorder"],
-                            _G[frame .. "horizBottomBorder"],
-                            _G[frame .. "vertLeftBorder"],
-                            _G[frame .. "vertRightBorder"],
-                            _G[frame .. "horizDivider"]
-                        }, false, true)
+        CompactRaidFrameManagerToggleButton:SetNormalTexture("Interface\\Addons\\SUI\\Media\\Textures\\RaidFrames\\RaidPanel-Toggle")
+
+		hooksecurefunc("CompactUnitFrame_UpdateAll", function(self)
+            if self:IsForbidden() then return end
+            if self and self:GetName() then
+                local name = self:GetName()
+                if name and name:match("^Compact") then
+                    SUI:Skin({
+                        self.horizDivider
+                    }, false, true)
+
+                    for g = 1, NUM_RAID_GROUPS do
+                        local group = _G["CompactRaidGroup" .. g .. "BorderFrame"]
+                        if group then
+                            SUI:Skin(group)
+                        end
                     end
                 end
             end
-
-            for i = 1, 40 do
-                local frame = _G["CompactRaidFrame" .. i .. "HorizDivider"]
-                if frame then
-                    SUI:Skin({frame}, false, true)
-                end
-            end
-        end)
-        CompactRaidFrameManagerToggleButton:SetNormalTexture(
-        "Interface\\Addons\\SUI\\Media\\Textures\\RaidFrames\\RaidPanel-Toggle")
-        for i = 1, 4 do
-            _G["PartyMemberFrame" .. i .. "PVPIcon"]:SetAlpha(0)
-            _G["PartyMemberFrame" .. i .. "NotPresentIcon"]:Hide()
-            _G["PartyMemberFrame" .. i .. "NotPresentIcon"].Show = function()
-            end
-        end
+		end)
     end
 end
