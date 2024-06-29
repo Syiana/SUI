@@ -906,16 +906,6 @@ function Gui:OnEnable()
                     },
                 },
                 {
-                    border = {
-                        key = 'unitframes.buffs.purgeborder',
-                        type = 'checkbox',
-                        label = 'Purge Border',
-                        tooltip = 'Highlight purgable buffs',
-                        column = 3,
-                        order = 1
-                    }
-                },
-                {
                     big = {
                         key = 'unitframes.buffs.size',
                         type = 'slider',

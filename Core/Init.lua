@@ -51,8 +51,7 @@ local defaults = {
                 size = 1
             },
             buffs = {
-                size = 26,
-                purgeborder = true
+                size = 26
             },
             debuffs = {
                 size = 20
