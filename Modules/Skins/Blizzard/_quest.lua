@@ -13,6 +13,7 @@ function Module:OnEnable()
         SUI:Skin(QuestProgressScrollFrame)
         SUI:Skin(QuestFrameGreetingPanel)
         SUI:Skin(EmptyQuestLogFrame)
+        SUI:Skin(QuestModelScene)
 
         -- Buttons
         SUI:Skin({
