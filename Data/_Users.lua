@@ -44,6 +44,7 @@ Data.specials = {
 
 Data.supporter = {
     { text = Colors.sup .. 'TonnixTV|r' },
+    { text = Colors.sup .. 'Buskberra|r' },
     { text = Colors.sup .. 'Proxy|r' },
     { text = Colors.sup .. 'Marcelian|r' },
     { text = Colors.sup .. 'Umren|r' },
