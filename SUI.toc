@@ -1,6 +1,6 @@
 ## Interface: 40400
 ## Author: Syiana & Muleyo
-## Version: 4.4.31
+## Version: 4.4.32
 ## Title: |cffff00d5S|r|cff027bffUI|r
 ## Notes: Made with <3 by Syiana & Muleyo
 ## SavedVariables: SUIDB
