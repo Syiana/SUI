@@ -60,7 +60,6 @@ function Edit:OnEnable()
 		"FocusFrame",
 		"TooltipFrame",
 		"StatsFrame",
-		"TargetFrameDragFrame",
 		"SUIMainMenuBar",
 		"SUIStanceBar",
 		"MultiCastActionBarFrame",
