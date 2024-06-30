@@ -33,6 +33,9 @@ function Module:OnEnable()
             hooksecurefunc("HealthBar_OnValueChanged", function(self)
                 SUIUnitColor(self, self.unit)
             end)
+            hooksecurefunc("PartyMemberFrame_OnUpdate", function(self)
+                SUIUnitColor(self.HealthBar, self.unit)
+            end)
         end
     end
 end

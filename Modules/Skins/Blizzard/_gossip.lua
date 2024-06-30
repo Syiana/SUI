@@ -15,7 +15,7 @@ function Module:OnEnable()
 
         if not GossipFrame.ParchmentFrame then
             GossipFrame.ParchmentFrame = GossipFrame.GreetingPanel:CreateTexture(nil, "BACKGROUND", nil, 1)
-            GossipFrame.ParchmentFrame:SetTexture("Interface\\Stationery\\StationeryTest1.blp")
+            GossipFrame.ParchmentFrame:SetTexture([[Interface\Stationery\StationeryTest1.blp]])
             GossipFrame.ParchmentFrame:SetAllPoints(GossipFrame.GreetingPanel.ScrollBox)
             GossipFrame.ParchmentFrame:SetPoint("BOTTOM", GossipFrame, "BOTTOM", 0, 95)
         end

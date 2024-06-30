@@ -10,7 +10,7 @@ function Buttons:OnEnable()
         for i = 1, animationsCount do
             frame = CreateFrame("Frame")
             texture = frame:CreateTexture()
-            texture:SetTexture('Interface\\Cooldown\\star4')
+            texture:SetTexture([[Interface\Cooldown\star4]])
             texture:SetAlpha(0)
             texture:SetAllPoints()
             texture:SetBlendMode("ADD")

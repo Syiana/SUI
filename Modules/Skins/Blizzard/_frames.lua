@@ -115,7 +115,7 @@ function Module:OnEnable()
                 local button = _G[name]
                 if button and _G[button:GetName() .. "Border"] == nil then
                     local border = button:CreateTexture(name .. "Border", "OVERLAY")
-                    border:SetTexture("Interface\\AddOns\\SUI\\Media\\Textures\\UnitFrames\\MicroButtonBorder")
+                    border:SetTexture([[Interface\AddOns\SUI\Media\Textures\UnitFrames\MicroButtonBorder]])
                     border:SetAllPoints(button)
                     SUI:Skin({ border }, true, true)
                 end

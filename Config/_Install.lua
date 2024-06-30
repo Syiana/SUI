@@ -14,7 +14,7 @@ function Module:OnEnable()
         Install.text:SetText("Welcome to |cffff00d5S|r|cff027bffUI|r")
 
         local Texture = Install:CreateTexture(nil, "BACKGROUND")
-        Texture:SetTexture("Interface\\DialogFrame\\UI-DialogBox-Background")
+        Texture:SetTexture([[Interface\DialogFrame\UI-DialogBox-Background]])
         Texture:SetAllPoints(Install)
         Install.texture = Texture
 

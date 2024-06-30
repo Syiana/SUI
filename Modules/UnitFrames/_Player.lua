@@ -23,7 +23,7 @@ function Module:OnEnable()
             end
 
             if (db.unitframes.style == "Big") then
-                PlayerFrameTexture:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\UnitFrames\\UI-TargetingFrame");
+                PlayerFrameTexture:SetTexture([[Interface\Addons\SUI\Media\Textures\UnitFrames\UI-TargetingFrame]]);
                 self.name:Hide();
                 self.name:ClearAllPoints();
                 self.name:SetPoint("CENTER", PlayerFrame, "CENTER", 50.5, 36);

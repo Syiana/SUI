@@ -13,7 +13,7 @@ function Module:OnEnable()
                 self.highLevelTexture:SetPoint("CENTER", self.levelText, "CENTER", 0, 0);
                 self.deadText:SetPoint("CENTER", self.healthbar, "CENTER", 0, 0);
                 self.nameBackground:Hide();
-                self.threatIndicator:SetTexture("Interface\\TargetingFrame\\UI-TargetingFrame-Flash");
+                self.threatIndicator:SetTexture([[Interface\TargetingFrame\UI-TargetingFrame-Flash]]);
                 self.name:SetPoint("LEFT", self, 15, 36);
                 self.healthbar:SetSize(119, 26);
                 self.healthbar:SetPoint("TOPLEFT", 5, -24);
@@ -31,22 +31,18 @@ function Module:OnEnable()
                 end
                 FocusFrame.threatNumericIndicator:SetAlpha(0);
                 if (forceNormalTexture) then
-                    self.borderTexture:SetTexture("Interface\\TargetingFrame\\UI-TargetingFrame");
+                    self.borderTexture:SetTexture([[Interface\TargetingFrame\UI-TargetingFrame]]);
                 elseif (classification == "minus") then
-                    self.borderTexture:SetTexture("Interface\\TargetingFrame\\UI-TargetingFrame-Minus");
+                    self.borderTexture:SetTexture([[Interface\TargetingFrame\UI-TargetingFrame-Minus]]);
                     forceNormalTexture = true;
                 elseif (classification == "worldboss" or classification == "elite") then
-                    self.borderTexture:SetTexture(
-                        "Interface\\Addons\\SUI\\Media\\Textures\\UnitFrames\\UI-TargetingFrame-Elite");
+                    self.borderTexture:SetTexture([[Interface\Addons\\SUI\Media\Textures\UnitFrames\UI-TargetingFrame-Elite]]);
                 elseif (classification == "rareelite") then
-                    self.borderTexture:SetTexture(
-                        "Interface\\Addons\\SUI\\Media\\Textures\\UnitFrames\\UI-TargetingFrame-Rare-Elite");
+                    self.borderTexture:SetTexture([[Interface\Addons\SUI\Media\Textures\UnitFrames\UI-TargetingFrame-Rare-Elite]]);
                 elseif (classification == "rare") then
-                    self.borderTexture:SetTexture(
-                        "Interface\\Addons\\SUI\\Media\\Textures\\UnitFrames\\UI-TargetingFrame-Rare");
+                    self.borderTexture:SetTexture([[Interface\Addons\SUI\Media\Textures\UnitFrames\UI-TargetingFrame-Rare]]);
                 else
-                    self.borderTexture:SetTexture(
-                        "Interface\\Addons\\SUI\\Media\\Textures\\UnitFrames\\UI-TargetingFrame");
+                    self.borderTexture:SetTexture([[Interface\Addons\SUI\Media\Textures\UnitFrames\UI-TargetingFrame]]);
                     forceNormalTexture = true;
                 end
                 if (forceNormalTexture) then
@@ -66,7 +62,7 @@ function Module:OnEnable()
                     end
                     if (self.threatIndicator) then
                         if (classification == "minus") then
-                            self.threatIndicator:SetTexture("Interface\\TargetingFrame\\UI-TargetingFrame-Minus-Flash");
+                            self.threatIndicator:SetTexture([[Interface\TargetingFrame\UI-TargetingFrame-Minus-Flash]]);
                             self.threatIndicator:SetTexCoord(0, 1, 0, 1);
                             self.threatIndicator:SetWidth(256);
                             self.threatIndicator:SetHeight(128);
@@ -112,8 +108,7 @@ function Module:OnEnable()
             TargetFrameToTTextureFrameDeadText:ClearAllPoints();
             TargetFrameToTTextureFrameDeadText:SetPoint("CENTER", "TargetFrameToTHealthBar", "CENTER", 1, 0);
             TargetFrameToTTextureFrameName:SetSize(65, 10);
-            TargetFrameToTTextureFrameTexture:SetTexture(
-            "Interface\\Addons\\SUI\\Media\\Textures\\unitframes\\UI-TargetofTargetFrame");
+            TargetFrameToTTextureFrameTexture:SetTexture([[Interface\Addons\SUI\Media\Textures\unitframes\UI-TargetofTargetFrame]]);
             TargetFrameToTHealthBar:ClearAllPoints();
             TargetFrameToTHealthBar:SetPoint("TOPLEFT", 45, -15);
             TargetFrameToTHealthBar:SetHeight(10);
@@ -123,8 +118,7 @@ function Module:OnEnable()
             FocusFrameToTTextureFrameDeadText:ClearAllPoints();
             FocusFrameToTTextureFrameDeadText:SetPoint("CENTER", "FocusFrameToTHealthBar", "CENTER", 1, 0);
             FocusFrameToTTextureFrameName:SetSize(65, 10);
-            FocusFrameToTTextureFrameTexture:SetTexture(
-            "Interface\\Addons\\SUI\\Media\\Textures\\unitframes\\UI-TargetofTargetFrame");
+            FocusFrameToTTextureFrameTexture:SetTexture([[Interface\Addons\SUI\Media\Textures\unitframes\UI-TargetofTargetFrame]]);
             FocusFrameToTHealthBar:ClearAllPoints();
             FocusFrameToTHealthBar:SetPoint("TOPLEFT", 43, -15);
             FocusFrameToTHealthBar:SetHeight(10);

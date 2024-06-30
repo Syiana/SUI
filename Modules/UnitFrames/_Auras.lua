@@ -42,7 +42,7 @@ function Module:OnEnable()
 
             local border = _G[name .. "Border"] or b:CreateTexture(name .. "Border", "BACKGROUND", nil, -7)
             --gloss default color is black
-            border:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\Core\\gloss")
+            border:SetTexture([[Interface\Addons\SUI\Media\Textures\Core\gloss]])
             border:SetTexCoord(0, 1, 0, 1)
             border:SetDrawLayer("BACKGROUND", -7)
             if b.buff then

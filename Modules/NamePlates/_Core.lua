@@ -43,7 +43,7 @@ function Module:OnEnable()
         icon:SetAllPoints()
 
         local bg = frame:CreateTexture(nil, "BACKGROUND")
-        bg:SetTexture("Interface\\BUTTONS\\WHITE8X8")
+        bg:SetTexture([[Interface\BUTTONS\WHITE8X8]])
         bg:SetVertexColor(0, 0, 0, 0.5)
         bg:SetPoint("TOPLEFT", frame, "TOPLEFT", -2, 2)
         bg:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", 2, -2)
@@ -59,7 +59,7 @@ function Module:OnEnable()
 
         local backdrop = {
             bgFile = nil,
-            edgeFile = "Interface\\Addons\\SUI\\Media\\Textures\\Core\\outer_shadow",
+            edgeFile = [[Interface\Addons\SUI\Media\Textures\Core\outer_shadow]],
             tile = false,
             tileSize = 32,
             edgeSize = 4,
@@ -76,7 +76,7 @@ function Module:OnEnable()
         icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
 
         local border = frame:CreateTexture(nil, "BACKGROUND")
-        border:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\Core\\gloss")
+        border:SetTexture([[Interface\Addons\SUI\Media\Textures\Core\gloss]])
         border:SetTexCoord(0, 1, 0, 1)
         border:SetDrawLayer("BACKGROUND", -7)
         border:ClearAllPoints()

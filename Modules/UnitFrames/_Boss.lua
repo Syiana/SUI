@@ -15,8 +15,7 @@ function Module:OnEnable()
                 _G["Boss" .. i .. "TargetFrameTextureFrameName"]:ClearAllPoints();
                 _G["Boss" .. i .. "TargetFrameTextureFrameName"]:SetPoint("CENTER", _G["Boss" .. i .. "TargetFrameManaBar"],
                     "CENTER", 0, 0);
-                _G["Boss" .. i .. "TargetFrameTextureFrameTexture"]:SetTexture(
-                "Interface\\Addons\\SUI\\Media\\Textures\\unitframes\\UI-UNITFRAME-BOSS");
+                _G["Boss" .. i .. "TargetFrameTextureFrameTexture"]:SetTexture([[Interface\Addons\SUI\Media\Textures\unitframes\UI-UNITFRAME-BOSS]]);
                 _G["Boss" .. i .. "TargetFrameNameBackground"]:Hide();
                 _G["Boss" .. i .. "TargetFrameHealthBar"]:SetSize(116, 18);
                 _G["Boss" .. i .. "TargetFrameHealthBar"]:ClearAllPoints();

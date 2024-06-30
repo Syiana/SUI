@@ -10,6 +10,8 @@ function Module:OnEnable()
         SUI:Skin(BagItemSearchBox)
 
         -- Buttons
-        SUI:Skin({ select(2, SortBagsButton:GetRegions()) }, false, true, false, true)
+        if (SortBagsButton) then
+            SUI:Skin({ select(2, SortBagsButton:GetRegions()) }, false, true, false, true)
+        end
     end
 end

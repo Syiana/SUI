@@ -47,8 +47,8 @@ function Module:OnEnable()
             CastingBarFrame.Icon:ClearAllPoints()
             CastingBarFrame.Icon:SetSize(20, 20)
             CastingBarFrame.Icon:SetPoint("RIGHT", CastingBarFrame, "LEFT", -5, 0)
-            CastingBarFrame.Border:SetTexture("Interface\\CastingBar\\UI-CastingBar-Border-Small")
-            CastingBarFrame.Flash:SetTexture("Interface\\CastingBar\\UI-CastingBar-Flash-Small")
+            CastingBarFrame.Border:SetTexture([[Interface\CastingBar\UI-CastingBar-Border-Small]])
+            CastingBarFrame.Flash:SetTexture([[Interface\CastingBar\UI-CastingBar-Flash-Small]])
             CastingBarFrame.Text:ClearAllPoints()
             CastingBarFrame.Text:SetPoint("CENTER", 0, 1)
 
@@ -59,7 +59,7 @@ function Module:OnEnable()
             
             --Texture
             CastingBarFrame.Border:SetDrawLayer("OVERLAY", 1)
-            MirrorTimer1Border:SetTexture("Interface\\CastingBar\\UI-CastingBar-Border-Small")
+            MirrorTimer1Border:SetTexture([[Interface\CastingBar\UI-CastingBar-Border-Small]])
 
             if (db.texture ~= 'Default') then
                 CastingBarFrame:SetStatusBarTexture(db.texture)

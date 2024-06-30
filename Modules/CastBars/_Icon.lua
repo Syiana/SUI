@@ -34,7 +34,7 @@ function Module:OnEnable()
                 b:SetTexCoord(0.1, 0.9, 0.1, 0.9)
 
                 local border = frame:CreateTexture(nil, "BACKGROUND")
-                border:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\Core\\gloss")
+                border:SetTexture([[Interface\Addons\SUI\Media\Textures\Core\gloss]])
                 border:SetTexCoord(0, 1, 0, 1)
                 border:SetDrawLayer("BACKGROUND", -7)
                 --border:SetVertexColor(unpack(SUI:Color()))
