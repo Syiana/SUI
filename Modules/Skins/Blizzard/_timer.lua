@@ -19,7 +19,6 @@ function Module:OnEnable()
                 if (db.style == 'Custom') then
                     border:SetTexture([[Interface\CastingBar\UI-CastingBar-Border-Small]])
                     border:SetDrawLayer("OVERLAY", 1)
-                    statusbar:SetWidth(statusbar:GetWidth()-1)
                 end
 
                 border:SetVertexColor(unpack(SUI:Color()))
