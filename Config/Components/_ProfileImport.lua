@@ -96,6 +96,14 @@ local function buildProfileImport()
     window:SetPoint('CENTER')
     window:SetFrameStrata('DIALOG');
 
+    local fadeInfo = {}
+    fadeInfo.mode = "IN"
+    fadeInfo.timeToFade = 0.2
+    fadeInfo.finishedFunc = function()
+        window:Show()
+    end
+    UIFrameFade(window, fadeInfo)
+
     -- Create EditBox
     local editBox = SUIConfig:MultiLineBox(window, 380, 250, '< Paste Import String here >')
     SUIConfig:GlueTop(editBox, window, 0, -40)
