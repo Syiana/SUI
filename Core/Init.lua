@@ -217,126 +217,67 @@ function SUI:OnInitialize()
         end
     end
 
-    function self:Skin(frame, customColor, isTable, color)
+    function self:Skin(frame, customColor, isTable, color, desaturated)
         local forbiddenFrames = {
-            ["FriendsFrameIcon"] = true,
-            ["TradeSkillFramePortrait"] = true,
-            ["CollectionsJournalPortrait"] = true,
-            ["AuctionPortraitTexture"] = true,
-            ["ArchaeologyFramePortrait"] = true,
-            ["ArchaeologyFrameBgLeft"] = true,
-            ["ContainerFrame2Portrait"] = true,
-            ["ContainerFrame3Portrait"] = true,
-            ["ContainerFrame4Portrait"] = true,
-            ["ContainerFrame5Portrait"] = true,
-            ["ContainerFrame6Portrait"] = true,
-            ["ContainerFrame7Portrait"] = true,
-            ["ContainerFrame8Portrait"] = true,
-            ["ContainerFrame9Portrait"] = true,
-            ["ContainerFrame10Portrait"] = true,
-            ["ContainerFrame11Portrait"] = true,
-            ["ContainerFrame12Portrait"] = true,
-            ["BankPortraitTexture"] = true,
-            ["CharacterFramePortrait"] = true,
-            ["ClassTrainerFramePortrait"] = true,
-            ["CommunitiesFrame.PortraitOverlay.Portrait"] = true,
-            ["InspectFramePortrait"] = true,
-            ["InspectHeadSlotIconTexture"] = true,
-            ["InspectNeckSlotIconTexture"] = true,
-            ["InspectShoulderSlotIconTexture"] = true,
-            ["InspectBackSlotIconTexture"] = true,
-            ["InspectChestSlotIconTexture"] = true,
-            ["InspectShirtSlotIconTexture"] = true,
-            ["InspectTabardSlotIconTexture"] = true,
-            ["InspectWristSlotIconTexture"] = true,
-            ["InspectHandsSlotIconTexture"] = true,
-            ["InspectWaistSlotIconTexture"] = true,
-            ["InspectLegsSlotIconTexture"] = true,
-            ["InspectFeetSlotIconTexture"] = true,
-            ["InspectFinger0SlotIconTexture"] = true,
-            ["InspectFinger1SlotIconTexture"] = true,
-            ["InspectTrinket0SlotIconTexture"] = true,
-            ["InspectTrinket1SlotIconTexture"] = true,
-            ["InspectMainHandSlotIconTexture"] = true,
-            ["InspectSecondarySlotIconTexture"] = true,
-            ["InspectSecondaryHandSlotIconTexture"] = true,
-            ["InspectRangedSlotIconTexture"] = true,
-            ["GossipFrame.ParchmentFrame"] = true,
-            ["QuestFrameDetailPanel.ParchmentFrame"] = true,
-            ["QuestFrameRewardPanel.ParchmentFrame"] = true,
-            ["QuestFrameProgressPanel.ParchmentFrame"] = true,
-            ["QuestFrameGreetingPanel.ParchmentFrame"] = true,
-            ["QuestLogFrame.ParchmentFrame"] = true,
-            ["QuestLogDetailFrameBackgroundTopLeft"] = true,
-            ["QuestLogDetailFrameBackgroundTopRight"] = true,
-            ["QuestLogDetailFrameBackgroundBottomLeft"] = true,
-            ["QuestLogDetailFrameBackgroundBottomRight"] = true,
-            ["QuestFramePortrait"] = true,
-            ["PlayerTalentFramePortrait"] = true,
-            ["PVPFramePortrait"] = true,
-            ["PVEFramePortrait"] = true,
-            ["EncounterJournalPortrait"] = true,
-            ["ChannelFrame.Icon"] = true,
-            ["SpellBookFramePortrait"] = true,
-            ["MicroButtonPortrait"] = true,
-            ["SpellbookMicroButton.NormalTexture"] = true,
-            ["AchievementFrameHeaderShield"] = true,
-            ["MerchantFramePortrait"] = true,
-            ["TimeManagerGlobe"] = true,
-            ["MacroFramePortrait"] = true,
-            ["OpenMailFrameIcon"] = true,
-            ["ChatFrame1Background"] = true,
-            ["ChatFrame2Background"] = true,
-            ["ChatFrame3Background"] = true,
-            ["ChatFrame4Background"] = true,
-            ["ChatFrame5Background"] = true,
-            ["ChatFrame6Background"] = true,
-            ["ChatFrame7Background"] = true,
-            ["ChatFrame8Background"] = true,
-            ["ChatFrame9Background"] = true,
-            ["ChatFrame10Background"] = true,
-            ["ReforgingFramePortrait"] = true,
-            ["SpellBookSkillLineTab1.Portrait"] = true,
-            ["TradeFrameRecipientPortrait"] = true,
-            ["TradeFramePlayerPortrait"] = true,
-            ["DressUpFramePortrait"] = true,
-            ["ReadyCheckPortrait"] = true,
-            ["ItemSocketingFramePortrait"] = true,
-            ["FriendsFrameStatusDropDownStatus"] = true,
-            ["WardrobeFramePortrait"] = true,
-            ["TaxiPortrait"] = true,
-            ["TaxiMap"] = true,
-            ["TabardFramePortrait"] = true,
-            ["TabardFrameEmblemTopLeft"] = true,
-            ["TabardFrameEmblemTopRight"] = true,
-            ["TabardFrameEmblemBottomLeft"] = true,
-            ["TabardFrameEmblemBottomRight"] = true,
-            ["GuildRegistrarFramePortrait"] = true,
-            ["PetitionFramePortrait"] = true,
+            ["FriendsFrameIcon"] = true, ["TradeSkillFramePortrait"] = true,
+            ["CollectionsJournalPortrait"] = true, ["AuctionPortraitTexture"] = true,
+            ["ArchaeologyFramePortrait"] = true, ["ArchaeologyFrameBgLeft"] = true,
+            ["ContainerFrame2Portrait"] = true, ["ContainerFrame3Portrait"] = true,
+            ["ContainerFrame4Portrait"] = true, ["ContainerFrame5Portrait"] = true,
+            ["ContainerFrame6Portrait"] = true, ["ContainerFrame7Portrait"] = true,
+            ["ContainerFrame8Portrait"] = true, ["ContainerFrame9Portrait"] = true,
+            ["ContainerFrame10Portrait"] = true, ["ContainerFrame11Portrait"] = true,
+            ["ContainerFrame12Portrait"] = true, ["BankPortraitTexture"] = true,
+            ["CharacterFramePortrait"] = true, ["ClassTrainerFramePortrait"] = true,
+            ["CommunitiesFrame.PortraitOverlay.Portrait"] = true, ["InspectFramePortrait"] = true,
+            ["InspectHeadSlotIconTexture"] = true, ["InspectNeckSlotIconTexture"] = true,
+            ["InspectShoulderSlotIconTexture"] = true, ["InspectBackSlotIconTexture"] = true,
+            ["InspectChestSlotIconTexture"] = true, ["InspectShirtSlotIconTexture"] = true,
+            ["InspectTabardSlotIconTexture"] = true, ["InspectWristSlotIconTexture"] = true,
+            ["InspectHandsSlotIconTexture"] = true, ["InspectWaistSlotIconTexture"] = true,
+            ["InspectLegsSlotIconTexture"] = true, ["InspectFeetSlotIconTexture"] = true,
+            ["InspectFinger0SlotIconTexture"] = true, ["InspectFinger1SlotIconTexture"] = true,
+            ["InspectTrinket0SlotIconTexture"] = true, ["InspectTrinket1SlotIconTexture"] = true,
+            ["InspectMainHandSlotIconTexture"] = true, ["InspectSecondarySlotIconTexture"] = true,
+            ["InspectSecondaryHandSlotIconTexture"] = true, ["InspectRangedSlotIconTexture"] = true,
+            ["GossipFrame.ParchmentFrame"] = true, ["QuestFrameDetailPanel.ParchmentFrame"] = true,
+            ["QuestFrameRewardPanel.ParchmentFrame"] = true, ["QuestFrameProgressPanel.ParchmentFrame"] = true,
+            ["QuestFrameGreetingPanel.ParchmentFrame"] = true, ["QuestLogFrame.ParchmentFrame"] = true,
+            ["QuestLogDetailFrameBackgroundTopLeft"] = true, ["QuestLogDetailFrameBackgroundTopRight"] = true,
+            ["QuestLogDetailFrameBackgroundBottomLeft"] = true, ["QuestLogDetailFrameBackgroundBottomRight"] = true,
+            ["QuestFramePortrait"] = true, ["PlayerTalentFramePortrait"] = true,
+            ["PVPFramePortrait"] = true, ["PVEFramePortrait"] = true,
+            ["EncounterJournalPortrait"] = true, ["ChannelFrame.Icon"] = true,
+            ["SpellBookFramePortrait"] = true, ["MicroButtonPortrait"] = true,
+            ["SpellbookMicroButton.NormalTexture"] = true, ["AchievementFrameHeaderShield"] = true,
+            ["MerchantFramePortrait"] = true, ["TimeManagerGlobe"] = true,
+            ["MacroFramePortrait"] = true, ["OpenMailFrameIcon"] = true,
+            ["ChatFrame1Background"] = true, ["ChatFrame2Background"] = true,
+            ["ChatFrame3Background"] = true, ["ChatFrame4Background"] = true,
+            ["ChatFrame5Background"] = true, ["ChatFrame6Background"] = true,
+            ["ChatFrame7Background"] = true, ["ChatFrame8Background"] = true,
+            ["ChatFrame9Background"] = true, ["ChatFrame10Background"] = true,
+            ["ReforgingFramePortrait"] = true, ["SpellBookSkillLineTab1.Portrait"] = true,
+            ["TradeFrameRecipientPortrait"] = true, ["TradeFramePlayerPortrait"] = true,
+            ["DressUpFramePortrait"] = true, ["ReadyCheckPortrait"] = true,
+            ["ItemSocketingFramePortrait"] = true, ["FriendsFrameStatusDropDownStatus"] = true,
+            ["WardrobeFramePortrait"] = true, ["TaxiPortrait"] = true,
+            ["TaxiMap"] = true, ["TabardFramePortrait"] = true,
+            ["TabardFrameEmblemTopLeft"] = true, ["TabardFrameEmblemTopRight"] = true,
+            ["TabardFrameEmblemBottomLeft"] = true, ["TabardFrameEmblemBottomRight"] = true,
+            ["GuildRegistrarFramePortrait"] = true, ["PetitionFramePortrait"] = true,
             ["LootFramePortraitOverlay"] = true,
-            [select(1,QuestLogFrame:GetRegions())] = true,
-            [select(18, MailFrame:GetRegions())] = true,
-            [select(2, SpellBookSkillLineTab1:GetRegions())] = true,
-            [select(2, SpellBookSkillLineTab2:GetRegions())] = true,
-            [select(2, SpellBookSkillLineTab3:GetRegions())] = true,
-            [select(2, SpellBookSkillLineTab4:GetRegions())] = true,
-            [select(1, ItemTextFrame:GetRegions())] = true,
-            [select(6, SendMailMoneyGold:GetRegions())] = true,
-            [select(6, SendMailMoneySilver:GetRegions())] = true,
-            [select(6, SendMailMoneyCopper:GetRegions())] = true,
+            [select(1,QuestLogFrame:GetRegions())] = true, [select(18, MailFrame:GetRegions())] = true,
+            [select(2, SpellBookSkillLineTab1:GetRegions())] = true, [select(2, SpellBookSkillLineTab2:GetRegions())] = true,
+            [select(2, SpellBookSkillLineTab3:GetRegions())] = true, [select(2, SpellBookSkillLineTab4:GetRegions())] = true,
+            [select(1, ItemTextFrame:GetRegions())] = true, [select(6, SendMailMoneyGold:GetRegions())] = true,
+            [select(6, SendMailMoneySilver:GetRegions())] = true, [select(6, SendMailMoneyCopper:GetRegions())] = true,
             [select(12, CompactRaidFrameManagerDisplayFrameLeaderOptionsRaidWorldMarkerButton:GetRegions())] = true,
+            ["CalendarCreateEventIcon"] = true,
         }
 
         if (frame) then
-            if (isTable) then
-                for _, v in pairs(frame) do
-                    if (customColor) then
-                        v:SetVertexColor(unpack(SUI:Color(.15)))
-                    else
-                        v:SetVertexColor(.15, .15, .15)
-                    end
-                end
-            else
+            if not (isTable) then
                 for _, v in pairs({ frame:GetRegions() }) do
                     if (not forbiddenFrames[v:GetName()]) and (not forbiddenFrames[v]) then
                         if v:GetObjectType() == "Texture" then
@@ -348,6 +289,19 @@ function SUI:OnInitialize()
                             else
                                 v:SetVertexColor(.15, .15, .15)
                             end
+                        end
+                    end
+                end
+            else
+                for _, v in pairs(frame) do
+                    if (v) then
+                        if (customColor) then
+                            v:SetVertexColor(unpack(SUI:Color(.15)))
+                        elseif (desaturated) then
+                            v:SetDesaturated(true)
+                            v:SetVertexColor(1,1,1)
+                        else
+                            v:SetVertexColor(.15, .15, .15)
                         end
                     end
                 end

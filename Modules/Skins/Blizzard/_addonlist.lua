@@ -10,5 +10,21 @@ function Module:OnEnable()
         SUI:Skin(AddonListCancelButton)
         SUI:Skin(AddonListScrollFrame)
         SUI:Skin(AddonCharacterDropDown)
+
+        -- Buttons
+        SUI:Skin({
+            AddonListEnableAllButton.Left,
+            AddonListEnableAllButton.Middle,
+            AddonListEnableAllButton.Right,
+            AddonListDisableAllButton.Left,
+            AddonListDisableAllButton.Middle,
+            AddonListDisableAllButton.Right,
+            AddonListOkayButton.Left,
+            AddonListOkayButton.Middle,
+            AddonListOkayButton.Right,
+            AddonListCancelButton.Left,
+            AddonListCancelButton.Middle,
+            AddonListCancelButton.Right
+        }, false, true, false, true)
     end
 end

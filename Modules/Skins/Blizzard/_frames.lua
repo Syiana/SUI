@@ -3,20 +3,12 @@ local Module = SUI:NewModule("Skins.Frames");
 function Module:OnEnable()
     if (SUI:Color()) then
         SUI:Skin(GameMenuFrame)
-        SUI:Skin(GameMenuButtonHelp)
-        SUI:Skin(GameMenuButtonStore)
-        SUI:Skin(GameMenuButtonOptions)
-        SUI:Skin(GameMenuButtonMacros)
-        SUI:Skin(GameMenuButtonAddons)
-        SUI:Skin(GameMenuButtonLogout)
-        SUI:Skin(GameMenuButtonQuit)
-        SUI:Skin(GameMenuButtonContinue)
-
         SUI:Skin(StaticPopup1)
-        SUI:Skin(StaticPopup1Button1)
-        SUI:Skin(StaticPopup1Button2)
-        SUI:Skin(StaticPopup1Button3)
         SUI:Skin(StaticPopup1EditBox)
+        SUI:Skin(StaticPopup2)
+        SUI:Skin(StaticPopup2EditBox)
+        SUI:Skin(StaticPopup3)
+        SUI:Skin(StaticPopup3EditBox)
 
         SUI:Skin(HelpFrame)
         SUI:Skin(HelpFrame.NineSlice)
@@ -28,18 +20,12 @@ function Module:OnEnable()
         SUI:Skin(SettingsPanel.Bg)
         SUI:Skin(SettingsPanel.GameTab)
         SUI:Skin(SettingsPanel.AddOnsTab)
-        SUI:Skin(SettingsPanel.Container.SettingsList.Header.DefaultsButton)
-        SUI:Skin(SettingsPanel.CloseButton)
         SUI:Skin(SettingsPanel.Container.SettingsList.ScrollBox.ScrollTarget)
         SUI:Skin(SettingsPanel.SearchBox)
 
         SUI:Skin(StackSplitFrame)
-        SUI:Skin(StackSplitOkayButton)
-        SUI:Skin(StackSplitCancelButton)
         
         SUI:Skin(PVPReadyDialog)
-        SUI:Skin(PVPReadyDialogEnterBattleButton)
-        SUI:Skin(PVPReadyDialogHideButton)
 
         SUI:Skin(ReadyCheckListenerFrame)
         SUI:Skin(ReadyCheckFrameYesButton)
@@ -55,6 +41,66 @@ function Module:OnEnable()
         SUI:Skin(DropDownList3Backdrop)
         SUI:Skin(DropDownList3MenuBackdrop.NineSlice)
 
+        -- Set GameMenuText Point
+        local gameMenuText = select(2, GameMenuFrame:GetRegions())
+        gameMenuText:ClearAllPoints()
+        gameMenuText:SetPoint("TOP", GameMenuFrame, "TOP", 0, 5)
+
+        -- Buttons
+        SUI:Skin({
+            GameMenuButtonHelp.Left,
+            GameMenuButtonHelp.Middle,
+            GameMenuButtonHelp.Right,
+            GameMenuButtonStore.Left,
+            GameMenuButtonStore.Middle,
+            GameMenuButtonStore.Right,
+            GameMenuButtonOptions.Left,
+            GameMenuButtonOptions.Middle,
+            GameMenuButtonOptions.Right,
+            GameMenuButtonMacros.Left,
+            GameMenuButtonMacros.Middle,
+            GameMenuButtonMacros.Right,
+            GameMenuButtonAddons.Left,
+            GameMenuButtonAddons.Middle,
+            GameMenuButtonAddons.Right,
+            GameMenuButtonLogout.Left,
+            GameMenuButtonLogout.Middle,
+            GameMenuButtonLogout.Right,
+            GameMenuButtonQuit.Left,
+            GameMenuButtonQuit.Middle,
+            GameMenuButtonQuit.Right,
+            GameMenuButtonContinue.Left,
+            GameMenuButtonContinue.Middle,
+            GameMenuButtonContinue.Right,
+            select(3, StaticPopup1Button1:GetRegions()),
+            select(3, StaticPopup1Button2:GetRegions()),
+            select(3, StaticPopup1Button3:GetRegions()),
+            select(3, StaticPopup2Button1:GetRegions()),
+            select(3, StaticPopup2Button2:GetRegions()),
+            select(3, StaticPopup2Button3:GetRegions()),
+            select(3, StaticPopup3Button1:GetRegions()),
+            select(3, StaticPopup3Button2:GetRegions()),
+            select(3, StaticPopup3Button3:GetRegions()),
+            SettingsPanel.Container.SettingsList.Header.DefaultsButton.Left,
+            SettingsPanel.Container.SettingsList.Header.DefaultsButton.Middle,
+            SettingsPanel.Container.SettingsList.Header.DefaultsButton.Right,
+            SettingsPanel.CloseButton.Left,
+            SettingsPanel.CloseButton.Middle,
+            SettingsPanel.CloseButton.Right,
+            StackSplitOkayButton.Left,
+            StackSplitOkayButton.Middle,
+            StackSplitOkayButton.Right,
+            StackSplitCancelButton.Left,
+            StackSplitCancelButton.Middle,
+            StackSplitCancelButton.Right,
+            PVPReadyDialogEnterBattleButton.Left,
+            PVPReadyDialogEnterBattleButton.Middle,
+            PVPReadyDialogEnterBattleButton.Right,
+            PVPReadyDialogHideButton.Left,
+            PVPReadyDialogHideButton.Middle,
+            PVPReadyDialogHideButton.Right
+        }, false, true, false, true)
+
         local f = CreateFrame("Frame")
         f:RegisterEvent("ADDON_LOADED")
         f:SetScript("OnEvent", function(self, event, name)
@@ -63,7 +109,6 @@ function Module:OnEnable()
                 SUI:Skin(TableAttributeDisplay.TitleButton)
             end
         end)
-
 
         if MICRO_BUTTONS then
             for _, name in pairs(MICRO_BUTTONS) do

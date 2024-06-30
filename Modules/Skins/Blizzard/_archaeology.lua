@@ -7,9 +7,15 @@ function Module:OnEnable()
         f:SetScript("OnEvent", function(self, event, name)
             if name == "Blizzard_ArchaeologyUI" then
                 SUI:Skin(ArchaeologyFrame)
-                SUI:Skin(ArchaeologyFrameArtifactPageSolveFrameSolveButton)
                 SUI:Skin(ArchaeologyFrameRaceFilter)
                 SUI:Skin({ArchaeologyFrameRankBarBorder}, false, true)
+
+                -- Buttons
+                SUI:Skin({
+                    ArchaeologyFrameArtifactPageSolveFrameSolveButton.Left,
+                    ArchaeologyFrameArtifactPageSolveFrameSolveButton.Middle,
+                    ArchaeologyFrameArtifactPageSolveFrameSolveButton.Right
+                }, false, true, false, true)
             end
         end)
     end

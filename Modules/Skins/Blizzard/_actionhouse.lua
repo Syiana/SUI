@@ -61,6 +61,7 @@ function Module:OnEnable()
                 SUI:Skin(BuyoutPriceSilver)
                 SUI:Skin(BuyoutPriceCopper)
 
+                -- Reset Icon colors
                 select(6, BrowseBidPriceGold:GetRegions()):SetVertexColor(1,1,1)
                 select(6, BrowseBidPriceSilver:GetRegions()):SetVertexColor(1,1,1)
                 select(6, BrowseBidPriceCopper:GetRegions()):SetVertexColor(1,1,1)
@@ -70,6 +71,43 @@ function Module:OnEnable()
                 select(6, BuyoutPriceGold:GetRegions()):SetVertexColor(1,1,1)
                 select(6, BuyoutPriceSilver:GetRegions()):SetVertexColor(1,1,1)
                 select(6, BuyoutPriceCopper:GetRegions()):SetVertexColor(1,1,1)
+
+                -- Buttons
+                SUI:Skin({
+                    BrowseBuyoutButton.Left,
+                    BrowseBuyoutButton.Middle,
+                    BrowseBuyoutButton.Right,
+                    BrowseCloseButton.Left,
+                    BrowseCloseButton.Middle,
+                    BrowseCloseButton.Right,
+                    BrowseBidButton.Left,
+                    BrowseBidButton.Middle,
+                    BrowseBidButton.Right,
+                    BidBidButton.Left,
+                    BidBidButton.Middle,
+                    BidBidButton.Right,
+                    BidBuyoutButton.Left,
+                    BidBuyoutButton.Middle,
+                    BidBuyoutButton.Right,
+                    BidCloseButton.Left,
+                    BidCloseButton.Middle,
+                    BidCloseButton.Right,
+                    AuctionsCancelAuctionButton.Left,
+                    AuctionsCancelAuctionButton.Middle,
+                    AuctionsCancelAuctionButton.Right,
+                    AuctionsCloseButton.Left,
+                    AuctionsCloseButton.Middle,
+                    AuctionsCloseButton.Right,
+                    AuctionsCreateAuctionButton.Left,
+                    AuctionsCreateAuctionButton.Middle,
+                    AuctionsCreateAuctionButton.Right,
+                    BrowseSearchButton.Left,
+                    BrowseSearchButton.Middle,
+                    BrowseSearchButton.Right,
+                    BrowseResetButton.Left,
+                    BrowseResetButton.Middle,
+                    BrowseResetButton.Right,
+                }, false, true, false, true)
 
                 if not (IsAddOnLoaded("Auctionator")) then return end
                 local function updateAuctionTabs()
@@ -105,13 +143,6 @@ function Module:OnEnable()
                     SUI:Skin(AuctionatorPostButton)
                     SUI:Skin(AuctionatorSellingFrame.BagInset)
 
-                    select(6, AuctionatorSellingFrame.SaleItemFrame.UnitPrice.MoneyInput.GoldBox:GetRegions()):SetVertexColor(1,1,1)
-                    select(6, AuctionatorSellingFrame.SaleItemFrame.UnitPrice.MoneyInput.SilverBox:GetRegions()):SetVertexColor(1,1,1)
-                    select(6, AuctionatorSellingFrame.SaleItemFrame.UnitPrice.MoneyInput.CopperBox:GetRegions()):SetVertexColor(1,1,1)
-                    select(6, AuctionatorSellingFrame.SaleItemFrame.StackPrice.MoneyInput.GoldBox:GetRegions()):SetVertexColor(1,1,1)
-                    select(6, AuctionatorSellingFrame.SaleItemFrame.StackPrice.MoneyInput.SilverBox:GetRegions()):SetVertexColor(1,1,1)
-                    select(6, AuctionatorSellingFrame.SaleItemFrame.StackPrice.MoneyInput.CopperBox:GetRegions()):SetVertexColor(1,1,1)
-
                     SUI:Skin(AuctionatorCancellingFrame.HistoricalPriceInset)
                     SUI:Skin(AuctionatorCancelUndercutButton)
 
@@ -123,6 +154,66 @@ function Module:OnEnable()
                     SUI:Skin(AuctionFrameTab5)
                     SUI:Skin(AuctionFrameTab6)
                     SUI:Skin(AuctionFrameTab7)
+
+                    -- Reset Icon Colors
+                    select(6, AuctionatorSellingFrame.SaleItemFrame.UnitPrice.MoneyInput.GoldBox:GetRegions()):SetVertexColor(1,1,1)
+                    select(6, AuctionatorSellingFrame.SaleItemFrame.UnitPrice.MoneyInput.SilverBox:GetRegions()):SetVertexColor(1,1,1)
+                    select(6, AuctionatorSellingFrame.SaleItemFrame.UnitPrice.MoneyInput.CopperBox:GetRegions()):SetVertexColor(1,1,1)
+                    select(6, AuctionatorSellingFrame.SaleItemFrame.StackPrice.MoneyInput.GoldBox:GetRegions()):SetVertexColor(1,1,1)
+                    select(6, AuctionatorSellingFrame.SaleItemFrame.StackPrice.MoneyInput.SilverBox:GetRegions()):SetVertexColor(1,1,1)
+                    select(6, AuctionatorSellingFrame.SaleItemFrame.StackPrice.MoneyInput.CopperBox:GetRegions()):SetVertexColor(1,1,1)
+
+                    -- Buttons
+                    SUI:Skin({
+                        AuctionatorShoppingFrame.NewListButton.Left,
+                        AuctionatorShoppingFrame.NewListButton.Middle,
+                        AuctionatorShoppingFrame.NewListButton.Right,
+                        AuctionatorShoppingFrame.ImportButton.Left,
+                        AuctionatorShoppingFrame.ImportButton.Middle,
+                        AuctionatorShoppingFrame.ImportButton.Right,
+                        AuctionatorShoppingFrame.ExportButton.Left,
+                        AuctionatorShoppingFrame.ExportButton.Middle,
+                        AuctionatorShoppingFrame.ExportButton.Right,
+                        AuctionatorShoppingFrame.ExportCSV.Left,
+                        AuctionatorShoppingFrame.ExportCSV.Middle,
+                        AuctionatorShoppingFrame.ExportCSV.Right,
+                        AuctionatorShoppingFrame.SearchOptions.SearchButton.Left,
+                        AuctionatorShoppingFrame.SearchOptions.SearchButton.Middle,
+                        AuctionatorShoppingFrame.SearchOptions.SearchButton.Right,
+                        AuctionatorShoppingFrame.SearchOptions.MoreButton.Left,
+                        AuctionatorShoppingFrame.SearchOptions.MoreButton.Middle,
+                        AuctionatorShoppingFrame.SearchOptions.MoreButton.Right,
+                        AuctionatorShoppingFrame.SearchOptions.AddToListButton.Left,
+                        AuctionatorShoppingFrame.SearchOptions.AddToListButton.Middle,
+                        AuctionatorShoppingFrame.SearchOptions.AddToListButton.Right,
+                        AuctionatorShoppingFrame.SearchOptions.Left,
+                        AuctionatorShoppingFrame.SearchOptions.Middle,
+                        AuctionatorShoppingFrame.SearchOptions.Right,
+                        AuctionatorSellingFrame.BuyFrame.HistoryButton.Left,
+                        AuctionatorSellingFrame.BuyFrame.HistoryButton.Middle,
+                        AuctionatorSellingFrame.BuyFrame.HistoryButton.Right,
+                        AuctionatorSellingFrame.BuyFrame.CurrentPrices.RefreshButton.Left,
+                        AuctionatorSellingFrame.BuyFrame.CurrentPrices.RefreshButton.Middle,
+                        AuctionatorSellingFrame.BuyFrame.CurrentPrices.RefreshButton.Right,
+                        AuctionatorSellingFrame.BuyFrame.CurrentPrices.BuyButton.Left,
+                        AuctionatorSellingFrame.BuyFrame.CurrentPrices.BuyButton.Middle,
+                        AuctionatorSellingFrame.BuyFrame.CurrentPrices.BuyButton.Right,
+                        AuctionatorSellingFrame.BuyFrame.CurrentPrices.CancelButton.Left,
+                        AuctionatorSellingFrame.BuyFrame.CurrentPrices.CancelButton.Middle,
+                        AuctionatorSellingFrame.BuyFrame.CurrentPrices.CancelButton.Right,
+                        AuctionatorPostButton.Left,
+                        AuctionatorPostButton.Middle,
+                        AuctionatorPostButton.Right,
+                        AuctionatorCancelUndercutButton.Left,
+                        AuctionatorCancelUndercutButton.Middle,
+                        AuctionatorCancelUndercutButton.Right,
+                        AuctionatorConfigFrame.OptionsButton.Left,
+                        AuctionatorConfigFrame.OptionsButton.Middle,
+                        AuctionatorConfigFrame.OptionsButton.Right,
+                        AuctionatorConfigFrame.ScanButton.Left,
+                        AuctionatorConfigFrame.ScanButton.Middle,
+                        AuctionatorConfigFrame.ScanButton.Right,
+                    }, false, true, false, true)
                 end
                 C_Timer.After(0.1, updateAuctionTabs)
             end

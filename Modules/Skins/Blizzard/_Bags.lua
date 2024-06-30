@@ -7,6 +7,9 @@ function Module:OnEnable()
         end
 
         SUI:Skin(BackpackTokenFrame)
-        SUI:Skin(SortBagsButton)
+        SUI:Skin(BagItemSearchBox)
+
+        -- Buttons
+        SUI:Skin({ select(2, SortBagsButton:GetRegions()) }, false, true, false, true)
     end
 end

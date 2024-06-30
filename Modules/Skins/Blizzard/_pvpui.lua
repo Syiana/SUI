@@ -29,9 +29,22 @@ function Module:OnEnable()
         SUI:Skin(PVPTeam2)
         SUI:Skin(PVPTeam3)
         --PVPHonorFrameBGTex:SetVertexColor(.5, .5, .5)
-        PVPHonorFrameInfoScrollFrameChildFrameDescription:SetTextColor(.7, .7, .7)
-        PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoDescription:SetTextColor(.7, .7, .7)
-        WarGamesFrameDescription:SetTextColor(.7, .7, .7)
+        PVPHonorFrameInfoScrollFrameChildFrameDescription:SetTextColor(.8, .8, .8)
+        PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoDescription:SetTextColor(.8, .8, .8)
+        WarGamesFrameDescription:SetTextColor(.8, .8, .8)
+
+        -- Buttons
+        SUI:Skin({
+            PVPFrameLeftButton.Left,
+            PVPFrameLeftButton.Middle,
+            PVPFrameLeftButton.Right,
+            PVPFrameRightButton.Left,
+            PVPFrameRightButton.Middle,
+            PVPFrameRightButton.Right,
+            WarGameStartButton.Left,
+            WarGameStartButton.Middle,
+            WarGameStartButton.Right
+        }, false, true, false, true)
 
         local f = CreateFrame("Frame")
         f:RegisterEvent("ADDON_LOADED")

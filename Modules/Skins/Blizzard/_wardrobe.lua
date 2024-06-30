@@ -11,6 +11,13 @@ function Module:OnEnable()
                 SUI:Skin(WardrobeTransmogFrame.Inset)
                 SUI:Skin(WardrobeTransmogFrame.ApplyButton)
                 SUI:Skin(WardrobeCollectionFrameTab1)
+
+                -- Buttons
+                SUI:Skin({
+                    WardrobeTransmogFrame.ApplyButton.Left,
+                    WardrobeTransmogFrame.ApplyButton.Middle,
+                    WardrobeTransmogFrame.ApplyButton.Right
+                }, false, true, false, true)
             end
         end)
     end

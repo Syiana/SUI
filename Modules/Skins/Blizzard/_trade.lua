@@ -3,7 +3,15 @@ local Module = SUI:NewModule("Skins.Trade");
 function Module:OnEnable()
     if (SUI:Color()) then
         SUI:Skin(TradeFrame)
-        SUI:Skin(TradeFrameTradeButton)
-        SUI:Skin(TradeFrameCancelButton)
+
+        -- Buttons
+        SUI:Skin({
+            TradeFrameTradeButton.Left,
+            TradeFrameTradeButton.Middle,
+            TradeFrameTradeButton.Right,
+            TradeFrameCancelButton.Left,
+            TradeFrameCancelButton.Middle,
+            TradeFrameCancelButton.Right
+        }, false, true, false, true)
     end
 end

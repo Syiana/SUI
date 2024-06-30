@@ -5,7 +5,13 @@ function Module:OnEnable()
         SUI:Skin(GossipFrame)
         SUI:Skin(GossipFrame.GreetingPanel)
         SUI:Skin(GossipFrame.GreetingPanel.ScrollBar.Background)
-        SUI:Skin(GossipFrame.GreetingPanel.GoodbyeButton)
+
+        -- Buttons
+        SUI:Skin({
+            GossipFrame.GreetingPanel.GoodbyeButton.Left,
+            GossipFrame.GreetingPanel.GoodbyeButton.Middle,
+            GossipFrame.GreetingPanel.GoodbyeButton.Right
+        }, false, true, false, true)
 
         if not GossipFrame.ParchmentFrame then
             GossipFrame.ParchmentFrame = GossipFrame.GreetingPanel:CreateTexture(nil, "BACKGROUND", nil, 1)

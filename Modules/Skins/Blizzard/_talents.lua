@@ -38,9 +38,6 @@ function Module:OnEnable()
                 SUI:Skin(PlayerTalentFramePanel1SelectTreeButton)
                 SUI:Skin(PlayerTalentFramePanel2SelectTreeButton)
                 SUI:Skin(PlayerTalentFramePanel3SelectTreeButton)
-                if (PlayerTalentFramePanel4SelectTreeButton) then
-                    SUI:Skin(PlayerTalentFramePanel4SelectTreeButton)
-                end
 
                 -- Tabs
                 SUI:Skin(PlayerTalentFrameTab1)
@@ -49,6 +46,31 @@ function Module:OnEnable()
                 -- Spec Tabs
                 select(1, PlayerSpecTab1:GetRegions()):SetVertexColor(.15, .15, .15)
                 select(1, PlayerSpecTab2:GetRegions()):SetVertexColor(.15, .15, .15)
+
+                -- Buttons
+                SUI:Skin({
+                    PlayerTalentFrameLearnButton.Left,
+                    PlayerTalentFrameLearnButton.Middle,
+                    PlayerTalentFrameLearnButton.Right,
+                    PlayerTalentFrameResetButton.Left,
+                    PlayerTalentFrameResetButton.Middle,
+                    PlayerTalentFrameResetButton.Right,
+                    PlayerTalentFrameActivateButton.Left,
+                    PlayerTalentFrameActivateButton.Middle,
+                    PlayerTalentFrameActivateButton.Right,
+                    PlayerTalentFrameToggleSummariesButton.Left,
+                    PlayerTalentFrameToggleSummariesButton.Middle,
+                    PlayerTalentFrameToggleSummariesButton.Right,
+                    PlayerTalentFramePanel1SelectTreeButton.Left,
+                    PlayerTalentFramePanel1SelectTreeButton.Middle,
+                    PlayerTalentFramePanel1SelectTreeButton.Right,
+                    PlayerTalentFramePanel2SelectTreeButton.Left,
+                    PlayerTalentFramePanel2SelectTreeButton.Middle,
+                    PlayerTalentFramePanel2SelectTreeButton.Right,
+                    PlayerTalentFramePanel3SelectTreeButton.Left,
+                    PlayerTalentFramePanel3SelectTreeButton.Middle,
+                    PlayerTalentFramePanel3SelectTreeButton.Right
+                }, false, true, false, true)
             end
 
             if (GlyphFrame) then
@@ -111,6 +133,31 @@ function Module:OnEnable()
                 -- Tabs
                 SUI:Skin(PlayerTalentFrameTab1)
                 SUI:Skin(PlayerTalentFrameTab3)
+
+                -- Buttons
+                SUI:Skin({
+                    PlayerTalentFrameLearnButton.Left,
+                    PlayerTalentFrameLearnButton.Middle,
+                    PlayerTalentFrameLearnButton.Right,
+                    PlayerTalentFrameResetButton.Left,
+                    PlayerTalentFrameResetButton.Middle,
+                    PlayerTalentFrameResetButton.Right,
+                    PlayerTalentFrameActivateButton.Left,
+                    PlayerTalentFrameActivateButton.Middle,
+                    PlayerTalentFrameActivateButton.Right,
+                    PlayerTalentFrameToggleSummariesButton.Left,
+                    PlayerTalentFrameToggleSummariesButton.Middle,
+                    PlayerTalentFrameToggleSummariesButton.Right,
+                    PlayerTalentFramePanel1SelectTreeButton.Left,
+                    PlayerTalentFramePanel1SelectTreeButton.Middle,
+                    PlayerTalentFramePanel1SelectTreeButton.Right,
+                    PlayerTalentFramePanel2SelectTreeButton.Left,
+                    PlayerTalentFramePanel2SelectTreeButton.Middle,
+                    PlayerTalentFramePanel2SelectTreeButton.Right,
+                    PlayerTalentFramePanel3SelectTreeButton.Left,
+                    PlayerTalentFramePanel3SelectTreeButton.Middle,
+                    PlayerTalentFramePanel3SelectTreeButton.Right
+                }, false, true, false, true)
             end
 
             if name == "Blizzard_GlyphUI" then

@@ -142,7 +142,11 @@ function Gui:OnEnable()
     end)
 
     if (SUI:Color()) then
-        SUI:Skin(SUIMenuButton)
+        SUI:Skin({
+            SUIMenuButton.Left,
+            SUIMenuButton.Middle,
+            SUIMenuButton.Right
+        }, false, true, false, true)
     end
 
     --Edit

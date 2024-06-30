@@ -10,12 +10,23 @@ function Module:OnEnable()
                 SUI:Skin(TradeSkillExpandButtonFrame)
                 SUI:Skin(TradeSkillSubClassDropDown)
                 SUI:Skin(TradeSkillInvSlotDropDown)
-                SUI:Skin(TradeSkillCreateAllButton)
-                SUI:Skin(TradeSkillCreateButton)
-                SUI:Skin(TradeSkillCancelButton)
                 SUI:Skin(TradeSkillListScrollFrame)
                 SUI:Skin(TradeSkillFrameEditBox)
                 SUI:Skin(TradeSkillInputBox)
+                SUI:Skin(TradeSkillDetailScrollFrame)
+
+                -- Buttons
+                SUI:Skin({
+                    TradeSkillCreateAllButton.Left,
+                    TradeSkillCreateAllButton.Middle,
+                    TradeSkillCreateAllButton.Right,
+                    TradeSkillCreateButton.Left,
+                    TradeSkillCreateButton.Middle,
+                    TradeSkillCreateButton.Right,
+                    TradeSkillCancelButton.Left,
+                    TradeSkillCancelButton.Middle,
+                    TradeSkillCancelButton.Right
+                }, false, true, false, true)
             end
         end)
     end

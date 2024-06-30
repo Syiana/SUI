@@ -10,6 +10,16 @@ function Module:OnEnable()
                 SUI:Skin(ReforgingFrameRestoreButton)
                 SUI:Skin(ReforgingFrameReforgeButton)
                 SUI:Skin(ReforgingFrameButtonFrame)
+
+                -- Buttons
+                SUI:Skin({
+                    ReforgingFrameRestoreButton.Left,
+                    ReforgingFrameRestoreButton.Middle,
+                    ReforgingFrameRestoreButton.Right,
+                    ReforgingFrameReforgeButton.Left,
+                    ReforgingFrameReforgeButton.Middle,
+                    ReforgingFrameReforgeButton.Right
+                }, false, true, false, true)
             end
         end)
     end

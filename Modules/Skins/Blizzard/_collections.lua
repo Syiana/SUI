@@ -58,6 +58,16 @@ function Module:OnEnable()
                 SUI:Skin({WardrobeCollectionFrame.progressBar.border}, false, true)
                 SUI:Skin(WardrobeCollectionFrameSearchBox)
                 SUI:Skin(WardrobeCollectionFrame.FilterButton)
+
+                -- Buttons
+                SUI:Skin({
+                    MountJournalMountButton.Left,
+                    MountJournalMountButton.Middle,
+                    MountJournalMountButton.Right,
+                    PetJournalSummonButton.Left,
+                    PetJournalSummonButton.Middle,
+                    PetJournalSummonButton.Right
+                }, false, true, false, true)
             end
         end)
     end

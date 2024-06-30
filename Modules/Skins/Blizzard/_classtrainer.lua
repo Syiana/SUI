@@ -13,6 +13,16 @@ function Module:OnEnable()
                 SUI:Skin(ClassTrainerDetailScrollFrame)
                 SUI:Skin(ClassTrainerCollapseAllButton)
                 SUI:Skin(ClassTrainerFrameFilterDropDown)
+
+                -- Buttons
+                SUI:Skin({
+                    ClassTrainerTrainButton.Left,
+                    ClassTrainerTrainButton.Middle,
+                    ClassTrainerTrainButton.Right,
+                    ClassTrainerCancelButton.Left,
+                    ClassTrainerCancelButton.Middle,
+                    ClassTrainerCancelButton.Right
+                }, false, true, false, true)
             end
         end)
     end

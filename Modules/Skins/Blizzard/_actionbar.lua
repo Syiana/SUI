@@ -14,8 +14,8 @@ function Module:OnEnable()
 
         SUI:Skin(MainMenuBarArtFrame)
         SUI:Skin(MainMenuExpBar)
-        SUI:Skin(ActionBarUpButton, true)
-        SUI:Skin(ActionBarDownButton, true)
+        SUI:Skin(ActionBarUpButton)
+        SUI:Skin(ActionBarDownButton)
         SUI:Skin(MainMenuBarMaxLevelBar)
         SUI:Skin(frameList, true, true)
         SUI:Skin(OverrideActionBar)
@@ -23,5 +23,11 @@ function Module:OnEnable()
         SUI:Skin(OverrideActionBarExpBar)
         SUI:Skin(RetailUIArtFrame)
         SUI:Skin(PetActionBarFrame)
+
+        -- Buttons
+        SUI:Skin({
+            select(1, ActionBarUpButton:GetRegions()),
+            select(1, ActionBarDownButton:GetRegions())
+        }, false, true, false, true)
     end
 end

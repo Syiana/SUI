@@ -6,23 +6,47 @@ function Module:OnEnable()
         SUI:Skin(QuestFrame)
         SUI:Skin(QuestLogDetailFrame)
         SUI:Skin(QuestFrameDetailPanel)
-        SUI:Skin(QuestFrameAcceptButton)
-        SUI:Skin(QuestFrameDeclineButton)
-        SUI:Skin(QuestLogFrameAbandonButton)
-        SUI:Skin(QuestFramePushQuestButton)
-        SUI:Skin(QuestLogFrameTrackButton)
-        SUI:Skin(QuestLogFrameCancelButton)
         SUI:Skin(QuestDetailScrollFrame)
         SUI:Skin(QuestFrameRewardPanel)
         SUI:Skin(QuestRewardScrollFrame)
         SUI:Skin(QuestFrameProgressPanel)
         SUI:Skin(QuestProgressScrollFrame)
-        SUI:Skin(QuestFrameCompleteButton)
-        SUI:Skin(QuestFrameGoodbyeButton)
-        SUI:Skin(QuestFrameCompleteQuestButton)
-        SUI:Skin(QuestFrameCancelButton)
         SUI:Skin(QuestFrameGreetingPanel)
         SUI:Skin(EmptyQuestLogFrame)
+
+        -- Buttons
+        SUI:Skin({
+            QuestFrameAcceptButton.Left,
+            QuestFrameAcceptButton.Middle,
+            QuestFrameAcceptButton.Right,
+            QuestFrameDeclineButton.Left,
+            QuestFrameDeclineButton.Middle,
+            QuestFrameDeclineButton.Right,
+            QuestLogFrameAbandonButton.Left,
+            QuestLogFrameAbandonButton.Middle,
+            QuestLogFrameAbandonButton.Right,
+            QuestFramePushQuestButton.Left,
+            QuestFramePushQuestButton.Middle,
+            QuestFramePushQuestButton.Right,
+            QuestLogFrameTrackButton.Left,
+            QuestLogFrameTrackButton.Middle,
+            QuestLogFrameTrackButton.Right,
+            QuestLogFrameCancelButton.Left,
+            QuestLogFrameCancelButton.Middle,
+            QuestLogFrameCancelButton.Right,
+            QuestFrameCompleteButton.Left,
+            QuestFrameCompleteButton.Middle,
+            QuestFrameCompleteButton.Right,
+            QuestFrameGoodbyeButton.Left,
+            QuestFrameGoodbyeButton.Middle,
+            QuestFrameGoodbyeButton.Right,
+            QuestFrameCompleteQuestButton.Left,
+            QuestFrameCompleteQuestButton.Middle,
+            QuestFrameCompleteQuestButton.Right,
+            QuestFrameCancelButton.Left,
+            QuestFrameCancelButton.Middle,
+            QuestFrameCancelButton.Right
+        }, false, true, false, true)
 
         if not QuestFrameDetailPanel.ParchmentFrame then
             QuestFrameDetailPanel.ParchmentFrame = QuestFrameDetailPanel:CreateTexture(nil, "OVERLAY", nil, 1)

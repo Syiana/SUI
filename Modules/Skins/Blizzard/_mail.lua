@@ -21,6 +21,19 @@ function Module:OnEnable()
             SUI:Skin(SendMailMoneyGold)
             SUI:Skin(SendMailMoneySilver)
             SUI:Skin(SendMailMoneyCopper)
+
+            -- Buttons
+            SUI:Skin({
+                OpenAllMail.Left,
+                OpenAllMail.Middle,
+                OpenAllMail.Right,
+                SendMailMailButton.Left,
+                SendMailMailButton.Middle,
+                SendMailMailButton.Right,
+                SendMailCancelButton.Left,
+                SendMailCancelButton.Middle,
+                SendMailCancelButton.Right
+            }, false, true, false, true)
         end)
     end
 end

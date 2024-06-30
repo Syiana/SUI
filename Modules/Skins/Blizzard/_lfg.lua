@@ -47,8 +47,68 @@ function Module:OnEnable()
         SUI:Skin(LFGListCreateRoleDialog.Border)
         SUI:Skin(LFGListCreateRoleDialog.SignUpButton)
         SUI:Skin(LFGListCreateRoleDialog.CancelButton)
+        SUI:Skin(LFGListFrame.SearchPanel.FilterButton)
+        SUI:Skin(LFGListFrame.SearchPanel.SearchBox)
         SUI:Skin(RolePollPopup.Border)
         SUI:Skin(RolePollPopupAcceptButton)
-        LFGListFrame.ApplicationViewer.ScrollBox.NoApplicants:SetTextColor(.7, .7, .7)
+        LFGListFrame.ApplicationViewer.ScrollBox.NoApplicants:SetTextColor(.8, .8, .8)
+
+        -- Buttons
+        SUI:Skin({
+            LFGListFrame.CategorySelection.StartGroupButton.Left,
+            LFGListFrame.CategorySelection.StartGroupButton.Middle,
+            LFGListFrame.CategorySelection.StartGroupButton.Right,
+            LFGListFrame.CategorySelection.FindGroupButton.Left,
+            LFGListFrame.CategorySelection.FindGroupButton.Middle,
+            LFGListFrame.CategorySelection.FindGroupButton.Right,
+            LFGListFrame.SearchPanel.BackButton.Left,
+            LFGListFrame.SearchPanel.BackButton.Middle,
+            LFGListFrame.SearchPanel.BackButton.Right,
+            LFGListFrame.SearchPanel.SignUpButton.Left,
+            LFGListFrame.SearchPanel.SignUpButton.Middle,
+            LFGListFrame.SearchPanel.SignUpButton.Right,
+            LFGListFrame.SearchPanel.ScrollBox.StartGroupButton.Left,
+            LFGListFrame.SearchPanel.ScrollBox.StartGroupButton.Middle,
+            LFGListFrame.SearchPanel.ScrollBox.StartGroupButton.Right,
+            LFDQueueFrameFindGroupButton.Left,
+            LFDQueueFrameFindGroupButton.Middle,
+            LFDQueueFrameFindGroupButton.Right,
+            LFGListFrame.EntryCreation.CancelButton.Left,
+            LFGListFrame.EntryCreation.CancelButton.Middle,
+            LFGListFrame.EntryCreation.CancelButton.Right,
+            LFGListFrame.EntryCreation.ListGroupButton.Left,
+            LFGListFrame.EntryCreation.ListGroupButton.Middle,
+            LFGListFrame.EntryCreation.ListGroupButton.Right,
+            LFGListApplicationDialog.SignUpButton.Left,
+            LFGListApplicationDialog.SignUpButton.Middle,
+            LFGListApplicationDialog.SignUpButton.Right,
+            LFGListApplicationDialog.CancelButton.Left,
+            LFGListApplicationDialog.CancelButton.Middle,
+            LFGListApplicationDialog.CancelButton.Right,
+            LFDRoleCheckPopupAcceptButton.Left,
+            LFDRoleCheckPopupAcceptButton.Middle,
+            LFDRoleCheckPopupAcceptButton.Right,
+            LFDRoleCheckPopupDeclineButton.Left,
+            LFDRoleCheckPopupDeclineButton.Middle,
+            LFDRoleCheckPopupDeclineButton.Right,
+            LFGListFrame.ApplicationViewer.BrowseGroupsButton.Left,
+            LFGListFrame.ApplicationViewer.BrowseGroupsButton.Middle,
+            LFGListFrame.ApplicationViewer.BrowseGroupsButton.Right,
+            LFGListFrame.ApplicationViewer.RemoveEntryButton.Left,
+            LFGListFrame.ApplicationViewer.RemoveEntryButton.Middle,
+            LFGListFrame.ApplicationViewer.RemoveEntryButton.Right,
+            LFGListFrame.ApplicationViewer.EditButton.Left,
+            LFGListFrame.ApplicationViewer.EditButton.Middle,
+            LFGListFrame.ApplicationViewer.EditButton.Right,
+            LFGListFrame.SearchPanel.BackToGroupButton.Left,
+            LFGListFrame.SearchPanel.BackToGroupButton.Middle,
+            LFGListFrame.SearchPanel.BackToGroupButton.Right,
+            LFGListCreateRoleDialog.SignUpButton.Left,
+            LFGListCreateRoleDialog.SignUpButton.Middle,
+            LFGListCreateRoleDialog.SignUpButton.Right,
+            LFGListCreateRoleDialog.CancelButton.Left,
+            LFGListCreateRoleDialog.CancelButton.Middle,
+            LFGListCreateRoleDialog.CancelButton.Right
+        }, false, true, false, true)
     end
 end
