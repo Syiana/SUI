@@ -7,9 +7,12 @@ function Module:OnEnable()
         SUI:Skin(LFDParentFrame)
         SUI:Skin(PVEFrameLeftInset)
         SUI:Skin(LFDParentFrameInset)
+        SUI:Skin(LFDQueueFrame)
         SUI:Skin(LFDQueueFrameTypeDropDown)
         SUI:Skin(PVEFrame.shadows)
         SUI:Skin(LFGListPVEStub)
+        SUI:Skin(LFGDungeonReadyDialog.Border)
+        SUI:Skin(LFGDungeonReadyStatus.Border)
         SUI:Skin(LFGListFrame.CategorySelection.Inset)
         SUI:Skin(LFGListFrame.CategorySelection.StartGroupButton)
         SUI:Skin(LFGListFrame.CategorySelection.FindGroupButton)
@@ -108,7 +111,13 @@ function Module:OnEnable()
             LFGListCreateRoleDialog.SignUpButton.Right,
             LFGListCreateRoleDialog.CancelButton.Left,
             LFGListCreateRoleDialog.CancelButton.Middle,
-            LFGListCreateRoleDialog.CancelButton.Right
+            LFGListCreateRoleDialog.CancelButton.Right,
+            LFGDungeonReadyDialogEnterDungeonButton.Left,
+            LFGDungeonReadyDialogEnterDungeonButton.Middle,
+            LFGDungeonReadyDialogEnterDungeonButton.Right,
+            LFGDungeonReadyDialogLeaveQueueButton.Left,
+            LFGDungeonReadyDialogLeaveQueueButton.Middle,
+            LFGDungeonReadyDialogLeaveQueueButton.Right
         }, false, true, false, true)
     end
 end
