@@ -4,6 +4,7 @@ function Module:OnEnable()
     if (SUI:Color()) then
         SUI:Skin(FriendsFrame)
         SUI:Skin(FriendsFrameInset)
+        SUI:Skin(AddFriendFrame)
         SUI:Skin(WhoFrameEditBoxInset)
         SUI:Skin(WhoListScrollFrame)
         SUI:Skin(WhoListScrollFrame)
@@ -102,7 +103,13 @@ function Module:OnEnable()
             RaidInfoCancelButton.Right,
             RaidFrameConvertToRaidButton.Left,
             RaidFrameConvertToRaidButton.Middle,
-            RaidFrameConvertToRaidButton.Right
+            RaidFrameConvertToRaidButton.Right,
+            AddFriendEntryFrameAcceptButton.Left,
+            AddFriendEntryFrameAcceptButton.Middle,
+            AddFriendEntryFrameAcceptButton.Right,
+            AddFriendEntryFrameCancelButton.Left,
+            AddFriendEntryFrameCancelButton.Middle,
+            AddFriendEntryFrameCancelButton.Right
         }, false, true, false, true)
 
         if (RaidFrameReadyCheckButton) then

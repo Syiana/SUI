@@ -26,6 +26,12 @@ function Module:OnEnable()
                 SUI:Skin(CommunitiesGuildLogFrame)
                 SUI:Skin(CommunitiesGuildLogFrame.Container.NineSlice)
                 SUI:Skin(CommunitiesGuildLogFrame.Container.ScrollFrame.ScrollBar.Background)
+                SUI:Skin(CommunitiesTicketManagerDialog)
+                SUI:Skin(CommunitiesTicketManagerDialog.InviteManager.ArtOverlay)
+                SUI:Skin(CommunitiesTicketManagerDialog.InviteManager.ColumnDisplay)
+                SUI:Skin(CommunitiesSettingsDialog.BG)
+                SUI:Skin(CommunitiesAvatarPickerDialog.Selector)
+
 
                 -- Reset Icon colors
                 select(1, CommunitiesFrame.ChatTab:GetRegions()):SetVertexColor(.15, .15, .15)
@@ -52,7 +58,37 @@ function Module:OnEnable()
                     CommunitiesFrame.GuildLogButton.Right,
                     CommunitiesGuildLogFrameCloseButton.Left,
                     CommunitiesGuildLogFrameCloseButton.Middle,
-                    CommunitiesGuildLogFrameCloseButton.Right
+                    CommunitiesGuildLogFrameCloseButton.Right,
+                    CommunitiesTicketManagerDialog.GenerateLinkButton.Left,
+                    CommunitiesTicketManagerDialog.GenerateLinkButton.Middle,
+                    CommunitiesTicketManagerDialog.GenerateLinkButton.Right,
+                    CommunitiesTicketManagerDialog.Close.Left,
+                    CommunitiesTicketManagerDialog.Close.Middle,
+                    CommunitiesTicketManagerDialog.Close.Right,
+                    CommunitiesTicketManagerDialog.LinkToChat.Left,
+                    CommunitiesTicketManagerDialog.LinkToChat.Middle,
+                    CommunitiesTicketManagerDialog.LinkToChat.Right,
+                    CommunitiesTicketManagerDialog.Copy.Left,
+                    CommunitiesTicketManagerDialog.Copy.Middle,
+                    CommunitiesTicketManagerDialog.Copy.Right,
+                    CommunitiesSettingsDialog.ChangeAvatarButton.Left,
+                    CommunitiesSettingsDialog.ChangeAvatarButton.Middle,
+                    CommunitiesSettingsDialog.ChangeAvatarButton.Right,
+                    CommunitiesSettingsDialog.Accept.Left,
+                    CommunitiesSettingsDialog.Accept.Middle,
+                    CommunitiesSettingsDialog.Accept.Right,
+                    CommunitiesSettingsDialog.Delete.Left,
+                    CommunitiesSettingsDialog.Delete.Middle,
+                    CommunitiesSettingsDialog.Delete.Right,
+                    CommunitiesSettingsDialog.Cancel.Left,
+                    CommunitiesSettingsDialog.Cancel.Middle,
+                    CommunitiesSettingsDialog.Cancel.Right,
+                    CommunitiesAvatarPickerDialog.Selector.OkayButton.Left,
+                    CommunitiesAvatarPickerDialog.Selector.OkayButton.Middle,
+                    CommunitiesAvatarPickerDialog.Selector.OkayButton.Right,
+                    CommunitiesAvatarPickerDialog.Selector.CancelButton.Left,
+                    CommunitiesAvatarPickerDialog.Selector.CancelButton.Middle,
+                    CommunitiesAvatarPickerDialog.Selector.CancelButton.Right,
                 }, false, true, false, true)
             end
         end)

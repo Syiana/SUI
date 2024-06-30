@@ -29,6 +29,9 @@ function Module:OnEnable()
             PetitionFrameRenameButton.Left,
             PetitionFrameRenameButton.Middle,
             PetitionFrameRenameButton.Right,
+            PetitionFrameSignButton.Left,
+            PetitionFrameSignButton.Middle,
+            PetitionFrameSignButton.Right,
             PetitionFrameCancelButton.Left,
             PetitionFrameCancelButton.Middle,
             PetitionFrameCancelButton.Right
