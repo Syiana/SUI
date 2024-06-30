@@ -36,7 +36,7 @@ function Module:OnEnable()
                     self.borderTexture:SetTexture([[Interface\TargetingFrame\UI-TargetingFrame-Minus]]);
                     forceNormalTexture = true;
                 elseif (classification == "worldboss" or classification == "elite") then
-                    self.borderTexture:SetTexture([[Interface\Addons\\SUI\Media\Textures\UnitFrames\UI-TargetingFrame-Elite]]);
+                    self.borderTexture:SetTexture([[Interface\Addons\SUI\Media\Textures\UnitFrames\UI-TargetingFrame-Elite]]);
                 elseif (classification == "rareelite") then
                     self.borderTexture:SetTexture([[Interface\Addons\SUI\Media\Textures\UnitFrames\UI-TargetingFrame-Rare-Elite]]);
                 elseif (classification == "rare") then
