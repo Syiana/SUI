@@ -89,6 +89,9 @@ function Module:OnEnable()
                     CommunitiesAvatarPickerDialog.Selector.CancelButton.Left,
                     CommunitiesAvatarPickerDialog.Selector.CancelButton.Middle,
                     CommunitiesAvatarPickerDialog.Selector.CancelButton.Right,
+                    CommunitiesFrame.CommunitiesControlFrame.GuildControlButton.Left,
+                    CommunitiesFrame.CommunitiesControlFrame.GuildControlButton.Middle,
+                    CommunitiesFrame.CommunitiesControlFrame.GuildControlButton.Right
                 }, false, true, false, true)
             end
         end)
