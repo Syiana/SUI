@@ -3,6 +3,12 @@ local Skin = SUI:NewModule("Skins.Safequeue");
 function Skin:OnEnable()
     if not (IsAddOnLoaded("SafeQueue")) then return end
     SUI:Skin(SafeQueue)
-    SUI:Skin(SafeQueueEnterButton)
-    SUI:Skin(SafeQueueCloseButton)
+
+    -- Buttons
+    SUI:Skin({
+        SafeQueueEnterButton.Left,
+        SafeQueueEnterButton.Middle,
+        SafeQueueEnterButton.Right,
+        select(2, SafeQueueCloseButton:GetRegions())
+    }, false, true, false, true)
 end
