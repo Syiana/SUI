@@ -21,9 +21,10 @@ function Module:OnEnable()
                 SUI:Skin(MacroCancelButton)
                 SUI:Skin(MacroFrame.MacroSelector.ScrollBox.Shadows)
                 SUI:Skin(MacroPopupFrame.BorderBox)
-                SUI:Skin(MacroPopupFrame.IconSelector.ScrollBar)
+                SUI:Skin(MacroPopupFrame.IconSelector.ScrollBar.Background)
                 SUI:Skin(MacroPopupFrame.BorderBox.OkayButton)
                 SUI:Skin(MacroPopupFrame.BorderBox.CancelButton)
+                SUI:Skin(MacroPopupFrame.BorderBox.IconTypeDropDown.DropDownMenu)
 
                 -- Buttons
                 SUI:Skin({
