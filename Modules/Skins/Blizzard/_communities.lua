@@ -22,6 +22,9 @@ function Module:OnEnable()
                 SUI:Skin(CommunitiesFrame.Chat.InsetFrame)
                 SUI:Skin(CommunitiesFrame.GuildLogButton)
                 SUI:Skin(CommunitiesFrame.StreamDropDownMenu)
+                SUI:Skin(CommunitiesGuildLogFrame)
+                SUI:Skin(CommunitiesGuildLogFrame.Container.NineSlice)
+                SUI:Skin(CommunitiesGuildLogFrame.Container.ScrollFrame.ScrollBar.Background)
 
                 -- Reset Icon colors
                 select(1, CommunitiesFrame.ChatTab:GetRegions()):SetVertexColor(.15, .15, .15)
@@ -45,7 +48,10 @@ function Module:OnEnable()
                     CommunitiesFrame.GuildMemberDetailFrame.GroupInviteButton.Right,
                     CommunitiesFrame.GuildLogButton.Left,
                     CommunitiesFrame.GuildLogButton.Middle,
-                    CommunitiesFrame.GuildLogButton.Right
+                    CommunitiesFrame.GuildLogButton.Right,
+                    CommunitiesGuildLogFrameCloseButton.Left,
+                    CommunitiesGuildLogFrameCloseButton.Middle,
+                    CommunitiesGuildLogFrameCloseButton.Right
                 }, false, true, false, true)
             end
         end)
