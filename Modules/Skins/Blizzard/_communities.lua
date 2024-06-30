@@ -31,7 +31,22 @@ function Module:OnEnable()
                 SUI:Skin(CommunitiesTicketManagerDialog.InviteManager.ColumnDisplay)
                 SUI:Skin(CommunitiesSettingsDialog.BG)
                 SUI:Skin(CommunitiesAvatarPickerDialog.Selector)
-
+                SUI:Skin(GuildControlUI)
+                SUI:Skin(GuildControlUINavigationDropDown)
+                SUI:Skin(GuildControlUIRankSettingsFrameRankDropDown)
+                SUI:Skin(GuildControlUIRankSettingsFrame)
+                SUI:Skin(GuildControlUIRankBankFrameRankDropDown)
+                SUI:Skin(GuildControlUIRankBankFrameInsetScrollFrame.ScrollBar.Background)
+                SUI:Skin(GuildControlUIRankBankFrameInset)
+                SUI:Skin(CommunitiesFrame.GuildBenefitsFrame)
+                SUI:Skin(CommunitiesFrameGuildDetailsFrame)
+                SUI:Skin(CommunitiesFrameGuildDetailsFrame.Inset)
+                SUI:Skin(CommunitiesGuildTextEditFrame)
+                SUI:Skin(CommunitiesGuildTextEditFrame.Container.ScrollFrame.ScrollBar.Background)
+                SUI:Skin(CommunitiesFrame.EditStreamDialog.BG)
+                SUI:Skin(CommunitiesFrame.NotificationSettingsDialog.Selector)
+                SUI:Skin(CommunitiesFrame.NotificationSettingsDialog.CommunitiesListDropDownMenu)
+                SUI:Skin(CommunitiesFrame.NotificationSettingsDialog.ScrollFrame.ScrollBar.Background)
 
                 -- Reset Icon colors
                 select(1, CommunitiesFrame.ChatTab:GetRegions()):SetVertexColor(.15, .15, .15)
@@ -91,7 +106,28 @@ function Module:OnEnable()
                     CommunitiesAvatarPickerDialog.Selector.CancelButton.Right,
                     CommunitiesFrame.CommunitiesControlFrame.GuildControlButton.Left,
                     CommunitiesFrame.CommunitiesControlFrame.GuildControlButton.Middle,
-                    CommunitiesFrame.CommunitiesControlFrame.GuildControlButton.Right
+                    CommunitiesFrame.CommunitiesControlFrame.GuildControlButton.Right,
+                    GuildControlUIRankOrderFrameNewButton.Left,
+                    GuildControlUIRankOrderFrameNewButton.Middle,
+                    GuildControlUIRankOrderFrameNewButton.Right,
+                    CommunitiesGuildTextEditFrameAcceptButton.Left,
+                    CommunitiesGuildTextEditFrameAcceptButton.Middle,
+                    CommunitiesGuildTextEditFrameAcceptButton.Right,
+                    CommunitiesGuildTextEditFrameCloseButton.Left,
+                    CommunitiesGuildTextEditFrameCloseButton.Middle,
+                    CommunitiesGuildTextEditFrameCloseButton.Right,
+                    CommunitiesFrame.EditStreamDialog.Accept.Left,
+                    CommunitiesFrame.EditStreamDialog.Accept.Middle,
+                    CommunitiesFrame.EditStreamDialog.Accept.Right,
+                    CommunitiesFrame.EditStreamDialog.Cancel.Left,
+                    CommunitiesFrame.EditStreamDialog.Cancel.Middle,
+                    CommunitiesFrame.EditStreamDialog.Cancel.Right,
+                    CommunitiesFrame.NotificationSettingsDialog.Selector.OkayButton.Left,
+                    CommunitiesFrame.NotificationSettingsDialog.Selector.OkayButton.Middle,
+                    CommunitiesFrame.NotificationSettingsDialog.Selector.OkayButton.Right,
+                    CommunitiesFrame.NotificationSettingsDialog.Selector.CancelButton.Left,
+                    CommunitiesFrame.NotificationSettingsDialog.Selector.CancelButton.Middle,
+                    CommunitiesFrame.NotificationSettingsDialog.Selector.CancelButton.Right,
                 }, false, true, false, true)
             end
         end)

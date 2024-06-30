@@ -52,6 +52,17 @@ function Module:OnEnable()
                 SUI:Skin(GuildBankFrameTab3)
                 SUI:Skin(GuildBankFrameTab4)
                 SUI:Skin(GuildBankInfoScrollFrame)
+                SUI:Skin(GuildBankPopupFrame)
+                SUI:Skin(BorderBox)
+                SUI:Skin(GuildBankPopupFrame.ScrollFrame)
+
+                for i = 1, GetNumGuildBankTabs()+1 do
+                    local tab = _G["GuildBankTab" .. i]
+
+                    if (tab) then
+                        SUI:Skin(tab)
+                    end
+                end
 
                 -- Buttons
                 SUI:Skin({
@@ -60,7 +71,19 @@ function Module:OnEnable()
                     GuildBankFrame.WithdrawButton.Right,
                     GuildBankFrame.DepositButton.Left,
                     GuildBankFrame.DepositButton.Middle,
-                    GuildBankFrame.DepositButton.Right
+                    GuildBankFrame.DepositButton.Right,
+                    GuildBankFrame.BuyInfo.PurchaseButton.Left,
+                    GuildBankFrame.BuyInfo.PurchaseButton.Middle,
+                    GuildBankFrame.BuyInfo.PurchaseButton.Right,
+                    GuildBankPopupFrame.OkayButton.Left,
+                    GuildBankPopupFrame.OkayButton.Middle,
+                    GuildBankPopupFrame.OkayButton.Right,
+                    GuildBankPopupFrame.CancelButton.Left,
+                    GuildBankPopupFrame.CancelButton.Middle,
+                    GuildBankPopupFrame.CancelButton.Right,
+                    GuildBankInfoSaveButton.Left,
+                    GuildBankInfoSaveButton.Middle,
+                    GuildBankInfoSaveButton.Right
                 }, false, true, false, true)
             end
         end)
