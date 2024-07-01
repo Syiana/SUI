@@ -71,7 +71,11 @@ function Module:OnEnable()
         f:SetScript("OnEvent", function(self, event, name)
             if name == "Blizzard_ItemSocketingUI" then
                 SUI:Skin(ItemSocketingFrame)
-                SUI:Skin(ItemSocketingSocketButton)
+                SUI:Skin({
+                    ItemSocketingSocketButton.Left,
+                    ItemSocketingSocketButton.Middle,
+                    ItemSocketingSocketButton.Right
+                }, false, true, false, true)
             end
         end)
     end
