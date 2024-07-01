@@ -195,7 +195,7 @@ function SUIConfig:BuildElement(frame, row, info, dataKey, db)
 		if info.type == 'checkbox' then
 			element:SetChecked(iVal)
 		elseif element.SetColor then
-			-- element:SetColor(iVal);
+			element:SetColor(iVal);
 		elseif element.SetValue then
 			element:SetValue(iVal);
 		end

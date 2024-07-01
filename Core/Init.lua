@@ -9,9 +9,9 @@ local defaults = {
         install = false,
         general = {
             theme = 'Dark',
-            font = 'Interface\\AddOns\\SUI\\Media\\Fonts\\Prototype.ttf',
-            texture = 'Interface\\AddOns\\SUI\\Media\\Textures\\Status\\Smooth',
-            color = {},
+            font = [[Interface\AddOns\SUI\Media\Fonts\Prototype.ttf]],
+            texture = [[Interface\AddOns\SUI\Media\Textures\Status\Smooth]],
+            color = { r = 0, g = 0, b = 0, a = 1 },
             automation = {
                 delete = true,
                 decline = false,
@@ -59,12 +59,13 @@ local defaults = {
             }
         },
         raidframes = {
-            texture = 'Interface\\AddOns\\SUI\\Media\\Textures\\Status\\Flat',
+            style = 'Default',
+            texture = [[Interface\AddOns\SUI\Media\Textures\Status\Flat]],
             alwaysontop = false
         },
         nameplates = {
-            style = 'Custom',
-            texture = 'Interface\\AddOns\\SUI\\Media\\Textures\\Status\\Flat',
+            style = 'Default',
+            texture = [[Interface\AddOns\SUI\Media\Textures\Status\Flat]],
             arena = true,
             health = true,
             casttime = true,
@@ -146,6 +147,7 @@ local defaults = {
             fastloot = false,
             searchbags = false,
             sortbags = false,
+            expbar = true,
         },
         new_version = false,
         edit = {}

@@ -220,16 +220,16 @@ function Gui:OnEnable()
                         order = 3
                     }
                 },
-                -- {
-                --   color = {
-                --     key = 'color',
-                --     type = 'color',
-                --     label = 'Custom Color',
-                --     column = 3,
-                --     update = function() end,
-                --     cancel = function() end
-                --   }
-                -- },
+                {
+                  color = {
+                    key = 'color',
+                    type = 'color',
+                    label = 'Custom Color',
+                    column = 3,
+                    update = function() end,
+                    cancel = function() end
+                  }
+                },
                 {
                     header = {
                         type = 'header',
@@ -509,8 +509,8 @@ function Gui:OnEnable()
                         type = 'dropdown',
                         label = 'Style',
                         options = {
-                            { value = 1, text = 'Default' },
-                            { value = 2, text = 'Custom' }
+                            { value = 'Default', text = 'Default' },
+                            { value = 'Custom', text = 'Custom' }
                         },
                         column = 5,
                         order = 1
@@ -750,7 +750,7 @@ function Gui:OnEnable()
                 {
                     header = {
                         type = 'header',
-                        label = 'Chastbars'
+                        label = 'Castbars'
                     }
                 },
                 {
@@ -1147,6 +1147,14 @@ function Gui:OnEnable()
                         column = 3,
                         order = 1
                       },
+                      expbar = {
+                        key = 'expbar',
+                        type = 'checkbox',
+                        label = 'Show Exp Bar',
+                        tooltip = 'Show Exp Bar when using Small Actionbar profile',
+                        column = 4,
+                        order = 2
+                    }
                 },
                 {
                     header = {
