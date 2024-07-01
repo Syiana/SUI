@@ -41,6 +41,11 @@ function Module:OnEnable()
         SUI:Skin(DropDownList3Backdrop)
         SUI:Skin(DropDownList3MenuBackdrop.NineSlice)
 
+        SUI:Skin(ReportFrame)
+        SUI:Skin(ReportFrame.Border)
+        SUI:Skin(ReportFrame.ReportingMajorCategoryDropDown)
+        SUI:Skin(ReportFrame.Comment)
+
         -- Set GameMenuText Point
         local gameMenuText = select(2, GameMenuFrame:GetRegions())
         gameMenuText:ClearAllPoints()
@@ -101,7 +106,10 @@ function Module:OnEnable()
             PVPReadyDialogEnterBattleButton.Right,
             PVPReadyDialogHideButton.Left,
             PVPReadyDialogHideButton.Middle,
-            PVPReadyDialogHideButton.Right
+            PVPReadyDialogHideButton.Right,
+            ReportFrame.ReportButton.Left,
+            ReportFrame.ReportButton.Middle,
+            ReportFrame.ReportButton.Right
         }, false, true, false, true)
 
         local f = CreateFrame("Frame")
