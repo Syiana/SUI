@@ -1,0 +1,124 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\..\Blizzard_SharedXML\UI.xsd">
+
+    <StatusBar name="SUIExpBar" inherits="TextStatusBar">
+        <Size>
+            <AbsDimension x="350" y="11" />
+        </Size>
+        <Anchors>
+            <Anchor point="TOP" />
+        </Anchors>
+        <Layers>
+            <Layer level="BORDER">
+                <Texture name="SUIExhaustionLevelFillBar">
+                    <Size>
+                        <AbsDimension x="0" y="11" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeTo="SUIExpBar">
+                            <Offset>
+                                <AbsDimension x="0" y="0" />
+                            </Offset>
+                        </Anchor>
+                    </Anchors>
+                    <Color r="1.0" g="1.0" b="1.0" a="1.0" />
+                </Texture>
+            </Layer>
+            <Layer level="BACKGROUND" textureSubLevel="-2">
+                <Texture>
+                    <Color r="0.0" g="0.0" b="0.0" a="0.5" />
+                </Texture>
+            </Layer>
+        </Layers>
+        <Frames>
+            <Frame name="SUIExpBarOverlayFrame" frameStrata="DIALOG">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="UIParent" />
+                    <Anchor point="BOTTOMRIGHT" relativeTo="UIParent" />
+                </Anchors>
+                <Layers>
+                    <Layer level="ARTWORK">
+                        <FontString name="SUIExpBarText" inherits="TextStatusBarText">
+                            <Anchors>
+                                <Anchor point="CENTER" relativeTo="SUIExpBar">
+                                    <Offset>
+                                        <AbsDimension x="0" y="0" />
+                                    </Offset>
+                                </Anchor>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+                </Layers>
+                <Scripts>
+                    <OnLoad>
+                        SUIExpBar.lockShow = 0;
+                    </OnLoad>
+                </Scripts>
+            </Frame>
+        </Frames>
+        <Scripts>
+            <OnLoad inherit="prepend">
+                TextStatusBar_Initialize(self);
+                self:GetStatusBarTexture():SetDrawLayer("BACKGROUND", -1);
+                SetTextStatusBarText(SUIExpBar, SUIExpBarText);
+                SUIExpBar_Update();
+
+                self:RegisterEvent("PLAYER_ENTERING_WORLD");
+                self:RegisterEvent("PLAYER_XP_UPDATE");
+                self.textLockable = 1;
+                self.cvar = "xpBarText";
+                self.cvarLabel = "XP_BAR_TEXT";
+                self.alwaysPrefix = true;
+                self.alwaysShow = true;
+            </OnLoad>
+            <OnEvent>
+                if ( event == "CVAR_UPDATE" ) then
+                TextStatusBar_OnEvent(self, event, ...);
+                else
+                SUIExpBar_Update();
+                end
+            </OnEvent>
+            <OnShow>
+                if ( GetCVar("xpBarText") == "1" ) then
+                SUIExpBar_UpdateTextString();
+                end
+            </OnShow>
+            <OnEnter function="SUIExpBar_OnEnter" />
+            <OnLeave>
+                HideTextStatusBarText(self);
+                GameTooltip:Hide();
+                SUIExhaustionTick.timer = nil;
+            </OnLeave>
+            <OnUpdate inherit="prepend">
+                SUIExhaustionTick_OnUpdate(SUIExhaustionTick, elapsed);
+            </OnUpdate>
+            <OnValueChanged>
+                if (not self:IsShown()) then
+                return;
+                end
+                TextStatusBar_OnValueChanged(self);
+            </OnValueChanged>
+        </Scripts>
+        <BarTexture file="Interface\TargetingFrame\UI-StatusBar" />
+        <BarColor r="0.58" g="0.0" b="0.55" />
+    </StatusBar>
+    <Button name="SUIExhaustionTick" parent="SUIExpBar" hidden="false" frameStrata="MEDIUM">
+		<Size>
+			<AbsDimension x="32" y="32"/>
+		</Size>
+		<Anchors>
+			<Anchor point="CENTER" relativeTo="SUIExpBar">
+				<Offset>
+					<AbsDimension x="0" y="0"/>
+				</Offset>
+			</Anchor>
+		</Anchors>
+		<Scripts>
+			<OnLoad function="SUIExhaustionTick_OnLoad"/>
+			<OnEvent function="SUIExhaustionTick_OnEvent"/>
+			<OnLeave function="GameTooltip_Hide"/>
+		</Scripts>
+		<NormalTexture name="SUIExhaustionTickNormal" file="Interface\MainMenuBar\UI-ExhaustionTickNormal"/>
+		<HighlightTexture name="SUIExhaustionTickHighlight" file="Interface\MainMenuBar\UI-ExhaustionTickHighlight" alphaMode="ADD"/>
+	</Button>
+</Ui>

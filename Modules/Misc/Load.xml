@@ -1,9 +1,14 @@
 <Ui xmlns='http://www.blizzard.com/wow/ui/'>
 	<Include file = "_Searchbox.xml" />
-	<Script file="_Tabbinder.lua"/>
-  	<Script file="_Interrupt.lua"/>
-	<Script file="_Vendorprice.lua"/>
 	<Script file="_Fastloot.lua"/>
+	<Script file="_Interrupt.lua"/>
 	<Script file="_Searchbags.lua"/>
 	<Script file="_Sortbags.lua"/>
+	<Script file="_Tabbinder.lua"/>
+	<Script file="_Vendorprice.lua"/>
+
+	<!-- Experience Bar -->
+	<Script file="_ExpBar_Functions.lua"/>
+	<Script file="_ExpBar.lua"/>
+	<Include file = "_ExpBar.xml" />
 </Ui>
