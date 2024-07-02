@@ -7,12 +7,17 @@ function Module:OnEnable()
         module = SUI.db.profile.modules.unitframes
     }
 
+    local textureSet = {}
+
     function SUIPartyFrames(self)
         local useCompact = GetCVarBool("useCompactPartyFrames")
         if (IsInGroup() and (not IsInRaid()) and (not useCompact)) then
-            if ((self and self.HealthBar and self.ManaBar) and (db.texture ~= 'Default')) then
-                self.HealthBar:SetStatusBarTexture(db.texture)
-                self.ManaBar:SetStatusBarTexture(db.texture)
+            if ((self and self.healthbar and self.manabar) and (db.texture ~= 'Default')) then
+                if (textureSet[self.unit]) then return end
+                self.healthbar:SetStatusBarTexture(db.texture)
+                self.manabar:SetStatusBarTexture(db.texture)
+
+                textureSet[self.unit] = self.unit
             end
             if (db.unitframes.style == 'Big') then
                 self.name:SetSize(75, 10)
