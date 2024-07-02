@@ -8,8 +8,8 @@ function Buffs:OnEnable()
         debufftype = SUI.db.profile.buffs.debufftype,
         module = SUI.db.profile.modules.buffs
     }
-    
-    if (db.module) then
+
+    if (db.module) then        
         -- DebuffType Colors for the Debuff Border
         local debuffColor      = {}
         debuffColor["none"]    = { r = 0.80, g = 0, b = 0 };
@@ -36,6 +36,11 @@ function Buffs:OnEnable()
         local df = CreateFrame("Frame", "DebuffDragFrame", UIParent)
         df:SetSize(34, 34)
         df:SetPoint("TOPRIGHT", "Minimap", "TOPLEFT", -35, -125)
+
+        -- Consodilated Buffs Icon
+        ConsolidatedBuffs:ClearAllPoints()
+        ConsolidatedBuffs:SetParent(BuffDragFrame)
+        ConsolidatedBuffs:SetPoint("TOPRIGHT", BuffDragFrame, "TOPRIGHT", 40, -4)
 
         HOUR_ONELETTER_ABBR = "%dh"
         DAY_ONELETTER_ABBR = "%dd"
