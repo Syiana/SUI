@@ -11,8 +11,8 @@ function expBar:OnEnable()
         -- Reposition Exp Bar
         SUIExpBar:ClearAllPoints()
         SUIExpBar:SetParent(SUIMainMenuBar)
-        SUIExpBar:SetPoint("BOTTOMLEFT", SUIMainMenuBar, "BOTTOMLEFT", 2, -12)
-        SUIExpBar:SetWidth(SUIMainMenuBar:GetWidth()-6.5)
+        SUIExpBar:SetPoint("BOTTOMLEFT", SUIMainMenuBar, "BOTTOMLEFT", 1, -14)
+        SUIExpBar:SetWidth(SUIMainMenuBar:GetWidth()-5.9)
 
         SUIExpBarText:SetFont([[Fonts\ARIALN.TTF]], 12, 'OUTLINE')
 
