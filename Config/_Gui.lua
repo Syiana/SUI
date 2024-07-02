@@ -158,7 +158,7 @@ function Gui:OnEnable()
     end)
 
     --Save
-    local save = SUIConfig:Button(config, 160, 25, 'Save')
+    local save = SUIConfig:Button(config, 160, 25, 'Save / Reload')
     SUIConfig:GlueBottom(save, config, 10, 10, 'LEFT')
     save:SetScript('OnClick', function()
         ReloadUI()
@@ -1282,12 +1282,15 @@ function Gui:OnEnable()
                             if (db.profile.modules.general) then
                                 db.profile.modules.general = false
                                 self:SetChecked(false)
+
+                                print("|cffff00d5S|r|cff027bffUI|r:", "Module 'General' |cffff0000deactivated|r.", "Reload required.")
                             else
                                 db.profile.modules.general = true
                                 self:SetChecked(true)
+
+                                print("|cffff00d5S|r|cff027bffUI|r:", "Module 'General' |cff00ff77activated|r.", "Reload required.")
                             end
                             self.text:SetText(moduleText('General'))
-                            print("|cffff00d5S|r|cff027bffUI|r:", "Please reload or press 'Save' to commit your changes.")
                         end
                     },
                     unitframes = {
@@ -1301,12 +1304,15 @@ function Gui:OnEnable()
                             if (db.profile.modules.unitframes) then
                                 db.profile.modules.unitframes = false
                                 self:SetChecked(false)
+
+                                print("|cffff00d5S|r|cff027bffUI|r:", "Module 'Unitframes' |cffff0000deactivated|r.", "Reload required.")
                             else
                                 db.profile.modules.unitframes = true
                                 self:SetChecked(true)
+
+                                print("|cffff00d5S|r|cff027bffUI|r:", "Module 'Unitframes' |cff00ff77activated|r.", "Reload required.")
                             end
                             self.text:SetText(moduleText('Unitframes'))
-                            print("|cffff00d5S|r|cff027bffUI|r:", "Please reload or press 'Save' to commit your changes.")
                         end
                     },
                     nameplates = {
@@ -1320,12 +1326,15 @@ function Gui:OnEnable()
                             if (db.profile.modules.nameplates) then
                                 db.profile.modules.nameplates = false
                                 self:SetChecked(false)
+
+                                print("|cffff00d5S|r|cff027bffUI|r:", "Module 'Nameplates' |cffff0000deactivated|r.", "Reload required.")
                             else
                                 db.profile.modules.nameplates = true
                                 self:SetChecked(true)
+
+                                print("|cffff00d5S|r|cff027bffUI|r:", "Module 'Nameplates' |cff00ff77activated|r.", "Reload required.")
                             end
                             self.text:SetText(moduleText('Nameplates'))
-                            print("|cffff00d5S|r|cff027bffUI|r:", "Please reload or press 'Save' to commit your changes.")
                         end
                     }
                 },
@@ -1341,12 +1350,15 @@ function Gui:OnEnable()
                             if (db.profile.modules.actionbar) then
                                 db.profile.modules.actionbar = false
                                 self:SetChecked(false)
+
+                                print("|cffff00d5S|r|cff027bffUI|r:", "Module 'Actionbar' |cffff0000deactivated|r.", "Reload required.")
                             else
                                 db.profile.modules.actionbar = true
                                 self:SetChecked(true)
+
+                                print("|cffff00d5S|r|cff027bffUI|r:", "Module 'Actionbar' |cff00ff77activated|r.", "Reload required.")
                             end
                             self.text:SetText(moduleText('Actionbar'))
-                            print("|cffff00d5S|r|cff027bffUI|r:", "Please reload or press 'Save' to commit your changes.")
                         end
                     },
                     castbars = {
@@ -1360,12 +1372,15 @@ function Gui:OnEnable()
                             if (db.profile.modules.castbars) then
                                 db.profile.modules.castbars = false
                                 self:SetChecked(false)
+
+                                print("|cffff00d5S|r|cff027bffUI|r:", "Module 'Castbars' |cffff0000deactivated|r.", "Reload required.")
                             else
                                 db.profile.modules.castbars = true
                                 self:SetChecked(true)
+
+                                print("|cffff00d5S|r|cff027bffUI|r:", "Module 'Castbars' |cff00ff77activated|r.", "Reload required.")
                             end
                             self.text:SetText(moduleText('Castbars'))
-                            print("|cffff00d5S|r|cff027bffUI|r:", "Please reload or press 'Save' to commit your changes.")
                         end
                     },
                     tooltip = {
@@ -1379,12 +1394,15 @@ function Gui:OnEnable()
                             if (db.profile.modules.tooltip) then
                                 db.profile.modules.tooltip = false
                                 self:SetChecked(false)
+
+                                print("|cffff00d5S|r|cff027bffUI|r:", "Module 'Tooltip' |cffff0000deactivated|r.", "Reload required.")
                             else
                                 db.profile.modules.tooltip = true
                                 self:SetChecked(true)
+
+                                print("|cffff00d5S|r|cff027bffUI|r:", "Module 'Tooltip' |cff00ff77activated|r.", "Reload required.")
                             end
                             self.text:SetText(moduleText('Tooltip'))
-                            print("|cffff00d5S|r|cff027bffUI|r:", "Please reload or press 'Save' to commit your changes.")
                         end
                     }
                 },
@@ -1400,12 +1418,15 @@ function Gui:OnEnable()
                             if (db.profile.modules.buffs) then
                                 db.profile.modules.buffs = false
                                 self:SetChecked(false)
+
+                                print("|cffff00d5S|r|cff027bffUI|r:", "Module 'Buffs' |cffff0000deactivated|r.", "Reload required.")
                             else
                                 db.profile.modules.buffs = true
                                 self:SetChecked(true)
+
+                                print("|cffff00d5S|r|cff027bffUI|r:", "Module 'Buffs' |cff00ff77activated|r.", "Reload required.")
                             end
                             self.text:SetText(moduleText('Buffs'))
-                            print("|cffff00d5S|r|cff027bffUI|r:", "Please reload or press 'Save' to commit your changes.")
                         end
                     },
                     map = {
@@ -1419,12 +1440,15 @@ function Gui:OnEnable()
                             if (db.profile.modules.map) then
                                 db.profile.modules.map = false
                                 self:SetChecked(false)
+
+                                print("|cffff00d5S|r|cff027bffUI|r:", "Module 'Map' |cffff0000deactivated|r.", "Reload required.")
                             else
                                 db.profile.modules.map = true
                                 self:SetChecked(true)
+
+                                print("|cffff00d5S|r|cff027bffUI|r:", "Module 'Map' |cff00ff77activated|r.", "Reload required.")
                             end
                             self.text:SetText(moduleText('Map'))
-                            print("|cffff00d5S|r|cff027bffUI|r:", "Please reload or press 'Save' to commit your changes.")
                         end
                     },
                     chat = {
@@ -1438,12 +1462,15 @@ function Gui:OnEnable()
                             if (db.profile.modules.chat) then
                                 db.profile.modules.chat = false
                                 self:SetChecked(false)
+
+                                print("|cffff00d5S|r|cff027bffUI|r:", "Module 'Chat' |cffff0000deactivated|r.", "Reload required.")
                             else
                                 db.profile.modules.chat = true
                                 self:SetChecked(true)
+
+                                print("|cffff00d5S|r|cff027bffUI|r:", "Module 'Chat' |cff00ff77activated|r.", "Reload required.")
                             end
                             self.text:SetText(moduleText('Chat'))
-                            print("|cffff00d5S|r|cff027bffUI|r:", "Please reload or press 'Save' to commit your changes.")
                         end
                     }
                 },
@@ -1459,12 +1486,15 @@ function Gui:OnEnable()
                             if (db.profile.modules.misc) then
                                 db.profile.modules.misc = false
                                 self:SetChecked(false)
+
+                                print("|cffff00d5S|r|cff027bffUI|r:", "Module 'Misc' |cffff0000deactivated|r.", "Reload required.")
                             else
                                 db.profile.modules.misc = true
                                 self:SetChecked(true)
+
+                                print("|cffff00d5S|r|cff027bffUI|r:", "Module 'Misc' |cff00ff77activated|r.", "Reload required.")
                             end
                             self.text:SetText(moduleText('Misc'))
-                            print("|cffff00d5S|r|cff027bffUI|r:", "Please reload or press 'Save' to commit your changes.")
                         end
                     },
                 }
