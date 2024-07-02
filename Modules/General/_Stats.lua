@@ -26,8 +26,14 @@ if movable == true then
 end
 
 function Module:OnEnable()
-    local db = SUI.db.profile.general
-    if (db.display.fps or db.display.ms) then
+    local db = {
+        fps = SUI.db.profile.general.display.fps,
+        ms = SUI.db.profile.general.display.ms,
+        color = SUI.db.profile.general.color,
+        module = SUI.db.profile.modules.general
+    }
+    
+    if ((db.fps or db.ms) and db.module) then
         local font = STANDARD_TEXT_FONT
         local fontSize = 13
         local fontFlag = "THINOUTLINE"
@@ -47,11 +53,11 @@ function Module:OnEnable()
             local function getFPS() return "|c00ffffff" .. floor(GetFramerate()) .. "|r fps" end
             local function getLatencyWorld() return "|c00ffffff" .. select(4, GetNetStats()) .. "|r ms" end
             local function getLatency() return "|c00ffffff" .. select(3, GetNetStats()) .. "|r ms" end
-            if (db.display.fps and db.display.ms) then
+            if (db.fps and db.ms) then
                 return getFPS() .. " " .. getLatency()
-            elseif (db.display.fps) then
+            elseif (db.fps) then
                 return getFPS()
-            elseif (db.display.ms) then
+            elseif (db.ms) then
                 return getLatency()
             end
         end

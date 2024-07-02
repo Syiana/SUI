@@ -1,8 +1,12 @@
 local Module = SUI:NewModule("General.AfkCam");
 
 function Module:OnEnable()
-    local db = SUI.db.profile.general.cosmetic.afkscreen
-    if (db) then
+    local db = {
+        afkcam = SUI.db.profile.general.cosmetic.afkscreenm,
+        module = SUI.db.profile.modules.general
+    }
+    
+    if (db.afkcam and db.module) then
         local PName = UnitName("player")
         local PLevel = UnitLevel("player")
         local PClass = select(2, UnitClass("player"))

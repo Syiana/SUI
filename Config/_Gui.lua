@@ -64,7 +64,7 @@ function Gui:OnEnable()
     local db = SUI.db
 
     -- Config
-    local config = SUIConfig:Window(UIParent, 700, 425)
+    local config = SUIConfig:Window(UIParent, 700, 455)
     config:SetPoint('CENTER')
     config.titlePanel:SetPoint('LEFT', 10, 0)
     config.titlePanel:SetPoint('RIGHT', -35, 0)
@@ -176,11 +176,79 @@ function Gui:OnEnable()
         { title = 'Map',        name = 'Map' },
         { title = 'Chat',       name = 'Chat' },
         { title = 'Misc',       name = 'Misc' },
+        { title = 'Modules',    name = 'Modules' },
         { title = 'Profile',    name = 'Profile' },
         { title = 'FAQ',        name = 'FAQ' },
     }
     local tabs = SUIConfig:TabPanel(config, nil, nil, categories, true, nil, 25)
     SUIConfig:GlueAcross(tabs, config, 10, -35, -10, 10)
+
+    -- Module Button Texts
+    local function moduleText (module)
+        if not module then return end
+
+        if (module == 'General') then
+            if (SUI.db.profile.modules.general) then
+                return 'Disable General'
+            else
+                return 'Enable General'
+            end
+        elseif (module == 'Unitframes') then
+            if (SUI.db.profile.modules.unitframes) then
+                return 'Disable Unitframes'
+            else
+                return 'Enable Unitframes'
+            end
+        elseif (module == 'Nameplates') then
+            if (SUI.db.profile.modules.nameplates) then
+                return 'Disable Nameplates'
+            else
+                return 'Enable Nameplates'
+            end
+        elseif (module == 'Actionbar') then
+            if (SUI.db.profile.modules.actionbar) then
+                return 'Disable Actionbar'
+            else
+                return 'Enable Actionbar'
+            end
+        elseif (module == 'Castbars') then
+            if (SUI.db.profile.modules.castbars) then
+                return 'Disable Castbars'
+            else
+                return 'Enable Castbars'
+            end
+        elseif (module == 'Tooltip') then
+            if (SUI.db.profile.modules.tooltip) then
+                return 'Disable Tooltip'
+            else
+                return 'Enable Tooltip'
+            end
+        elseif (module == 'Buffs') then
+            if (SUI.db.profile.modules.buffs) then
+                return 'Disable Buffs'
+            else
+                return 'Enable Buffs'
+            end
+        elseif (module == 'Map') then
+            if (SUI.db.profile.modules.map) then
+                return 'Disable Map'
+            else
+                return 'Enable Map'
+            end
+        elseif (module == 'Chat') then
+            if (SUI.db.profile.modules.chat) then
+                return 'Disable Chat'
+            else
+                return 'Enable Chat'
+            end
+        elseif (module == 'Misc') then
+            if (SUI.db.profile.modules.misc) then
+                return 'Disable Misc'
+            else
+                return 'Enable Misc'
+            end
+        end
+    end
 
     --Options
     local options = {
@@ -858,17 +926,25 @@ function Gui:OnEnable()
                 {
                     header = {
                         type = 'header',
-                        label = 'Player'
+                        label = 'Player Buffs/Debuffs'
                     }
                 },
                 {
+                    debuffType = {
+                        key = 'buffs.debufftype',
+                        type = 'checkbox',
+                        label = 'Debuff Colors',
+                        tooltip = 'Show Debuff-School Colors',
+                        column = 4,
+                        order = 1
+                    },
                     fading = {
                         key = 'buffs.fading',
                         type = 'checkbox',
                         label = 'No Fading',
-                        tooltip = 'No Buff/Debuff fading when expiring',
+                        tooltip = 'No Fading for expiring Buffs and Debuffs',
                         column = 3,
-                        order = 1
+                        order = 2
                     }
                 },
                 {
@@ -914,8 +990,18 @@ function Gui:OnEnable()
                 {
                     header = {
                         type = 'header',
-                        label = 'Unitframes'
+                        label = 'Unitframe Buffs/Debuffs'
                     },
+                },
+                {
+                    debuffType = {
+                        key = 'unitframes.debuffs.debufftype',
+                        type = 'checkbox',
+                        label = 'Debuff Colors',
+                        tooltip = 'Show Debuff-School Colors',
+                        column = 4,
+                        order = 2
+                    }
                 },
                 {
                     big = {
@@ -1086,7 +1172,7 @@ function Gui:OnEnable()
             },
         },
         Misc = {
-            layoutConfig = { padding = { top = 15 } },
+            --layoutConfig = { padding = { top = 15 } },
             database = db.profile.misc,
             rows = {
                 {
@@ -1171,8 +1257,218 @@ function Gui:OnEnable()
                         column = 3,
                         order = 2
                     }
-                }
+                },
             },
+        },
+        Modules = {
+            database = db.profile.modules,
+            layoutConfig = { padding = { top = 15 } },
+            rows = {
+                {
+                    header = {
+                        type = 'header',
+                        label = 'Enable/Disable Modules'
+                    },
+                },
+                {
+                    general = {
+                        key = 'general',
+                        type = 'button',
+                        text = moduleText('General'),
+                        height = 40,
+                        column = 4,
+                        order = 1,
+                        onClick = function(self)
+                            if (db.profile.modules.general) then
+                                db.profile.modules.general = false
+                                self:SetChecked(false)
+                            else
+                                db.profile.modules.general = true
+                                self:SetChecked(true)
+                            end
+                            self.text:SetText(moduleText('General'))
+                            print("|cffff00d5S|r|cff027bffUI|r:", "Please reload or press 'Save' to commit your changes.")
+                        end
+                    },
+                    unitframes = {
+                        key = 'unitframes',
+                        type = 'button',
+                        text = moduleText('Unitframes'),
+                        height = 40,
+                        column = 4,
+                        order = 2,
+                        onClick = function(self)
+                            if (db.profile.modules.unitframes) then
+                                db.profile.modules.unitframes = false
+                                self:SetChecked(false)
+                            else
+                                db.profile.modules.unitframes = true
+                                self:SetChecked(true)
+                            end
+                            self.text:SetText(moduleText('Unitframes'))
+                            print("|cffff00d5S|r|cff027bffUI|r:", "Please reload or press 'Save' to commit your changes.")
+                        end
+                    },
+                    nameplates = {
+                        key = 'nameplates',
+                        type = 'button',
+                        text = moduleText('Nameplates'),
+                        height = 40,
+                        column = 4,
+                        order = 3,
+                        onClick = function(self)
+                            if (db.profile.modules.nameplates) then
+                                db.profile.modules.nameplates = false
+                                self:SetChecked(false)
+                            else
+                                db.profile.modules.nameplates = true
+                                self:SetChecked(true)
+                            end
+                            self.text:SetText(moduleText('Nameplates'))
+                            print("|cffff00d5S|r|cff027bffUI|r:", "Please reload or press 'Save' to commit your changes.")
+                        end
+                    }
+                },
+                {
+                    actionbar = {
+                        key = 'actionbar',
+                        type = 'button',
+                        text = moduleText('Actionbar'),
+                        height = 40,
+                        column = 4,
+                        order = 1,
+                        onClick = function(self)
+                            if (db.profile.modules.actionbar) then
+                                db.profile.modules.actionbar = false
+                                self:SetChecked(false)
+                            else
+                                db.profile.modules.actionbar = true
+                                self:SetChecked(true)
+                            end
+                            self.text:SetText(moduleText('Actionbar'))
+                            print("|cffff00d5S|r|cff027bffUI|r:", "Please reload or press 'Save' to commit your changes.")
+                        end
+                    },
+                    castbars = {
+                        key = 'castbars',
+                        type = 'button',
+                        text = moduleText('Castbars'),
+                        height = 40,
+                        column = 4,
+                        order = 2,
+                        onClick = function(self)
+                            if (db.profile.modules.castbars) then
+                                db.profile.modules.castbars = false
+                                self:SetChecked(false)
+                            else
+                                db.profile.modules.castbars = true
+                                self:SetChecked(true)
+                            end
+                            self.text:SetText(moduleText('Castbars'))
+                            print("|cffff00d5S|r|cff027bffUI|r:", "Please reload or press 'Save' to commit your changes.")
+                        end
+                    },
+                    tooltip = {
+                        key = 'tooltip',
+                        type = 'button',
+                        text = moduleText('Tooltip'),
+                        height = 40,
+                        column = 4,
+                        order = 3,
+                        onClick = function(self)
+                            if (db.profile.modules.tooltip) then
+                                db.profile.modules.tooltip = false
+                                self:SetChecked(false)
+                            else
+                                db.profile.modules.tooltip = true
+                                self:SetChecked(true)
+                            end
+                            self.text:SetText(moduleText('Tooltip'))
+                            print("|cffff00d5S|r|cff027bffUI|r:", "Please reload or press 'Save' to commit your changes.")
+                        end
+                    }
+                },
+                {
+                    buffs = {
+                        key = 'buffs',
+                        type = 'button',
+                        text = moduleText('Buffs'),
+                        height = 40,
+                        column = 4,
+                        order = 1,
+                        onClick = function(self)
+                            if (db.profile.modules.buffs) then
+                                db.profile.modules.buffs = false
+                                self:SetChecked(false)
+                            else
+                                db.profile.modules.buffs = true
+                                self:SetChecked(true)
+                            end
+                            self.text:SetText(moduleText('Buffs'))
+                            print("|cffff00d5S|r|cff027bffUI|r:", "Please reload or press 'Save' to commit your changes.")
+                        end
+                    },
+                    map = {
+                        key = 'map',
+                        type = 'button',
+                        text = moduleText('Map'),
+                        height = 40,
+                        column = 4,
+                        order = 2,
+                        onClick = function(self)
+                            if (db.profile.modules.map) then
+                                db.profile.modules.map = false
+                                self:SetChecked(false)
+                            else
+                                db.profile.modules.map = true
+                                self:SetChecked(true)
+                            end
+                            self.text:SetText(moduleText('Map'))
+                            print("|cffff00d5S|r|cff027bffUI|r:", "Please reload or press 'Save' to commit your changes.")
+                        end
+                    },
+                    chat = {
+                        key = 'chat',
+                        type = 'button',
+                        text = moduleText('Chat'),
+                        height = 40,
+                        column = 4,
+                        order = 3,
+                        onClick = function(self)
+                            if (db.profile.modules.chat) then
+                                db.profile.modules.chat = false
+                                self:SetChecked(false)
+                            else
+                                db.profile.modules.chat = true
+                                self:SetChecked(true)
+                            end
+                            self.text:SetText(moduleText('Chat'))
+                            print("|cffff00d5S|r|cff027bffUI|r:", "Please reload or press 'Save' to commit your changes.")
+                        end
+                    }
+                },
+                {
+                    misc = {
+                        key = 'misc',
+                        type = 'button',
+                        text = moduleText('Misc'),
+                        height = 40,
+                        column = 4,
+                        order = 1,
+                        onClick = function(self)
+                            if (db.profile.modules.misc) then
+                                db.profile.modules.misc = false
+                                self:SetChecked(false)
+                            else
+                                db.profile.modules.misc = true
+                                self:SetChecked(true)
+                            end
+                            self.text:SetText(moduleText('Misc'))
+                            print("|cffff00d5S|r|cff027bffUI|r:", "Please reload or press 'Save' to commit your changes.")
+                        end
+                    },
+                }
+            }
         },
         Profile = {
             layoutConfig = { padding = { top = 15 } },

@@ -1,8 +1,12 @@
 local Module = SUI:NewModule("Chat.Copy");
 
 function Module:OnEnable()
-    local db = SUI.db.profile.chat.copy
-    if (db) then
+    local db = {
+        copy = SUI.db.profile.chat.copy,
+        module = SUI.db.profile.modules.chat
+    }
+
+    if (db.copy and db.module) then
         local concat = table.concat
         local container = CreateFrame("Frame", "CopyFrame", UIParent, "BackdropTemplate")
         container:SetSize(540, 300)

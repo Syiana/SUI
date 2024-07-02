@@ -1,9 +1,12 @@
 local Module = SUI:NewModule("General.Items");
 
 function Module:OnEnable()
-    local db = SUI.db.profile.general.display.ilvl
+    local db = {
+        ilvl = SUI.db.profile.general.display.ilvl,
+        module = SUI.db.profile.modules.general
+    }
 
-    if (db) then
+    if (db.ilvl and db.module) then
         local equiped = {} -- Table to store equiped items
 
         local f = CreateFrame("Frame", nil, _G.PaperDollFrame)

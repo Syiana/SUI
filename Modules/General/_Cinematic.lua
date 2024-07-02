@@ -1,8 +1,11 @@
 local Module = SUI:NewModule("General.Cinematic");
 
 function Module:OnEnable()
-    local db = SUI.db.profile.general
-    if (db.automation.cinematic) then
+    local db = {
+        cinematic = SUI.db.profile.general.automation.cinematic,
+        module = SUI.db.profile.modules.general
+    }
+    if (db.cinematic and db.module) then
         local cinematic = CreateFrame("Frame")
         cinematic:RegisterEvent("CINEMATIC_START")
         cinematic:SetScript("OnEvent", function(_, event)

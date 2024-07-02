@@ -1,8 +1,12 @@
 local Module = SUI:NewModule("General.Sell");
 
 function Module:OnEnable()
-    local db = SUI.db.profile.general.automation.sell
-    if (db) then
+    local db = {
+        sell = SUI.db.profile.general.automation.sell,
+        module = SUI.db.profile.modules.general
+    }
+
+    if (db.sell and db.module) then
         local g = CreateFrame("Frame")
         g:RegisterEvent("MERCHANT_SHOW")
         g:SetScript("OnEvent", function()

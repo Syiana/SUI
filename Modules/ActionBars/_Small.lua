@@ -1,9 +1,13 @@
 local Module = SUI:NewModule("ActionBars.Small")
 
 function Module:OnEnable()
-	local db = SUI.db.profile.actionbar
+	local db = {
+		style = SUI.db.profile.actionbar.style,
+		buttons = SUI.db.profile.actionbar.buttons,
+		module = SUI.db.profile.modules.actionbar
+	}
 
-	if (db.style == 'Small') then
+	if (db.style == 'Small' and db.module) then
 		local size = db.buttons.size
 		local spacing = db.buttons.padding
 

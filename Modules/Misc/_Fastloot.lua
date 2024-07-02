@@ -1,8 +1,12 @@
 local Module = SUI:NewModule("Misc.Fastloot");
 
 function Module:OnEnable()
-    local db = SUI.db.profile.misc.fastloot
-    if (db) then
+	local db = {
+		fastloot = SUI.db.profile.misc.fastloot,
+		module = SUI.db.profile.modules.misc
+	}
+	
+	if (db.fastloot and db.module) then
 		-- Time delay
 		local tDelay = 0
 
@@ -11,7 +15,10 @@ function Module:OnEnable()
 			if GetTime() - tDelay >= 0.3 then
 				tDelay = GetTime()
 				if GetCVarBool("autoLootDefault") ~= IsModifiedClick("AUTOLOOTTOGGLE") then
-					if TSMDestroyBtn and TSMDestroyBtn:IsShown() and TSMDestroyBtn:GetButtonState() == "DISABLED" then tDelay = GetTime() return end
+					if TSMDestroyBtn and TSMDestroyBtn:IsShown() and TSMDestroyBtn:GetButtonState() == "DISABLED" then
+						tDelay = GetTime()
+						return
+					end
 					local lootMethod = GetLootMethod()
 					if lootMethod == "master" then
 						-- Master loot is enabled so fast loot if item should be auto looted
@@ -52,5 +59,5 @@ function Module:OnEnable()
 		local faster = CreateFrame("Frame")
 		faster:RegisterEvent("LOOT_READY")
 		faster:SetScript("OnEvent", FastLoot)
-    end
+	end
 end

@@ -1,8 +1,12 @@
 local Module = SUI:NewModule("Misc.Sortbags");
 
 function Module:OnEnable()
-    local db = SUI.db.profile.misc.sortbags
-    if (db) then
+    local db = {
+        sortbags = SUI.db.profile.misc.sortbags,
+        module = SUI.db.profile.modules.misc
+    }
+    
+    if (db.sortbags and db.module) then
         local _G, _M = getfenv(0), {}
         setfenv(1, setmetatable(_M, { __index = _G }))
 

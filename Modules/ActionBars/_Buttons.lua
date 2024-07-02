@@ -3,12 +3,15 @@
 function Module:OnEnable()
     local db = {
         buttons = SUI.db.profile.actionbar.buttons,
-        color = SUI.db.profile.general.color
+        color = SUI.db.profile.general.color,
+        module = SUI.db.profile.modules.actionbar
     }
+
     local dominos = IsAddOnLoaded("Dominos")
     local bartender = IsAddOnLoaded("Bartender4")
     if IsAddOnLoaded("Masque") and (dominos or bartender) then return end
-    if (SUI:Color()) then
+
+    if (SUI:Color() and db.module) then
         local config = {
             font = STANDARD_TEXT_FONT,
             textures = {
@@ -146,14 +149,18 @@ function Module:OnEnable()
                 fobs:SetTexture(nil)
             end
             bo:SetTexture(nil)
-            ho:SetFont(FONT, 12, "OUTLINE")
+            if (FONT) then
+                ho:SetFont(FONT, 12, "OUTLINE")
+            end
             ho:ClearAllPoints()
             ho:SetPoint("TOPRIGHT", bu)
             ho:SetPoint("TOPLEFT", bu)
             if not dominos and not bartender and not (db.buttons.key) then
                 ho:Hide()
             end
-            na:SetFont(FONT, 12, "OUTLINE")
+            if (FONT) then
+                na:SetFont(FONT, 12, "OUTLINE")
+            end
             na:ClearAllPoints()
             na:SetPoint("BOTTOMLEFT", bu)
             na:SetPoint("BOTTOMRIGHT", bu)
@@ -381,7 +388,7 @@ function Module:OnEnable()
         end
         init()
     end
-    if not dominos and not bartender then
+    if ((not dominos and not bartender) and (db.module)) then
         local function updateHotkey(self, actionButtonType)
             if not self then return end
             if not (db.buttons.key) then

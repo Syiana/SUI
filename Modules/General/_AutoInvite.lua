@@ -1,8 +1,12 @@
 ﻿local Module = SUI:NewModule("General.AutoInvite");
 
 function Module:OnEnable()
-	local db = SUI.db.profile.general.automation.invite
-	if db then
+	local db = {
+		autoinv = SUI.db.profile.general.automation.invite,
+		module = SUI.db.profile.modules.general
+	}
+	
+	if (db.autoinv and db.module) then
 		local acceptInvite = CreateFrame("Frame")
 		acceptInvite:RegisterEvent("PARTY_INVITE_REQUEST")
 		acceptInvite:RegisterEvent("GROUP_ROSTER_UPDATE")

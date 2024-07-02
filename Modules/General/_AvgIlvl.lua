@@ -1,6 +1,7 @@
 local Module = SUI:NewModule("General.AvgIlvl");
 
 function Module:OnEnable()
+    -- NOT IN USE ATM
     local db = SUI.db.profile.general.display.avgilvl
 
     if (db) then

@@ -1,8 +1,12 @@
 local Module = SUI:NewModule("Misc.Tabbinder");
 
 function Module:OnEnable()
-    local db = SUI.db.profile.misc.tabbinder
-    if (db) then
+    local db = {
+        tabbinder = SUI.db.profile.misc.tabbinder,
+        module = SUI.db.profile.modules.misc
+    }
+
+    if (db.tabbinder and db.module) then
         local CreateFrame = CreateFrame
         local GetBindingKey = GetBindingKey
         local GetCurrentBindingSet = GetCurrentBindingSet

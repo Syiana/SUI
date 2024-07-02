@@ -1,7 +1,11 @@
 local Module = SUI:NewModule("NamePlates.Health");
 
 function Module:OnEnable()
-    local db = SUI.db.profile.nameplates
+    local db = {
+        health = SUI.db.profile.nameplates.health,
+        module = SUI.db.profile.modules.nameplates
+    }
+    
     local function nameplateHealthText(unit, healthBar)
         if not healthBar.text then
             healthBar.text = healthBar:CreateFontString(nil, "ARTWORK", nil)
@@ -28,7 +32,7 @@ function Module:OnEnable()
         end
     end
 
-    if db.health then
+    if (db.health and db.module) then
         hooksecurefunc("CompactUnitFrame_UpdateHealthColor", nameplateHealthTextFrame)
         hooksecurefunc("CompactUnitFrame_UpdateHealth", nameplateHealthTextFrame)
     end

@@ -1,8 +1,12 @@
 local Module = SUI:NewModule("CastBars.Timer");
 
 function Module:OnEnable()
-    local db = SUI.db.profile.castbars
-    if (db.timer) then
+    local db = {
+        timer = SUI.db.profile.castbars.timer,
+        module = SUI.db.profile.modules.castbars
+    }
+
+    if (db.timer and db.module) then
         local format = string.format
         local max = math.max
         local FONT = STANDARD_TEXT_FONT

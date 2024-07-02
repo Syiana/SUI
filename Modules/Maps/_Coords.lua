@@ -1,8 +1,12 @@
 local Module = SUI:NewModule("Maps.Coords");
 
 function Module:OnEnable()
-	local db = SUI.db.profile.maps.coords
-	if (db) then
+	local db = {
+		coords = SUI.db.profile.maps.coords,
+		module = SUI.db.profile.modules.map
+	}
+
+	if (db.coords and db.module) then
 		local coords = CreateFrame("Frame", "CoordsFrame", WorldMapFrame)
 		coords:SetFrameLevel(WorldMapFrame.BorderFrame:GetFrameLevel() + 2)
 		coords:SetFrameStrata(WorldMapFrame.BorderFrame:GetFrameStrata())

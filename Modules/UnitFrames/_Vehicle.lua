@@ -1,8 +1,12 @@
 local Module = SUI:NewModule("UnitFrames.Vehicle");
 
 function Module:OnEnable()
-    local db = SUI.db.profile.unitframes
-    if (db.style == 'Big') then
+    local db = {
+        style = SUI.db.profile.unitframes.style,
+        module = SUI.db.profile.modules.unitframes
+    }
+
+    if (db.style == 'Big' and db.module) then
         function SUIVehicleFrame(self, vehicleType)
             if (vehicleType == "Natural") then
                 PlayerFrameVehicleTexture:SetTexture([[Interface\Vehicles\UI-Vehicle-Frame-Organic]]);

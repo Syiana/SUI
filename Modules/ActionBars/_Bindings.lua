@@ -1,8 +1,12 @@
 local Module = SUI:NewModule("ActionBars.Bindings");
 
 function Module:OnEnable()
-	local db = SUI.db.profile.actionbar.bindings
-	if (db) then
+	local db = {
+		bindings = SUI.db.profile.actionbar.bindings,
+		module = SUI.db.profile.modules.actionbar
+	}
+	
+	if (db.bindings and db.module) then
 		local bind, localmacros = CreateFrame("Frame", "ncHoverBind", UIParent), 0
 		-- SLASH COMMAND
 		SlashCmdList.MOUSEOVERBIND = function()

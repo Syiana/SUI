@@ -1,7 +1,11 @@
 ﻿local Friendlist = SUI:NewModule("Chat.Friendlist");
 
 function Friendlist:OnEnable()
-    local db = SUI.db.profile.chat.friendlist
+    local db = {
+        friendlist = SUI.db.profile.chat.friendlist,
+        module = SUI.db.profile.modules.chat
+    }
+
     if (db) then
         local GUILD_INDEX_MAX = 12
         local SMOOTH = { 1, 0, 0, 1, 1, 0, 0, 1, 0 }

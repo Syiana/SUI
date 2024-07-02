@@ -2,8 +2,12 @@
 
 local Module = SUI:NewModule("General.Inspect");
 function Module:OnEnable()
-    local db = SUI.db.profile.general.display.ilvl
-    if (db) then
+    local db = {
+        ilvl = SUI.db.profile.general.display.ilvl,
+        module = SUI.db.profile.modules.general
+    }
+
+    if (db.ilvl and db.module) then
         local alreadyInitialized = false
         local Slots = {
             "HeadSlot", "NeckSlot", "ShoulderSlot", "BackSlot", "ChestSlot", "WristSlot",

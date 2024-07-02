@@ -99,6 +99,9 @@ function SUIConfig:BuildElement(frame, row, info, dataKey, db)
 		element = self:ColorInput(frame, info.label, 100, 20, info.color, info.update, info.cancel);
 	elseif info.type == 'button' then
 		element = self:Button(frame, nil, 20, info.text or '');
+		if (info.height) then
+			element:SetHeight(info.height)
+		end
 
 		if info.onClick then
 			element:SetScript('OnClick', info.onClick);

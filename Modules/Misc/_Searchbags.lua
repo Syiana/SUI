@@ -11,8 +11,12 @@ function Module:OnEnable()
         return
     end
 
-    local db = SUI.db.profile.misc.searchbags
-    if (db) then
+    local db = {
+        searchbags = SUI.db.profile.misc.searchbags,
+        module = SUI.db.profile.modules.misc
+    }
+    
+    if (db.searchbags and db.module) then
         hooksecurefunc("ContainerFrame_Update", function( self )
             if self:GetID() == 0 then
                 BagItemSearchBox:SetParent(self)

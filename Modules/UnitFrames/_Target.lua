@@ -2,13 +2,16 @@ local Module = SUI:NewModule("UnitFrames.Target");
 
 function Module:OnEnable()
     local db = {
-        unitframes = SUI.db.profile.unitframes,
-        texture = SUI.db.profile.general.texture
+        style = SUI.db.profile.unitframes.style,
+        texture = SUI.db.profile.general.texture,
+        size = SUI.db.profile.unitframes.size,
+        pvpbadge = SUI.db.profile.general.pvpbadge,
+        module = SUI.db.profile.modules.unitframes
     }
 
-    if (db.unitframes) then
+    if (db.module) then
         local function SUITargetFrame(self, forceNormalTexture)
-            if (db.unitframes.style == 'Big') then
+            if (db.style == 'Big') then
                 local classification = UnitClassification(self.unit);
                 self.highLevelTexture:SetPoint("CENTER", self.levelText, "CENTER", 0, 0);
                 self.deadText:SetPoint("CENTER", self.healthbar, "CENTER", 0, 0);
@@ -127,7 +130,7 @@ function Module:OnEnable()
             FocusFrameToTManaBar:SetHeight(5);
         end
 
-        if not (db.unitframes.pvpbadge) then
+        if not (db.pvpbadge) then
             hooksecurefunc("TargetFrame_Update", function()
                 TargetFrameTextureFramePVPIcon:Hide()
                 FocusFrameTextureFramePVPIcon:Hide()
@@ -138,8 +141,8 @@ function Module:OnEnable()
         Size:RegisterEvent("ADDON_LOADED")
         Size:RegisterEvent("PLAYER_ENTERING_WORLD")
         Size:SetScript("OnEvent", function()
-            TargetFrame:SetScale(db.unitframes.size)
-            FocusFrame:SetScale(db.unitframes.size)
+            TargetFrame:SetScale(db.size)
+            FocusFrame:SetScale(db.size)
         end)
 
         hooksecurefunc("TargetFrame_Update", SUITargetFrame)

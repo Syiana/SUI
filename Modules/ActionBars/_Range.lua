@@ -1,9 +1,12 @@
 local Range = SUI:NewModule("ActionBars.Range");
 
 function Range:OnEnable()
-    local db = SUI.db.profile.actionbar
+    local db = {
+        range = SUI.db.profile.actionbar.buttons.range,
+        module = SUI.db.profile.modules.actionbar
+    }
 
-    if (db.buttons.range) then
+    if (db.range and db.module) then
         local Module = CreateFrame('Frame')
         local _G = _G
         local next = _G.next

@@ -55,13 +55,12 @@ local defaults = {
                 size = 26
             },
             debuffs = {
-                size = 20
+                size = 20,
+                debufftype = false
             }
         },
         raidframes = {
-            style = 'Default',
             texture = [[Interface\AddOns\SUI\Media\Textures\Status\Flat]],
-            alwaysontop = false
         },
         nameplates = {
             style = 'Default',
@@ -110,6 +109,7 @@ local defaults = {
         },
         buffs = {
             fading = false,
+            debufftype = false,
             buff = {
                 size = 32,
                 padding = 2,
@@ -149,6 +149,17 @@ local defaults = {
             sortbags = false,
             expbar = true,
         },
+        modules = {
+            general = true,
+            unitframes = true,
+            actionbar = true,
+            castbars = true,
+            tooltip = true,
+            buffs = true,
+            map = true,
+            chat = true,
+            misc = true
+        },
         new_version = false,
         edit = {}
     }
@@ -169,6 +180,7 @@ function SUI:OnInitialize()
     local _, class = UnitClass("player")
     local classColor = RAID_CLASS_COLORS[class]
     local customColor = self.db.profile.general.color
+    local module = self.db.profile.modules.general
     local themes = {
         Blizzard = nil,
         Dark = { 0.3, 0.3, 0.3 },
@@ -209,7 +221,7 @@ function SUI:OnInitialize()
     }
 
     function self:Color(sub, alpha)
-        if (theme) then
+        if (theme and module) then
             if not (alpha) then alpha = 1 end
             local color = { 0, 0, 0, alpha }
             for key, value in pairs(theme) do

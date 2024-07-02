@@ -2,10 +2,11 @@ local Module = SUI:NewModule("UnitFrames.Textures");
 
 function Module:OnEnable()
     local db = {
-        texture = SUI.db.profile.general.texture
+        texture = SUI.db.profile.general.texture,
+        module = SUI.db.profile.modules.unitframes
     }
 
-    if (db.texture ~= 'Default') then
+    if (db.texture ~= 'Default' and db.module) then
         function SUIManaTexture(manaBar)
             local powerType, powerToken, altR, altG, altB = UnitPowerType(manaBar.unit);
             local info = PowerBarColor[powerToken];

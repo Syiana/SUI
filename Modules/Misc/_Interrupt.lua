@@ -1,8 +1,12 @@
 local Module = SUI:NewModule("Misc.Interrupt");
 
 function Module:OnEnable()
-    local db = SUI.db.profile.misc.interrupt
-    if (db) then
+    local db = {
+        interrupt = SUI.db.profile.misc.interrupt,
+        module = SUI.db.profile.modules.misc
+    }
+
+    if (db.interrupt and db.module) then
         local frame = CreateFrame("Frame")
         frame:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
         frame:SetScript("OnEvent", function()

@@ -1,13 +1,16 @@
 local Gryphones = SUI:NewModule("ActionBars.Gryphones");
 
 function Gryphones:OnEnable()
-    local db = SUI.db.profile.actionbar
+    local db = {
+        gryphones = SUI.db.profile.actionbar.gryphones,
+        module = SUI.db.profile.modules.actionbar
+    }
 
-    if (db.gryphones) then
-        MainMenuBarLeftEndCap:Show()
-        MainMenuBarRightEndCap:Show()
-    else
+    if ((not db.gryphones) and db.module) then
         MainMenuBarLeftEndCap:Hide()
         MainMenuBarRightEndCap:Hide()
+    else
+        MainMenuBarLeftEndCap:Show()
+        MainMenuBarRightEndCap:Show()
     end
 end

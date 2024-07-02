@@ -1,8 +1,12 @@
 ﻿local Module = SUI:NewModule("General.Resurrection");
 
 function Module:OnEnable()
-	local db = SUI.db.profile.general.resurrect
-	if (db) then
+	local db = {
+		resurrect = SUI.db.profile.general.resurrect,
+		module = SUI.db.profile.modules.general
+	}
+
+	if (db.resurrect and db.module) then
 		local resurrect = CreateFrame("Frame")
 		resurrect:RegisterEvent("RESURRECT_REQUEST")
 		resurrect:SetScript("OnEvent", function(_, event, name)

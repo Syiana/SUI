@@ -1,9 +1,12 @@
 local Buttons = SUI:NewModule("ActionBars.Flash");
 
 function Buttons:OnEnable()
-    local db = SUI.db.profile.actionbar.buttons
+    local db = {
+        flash = SUI.db.profile.actionbar.buttons.flash,
+        module = SUI.db.profile.modules.actionbar
+    }
 
-    if (db.flash) then
+    if (db.flash and db.module) then
         local animationsCount, animations = 5, {}
         local animationNum = 1
         local frame, texture, alpha1, scale1, scale2, rotation2

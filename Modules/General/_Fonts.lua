@@ -1,15 +1,19 @@
 local Module = SUI:NewModule("General.Fonts");
 
 function Module:OnInitialize()
-    local font = SUI.db.profile.general.font
-    if (font ~= 'Default') then
+    local db = {
+        font = SUI.db.profile.general.font,
+        module = SUI.db.profile.modules.general
+    }
+    
+    if (db.font ~= 'Default' and db.module) then
         local ForcedFontSize     = { 9, 9, 20, 64, 64 }
 
-        STANDARD_TEXT_FONT       = font
-        UNIT_NAME_FONT           = font
-        DAMAGE_TEXT_FONT         = font
-        NAMEPLATE_FONT           = font
-        NAMEPLATE_SPELLCAST_FONT = font
+        STANDARD_TEXT_FONT       = db.font
+        UNIT_NAME_FONT           = db.font
+        DAMAGE_TEXT_FONT         = db.font
+        NAMEPLATE_FONT           = db.font
+        NAMEPLATE_SPELLCAST_FONT = db.font
 
         local FontObjects        = {
             SystemFont_NamePlateCastBar, SystemFont_NamePlateFixed, SystemFont_LargeNamePlateFixed, SystemFont_World,
@@ -47,7 +51,7 @@ function Module:OnInitialize()
 
         for i, FontObject in pairs(FontObjects) do
             local _, oldSize, oldStyle = FontObject:GetFont()
-            FontObject:SetFont(font, ForcedFontSize[i] or oldSize, oldStyle)
+            FontObject:SetFont(db.font, ForcedFontSize[i] or oldSize, oldStyle)
         end
     end
 end

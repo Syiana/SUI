@@ -3,7 +3,8 @@ local Module = SUI:NewModule("UnitFrames.Party");
 function Module:OnEnable()
     local db = {
         unitframes = SUI.db.profile.unitframes,
-        texture = SUI.db.profile.general.texture
+        texture = SUI.db.profile.general.texture,
+        module = SUI.db.profile.modules.unitframes
     }
 
     function SUIPartyFrames(self)
@@ -59,5 +60,7 @@ function Module:OnEnable()
         end
     end
 
-    hooksecurefunc("PartyMemberFrame_OnUpdate", SUIPartyFrames)
+    if (db.module) then
+        hooksecurefunc("PartyMemberFrame_OnUpdate", SUIPartyFrames)
+    end
 end

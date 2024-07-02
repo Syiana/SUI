@@ -33,6 +33,50 @@ local SquareButtonMethods = {
 		if alsoDisabled then
 			self:SetIconDisabled(texture, iconWidth, iconHeight);
 		end
+	end,
+
+	--- Set button state
+	---
+	--- @param flag boolean
+	--- @param internal boolean - indicates to not run OnValueChanged
+	SetChecked = function(self, flag, internal)
+		self.isChecked = flag;
+
+		if not internal and self.OnValueChanged then
+			self:OnValueChanged(flag, self.value);
+		end
+	end,
+
+	GetChecked = function(self)
+		return self.isChecked;
+	end,
+
+	SetValue   = function(self, value)
+		self.value = value;
+	end,
+
+	GetValue   = function(self)
+		if self:GetChecked() then
+			return self.value;
+		else
+			return nil;
+		end
+	end,
+
+	Disable    = function(self)
+		self.isDisabled = true;
+		self:SetChecked(self.isChecked);
+	end,
+
+	Enable     = function(self)
+		self.isDisabled = false;
+		self:SetChecked(self.isChecked);
+	end
+};
+
+local SquareButtonEvents = {
+	OnClick = function(self)
+		self:SetChecked(not self:GetChecked());
 	end
 };
 
@@ -109,12 +153,23 @@ end
 function SUIConfig:Button(parent, width, height, text, inherit)
 	local button = self:HighlightButton(parent, width, height, text, inherit)
 	button.SUIConfig = self;
+	button.value = true;
+	button.isChecked = false;
+
+	for k, v in pairs(SquareButtonMethods) do
+		button[k] = v;
+	end
+
 
 	-- button:SetHighlightTexture(nil);
 
 	self:ApplyBackdrop(button);
 	self:HookDisabledBackdrop(button);
 	self:HookHoverBorder(button);
+
+	for k, v in pairs(SquareButtonEvents) do
+		button:SetScript(k, v);
+	end
 
 	return button;
 end

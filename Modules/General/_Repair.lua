@@ -1,8 +1,12 @@
 local Module = SUI:NewModule("General.Repair");
 
 function Module:OnEnable()
-    local db = SUI.db.profile.general.automation.repair
-    if (db) then
+    local db = {
+        repair = SUI.db.profile.general.automation.repair,
+        module = SUI.db.profile.modules.general
+    }
+
+    if (db.repair and db.module) then
         local g = CreateFrame("Frame")
         g:RegisterEvent("MERCHANT_SHOW")
         g:SetScript("OnEvent", function()
@@ -18,7 +22,8 @@ function Module:OnEnable()
 
                         if guildMoney > cost and CanGuildBankRepair() then
                             RepairAllItems(1)
-                            print(format("|cffff00d5S|r|cff027bffUI|r: Repair cost covered by G-Bank: %.1fg|r", cost * 0.0001))
+                            print(format("|cffff00d5S|r|cff027bffUI|r: Repair cost covered by G-Bank: %.1fg|r",
+                                cost * 0.0001))
                             return
                         end
                     end

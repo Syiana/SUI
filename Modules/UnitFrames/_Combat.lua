@@ -1,9 +1,12 @@
 local Module = SUI:NewModule("UnitFrames.Combat");
 
 function Module:OnEnable()
-    local db = SUI.db.profile.unitframes.combaticon
+    local db = {
+        combaticon = SUI.db.profile.unitframes.combaticon,
+        module = SUI.db.profile.modules.unitframes
+    }
 
-    if (db) then
+    if (db.combaticon and db.module) then
         CTT = CreateFrame("Frame")
         CTT:SetPoint("CENTER", TargetFrame, "RIGHT", -15, 0)
         CTT:SetSize(25, 25)

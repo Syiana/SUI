@@ -1,8 +1,13 @@
 local Module = SUI:NewModule("Maps.Minimap");
 
 function Module:OnEnable()
-    local db = SUI.db.profile.maps
-    if (db) then
+    local db = {
+        maps = SUI.db.profile.maps,
+        minimap = SUI.db.profile.maps.minimap,
+        module = SUI.db.profile.modules.map
+    }
+
+    if (db.maps and db.module) then
         if not (db.minimap) then
             MinimapCluster:Hide()
             return

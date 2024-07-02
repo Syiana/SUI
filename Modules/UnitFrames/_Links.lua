@@ -1,8 +1,11 @@
 local Module = SUI:NewModule("UnitFrames.Links");
 
 function Module:OnEnable()
-    local db = SUI.db.profile.unitframes.links
-    if (db) then
+    local db = {
+        links = SUI.db.profile.unitframes.links,
+        module = SUI.db.profile.modules.unitframes
+    }
+    if (db.links and db.module) then
         local regionNames = { 'us', 'kr', 'eu', 'tw', 'cn' }
         local region = regionNames[GetCurrentRegion()]
 

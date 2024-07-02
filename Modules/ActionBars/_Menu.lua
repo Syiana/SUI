@@ -1,9 +1,14 @@
 local Module = SUI:NewModule("ActionBars.Menu");
 
 function Module:OnEnable()
-    local db = SUI.db.profile.actionbar
+    local db = {
+        style = SUI.db.profile.actionbar.style,
+        mouseovermicro = SUI.db.profile.actionbar.menu.mouseovermicro,
+        mouseoverbags = SUI.db.profile.actionbar.menu.mouseoverbags,
+        module = SUI.db.profile.modules.actionbar
+    }
 
-    if (db.style == 'Small' or db.style == 'BFA' or db.style == 'BFATransparent') then
+    if ((db.style == 'Small' or db.style == 'BFA' or db.style == 'BFATransparent') and (db.module)) then
         -- Bag Buttons Table
         local BagButtons = {
             MainMenuBarBackpackButton,
@@ -86,7 +91,7 @@ function Module:OnEnable()
         MainMenuBarBackpackButton:SetPoint("BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", -2.5, 40)
 
         -- MicroMenu Mouseover
-        if (db.menu.mouseovermicro) then
+        if (db.mouseovermicro) then
             for _, frame in ipairs(MICRO_BUTTONS) do
                 frame = _G[frame]
                 hooksecurefunc(frame, "SetAlpha", setFrameAlpha)
@@ -101,7 +106,7 @@ function Module:OnEnable()
         end
 
         -- Bag Buttons Mouseover
-        if (db.menu.mouseoverbags) then
+        if (db.mouseoverbags) then
             -- Bags bar
             for frame, _ in pairs(BagButtons) do
                 frame = BagButtons[frame]

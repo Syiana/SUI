@@ -1,8 +1,12 @@
 local Module = SUI:NewModule("UnitFrames.Boss");
 
 function Module:OnEnable()
-    local db = SUI.db.profile.unitframes
-    if (db.style == 'Big') then
+    local db = {
+        style = SUI.db.profile.unitframes,
+        module = SUI.db.profile.modules.unitframes
+    }
+
+    if (db.style == 'Big' and db.module) then
         function SUIBossFrames()
             for i = 1, MAX_BOSS_FRAMES do
                 _G["Boss" .. i .. "TargetFrameHealthBar"]:SetStatusBarTexture(

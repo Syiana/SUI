@@ -4,10 +4,11 @@ function expBar:OnEnable()
     local db = {
         expbar = SUI.db.profile.misc.expbar,
         style = SUI.db.profile.actionbar.style,
-        texture = SUI.db.profile.general.texture
+        texture = SUI.db.profile.general.texture,
+        module = SUI.db.profile.modules.misc
     }
 
-    if (db.expbar and db.style == 'Small') then
+    if (db.expbar and db.style == 'Small' and db.module) then
         -- Reposition Exp Bar
         SUIExpBar:ClearAllPoints()
         SUIExpBar:SetParent(SUIMainMenuBar)
