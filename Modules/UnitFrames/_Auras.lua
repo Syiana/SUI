@@ -1,9 +1,21 @@
 ﻿local Module = SUI:NewModule("UnitFrames.Auras");
 
 function Module:OnEnable()
-    local db = SUI.db.profile.unitframes
+    local db = {
+        buffs = SUI.db.profile.unitframes.buffs,
+        debuffs = SUI.db.profile.unitframes.debuffs,
+        module = SUI.db.profile.modules.unitframes
+    }
 
-    if (db) then
+    if (db.module) then
+        -- DebuffType Colors for the Debuff Border
+        local debuffColor      = {}
+        debuffColor["none"]    = { r = 0.80, g = 0, b = 0 };
+        debuffColor["Magic"]   = { r = 0.20, g = 0.60, b = 1.00 };
+        debuffColor["Curse"]   = { r = 0.60, g = 0.00, b = 1.00 };
+        debuffColor["Disease"] = { r = 0.60, g = 0.40, b = 0 };
+        debuffColor["Poison"]  = { r = 0.00, g = 0.60, b = 0 };
+
         local AURA_START_X = 5
         local AURA_START_Y = 28
         local LARGE_AURA_SIZE = db.buffs.size --	Default 21.
@@ -13,7 +25,7 @@ function Module:OnEnable()
         local NUM_TOT_AURA_ROWS = 2
         local backdrop = {
             bgFile = nil,
-            edgeFile = "Interface\\Addons\\SUI\\Media\\Textures\\Core\\outer_shadow",
+            edgeFile = [[Interface\Addons\SUI\Media\Textures\Core\outer_shadow]],
             tile = false,
             tileSize = 32,
             edgeSize = 4,
@@ -25,10 +37,25 @@ function Module:OnEnable()
             },
         }
 
-        local function applySkin(b)
-            if not b or (b and b.styled) then return end
+        local function applySkin(b, debuffType)
+            if not b then return end
 
+            local color = false
             local name = b:GetName()
+
+            -- Get Debuff Color and set Debuff Color before we return on an already styled frame
+            if (debuffType) then
+                color = debuffColor[debuffType]
+
+                local border = _G[name .. "Backdrop"]
+
+                if (db.debuffs.debufftype and border) then
+                    border:SetBackdropBorderColor(color.r, color.g, color.b)
+                end
+            end
+
+            if (b and b.styled) then return end
+
             if (name:match("Debuff")) then
                 b.debuff = true
             else
@@ -53,14 +80,26 @@ function Module:OnEnable()
             border:SetPoint("BOTTOMRIGHT", b, "BOTTOMRIGHT", 1, -1)
             b.border = border
 
-            local back = CreateFrame("Frame", nil, b, "BackdropTemplate")
+            local back = _G[name .. "Backdrop"] or CreateFrame("Frame", name .. "Backdrop", b, "BackdropTemplate")
+            --local back = CreateFrame("Frame", name .. "Backdrop", b, "BackdropTemplate")
             back:SetPoint("TOPLEFT", b, "TOPLEFT", -4, 4)
             back:SetPoint("BOTTOMRIGHT", b, "BOTTOMRIGHT", 4, -4)
             back:SetFrameLevel(b:GetFrameLevel() - 1)
             back:SetBackdrop(backdrop)
-            back:SetBackdropBorderColor(unpack(SUI:Color(0.25, 0.9)))
-            b.bg = back
 
+            -- Get Debuff Color
+            if (debuffType) then
+                color = debuffColor[debuffType]
+            end
+
+            -- Set Debuff Color
+            if (db.debuffs.debufftype and color) then
+                back:SetBackdropBorderColor(color.r, color.g, color.b)
+            else
+                back:SetBackdropBorderColor(unpack(SUI:Color(0.25, 0.9)))
+            end
+
+            b.bg = back
             b.styled = true
         end
 
@@ -72,7 +111,8 @@ function Module:OnEnable()
                 end
                 for i = 1, MAX_TARGET_DEBUFFS do
                     b = _G["TargetFrameDebuff" .. i]
-                    applySkin(b)
+                    local debuffType = select(4, UnitDebuff(self.unit, i))
+                    applySkin(b, debuffType or "none")
                 end
                 for i = 1, MAX_TARGET_BUFFS do
                     b = _G["FocusFrameBuff" .. i]
@@ -80,7 +120,8 @@ function Module:OnEnable()
                 end
                 for i = 1, MAX_TARGET_DEBUFFS do
                     b = _G["FocusFrameDebuff" .. i]
-                    applySkin(b)
+                    local debuffType = select(4, UnitDebuff(self.unit, i))
+                    applySkin(b, debuffType or "none")
                 end
             end)
         end

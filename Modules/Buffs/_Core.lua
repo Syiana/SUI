@@ -1,8 +1,23 @@
 local Buffs = SUI:NewModule("Buffs.Core");
 
 function Buffs:OnEnable()
-    local db = SUI.db.profile.buffs
-    if (db) then
+    local db = {
+        buff = SUI.db.profile.buffs.buff,
+        debuff = SUI.db.profile.buffs.debuff,
+        fading = SUI.db.profile.buffs.fading,
+        debufftype = SUI.db.profile.buffs.debufftype,
+        module = SUI.db.profile.modules.buffs
+    }
+    
+    if (db.module) then
+        -- DebuffType Colors for the Debuff Border
+        local debuffColor      = {}
+        debuffColor["none"]    = { r = 0.80, g = 0, b = 0 };
+        debuffColor["Magic"]   = { r = 0.20, g = 0.60, b = 1.00 };
+        debuffColor["Curse"]   = { r = 0.60, g = 0.00, b = 1.00 };
+        debuffColor["Disease"] = { r = 0.60, g = 0.40, b = 0 };
+        debuffColor["Poison"]  = { r = 0.00, g = 0.60, b = 0 };
+
         FONT = STANDARD_TEXT_FONT
 
         -- Prevent Buff Fading Animation
@@ -22,12 +37,10 @@ function Buffs:OnEnable()
         df:SetSize(34, 34)
         df:SetPoint("TOPRIGHT", "Minimap", "TOPLEFT", -35, -125)
 
-        if (db) then
-            HOUR_ONELETTER_ABBR = "%dh"
-            DAY_ONELETTER_ABBR = "%dd"
-            MINUTE_ONELETTER_ABBR = "%dm"
-            SECOND_ONELETTER_ABBR = "%ds"
-        end
+        HOUR_ONELETTER_ABBR = "%dh"
+        DAY_ONELETTER_ABBR = "%dd"
+        MINUTE_ONELETTER_ABBR = "%dm"
+        SECOND_ONELETTER_ABBR = "%ds"
 
         local backdrop = {
             bgFile = nil,
@@ -45,11 +58,24 @@ function Buffs:OnEnable()
 
         local buffFrameHeight = 0
 
-        local function applySkin(b)
-            if not b or (b and b.styled) then return end
+        local function applySkin(b, debuffType)
+            if not b then return end
 
+            local color = false
             local name = b:GetName()
             local tempenchant, consolidated, debuff = false, false, false
+
+            -- Get Debuff Color and set Debuff Color before we return on an already styled frame
+            if (debuffType) then
+                color = debuffColor[debuffType]
+
+                local border = _G[name .. "Backdrop"]
+                if (border and db.debufftype) then
+                    border:SetBackdropBorderColor(color.r, color.g, color.b)
+                end
+            end
+
+            if (b and b.styled) then return end
 
             if (name:match("TempEnchant")) then
                 tempenchant = true
@@ -74,13 +100,13 @@ function Buffs:OnEnable()
                         padding = -2
                     },
                     border = {
-                        texture = "Interface\\Addons\\SUI\\Media\\Textures\\Core\\gloss",
+                        texture = [[Interface\Addons\SUI\Media\Textures\Core\gloss]],
                         color = { r = 0.4, g = 0.35, b = 0.35 },
                         classcolored = false
                     },
                     background = {
                         show = true,
-                        edgeFile = "Interface\\Addons\\SUI\\Media\\Textures\\Core\\outer_shadow",
+                        edgeFile = [[Interface\Addons\SUI\Media\Textures\Core\outer_shadow]],
                         color = { r = 0, g = 0, b = 0, a = 0.9 },
                         classcolored = false,
                         inset = 6,
@@ -178,12 +204,18 @@ function Buffs:OnEnable()
             b.count:SetPoint(settings.count.pos.a1, settings.count.pos.x, settings.count.pos.y)
 
             if settings.background.show then
-                local back = CreateFrame("Frame", nil, b, "BackdropTemplate")
+                local back = _G[name .. "Backdrop"] or CreateFrame("Frame", name .. "Backdrop", b, "BackdropTemplate")
                 back:SetPoint("TOPLEFT", b, "TOPLEFT", -settings.background.padding, settings.background.padding)
                 back:SetPoint("BOTTOMRIGHT", b, "BOTTOMRIGHT", settings.background.padding, -settings.background.padding)
                 back:SetFrameLevel(b:GetFrameLevel() - 1)
                 back:SetBackdrop(backdrop)
-                back:SetBackdropBorderColor(unpack(SUI:Color(0.25, 0.9)))
+
+                -- Set Debuff Color
+                if (db.debufftype and color) then
+                    back:SetBackdropBorderColor(color.r, color.g, color.b)
+                else
+                    back:SetBackdropBorderColor(unpack(SUI:Color(0.25, 0.9)))
+                end
                 b.bg = back
             end
 
@@ -193,7 +225,12 @@ function Buffs:OnEnable()
         local function updateDebuffAnchors(buttonName, index)
             local button = _G[buttonName .. index]
             if not button then return end
-            if not button.styled then applySkin(button) end
+
+            -- Get Button Name and Debuff Type
+            local name = button:GetName()
+            local debuffType = select(4, UnitDebuff("player", index))
+
+            if name:match("Debuff") then applySkin(button, debuffType or "none") end
             button:ClearAllPoints()
             if index == 1 then
                 button:SetPoint("TOPRIGHT", DebuffDragFrame, "TOPRIGHT", 0, 0)
