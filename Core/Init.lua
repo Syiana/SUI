@@ -82,11 +82,8 @@ local defaults = {
                 size = 38,
                 padding = 5
             },
-            menu = {
-                style = 'Default',
-                mouseovermicro = false,
-                mouseoverbags = false,
-            },
+            micromenu = 'mouseover',
+            bagbuttons = 'mouseover',
             mouseover = {
                 bar3 = false,
                 bar4 = false,

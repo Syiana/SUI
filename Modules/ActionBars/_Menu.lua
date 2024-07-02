@@ -3,12 +3,12 @@ local Module = SUI:NewModule("ActionBars.Menu");
 function Module:OnEnable()
     local db = {
         style = SUI.db.profile.actionbar.style,
-        mouseovermicro = SUI.db.profile.actionbar.menu.mouseovermicro,
-        mouseoverbags = SUI.db.profile.actionbar.menu.mouseoverbags,
+        micromenu = SUI.db.profile.actionbar.micromenu,
+        bagbuttons = SUI.db.profile.actionbar.bagbuttons,
         module = SUI.db.profile.modules.actionbar
     }
 
-    if ((db.style == 'Small' or db.style == 'BFA' or db.style == 'BFATransparent') and (db.module)) then
+    if ((db.style == 'Small' or db.style == 'BFA' or db.style == 'BFATransparent') and db.module) then
         -- Bag Buttons Table
         local BagButtons = {
             MainMenuBarBackpackButton,
@@ -68,30 +68,32 @@ function Module:OnEnable()
         end
 
         -- MicroMenu Position
-        MoveMicroButtons("BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", -275, 0)
+        if (db.micromenu ~= 'hidden') then
+            MoveMicroButtons("BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", -275, 0)
 
-        local vehicle = CreateFrame("Frame")
-        vehicle:RegisterEvent("UNIT_ENTERED_VEHICLE")
-        vehicle:RegisterEvent("UNIT_EXITED_VEHICLE")
-        vehicle:HookScript("OnEvent", function(self, event, unit)
-            if unit == "player" then
-                if event == "UNIT_EXITED_VEHICLE" then
-                    MoveMicroButtons("BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", -275, 0)
-                    if (GetNumShapeshiftForms() > 0) then
-                        SUIStanceBar:Show()
+            local vehicle = CreateFrame("Frame")
+            vehicle:RegisterEvent("UNIT_ENTERED_VEHICLE")
+            vehicle:RegisterEvent("UNIT_EXITED_VEHICLE")
+            vehicle:HookScript("OnEvent", function(self, event, unit)
+                if unit == "player" then
+                    if event == "UNIT_EXITED_VEHICLE" then
+                        MoveMicroButtons("BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", -275, 0)
+                        if (GetNumShapeshiftForms() > 0) then
+                            SUIStanceBar:Show()
+                        end
+                    else
+                        SUIStanceBar:Hide()
                     end
-                else
-                    SUIStanceBar:Hide()
                 end
-            end
-        end)
+            end)
+        end
 
         -- Bag Buttons Position
         MainMenuBarBackpackButton:ClearAllPoints()
         MainMenuBarBackpackButton:SetPoint("BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", -2.5, 40)
 
         -- MicroMenu Mouseover
-        if (db.mouseovermicro) then
+        if (db.micromenu == 'mouseover') then
             for _, frame in ipairs(MICRO_BUTTONS) do
                 frame = _G[frame]
                 hooksecurefunc(frame, "SetAlpha", setFrameAlpha)
@@ -103,10 +105,14 @@ function Module:OnEnable()
                 end)
                 frame:SetAlpha(0)
             end
+        elseif (db.micromenu == 'hidden') then
+            for _, frame in ipairs(MICRO_BUTTONS) do
+                _G[frame]:Hide()
+            end
         end
 
         -- Bag Buttons Mouseover
-        if (db.mouseoverbags) then
+        if (db.bagbuttons == 'mouseover') then
             -- Bags bar
             for frame, _ in pairs(BagButtons) do
                 frame = BagButtons[frame]
@@ -119,6 +125,11 @@ function Module:OnEnable()
                     hideFrame("BagButtons")
                 end)
                 frame:SetAlpha(0)
+            end
+        elseif (db.bagbuttons == 'hidden') then
+            for frame, _ in pairs(BagButtons) do
+                frame = BagButtons[frame]
+                frame:Hide()
             end
         end
     end

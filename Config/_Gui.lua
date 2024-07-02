@@ -736,7 +736,7 @@ function Gui:OnEnable()
                     size = {
                         key = 'buttons.size',
                         type = 'slider',
-                        label = 'Size',
+                        label = 'Button Size',
                         max = 50,
                         column = 4,
                         order = 1
@@ -744,10 +744,38 @@ function Gui:OnEnable()
                     padding = {
                         key = 'buttons.padding',
                         type = 'slider',
-                        label = 'Padding',
+                        label = 'Button Padding',
                         min = 1,
                         max = 5,
                         column = 4,
+                        order = 2
+                    }
+                },
+                {
+                    micromenu = {
+                        key = 'micromenu',
+                        type = 'dropdown',
+                        label = 'MicroMenu',
+                        options = {
+                            { value = 'always',     text = 'Show always' },
+                            { value = 'mouseover',  text = 'Show on Mouseover' },
+                            { value = 'hidden',     text = 'Hide always' }
+                        },
+                        initialValue = 1,
+                        column = 5,
+                        order = 1
+                    },
+                    bagbuttons = {
+                        key = 'bagbuttons',
+                        type = 'dropdown',
+                        label = 'Bag Buttons',
+                        options = {
+                            { value = 'always',     text = 'Show always' },
+                            { value = 'mouseover',  text = 'Show on Mouseover' },
+                            { value = 'hidden',     text = 'Hide always' }
+                        },
+                        initialValue = 1,
+                        column = 5,
                         order = 2
                     }
                 },
@@ -758,39 +786,21 @@ function Gui:OnEnable()
                     },
                 },
                 {
-                    mouseoverMicro = {
-                        key = 'menu.mouseovermicro',
-                        type = 'checkbox',
-                        label = 'MicroMenu',
-                        tooltip = 'Show MicroMenu on mouseover',
-                        column = 4,
-                        order = 1
-                    },
-                    mouseoverBagButtons = {
-                        key = 'menu.mouseoverbags',
-                        type = 'checkbox',
-                        label = 'BagButtons',
-                        tooltip = 'Show Bag Buttons on mouseover',
-                        column = 4,
-                        order = 2
-                    },
                     actionBar3 = {
                         key = 'mouseover.bar3',
                         type = 'checkbox',
                         label = 'ActionBar 3',
                         tooltip = 'Show ActionBar 3 on mouseover',
                         column = 4,
-                        order = 3
-                    }
-                },
-                {
+                        order = 1
+                    },
                     actionBar4 = {
                         key = 'mouseover.bar4',
                         type = 'checkbox',
                         label = 'ActionBar 4',
                         tooltip = 'Show ActionBar 4 on mouseover',
                         column = 4,
-                        order = 1
+                        order = 2
                     },
                     actionBar5 = {
                         key = 'mouseover.bar5',
@@ -798,15 +808,17 @@ function Gui:OnEnable()
                         label = 'ActionBar 5',
                         tooltip = 'Show ActionBar 5 on mouseover',
                         column = 4,
-                        order = 2
-                    },
+                        order = 3
+                    }
+                },
+                {
                     stanceBar = {
                         key = 'mouseover.stancebar',
                         type = 'checkbox',
                         label = 'Stance Bar',
                         tooltip = 'Show Stance Bar on mouseover',
                         column = 4,
-                        order = 3
+                        order = 1
                     }
                 }
             },
