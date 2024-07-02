@@ -2,12 +2,11 @@ local Module = SUI:NewModule("RaidFrames.Core");
 
 function Module:OnEnable()
 	local db = {
-		raidframes = SUI.db.profile.raidframes,
 		texture = SUI.db.profile.raidframes.texture,
 		module = SUI.db.profile.modules.unitframes
 	}
 
-	if (db.raidframes and db.module) then
+	if (db.module) then
 		local function updateTextures(self)
 			if self:IsForbidden() then return end
 			if self and self:GetName() then

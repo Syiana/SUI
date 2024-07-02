@@ -6,7 +6,7 @@ function Module:OnEnable()
 		module = SUI.db.profile.modules.actionbar
 	}
 
-	if not (not (db.style == 'BFATransparent' or db.style == 'BFA')) and (db.module) then
+	if ((db.style == 'BFATransparent' or db.style ~= 'BFA') and db.module) then
 		RetailUIArtFrame:Hide()
 		RetailUIStatusBars:Hide()
 		MicroButtonAndBagsBar:Hide()
