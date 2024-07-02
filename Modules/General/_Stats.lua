@@ -32,7 +32,7 @@ function Module:OnEnable()
         color = SUI.db.profile.general.color,
         module = SUI.db.profile.modules.general
     }
-    
+
     if ((db.fps or db.ms) and db.module) then
         local font = STANDARD_TEXT_FONT
         local fontSize = 13

@@ -5,6 +5,7 @@ function Module:OnEnable()
         style = SUI.db.profile.unitframes.style,
         pvpbade = SUI.db.profile.unitframes.pvpbade,
         texture = SUI.db.profile.general.texture,
+        size = SUI.db.profile.unitframes.size,
         module = SUI.db.profile.modules.unitframes
     }
 
@@ -67,7 +68,7 @@ function Module:OnEnable()
         local Size = CreateFrame("Frame")
         Size:RegisterEvent("ADDON_LOADED")
         Size:SetScript("OnEvent", function()
-            PlayerFrame:SetScale(db.unitframes.size)
+            PlayerFrame:SetScale(db.size)
         end)
 
         hooksecurefunc("PlayerFrame_ToPlayerArt", SUIPlayerFrame)
