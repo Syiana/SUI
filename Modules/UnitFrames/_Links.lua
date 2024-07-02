@@ -5,6 +5,7 @@ function Module:OnEnable()
         links = SUI.db.profile.unitframes.links,
         module = SUI.db.profile.modules.unitframes
     }
+
     if (db.links and db.module) then
         local regionNames = { 'us', 'kr', 'eu', 'tw', 'cn' }
         local region = regionNames[GetCurrentRegion()]

@@ -13,7 +13,7 @@ function Module:OnEnable()
             "(www%.%S+%.%S+)",
             "(%d+%.%d+%.%d+%.%d+:?%d*/?%S*)"
         }
-    
+
         for _, event in next, {
             "CHAT_MSG_SAY",
             "CHAT_MSG_YELL",
@@ -45,7 +45,7 @@ function Module:OnEnable()
                 end
             end)
         end
-    
+
         local SetHyperlink = _G.ItemRefTooltip.SetHyperlink
         function _G.ItemRefTooltip:SetHyperlink(link, ...)
             if link and (strsub(link, 1, 3) == "url") then
@@ -55,7 +55,7 @@ function Module:OnEnable()
                 editbox:HighlightText()
                 return
             end
-    
+
             SetHyperlink(self, link, ...)
         end
     end

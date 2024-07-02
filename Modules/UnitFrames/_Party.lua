@@ -32,7 +32,7 @@ function Module:OnEnable()
                     local healthBarTextRight = _G["PartyMemberFrame" .. i .. "HealthBarTextRight"]
                     local manaBarTextLeft = _G["PartyMemberFrame" .. i .. "ManaBarTextLeft"]
                     local manaBarTextRight = _G["PartyMemberFrame" .. i .. "ManaBarTextRight"]
-                    
+
                     if (texture and flash) then
                         texture:SetTexture([[Interface\Addons\SUI\Media\Textures\unitframes\UI-PartyFrame]])
                         flash:SetTexture([[Interface\Addons\SUI\Media\Textures\unitframes\UI-PARTYFRAME-FLASH]])

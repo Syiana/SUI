@@ -11,7 +11,7 @@ function Module:OnEnable()
         PetFrameHealthBar:SetStatusBarTexture(db.texture);
         PetFrameManaBar:SetStatusBarTexture(db.texture);
     end
-    
+
     if (db.style == 'Big' and db.module) then
         PetFrameHealthBar:ClearAllPoints()
         PetFrameHealthBar:SetPoint("TOPLEFT", 45, -22)

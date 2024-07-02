@@ -5,7 +5,7 @@ function Module:OnEnable()
 		autoinv = SUI.db.profile.general.automation.invite,
 		module = SUI.db.profile.modules.general
 	}
-	
+
 	if (db.autoinv and db.module) then
 		local acceptInvite = CreateFrame("Frame")
 		acceptInvite:RegisterEvent("PARTY_INVITE_REQUEST")

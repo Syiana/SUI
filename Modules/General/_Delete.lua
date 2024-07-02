@@ -5,7 +5,7 @@ function Module:OnEnable()
         delete = SUI.db.profile.general.automation.delete,
         module = SUI.db.profile.modules.general
     }
-    
+
     if (db.delete and db.module) then
         hooksecurefunc(StaticPopupDialogs["DELETE_GOOD_ITEM"], "OnShow", function(s)
             s.editBox:SetText(DELETE_ITEM_CONFIRM_STRING)

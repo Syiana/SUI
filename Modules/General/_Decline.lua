@@ -5,6 +5,7 @@ function Module:OnEnable()
         duel = SUI.db.profile.general.automation.decline,
         module = SUI.db.profile.modules.general
     }
+
     if (db.duel and db.module) then
         local frame = CreateFrame("Frame")
         frame:RegisterEvent("DUEL_REQUESTED")

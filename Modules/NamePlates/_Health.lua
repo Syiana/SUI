@@ -5,7 +5,7 @@ function Module:OnEnable()
         health = SUI.db.profile.nameplates.health,
         module = SUI.db.profile.modules.nameplates
     }
-    
+
     local function nameplateHealthText(unit, healthBar)
         if not healthBar.text then
             healthBar.text = healthBar:CreateFontString(nil, "ARTWORK", nil)

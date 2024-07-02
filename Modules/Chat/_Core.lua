@@ -10,7 +10,7 @@ function Module:OnEnable()
 
     if (db.module) then
         ChatFrame1:SetClampRectInsets(0, 0, 0, 0)
-        
+
         if (db.style == 'Custom') then
             CHAT_FRAME_FADE_TIME = 0.15
             CHAT_FRAME_FADE_OUT_TIME = 1

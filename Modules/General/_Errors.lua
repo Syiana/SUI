@@ -5,17 +5,11 @@ function Module:OnEnable()
         errors = SUI.db.profile.general.cosmetic.errors,
         module = SUI.db.profile.modules.general
     }
-    
-    if (not db) and (db.module) then
+
+    if ((not db.errors) and (db.module)) then
         local colors = {
             UI_INFO_MESSAGE = { r = 1.0, g = 1.0, b = 0.0 },
             UI_ERROR_MESSAGE = { r = 1.0, g = 0.1, b = 0.1 },
-        }
-        
-        local map = {
-            SYSMSG = "system",
-            UI_INFO_MESSAGE = "information",
-            UI_ERROR_MESSAGE = "errors",
         }
 
         local originalOnEvent = UIErrorsFrame:GetScript("OnEvent")

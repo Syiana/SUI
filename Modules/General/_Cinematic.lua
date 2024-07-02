@@ -5,6 +5,7 @@ function Module:OnEnable()
         cinematic = SUI.db.profile.general.automation.cinematic,
         module = SUI.db.profile.modules.general
     }
+
     if (db.cinematic and db.module) then
         local cinematic = CreateFrame("Frame")
         cinematic:RegisterEvent("CINEMATIC_START")

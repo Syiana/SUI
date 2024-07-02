@@ -15,7 +15,7 @@ function Module:OnEnable()
         searchbags = SUI.db.profile.misc.searchbags,
         module = SUI.db.profile.modules.misc
     }
-    
+
     if (db.searchbags and db.module) then
         hooksecurefunc("ContainerFrame_Update", function( self )
             if self:GetID() == 0 then

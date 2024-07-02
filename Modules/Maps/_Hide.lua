@@ -14,21 +14,21 @@ function Module:OnEnable()
             GameTimeFrame:UnregisterAllEvents()
             GameTimeFrame.Show = kill
         end
-    
+
         if not (db.tracking) then
             MiniMapTracking:Hide()
             MiniMapTracking.Show = kill
             MiniMapTracking:UnregisterAllEvents()
         end
-    
+
         if not (db.clock) then
             TimeManagerClockButton:Hide()
         end
-    
+
         Minimap:HookScript("OnEvent", function()
             MiniMapWorldMapButton:Hide()
         end)
-    
+
         MinimapBorderTop:Hide()
         MinimapZoomIn:Hide()
         MinimapZoomOut:Hide()

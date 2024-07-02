@@ -5,7 +5,7 @@ function Module:OnEnable()
         style = SUI.db.profile.unitframes.portrait,
         module = SUI.db.profile.modules.unitframes
     }
-    
+
     if (db.style == 'ClassIcon' and db.module) then
         local TEXTURE_NAME = [[Interface\AddOns\SUI\Media\Textures\ClassPortraits\%s.tga]]
         hooksecurefunc("UnitFramePortrait_Update", function(self)

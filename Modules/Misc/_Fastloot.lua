@@ -5,7 +5,7 @@ function Module:OnEnable()
 		fastloot = SUI.db.profile.misc.fastloot,
 		module = SUI.db.profile.modules.misc
 	}
-	
+
 	if (db.fastloot and db.module) then
 		-- Time delay
 		local tDelay = 0

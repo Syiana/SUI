@@ -54,7 +54,7 @@ function SUIExpBar_OnEnter(self)
                 label = label.." "..RED_FONT_COLOR_CODE..CAP_REACHED_TRIAL.."|r";
             end
         end
-    end						
+    end
     SUIExhaustionTick.timer = 1;
 
     GameTooltip_AddNewbieTip(self, label, 1.0, 1.0, 1.0, NEWBIE_TOOLTIP_XPBAR, 1);
@@ -146,7 +146,7 @@ function SUIExhaustionToolTipText()
 
 	local exhaustionStateID, exhaustionStateName, exhaustionStateMultiplier = GetRestState();
 	exhaustionStateMultiplier = exhaustionStateMultiplier * 100;
-	
+
 	local tooltipText = format(EXHAUST_TOOLTIP1, exhaustionStateName, exhaustionStateMultiplier);
 	local append = nil;
 	if ( ((exhaustionStateID == 4) or (exhaustionStateID == 5)) and not IsResting() ) then

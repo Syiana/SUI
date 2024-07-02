@@ -5,7 +5,7 @@ function Module:OnEnable()
         afkcam = SUI.db.profile.general.cosmetic.afkscreenm,
         module = SUI.db.profile.modules.general
     }
-    
+
     if (db.afkcam and db.module) then
         local PName = UnitName("player")
         local PLevel = UnitLevel("player")
