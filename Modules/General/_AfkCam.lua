@@ -192,10 +192,6 @@ function Module:OnEnable()
                     raidframe:Hide()
                 end
             end
-
-            if (db.actionbar.style == 'Small') then
-                SUIExpBar:Hide()
-            end
         end)
 
         AFKPanel:SetScript("OnHide", function(self)
@@ -204,13 +200,6 @@ function Module:OnEnable()
                 local raidframe = _G["CompactRaidFrame" .. i .. ""]
                 if (raidframe) then
                     raidframe:Show()
-                end
-            end
-
-            if (db.actionbar.style == 'Small') then
-                local rLevel =  GetMaxLevelForExpansionLevel(GetClampedCurrentExpansionLevel())
-                if not (UnitLevel("player") >= rLevel) then
-                    SUIExpBar:Show()
                 end
             end
         end)
