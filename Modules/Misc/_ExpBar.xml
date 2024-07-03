@@ -65,6 +65,7 @@
 
                 self:RegisterEvent("PLAYER_ENTERING_WORLD");
                 self:RegisterEvent("PLAYER_XP_UPDATE");
+                self:SetScale(UIParent:GetScale())
                 self.textLockable = 1;
                 self.cvar = "xpBarText";
                 self.cvarLabel = "XP_BAR_TEXT";
@@ -73,6 +74,7 @@
             </OnLoad>
             <OnEvent>
                 if ( event == "CVAR_UPDATE" ) then
+                self:SetScale(UIParent:GetScale())
                 TextStatusBar_OnEvent(self, event, ...);
                 else
                 SUIExpBar_Update();

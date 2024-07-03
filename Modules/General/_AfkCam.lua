@@ -2,7 +2,8 @@ local Module = SUI:NewModule("General.AfkCam");
 
 function Module:OnEnable()
     local db = {
-        afkcam = SUI.db.profile.general.cosmetic.afkscreenm,
+        afkcam = SUI.db.profile.general.cosmetic.afkscreen,
+        actionbar = SUI.db.profile.actionbar,
         module = SUI.db.profile.modules.general
     }
 
@@ -151,27 +152,19 @@ function Module:OnEnable()
         local OnEvent = function(self, event, unit)
             local useCompact = GetCVarBool("useCompactPartyFrames")
             if event == "PLAYER_FLAGS_CHANGED" then
-                local isArena = IsActiveBattlefieldArena()
+                local isArena, isRanked = IsActiveBattlefieldArena()
+                if isArena or isRanked then return end
                 if unit == "player" then
-                    if not (isArena) then
-                        if UnitIsAFK(unit) and not UnitIsDead(unit) and not InCombatLockdown() then
-                            SpinStart()
-                            AFKPanel:Show()
-                            AFKPanelTop:Show()
-                            
-                            if ((IsInGroup() or IsInRaid()) and CompactRaidFrameContainer:IsShown() and useCompact) then
-                                CompactRaidFrameContainer:Hide()
-                            end
-                            Minimap:Hide()
-                        else
-                            SpinStop()
-                            AFKPanel:Hide()
-                            AFKPanelTop:Hide()
-                            Minimap:Show()
-                            if ((IsInGroup() or IsInRaid()) and useCompact) then
-                                CompactRaidFrameContainer:Show()
-                            end
-                        end
+                    if UnitIsAFK(unit) and not UnitIsDead(unit) and not InCombatLockdown() then
+                        SpinStart()
+                        AFKPanel:Show()
+                        AFKPanelTop:Show()
+                        Minimap:Hide()
+                    else
+                        SpinStop()
+                        AFKPanel:Hide()
+                        AFKPanelTop:Hide()
+                        Minimap:Show()
                     end
                 end
             elseif event == "PLAYER_LEAVING_WORLD" then
@@ -195,8 +188,13 @@ function Module:OnEnable()
             UIParent:SetAlpha(0);
             for i = 1, 40 do
                 local raidframe = _G["CompactRaidFrame" .. i .. ""]
-                if raidframe == nil then else raidframe:Hide(); end
-                i = i + 1
+                if (raidframe) then
+                    raidframe:Hide()
+                end
+            end
+
+            if (db.actionbar.style == 'Small') then
+                SUIExpBar:Hide()
             end
         end)
 
@@ -204,8 +202,16 @@ function Module:OnEnable()
             UIFrameFadeOut(UIParent, 0.5, 0, 1)
             for i = 1, 40 do
                 local raidframe = _G["CompactRaidFrame" .. i .. ""]
-                if raidframe == nil then else raidframe:Show(); end
-                i = i + 1
+                if (raidframe) then
+                    raidframe:Show()
+                end
+            end
+
+            if (db.actionbar.style == 'Small') then
+                local rLevel =  GetMaxLevelForExpansionLevel(GetClampedCurrentExpansionLevel())
+                if not (UnitLevel("player") >= rLevel) then
+                    SUIExpBar:Show()
+                end
             end
         end)
 

@@ -11,11 +11,13 @@ function expBar:OnEnable()
     if (db.expbar and db.style == 'Small' and db.module) then
         -- Reposition Exp Bar
         SUIExpBar:ClearAllPoints()
-        SUIExpBar:SetPoint("LEFT", SUIMainMenuBar, "LEFT", 0, -28)
-        SUIExpBar:SetWidth(SUIMainMenuBar:GetWidth() / 1.34)
+        SUIExpBar:SetPoint("LEFT", SUIMainMenuBar, "LEFT", 1, -30)
+        SUIExpBar:SetWidth(SUIMainMenuBar:GetWidth()-5.5)
 
-        SUIExpBarText:SetFont([[Fonts\ARIALN.TTF]], 12, 'OUTLINE')
+        -- Status Text
+        SUIExpBarText:SetFont([[Fonts\ARIALN.TTF]], 11, 'OUTLINE')
 
+        -- Set Texture
         if (db.texture ~= 'Default') then
             SUIExpBar:SetStatusBarTexture(db.texture)
         end
