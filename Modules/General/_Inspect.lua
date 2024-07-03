@@ -73,7 +73,7 @@ function Module:OnEnable()
                 local itemiLvlText = ""
                 local frameName = "Inspect" .. slotName
                 local slotilvl = ""
-                if ItemLinks[slotName] then
+                if frameName and ItemLinks[slotName] then
                     slotilvl = GetDetailedItemLevelInfo(ItemLinks[slotName])
                     local _, _, quality, _, _, _, _, _, _, _ = C_Item.GetItemInfo(ItemLinks[slotName])
                     if (quality) then
@@ -84,7 +84,9 @@ function Module:OnEnable()
                     end
                     InspectFontStrings[frameName]:SetText(itemiLvlText)
                 else
-                    InspectFontStrings[frameName]:SetText("")
+                    if (frameName) then
+                        InspectFontStrings[frameName]:SetText("")
+                    end
                 end
             end
         end

@@ -28,8 +28,6 @@ function Module:OnEnable()
         SUI:Skin(PVPReadyDialog)
 
         SUI:Skin(ReadyCheckListenerFrame)
-        SUI:Skin(ReadyCheckFrameYesButton)
-        SUI:Skin(ReadyCheckFrameNoButton)
 
         SUI:Skin(DropDownList1)
         SUI:Skin(DropDownList1Backdrop)
@@ -109,7 +107,13 @@ function Module:OnEnable()
             PVPReadyDialogHideButton.Right,
             ReportFrame.ReportButton.Left,
             ReportFrame.ReportButton.Middle,
-            ReportFrame.ReportButton.Right
+            ReportFrame.ReportButton.Right,
+            ReadyCheckFrameYesButton.Left,
+            ReadyCheckFrameYesButton.Middle,
+            ReadyCheckFrameYesButton.Right,
+            ReadyCheckFrameNoButton.Left,
+            ReadyCheckFrameNoButton.Middle,
+            ReadyCheckFrameNoButton.Right
         }, false, true, false, true)
 
         local f = CreateFrame("Frame")
