@@ -57,9 +57,9 @@ function Module:OnEnable()
 
 
         local function scanGear()
-            local level = UnitLevel("target")
+            local level = UnitLevel(InspectFrame.unit)
             for _, slotName in ipairs(Slots) do
-                local link = GetInventoryItemLink("target", SlotIDs[slotName])
+                local link = GetInventoryItemLink(InspectFrame.unit, SlotIDs[slotName])
                 ItemLinks[slotName] = FixHeirloomLevel(link, level)
             end
         end
@@ -93,11 +93,12 @@ function Module:OnEnable()
 
 
         local function main()
-            if CanInspect("target") then
-                if not (alreadyInitialized) then
-                    initialize()
-                end
+            if not (alreadyInitialized) then
+                initialize()
             end
+
+            scanGear()
+            updateText()
         end
         local inspectEventHandler = CreateFrame("Frame", nil, UIParent)
         inspectEventHandler:RegisterEvent("INSPECT_READY")
