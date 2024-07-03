@@ -1,7 +1,7 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
 ..\..\Blizzard_SharedXML\UI.xsd">
 
-    <StatusBar name="SUIExpBar" inherits="TextStatusBar">
+    <StatusBar name="SUIExpBar" inherits="TextStatusBar" parent="UIParent">
         <Size>
             <AbsDimension x="350" y="11" />
         </Size>
@@ -65,7 +65,6 @@
 
                 self:RegisterEvent("PLAYER_ENTERING_WORLD");
                 self:RegisterEvent("PLAYER_XP_UPDATE");
-                self:SetScale(UIParent:GetScale())
                 self.textLockable = 1;
                 self.cvar = "xpBarText";
                 self.cvarLabel = "XP_BAR_TEXT";
@@ -74,7 +73,6 @@
             </OnLoad>
             <OnEvent>
                 if ( event == "CVAR_UPDATE" ) then
-                self:SetScale(UIParent:GetScale())
                 TextStatusBar_OnEvent(self, event, ...);
                 else
                 SUIExpBar_Update();
@@ -120,7 +118,5 @@
 			<OnEvent function="SUIExhaustionTick_OnEvent"/>
 			<OnLeave function="GameTooltip_Hide"/>
 		</Scripts>
-		<NormalTexture name="SUIExhaustionTickNormal" file="Interface\MainMenuBar\UI-ExhaustionTickNormal"/>
-		<HighlightTexture name="SUIExhaustionTickHighlight" file="Interface\MainMenuBar\UI-ExhaustionTickHighlight" alphaMode="ADD"/>
 	</Button>
 </Ui>

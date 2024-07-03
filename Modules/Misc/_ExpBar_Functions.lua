@@ -117,11 +117,9 @@ function SUIExhaustionTick_OnEvent(self, event, ...)
 		if (exhaustionStateID == 1) then
 			SUIExpBar:SetStatusBarColor(0.0, 0.39, 0.88, 1.0);
 			SUIExhaustionLevelFillBar:SetVertexColor(0.0, 0.39, 0.88, 0.15);
-			SUIExhaustionTickHighlight:SetVertexColor(0.0, 0.39, 0.88);
 		elseif (exhaustionStateID == 2) then
 			SUIExpBar:SetStatusBarColor(0.58, 0.0, 0.55, 1.0);
 			SUIExhaustionLevelFillBar:SetVertexColor(0.58, 0.0, 0.55, 0.15);
-			SUIExhaustionTickHighlight:SetVertexColor(0.58, 0.0, 0.55);
 		end
 
 	end
@@ -169,7 +167,6 @@ function SUIExhaustionToolTipText()
 end
 
 function SUIExhaustionTick_OnUpdate(self, elapsed)
-    self:Hide()
 	if ( self.timer ) then
 		if ( self.timer < 0 ) then
 			SUIExhaustionToolTipText();
