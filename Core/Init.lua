@@ -278,13 +278,14 @@ function SUI:OnInitialize()
             ["TabardFrameEmblemBottomLeft"] = true, ["TabardFrameEmblemBottomRight"] = true,
             ["GuildRegistrarFramePortrait"] = true, ["PetitionFramePortrait"] = true,
             ["LootFramePortraitOverlay"] = true,
+            ["CalendarCreateEventIcon"] = true,
             [select(1,QuestLogFrame:GetRegions())] = true, [select(18, MailFrame:GetRegions())] = true,
             [select(2, SpellBookSkillLineTab1:GetRegions())] = true, [select(2, SpellBookSkillLineTab2:GetRegions())] = true,
             [select(2, SpellBookSkillLineTab3:GetRegions())] = true, [select(2, SpellBookSkillLineTab4:GetRegions())] = true,
             [select(1, ItemTextFrame:GetRegions())] = true, [select(6, SendMailMoneyGold:GetRegions())] = true,
             [select(6, SendMailMoneySilver:GetRegions())] = true, [select(6, SendMailMoneyCopper:GetRegions())] = true,
             [select(12, CompactRaidFrameManagerDisplayFrameLeaderOptionsRaidWorldMarkerButton:GetRegions())] = true,
-            ["CalendarCreateEventIcon"] = true,
+            [select(1, QuestLogDetailFrame:GetRegions())] = true,
         }
 
         if (frame) then
