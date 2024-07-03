@@ -50,6 +50,7 @@ function Module:OnEnable()
         SUI:Skin(LFGListCreateRoleDialog.Border)
         SUI:Skin(LFGListCreateRoleDialog.SignUpButton)
         SUI:Skin(LFGListCreateRoleDialog.CancelButton)
+        SUI:Skin(LFGListInviteDialog.Border)
         SUI:Skin(LFGListFrame.SearchPanel.FilterButton)
         SUI:Skin(LFGListFrame.SearchPanel.SearchBox)
         SUI:Skin(RolePollPopup.Border)
@@ -117,7 +118,16 @@ function Module:OnEnable()
             LFGDungeonReadyDialogEnterDungeonButton.Right,
             LFGDungeonReadyDialogLeaveQueueButton.Left,
             LFGDungeonReadyDialogLeaveQueueButton.Middle,
-            LFGDungeonReadyDialogLeaveQueueButton.Right
+            LFGDungeonReadyDialogLeaveQueueButton.Right,
+            LFGListInviteDialog.AcceptButton.Left,
+            LFGListInviteDialog.AcceptButton.Middle,
+            LFGListInviteDialog.AcceptButton.Right,
+            LFGListInviteDialog.DeclineButton.Left,
+            LFGListInviteDialog.DeclineButton.Middle,
+            LFGListInviteDialog.DeclineButton.Right,
+            LFGListInviteDialog.AcknowledgeButton.Left,
+            LFGListInviteDialog.AcknowledgeButton.Middle,
+            LFGListInviteDialog.AcknowledgeButton.Right
         }, false, true, false, true)
     end
 end
