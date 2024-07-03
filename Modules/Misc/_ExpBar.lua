@@ -11,9 +11,8 @@ function expBar:OnEnable()
     if (db.expbar and db.style == 'Small' and db.module) then
         -- Reposition Exp Bar
         SUIExpBar:ClearAllPoints()
-        SUIExpBar:SetParent(SUIMainMenuBar)
-        SUIExpBar:SetPoint("BOTTOMLEFT", SUIMainMenuBar, "BOTTOMLEFT", 1, -14)
-        SUIExpBar:SetWidth(SUIMainMenuBar:GetWidth()-5.9)
+        SUIExpBar:SetPoint("CENTER", SUIMainMenuBar, "CENTER", 1, -25)
+        SUIExpBar:SetWidth(SUIMainMenuBar:GetWidth()-150)
 
         SUIExpBarText:SetFont([[Fonts\ARIALN.TTF]], 12, 'OUTLINE')
 

@@ -55,95 +55,12 @@ function SUIExpBar_OnEnter(self)
             end
         end
     end
-    SUIExhaustionTick.timer = 1;
 
     GameTooltip_AddNewbieTip(self, label, 1.0, 1.0, 1.0, NEWBIE_TOOLTIP_XPBAR, 1);
     GameTooltip.canAddRestStateLine = 1;
 end
 
-function SUIExhaustionTick_OnLoad(self)
-	SUIExhaustionTick:RegisterEvent("PLAYER_ENTERING_WORLD");
-	SUIExhaustionTick:RegisterEvent("PLAYER_XP_UPDATE");
-	SUIExhaustionTick:RegisterEvent("UPDATE_EXHAUSTION");
-	SUIExhaustionTick:RegisterEvent("PLAYER_LEVEL_UP");
-	SUIExhaustionTick:RegisterEvent("PLAYER_UPDATE_RESTING");
-end
-
-function SUIExhaustionTick_OnEvent(self, event, ...)
-	if (IsRestrictedAccount()) then
-		local rlevel = GetRestrictedAccountData();
-		if (UnitLevel("player") >= rlevel) then
-			SUIExpBar:SetStatusBarColor(0.0, 0.39, 0.88, 1.0);
-			SUIExhaustionTick:Hide();
-			SUIExhaustionLevelFillBar:Hide();
-			self:UnregisterAllEvents();
-			return;
-		end
-	end
-	if ((event == "PLAYER_ENTERING_WORLD") or (event == "PLAYER_XP_UPDATE") or (event == "UPDATE_EXHAUSTION") or (event == "PLAYER_LEVEL_UP")) then
-		local playerCurrXP = UnitXP("player");
-		local playerMaxXP = UnitXPMax("player");
-		local exhaustionThreshold = GetXPExhaustion();
-		local exhaustionStateID, exhaustionStateName, exhaustionStateMultiplier;
-		exhaustionStateID, exhaustionStateName, exhaustionStateMultiplier = GetRestState();
-		if (exhaustionStateID >= 3) then
-			SUIExhaustionTick:SetPoint("CENTER", "MainMenuExpBar", "RIGHT", 0, 0);
-		end
-
-		if (not exhaustionThreshold) then
-			SUIExhaustionTick:Hide();
-			SUIExhaustionLevelFillBar:Hide();
-		else
-			local exhaustionTickSet = max(((playerCurrXP + exhaustionThreshold) / playerMaxXP) * MainMenuExpBar:GetWidth(), 0);
-			SUIExhaustionTick:ClearAllPoints();
-			if (exhaustionTickSet > SUIExpBar:GetWidth()) then
-				SUIExhaustionTick:Hide();
-				SUIExhaustionLevelFillBar:Hide();
-			else
-				SUIExhaustionTick:Show();
-				SUIExhaustionTick:SetPoint("CENTER", "MainMenuExpBar", "LEFT", exhaustionTickSet, 0);
-				SUIExhaustionLevelFillBar:Show();
-				SUIExhaustionLevelFillBar:SetPoint("TOPRIGHT", "MainMenuExpBar", "TOPLEFT", exhaustionTickSet, 0);
-			end
-		end
-
-		-- Hide exhaustion tick if player is max level or XP is turned off
-		if ( UnitLevel("player") == GetMaxPlayerLevel() ) then
-			SUIExhaustionTick:Hide();
-		end
-	end
-	if ((event == "PLAYER_ENTERING_WORLD") or (event == "UPDATE_EXHAUSTION")) then
-		local exhaustionStateID = GetRestState();
-		if (exhaustionStateID == 1) then
-			SUIExpBar:SetStatusBarColor(0.0, 0.39, 0.88, 1.0);
-			SUIExhaustionLevelFillBar:SetVertexColor(0.0, 0.39, 0.88, 0.15);
-			SUIExhaustionTickHighlight:SetVertexColor(0.0, 0.39, 0.88);
-		elseif (exhaustionStateID == 2) then
-			MainMenuExpBar:SetStatusBarColor(0.58, 0.0, 0.55, 1.0);
-			SUIExhaustionLevelFillBar:SetVertexColor(0.58, 0.0, 0.55, 0.15);
-			SUIExhaustionTickHighlight:SetVertexColor(0.58, 0.0, 0.55);
-		end
-
-	end
-	if ( not MainMenuExpBar:IsShown() ) then
-		SUIExhaustionTick:Hide();
-	end
-end
-
 function SUIExhaustionToolTipText()
-	if ( GetCVar("showNewbieTips") ~= "1" ) then
-		local x,y = SUIExhaustionTick:GetCenter();
-		if ( SUIExhaustionTick:IsVisible() ) then
-			if ( x >= ( GetScreenWidth() / 2 ) ) then
-				GameTooltip:SetOwner(SUIExhaustionTick, "ANCHOR_LEFT");
-			else
-				GameTooltip:SetOwner(SUIExhaustionTick, "ANCHOR_RIGHT");
-			end
-		else
-			GameTooltip_SetDefaultAnchor(GameTooltip, UIParent);
-		end
-	end
-
 	local exhaustionStateID, exhaustionStateName, exhaustionStateMultiplier = GetRestState();
 	exhaustionStateMultiplier = exhaustionStateMultiplier * 100;
 
@@ -164,17 +81,6 @@ function SUIExhaustionToolTipText()
 			GameTooltip:AddLine("\n"..tooltipText);
 			GameTooltip:Show();
 			GameTooltip.canAddRestStateLine = nil;
-		end
-	end
-end
-
-function SUIExhaustionTick_OnUpdate(self, elapsed)
-	if ( self.timer ) then
-		if ( self.timer < 0 ) then
-			SUIExhaustionToolTipText();
-			self.timer = nil;
-		else
-			self.timer = self.timer - elapsed;
 		end
 	end
 end

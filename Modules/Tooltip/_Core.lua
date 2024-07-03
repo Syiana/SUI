@@ -115,14 +115,14 @@ function Module:OnEnable()
                     levelLine:SetTextColor(color.r, color.g, color.b)
                 end
                 if unitClassification == "worldboss" or UnitLevel(unit) == -1 then
-                    self:AppendText(" |cffff0000{B}|r")
+                    self:AppendText(" |cffff0000[B]|r")
                     GameTooltipTextLeft2:SetTextColor(unpack(cfg.bossColor))
                 elseif unitClassification == "rare" then
-                    self:AppendText(" |cffff9900{R}|r")
+                    self:AppendText(" |cffff9900[R]|r")
                 elseif unitClassification == "rareelite" then
-                    self:AppendText(" |cffff0000{R+}|r")
+                    self:AppendText(" |cffff0000[R+]|r")
                 elseif unitClassification == "elite" then
-                    self:AppendText(" |cffff6666{E}|r")
+                    self:AppendText(" |cffff6666[E]|r")
                 end
             else
                 --unit is any player

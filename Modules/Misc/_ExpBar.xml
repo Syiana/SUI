@@ -6,7 +6,7 @@
             <AbsDimension x="350" y="11" />
         </Size>
         <Anchors>
-            <Anchor point="TOP" />
+            <Anchor point="TOP"/>
         </Anchors>
         <Layers>
             <Layer level="BORDER">
@@ -87,11 +87,7 @@
             <OnLeave>
                 HideTextStatusBarText(self);
                 GameTooltip:Hide();
-                SUIExhaustionTick.timer = nil;
             </OnLeave>
-            <OnUpdate inherit="prepend">
-                SUIExhaustionTick_OnUpdate(SUIExhaustionTick, elapsed);
-            </OnUpdate>
             <OnValueChanged>
                 if (not self:IsShown()) then
                 return;
@@ -102,23 +98,4 @@
         <BarTexture file="Interface\TargetingFrame\UI-StatusBar" />
         <BarColor r="0.58" g="0.0" b="0.55" />
     </StatusBar>
-    <Button name="SUIExhaustionTick" parent="SUIExpBar" hidden="false" frameStrata="MEDIUM">
-		<Size>
-			<AbsDimension x="32" y="32"/>
-		</Size>
-		<Anchors>
-			<Anchor point="CENTER" relativeTo="SUIExpBar">
-				<Offset>
-					<AbsDimension x="0" y="0"/>
-				</Offset>
-			</Anchor>
-		</Anchors>
-		<Scripts>
-			<OnLoad function="SUIExhaustionTick_OnLoad"/>
-			<OnEvent function="SUIExhaustionTick_OnEvent"/>
-			<OnLeave function="GameTooltip_Hide"/>
-		</Scripts>
-		<NormalTexture name="SUIExhaustionTickNormal" file="Interface\MainMenuBar\UI-ExhaustionTickNormal"/>
-		<HighlightTexture name="SUIExhaustionTickHighlight" file="Interface\MainMenuBar\UI-ExhaustionTickHighlight" alphaMode="ADD"/>
-	</Button>
 </Ui>
