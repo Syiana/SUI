@@ -68,25 +68,23 @@ function Module:OnEnable()
         end
 
         -- MicroMenu Position
-        if (db.micromenu ~= 'hidden') then
-            MoveMicroButtons("BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", -275, 0)
+        MoveMicroButtons("BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", -275, 0)
 
-            local vehicle = CreateFrame("Frame")
-            vehicle:RegisterEvent("UNIT_ENTERED_VEHICLE")
-            vehicle:RegisterEvent("UNIT_EXITED_VEHICLE")
-            vehicle:HookScript("OnEvent", function(self, event, unit)
-                if unit == "player" then
-                    if event == "UNIT_EXITED_VEHICLE" then
-                        MoveMicroButtons("BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", -275, 0)
-                        if (GetNumShapeshiftForms() > 0) then
-                            SUIStanceBar:Show()
-                        end
-                    else
-                        SUIStanceBar:Hide()
+        local vehicle = CreateFrame("Frame")
+        vehicle:RegisterEvent("UNIT_ENTERED_VEHICLE")
+        vehicle:RegisterEvent("UNIT_EXITED_VEHICLE")
+        vehicle:HookScript("OnEvent", function(self, event, unit)
+            if unit == "player" then
+                if event == "UNIT_EXITED_VEHICLE" then
+                    MoveMicroButtons("BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", -275, 0)
+                    if (GetNumShapeshiftForms() > 0) then
+                        SUIStanceBar:Show()
                     end
+                else
+                    SUIStanceBar:Hide()
                 end
-            end)
-        end
+            end
+        end)
 
         -- Bag Buttons Position
         MainMenuBarBackpackButton:ClearAllPoints()
@@ -107,6 +105,7 @@ function Module:OnEnable()
             end
         elseif (db.micromenu == 'hidden') then
             for _, frame in ipairs(MICRO_BUTTONS) do
+                _G[frame].Show = function() end
                 _G[frame]:Hide()
             end
         end
