@@ -14,6 +14,7 @@ function Module:OnEnable()
             "HandsSlot", "WaistSlot", "LegsSlot", "FeetSlot", "Finger0Slot", "Finger1Slot",
             "Trinket0Slot", "Trinket1Slot", "MainHandSlot", "SecondaryHandSlot", "RangedSlot"
         }
+
         local SlotIDs = {}
         for _, slotName in ipairs(Slots) do
             local id = GetInventorySlotInfo(slotName)
@@ -57,7 +58,6 @@ function Module:OnEnable()
 
 
         local function scanGear()
-            if not (InspectFrame and InspectFrame.unit) then return end
             local level = UnitLevel(InspectFrame.unit)
             for _, slotName in ipairs(Slots) do
                 local link = GetInventoryItemLink(InspectFrame.unit, SlotIDs[slotName])
@@ -94,6 +94,10 @@ function Module:OnEnable()
 
 
         local function main()
+            -- Check if unit exists
+            if not (InspectFrame and InspectFrame.unit) then return end
+
+            -- Check if fontstrings have been already initialized
             if not (alreadyInitialized) then
                 initialize()
             end
@@ -110,6 +114,7 @@ function Module:OnEnable()
         f:SetScript("OnEvent", function(self, event, name)
             if name == "Blizzard_InspectUI" then
                 InspectPaperDollItemsFrame:HookScript("OnUpdate", function()
+                    if not (InspectFrame and InspectFrame.unit) then return end
                     scanGear()
                     updateText()
                 end)
