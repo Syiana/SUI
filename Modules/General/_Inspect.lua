@@ -57,6 +57,7 @@ function Module:OnEnable()
 
 
         local function scanGear()
+            if not (InspectFrame and InspectFrame.unit) then return end
             local level = UnitLevel(InspectFrame.unit)
             for _, slotName in ipairs(Slots) do
                 local link = GetInventoryItemLink(InspectFrame.unit, SlotIDs[slotName])
