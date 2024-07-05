@@ -149,6 +149,7 @@ local defaults = {
         modules = {
             general = true,
             unitframes = true,
+            nameplates = true,
             actionbar = true,
             castbars = true,
             tooltip = true,
