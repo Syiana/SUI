@@ -14,6 +14,10 @@ function Module:OnEnable()
         SUI:Skin(QuestFrameGreetingPanel)
         SUI:Skin(EmptyQuestLogFrame)
         SUI:Skin(QuestModelScene)
+        SUI:Skin({
+            QuestLogDetailScrollFrameScrollBackgroundTopLeft,
+            QuestLogDetailScrollFrameScrollBackgroundBottomRight
+        }, false, true)
 
         -- Buttons
         SUI:Skin({

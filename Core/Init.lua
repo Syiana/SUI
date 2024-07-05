@@ -279,6 +279,7 @@ function SUI:OnInitialize()
             ["TabardFrameEmblemBottomLeft"] = true, ["TabardFrameEmblemBottomRight"] = true,
             ["GuildRegistrarFramePortrait"] = true, ["PetitionFramePortrait"] = true,
             ["LootFramePortraitOverlay"] = true, ["CalendarCreateEventIcon"] = true,
+            ["StaticPopup1AlertIcon"] = true,
             [select(1,QuestLogFrame:GetRegions())] = true, [select(18, MailFrame:GetRegions())] = true,
             [select(2, SpellBookSkillLineTab1:GetRegions())] = true, [select(2, SpellBookSkillLineTab2:GetRegions())] = true,
             [select(2, SpellBookSkillLineTab3:GetRegions())] = true, [select(2, SpellBookSkillLineTab4:GetRegions())] = true,
@@ -326,8 +327,7 @@ function SUI:OnInitialize()
         enchantID  = 2,
         socket1    = 3,
         socket2    = 4,
-        socket3    = 5,
-        socket4    = 6
+        socket3    = 5
     }
 
     GetEnchantNameByID = {
@@ -341,8 +341,8 @@ function SUI:OnInitialize()
         [4066] = "Mending",
         [4097] = "Power Torrent",
         [4098] = "Windwalk",
-        [4175] = "X-Scope",
-        [4217] = "PWC",
+        [4175] = "Gnomish X-Scope",
+        [4217] = "Pyrium Weapon",
         
         -- Feet
         [4105] = "Agi & Speed",
@@ -436,6 +436,31 @@ function SUI:OnInitialize()
         [4079] = "40 Agi"
     }
 
+    local itemSlots = {
+        -- Left Side
+        [1] = true,
+        [2] = false,
+        [3] = true,
+        [15] = true,
+        [5] = true,
+        [9] = true,
+
+        -- Right Side
+        [10] = true,
+        [6] = false,
+        [7] = true,
+        [8] = true,
+        [11] = true,
+        [12] = true,
+        [13] = false,
+        [14] = false,
+
+        -- Weapons
+        [16] = true,
+        [17] = true,
+        [18] = true
+    }
+
     function ParseItemLink(link)
         local _, linkOptions = LinkUtil.ExtractLink(link)
         local item = { strsplit(":", linkOptions) }
@@ -504,9 +529,7 @@ function SUI:OnInitialize()
     SocketTextureCache = {}
 
     function SocketTexture(id)
-        if not tonumber(id) then
-            return "\124TInterface\\Icons\\Inv_misc_questionmark:0\124t"
-        elseif SocketTextureCache[id] then
+        if SocketTextureCache[id] then
             return SocketTextureCache[id]
         else
             local name, _, _, _, _, _, _, _, _, iconTexture = GetItemInfo(id)
@@ -515,6 +538,43 @@ function SUI:OnInitialize()
                 SocketTextureCache[id] = iconTexture
                 return iconTexture
             end
+        end
+    end
+
+    function EmptySockets(itemLink)
+        local i = 0
+        local stats = GetItemStats(itemLink);
+        if stats ~= nil then
+            for key, val in pairs(stats) do
+                if (string.find(key, "EMPTY_SOCKET_")) then
+                    i = i + 1
+                end
+            end
+        end
+        return tonumber(i)
+    end
+
+    function NoEnchantText(itemLink, slotID)
+        local _, _, _, _, _, _, itemType = GetItemInfo(itemLink)
+        local prof1, prof2 = GetProfessions()
+        if (itemSlots[slotID]) then
+            if (slotID == 11 or slotID == 12) then
+                if (prof1 and prof1 == 6 or prof2 and prof2 == 6) then
+                    local _, _, skill  = GetProfessionInfo(6)
+
+                    if (skill >= 475) then
+                        return true
+                    end
+                end
+            elseif (slotID == 18 ) then
+                if (itemType == "Guns" or itemType == "Guns" or itemType == "Crossbows") then
+                    return true
+                end
+            else
+                return true
+            end
+        else
+            return false
         end
     end
 

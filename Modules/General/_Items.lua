@@ -72,7 +72,7 @@ function Module:OnEnable()
                         frame[i].Enchant:SetTextColor(0, 1, 0, 1)
                         frame[i].Enchant:SetJustifyH("LEFT")
                         frame[i].Enchant:SetJustifyV("TOP")
-                        frame[i].Enchant:SetFont([[Fonts\FRIZQT__.TTF]], 11, 'OUTLINE')
+                        frame[i].Enchant:SetFont(FONT, 11, 'OUTLINE')
                     end
 
                     -- Socket Frames
@@ -81,9 +81,9 @@ function Module:OnEnable()
                         frame[i].Socket2 = frame:CreateFontString(frame[i]:GetName().."Socket2", "OVERLAY")
                         frame[i].Socket3 = frame:CreateFontString(frame[i]:GetName().."Socket3", "OVERLAY")
 
-                        frame[i].Socket1:SetFont([[Fonts\FRIZQT__.TTF]], 13, 'OUTLINE')
-                        frame[i].Socket2:SetFont([[Fonts\FRIZQT__.TTF]], 13, 'OUTLINE')
-                        frame[i].Socket3:SetFont([[Fonts\FRIZQT__.TTF]], 13, 'OUTLINE')
+                        frame[i].Socket1:SetFont(FONT, 13, 'OUTLINE')
+                        frame[i].Socket2:SetFont(FONT, 13, 'OUTLINE')
+                        frame[i].Socket3:SetFont(FONT, 13, 'OUTLINE')
                     end
 
                     if itemLink then
@@ -92,6 +92,7 @@ function Module:OnEnable()
                         local socket1 = ParseItemLink(itemLink).socket1
                         local socket2 = ParseItemLink(itemLink).socket2
                         local socket3 = ParseItemLink(itemLink).socket3
+                        local emptySockets = EmptySockets(itemLink)
                         realItemLevel = realItemLevel or ""
 
                         -- Set Enchant-Text & Socket positions
@@ -102,38 +103,56 @@ function Module:OnEnable()
                             frame[i].Socket3:SetPoint("RIGHT", frame[i].Socket2, "RIGHT", 14.5, 0)
                         elseif (itemsRight[i]) then
                             frame[i].Enchant:SetPoint("TOPRIGHT", frame[i], "TOPRIGHT", -40, 0)
-                            frame[i].Socket1:SetPoint("TOPRIGHT", frame[i], "TOPRIGHT", -40, -12)
+                            frame[i].Socket1:SetPoint("TOPRIGHT", frame[i], "TOPRIGHT", -42, -12)
                             frame[i].Socket2:SetPoint("LEFT", frame[i].Socket1, "LEFT", -14, 0)
                             frame[i].Socket3:SetPoint("LEFT", frame[i].Socket2, "LEFT", -14, 0)
                         elseif (i == 16) then
                             frame[i].Enchant:SetPoint("BOTTOMRIGHT", frame[i], "BOTTOMRIGHT", -40, -25)
                         elseif (i == 17) then
                             frame[i].Enchant:SetPoint("BOTTOMRIGHT", frame[i], "BOTTOMRIGHT", 2.5, -35)
+                            frame[i].Socket1:SetPoint("TOP", frame[i], "TOP", 0, 20)
                         elseif (i == 18) then
-                            frame[i].Enchant:SetPoint("BOTTOMRIGHT", frame[i], "BOTTOMRIGHT", 5, -35)
-                            frame[i].Socket1:SetPoint("TOPRIGHT", frame[i], "TOPRIGHT", 25, -12)
+                            frame[i].Enchant:SetPoint("BOTTOMRIGHT", frame[i], "BOTTOMRIGHT", 55, -35)
+                            frame[i].Socket1:SetPoint("TOPRIGHT", frame[i], "TOPRIGHT", 25, -18)
                         end
 
                         if (enchantID and GetEnchantNameByID[enchantID]) then
                             frame[i].Enchant:SetText(GetEnchantNameByID[enchantID])
                         else
-                            frame[i].Enchant:SetText("")
+                            if (NoEnchantText(itemLink, i)) then
+                                frame[i].Enchant:SetTextColor(1, 0, 0, 1)
+                                frame[i].Enchant:SetText("No Enchant")
+                            else
+                                frame[i].Enchant:SetText("")
+                            end
                         end
 
                         if (socket1) then
                             frame[i].Socket1:SetText(SocketTexture(socket1))
                         else
-                            frame[i].Socket1:SetText("")
+                            if (emptySockets > 0) then
+                                frame[i].Socket1:SetText("\124T458977:0\124t")
+                            else
+                                frame[i].Socket1:SetText("")
+                            end
                         end
                         if (socket2) then
                             frame[i].Socket2:SetText(SocketTexture(socket2))
                         else
-                            frame[i].Socket2:SetText("")
+                            if (emptySockets > 1) then
+                                frame[i].Socket2:SetText("\124T458977:0\124t")
+                            else
+                                frame[i].Socket2:SetText("")
+                            end
                         end
                         if (socket3) then
                             frame[i].Socket3:SetText(SocketTexture(socket3))
                         else
-                            frame[i].Socket3:SetText("")
+                            if (emptySockets > 2) then
+                                frame[i].Socket3:SetText("\124T458977:0\124t")
+                            else
+                                frame[i].Socket3:SetText("")
+                            end
                         end
 
                         local itemiLvlText = "";
@@ -289,7 +308,7 @@ function Module:OnEnable()
                     if itemLink then
                         local _, _, quality, itemlevel, _, _, _, _, _, _, _, itemClassID = GetItemInfo(itemLink)
 
-                        if (itemlevel > 100) then
+                        if (itemlevel and itemlevel > 100) then
                             local itemiLvlText = ""
                             if (quality) then
                                 local hex = select(4, GetItemQualityColor(quality))

@@ -101,7 +101,7 @@ function Module:OnEnable()
                     _G[frameName].Enchant:SetTextColor(0, 1, 0, 1)
                     _G[frameName].Enchant:SetJustifyH("LEFT")
                     _G[frameName].Enchant:SetJustifyV("TOP")
-                    _G[frameName].Enchant:SetFont([[Fonts\FRIZQT__.TTF]], 11, 'OUTLINE')
+                    _G[frameName].Enchant:SetFont(FONT, 11, 'OUTLINE')
                 end
 
                 -- Socket Frames
@@ -110,9 +110,9 @@ function Module:OnEnable()
                     _G[frameName].Socket2 = InspectPaperDollItemsFrame:CreateFontString(frameName.."Socket2", "OVERLAY")
                     _G[frameName].Socket3 = InspectPaperDollItemsFrame:CreateFontString(frameName.."Socket3", "OVERLAY")
 
-                    _G[frameName].Socket1:SetFont([[Fonts\FRIZQT__.TTF]], 13, 'OUTLINE')
-                    _G[frameName].Socket2:SetFont([[Fonts\FRIZQT__.TTF]], 13, 'OUTLINE')
-                    _G[frameName].Socket3:SetFont([[Fonts\FRIZQT__.TTF]], 13, 'OUTLINE')
+                    _G[frameName].Socket1:SetFont(FONT, 13, 'OUTLINE')
+                    _G[frameName].Socket2:SetFont(FONT, 13, 'OUTLINE')
+                    _G[frameName].Socket3:SetFont(FONT, 13, 'OUTLINE')
                 end
 
                 if frameName and ItemLinks[slotName] then
@@ -121,6 +121,7 @@ function Module:OnEnable()
                     local socket1 = ParseItemLink(ItemLinks[slotName]).socket1
                     local socket2 = ParseItemLink(ItemLinks[slotName]).socket2
                     local socket3 = ParseItemLink(ItemLinks[slotName]).socket3
+                    local emptySockets = EmptySockets(ItemLinks[slotName])
 
                     -- Set Enchant-Text & Socket positions
                     if (itemsLeft[SlotIDs[slotName]]) then
@@ -137,31 +138,44 @@ function Module:OnEnable()
                         _G[frameName].Enchant:SetPoint("BOTTOMRIGHT", _G[frameName], "BOTTOMRIGHT", -40, 0)
                     elseif (SlotIDs[slotName] == 17) then
                         _G[frameName].Enchant:SetPoint("BOTTOMRIGHT", _G[frameName], "BOTTOMRIGHT", 0, -12.5)
+                        _G[frameName].Socket1:SetPoint("TOP", _G[frameName], "TOP", 0, 20)
                     elseif (SlotIDs[slotName] == 18) then
-                        _G[frameName].Enchant:SetPoint("BOTTOMRIGHT", _G[frameName], "BOTTOMRIGHT", 5, -12.5)
-                        _G[frameName].Socket1:SetPoint("TOPRIGHT", _G[frameName], "TOPRIGHT", 25, -12)
+                        _G[frameName].Enchant:SetPoint("BOTTOMRIGHT", _G[frameName], "BOTTOMRIGHT", 55, -12.5)
+                        _G[frameName].Socket1:SetPoint("TOPRIGHT", _G[frameName], "TOPRIGHT", 20, -18)
                     end
 
                     if (enchantID and GetEnchantNameByID[enchantID]) then
                         _G[frameName].Enchant:SetText(GetEnchantNameByID[enchantID])
                     else
-                        _G[frameName].Enchant:SetText("")
+                        _G[frameName].Enchant:SetText("X-Ray Scope")
                     end
 
                     if (socket1) then
                         _G[frameName].Socket1:SetText(SocketTexture(socket1))
                     else
-                        _G[frameName].Socket1:SetText("")
+                        if (emptySockets > 0) then
+                            _G[frameName].Socket1:SetText("\124T458977:0\124t")
+                        else
+                            _G[frameName].Socket1:SetText("")
+                        end
                     end
                     if (socket2) then
                         _G[frameName].Socket2:SetText(SocketTexture(socket2))
                     else
-                        _G[frameName].Socket2:SetText("")
+                        if (emptySockets > 1) then
+                            _G[frameName].Socket2:SetText("\124T458977:0\124t")
+                        else
+                            _G[frameName].Socket2:SetText("")
+                        end
                     end
                     if (socket3) then
                         _G[frameName].Socket3:SetText(SocketTexture(socket3))
                     else
-                        _G[frameName].Socket3:SetText("")
+                        if (emptySockets > 2) then
+                            _G[frameName].Socket3:SetText("\124T458977:0\124t")
+                        else
+                            _G[frameName].Socket3:SetText("")
+                        end
                     end
 
                     local _, _, quality, _, _, _, _, _, _, _ = C_Item.GetItemInfo(ItemLinks[slotName])
@@ -175,6 +189,10 @@ function Module:OnEnable()
                 else
                     if (frameName) then
                         InspectFontStrings[frameName]:SetText("")
+                        _G[frameName].Enchant:SetText("")
+                        _G[frameName].Socket1:SetText("")
+                        _G[frameName].Socket2:SetText("")
+                        _G[frameName].Socket3:SetText("")
                     end
                 end
             end
