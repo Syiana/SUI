@@ -147,7 +147,12 @@ function Module:OnEnable()
                     if (enchantID and GetEnchantNameByID[enchantID]) then
                         _G[frameName].Enchant:SetText(GetEnchantNameByID[enchantID])
                     else
-                        _G[frameName].Enchant:SetText("X-Ray Scope")
+                        if (NoEnchantText(ItemLinks[slotName], SlotIDs[slotName])) then
+                            _G[frameName].Enchant:SetTextColor(1, 0, 0, 1)
+                            _G[frameName].Enchant:SetText("No Enchant")
+                        else
+                            _G[frameName].Enchant:SetText("")
+                        end
                     end
 
                     if (socket1) then

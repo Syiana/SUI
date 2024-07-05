@@ -554,12 +554,12 @@ function SUI:OnInitialize()
         return tonumber(i)
     end
 
-    function NoEnchantText(itemLink, slotID)
+    function NoEnchantText(itemLink, slotID, isPlayer)
         local _, _, _, _, _, _, itemType = GetItemInfo(itemLink)
         local prof1, prof2 = GetProfessions()
         if (itemSlots[slotID]) then
             if (slotID == 11 or slotID == 12) then
-                if (prof1 and prof1 == 6 or prof2 and prof2 == 6) then
+                if (isPlayer and (prof1 and prof1 == 6 or prof2 and prof2 == 6)) then
                     local _, _, skill  = GetProfessionInfo(6)
 
                     if (skill >= 475) then

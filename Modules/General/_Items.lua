@@ -119,7 +119,7 @@ function Module:OnEnable()
                         if (enchantID and GetEnchantNameByID[enchantID]) then
                             frame[i].Enchant:SetText(GetEnchantNameByID[enchantID])
                         else
-                            if (NoEnchantText(itemLink, i)) then
+                            if (NoEnchantText(itemLink, i, true)) then
                                 frame[i].Enchant:SetTextColor(1, 0, 0, 1)
                                 frame[i].Enchant:SetText("No Enchant")
                             else
