@@ -117,10 +117,13 @@ function Module:OnEnable()
                         end
 
                         -- Set Enchant Text
-                        if (enchantID and GetEnchantNameByID[enchantID]) then
-                            frame[i].Enchant:SetText(GetEnchantNameByID[enchantID])
+                        if (enchantID) then
+                            if (GetEnchantNameByID[enchantID]) then
+                                frame[i].Enchant:SetTextColor(0, 1, 0, 1)
+                                frame[i].Enchant:SetText(GetEnchantNameByID[enchantID])
+                            end
                         else
-                            if (NoEnchantText(itemLink, i, true)) then
+                            if (NoEnchantText(itemLink, i, true, "player")) then
                                 frame[i].Enchant:SetTextColor(1, 0, 0, 1)
                                 frame[i].Enchant:SetText("No Enchant")
                             else

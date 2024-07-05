@@ -343,7 +343,33 @@ function SUI:OnInitialize()
         [4098] = "Windwalk",
         [4175] = "Gnomish X-Scope",
         [4217] = "Pyrium Weapon",
-        
+        [3827] = "110 AP",
+        [3830] = "50 Spellpower",
+        [3368] = "Fallen Crusader",
+        [3369] = "Cinderglacier",
+        [3370] = "Razorice",
+        [3595] = "Spellbreaking",
+        [3367] = "Spellshattering",
+        [3366] = "Lichbane",
+        [3594] = "Swordbreaking",
+        [3365] = "Swordshattering",
+        [3847] = "Stoneskin Gargoyle",
+        [3789] = "Berserking",
+        [3869] = "Blade Ward",
+        [3870] = "Blood Draining",
+        [3834] = "63 Spellpower",
+        [3790] = "Black Magic",
+        [3854] = "81 Spellpower",
+        [3788] = "Accuracy",
+        [3239] = "Icebreaker",
+        [3241] = "Lifeward",
+        [1103] = "26 Agi",
+        [3833] = "65 AP",
+        [3844] = "45 Spirit",
+        [3251] = "Giantslaying",
+        [3247] = "Scourgebane",
+        [3828] = "85 AP",
+
         -- Feet
         [4105] = "Agi & Speed",
         [4062] = "Stam & Speed",
@@ -352,6 +378,9 @@ function SUI:OnInitialize()
         [4076] = "35 Agi",
         [4094] = "50 Mastery",
         [4092] = "50 Hit",
+        [3232] = "Stam & Speed",
+        [1597] = "32 AP",
+        [983] = "16 Agi",
 
         -- Bracer
         [4071] = "50 Crit",
@@ -362,6 +391,21 @@ function SUI:OnInitialize()
         [4108] = "65 Haste",
         [4089] = "50 Hit",
         [4065] = "50 Haste",
+        [4258] = "50 Agi",
+        [4257] = "50 Int",
+        [4256] = "50 Str",
+        [4107] = "65 Mastery",
+        [4189] = "195 Stam",
+        [3850] = "40 Stam",
+        [3845] = "50 AP",
+        [2332] = "30 Spellpower",
+        [3851] = "Titanguard",
+        [3231] = "15 Ept",
+        [1147] = "18 Spirit",
+        [2661] = "6 Stats",
+        [4190] = "130 Agi",
+        [4191] = "130 Str",
+        [4192] = "130 Int",
 
         -- Chest
         [4088] = "40 Spirit",
@@ -370,6 +414,9 @@ function SUI:OnInitialize()
         [4063] = "15 Stats",
         [4102] = "20 Stats",
         [4070] = "55 Stam",
+        [3832] = "+10 Stats",
+        [3245] = "20 Resi",
+        [1953] = "22 Def",
 
         -- Cloak
         [4100] = "65 Crit",
@@ -381,14 +428,30 @@ function SUI:OnInitialize()
         [4116] = "Spirit Procc",
         [4115] = "Int Procc",
         [4118] = "AP Procc",
+        [1099] = "22 Agi",
+        [3831] = "23 Haste",
+        [3294] = "225 Armor",
+        [3230] = "20 Frost Res",
+        [1951] = "16 Def",
+        [1354] = "20 Fire Res",
+        [1262] = "20 Arcane Resi",
+        [3256] = "Stealth & 10 Agi",
+        [1446] = "20 Shadow Resi",
+        [1400] = "20 Nature Resi",
+        [3296] = "10 Spirit",
+
 
         -- Hands
         [4075] = "35 Str",
         [4082] = "50 Ept",
-        [4107] = "65 Mastery",
         [4068] = "50 Haste",
         [4061] = "50 Mastery",
         [4106] = "50 Str",
+        [3253] = "Armsman",
+        [846] = "5 Fishing",
+        [3249] = "16 Crit",
+        [3829] = "35 AP",
+        [3222] = "20 Agi",
 
         -- Off-hands
         [4091] = "40 Int",
@@ -397,7 +460,7 @@ function SUI:OnInitialize()
 
         -- Head
         [4207] = "60 Int & 35 Crit",
-        [4206] = "90 Stam & 35 Dodge",
+        [4206] = "90 Stam & 35 D+",
         [4208] = "60 Str & 35 Mastery",
         [4245] = "60 Int & 35 Resi",
         [4209] = "60 Agi & 35 Haste",
@@ -408,14 +471,18 @@ function SUI:OnInitialize()
         [4200] = "50 Int & 25 Haste",
         [4204] = "50 Agi & 25 Mastery",
         [4202] = "50 Str & 25 Crit",
-        [4198] = "75 Stam & 25 Dodge",
+        [4198] = "75 Stam & 25 D+",
         [4248] = "50 Int & 25 Resi",
         [4250] = "50 Agi & 25 Resi",
         [4249] = "50 Str & 25 Resi",
         [4199] = "30 Int & 20 Haste",
-        [4197] = "45 Stam & 20 Dodge",
+        [4197] = "45 Stam & 20 D+",
         [4201] = "30 Str & 20 Crit",
         [4205] = "30 Agi & 20 Mastery",
+        [4196] = "130 Int & 25 Haste",
+        [4193] = "130 Agi & 25 Mastery",
+        [4194] = "130 Str & 25 Crit",
+        [4195] = "195 Stam & 25 Dodge",
 
         -- Legs
         [4110] = "95 Int & 55 Spirit",
@@ -424,7 +491,7 @@ function SUI:OnInitialize()
         [4113] = "95 Int & 80 Stam",
         [4109] = "55 Int & 45 Spirit",
         [4126] = "190 AP & 55 Crit",
-        [4270] = "145 Stam & 55 Dodge",
+        [4270] = "145 Stam & 55 D+",
         [4124] = "85 Stam & 45 Agi",
         [4122] = "110 AP & 45 Crit",
         [4127] = "145 Stam & 55 Agi",
@@ -433,7 +500,17 @@ function SUI:OnInitialize()
         [4078] = "40 Str",
         [4080] = "40 Int",
         [4081] = "60 Stam",
-        [4079] = "40 Agi"
+        [4079] = "40 Agi",
+
+        -- Armor Kits
+        [4121] = "+44 Stam",
+
+        -- Engineering
+        [4179] = "Synapse",
+        [4180] = "Quickflip",
+        [4181] = "Tazik Shock",
+        [4182] = "Spinal",
+        [4183] = "Z50 Mana"
     }
 
     local itemSlots = {
@@ -546,7 +623,8 @@ function SUI:OnInitialize()
         ["EMPTY_SOCKET_BLUE"]       = 136256,
         ["EMPTY_SOCKET_RED"]        = 136258,
         ["EMPTY_SOCKET_YELLOW"]     = 136259,
-        ["EMPTY_SOCKET_PRISMATIC"]  = 458977
+        ["EMPTY_SOCKET_PRISMATIC"]  = 458977,
+        ["EMPTY_SOCKET_COGWHEEL"]   = 407324
     }
 
     function EmptySockets(itemLink)
@@ -559,10 +637,15 @@ function SUI:OnInitialize()
                 end
             end
         end
+
+        if (sockets[1] == "EMPTY_SOCKET_YELLOW" and sockets[2] == "EMPTY_SOCKET_META") then
+            sockets[1] = "EMPTY_SOCKET_META"
+            sockets[2] = "EMPTY_SOCKET_YELLOW"
+        end
         return sockets
     end
 
-    function NoEnchantText(itemLink, slotID, isPlayer)
+    function NoEnchantText(itemLink, slotID, isPlayer, unit)
         local _, _, _, _, _, _, itemType = GetItemInfo(itemLink)
         local prof1, prof2 = GetProfessions()
         if (itemSlots[slotID]) then
@@ -575,8 +658,11 @@ function SUI:OnInitialize()
                     end
                 end
             elseif (slotID == 18 ) then
-                if (itemType == "Guns" or itemType == "Guns" or itemType == "Crossbows") then
-                    return true
+                if (unit) then
+                    local _, class = UnitClass(unit)
+                    if (class == "HUNTER" and (itemType == "Guns" or itemType == "Guns" or itemType == "Crossbows")) then
+                        return true
+                    end
                 end
             else
                 return true

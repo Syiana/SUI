@@ -136,18 +136,22 @@ function Module:OnEnable()
                         _G[frameName].Socket3:SetPoint("LEFT", _G[frameName].Socket2, "LEFT", -14, 0)
                     elseif (SlotIDs[slotName] == 16) then
                         _G[frameName].Enchant:SetPoint("BOTTOMRIGHT", _G[frameName], "BOTTOMRIGHT", -40, 0)
+                        _G[frameName].Socket1:SetPoint("TOP", _G[frameName], "TOP", 0, 35)
                     elseif (SlotIDs[slotName] == 17) then
                         _G[frameName].Enchant:SetPoint("TOP", _G[frameName], "TOP", 0, 20)
                         _G[frameName].Socket1:SetPoint("TOP", _G[frameName], "TOP", 0, 35)
                     elseif (SlotIDs[slotName] == 18) then
-                        _G[frameName].Enchant:SetPoint("BOTTOMRIGHT", _G[frameName], "BOTTOMRIGHT", 55, -12.5)
-                        _G[frameName].Socket1:SetPoint("TOPRIGHT", _G[frameName], "TOPRIGHT", 20, -18)
+                        _G[frameName].Enchant:SetPoint("BOTTOMRIGHT", _G[frameName], "BOTTOMRIGHT", 105, 0)
+                        _G[frameName].Socket1:SetPoint("TOPRIGHT", _G[frameName], "TOPRIGHT", 20, -10)
                     end
 
-                    if (enchantID and GetEnchantNameByID[enchantID]) then
-                        _G[frameName].Enchant:SetText(GetEnchantNameByID[enchantID])
+                    if (enchantID) then
+                        if (GetEnchantNameByID[enchantID]) then
+                            _G[frameName].Enchant:SetTextColor(0, 1, 0, 1)
+                            _G[frameName].Enchant:SetText(GetEnchantNameByID[enchantID])
+                        end
                     else
-                        if (NoEnchantText(ItemLinks[slotName], SlotIDs[slotName])) then
+                        if (NoEnchantText(ItemLinks[slotName], SlotIDs[slotName], false, InspectFrame.unit)) then
                             _G[frameName].Enchant:SetTextColor(1, 0, 0, 1)
                             _G[frameName].Enchant:SetText("No Enchant")
                         else
