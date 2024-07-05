@@ -322,15 +322,117 @@ function SUI:OnInitialize()
 
     -- Item Informations
     local simpleTypes = {
-        enchantID        = 2,
-        gem1             = 3,
-        gem2             = 4,
-        gem3             = 5,
-        gem4             = 6
+        enchantID  = 2,
+        socket1    = 3,
+        socket2    = 4,
+        socket3    = 5,
+        socket4    = 6
     }
 
     GetEnchantNameByID = {
+        -- Weapon
+        [4227] = "130 Agi",
+        [4067] = "Avalanche",
+        [4074] = "Ele Slayer",
+        [4084] = "Heartsong",
+        [4083] = "Hurricane",
+        [4099] = "Landslide",
+        [4066] = "Mending",
+        [4097] = "Power Torrent",
+        [4098] = "Windwalk",
+        [4175] = "X-Scope",
+        [4217] = "PWC",
+        
+        -- Feet
+        [4105] = "Agi & Speed",
+        [4062] = "Stam & Speed",
+        [4069] = "50 Haste",
+        [4104] = "Mastery & Speed",
+        [4076] = "35 Agi",
+        [4094] = "50 Mastery",
+        [4092] = "50 Hit",
 
+        -- Bracer
+        [4071] = "50 Crit",
+        [4086] = "50 Dodge",
+        [4093] = "50 Spirit",
+        [4101] = "65 Crit",
+        [4095] = "50 Ept",
+        [4108] = "65 Haste",
+        [4089] = "50 Hit",
+        [4065] = "50 Haste",
+
+        -- Chest
+        [4088] = "40 Spirit",
+        [4103] = "75 Stam",
+        [4077] = "40 Resi",
+        [4063] = "15 Stats",
+        [4102] = "20 Stats",
+        [4070] = "55 Stam",
+
+        -- Cloak
+        [4100] = "65 Crit",
+        [4087] = "50 Crit",
+        [4096] = "50 Int",
+        [4064] = "70 SP",
+        [4072] = "30 Int",
+        [4090] = "250 Armor",
+        [4116] = "Spirit Procc",
+        [4115] = "Int Procc",
+        [4118] = "AP Procc",
+
+        -- Hands
+        [4075] = "35 Str",
+        [4082] = "50 Ept",
+        [4107] = "65 Mastery",
+        [4068] = "50 Haste",
+        [4061] = "50 Mastery",
+        [4106] = "50 Str",
+
+        -- Off-hands
+        [4091] = "40 Int",
+        [4085] = "50 Mastery",
+        [4073] = "160 Armor",
+
+        -- Head
+        [4207] = "60 Int & 35 Crit",
+        [4206] = "90 Stam & 35 Dodge",
+        [4208] = "60 Str & 35 Mastery",
+        [4245] = "60 Int & 35 Resi",
+        [4209] = "60 Agi & 35 Haste",
+        [4246] = "60 Agi & 35 Resi",
+        [4247] = "60 Str & 35 Resi",
+
+        -- Shoulders
+        [4200] = "50 Int & 25 Haste",
+        [4204] = "50 Agi & 25 Mastery",
+        [4202] = "50 Str & 25 Crit",
+        [4198] = "75 Stam & 25 Dodge",
+        [4248] = "50 Int & 25 Resi",
+        [4250] = "50 Agi & 25 Resi",
+        [4249] = "50 Str & 25 Resi",
+        [4199] = "30 Int & 20 Haste",
+        [4197] = "45 Stam & 20 Dodge",
+        [4201] = "30 Str & 20 Crit",
+        [4205] = "30 Agi & 20 Mastery",
+
+        -- Legs
+        [4110] = "95 Int & 55 Spirit",
+        [4114] = "95 Int & 55 Spirit",
+        [4112] = "95 Int & 80 Stam",
+        [4113] = "95 Int & 80 Stam",
+        [4109] = "55 Int & 45 Spirit",
+        [4126] = "190 AP & 55 Crit",
+        [4270] = "145 Stam & 55 Dodge",
+        [4124] = "85 Stam & 45 Agi",
+        [4122] = "110 AP & 45 Crit",
+        [4127] = "145 Stam & 55 Agi",
+
+        -- Ring
+        [4078] = "40 Str",
+        [4080] = "40 Int",
+        [4081] = "60 Stam",
+        [4079] = "40 Agi"
     }
 
     function ParseItemLink(link)
@@ -396,6 +498,23 @@ function SUI:OnInitialize()
         t.extraEnchantID = tonumber(item[idx])
 
         return t
+    end
+
+    SocketTextureCache = {}
+
+    function SocketTexture(id)
+        if not tonumber(id) then
+            return "\124TInterface\\Icons\\Inv_misc_questionmark:0\124t"
+        elseif SocketTextureCache[id] then
+            return SocketTextureCache[id]
+        else
+            local name, _, _, _, _, _, _, _, _, iconTexture = GetItemInfo(id)
+            if iconTexture then
+                iconTexture = "\124T"..iconTexture..":0\124t"
+                SocketTextureCache[id] = iconTexture
+                return iconTexture
+            end
+        end
     end
 
     -- SUI Version check
