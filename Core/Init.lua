@@ -541,17 +541,25 @@ function SUI:OnInitialize()
         end
     end
 
+    EmptySocketTextures = {
+        ["EMPTY_SOCKET_META"]       = 136257,
+        ["EMPTY_SOCKET_BLUE"]       = 136256,
+        ["EMPTY_SOCKET_RED"]        = 136258,
+        ["EMPTY_SOCKET_YELLOW"]     = 136259,
+        ["EMPTY_SOCKET_PRISMATIC"]  = 458977
+    }
+
     function EmptySockets(itemLink)
-        local i = 0
-        local stats = GetItemStats(itemLink);
+        local stats = GetItemStats(itemLink)
+        local sockets = {}
         if stats ~= nil then
             for key, val in pairs(stats) do
                 if (string.find(key, "EMPTY_SOCKET_")) then
-                    i = i + 1
+                    table.insert(sockets, key)
                 end
             end
         end
-        return tonumber(i)
+        return sockets
     end
 
     function NoEnchantText(itemLink, slotID, isPlayer)

@@ -137,8 +137,8 @@ function Module:OnEnable()
                     elseif (SlotIDs[slotName] == 16) then
                         _G[frameName].Enchant:SetPoint("BOTTOMRIGHT", _G[frameName], "BOTTOMRIGHT", -40, 0)
                     elseif (SlotIDs[slotName] == 17) then
-                        _G[frameName].Enchant:SetPoint("BOTTOMRIGHT", _G[frameName], "BOTTOMRIGHT", 0, -12.5)
-                        _G[frameName].Socket1:SetPoint("TOP", _G[frameName], "TOP", 0, 20)
+                        _G[frameName].Enchant:SetPoint("TOP", _G[frameName], "TOP", 0, 20)
+                        _G[frameName].Socket1:SetPoint("TOP", _G[frameName], "TOP", 0, 35)
                     elseif (SlotIDs[slotName] == 18) then
                         _G[frameName].Enchant:SetPoint("BOTTOMRIGHT", _G[frameName], "BOTTOMRIGHT", 55, -12.5)
                         _G[frameName].Socket1:SetPoint("TOPRIGHT", _G[frameName], "TOPRIGHT", 20, -18)
@@ -158,8 +158,13 @@ function Module:OnEnable()
                     if (socket1) then
                         _G[frameName].Socket1:SetText(SocketTexture(socket1))
                     else
-                        if (emptySockets > 0) then
-                            _G[frameName].Socket1:SetText("\124T458977:0\124t")
+                        if (emptySockets[1]) then
+                            local texture = EmptySocketTextures[emptySockets[1]]
+                            if (texture) then
+                                _G[frameName].Socket1:SetText("\124T"..texture..":0\124t")
+                            else
+                                _G[frameName].Socket1:SetText("\124T458977:0\124t")
+                            end
                         else
                             _G[frameName].Socket1:SetText("")
                         end
@@ -167,8 +172,13 @@ function Module:OnEnable()
                     if (socket2) then
                         _G[frameName].Socket2:SetText(SocketTexture(socket2))
                     else
-                        if (emptySockets > 1) then
-                            _G[frameName].Socket2:SetText("\124T458977:0\124t")
+                        if (emptySockets[2]) then
+                            local texture = EmptySocketTextures[emptySockets[2]]
+                            if (texture) then
+                                _G[frameName].Socket2:SetText("\124T"..texture..":0\124t")
+                            else
+                                _G[frameName].Socket2:SetText("\124T458977:0\124t")
+                            end
                         else
                             _G[frameName].Socket2:SetText("")
                         end
@@ -176,8 +186,13 @@ function Module:OnEnable()
                     if (socket3) then
                         _G[frameName].Socket3:SetText(SocketTexture(socket3))
                     else
-                        if (emptySockets > 2) then
-                            _G[frameName].Socket3:SetText("\124T458977:0\124t")
+                        if (emptySockets[3]) then
+                            local texture = EmptySocketTextures[emptySockets[3]]
+                            if (texture) then
+                                _G[frameName].Socket3:SetText("\124T"..texture..":0\124t")
+                            else
+                                _G[frameName].Socket3:SetText("\124T458977:0\124t")
+                            end
                         else
                             _G[frameName].Socket3:SetText("")
                         end

@@ -109,13 +109,14 @@ function Module:OnEnable()
                         elseif (i == 16) then
                             frame[i].Enchant:SetPoint("BOTTOMRIGHT", frame[i], "BOTTOMRIGHT", -40, -25)
                         elseif (i == 17) then
-                            frame[i].Enchant:SetPoint("BOTTOMRIGHT", frame[i], "BOTTOMRIGHT", 2.5, -35)
-                            frame[i].Socket1:SetPoint("TOP", frame[i], "TOP", 0, 20)
+                            frame[i].Enchant:SetPoint("TOP", frame[i], "TOP", 0, 20)
+                            frame[i].Socket1:SetPoint("TOP", frame[i], "TOP", 0, 35)
                         elseif (i == 18) then
                             frame[i].Enchant:SetPoint("BOTTOMRIGHT", frame[i], "BOTTOMRIGHT", 55, -35)
-                            frame[i].Socket1:SetPoint("TOPRIGHT", frame[i], "TOPRIGHT", 25, -18)
+                            frame[i].Socket1:SetPoint("TOPRIGHT", frame[i], "TOPRIGHT", 25, -22)
                         end
 
+                        -- Set Enchant Text
                         if (enchantID and GetEnchantNameByID[enchantID]) then
                             frame[i].Enchant:SetText(GetEnchantNameByID[enchantID])
                         else
@@ -127,29 +128,47 @@ function Module:OnEnable()
                             end
                         end
 
+                        -- Set Socket Textures
                         if (socket1) then
                             frame[i].Socket1:SetText(SocketTexture(socket1))
                         else
-                            if (emptySockets > 0) then
-                                frame[i].Socket1:SetText("\124T458977:0\124t")
+                            if (emptySockets[1]) then
+                                local texture = EmptySocketTextures[emptySockets[1]]
+                                if (texture) then
+                                    frame[i].Socket1:SetText("\124T"..texture..":0\124t")
+                                else
+                                    frame[i].Socket1:SetText("\124T458977:0\124t")
+                                end
                             else
                                 frame[i].Socket1:SetText("")
                             end
                         end
+
                         if (socket2) then
                             frame[i].Socket2:SetText(SocketTexture(socket2))
                         else
-                            if (emptySockets > 1) then
-                                frame[i].Socket2:SetText("\124T458977:0\124t")
+                            if (emptySockets[2]) then
+                                local texture = EmptySocketTextures[emptySockets[2]]
+                                if (texture) then
+                                    frame[i].Socket2:SetText("\124T"..texture..":0\124t")
+                                else
+                                    frame[i].Socket2:SetText("\124T458977:0\124t")
+                                end
                             else
                                 frame[i].Socket2:SetText("")
                             end
                         end
+
                         if (socket3) then
                             frame[i].Socket3:SetText(SocketTexture(socket3))
                         else
-                            if (emptySockets > 2) then
-                                frame[i].Socket3:SetText("\124T458977:0\124t")
+                            if (emptySockets[3]) then
+                                local texture = EmptySocketTextures[emptySockets[3]]
+                                if (texture) then
+                                    frame[i].Socket3:SetText("\124T"..texture..":0\124t")
+                                else
+                                    frame[i].Socket3:SetText("\124T458977:0\124t")
+                                end
                             else
                                 frame[i].Socket3:SetText("")
                             end
