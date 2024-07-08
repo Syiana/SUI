@@ -3,26 +3,22 @@ local Module = SUI:NewModule("UnitFrames.Player");
 function Module:OnEnable()
     local db = {
         style = SUI.db.profile.unitframes.style,
-        pvpbade = SUI.db.profile.unitframes.pvpbade,
+        pvpbadge = SUI.db.profile.unitframes.pvpbadge,
         texture = SUI.db.profile.general.texture,
         size = SUI.db.profile.unitframes.size,
         module = SUI.db.profile.modules.unitframes
     }
 
     if (db.module) then
+        -- Set Frame Scale
+        PlayerFrame:SetScale(db.size)
+
         local function SUIPlayerFrame(self)
             if (db.texture ~= 'Default') then
                 self.healthbar:SetStatusBarTexture(db.texture);
-                --self.healthbar.AnimatedLossBar:SetStatusBarTexture(db.texture);
                 PlayerFrameHealthBar.MyHealPredictionBar.Fill:SetTexture(db.texture)
                 PlayerFrameHealthBar.MyHealPredictionBar.Fill:SetDrawLayer("BORDER")
-
-                --PlayerFrameHealthBar.MyHealPredictionBar.FillMask:SetTexture(db.texture)
-                --PlayerFrameHealthBar.MyHealPredictionBar.FillMask:GetTexture()
                 PlayerFrameAlternateManaBar:SetStatusBarTexture(db.texture)
-                -- PlayerFrameManaBar.FeedbackFrame.BarTexture:SetTexture(db.texture);
-                -- PlayerFrameManaBar.FeedbackFrame.LossGlowTexture:SetTexture(db.texture);
-                -- PlayerFrameManaBar.FeedbackFrame.GainGlowTexture:SetTexture(db.texture);
             end
 
             if (db.style == "Big") then
@@ -43,33 +39,19 @@ function Module:OnEnable()
                 self.manabar.RightText:ClearAllPoints();
                 self.manabar.RightText:SetPoint("RIGHT", self.manabar, "RIGHT", -5, 0);
                 self.manabar.TextString:SetPoint("CENTER", self.manabar, "CENTER", 0, 0);
-                -- self.manabar.FullPowerFrame.SpikeFrame.AlertSpikeStay:ClearAllPoints();
-                -- self.manabar.FullPowerFrame.SpikeFrame.AlertSpikeStay:SetPoint("CENTER", self.manabar.FullPowerFrame, "RIGHT", -6, -3);
-                -- self.manabar.FullPowerFrame.SpikeFrame.AlertSpikeStay:SetSize(30,29);
-                -- self.manabar.FullPowerFrame.PulseFrame:ClearAllPoints();
-                -- self.manabar.FullPowerFrame.PulseFrame:SetPoint("CENTER", self.manabar.FullPowerFrame,"CENTER",-6,-2);
-                -- self.manabar.FullPowerFrame.SpikeFrame.BigSpikeGlow:ClearAllPoints();
-                -- self.manabar.FullPowerFrame.SpikeFrame.BigSpikeGlow:SetPoint("CENTER",self.manabar.FullPowerFrame,"RIGHT",5,-4);
-                -- self.manabar.FullPowerFrame.SpikeFrame.BigSpikeGlow:SetSize(30,50);
                 PlayerFrameGroupIndicatorText:ClearAllPoints();
                 PlayerFrameGroupIndicatorText:SetPoint("BOTTOMLEFT", PlayerFrame, "TOP", 0, -20);
                 PlayerFrameGroupIndicatorLeft:Hide();
                 PlayerFrameGroupIndicatorMiddle:Hide();
                 PlayerFrameGroupIndicatorRight:Hide();
             end
-
-            if not (db.pvpbadge) then
-                hooksecurefunc("PlayerFrame_UpdatePvPStatus", function()
-                    PlayerPVPIcon:Hide()
-                end)
-            end
         end
 
-        local Size = CreateFrame("Frame")
-        Size:RegisterEvent("ADDON_LOADED")
-        Size:SetScript("OnEvent", function()
-            PlayerFrame:SetScale(db.size)
-        end)
+        if not (db.pvpbadge) then
+            hooksecurefunc("PlayerFrame_UpdatePvPStatus", function()
+                PlayerPVPIcon:Hide()
+            end)
+        end
 
         hooksecurefunc("PlayerFrame_ToPlayerArt", SUIPlayerFrame)
     end

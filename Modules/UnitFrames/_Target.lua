@@ -10,6 +10,10 @@ function Module:OnEnable()
     }
 
     if (db.module) then
+        -- Set Frame Scales
+        TargetFrame:SetScale(db.size)
+        FocusFrame:SetScale(db.size)
+
         local function SUITargetFrame(self, forceNormalTexture)
             if (db.style == 'Big') then
                 local classification = UnitClassification(self.unit);
@@ -91,59 +95,43 @@ function Module:OnEnable()
 
             if (db.texture ~= 'Default') then
                 self.healthbar:SetStatusBarTexture(db.texture);
-                TargetFrameHealthBar.MyHealPredictionBar.Fill:SetTexture(db.texture)
-                TargetFrameHealthBar.MyHealPredictionBar.Fill:SetDrawLayer("BORDER")
-            end
-        end
-
-        local function SUIToTFrame()
-            --textures
-            if (db.texture ~= 'Default') then
-                TargetFrameToTHealthBar:SetStatusBarTexture(db.texture)
-                TargetFrameToTManaBar:SetStatusBarTexture(db.texture)
-                FocusFrameToTHealthBar:SetStatusBarTexture(db.texture)
-                FocusFrameToTManaBar:SetStatusBarTexture(db.texture)
-
-                FocusFrameHealthBar.MyHealPredictionBar.Fill:SetTexture(db.texture)
-                FocusFrameHealthBar.MyHealPredictionBar.Fill:SetDrawLayer("BORDER")
+                self.healthbar.MyHealPredictionBar.Fill:SetTexture(db.texture)
+                self.healthbar.MyHealPredictionBar.Fill:SetDrawLayer("BORDER")
             end
 
-            TargetFrameToTTextureFrameDeadText:ClearAllPoints();
-            TargetFrameToTTextureFrameDeadText:SetPoint("CENTER", "TargetFrameToTHealthBar", "CENTER", 1, 0);
-            TargetFrameToTTextureFrameName:SetSize(65, 10);
-            TargetFrameToTTextureFrameTexture:SetTexture([[Interface\Addons\SUI\Media\Textures\unitframes\UI-TargetofTargetFrame]]);
-            TargetFrameToTHealthBar:ClearAllPoints();
-            TargetFrameToTHealthBar:SetPoint("TOPLEFT", 45, -15);
-            TargetFrameToTHealthBar:SetHeight(10);
-            TargetFrameToTManaBar:ClearAllPoints();
-            TargetFrameToTManaBar:SetPoint("TOPLEFT", 45, -25);
-            TargetFrameToTManaBar:SetHeight(5);
-            FocusFrameToTTextureFrameDeadText:ClearAllPoints();
-            FocusFrameToTTextureFrameDeadText:SetPoint("CENTER", "FocusFrameToTHealthBar", "CENTER", 1, 0);
-            FocusFrameToTTextureFrameName:SetSize(65, 10);
-            FocusFrameToTTextureFrameTexture:SetTexture([[Interface\Addons\SUI\Media\Textures\unitframes\UI-TargetofTargetFrame]]);
-            FocusFrameToTHealthBar:ClearAllPoints();
-            FocusFrameToTHealthBar:SetPoint("TOPLEFT", 43, -15);
-            FocusFrameToTHealthBar:SetHeight(10);
-            FocusFrameToTManaBar:ClearAllPoints();
-            FocusFrameToTManaBar:SetPoint("TOPLEFT", 43, -25);
-            FocusFrameToTManaBar:SetHeight(5);
-        end
-
-        if not (db.pvpbadge) then
-            hooksecurefunc("TargetFrame_Update", function()
+            -- Hide PVP Bade
+            if not (db.pvpbadge) then
                 TargetFrameTextureFramePVPIcon:Hide()
                 FocusFrameTextureFramePVPIcon:Hide()
-            end)
+            end
+
+            -- Hide HealPredictionBar if target is enemy
+            if (UnitIsEnemy("player", self.unit)) then
+                self.healthbar.MyHealPredictionBar:SetAlpha(0)
+            else
+                self.healthbar.MyHealPredictionBar:SetAlpha(1)
+            end
         end
 
-        local Size = CreateFrame("Frame")
-        Size:RegisterEvent("ADDON_LOADED")
-        Size:RegisterEvent("PLAYER_ENTERING_WORLD")
-        Size:SetScript("OnEvent", function()
-            TargetFrame:SetScale(db.size)
-            FocusFrame:SetScale(db.size)
-        end)
+        local function SUIToTFrame(self)
+            -- Textures
+            if (db.texture ~= 'Default') then
+                self.healthbar:SetStatusBarTexture(db.texture)
+                self.manabar:SetStatusBarTexture(db.texture)
+            end
+
+            TargetFrameToTTextureFrameTexture:SetTexture([[Interface\Addons\SUI\Media\Textures\unitframes\UI-TargetofTargetFrame]])
+            FocusFrameToTTextureFrameTexture:SetTexture([[Interface\Addons\SUI\Media\Textures\unitframes\UI-TargetofTargetFrame]])
+            self.deadText:ClearAllPoints()
+            self.deadText:SetPoint("CENTER", "TargetFrameToTHealthBar", "CENTER", 1, 0)
+            self.name:SetSize(65, 10)
+            self.healthbar:ClearAllPoints()
+            self.healthbar:SetPoint("TOPLEFT", 45, -15)
+            self.healthbar:SetHeight(10)
+            self.manabar:ClearAllPoints()
+            self.manabar:SetPoint("TOPLEFT", 45, -25)
+            self.manabar:SetHeight(5)
+        end
 
         hooksecurefunc("TargetFrame_Update", SUITargetFrame)
         hooksecurefunc("TargetofTarget_Update", SUIToTFrame)
