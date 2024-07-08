@@ -28,7 +28,12 @@ function Module:OnEnable()
         SUI:Skin(PVPTeam1)
         SUI:Skin(PVPTeam2)
         SUI:Skin(PVPTeam3)
-        --PVPHonorFrameBGTex:SetVertexColor(.5, .5, .5)
+        SUI:Skin(WorldStateScoreFrame)
+        SUI:Skin(WorldStateScoreFrameTab1)
+        SUI:Skin(WorldStateScoreFrameTab2)
+        SUI:Skin(WorldStateScoreFrameTab3)
+
+        -- PVP Frame Texts
         PVPHonorFrameInfoScrollFrameChildFrameDescription:SetTextColor(.8, .8, .8)
         PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoDescription:SetTextColor(.8, .8, .8)
         WarGamesFrameDescription:SetTextColor(.8, .8, .8)
@@ -43,18 +48,10 @@ function Module:OnEnable()
             PVPFrameRightButton.Right,
             WarGameStartButton.Left,
             WarGameStartButton.Middle,
-            WarGameStartButton.Right
+            WarGameStartButton.Right,
+            WorldStateScoreFrameLeaveButton.Left,
+            WorldStateScoreFrameLeaveButton.Middle,
+            WorldStateScoreFrameLeaveButton.Right
         }, false, true, false, true)
-
-        local f = CreateFrame("Frame")
-        f:RegisterEvent("ADDON_LOADED")
-        f:SetScript("OnEvent", function(self, event, name)
-            if name == "Blizzard_ArenaUI" then
-                SUI:Skin(WorldStateScoreFrame)
-                SUI:Skin(WorldStateScoreFrameTab1)
-                SUI:Skin(WorldStateScoreFrameTab2)
-                SUI:Skin(WorldStateScoreFrameTab3)
-            end
-        end)
     end
 end
