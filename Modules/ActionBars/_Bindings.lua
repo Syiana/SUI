@@ -276,25 +276,6 @@ function Module:OnEnable()
 					local sb = _G["SpellButton"..i]
 					sb:HookScript("OnEnter", function(self) bind:Update(self, "SPELL") end)
 				end
-				
-				local function registermacro()
-					for i=1,120 do
-						local mb = _G["MacroButton"..i]
-						mb:HookScript("OnEnter", function(self) bind:Update(self, "MACRO") end)
-					end
-					MacroFrameTab1:HookScript("OnMouseUp", function() localmacros = 0 end)
-					MacroFrameTab2:HookScript("OnMouseUp", function() localmacros = 1 end)
-				end
-				
-				if not IsAddOnLoaded("Blizzard_MacroUI") then
-					hooksecurefunc("LoadAddOn", function(addon)
-						if addon=="Blizzard_MacroUI" then
-							registermacro()
-						end
-					end)
-				else
-					registermacro()
-				end
 				bind.loaded = 1
 			end
 			if not bind.enabled then
