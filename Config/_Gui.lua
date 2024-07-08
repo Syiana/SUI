@@ -1268,6 +1268,14 @@ function Gui:OnEnable()
                         tooltip = 'Only target players with TAB in PVP-Combat',
                         column = 3,
                         order = 2
+                    },
+                    mmr = {
+                        key = 'mmr',
+                        type = 'checkbox',
+                        label = 'Display MMR',
+                        tooltip = 'Show MMR in Arena Scoreboard',
+                        column = 3,
+                        order = 2
                     }
                 },
             },

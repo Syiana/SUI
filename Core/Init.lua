@@ -145,6 +145,7 @@ local defaults = {
             searchbags = false,
             sortbags = false,
             expbar = true,
+            mmr = true,
         },
         modules = {
             general = true,
