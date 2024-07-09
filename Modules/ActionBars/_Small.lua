@@ -146,7 +146,6 @@ function Module:OnEnable()
 				if (i == 1) then
 					button:SetPoint("LEFT", SUIStanceBar, 0, 0)
 				else
-					if (i == 6) then return end
 					button:SetPoint("LEFT", prevButton, 37.5, 0)
 				end
 			end
