@@ -23,6 +23,7 @@ function Module:OnEnable()
         SUI:Skin(OverrideActionBarExpBar)
         SUI:Skin(RetailUIArtFrame)
         SUI:Skin(PetActionBarFrame)
+        SUI:Skin(RetailUIStatusBars)
 
         -- Buttons
         SUI:Skin({
