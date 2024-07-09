@@ -117,6 +117,9 @@ function Module:OnEnable()
 					elseif (playerClass == "Death Knight") then
 						PetActionButton1:SetPoint("BOTTOMLEFT", MainMenuBar, "BOTTOMLEFT", 175, 98)
 						StanceBarFrame:SetPoint("BOTTOMLEFT", MainMenuBar, "TOPLEFT", 0, 41)
+					elseif (playerClass == "Hunter") then
+						PetActionButton1:SetPoint("BOTTOMLEFT", MainMenuBar, "BOTTOMLEFT", 10.5, 98)
+						StanceBarFrame:SetPoint("BOTTOMLEFT", MainMenuBar, "TOPLEFT", 0, 80)
 					else
 						PetActionButton1:SetPoint("BOTTOMLEFT", MainMenuBar, "BOTTOMLEFT", 10.5, 98)
 						StanceBarFrame:SetPoint("BOTTOMLEFT", MainMenuBar, "TOPLEFT", 0, 41)
@@ -126,9 +129,11 @@ function Module:OnEnable()
 						PetActionButton1:SetPoint("BOTTOMLEFT", MainMenuBar, "BOTTOMLEFT", 10.5, 52)
 						StanceBarFrame:SetPoint("BOTTOMLEFT", MainMenuBar, "TOPLEFT", 0, 32)
 					elseif (playerClass == "Death Knight") then
-						PetActionButton1:ClearAllPoints()
 						PetActionButton1:SetPoint("BOTTOMLEFT", MainMenuBar, "BOTTOMLEFT", 175, 52)
 						StanceBarFrame:SetPoint("BOTTOMLEFT", MainMenuBar, "TOPLEFT", 0, -5)
+					elseif (playerClass == "Hunter") then
+						PetActionButton1:SetPoint("BOTTOMLEFT", MainMenuBar, "BOTTOMLEFT", 10.5, 52)
+						StanceBarFrame:SetPoint("BOTTOMLEFT", MainMenuBar, "TOPLEFT", 0, 32)
 					else
 						PetActionButton1:SetPoint("BOTTOMLEFT", MainMenuBar, "BOTTOMLEFT", 10.5, 52)
 						StanceBarFrame:SetPoint("BOTTOMLEFT", MainMenuBar, "TOPLEFT", 0, -5)
@@ -141,6 +146,9 @@ function Module:OnEnable()
 						PetActionButton1:SetPoint("BOTTOMLEFT", MainMenuBar, "BOTTOMLEFT", 425, 97)
 						StanceBarFrame:SetPoint("BOTTOMLEFT", MainMenuBar, "TOPLEFT", 0, 41)
 					elseif (playerClass == "Death Knight") then
+						PetActionButton1:SetPoint("BOTTOMLEFT", MainMenuBar, "BOTTOMLEFT", 425, 97)
+						StanceBarFrame:SetPoint("BOTTOMLEFT", MainMenuBar, "TOPLEFT", 0, 41)
+					elseif (playerClass == "Hunter") then
 						PetActionButton1:SetPoint("BOTTOMLEFT", MainMenuBar, "BOTTOMLEFT", 425, 97)
 						StanceBarFrame:SetPoint("BOTTOMLEFT", MainMenuBar, "TOPLEFT", 0, 41)
 					else
@@ -369,52 +377,6 @@ function Module:OnEnable()
 		MainMenuExpBar:HookScript('OnShow', Update_StatusBars)
 		MainMenuExpBar:HookScript('OnHide', Update_StatusBars)
 		hooksecurefunc("MainMenuTrackingBar_Configure", Update_StatusBars)
-
-
-
-		--------------------==≡≡[ PET ACTION BAR ]≡≡==-----------------------------------
-
-		-- Disallow Pet Action Bar offset if player is at max level
-		local function PetActionBar_DisallowMaxLevelOffset()
-			UIPARENT_MANAGED_FRAME_POSITIONS.PETACTIONBAR_YPOS.maxLevel = 0
-		end
-
-		-- Disallow Pet Action Bar offset if the reputation watch bar is shown
-		-- NOTE: Unsafe to call in combat
-		local function PetActionBar_DisallowReputationOffset()
-			UIPARENT_MANAGED_FRAME_POSITIONS.PETACTIONBAR_YPOS.watchBar = 0
-		end
-
-		local function SetYOffset(Frame, yOffset)
-			local point, relativeTo, relativePoint, xOffset = Frame:GetPoint()
-			Frame:ClearAllPoints()
-			Frame:SetPoint(point, relativeTo, relativePoint, xOffset, yOffset)
-		end
-
-		-- Safely calls PetActionBar_DisallowReputationOffset once when leaving combat
-		local function PetActionBar_SafelyDisallowReputationOffset()
-			local f = CreateFrame("Frame")
-			f:RegisterEvent("PLAYER_REGEN_ENABLED")
-			f:SetScript("OnEvent", function(self)
-				PetActionBar_DisallowReputationOffset()
-				MultiActionBar_Update()
-				self:UnregisterAllEvents()
-			end)
-		end
-
-		PetActionBar_DisallowMaxLevelOffset()
-
-		-- Timer ensures "inCombat" boolean is accurate on load
-		-- This is crucial to prevent pet action bar becoming stuck and taint occuring
-		C_Timer.After(0, function()
-			-- See https://authors.curseforge.com/forums/world-of-warcraft/general-chat/lua-code-discussion/225680-problem-with-incombatlockdown
-			local inCombat = UnitAffectingCombat("player") or InCombatLockdown()
-			if inCombat then
-				PetActionBar_SafelyDisallowReputationOffset()
-			else
-				PetActionBar_DisallowReputationOffset()
-			end
-		end)
 
 		--------------------==≡≡[ GENERAL EVENTS ]≡≡==-----------------------------------
 
