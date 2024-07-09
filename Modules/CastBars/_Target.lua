@@ -17,26 +17,25 @@ function Module:OnEnable()
         end
 
         TargetFrameSpellBar:HookScript("OnEvent", function(self, event, unit)
-            if self.unit == "target" then
-                local _, _, _, _, _, _, _, notInterruptibleCast = UnitCastingInfo(self.unit)
-                local _, _, _, _, _, _, notInterruptibleChannel = UnitChannelInfo(self.unit)
+            if not UnitIsUnit("target", self.unit) then return end
+            local _, _, _, _, _, _, _, notInterruptibleCast = UnitCastingInfo("target")
+            local _, _, _, _, _, _, notInterruptibleChannel = UnitChannelInfo("target")
 
-                if (notInterruptibleCast) then
-                    TargetFrameSpellBar:SetStatusBarColor(.7, .7, .7)
-                elseif (notInterruptibleChannel) then
-                    TargetFrameSpellBar:SetStatusBarColor(.7, .7, .7)
+            if (notInterruptibleCast) then
+                TargetFrameSpellBar:SetStatusBarColor(.7, .7, .7)
+            elseif (notInterruptibleChannel) then
+                TargetFrameSpellBar:SetStatusBarColor(.7, .7, .7)
+            else
+                local color
+                local isChannel = UnitChannelInfo("target");
+
+                if (isChannel) then
+                    color = TargetFrameSpellBar.startChannelColor
                 else
-                    local color
-                    local isChannel = UnitChannelInfo(self.unit);
-
-                    if (isChannel) then
-                        color = TargetFrameSpellBar.startChannelColor
-                    else
-                        color = TargetFrameSpellBar.startCastColor
-                    end
-
-                    TargetFrameSpellBar:SetStatusBarColor(color.r, color.g, color.b)
+                    color = TargetFrameSpellBar.startCastColor
                 end
+
+                TargetFrameSpellBar:SetStatusBarColor(color.r, color.g, color.b)
             end
         end)
 

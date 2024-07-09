@@ -14,26 +14,25 @@ function Module:OnEnable()
         end
 
         CastingBarFrame:HookScript("OnEvent", function(self, event)
-            if self.unit == "player" then
-                local _, _, _, _, _, _, _, notInterruptibleCast = UnitCastingInfo("player")
-                local _, _, _, _, _, _, notInterruptibleChannel = UnitChannelInfo("player")
+            if not UnitIsUnit("player", self.unit) then return end
+            local _, _, _, _, _, _, _, notInterruptibleCast = UnitCastingInfo("player")
+            local _, _, _, _, _, _, notInterruptibleChannel = UnitChannelInfo("player")
 
-                if (notInterruptibleCast) then
-                    CastingBarFrame:SetStatusBarColor(.7, .7, .7)
-                elseif (notInterruptibleChannel) then
-                    CastingBarFrame:SetStatusBarColor(.7, .7, .7)
+            if (notInterruptibleCast) then
+                self:SetStatusBarColor(.7, .7, .7)
+            elseif (notInterruptibleChannel) then
+                self:SetStatusBarColor(.7, .7, .7)
+            else
+                local color
+                local isChannel = UnitChannelInfo("player");
+
+                if (isChannel) then
+                    color = self.startChannelColor
                 else
-                    local color
-                    local isChannel = UnitChannelInfo("player");
-
-                    if (isChannel) then
-                        color = CastingBarFrame.startChannelColor
-                    else
-                        color = CastingBarFrame.startCastColor
-                    end
-
-                    CastingBarFrame:SetStatusBarColor(color.r, color.g, color.b)
+                    color = self.startCastColor
                 end
+
+                self:SetStatusBarColor(color.r, color.g, color.b)
             end
         end)
 

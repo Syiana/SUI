@@ -154,7 +154,7 @@ function Module:OnEnable()
                         self:SetStatusBarColor(.7, .7, .7)
                     else
                         local color
-                        local isChannel = UnitChannelInfo("player");
+                        local isChannel = UnitChannelInfo(self.unit);
 
                         if (isChannel) then
                             color = self.startChannelColor

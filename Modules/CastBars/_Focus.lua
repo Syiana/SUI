@@ -20,26 +20,25 @@ function Module:OnEnable()
         end
 
         FocusFrameSpellBar:HookScript("OnEvent", function(self, event)
-            if self.unit == "focus" then
-                local _, _, _, _, _, _, _, notInterruptibleCast = UnitCastingInfo(self.unit)
-                local _, _, _, _, _, _, notInterruptibleChannel = UnitChannelInfo(self.unit)
-        
-                if (notInterruptibleCast) then
-                    FocusFrameSpellBar:SetStatusBarColor(.7, .7, .7)
-                elseif (notInterruptibleChannel) then
-                    FocusFrameSpellBar:SetStatusBarColor(.7, .7, .7)
+            if not UnitIsUnit("focus", self.unit) then return end
+            local _, _, _, _, _, _, _, notInterruptibleCast = UnitCastingInfo("focus")
+            local _, _, _, _, _, _, notInterruptibleChannel = UnitChannelInfo("focus")
+    
+            if (notInterruptibleCast) then
+                FocusFrameSpellBar:SetStatusBarColor(.7, .7, .7)
+            elseif (notInterruptibleChannel) then
+                FocusFrameSpellBar:SetStatusBarColor(.7, .7, .7)
+            else
+                local color
+                local isChannel = UnitChannelInfo("focus")
+    
+                if (isChannel) then
+                    color = FocusFrameSpellBar.startChannelColor
                 else
-                    local color
-                    local isChannel = UnitChannelInfo(self.unit);
-        
-                    if (isChannel) then
-                        color = FocusFrameSpellBar.startChannelColor
-                    else
-                        color = FocusFrameSpellBar.startCastColor
-                    end
-        
-                    FocusFrameSpellBar:SetStatusBarColor(color.r, color.g, color.b)
+                    color = FocusFrameSpellBar.startCastColor
                 end
+    
+                FocusFrameSpellBar:SetStatusBarColor(color.r, color.g, color.b)
             end
         end)
     
