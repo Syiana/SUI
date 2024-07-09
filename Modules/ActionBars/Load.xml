@@ -4,7 +4,6 @@
 	<Script file = "_Bindings.lua" />
 	<Script file = "_Buttons.lua"/>
 	<Script file = "_DefaultNoBg.lua" />
-	<Script file = "_DefaultPetActionBarFix.lua" />
 	<Script file = "_Flash.lua"/>
 	<Script file = "_Gryphones.lua"/>
 	<Script file = "_Menu.lua" />
