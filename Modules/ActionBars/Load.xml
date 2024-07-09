@@ -1,13 +1,14 @@
 <Ui xmlns='http://www.blizzard.com/wow/ui/'>
-	<Script file = "_Buttons.lua"/>
-	<Script file = "_Gryphones.lua"/>
-	<Script file = "_Range.lua"/>
-	<Script file = "_Flash.lua"/>
-  	<Script file = "_Small.lua"/>
-	<Script file = "_DefaultNoBg.lua" />
-	<Script file = "_Mouseover.lua" />
-	<Script file = "_Bindings.lua" />
 	<Script file = "_BFA.lua" />
 	<Script file = "_BFATransparent.lua" />
+	<Script file = "_Bindings.lua" />
+	<Script file = "_Buttons.lua"/>
+	<Script file = "_DefaultNoBg.lua" />
+	<Script file = "_DefaultPetActionBarFix.lua" />
+	<Script file = "_Flash.lua"/>
+	<Script file = "_Gryphones.lua"/>
 	<Script file = "_Menu.lua" />
+	<Script file = "_Mouseover.lua" />
+	<Script file = "_Range.lua"/>
+  	<Script file = "_Small.lua"/>
 </Ui>

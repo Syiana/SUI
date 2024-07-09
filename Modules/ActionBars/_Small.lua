@@ -58,12 +58,12 @@ function Module:OnEnable()
 		SUIMultiBarBottomRight:SetPoint("TOP", SUIMultiBarBottomLeft, "TOP", 0, 0)
 
 		SUIStanceBar = CreateFrame("Frame", "SUIStanceBar", UIParent)
-		SUIStanceBar:SetSize(18 * NUM_STANCE_SLOTS, size)
+		SUIStanceBar:SetSize(36 * GetNumShapeshiftForms(), size-10)
 		SUIStanceBar:SetPoint("TOP", SUIMultiBarBottomRight, "TOP", -45, 150)
 		SUIStanceBar:SetMovable(true)
 
 		SUIPetActionBar = CreateFrame("Frame", "SUIPetActionBar", UIParent)
-		SUIPetActionBar:SetSize(14 * 10, size)
+		SUIPetActionBar:SetSize(PetActionBarFrame:GetWidth()-140, size-10)
 		SUIPetActionBar:SetPoint("TOP", SUIMultiBarBottomRight, "TOP", -45, 150)
 		SUIPetActionBar:SetMovable(true)
 
@@ -85,10 +85,10 @@ function Module:OnEnable()
 			MultiCastActionBarFrame.SetPoint = function() end
 		end)
 
-		hooksecurefunc("StanceBar_Update", function()
-			StanceBarLeft:Hide()
-			StanceBarMiddle:Hide()
-			StanceBarRight:Hide()
+		C_Timer.After(0.1, function()
+			StanceBarLeft:SetAlpha(0)
+			StanceBarMiddle:SetAlpha(0)
+			StanceBarRight:SetAlpha(0)
 		end)
 
 		local function updatePositions()
@@ -136,7 +136,7 @@ function Module:OnEnable()
 				end
 			end
 
-			for i = 1, NUM_STANCE_SLOTS do
+			for i = 1, GetNumShapeshiftForms() do
 				local button = _G["StanceButton"..i]
 				local prevButton = _G["StanceButton"..i-1]
 
@@ -146,6 +146,7 @@ function Module:OnEnable()
 				if (i == 1) then
 					button:SetPoint("LEFT", SUIStanceBar, 0, 0)
 				else
+					if (i == 6) then return end
 					button:SetPoint("LEFT", prevButton, 37.5, 0)
 				end
 			end
