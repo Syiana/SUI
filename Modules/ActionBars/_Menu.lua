@@ -70,13 +70,23 @@ function Module:OnEnable()
         -- MicroMenu Position
         MoveMicroButtons("BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", -275, 0)
 
+        -- Fix MicroMenu position when exiting a Vehicle
+        MainMenuBar:HookScript("OnShow", function()
+            if (OverrideActionBar:IsShown()) then return end
+            MoveMicroButtons("BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", -275, 0)
+        end)
+
+        -- Bag Buttons Position
+        MainMenuBarBackpackButton:ClearAllPoints()
+        MainMenuBarBackpackButton:SetPoint("BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", -2.5, 40)
+
+        -- Hide StanceBar when in a Vehicle, show after Vehicle has been exited
         local vehicle = CreateFrame("Frame")
         vehicle:RegisterEvent("UNIT_ENTERED_VEHICLE")
         vehicle:RegisterEvent("UNIT_EXITED_VEHICLE")
         vehicle:HookScript("OnEvent", function(self, event, unit)
             if unit == "player" then
                 if event == "UNIT_EXITED_VEHICLE" then
-                    MoveMicroButtons("BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", -275, 0)
                     if (GetNumShapeshiftForms() > 0) then
                         SUIStanceBar:Show()
                     end
@@ -85,10 +95,6 @@ function Module:OnEnable()
                 end
             end
         end)
-
-        -- Bag Buttons Position
-        MainMenuBarBackpackButton:ClearAllPoints()
-        MainMenuBarBackpackButton:SetPoint("BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", -2.5, 40)
 
         -- MicroMenu Mouseover
         if (db.micromenu == 'mouseover') then
