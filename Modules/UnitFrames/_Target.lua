@@ -108,8 +108,10 @@ function Module:OnEnable()
             -- Hide HealPredictionBar if target is enemy
             if (UnitIsEnemy("player", self.unit)) then
                 self.healthbar.MyHealPredictionBar:SetAlpha(0)
+                self.healthbar.OtherHealPredictionBar:SetAlpha(0)
             else
                 self.healthbar.MyHealPredictionBar:SetAlpha(1)
+                self.healthbar.OtherHealPredictionBar:SetAlpha(1)
             end
         end
 

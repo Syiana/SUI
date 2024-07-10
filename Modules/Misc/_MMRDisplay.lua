@@ -34,10 +34,10 @@ function Module:OnEnable()
                 if teamMMR > 0 then
                     if i == 0 then
                         SUI_MMRDisplay_Team1:SetText("MMR: " .. teamMMR)
-                        print("|cffff00d5S|r|cff027bffUI|r: |cffffbd67ffMMR - 2039|r")
+                        print("|cffff00d5S|r|cff027bffUI|r: |cffbd67ffMMR - " .. teamMMR .. "|r")
                     else
                         SUI_MMRDisplay_Team2:SetText("MMR: " .. teamMMR)
-                        print("|cffff00d5S|r|cff027bffUI|r: |cffffffd500MMR - 2051|r")
+                        print("|cffff00d5S|r|cff027bffUI|r: |cffffd500MMR - " .. teamMMR .. "|r")
                     end
                 end
             end
@@ -53,8 +53,8 @@ function Module:OnEnable()
             SUI_MMRDisplay_Team2:SetText("MMR: 2051")
 
             -- Example Prints
-            print("|cffff00d5S|r|cff027bffUI|r: |cffbd67ffMMR - 2039|r")
-            print("|cffff00d5S|r|cff027bffUI|r: |cffffd500MMR - 2051|r")
+            print("|cff00d5S|r|cff027bffUI|r: |cffbd67ffMMR - 2039|r")
+            print("|cff00d5S|r|cff027bffUI|r: |cffffd500MMR - 2051|r")
 
             WorldStateScoreFrame:Show()
             WorldStateScoreFrameLeaveButton:Show()

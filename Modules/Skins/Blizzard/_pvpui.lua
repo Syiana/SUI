@@ -32,6 +32,7 @@ function Module:OnEnable()
         SUI:Skin(WorldStateScoreFrameTab1)
         SUI:Skin(WorldStateScoreFrameTab2)
         SUI:Skin(WorldStateScoreFrameTab3)
+        SUI:Skin(PVPConquestFrameInfoButton)
 
         -- PVP Frame Texts
         PVPHonorFrameInfoScrollFrameChildFrameDescription:SetTextColor(.8, .8, .8)
