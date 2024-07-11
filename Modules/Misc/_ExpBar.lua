@@ -15,7 +15,7 @@ function expBar:OnEnable()
         SUIExpBar:SetWidth(SUIMainMenuBar:GetWidth()-5.5)
 
         -- Status Text
-        SUIExpBarText:SetFont([[Fonts\ARIALN.TTF]], 11, 'OUTLINE')
+        SUIExpBarText:SetFont(STANDARD_TEXT_FONT, 11, 'OUTLINE')
 
         -- Set Texture
         if (db.texture ~= 'Default') then
