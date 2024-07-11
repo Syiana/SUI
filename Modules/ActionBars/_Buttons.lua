@@ -149,18 +149,14 @@ function Module:OnEnable()
                 fobs:SetTexture(nil)
             end
             bo:SetTexture(nil)
-            if (FONT) then
-                ho:SetFont(FONT, 12, "OUTLINE")
-            end
+            ho:SetFont(config.font, 12, "OUTLINE")
             ho:ClearAllPoints()
             ho:SetPoint("TOPRIGHT", bu)
             ho:SetPoint("TOPLEFT", bu)
             if not dominos and not bartender and not (db.buttons.key) then
                 ho:Hide()
             end
-            if (FONT) then
-                na:SetFont(FONT, 12, "OUTLINE")
-            end
+            na:SetFont(config.font, 12, "OUTLINE")
             na:ClearAllPoints()
             na:SetPoint("BOTTOMLEFT", bu)
             na:SetPoint("BOTTOMRIGHT", bu)
@@ -250,6 +246,11 @@ function Module:OnEnable()
             local ic = _G[name .. "Icon"]
             local fl = _G[name .. "Flash"]
             local nt = _G[name .. "NormalTexture2"]
+            local ho = _G[name .. "HotKey"]
+            ho:SetFont(config.font, 12, "OUTLINE")
+            ho:ClearAllPoints()
+            ho:SetPoint("TOPRIGHT", bu)
+            ho:SetPoint("TOPLEFT", bu)
             nt:SetAllPoints(bu)
             nt:SetVertexColor(config.color.normal.r, config.color.normal.g, config.color.normal.b, 1)
             fl:SetTexture(config.textures.flash)

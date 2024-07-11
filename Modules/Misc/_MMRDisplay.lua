@@ -9,6 +9,7 @@ function Module:OnEnable()
     if (db.mmr and db.module) then
         -- Variables
         local alreadyUpdated = false
+        local font = STANDARD_TEXT_FONT
 
         -- Create FontStrings
         WorldStateScoreFrame:CreateFontString("SUI_MMRDisplay_Team1", "OVERLAY")
@@ -23,8 +24,8 @@ function Module:OnEnable()
         SUI_MMRDisplay_Team2:SetTextColor(1, 0.83, 0)
 
         -- Set Font Size
-        SUI_MMRDisplay_Team1:SetFont(FONT, 16, "OUTLINE")
-        SUI_MMRDisplay_Team2:SetFont(FONT, 16, "OUTLINE")
+        SUI_MMRDisplay_Team1:SetFont(font, 16, "OUTLINE")
+        SUI_MMRDisplay_Team2:SetFont(font, 16, "OUTLINE")
 
         local function mmrDisplay()
             -- Check if Text Update and Prints have already been done

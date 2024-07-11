@@ -43,6 +43,8 @@ Data.specials = {
 }
 
 Data.supporter = {
+    { text = Colors.sup .. 'PKL|r' },
+    { text = Colors.sup .. 'Lva|r' },
     { text = Colors.sup .. 'TonnixTV|r' },
     { text = Colors.sup .. 'Buskberra|r' },
     { text = Colors.sup .. 'Proxy|r' },
