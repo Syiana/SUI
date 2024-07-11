@@ -545,6 +545,23 @@ function Gui:OnEnable()
                     }
                 },
                 {
+                    textsize = {
+                        key = 'unitframes.textsize',
+                        type = 'slider',
+                        label = 'Statustext Size',
+                        precision = 1,
+                        min = 8,
+                        max = 15,
+                        column = 4,
+                        order = 3,
+                        onChange = function(slider)
+                            for _, statustext in pairs(StatusTexts) do
+                                statustext:SetFont(STANDARD_TEXT_FONT, slider.value, "OUTLINE")
+                            end
+                        end,
+                    }
+                },
+                {
                     header = {
                         type = 'header',
                         label = 'Raidframes'
@@ -1652,7 +1669,7 @@ function Gui:OnEnable()
                         type = 'button',
                         text = 'Discord',
                         onClick = function()
-                            popupLink('https://discord.gg/yBWkxxR')
+                            popupLink('https://discord.gg/S3r4Acqvqv')
                             --SUIConfig:Dialog('Discord', 'discord.gg/yBWkxxR')
                         end,
                         column = 3,

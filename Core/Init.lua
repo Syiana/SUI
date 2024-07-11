@@ -44,7 +44,8 @@ local defaults = {
             combaticon = false,
             hitindicator = false,
             links = false,
-            size = 1,
+            size = 11,
+            textsize = 1,
             player = {
                 size = 1
             },
