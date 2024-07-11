@@ -9,7 +9,11 @@ function Module:OnEnable()
             OverrideActionBarHealthBarOverlay,
             OverrideActionBarHealthBarBackground,
             OverrideActionBarPowerBarOverlay,
-            OverrideActionBarPowerBarBackground
+            OverrideActionBarPowerBarBackground,
+            ReputationWatchBar.StatusBar.WatchBarTexture0,
+            ReputationWatchBar.StatusBar.WatchBarTexture1,
+            ReputationWatchBar.StatusBar.WatchBarTexture2,
+            ReputationWatchBar.StatusBar.WatchBarTexture3
         }
 
         SUI:Skin(MainMenuBarArtFrame)
@@ -24,6 +28,7 @@ function Module:OnEnable()
         SUI:Skin(RetailUIArtFrame)
         SUI:Skin(PetActionBarFrame)
         SUI:Skin(RetailUIStatusBars)
+        SUI:Skin(ReputationWatchBar)
 
         -- Buttons
         SUI:Skin({

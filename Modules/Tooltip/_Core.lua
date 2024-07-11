@@ -28,7 +28,6 @@ function Module:OnEnable()
     end
 
     if (db.style == "Custom" and db.module) then
-        FONT = STANDARD_TEXT_FONT
         local classColorHex, factionColorHex = {}, {}
 
         local cfg = {

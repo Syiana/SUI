@@ -1596,7 +1596,7 @@ function Gui:OnEnable()
                         type = 'button',
                         text = 'Discord',
                         onClick = function()
-                            popupLink('https://discord.gg/yBWkxxR')
+                            popupLink('https://discord.gg/S3r4Acqvqv')
                             --SUIConfig:Dialog('Discord', 'discord.gg/yBWkxxR')
                         end,
                         column = 3,
