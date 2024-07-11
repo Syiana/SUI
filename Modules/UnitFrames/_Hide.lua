@@ -20,8 +20,6 @@ function Module:OnEnable()
             PlayerPrestigePortrait:SetAlpha(0)
             TargetFrameTextureFramePrestigeBadge:SetAlpha(0)
             TargetFrameTextureFramePrestigePortrait:SetAlpha(0)
-            FocusFrameTextureFramePrestigeBadge:SetAlpha(0)
-            FocusFrameTextureFramePrestigePortrait:SetAlpha(0)
         end
     end)
 

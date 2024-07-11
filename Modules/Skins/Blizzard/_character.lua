@@ -2,8 +2,7 @@ local Module = SUI:NewModule("Skins.Character");
 
 function Module:OnEnable()
     if (SUI:Color()) then
-        SUI:Skin(CharacterFrame)
-        SUI:Skin(CharacterFrameInset)
+        SUI:Skin(PaperDollFrame)
         SUI:Skin(PaperDollItemsFrame)
         SUI:Skin(CharacterHeadSlot)
         SUI:Skin(CharacterNeckSlot)
@@ -24,12 +23,15 @@ function Module:OnEnable()
         SUI:Skin(CharacterMainHandSlot)
         SUI:Skin(CharacterSecondaryHandSlot)
         SUI:Skin(CharacterRangedSlot)
-        SUI:Skin(CharacterStatsPane.ScrollBar.Track)
         SUI:Skin(CharacterFrameInsetRight)
         SUI:Skin(CharacterFrameTab1)
         SUI:Skin(CharacterFrameTab3)
         SUI:Skin(CharacterFrameTab4)
+        SUI:Skin(CharacterFrameTab5)
         SUI:Skin(ReputationListScrollFrame)
+        SUI:Skin(HonorFrame)
+        SUI:Skin(SkillFrame)
+        SUI:Skin(ReputationFrame)
         SUI:Skin({
             PaperDollInnerBorderTop,
             PaperDollInnerBorderLeft,
@@ -76,7 +78,20 @@ function Module:OnEnable()
                     ItemSocketingSocketButton.Middle,
                     ItemSocketingSocketButton.Right
                 }, false, true, false, true)
+            elseif name == "Blizzard_EngravingUI" then
+                SUI:Skin(EngravingFrame.Border.NineSlice)
+                SUI:Skin(EngravingFrameSearchBox)
+                SUI:Skin(EngravingFrameSideInset)
+                SUI:Skin(EngravingFrameFilterDropDown)
+                SUI:Skin(EngravingFrameScrollFrameScrollBar)
             end
         end)
+
+        -- Buttons
+        SUI:Skin({
+            SkillFrameCancelButton.Left,
+            SkillFrameCancelButton.Middle,
+            SkillFrameCancelButton.Right
+        }, false, true, false, true)
     end
 end

@@ -13,8 +13,8 @@ function Module:OnEnable()
                 SUI:Skin(PlayerTalentFramePanel1)
                 SUI:Skin(PlayerTalentFramePanel2)
                 SUI:Skin(PlayerTalentFramePanel3)
-                SUI:Skin(GlyphFrameFilterDropDown)
-                SUI:Skin(GlyphFrameSearchBox)
+                SUI:Skin(PlayerTalentFramePointsBar)
+                SUI:Skin(PlayerTalentFrameScrollFrame)
 
                 SUI:Skin(PlayerTalentFrameLearnButton)
                 SUI:Skin(PlayerTalentFrameResetButton)
@@ -32,15 +32,9 @@ function Module:OnEnable()
                     true
                 )
 
-                -- Talent DualSpec Frame
-                SUI:Skin(PlayerTalentFrameActivateButton)
-                SUI:Skin(PlayerTalentFrameToggleSummariesButton)
-                SUI:Skin(PlayerTalentFramePanel1SelectTreeButton)
-                SUI:Skin(PlayerTalentFramePanel2SelectTreeButton)
-                SUI:Skin(PlayerTalentFramePanel3SelectTreeButton)
-
                 -- Tabs
                 SUI:Skin(PlayerTalentFrameTab1)
+                SUI:Skin(PlayerTalentFrameTab2)
                 SUI:Skin(PlayerTalentFrameTab3)
 
                 -- Spec Tabs
@@ -58,39 +52,7 @@ function Module:OnEnable()
                     PlayerTalentFrameActivateButton.Left,
                     PlayerTalentFrameActivateButton.Middle,
                     PlayerTalentFrameActivateButton.Right,
-                    PlayerTalentFrameToggleSummariesButton.Left,
-                    PlayerTalentFrameToggleSummariesButton.Middle,
-                    PlayerTalentFrameToggleSummariesButton.Right,
-                    PlayerTalentFramePanel1SelectTreeButton.Left,
-                    PlayerTalentFramePanel1SelectTreeButton.Middle,
-                    PlayerTalentFramePanel1SelectTreeButton.Right,
-                    PlayerTalentFramePanel2SelectTreeButton.Left,
-                    PlayerTalentFramePanel2SelectTreeButton.Middle,
-                    PlayerTalentFramePanel2SelectTreeButton.Right,
-                    PlayerTalentFramePanel3SelectTreeButton.Left,
-                    PlayerTalentFramePanel3SelectTreeButton.Middle,
-                    PlayerTalentFramePanel3SelectTreeButton.Right
                 }, false, true, false, true)
-            end
-
-            if (GlyphFrame) then
-                -- Glyph Frame
-                SUI:Skin(GlyphFrame)
-                SUI:Skin(PlayerTalentFrameInset)
-                SUI:Skin(GlyphFrameScrollFrame)
-                SUI:Skin(GlyphFrameSideInset)
-                SUI:Skin(GlyphFrameHeader1)
-                SUI:Skin(GlyphFrameHeader2)
-                SUI:Skin(GlyphFrameFilterDropDown)
-                SUI:Skin(GlyphFrameSearchBox)
-                SUI:Skin({
-                        GlyphFrameScrollFrameScrollBarTop,
-                        GlyphFrameScrollFrameScrollBarMiddle,
-                        GlyphFrameScrollFrameScrollBarBottom
-                    },
-                    false,
-                    true
-                )
             end
 
             if name == "Blizzard_TalentUI" then
@@ -100,9 +62,8 @@ function Module:OnEnable()
                 SUI:Skin(PlayerTalentFramePanel1)
                 SUI:Skin(PlayerTalentFramePanel2)
                 SUI:Skin(PlayerTalentFramePanel3)
-                if (PlayerTalentFramePanel4) then
-                    SUI:Skin(PlayerTalentFramePanel4)
-                end
+                SUI:Skin(PlayerTalentFramePointsBar)
+                SUI:Skin(PlayerTalentFrameScrollFrame)
 
                 SUI:Skin(PlayerTalentFrameLearnButton)
                 SUI:Skin(PlayerTalentFrameResetButton)
@@ -120,18 +81,9 @@ function Module:OnEnable()
                     true
                 )
 
-                -- Talent DualSpec Frame
-                SUI:Skin(PlayerTalentFrameActivateButton)
-                SUI:Skin(PlayerTalentFrameToggleSummariesButton)
-                SUI:Skin(PlayerTalentFramePanel1SelectTreeButton)
-                SUI:Skin(PlayerTalentFramePanel2SelectTreeButton)
-                SUI:Skin(PlayerTalentFramePanel3SelectTreeButton)
-                if (PlayerTalentFramePanel4SelectTreeButton) then
-                    SUI:Skin(PlayerTalentFramePanel4SelectTreeButton)
-                end
-
                 -- Tabs
                 SUI:Skin(PlayerTalentFrameTab1)
+                SUI:Skin(PlayerTalentFrameTab2)
                 SUI:Skin(PlayerTalentFrameTab3)
 
                 -- Buttons
@@ -145,38 +97,7 @@ function Module:OnEnable()
                     PlayerTalentFrameActivateButton.Left,
                     PlayerTalentFrameActivateButton.Middle,
                     PlayerTalentFrameActivateButton.Right,
-                    PlayerTalentFrameToggleSummariesButton.Left,
-                    PlayerTalentFrameToggleSummariesButton.Middle,
-                    PlayerTalentFrameToggleSummariesButton.Right,
-                    PlayerTalentFramePanel1SelectTreeButton.Left,
-                    PlayerTalentFramePanel1SelectTreeButton.Middle,
-                    PlayerTalentFramePanel1SelectTreeButton.Right,
-                    PlayerTalentFramePanel2SelectTreeButton.Left,
-                    PlayerTalentFramePanel2SelectTreeButton.Middle,
-                    PlayerTalentFramePanel2SelectTreeButton.Right,
-                    PlayerTalentFramePanel3SelectTreeButton.Left,
-                    PlayerTalentFramePanel3SelectTreeButton.Middle,
-                    PlayerTalentFramePanel3SelectTreeButton.Right
                 }, false, true, false, true)
-            end
-
-            if name == "Blizzard_GlyphUI" then
-                -- Glyph Frame
-                SUI:Skin(GlyphFrame)
-                SUI:Skin(PlayerTalentFrameInset)
-                SUI:Skin(GlyphFrameScrollFrame)
-                SUI:Skin(GlyphFrameSideInset)
-                SUI:Skin(GlyphFrameHeader1)
-                SUI:Skin(GlyphFrameHeader2)
-                SUI:Skin({
-                        GlyphFrameScrollFrameScrollBarTop,
-                        GlyphFrameScrollFrameScrollBarMiddle,
-                        GlyphFrameScrollFrameScrollBarBottom
-                    },
-                    false,
-                    true
-                )
-                --SUI:Skin(GlyphFrameScrollFrameScrollBar)
             end
         end)
     end

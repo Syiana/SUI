@@ -54,19 +54,6 @@ function Module:OnEnable()
                     TargetFrameSpellBar:SetStatusBarTexture(
                     "Interface\\Addons\\SUI\\Media\\Textures\\Unitframes\\UI-StatusBar")
                 end
-
-                if (db.target) then
-                    TargetFrameSpellBar.ignoreFramePositionManager = true
-                    TargetFrameSpellBar:SetMovable(true)
-                    TargetFrameSpellBar:ClearAllPoints()
-                    TargetFrameSpellBar:SetPoint("CENTER", TargetFrameDragFrame)
-                    TargetFrameSpellBar:SetUserPlaced(false)
-                    TargetFrameDragFrame:SetWidth(CastingBarFrame:GetWidth())
-                    TargetFrameDragFrame:SetHeight(CastingBarFrame:GetHeight())
-                    TargetFrameSpellBar:SetMovable(false)
-                    TargetFrameSpellBar:SetScale(1.3)
-                    TargetFrameSpellBar.SetPoint = function() end
-                end
             end
         end
     end

@@ -28,8 +28,6 @@ local defaults = {
                 talkhead = false,
             },
             display = {
-                ilvl = true,
-                --avgilvl = false,
                 fps = true,
                 ms = true
             }
@@ -65,7 +63,6 @@ local defaults = {
         nameplates = {
             style = 'Default',
             texture = [[Interface\AddOns\SUI\Media\Textures\Status\Flat]],
-            arena = true,
             health = true,
             casttime = true,
             classcolor = true,
@@ -97,7 +94,6 @@ local defaults = {
             style = 'Custom',
             timer = true,
             icon = true,
-            target = false
         },
         tooltip = {
             style = 'Custom',
@@ -128,15 +124,9 @@ local defaults = {
             outline = true,
         },
         maps = {
-            style = 'Default',
-            small = false,
-            opacity = false,
             coords = true,
             minimap = true,
             clock = true,
-            date = false,
-            garrison = true,
-            tracking = false,
         },
         misc = {
             tabbinder = false,
@@ -145,7 +135,6 @@ local defaults = {
             searchbags = false,
             sortbags = false,
             expbar = true,
-            mmr = true,
         },
         modules = {
             general = true,
@@ -281,14 +270,14 @@ function SUI:OnInitialize()
             ["GuildRegistrarFramePortrait"] = true, ["PetitionFramePortrait"] = true,
             ["LootFramePortraitOverlay"] = true, ["CalendarCreateEventIcon"] = true,
             ["StaticPopup1AlertIcon"] = true, ["PVPConquestFrameInfoButtonInfoIconAlliance"] = true,
-            ["PVPConquestFrameInfoButtonInfoIconHorde"] = true,
+            ["PVPConquestFrameInfoButtonInfoIconHorde"] = true, ["ContainerFrame1Portrait"] = true,
             [select(1,QuestLogFrame:GetRegions())] = true, [select(18, MailFrame:GetRegions())] = true,
             [select(2, SpellBookSkillLineTab1:GetRegions())] = true, [select(2, SpellBookSkillLineTab2:GetRegions())] = true,
             [select(2, SpellBookSkillLineTab3:GetRegions())] = true, [select(2, SpellBookSkillLineTab4:GetRegions())] = true,
             [select(1, ItemTextFrame:GetRegions())] = true, [select(6, SendMailMoneyGold:GetRegions())] = true,
             [select(6, SendMailMoneySilver:GetRegions())] = true, [select(6, SendMailMoneyCopper:GetRegions())] = true,
-            [select(12, CompactRaidFrameManagerDisplayFrameLeaderOptionsRaidWorldMarkerButton:GetRegions())] = true,
-            [select(1, QuestLogDetailFrame:GetRegions())] = true, [select(18, ChannelFrame:GetRegions())] = true,
+            [select(18, ChannelFrame:GetRegions())] = true, [select(1, SpellBookFrame:GetRegions())] = true,
+            [select(2, QuestLogFrame:GetRegions())] = true,
         }
 
         if (frame) then

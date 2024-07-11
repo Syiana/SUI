@@ -74,7 +74,7 @@ function Gui:OnEnable()
     SUIConfig:GlueLeft(version, config.titlePanel, 40, 0)
 
     local logo = SUIConfig:Texture(config.titlePanel, 120, 120,
-        "Interface\\AddOns\\SUI\\Media\\Textures\\Config\\Logo_Cata")
+        "Interface\\AddOns\\SUI\\Media\\Textures\\Config\\Logo_SOD_Classic")
     SUIConfig:GlueAbove(logo, config, 0, -82)
 
     function SUI:Config()
@@ -411,29 +411,13 @@ function Gui:OnEnable()
                     },
                 },
                 {
-                    items = {
-                        key = 'display.ilvl',
-                        type = 'checkbox',
-                        label = 'Item Infos',
-                        tooltip = 'Display item level on item icons',
-                        column = 3,
-                        order = 1
-                    },
-                    --[[avgilvl = {
-                        key = 'display.avgilvl',
-                        type = 'checkbox',
-                        label = 'Average ItemLevel',
-                        tooltip = 'Display Average ItemLevel on inspected targets',
-                        column = 4,
-                        order = 2
-                    },]]
                     fps = {
                         key = 'display.fps',
                         type = 'checkbox',
                         label = 'FPS',
                         tooltip = 'Show current FPS',
                         column = 2,
-                        order = 3
+                        order = 1
                     },
                     ms = {
                         key = 'display.ms',
@@ -441,7 +425,7 @@ function Gui:OnEnable()
                         label = 'MS',
                         tooltip = 'Show current ping',
                         column = 2,
-                        order = 4
+                        order = 2
                     }
                 }
             },
@@ -599,36 +583,29 @@ function Gui:OnEnable()
                     }
                 },
                 {
-                    arena = {
-                        key = 'nameplates.arena',
-                        type = 'checkbox',
-                        label = 'Arena Number',
-                        column = 4,
-                        order = 1
-                    },
                     health = {
                         key = 'nameplates.health',
                         type = 'checkbox',
                         label = 'Health (%)',
                         column = 4,
-                        order = 2
+                        order = 1
                     },
                     casttime = {
                         key = 'nameplates.casttime',
                         type = 'checkbox',
                         label = 'Cast Time',
                         column = 4,
-                        order = 3
+                        order = 2
                     },
-                },
-                {
                     classcolor = {
                         key = 'nameplates.classcolor',
                         type = 'checkbox',
                         label = 'Name in Class Color',
                         column = 4,
-                        order = 1
-                    },
+                        order = 3
+                    }
+                },
+                {
                     totems = {
                         key = 'nameplates.totems',
                         type = 'checkbox',
@@ -866,13 +843,6 @@ function Gui:OnEnable()
                         label = 'Timer',
                         tooltip = 'Display cast time on castbar',
                         column = 4
-                    },
-                    target = {
-                        key = 'target',
-                        type = 'checkbox',
-                        label = 'Target CastBar Movable',
-                        tooltip = 'Make Target Castbar movable',
-                        column = 4
                     }
                 }
             },
@@ -1078,25 +1048,7 @@ function Gui:OnEnable()
                         column = 4,
                         order = 2
                     },
-                    showdate = {
-                        key = 'date',
-                        type = 'checkbox',
-                        label = 'Show Date',
-                        tooltip = 'Show/Hide calendar icon on minimap',
-                        column = 4,
-                        order = 3
-                    }
                 },
-                {
-                    showtracking = {
-                        key = 'tracking',
-                        type = 'checkbox',
-                        label = 'Tracking Symbol',
-                        tooltip = 'Show/Hide tracking icon on minimap',
-                        column = 4,
-                        order = 2
-                    }
-                }
             },
         },
         Chat = {
@@ -1269,14 +1221,6 @@ function Gui:OnEnable()
                         column = 3,
                         order = 2
                     },
-                    mmr = {
-                        key = 'mmr',
-                        type = 'checkbox',
-                        label = 'Display MMR',
-                        tooltip = 'Show MMR in Arena Scoreboard',
-                        column = 3,
-                        order = 2
-                    }
                 },
             },
         },

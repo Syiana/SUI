@@ -23,8 +23,8 @@ function Module:OnEnable()
         SUI:Skin(FriendsFrameStatusDropDown)
         SUI:Skin(FriendsFrameBattlenetFrame.BroadcastFrame)
         SUI:Skin(RaidInfoFrame)
-        SUI:Skin(RaidInfoInstanceLabel)
-        SUI:Skin(RaidInfoIDLabel)
+        --SUI:Skin(RaidInfoInstanceLabel)
+        --SUI:Skin(RaidInfoIDLabel)
         SUI:Skin(RaidGroup1)
         SUI:Skin(RaidGroup2)
         SUI:Skin(RaidGroup3)
@@ -98,9 +98,6 @@ function Module:OnEnable()
             RaidFrameRaidInfoButton.Left,
             RaidFrameRaidInfoButton.Middle,
             RaidFrameRaidInfoButton.Right,
-            RaidInfoCancelButton.Left,
-            RaidInfoCancelButton.Middle,
-            RaidInfoCancelButton.Right,
             RaidFrameConvertToRaidButton.Left,
             RaidFrameConvertToRaidButton.Middle,
             RaidFrameConvertToRaidButton.Right,

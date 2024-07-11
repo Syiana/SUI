@@ -36,7 +36,8 @@ function Module:OnEnable()
 			SlidingActionBarTexture0,
 			SlidingActionBarTexture1,
 			MainMenuBarTextureExtender,
-			MainMenuBarMaxLevelBar
+			MainMenuBarMaxLevelBar,
+			MainMenuBarPerformanceBarFrame
 		}
 
 		for _, frame in pairs(BlizzArt) do
@@ -67,10 +68,10 @@ function Module:OnEnable()
 		SUIPetActionBar:SetPoint("TOP", SUIMultiBarBottomRight, "TOP", -45, 150)
 		SUIPetActionBar:SetMovable(true)
 
-		MultiCastActionBarFrame:SetMovable(true)
-		MultiCastActionBarFrame:ClearAllPoints()
-		MultiCastActionBarFrame:SetParent(UIParent)
-		MultiCastActionBarFrame:SetPoint("BOTTOM", UIParent, "BOTTOM", 45, 150)
+		--MultiCastActionBarFrame:SetMovable(true)
+		--MultiCastActionBarFrame:ClearAllPoints()
+		--MultiCastActionBarFrame:SetParent(UIParent)
+		--MultiCastActionBarFrame:SetPoint("BOTTOM", UIParent, "BOTTOM", 45, 150)
 
 		hooksecurefunc("MainMenuBarVehicleLeaveButton_Update", function()
 			MainMenuBarVehicleLeaveButton:ClearAllPoints()
@@ -81,9 +82,9 @@ function Module:OnEnable()
 		MainMenuBarVehicleLeaveButton:SetParent(UIParent)
 		MainMenuBarVehicleLeaveButton:SetPoint("BOTTOM", UIParent, "BOTTOM", 45, 150)
 
-		hooksecurefunc("MultiCastActionBarFrame_Update", function()
-			MultiCastActionBarFrame.SetPoint = function() end
-		end)
+		--hooksecurefunc("MultiCastActionBarFrame_Update", function()
+			--MultiCastActionBarFrame.SetPoint = function() end
+		--end)
 
 		C_Timer.After(0.1, function()
 			StanceBarLeft:SetAlpha(0)

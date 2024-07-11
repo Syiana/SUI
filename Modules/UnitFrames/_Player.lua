@@ -18,7 +18,6 @@ function Module:OnEnable()
                 self.healthbar:SetStatusBarTexture(db.texture);
                 PlayerFrameHealthBar.MyHealPredictionBar.Fill:SetTexture(db.texture)
                 PlayerFrameHealthBar.MyHealPredictionBar.Fill:SetDrawLayer("BORDER")
-                PlayerFrameAlternateManaBar:SetStatusBarTexture(db.texture)
             end
 
             if (db.style == "Big") then

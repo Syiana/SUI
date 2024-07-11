@@ -174,8 +174,10 @@ function Module:OnEnable()
                 if self.healthBar then
                     self.healthBar:SetStatusBarTexture(db.texture)
                     self.healthBar:GetStatusBarTexture():SetDrawLayer("BORDER")
-                    self.CastBar:SetStatusBarTexture(db.texture)
-                    self.CastBar:GetStatusBarTexture():SetDrawLayer("BORDER")
+                    if (self.CastBar) then
+                        self.CastBar:SetStatusBarTexture(db.texture)
+                        self.CastBar:GetStatusBarTexture():SetDrawLayer("BORDER")
+                    end
 
                     if (db.totems) then
                         if (self.totemIcon) then
@@ -265,7 +267,9 @@ function Module:OnEnable()
                     SUI:Skin(self.healthBar.border)
                 end
 
-                SUI:Skin({ self.CastBar.Border, self.CastBar.BorderShield }, false, true)
+                if (self.CastBar) then
+                    SUI:Skin({ self.CastBar.Border, self.CastBar.BorderShield }, false, true)
+                end
             end
         end
 

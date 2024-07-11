@@ -9,17 +9,9 @@ function Module:OnEnable()
     }
 
     if (db.module) then
-        if not (db.date) then
-            GameTimeFrame:Hide()
-            GameTimeFrame:UnregisterAllEvents()
-            GameTimeFrame.Show = kill
-        end
-
-        if not (db.tracking) then
-            MiniMapTracking:Hide()
-            MiniMapTracking.Show = kill
-            MiniMapTracking:UnregisterAllEvents()
-        end
+        GameTimeFrame:Hide()
+        GameTimeFrame:UnregisterAllEvents()
+        GameTimeFrame.Show = kill
 
         if not (db.clock) then
             TimeManagerClockButton:Hide()

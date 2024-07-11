@@ -62,7 +62,6 @@ function Edit:OnEnable()
 		"StatsFrame",
 		"SUIMainMenuBar",
 		"SUIStanceBar",
-		"MultiCastActionBarFrame",
 		"SUIPetActionBar",
 	}
 

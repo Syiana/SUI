@@ -53,8 +53,6 @@ function Module:OnEnable()
         SUI:Skin(LFGListInviteDialog.Border)
         SUI:Skin(LFGListFrame.SearchPanel.FilterButton)
         SUI:Skin(LFGListFrame.SearchPanel.SearchBox)
-        SUI:Skin(RolePollPopup.Border)
-        SUI:Skin(RolePollPopupAcceptButton)
         LFGListFrame.ApplicationViewer.ScrollBox.NoApplicants:SetTextColor(.8, .8, .8)
 
         -- Buttons

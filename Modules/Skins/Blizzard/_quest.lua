@@ -33,12 +33,6 @@ function Module:OnEnable()
             QuestFramePushQuestButton.Left,
             QuestFramePushQuestButton.Middle,
             QuestFramePushQuestButton.Right,
-            QuestLogFrameTrackButton.Left,
-            QuestLogFrameTrackButton.Middle,
-            QuestLogFrameTrackButton.Right,
-            QuestLogFrameCancelButton.Left,
-            QuestLogFrameCancelButton.Middle,
-            QuestLogFrameCancelButton.Right,
             QuestFrameCompleteButton.Left,
             QuestFrameCompleteButton.Middle,
             QuestFrameCompleteButton.Right,
@@ -50,7 +44,10 @@ function Module:OnEnable()
             QuestFrameCompleteQuestButton.Right,
             QuestFrameCancelButton.Left,
             QuestFrameCancelButton.Middle,
-            QuestFrameCancelButton.Right
+            QuestFrameCancelButton.Right,
+            QuestFrameExitButton.Left,
+            QuestFrameExitButton.Middle,
+            QuestFrameExitButton.Right
         }, false, true, false, true)
 
         if not QuestFrameDetailPanel.ParchmentFrame then

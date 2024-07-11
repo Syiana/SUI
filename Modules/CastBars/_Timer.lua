@@ -20,10 +20,10 @@ function Module:OnEnable()
             TargetFrameSpellBar.timer:SetFont(FONT, 11, "THINOUTLINE")
             TargetFrameSpellBar.timer:SetPoint("LEFT", TargetFrameSpellBar, "RIGHT", 4, 0)
             TargetFrameSpellBar.update = 0.1
-            FocusFrameSpellBar.timer = FocusFrameSpellBar:CreateFontString(nil)
+            --[[FocusFrameSpellBar.timer = FocusFrameSpellBar:CreateFontString(nil)
             FocusFrameSpellBar.timer:SetFont(FONT, 11, "THINOUTLINE")
             FocusFrameSpellBar.timer:SetPoint("LEFT", FocusFrameSpellBar, "RIGHT", 4, 0)
-            FocusFrameSpellBar.update = 0.1
+            FocusFrameSpellBar.update = 0.1]]
         end
 
         local function CastingBarFrame_OnUpdate_Hook(self, elapsed)
@@ -43,6 +43,6 @@ function Module:OnEnable()
         end
         CastingBarFrame:HookScript("OnUpdate", CastingBarFrame_OnUpdate_Hook)
         TargetFrameSpellBar:HookScript("OnUpdate", CastingBarFrame_OnUpdate_Hook)
-        FocusFrameSpellBar:HookScript("OnUpdate", CastingBarFrame_OnUpdate_Hook)
+        --FocusFrameSpellBar:HookScript("OnUpdate", CastingBarFrame_OnUpdate_Hook)
     end
 end

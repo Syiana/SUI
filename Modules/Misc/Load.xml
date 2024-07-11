@@ -2,7 +2,6 @@
 	<Include file = "_Searchbox.xml" />
 	<Script file="_Fastloot.lua"/>
 	<Script file="_Interrupt.lua"/>
-	<Script file="_MMRDisplay.lua"/>
 	<Script file="_Searchbags.lua"/>
 	<Script file="_Sortbags.lua"/>
 	<Script file="_Tabbinder.lua"/>

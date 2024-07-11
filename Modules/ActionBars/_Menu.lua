@@ -68,12 +68,11 @@ function Module:OnEnable()
         end
 
         -- MicroMenu Position
-        MoveMicroButtons("BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", -275, 0)
+        MoveMicroButtons("BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", -185, 0)
 
         -- Fix MicroMenu position when exiting a Vehicle
         MainMenuBar:HookScript("OnShow", function()
-            if (OverrideActionBar:IsShown()) then return end
-            MoveMicroButtons("BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", -275, 0)
+            MoveMicroButtons("BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", -185, 0)
         end)
 
         -- Bag Buttons Position
