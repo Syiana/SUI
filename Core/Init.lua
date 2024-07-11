@@ -43,6 +43,7 @@ local defaults = {
             hitindicator = false,
             links = false,
             size = 1,
+            textsize = 11,
             player = {
                 size = 1
             },

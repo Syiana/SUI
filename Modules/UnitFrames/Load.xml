@@ -13,4 +13,5 @@
 	<Script file="_Text.lua"/>
 	<Script file="_Links.lua"/>
 	<Script file="_Classportrait.lua"/>
+	<Script file="_Statustext.lua"/>
 </Ui>
