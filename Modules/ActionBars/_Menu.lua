@@ -15,7 +15,8 @@ function Module:OnEnable()
             CharacterBag0Slot,
             CharacterBag1Slot,
             CharacterBag2Slot,
-            CharacterBag3Slot
+            CharacterBag3Slot,
+            KeyRingButton
         }
         -- MicroMenu
         local ignore
@@ -133,6 +134,7 @@ function Module:OnEnable()
         elseif (db.bagbuttons == 'hidden') then
             for frame, _ in pairs(BagButtons) do
                 frame = BagButtons[frame]
+                frame.Show = function() end
                 frame:Hide()
             end
         end
