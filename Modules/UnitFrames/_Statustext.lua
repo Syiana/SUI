@@ -24,14 +24,6 @@ function Module:OnEnable()
             TargetFrameTextureFrame.ManaBarTextLeft,
             TargetFrameTextureFrame.ManaBarTextRight,
 
-            -- Focus Frame
-            FocusFrameTextureFrame.HealthBarText,
-            FocusFrameTextureFrame.HealthBarTextLeft,
-            FocusFrameTextureFrame.HealthBarTextRight,
-            FocusFrameTextureFrame.ManaBarText,
-            FocusFrameTextureFrame.ManaBarTextLeft,
-            FocusFrameTextureFrame.ManaBarTextRight,
-
             -- Pet Frame
             PetFrameHealthBarText,
             PetFrameHealthBarTextLeft,
