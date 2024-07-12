@@ -235,6 +235,8 @@ function Module:OnEnable()
                             self.name:SetVertexColor(color.r, color.g, color.b)
                         end
                     end
+
+                    self.LevelFrame.levelText:SetFont(STANDARD_TEXT_FONT, 10)
                 end
 
                 -- Font Size Function
