@@ -278,7 +278,11 @@ function SUI:OnInitialize()
             [select(1, ItemTextFrame:GetRegions())] = true, [select(6, SendMailMoneyGold:GetRegions())] = true,
             [select(6, SendMailMoneySilver:GetRegions())] = true, [select(6, SendMailMoneyCopper:GetRegions())] = true,
             [select(18, ChannelFrame:GetRegions())] = true, [select(1, SpellBookFrame:GetRegions())] = true,
-            [select(2, QuestLogFrame:GetRegions())] = true,
+            [select(2, QuestLogFrame:GetRegions())] = true, [select(7, CharacterHeadSlot:GetRegions())] = true,
+            [select(7, CharacterBackSlot:GetRegions())] = true, [select(7, CharacterChestSlot:GetRegions())] = true,
+            [select(7, CharacterWristSlot:GetRegions())] = true, [select(7, CharacterHandsSlot:GetRegions())] = true,
+            [select(7, CharacterWaistSlot:GetRegions())] = true, [select(7, CharacterLegsSlot:GetRegions())] = true,
+            [select(7, CharacterFeetSlot:GetRegions())] = true
         }
 
         if (frame) then
