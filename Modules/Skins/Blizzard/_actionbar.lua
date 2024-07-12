@@ -13,7 +13,11 @@ function Module:OnEnable()
             ReputationWatchBar.StatusBar.WatchBarTexture0,
             ReputationWatchBar.StatusBar.WatchBarTexture1,
             ReputationWatchBar.StatusBar.WatchBarTexture2,
-            ReputationWatchBar.StatusBar.WatchBarTexture3
+            ReputationWatchBar.StatusBar.WatchBarTexture3,
+            ReputationWatchBar.StatusBar.XPBarTexture0,
+            ReputationWatchBar.StatusBar.XPBarTexture1,
+            ReputationWatchBar.StatusBar.XPBarTexture2,
+            ReputationWatchBar.StatusBar.XPBarTexture3,
         }
 
         SUI:Skin(MainMenuBarArtFrame)
