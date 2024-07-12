@@ -106,7 +106,10 @@ function Module:OnEnable()
             AddFriendEntryFrameAcceptButton.Right,
             AddFriendEntryFrameCancelButton.Left,
             AddFriendEntryFrameCancelButton.Middle,
-            AddFriendEntryFrameCancelButton.Right
+            AddFriendEntryFrameCancelButton.Right,
+            RaidFrameRaidInfoButton.Left,
+            RaidFrameRaidInfoButton.Middle,
+            RaidFrameRaidInfoButton.Right,
         }, false, true, false, true)
 
         if (RaidFrameReadyCheckButton) then
