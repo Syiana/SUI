@@ -476,7 +476,6 @@ function Gui:OnEnable()
                         onChange = function(slider)
                             PlayerFrame:SetScale(slider.value)
                             TargetFrame:SetScale(slider.value)
-                            FocusFrame:SetScale(slider.value)
                         end,
                     }
                 },
