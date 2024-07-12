@@ -541,6 +541,11 @@ function Gui:OnEnable()
                             for _, statustext in pairs(StatusTexts) do
                                 statustext:SetFont(STANDARD_TEXT_FONT, slider.value, "OUTLINE")
                             end
+                            if IsAddOnLoaded("ModernTargetFrame") then
+                                for _, statustext in pairs(MDF_StatusTexts) do
+                                    statustext:SetFont(STANDARD_TEXT_FONT, slider.value, "OUTLINE")
+                                end
+                            end
                         end,
                     }
                 },
