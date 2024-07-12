@@ -37,6 +37,8 @@ function Module:OnEnable()
         SUI:Skin(SkillListScrollFrame)
         SUI:Skin(SkillDetailScrollFrame)
         SUI:Skin(ReputationFrame)
+        SUI:Skin(PetPaperDollFrame)
+        SUI:Skin(PetAttributesFrame)
         SUI:Skin({
             PaperDollInnerBorderTop,
             PaperDollInnerBorderLeft,
@@ -46,8 +48,10 @@ function Module:OnEnable()
             PaperDollInnerBorderTopLeft,
             PaperDollInnerBorderTopRight,
             PaperDollInnerBorderBottomLeft,
-            PaperDollInnerBorderBottomRight
+            PaperDollInnerBorderBottomRight,
+            PetPaperDollXPBar1,
         }, false, true)
+        select(2, PetPaperDollFrameExpBar:GetRegions()):SetVertexColor(.15, .15, .15)
 
         CharacterFrame:HookScript("OnUpdate", function()
             SUI:Skin({
@@ -92,11 +96,24 @@ function Module:OnEnable()
             end
         end)
 
+        -- Honor Frame ProgressBar Color
+        hooksecurefunc("HonorFrame_Update", function()
+            local factionGroup, factionName = UnitFactionGroup("player");
+            if ( factionGroup == "Alliance" ) then
+                HonorFrameProgressBar:SetStatusBarColor(0.26, 0.31, 1);
+            else
+                HonorFrameProgressBar:SetStatusBarColor(0.76, 0.09, 0.09);
+            end
+        end)
+
         -- Buttons
         SUI:Skin({
             SkillFrameCancelButton.Left,
             SkillFrameCancelButton.Middle,
-            SkillFrameCancelButton.Right
+            SkillFrameCancelButton.Right,
+            PetPaperDollCloseButton.Left,
+            PetPaperDollCloseButton.Middle,
+            PetPaperDollCloseButton.Right,
         }, false, true, false, true)
     end
 end

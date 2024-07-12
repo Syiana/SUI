@@ -8,6 +8,10 @@ function expBar:OnEnable()
         module = SUI.db.profile.modules.misc
     }
 
+    C_Timer.After(0.1, function()
+        MainMenuBarExpText:SetFont(STANDARD_TEXT_FONT, 11, 'OUTLINE')
+    end)
+
     if (db.expbar and db.style == 'Small' and db.module) then
         -- Reposition Exp Bar
         SUIExpBar:ClearAllPoints()

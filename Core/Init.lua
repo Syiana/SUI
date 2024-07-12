@@ -278,6 +278,7 @@ function SUI:OnInitialize()
             ["CharacterHandsSlotSubIconTexture"] = true, ["CharacterWaistSlotSubIconTexture"] = true,
             ["CharacterLegsSlotSubIconTexture"] = true, ["CharacterFeetSlotSubIconTexture"] = true,
             ["CharacterFinger0SlotSubIconTexture"] = true, ["CharacterFinger1SlotSubIconTexture"] = true,
+            ["HonorFramePvPIcon"] = true,
             [select(1,QuestLogFrame:GetRegions())] = true, [select(18, MailFrame:GetRegions())] = true,
             [select(2, SpellBookSkillLineTab1:GetRegions())] = true, [select(2, SpellBookSkillLineTab2:GetRegions())] = true,
             [select(2, SpellBookSkillLineTab3:GetRegions())] = true, [select(2, SpellBookSkillLineTab4:GetRegions())] = true,
