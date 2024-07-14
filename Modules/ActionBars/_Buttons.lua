@@ -15,19 +15,19 @@ function Module:OnEnable()
         local config = {
             font = STANDARD_TEXT_FONT,
             textures = {
-                normal = "Interface\\Addons\\SUI\\Media\\Textures\\Core\\gloss",
-                flash = "Interface\\Addons\\SUI\\Media\\Textures\\Core\\flash",
-                hover = "Interface\\Addons\\SUI\\Media\\Textures\\Core\\hover",
-                pushed = "Interface\\Addons\\SUI\\Media\\Textures\\Core\\pushed",
-                checked = "Interface\\Addons\\SUI\\Media\\Textures\\Core\\checked",
-                equipped = "Interface\\Addons\\SUI\\Media\\Textures\\Core\\gloss_grey",
-                buttonback = "Interface\\Addons\\SUI\\Media\\Textures\\Core\\button_background",
-                buttonbackflat = "Interface\\Addons\\SUI\\Media\\Textures\\Core\\button_background_flat",
-                outer_shadow = "Interface\\Addons\\SUI\\Media\\Textures\\Core\\outer_shadow"
+                normal = [[Interface\Addons\SUI\Media\Textures\Core\gloss]],
+                flash = [[Interface\Addons\SUI\Media\Textures\Core\flash]],
+                hover = [[Interface\Addons\SUI\Media\Textures\Core\hover]],
+                pushed = [[Interface\Addons\SUI\Media\Textures\Core\pushed]],
+                checked = [[Interface\Addons\SUI\Media\Textures\Core\checked]],
+                equipped = [[Interface\Addons\SUI\Media\Textures\Core\gloss_grey]],
+                buttonback = [[Interface\Addons\SUI\Media\Textures\Core\button_background]],
+                buttonbackflat = [[Interface\Addons\SUI\Media\Textures\Core\button_background_flat]],
+                outer_shadow = [[Interface\Addons\SUI\Media\Textures\Core\outer_shadow]]
             },
             backdrop = {
                 bgFile = "",
-                edgeFile = "Interface\\Addons\\SUI\\Media\\Textures\\Core\\outer_shadow",
+                edgeFile = [[Interface\Addons\SUI\Media\Textures\Core\outer_shadow]],
                 tile = false,
                 tileSize = 32,
                 edgeSize = 5,
@@ -57,7 +57,7 @@ function Module:OnEnable()
         --     for _,s in pairs(st) do
         --         for k,v in pairs(s) do
         --           if k == "StatusBar" then
-        --               v:SetStatusBarTexture("Interface\\Addons\\SUI\\Media\\Textures\\unitframes\\UI-StatusBar")
+        --               v:SetStatusBarTexture("Interface\Addons\SUI\Media\Textures\unitframes\UI-StatusBar")
         --           end
         --         end
         --     end

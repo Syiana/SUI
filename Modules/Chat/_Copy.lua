@@ -13,7 +13,7 @@ function Module:OnEnable()
         container:SetPoint("CENTER", UIParent, "CENTER", 0, 0)
         container:SetFrameStrata("DIALOG")
         container:SetBackdrop({
-            bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background",
+            bgFile = [[Interface\DialogFrame\UI-DialogBox-Background]],
             edgeSize = 16,
             tile = true,
             tileSize = 16,
@@ -82,10 +82,10 @@ function Module:OnEnable()
             self.Copy:SetSize(20, 20)
             self.Copy:SetPoint("TOPRIGHT", self, 0, -5)
 
-            self.Copy:SetNormalTexture("Interface\\AddOns\\SUI\\Media\\Textures\\Chat\\copynormal")
+            self.Copy:SetNormalTexture([[Interface\AddOns\SUI\Media\Textures\Chat\copynormal]])
             self.Copy:GetNormalTexture():SetSize(20, 20)
 
-            self.Copy:SetHighlightTexture("Interface\\AddOns\\SUI\\Media\\Textures\\Chat\\copyhighlight")
+            self.Copy:SetHighlightTexture([[Interface\AddOns\SUI\Media\Textures\Chat\copyhighlight]])
             self.Copy:GetHighlightTexture():SetAllPoints(self.Copy:GetNormalTexture())
 
             local tab = _G[self:GetName() .. "Tab"]

@@ -10,9 +10,9 @@ function Module:OnEnable()
         function SUIBossFrames()
             for i = 1, MAX_BOSS_FRAMES do
                 _G["Boss" .. i .. "TargetFrameHealthBar"]:SetStatusBarTexture(
-                "Interface\\Addons\\SUI\\Media\\Textures\\unitframes\\UI-StatusBar");
+                [[Interface\Addons\SUI\Media\Textures\unitframes\UI-StatusBar]]);
                 _G["Boss" .. i .. "TargetFrameManaBar"]:SetStatusBarTexture(
-                "Interface\\Addons\\SUI\\Media\\Textures\\unitframes\\UI-StatusBar");
+                [[Interface\Addons\SUI\Media\Textures\unitframes\UI-StatusBar]]);
                 _G["Boss" .. i .. "TargetFrameTextureFrameDeadText"]:ClearAllPoints();
                 _G["Boss" .. i .. "TargetFrameTextureFrameDeadText"]:SetPoint("CENTER",
                     _G["Boss" .. i .. "TargetFrameHealthBar"], "CENTER", 0, 0);

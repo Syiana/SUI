@@ -6,9 +6,9 @@ function Module:OnEnable()
         local function styleTooltip(self, style)
             SUI:AddMixin(self)
             local backdrop = {
-                bgFile = "Interface\\Buttons\\WHITE8x8",
+                bgFile = [[Interface\Buttons\WHITE8x8]],
                 bgColor = { 0.03, 0.03, 0.03, 0.9 },
-                edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+                edgeFile = [[Interface\Tooltips\UI-Tooltip-Border]],
                 borderColor = { 0.1, 0.1, 0.1, 0.9 },
                 azeriteBorderColor = { 1, 0.3, 0, 0.9 },
                 tile = false,
@@ -61,9 +61,9 @@ function Module:OnEnable()
         local function styleTooltip(self, style)
             SUI:AddMixin(self)
             local backdrop = {
-                bgFile = "Interface\\Buttons\\WHITE8x8",
+                bgFile = [[Interface\Buttons\WHITE8x8]],
                 bgColor = { 0.03, 0.03, 0.03, 0.9 },
-                edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+                edgeFile = [[Interface\Tooltips\UI-Tooltip-Border]],
                 borderColor = { 0.1, 0.1, 0.1, 0.9 },
                 azeriteBorderColor = { 1, 0.3, 0, 0.9 },
                 tile = false,

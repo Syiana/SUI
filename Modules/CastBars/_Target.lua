@@ -52,7 +52,7 @@ function Module:OnEnable()
                     TargetFrameSpellBar:SetStatusBarTexture(db.texture)
                 else
                     TargetFrameSpellBar:SetStatusBarTexture(
-                    "Interface\\Addons\\SUI\\Media\\Textures\\Unitframes\\UI-StatusBar")
+                    [[Interface\Addons\SUI\Media\Textures\Unitframes\UI-StatusBar]])
                 end
 
                 if (db.target) then

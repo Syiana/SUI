@@ -94,7 +94,7 @@ function Module:OnEnable()
                 isUninteractable = true,
                 notCheckable = true,
                 iconOnly = true,
-                icon = "Interface\\Common\\UI-TooltipDivider-Transparent",
+                icon = [[Interface\Common\UI-TooltipDivider-Transparent]],
                 tCoordLeft = 0,
                 tCoordRight = 1,
                 tCoordTop = 0,

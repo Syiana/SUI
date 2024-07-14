@@ -13,7 +13,7 @@ function Module:OnEnable()
                 if (db.texture ~= 'Default') then
                     FocusFrameSpellBar:SetStatusBarTexture(db.texture)
                 else
-                    FocusFrameSpellBar:SetStatusBarTexture("Interface\\Addons\\SUI\\Media\\Textures\\Unitframes\\UI-StatusBar")
+                    FocusFrameSpellBar:SetStatusBarTexture([[Interface\Addons\SUI\Media\Textures\Unitframes\UI-StatusBar]])
                 end
                 
             end

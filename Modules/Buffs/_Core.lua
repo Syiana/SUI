@@ -49,7 +49,7 @@ function Buffs:OnEnable()
 
         local backdrop = {
             bgFile = nil,
-            edgeFile = "Interface\\Addons\\SUI\\Media\\Textures\\Core\\outer_shadow",
+            edgeFile = [[Interface\Addons\SUI\Media\Textures\Core\outer_shadow]],
             tile = false,
             tileSize = 32,
             edgeSize = 6,
@@ -143,13 +143,13 @@ function Buffs:OnEnable()
                         padding = -2
                     },
                     border = {
-                        texture = "Interface\\Addons\\SUI\\Media\\Textures\\Core\\gloss",
+                        texture = [[Interface\Addons\SUI\Media\Textures\Core\gloss]],
                         color = { r = 0.4, g = 0.35, b = 0.35 },
                         classcolored = false
                     },
                     background = {
                         show = true,
-                        edgeFile = "Interface\\Addons\\SUI\\Media\\Textures\\Core\\outer_shadow",
+                        edgeFile = [[Interface\Addons\SUI\Media\Textures\Core\outer_shadow]],
                         color = { r = 0, g = 0, b = 0, a = 0.9 },
                         classcolored = false,
                         inset = 6,

@@ -324,7 +324,7 @@ function Module:OnEnable()
 
 		function Update_StatusBars()
 			-- Reputation bar Font
-			ReputationWatchBar.OverlayFrame.Text:SetFont("Fonts\\FRIZQT__.TTF", 10, "OUTLINE")
+			ReputationWatchBar.OverlayFrame.Text:SetFont(STANDARD_TEXT_FONT, 10, "OUTLINE")
 
 			-- Hide default reputation and experience bar textures
 			for i = 0, 3 do
@@ -341,7 +341,7 @@ function Module:OnEnable()
 			MainMenuBarExpText:ClearAllPoints()
 			MainMenuBarExpText:SetPoint("CENTER", MainMenuExpBar, 0, 1)
 			-- Experience bar Font
-			MainMenuBarExpText:SetFont("Fonts\\FRIZQT__.TTF", 10, "OUTLINE")
+			MainMenuBarExpText:SetFont(STANDARD_TEXT_FONT, 10, "OUTLINE")
 			-- Experience bar text Strata
 			MainMenuBarOverlayFrame:SetFrameStrata("MEDIUM")
 

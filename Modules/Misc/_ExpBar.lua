@@ -33,7 +33,9 @@ function expBar:OnEnable()
             insets = { left = 1, right = 1, top = 1, bottom = 1 },
         })
 
-        SUIExpBarBorder:SetBackdropBorderColor(unpack(SUI:Color(.15)))
+        if (SUI:Color()) then
+            SUIExpBarBorder:SetBackdropBorderColor(unpack(SUI:Color(.15)))
+        end
 
         -- Check Level
         local expBar = CreateFrame("Frame")

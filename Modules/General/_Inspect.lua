@@ -90,6 +90,15 @@ function Module:OnEnable()
                 return
             end
 
+            local equippedSlots = {}
+            local equippedSlotsNum = 0
+            local equippedItemLevels = 0
+
+            if not (SUI_AvgItemLevel) then
+                SUI_AvgItemLevel = InspectPaperDollItemsFrame:CreateFontString(SUI_AvgItemLevel, "OVERLAY")
+                SUI_AvgItemLevel:SetFont(STANDARD_TEXT_FONT, 11, 'OUTLINE')
+            end
+
             for _, slotName in ipairs(Slots) do
                 local itemiLvlText = ""
                 local frameName = "Inspect" .. slotName
@@ -113,6 +122,11 @@ function Module:OnEnable()
                     _G[frameName].Socket1:SetFont(FONT, 13, 'OUTLINE')
                     _G[frameName].Socket2:SetFont(FONT, 13, 'OUTLINE')
                     _G[frameName].Socket3:SetFont(FONT, 13, 'OUTLINE')
+                end
+
+                if not (_G[frameName].AvgItemLevel) then
+                    _G[frameName].AvgItemLevel = InspectPaperDollItemsFrame:CreateFontString(frameName.."AvgItemLevel", "OVERLAY")
+                    _G[frameName].AvgItemLevel:SetFont(STANDARD_TEXT_FONT, 11, 'OUTLINE')
                 end
 
                 if frameName and ItemLinks[slotName] then
@@ -173,6 +187,7 @@ function Module:OnEnable()
                             _G[frameName].Socket1:SetText("")
                         end
                     end
+
                     if (socket2) then
                         _G[frameName].Socket2:SetText(SocketTexture(socket2))
                     else
@@ -187,6 +202,7 @@ function Module:OnEnable()
                             _G[frameName].Socket2:SetText("")
                         end
                     end
+
                     if (socket3) then
                         _G[frameName].Socket3:SetText(SocketTexture(socket3))
                     else
@@ -201,6 +217,15 @@ function Module:OnEnable()
                             _G[frameName].Socket3:SetText("")
                         end
                     end
+
+                    if not (equippedSlots[frameName]) then
+                        equippedSlots[frameName] = slotilvl
+                        equippedSlotsNum = equippedSlotsNum + 1
+                    else
+                        equippedSlots[frameName] = slotilvl
+                    end
+
+                    equippedItemLevels = equippedItemLevels + equippedSlots[frameName]
 
                     local _, _, quality, _, _, _, _, _, _, _ = C_Item.GetItemInfo(ItemLinks[slotName])
                     if (quality) then
@@ -219,6 +244,18 @@ function Module:OnEnable()
                         _G[frameName].Socket3:SetText("")
                     end
                 end
+
+                if (equippedItemLevels / equippedSlotsNum < 200) then
+                    SUI_AvgItemLevel:SetTextColor(1, 1, 1)
+                elseif (equippedItemLevels / equippedSlotsNum < 320) then
+                    SUI_AvgItemLevel:SetTextColor(0.1, 1, 0)
+                elseif (equippedItemLevels / equippedSlotsNum < 320) then
+                    SUI_AvgItemLevel:SetTextColor(0, 0.44, 0.86)
+                else
+                    SUI_AvgItemLevel:SetTextColor(0.64, 0.2, 0.9)
+                end
+                SUI_AvgItemLevel:SetPoint("TOP", InspectPaperDollItemsFrame, 0, -60)
+                SUI_AvgItemLevel:SetText(tonumber(string.format("%.2f", equippedItemLevels / equippedSlotsNum)))
             end
         end
 

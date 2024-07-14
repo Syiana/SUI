@@ -50,7 +50,7 @@ function Module:OnEnable()
             GameTooltipStatusBar:SetStatusBarTexture(db.texture)
         else
             GameTooltipStatusBar:SetStatusBarTexture(
-            "Interface\\Addons\\SUI\\Media\\Textures\\Tooltip\\UI-TargetingFrame-BarFill_test")
+            [[Interface\Addons\SUI\Media\Textures\Tooltip\UI-TargetingFrame-BarFill_test]])
         end
 
         local function GetHexColor(color)

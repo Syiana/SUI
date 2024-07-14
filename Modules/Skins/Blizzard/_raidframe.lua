@@ -18,7 +18,7 @@ function Module:OnEnable()
             SUI:Skin(CompactRaidFrameManagerDisplayFrameHiddenModeToggle)
         end)
 
-        CompactRaidFrameManagerToggleButton:SetNormalTexture("Interface\\Addons\\SUI\\Media\\Textures\\RaidFrames\\RaidPanel-Toggle")
+        CompactRaidFrameManagerToggleButton:SetNormalTexture([[Interface\Addons\SUI\Media\Textures\RaidFrames\RaidPanel-Toggle]])
 
 		hooksecurefunc("CompactUnitFrame_UpdateAll", function(self)
             if self:IsForbidden() then return end

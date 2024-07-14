@@ -10,7 +10,7 @@ function Module:OnEnable()
         if not InCombatLockdown() then
             local backdrop = {
                 bgFile = nil,
-                edgeFile = "Interface\\Addons\\SUI\\Media\\Textures\\Core\\outer_shadow",
+                edgeFile = [[Interface\Addons\SUI\Media\Textures\Core\outer_shadow]],
                 tile = false,
                 tileSize = 32,
                 edgeSize = 4,

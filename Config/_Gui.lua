@@ -74,7 +74,7 @@ function Gui:OnEnable()
     SUIConfig:GlueLeft(version, config.titlePanel, 40, 0)
 
     local logo = SUIConfig:Texture(config.titlePanel, 120, 120,
-        "Interface\\AddOns\\SUI\\Media\\Textures\\Config\\Logo_Cata")
+        [[Interface\AddOns\SUI\Media\Textures\Config\Logo_Cata]])
     SUIConfig:GlueAbove(logo, config, 0, -82)
 
     function SUI:Config()
