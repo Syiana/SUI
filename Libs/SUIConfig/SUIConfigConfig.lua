@@ -71,9 +71,9 @@ function SUIConfig:ResetConfig()
 			width = 10,
 			height = 10,
 			texture = {
-				normal = "Interface\\ChatFrame\\UI-ChatIM-SizeGrabber-Up",
-				highlight = "Interface\\ChatFrame\\UI-ChatIM-SizeGrabber-Up",
-				pushed = "Interface\\ChatFrame\\UI-ChatIM-SizeGrabber-Down"
+				normal = [[Interface\ChatFrame\UI-ChatIM-SizeGrabber-Up]],
+				highlight = [[Interface\ChatFrame\UI-ChatIM-SizeGrabber-Up]],
+				pushed = [[Interface\ChatFrame\UI-ChatIM-SizeGrabber-Down]]
 			}
 		}
 	};
