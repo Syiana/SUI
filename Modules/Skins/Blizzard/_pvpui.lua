@@ -33,6 +33,13 @@ function Module:OnEnable()
         SUI:Skin(WorldStateScoreFrameTab2)
         SUI:Skin(WorldStateScoreFrameTab3)
         SUI:Skin(PVPConquestFrameInfoButton)
+        SUI:Skin(PVPFrameConquestBar)
+        --[[SUI:Skin({
+            PVPFrameConquestBarBG,
+            PVPFrameConquestBarLeft,
+            PVPFrameConquestBarMiddle,
+            PVPFrameConquestBarRight
+        }, false, true)]]
 
         -- PVP Frame Texts
         PVPHonorFrameInfoScrollFrameChildFrameDescription:SetTextColor(.8, .8, .8)

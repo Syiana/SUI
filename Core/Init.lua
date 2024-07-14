@@ -282,7 +282,7 @@ function SUI:OnInitialize()
             ["GuildRegistrarFramePortrait"] = true, ["PetitionFramePortrait"] = true,
             ["LootFramePortraitOverlay"] = true, ["CalendarCreateEventIcon"] = true,
             ["StaticPopup1AlertIcon"] = true, ["PVPConquestFrameInfoButtonInfoIconAlliance"] = true,
-            ["PVPConquestFrameInfoButtonInfoIconHorde"] = true,
+            ["PVPConquestFrameInfoButtonInfoIconHorde"] = true, ["PVPFrameConquestBarProgress"] = true,
             [select(1,QuestLogFrame:GetRegions())] = true, [select(18, MailFrame:GetRegions())] = true,
             [select(2, SpellBookSkillLineTab1:GetRegions())] = true, [select(2, SpellBookSkillLineTab2:GetRegions())] = true,
             [select(2, SpellBookSkillLineTab3:GetRegions())] = true, [select(2, SpellBookSkillLineTab4:GetRegions())] = true,
