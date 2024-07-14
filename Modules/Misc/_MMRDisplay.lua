@@ -8,7 +8,6 @@ function Module:OnEnable()
 
     if (db.mmr and db.module) then
         -- Variables
-        local alreadyUpdated = false
         local font = STANDARD_TEXT_FONT
 
         -- Create FontStrings
@@ -28,17 +27,13 @@ function Module:OnEnable()
         SUI_MMRDisplay_Team2:SetFont(font, 16, "OUTLINE")
 
         local function mmrDisplay()
-            -- Check if Text Update and Prints have already been done
-            if (alreadyUpdated) then return end
             for i = 0, 1 do
                 local _, _, _, teamMMR = GetBattlefieldTeamInfo(i)
                 if teamMMR > 0 then
                     if i == 0 then
                         SUI_MMRDisplay_Team1:SetText("MMR: " .. teamMMR)
-                        print("|cffff00d5S|r|cff027bffUI|r: |cffbd67ffMMR - " .. teamMMR .. "|r")
                     else
                         SUI_MMRDisplay_Team2:SetText("MMR: " .. teamMMR)
-                        print("|cffff00d5S|r|cff027bffUI|r: |cffffd500MMR - " .. teamMMR .. "|r")
                     end
                 end
             end
@@ -62,14 +57,10 @@ function Module:OnEnable()
         end
 
         local updateFrame = CreateFrame("Frame")
-        updateFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
         updateFrame:RegisterEvent("UPDATE_BATTLEFIELD_SCORE")
         updateFrame:HookScript("OnEvent", function(_, event)
-            if (event == "PLAYER_ENTERING_WORLD") then
-                alreadyUpdated = false
-            elseif (event == "UPDATE_BATTLEFIELD_SCORE") then
+            if (event == "UPDATE_BATTLEFIELD_SCORE") then
                 mmrDisplay()
-                alreadyUpdated = true
             end
         end)
     end

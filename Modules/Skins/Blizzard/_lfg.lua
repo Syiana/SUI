@@ -127,7 +127,10 @@ function Module:OnEnable()
             LFGListInviteDialog.DeclineButton.Right,
             LFGListInviteDialog.AcknowledgeButton.Left,
             LFGListInviteDialog.AcknowledgeButton.Middle,
-            LFGListInviteDialog.AcknowledgeButton.Right
+            LFGListInviteDialog.AcknowledgeButton.Right,
+            RolePollPopupAcceptButton.Left,
+            RolePollPopupAcceptButton.Middle,
+            RolePollPopupAcceptButton.Right,
         }, false, true, false, true)
     end
 end

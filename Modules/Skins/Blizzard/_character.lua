@@ -30,6 +30,10 @@ function Module:OnEnable()
         SUI:Skin(CharacterFrameTab3)
         SUI:Skin(CharacterFrameTab4)
         SUI:Skin(ReputationListScrollFrame)
+        SUI:Skin(TokenFramePopup)
+        SUI:Skin(TokenFramePopup.Border)
+        SUI:Skin(ReputationDetailFrame)
+        SUI:Skin(ReputationDetailFrame.Border)
         SUI:Skin({
             PaperDollInnerBorderTop,
             PaperDollInnerBorderLeft,
