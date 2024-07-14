@@ -249,7 +249,7 @@ function Module:OnEnable()
                     SUI_AvgItemLevel:SetTextColor(1, 1, 1)
                 elseif (equippedItemLevels / equippedSlotsNum < 320) then
                     SUI_AvgItemLevel:SetTextColor(0.1, 1, 0)
-                elseif (equippedItemLevels / equippedSlotsNum < 320) then
+                elseif (equippedItemLevels / equippedSlotsNum < 355) then
                     SUI_AvgItemLevel:SetTextColor(0, 0.44, 0.86)
                 else
                     SUI_AvgItemLevel:SetTextColor(0.64, 0.2, 0.9)
