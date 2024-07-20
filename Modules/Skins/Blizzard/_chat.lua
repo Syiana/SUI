@@ -62,5 +62,15 @@ function Module:OnEnable()
             CombatConfigSettingsSaveButton.Middle,
             CombatConfigSettingsSaveButton.Right,
         }, false, true, false, true)
+
+        ChatConfigCategoryFrameButton3:HookScript("OnClick", function()
+            for i, _ in pairs(CHAT_CONFIG_AVAILABLE_CHANNEL_LIST) do
+                SUI:Skin({
+                    _G["ChatConfigChannelSettingsAvailableBox" .. i .. "Button"].Left,
+                    _G["ChatConfigChannelSettingsAvailableBox" .. i .. "Button"].Middle,
+                    _G["ChatConfigChannelSettingsAvailableBox" .. i .. "Button"].Right
+                }, false, true, false, true)
+            end
+        end)
     end
 end
