@@ -213,9 +213,41 @@ function Module:OnEnable()
                         AuctionatorConfigFrame.ScanButton.Left,
                         AuctionatorConfigFrame.ScanButton.Middle,
                         AuctionatorConfigFrame.ScanButton.Right,
+                        AuctionatorCancellingFrame.UndercutScanContainer.StartScanButton.Left,
+                        AuctionatorCancellingFrame.UndercutScanContainer.StartScanButton.Middle,
+                        AuctionatorCancellingFrame.UndercutScanContainer.StartScanButton.Right,
+                        AuctionatorBuyFrame.HistoryButton.Left,
+                        AuctionatorBuyFrame.HistoryButton.Middle,
+                        AuctionatorBuyFrame.HistoryButton.Right,
+                        AuctionatorBuyFrame.CurrentPrices.RefreshButton.Left,
+                        AuctionatorBuyFrame.CurrentPrices.RefreshButton.Middle,
+                        AuctionatorBuyFrame.CurrentPrices.RefreshButton.Right,
+                        AuctionatorBuyFrame.CurrentPrices.BuyButton.Left,
+                        AuctionatorBuyFrame.CurrentPrices.BuyButton.Middle,
+                        AuctionatorBuyFrame.CurrentPrices.BuyButton.Right,
+                        AuctionatorBuyFrame.CurrentPrices.CancelButton.Left,
+                        AuctionatorBuyFrame.CurrentPrices.CancelButton.Middle,
+                        AuctionatorBuyFrame.CurrentPrices.CancelButton.Right,
+                        AuctionatorBuyFrame.HistoryPrices.RealmHistoryButton.Left,
+                        AuctionatorBuyFrame.HistoryPrices.RealmHistoryButton.Middle,
+                        AuctionatorBuyFrame.HistoryPrices.RealmHistoryButton.Right,
+                        AuctionatorBuyFrame.HistoryPrices.PostingHistoryButton.Left,
+                        AuctionatorBuyFrame.HistoryPrices.PostingHistoryButton.Middle,
+                        AuctionatorBuyFrame.HistoryPrices.PostingHistoryButton.Right,
+                        AuctionatorSellingFrame.BuyFrame.HistoryPrices.RealmHistoryButton.Left,
+                        AuctionatorSellingFrame.BuyFrame.HistoryPrices.RealmHistoryButton.Middle,
+                        AuctionatorSellingFrame.BuyFrame.HistoryPrices.RealmHistoryButton.Right,
+                        AuctionatorSellingFrame.BuyFrame.HistoryPrices.PostingHistoryButton.Left,
+                        AuctionatorSellingFrame.BuyFrame.HistoryPrices.PostingHistoryButton.Middle,
+                        AuctionatorSellingFrame.BuyFrame.HistoryPrices.PostingHistoryButton.Right,
                     }, false, true, false, true)
                 end
-                C_Timer.After(0.1, updateAuctionTabs)
+
+                C_Timer.After(0.1, function()
+                    if (AuctionatorShoppingFrame) then
+                        updateAuctionTabs()
+                    end
+                end)
             end
         end)
     end
