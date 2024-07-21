@@ -240,6 +240,9 @@ function Module:OnEnable()
                         AuctionatorSellingFrame.BuyFrame.HistoryPrices.PostingHistoryButton.Left,
                         AuctionatorSellingFrame.BuyFrame.HistoryPrices.PostingHistoryButton.Middle,
                         AuctionatorSellingFrame.BuyFrame.HistoryPrices.PostingHistoryButton.Right,
+                        AuctionatorCraftingInfo.SearchButton.Left,
+                        AuctionatorCraftingInfo.SearchButton.Middle,
+                        AuctionatorCraftingInfo.SearchButton.Right,
                     }, false, true, false, true)
                 end
 
