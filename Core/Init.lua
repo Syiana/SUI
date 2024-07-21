@@ -653,8 +653,8 @@ function SUI:OnInitialize()
         local prof1, prof2 = GetProfessions()
         if (itemSlots[slotID]) then
             if (slotID == 11 or slotID == 12) then
-                if (isPlayer and (prof1 and prof1 == 6 or prof2 and prof2 == 6)) then
-                    local _, _, skill  = GetProfessionInfo(6)
+                if (isPlayer and (prof1 and prof1 == 9 or prof2 and prof2 == 9)) then
+                    local _, _, skill  = GetProfessionInfo(9)
 
                     if (skill >= 475) then
                         return true

@@ -372,7 +372,7 @@ function Module:OnEnable()
                     itemiLvlText = ilvl
                 end
 
-                if (ilvl > 100) then
+                if (ilvl and ilvl > 100) then
                     button.levelString:SetText(itemiLvlText)
                 else
                     button.levelString:SetText("")
