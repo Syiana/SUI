@@ -37,6 +37,9 @@ function Module:OnEnable()
             QuestNPCModelTextBottomLeftCorner,
             QuestNPCModelTextLeftBorder,
             QuestNPCModelTextTopLeftCorner,
+            ObjectiveTrackerFrame.Header.Background,
+            CampaignQuestObjectiveTracker.Header.Background,
+            QuestObjectiveTracker.Header.Background
         }) do
             v:SetVertexColor(unpack(SUI:Color(0.15)))
         end

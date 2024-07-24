@@ -21,7 +21,16 @@ function Module:OnEnable()
             StaticPopup1.Border.TopRightCorner,
             StaticPopup1.Border.TopLeftCorner,
             StaticPopup1.Border.BottomLeftCorner,
-            StaticPopup1.Border.BottomRightCorner
+            StaticPopup1.Border.BottomRightCorner,
+            EditModeManagerFrame.Border.Bg,
+            EditModeManagerFrame.Border.TopEdge,
+            EditModeManagerFrame.Border.BottomEdge,
+            EditModeManagerFrame.Border.LeftEdge,
+            EditModeManagerFrame.Border.RightEdge,
+            EditModeManagerFrame.Border.TopLeftCorner,
+            EditModeManagerFrame.Border.TopRightCorner,
+            EditModeManagerFrame.Border.BottomLeftCorner,
+            EditModeManagerFrame.Border.BottomRightCorner,
         }) do
             v:SetVertexColor(unpack(SUI:Color(0.15)))
         end

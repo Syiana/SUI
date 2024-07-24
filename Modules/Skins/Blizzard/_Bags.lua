@@ -18,7 +18,7 @@ function Module:OnEnable()
     end
 
     function SUIDefaultBags()
-        for i = 1, 6 do
+        for i = 1, 13 do
             local container = _G["ContainerFrame" .. i]
 
             SUIStyleNineSlice(container)

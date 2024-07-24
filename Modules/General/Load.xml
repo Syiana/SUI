@@ -15,5 +15,5 @@
   <Script file="_Stats.lua"/>
   <Script file="_AfkCam.lua"/>
   <Script file="_AutoInvite.lua"/>
-  <!--<Script file="_Editmode.lua"/>-->
+  <Script file="_Editmode.lua"/>
 </Ui>

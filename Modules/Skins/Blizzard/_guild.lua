@@ -29,5 +29,68 @@ function Module:OnEnable()
         }) do
             v:SetVertexColor(unpack(SUI:Color(0.15)))
         end
+
+        local f = CreateFrame("Frame")
+        f:RegisterEvent("ADDON_LOADED")
+        f:SetScript("OnEvent", function(self, event, name)
+            if name == "Blizzard_GuildBankUI" then
+                for i, v in pairs({
+                    GuildBankFrameTab1.Left,
+                    GuildBankFrameTab1.Middle,
+                    GuildBankFrameTab1.Right,
+                    GuildBankFrameTab1.LeftActive,
+                    GuildBankFrameTab1.MiddleActive,
+                    GuildBankFrameTab1.RightActive,
+                    GuildBankFrameTab1.LeftHighlight,
+                    GuildBankFrameTab1.MiddleHighlight,
+                    GuildBankFrameTab1.RightHighlight,
+                    GuildBankFrameTab2.Left,
+                    GuildBankFrameTab2.Middle,
+                    GuildBankFrameTab2.Right,
+                    GuildBankFrameTab2.LeftActive,
+                    GuildBankFrameTab2.MiddleActive,
+                    GuildBankFrameTab2.RightActive,
+                    GuildBankFrameTab2.LeftHighlight,
+                    GuildBankFrameTab2.MiddleHighlight,
+                    GuildBankFrameTab2.RightHighlight,
+                    GuildBankFrameTab3.Left,
+                    GuildBankFrameTab3.Middle,
+                    GuildBankFrameTab3.Right,
+                    GuildBankFrameTab3.LeftActive,
+                    GuildBankFrameTab3.MiddleActive,
+                    GuildBankFrameTab3.RightActive,
+                    GuildBankFrameTab3.LeftHighlight,
+                    GuildBankFrameTab3.MiddleHighlight,
+                    GuildBankFrameTab3.RightHighlight,
+                    GuildBankFrameTab4.Left,
+                    GuildBankFrameTab4.Middle,
+                    GuildBankFrameTab4.Right,
+                    GuildBankFrameTab4.LeftActive,
+                    GuildBankFrameTab4.MiddleActive,
+                    GuildBankFrameTab4.RightActive,
+                    GuildBankFrameTab4.LeftHighlight,
+                    GuildBankFrameTab4.MiddleHighlight,
+                    GuildBankFrameTab4.RightHighlight,
+                    GuildBankFrame.RedMarbleBG,
+                    GuildBankFrame.Emblem.Left,
+                    GuildBankFrame.Emblem.Middle,
+                    GuildBankFrame.Emblem.Right,
+                    GuildBankFrame.TitleBg,
+                    GuildBankFrameLeft,
+                    GuildBankFrameMiddle,
+                    GuildBankFrameRight,
+                    GuildBankFrame.TopBorder,
+                    GuildBankFrame.TopLeftCorner,
+                    GuildBankFrame.TopRightCorner,
+                    GuildBankFrame.LeftBorder,
+                    GuildBankFrame.RightBorder,
+                    GuildBankFrame.BottomBorder,
+                    GuildBankFrame.BotLeftCorner,
+                    GuildBankFrame.BotRightCorner,
+                }) do
+                    v:SetVertexColor(unpack(SUI:Color(0.15)))
+                end
+            end
+        end)
     end
 end

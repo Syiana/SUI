@@ -105,6 +105,28 @@ function Module:OnEnable()
                     AuctionHouseFrameAuctionsTab.LeftHighlight,
                     AuctionHouseFrameAuctionsTab.MiddleHighlight,
                     AuctionHouseFrameAuctionsTab.RightHighlight,
+                    AuctionHouseFrameAuctionsFrameAuctionsTab.Left,
+                    AuctionHouseFrameAuctionsFrameAuctionsTab.Middle,
+                    AuctionHouseFrameAuctionsFrameAuctionsTab.Right,
+                    AuctionHouseFrameAuctionsFrameAuctionsTab.LeftActive,
+                    AuctionHouseFrameAuctionsFrameAuctionsTab.MiddleActive,
+                    AuctionHouseFrameAuctionsFrameAuctionsTab.RightActive,
+                    AuctionHouseFrameAuctionsFrameAuctionsTab.LeftHighlight,
+                    AuctionHouseFrameAuctionsFrameAuctionsTab.MiddleHighlight,
+                    AuctionHouseFrameAuctionsFrameAuctionsTab.RightHighlight,
+                    AuctionHouseFrameAuctionsFrameBidsTab.Left,
+                    AuctionHouseFrameAuctionsFrameBidsTab.Middle,
+                    AuctionHouseFrameAuctionsFrameBidsTab.Right,
+                    AuctionHouseFrameAuctionsFrameBidsTab.LeftActive,
+                    AuctionHouseFrameAuctionsFrameBidsTab.MiddleActive,
+                    AuctionHouseFrameAuctionsFrameBidsTab.RightActive,
+                    AuctionHouseFrameAuctionsFrameBidsTab.LeftHighlight,
+                    AuctionHouseFrameAuctionsFrameBidsTab.MiddleHighlight,
+                    AuctionHouseFrameAuctionsFrameBidsTab.RightHighlight,
+                    AuctionHouseFrameLeft,
+                    AuctionHouseFrameMiddle,
+                    AuctionHouseFrameRight,
+                    select(1, AuctionHouseFrame.MoneyFrameBorder:GetRegions())
                 }) do
                     v:SetVertexColor(unpack(SUI:Color(0.15)))
                 end

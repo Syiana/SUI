@@ -40,6 +40,15 @@ function Module:OnEnable()
             CharacterFrameTab2.LeftHighlight,
             CharacterFrameTab2.MiddleHighlight,
             CharacterFrameTab2.RightHighlight,
+            CharacterFrameTab3.Left,
+            CharacterFrameTab3.Middle,
+            CharacterFrameTab3.Right,
+            CharacterFrameTab3.LeftActive,
+            CharacterFrameTab3.MiddleActive,
+            CharacterFrameTab3.RightActive,
+            CharacterFrameTab3.LeftHighlight,
+            CharacterFrameTab3.MiddleHighlight,
+            CharacterFrameTab3.RightHighlight,
             CharacterFrame.Background
         }) do
             v:SetVertexColor(unpack(SUI:Color(0.15)))
