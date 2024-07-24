@@ -34,7 +34,7 @@ function Module:OnEnable()
                     event == "DUEL_FINISHED"
                 then
                     local RTB_BindSet = GetCurrentBindingSet()
-                    local RTB_PVPType = GetZonePVPInfo()
+                    local RTB_PVPType = C_PvP.GetZonePVPInfo()
                     local _, RTB_ZoneType = IsInInstance()
 
                     RTB_TargetKey = GetBindingKey("TARGETNEARESTENEMYPLAYER")

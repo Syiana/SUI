@@ -1,7 +1,7 @@
 local Skin = SUI:NewModule("Skins.Bartender");
 
 function Skin:OnEnable()
-    local Bartender = IsAddOnLoaded("Bartender4")
+    local Bartender = C_AddOns.IsAddOnLoaded("Bartender4")
     if not (Bartender) then return end
     if (SUI:Color()) then
         for i, v in pairs({

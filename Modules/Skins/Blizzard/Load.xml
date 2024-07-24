@@ -35,6 +35,7 @@
   <Include file='_Merchant.lua'/>
   <Include file='_Minimap.lua'/>
   <Include file='_Petition.lua'/>
+  <Include file='_Professions.lua'/>
   <Include file='_Pvpui.lua'/>
   <Include file='_Quest.lua'/>
   <Include file='_Raidframe.lua'/>

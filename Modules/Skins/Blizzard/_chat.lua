@@ -22,8 +22,9 @@ function Module:OnEnable()
             ChatFrame6EditBoxMid,
             ChatFrame7EditBoxLeft,
             ChatFrame7EditBoxRight,
-            ChatFrame7EditBoxMid, }) do
-            v:SetVertexColor(.15, .15, .15)
+            ChatFrame7EditBoxMid,
+        }) do
+            v:SetVertexColor(unpack(SUI:Color(0.15)))
         end
         for i, v in pairs({ ChannelFrame.NineSlice.TopEdge,
             ChannelFrame.NineSlice.TopEdge,
@@ -40,15 +41,16 @@ function Module:OnEnable()
             ChannelFrame.RightInset.NineSlice.BottomEdge,
             ChannelFrame.RightInset.NineSlice.BottomLeftCorner,
             ChannelFrame.RightInset.NineSlice.BottomRightCorner,
-            ChannelFrameInset.NineSlice.BottomEdge, }) do
-            v:SetVertexColor(.15, .15, .15)
+            ChannelFrameInset.NineSlice.BottomEdge,
+        }) do
+            v:SetVertexColor(unpack(SUI:Color(0.15)))
         end
         for i, v in pairs({
             ChannelFrame.Bg,
             ChannelFrame.TitleBg,
             ChannelFrameInset.Bg
         }) do
-            v:SetVertexColor(.3, .3, .3)
+            v:SetVertexColor(unpack(SUI:Color(0.15)))
         end
     end
 end

@@ -6,7 +6,8 @@ function Module:OnEnable()
         f:RegisterEvent("ADDON_LOADED")
         f:SetScript("OnEvent", function(self, event, name)
             if name == "Blizzard_GarrisonUI" then
-                for i, v in pairs({ GarrisonCapacitiveDisplayFrame.NineSlice.TopEdge,
+                for i, v in pairs({
+                    GarrisonCapacitiveDisplayFrame.NineSlice.TopEdge,
                     GarrisonCapacitiveDisplayFrame.NineSlice.RightEdge,
                     GarrisonCapacitiveDisplayFrame.NineSlice.BottomEdge,
                     GarrisonCapacitiveDisplayFrame.NineSlice.LeftEdge,
@@ -14,14 +15,15 @@ function Module:OnEnable()
                     GarrisonCapacitiveDisplayFrame.NineSlice.TopLeftCorner,
                     GarrisonCapacitiveDisplayFrame.NineSlice.BottomLeftCorner,
                     GarrisonCapacitiveDisplayFrame.NineSlice.BottomRightCorner,
-                    GarrisonCapacitiveDisplayFrameInset.NineSlice.BottomEdge, }) do
-                    v:SetVertexColor(.15, .15, .15)
+                    GarrisonCapacitiveDisplayFrameInset.NineSlice.BottomEdge,
+                }) do
+                    v:SetVertexColor(unpack(SUI:Color(0.15)))
                 end
                 for i, v in pairs({
                     GarrisonCapacitiveDisplayFrame.Bg,
                     GarrisonCapacitiveDisplayFrame.TitleBg
                 }) do
-                    v:SetVertexColor(.3, .3, .3)
+                    v:SetVertexColor(unpack(SUI:Color(0.15)))
                 end
             end
         end)

@@ -9,8 +9,6 @@ if not SUIConfig:UpgradeNeeded(module, version) then
 	return
 end
 
-local IsAddOnLoaded = IsAddOnLoaded;
-
 SUIConfig.config = {};
 
 function SUIConfig:ResetConfig()
@@ -78,7 +76,7 @@ function SUIConfig:ResetConfig()
 		}
 	};
 
-	if IsAddOnLoaded('ElvUI') then
+	if C_AddOns.IsAddOnLoaded('ElvUI') then
 		local eb = ElvUI[1].media.backdropfadecolor;
 		self.config.backdrop.panel = { r = eb[1], g = eb[2], b = eb[3], a = eb[4] };
 	end

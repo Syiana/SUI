@@ -18,14 +18,14 @@ function Module:OnEnable()
                 SettingsPanel.NineSlice.LeftEdge,
                 SettingsPanel.NineSlice.RightEdge,
             }) do
-                v:SetVertexColor(.15, .15, .15)
+                v:SetVertexColor(unpack(SUI:Color(0.15)))
             end
 
             for i, v in pairs({
                 SettingsPanel.Bg.BottomLeft,
                 SettingsPanel.Bg.BottomRight
             }) do
-                v:SetVertexColor(.02, .02, .02)
+                v:SetVertexColor(unpack(SUI:Color(0.15)))
             end
         end)
     end

@@ -13,14 +13,15 @@ function Module:OnEnable()
                     AzeriteEmpoweredItemUI.BorderFrame.NineSlice.TopRightCorner,
                     AzeriteEmpoweredItemUI.BorderFrame.NineSlice.TopLeftCorner,
                     AzeriteEmpoweredItemUI.BorderFrame.NineSlice.BottomLeftCorner,
-                    AzeriteEmpoweredItemUI.BorderFrame.NineSlice.BottomRightCorner, }) do
-                    v:SetVertexColor(.15, .15, .15)
+                    AzeriteEmpoweredItemUI.BorderFrame.NineSlice.BottomRightCorner,
+                }) do
+                    v:SetVertexColor(unpack(SUI:Color(0.15)))
                 end
                 for i, v in pairs({
                     AzeriteEmpoweredItemUI.BorderFrame.Bg,
                     AzeriteEmpoweredItemUI.BorderFrame.TitleBg
                 }) do
-                    v:SetVertexColor(.3, .3, .3)
+                    v:SetVertexColor(unpack(SUI:Color(0.15)))
                 end
             end
         end)
@@ -36,14 +37,15 @@ function Module:OnEnable()
                     AzeriteRespecFrame.NineSlice.TopRightCorner,
                     AzeriteRespecFrame.NineSlice.TopLeftCorner,
                     AzeriteRespecFrame.NineSlice.BottomLeftCorner,
-                    AzeriteRespecFrame.NineSlice.BottomRightCorner, }) do
-                    v:SetVertexColor(.15, .15, .15)
+                    AzeriteRespecFrame.NineSlice.BottomRightCorner,
+                }) do
+                    v:SetVertexColor(unpack(SUI:Color(0.15)))
                 end
                 for i, v in pairs({
                     AzeriteRespecFrame.Bg,
                     AzeriteRespecFrame.TitleBg
                 }) do
-                    v:SetVertexColor(.3, .3, .3)
+                    v:SetVertexColor(unpack(SUI:Color(0.15)))
                 end
             end
         end)
@@ -59,14 +61,15 @@ function Module:OnEnable()
                     AzeriteEssenceUI.NineSlice.TopRightCorner,
                     AzeriteEssenceUI.NineSlice.TopLeftCorner,
                     AzeriteEssenceUI.NineSlice.BottomLeftCorner,
-                    AzeriteEssenceUI.NineSlice.BottomRightCorner, }) do
-                    v:SetVertexColor(.15, .15, .15)
+                    AzeriteEssenceUI.NineSlice.BottomRightCorner,
+                }) do
+                    v:SetVertexColor(unpack(SUI:Color(0.15)))
                 end
                 for i, v in pairs({
                     AzeriteEssenceUI.Bg,
                     AzeriteEssenceUI.TitleBg
                 }) do
-                    v:SetVertexColor(.3, .3, .3)
+                    v:SetVertexColor(unpack(SUI:Color(0.15)))
                 end
                 for i, v in pairs({
                     AzeriteEssenceUI.LeftInset.NineSlice.TopEdge,
@@ -86,7 +89,7 @@ function Module:OnEnable()
                     AzeriteEssenceUI.RightInset.NineSlice.LeftEdge,
                     AzeriteEssenceUI.RightInset.NineSlice.TopLeftCorner,
                 }) do
-                    v:SetVertexColor(.3, .3, .3)
+                    v:SetVertexColor(unpack(SUI:Color(0.15)))
                 end
                 for i, v in pairs({
                     AzeriteEssenceUI.EssenceList.ScrollBar.ScrollBarBottom,
@@ -98,7 +101,7 @@ function Module:OnEnable()
                     AzeriteEssenceUI.EssenceList.ScrollBar.ScrollUpButton.Disabled,
                     AzeriteEssenceUI.EssenceList.ScrollBar.ScrollDownButton.Disabled,
                 }) do
-                    v:SetVertexColor(.4, .4, .4)
+                    v:SetVertexColor(unpack(SUI:Color(0.15)))
                 end
             end
         end)

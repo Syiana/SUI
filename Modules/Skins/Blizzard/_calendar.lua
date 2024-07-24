@@ -18,6 +18,13 @@ function Module:OnEnable()
                     CalendarFrameLeftBottomTexture,
                     CalendarFrameTopLeftTexture,
                     CalendarFrameTopRightTexture,
+                    CalendarCreateEventDivider,
+                    CalendarCreateEventFrameButtonBackground,
+                    CalendarCreateEventMassInviteButtonBorder,
+                    CalendarCreateEventCreateButtonBorder,
+                    CalendarCreateEventFrame.Header.LeftBG,
+                    CalendarCreateEventFrame.Header.CenterBG,
+                    CalendarCreateEventFrame.Header.RightBG,
                     CalendarCreateEventFrame.Border.TopEdge,
                     CalendarCreateEventFrame.Border.RightEdge,
                     CalendarCreateEventFrame.Border.BottomEdge,
@@ -33,9 +40,14 @@ function Module:OnEnable()
                     CalendarViewHolidayFrame.Border.TopRightCorner,
                     CalendarViewHolidayFrame.Border.TopLeftCorner,
                     CalendarViewHolidayFrame.Border.BottomLeftCorner,
-                    CalendarViewHolidayFrame.Border.BottomRightCorner, }) do
-                    v:SetVertexColor(.15, .15, .15)
+                    CalendarViewHolidayFrame.Border.BottomRightCorner,
+                    CalendarViewHolidayFrame.Header.LeftBG,
+                    CalendarViewHolidayFrame.Header.CenterBG,
+                    CalendarViewHolidayFrame.Header.RightBG
+                }) do
+                    v:SetVertexColor(unpack(SUI:Color(0.15)))
                 end
+                
             end
         end)
     end

@@ -9,7 +9,7 @@ function Module:OnEnable()
     }
 
     if db then
-        if not (IsAddOnLoaded("SexyMap")) then
+        if not (C_AddOns.IsAddOnLoaded("SexyMap")) then
             if db.maps.buttons then
                 local EventFrame = CreateFrame("Frame")
                 EventFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
@@ -23,21 +23,14 @@ function Module:OnEnable()
         end
 
         local function QueueStatusButton_Reposition()
-            if IsAddOnLoaded("EditModeExpanded") then return end
+            if C_AddOns.IsAddOnLoaded("EditModeExpanded") then return end
             QueueStatusButton:SetParent(UIParent)
             QueueStatusButton:SetFrameLevel(1)
             QueueStatusButton:SetScale(0.8, 0.8)
             QueueStatusButton:ClearAllPoints()
             QueueStatusButton:SetPoint(db.queueicon.point, UIParent, db.queueicon.point, db.queueicon.x, db.queueicon.y)
         end
-
-        hooksecurefunc("QueueStatusDropDown_Show", function(button, relativeTo)
-            if not strfind(db.queueicon.point, "BOTTOM") then
-                DropDownList1:ClearAllPoints()
-                DropDownList1:SetPoint("BOTTOMLEFT", QueueStatusButton, "BOTTOMLEFT", -70, -60)
-            end
-        end)
-
+        
         hooksecurefunc(QueueStatusButton, "UpdatePosition", function()
             QueueStatusButton_Reposition()
         end)

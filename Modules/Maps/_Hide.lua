@@ -2,15 +2,15 @@ local Module = SUI:NewModule("Maps.Hide");
 
 function Module:OnEnable()
     local db = SUI.db.profile.maps
-    if not (IsAddOnLoaded("SexyMap")) then
+    if not (C_AddOns.IsAddOnLoaded("SexyMap")) then
         if not db.date then
             GameTimeFrame:UnregisterAllEvents()
             GameTimeFrame:Hide()
         end
         if not db.tracking then
-            MinimapCluster.TrackingFrame.Button:UnregisterAllEvents()
-            MinimapCluster.TrackingFrame.Button:Hide()
-            MinimapCluster.TrackingFrame.Background:Hide()
+            MinimapCluster.Tracking.Button:UnregisterAllEvents()
+            MinimapCluster.Tracking.Button:Hide()
+            MinimapCluster.Tracking.Background:Hide()
         end
         if not db.clock then
             TimeManagerClockButton:Hide()

@@ -20,14 +20,36 @@ function Module:OnEnable()
             TokenFramePopup.Border.TopLeftCorner,
             TokenFramePopup.Border.BottomLeftCorner,
             TokenFramePopup.Border.BottomRightCorner,
-            ReputationDetailFrame.Border.TopEdge,
-            ReputationDetailFrame.Border.RightEdge,
-            ReputationDetailFrame.Border.BottomEdge,
-            ReputationDetailFrame.Border.LeftEdge,
-            ReputationDetailFrame.Border.TopRightCorner,
-            ReputationDetailFrame.Border.TopLeftCorner,
-            ReputationDetailFrame.Border.BottomLeftCorner,
-            ReputationDetailFrame.Border.BottomRightCorner
+            CharacterStatsPane.ClassBackground,
+            CharacterFrameInsetRight.Bg,
+            CharacterFrameTab1.Left,
+            CharacterFrameTab1.Middle,
+            CharacterFrameTab1.Right,
+            CharacterFrameTab1.LeftActive,
+            CharacterFrameTab1.MiddleActive,
+            CharacterFrameTab1.RightActive,
+            CharacterFrameTab1.LeftHighlight,
+            CharacterFrameTab1.MiddleHighlight,
+            CharacterFrameTab1.RightHighlight,
+            CharacterFrameTab2.Left,
+            CharacterFrameTab2.Middle,
+            CharacterFrameTab2.Right,
+            CharacterFrameTab2.LeftActive,
+            CharacterFrameTab2.MiddleActive,
+            CharacterFrameTab2.RightActive,
+            CharacterFrameTab2.LeftHighlight,
+            CharacterFrameTab2.MiddleHighlight,
+            CharacterFrameTab2.RightHighlight,
+            CharacterFrameTab3.Left,
+            CharacterFrameTab3.Middle,
+            CharacterFrameTab3.Right,
+            CharacterFrameTab3.LeftActive,
+            CharacterFrameTab3.MiddleActive,
+            CharacterFrameTab3.RightActive,
+            CharacterFrameTab3.LeftHighlight,
+            CharacterFrameTab3.MiddleHighlight,
+            CharacterFrameTab3.RightHighlight,
+            CharacterFrame.Background
         }) do
             v:SetVertexColor(unpack(SUI:Color(0.15)))
         end
@@ -90,32 +112,5 @@ function Module:OnEnable()
         }) do
             v:SetAlpha(0)
         end
-
-        -- for i, v in pairs({
-        --   ReputationListScrollFrameScrollBarThumbTexture,
-        --   ReputationListScrollFrameScrollBarScrollUpButton.Normal,
-        --   ReputationListScrollFrameScrollBarScrollDownButton.Normal,
-        --   ReputationListScrollFrameScrollBarScrollUpButton.Disabled,
-        --   ReputationListScrollFrameScrollBarScrollDownButton.Disabled,
-
-        -- }) do
-        --   v:SetVertexColor(.4, .4, .4)
-        -- end
-        -- _G.select(1, ReputationListScrollFrame:GetRegions()):SetVertexColor(.4, .4, .4)
-        -- _G.select(2, ReputationListScrollFrame:GetRegions()):SetVertexColor(.4, .4, .4)
-
-        -- for i, v in pairs({
-        --   TokenFrameContainerScrollBarTop,
-        --   TokenFrameContainerScrollBarMiddle,
-        --   TokenFrameContainerScrollBarBottom,
-        --   TokenFrameContainerScrollBarThumbTexture,
-        --   TokenFrameContainerScrollBarScrollUpButton.Normal,
-        --   TokenFrameContainerScrollBarScrollDownButton.Normal,
-        --   TokenFrameContainerScrollBarScrollUpButton.Disabled,
-        --   TokenFrameContainerScrollBarScrollDownButton.Disabled,
-
-        -- }) do
-        --   v:SetVertexColor(.4, .4, .4)
-        -- end
     end
 end

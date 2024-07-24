@@ -20,8 +20,9 @@ function Module:OnEnable()
                     TimeManagerFrameInset.NineSlice.LeftEdge,
                     TimeManagerFrameInset.NineSlice.TopRightCorner,
                     TimeManagerFrameInset.NineSlice.TopLeftCorner,
-                    StopwatchFrameBackgroundLeft, }) do
-                    v:SetVertexColor(.15, .15, .15)
+                    StopwatchFrameBackgroundLeft,
+                }) do
+                    v:SetVertexColor(unpack(SUI:Color(0.15)))
                 end
             end
         end)

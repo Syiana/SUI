@@ -13,14 +13,15 @@ function Module:OnEnable()
                     FlightMapFrame.BorderFrame.NineSlice.TopRightCorner,
                     FlightMapFrame.BorderFrame.NineSlice.TopLeftCorner,
                     FlightMapFrame.BorderFrame.NineSlice.BottomLeftCorner,
-                    FlightMapFrame.BorderFrame.NineSlice.BottomRightCorner, }) do
-                    v:SetVertexColor(.15, .15, .15)
+                    FlightMapFrame.BorderFrame.NineSlice.BottomRightCorner,
+                }) do
+                    v:SetVertexColor(unpack(SUI:Color(0.15)))
                 end
                 for i, v in pairs({
                     FlightMapFrame.Bg,
                     FlightMapFrame.TitleBg
                 }) do
-                    v:SetVertexColor(.3, .3, .3)
+                    v:SetVertexColor(unpack(SUI:Color(0.15)))
                 end
             end
         end)

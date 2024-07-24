@@ -1,7 +1,7 @@
 local Buffs = SUI:NewModule("Buffs.Buffs");
 
 function Buffs:OnEnable()
-    if IsAddOnLoaded("BlizzBuffsFacade") then return end
+    if C_AddOns.IsAddOnLoaded("BlizzBuffsFacade") then return end
 
     local db = SUI.db.profile.unitframes.buffs
     local theme = SUI.db.profile.general.theme

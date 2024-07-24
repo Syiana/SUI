@@ -13,14 +13,15 @@ function Module:OnEnable()
                     ClassTrainerFrame.NineSlice.TopRightCorner,
                     ClassTrainerFrame.NineSlice.TopLeftCorner,
                     ClassTrainerFrame.NineSlice.BottomLeftCorner,
-                    ClassTrainerFrame.NineSlice.BottomRightCorner }) do
-                    v:SetVertexColor(.15, .15, .15)
+                    ClassTrainerFrame.NineSlice.BottomRightCorner
+                }) do
+                    v:SetVertexColor(unpack(SUI:Color(0.15)))
                 end
                 for i, v in pairs({
                     ClassTrainerFrame.Bg,
                     ClassTrainerFrame.TitleBg
                 }) do
-                    v:SetVertexColor(.3, .3, .3)
+                    v:SetVertexColor(unpack(SUI:Color(0.15)))
                 end
             end
         end)

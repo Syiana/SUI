@@ -1,7 +1,7 @@
 local Debuffs = SUI:NewModule("Buffs.Debuffs");
 
 function Debuffs:OnEnable()
-    if IsAddOnLoaded("BlizzBuffsFacade") then return end
+    if C_AddOns.IsAddOnLoaded("BlizzBuffsFacade") then return end
 
     local db = SUI.db.profile.unitframes.buffs
     local theme = SUI.db.profile.general.theme
@@ -39,20 +39,6 @@ function Debuffs:OnEnable()
     DebuffColor["Curse"]   = { r = 0.60, g = 0.00, b = 1.00 };
     DebuffColor["Disease"] = { r = 0.60, g = 0.40, b = 0 };
     DebuffColor["Poison"]  = { r = 0.00, g = 0.60, b = 0 };
-
-    local function ButtonMasque(button)
-        local icon = button.Icon
-        local point, relativeTo, relativePoint, xOfs, yOfs = icon:GetPoint()
-
-
-        local border = CreateFrame("Frame", nil, button)
-        border:SetSize(icon:GetWidth(), icon:GetHeight())
-        border:SetPoint("CENTER", button, "CENTER", 0, 5)
-
-        border.debuff = CreateFrame("Frame", nil, border, "BackdropTemplate")
-
-        button.SUIBorder = border
-    end
 
     local function ButtonDefault(button)
         local Backdrop = {
@@ -99,45 +85,6 @@ function Debuffs:OnEnable()
         border.shadow:SetBackdropBorderColor(unpack(SUI:Color(0.25, 0.9)))
 
         button.SUIBorder = border
-    end
-
-    local function ButtonBackdrop(button)
-        local Backdrop = {
-            bgFile = "",
-            edgeFile = "Interface\\Addons\\SUI\\Media\\Textures\\Core\\outer_shadow",
-            tile = false,
-            tileSize = 32,
-            edgeSize = 5,
-            insets = { left = 5, right = 5, top = 5, bottom = 5 }
-        }
-
-        local icon = button.Icon
-        local point, relativeTo, relativePoint, xOfs, yOfs = icon:GetPoint()
-
-        local border = CreateFrame("Frame", nil, button)
-        border:SetSize(icon:GetWidth(), icon:GetHeight())
-        border:SetPoint("CENTER", button, "CENTER", 0, 5)
-
-        border.debuff = CreateFrame("Frame", nil, border, "BackdropTemplate")
-        border.debuff:SetBackdrop({
-            bgFile = "",
-            edgeFile = [[Interface\Buttons\WHITE8x8]],
-            edgeSize = 1,
-        })
-        --border.debuff:SetTexture("Interface\\Buttons\\WHITE8x8")
-        border.debuff:SetAllPoints()
-
-        local shadow = CreateFrame("Frame", nil, border, "BackdropTemplate")
-        shadow:SetPoint("TOPLEFT", border, "TOPLEFT", -4, 4)
-        shadow:SetPoint("BOTTOMRIGHT", border, "BOTTOMRIGHT", 4, -4)
-        shadow:SetBackdrop(Backdrop)
-        shadow:SetBackdropBorderColor(0, 0, 0)
-
-        button.SUIBorder = border
-    end
-
-    local function ButtonBordered(button)
-
     end
 
     function updateDebuffs()

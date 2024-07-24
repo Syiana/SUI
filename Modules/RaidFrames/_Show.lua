@@ -9,14 +9,14 @@ function Module:OnEnable()
 	}
 
 	-- Thou shalt not hard disable the Raid Frames
-	hooksecurefunc("DisableAddOn", function(addon)
+	hooksecurefunc("C_AddOns.DisableAddOn", function(addon)
 		if t[addon] then
 			EnableAddOn(addon)
 		end
 	end)
 
 	-- So It Has Come To This
-	if not IsAddOnLoaded("Blizzard_CompactRaidFrames") then
+	if not C_AddOns.IsAddOnLoaded("Blizzard_CompactRaidFrames") then
 		for k in pairs(t) do
 			EnableAddOn(k)
 		end

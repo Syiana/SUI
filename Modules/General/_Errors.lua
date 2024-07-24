@@ -15,7 +15,6 @@ function Module:OnEnable()
         }
 
         local originalOnEvent = UIErrorsFrame:GetScript("OnEvent")
-        local GetGameMessageInfo, PlayVocalErrorSoundID, PlaySound = GetGameMessageInfo, PlayVocalErrorSoundID, PlaySound
         UIErrorsFrame:SetScript("OnEvent", function(self, event, ...)
             local messageType, message, r, g, b
 
@@ -32,7 +31,7 @@ function Module:OnEnable()
                 r, g, b = colors[event].r, colors[event].g, colors[event].b
                 local _, soundKitID, voiceID = GetGameMessageInfo(messageType)
                 if voiceID then
-                    PlayVocalErrorSoundID(voiceID)
+                    C_Sound.PlayVocalErrorSound(voiceID)
                 elseif soundKitID then
                     PlaySound(soundKitID)
                 end

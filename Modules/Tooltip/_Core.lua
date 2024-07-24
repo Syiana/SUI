@@ -113,14 +113,14 @@ function Module:OnEnable()
                     levelLine:SetTextColor(color.r, color.g, color.b)
                 end
                 if unitClassification == "worldboss" or UnitLevel(unit) == -1 then
-                    self:AppendText(" |cffff0000{B}|r")
+                    self:AppendText(" |cffff0000[B]|r")
                     GameTooltipTextLeft2:SetTextColor(unpack(cfg.bossColor))
                 elseif unitClassification == "rare" then
-                    self:AppendText(" |cffff9900{R}|r")
+                    self:AppendText(" |cffff9900[R]|r")
                 elseif unitClassification == "rareelite" then
-                    self:AppendText(" |cffff0000{R+}|r")
+                    self:AppendText(" |cffff0000[R+]|r")
                 elseif unitClassification == "elite" then
-                    self:AppendText(" |cffff6666{E}|r")
+                    self:AppendText(" |cffff6666[E]|r")
                 end
             else
                 --unit is any player
@@ -243,19 +243,19 @@ function Module:OnEnable()
         end
 
         --hooksecurefunc GameTooltip SetUnitBuff
-        hooksecurefunc(GameTooltip, "SetUnitBuff", function(self, ...)
-            TooltipAddSpellID(self, select(10, UnitBuff(...)))
+        hooksecurefunc(GameTooltip, "SetUnitBuff", function(self, unitToken, index, filter)
+            TooltipAddSpellID(self, select(10, AuraUtil.UnpackAuraData(C_UnitAuras.GetBuffDataByIndex(unitToken, index, filter))))
         end)
 
         --hooksecurefunc GameTooltip SetUnitDebuff
-        hooksecurefunc(GameTooltip, "SetUnitDebuff", function(self, ...)
-            TooltipAddSpellID(self, select(10, UnitDebuff(...)))
+        hooksecurefunc(GameTooltip, "SetUnitDebuff", function(self, unitToken, index, filter)
+            TooltipAddSpellID(self, select(10, AuraUtil.UnpackAuraData(C_UnitAuras.GetDebuffDataByIndex(unitToken, index, filter))))
         end)
 
         --hooksecurefunc GameTooltip SetUnitAura
-        hooksecurefunc(GameTooltip, "SetUnitAura", function(self, ...)
-            TooltipAddSpellID(self, select(10, UnitAura(...)))
-            TooltipAddBuffSource(self, select(7, UnitAura(...)))
+        hooksecurefunc(GameTooltip, "SetUnitAura", function(self, unitToken, index, filter)
+            TooltipAddSpellID(self, select(10, AuraUtil.UnpackAuraData(C_UnitAuras.GetBuffDataByIndex(unitToken, index, filter))))
+            TooltipAddBuffSource(self, select(7, AuraUtil.UnpackAuraData(C_UnitAuras.GetBuffDataByIndex(unitToken, index, filter))))
         end)
 
         --hooksecurefunc SetItemRef
@@ -276,10 +276,10 @@ function Module:OnEnable()
                 self:GetTooltipData().lines[2].leftText then
                 local tooltipData               = self:GetTooltipData()
                 local tooltipName               = tooltipData.lines[2].leftText
-                local _, _, _, _, _, _, spellID = GetSpellInfo(tooltipName)
+                local spellInfo = C_Spell.GetSpellInfo(tooltipName)
 
-                if (spellID) then
-                    TooltipAddSpellID(self, spellID)
+                if (spellInfo.spellID) then
+                    TooltipAddSpellID(self, spellInfo.spellID)
                 end
             end
         end

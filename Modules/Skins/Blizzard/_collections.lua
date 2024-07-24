@@ -14,14 +14,59 @@ function Module:OnEnable()
                     CollectionsJournal.NineSlice.BottomEdge,
                     CollectionsJournal.NineSlice.BottomLeftCorner,
                     CollectionsJournal.NineSlice.LeftEdge,
-                    CollectionsJournal.NineSlice.TopLeftCorner
+                    CollectionsJournal.NineSlice.TopLeftCorner,
+                    CollectionsJournalTab1.Left,
+                    CollectionsJournalTab1.Middle,
+                    CollectionsJournalTab1.Right,
+                    CollectionsJournalTab1.LeftActive,
+                    CollectionsJournalTab1.MiddleActive,
+                    CollectionsJournalTab1.RightActive,
+                    CollectionsJournalTab1.LeftHighlight,
+                    CollectionsJournalTab1.MiddleHighlight,
+                    CollectionsJournalTab1.RightHighlight,
+                    CollectionsJournalTab2.Left,
+                    CollectionsJournalTab2.Middle,
+                    CollectionsJournalTab2.Right,
+                    CollectionsJournalTab2.LeftActive,
+                    CollectionsJournalTab2.MiddleActive,
+                    CollectionsJournalTab2.RightActive,
+                    CollectionsJournalTab2.LeftHighlight,
+                    CollectionsJournalTab2.MiddleHighlight,
+                    CollectionsJournalTab2.RightHighlight,
+                    CollectionsJournalTab3.Left,
+                    CollectionsJournalTab3.Middle,
+                    CollectionsJournalTab3.Right,
+                    CollectionsJournalTab3.LeftActive,
+                    CollectionsJournalTab3.MiddleActive,
+                    CollectionsJournalTab3.RightActive,
+                    CollectionsJournalTab3.LeftHighlight,
+                    CollectionsJournalTab3.MiddleHighlight,
+                    CollectionsJournalTab3.RightHighlight,
+                    CollectionsJournalTab4.Left,
+                    CollectionsJournalTab4.Middle,
+                    CollectionsJournalTab4.Right,
+                    CollectionsJournalTab4.LeftActive,
+                    CollectionsJournalTab4.MiddleActive,
+                    CollectionsJournalTab4.RightActive,
+                    CollectionsJournalTab4.LeftHighlight,
+                    CollectionsJournalTab4.MiddleHighlight,
+                    CollectionsJournalTab4.RightHighlight,
+                    CollectionsJournalTab5.Left,
+                    CollectionsJournalTab5.Middle,
+                    CollectionsJournalTab5.Right,
+                    CollectionsJournalTab5.LeftActive,
+                    CollectionsJournalTab5.MiddleActive,
+                    CollectionsJournalTab5.RightActive,
+                    CollectionsJournalTab5.LeftHighlight,
+                    CollectionsJournalTab5.MiddleHighlight,
+                    CollectionsJournalTab5.RightHighlight,
                 }) do
-                    v:SetVertexColor(.15, .15, .15)
+                    v:SetVertexColor(unpack(SUI:Color(0.15)))
                 end
                 for i, v in pairs({
                     CollectionsJournalBg
                 }) do
-                    v:SetVertexColor(.3, .3, .3)
+                    v:SetVertexColor(unpack(SUI:Color(0.15)))
                 end
                 for i, v in pairs({
                     MountJournal.LeftInset.NineSlice.TopEdge,
@@ -85,7 +130,7 @@ function Module:OnEnable()
                     PetJournalPetCardInset.NineSlice.BottomRightCorner,
                     PetJournalPetCardInset.NineSlice.BottomEdge,
                 }) do
-                    v:SetVertexColor(.3, .3, .3)
+                    v:SetVertexColor(unpack(SUI:Color(0.15)))
                 end
                 for i, v in pairs({
                     MountJournalListScrollFrameScrollBarThumbTexture,
@@ -97,7 +142,7 @@ function Module:OnEnable()
                     PetJournalListScrollFrameScrollBarMiddle,
                     PetJournalListScrollFrameScrollBarBottom,
                 }) do
-                    v:SetVertexColor(.4, .4, .4)
+                    v:SetVertexColor(unpack(SUI:Color(0.15)))
                 end
             end
         end)

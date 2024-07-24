@@ -12,7 +12,7 @@ function Module:OnEnable()
             GossipFrame.NineSlice.BottomLeftCorner,
             GossipFrame.NineSlice.BottomRightCorner,
         }) do
-            v:SetVertexColor(.15, .15, .15)
+            v:SetVertexColor(unpack(SUI:Color(0.15)))
         end
         for i, v in pairs({
             GossipFrameInset.NineSlice.TopEdge,
@@ -24,27 +24,14 @@ function Module:OnEnable()
             GossipFrameInset.NineSlice.BottomLeftCorner,
             GossipFrameInset.NineSlice.BottomRightCorner
         }) do
-            v:SetVertexColor(.3, .3, .3)
+            v:SetVertexColor(unpack(SUI:Color(0.15)))
         end
         for i, v in pairs({
             GossipFrame.Bg,
             GossipFrame.TitleBg,
             GossipFrameInset.Bg
         }) do
-            v:SetVertexColor(.3, .3, .3)
+            v:SetVertexColor(unpack(SUI:Color(0.15)))
         end
-        -- for i, v in pairs({
-        --   GossipGreetingScrollFrameTop,
-        --   GossipGreetingScrollFrameMiddle,
-        --   GossipGreetingScrollFrameBottom,
-        --   GossipGreetingScrollFrameScrollBarThumbTexture,
-        --   GossipGreetingScrollFrameScrollBarScrollUpButton.Normal,
-        --   GossipGreetingScrollFrameScrollBarScrollDownButton.Normal,
-        --   GossipGreetingScrollFrameScrollBarScrollUpButton.Disabled,
-        --   GossipGreetingScrollFrameScrollBarScrollDownButton.Disabled,
-
-        -- }) do
-        --   v:SetVertexColor(.4, .4, .4)
-        -- end
     end
 end

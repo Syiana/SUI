@@ -1,7 +1,7 @@
 local Module = SUI:NewModule("ActionBars.Mouseover");
 
 function Module:OnEnable()
-    if IsAddOnLoaded('Bartender4') or IsAddOnLoaded('Dominos') then return end
+    if C_AddOns.IsAddOnLoaded('Bartender4') or C_AddOns.IsAddOnLoaded('Dominos') then return end
     MouseoverDefaultBars = LibStub("AceAddon-3.0"):NewAddon("MouseoverDefaultBars", "AceConsole-3.0", "AceTimer-3.0",
         "AceEvent-3.0", "AceHook-3.0")
     local db = {
@@ -13,18 +13,16 @@ function Module:OnEnable()
 
     local MICRO_BUTTONS = {
         "CharacterMicroButton",
-        "SpellbookMicroButton",
-        "TalentMicroButton",
+        "ProfessionMicroButton",
+        "PlayerSpellsMicroButton",
         "AchievementMicroButton",
         "QuestLogMicroButton",
         "GuildMicroButton",
         "LFDMicroButton",
-        "EJMicroButton",
         "CollectionsMicroButton",
-        "MainMenuMicroButton",
-        "HelpMicroButton",
+        "EJMicroButton",
         "StoreMicroButton",
-        "HelpOpenWebTicketButton"
+        "MainMenuMicroButton",
     }
 
     local BAG_BUTTONS = {

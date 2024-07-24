@@ -5,8 +5,8 @@ function Module:OnEnable()
     if (SUI:Color()) then
         local EventFrame = CreateFrame("Frame")
         local FONT = STANDARD_TEXT_FONT
-        local dominos = IsAddOnLoaded("Dominos")
-        local bartender = IsAddOnLoaded("Bartender4")
+        local dominos = C_AddOns.IsAddOnLoaded("Dominos")
+        local bartender = C_AddOns.IsAddOnLoaded("Bartender4")
         local db = { 
             buttons = SUI.db.profile.actionbar.buttons,
             menu = SUI.db.profile.actionbar.menu
@@ -94,7 +94,7 @@ function Module:OnEnable()
 
                 UpdateHotkeys(Button)
 
-                if IsAddOnLoaded("Masque") and IsAddOnLoaded("MasqueBlizzBars") then return end
+                if C_AddOns.IsAddOnLoaded("Masque") and C_AddOns.IsAddOnLoaded("MasqueBlizzBars") then return end
                 StyleButton(Button, "Actionbar")
 
             end
@@ -109,7 +109,7 @@ function Module:OnEnable()
         end
 
         if dominos then
-            if IsAddOnLoaded("Masque") then return end
+            if C_AddOns.IsAddOnLoaded("Masque") then return end
             for i = 1, 140 do
                 local ActionButton = _G["DominosActionButton" .. i]
                 if ActionButton then
@@ -132,7 +132,7 @@ function Module:OnEnable()
         end
 
         if bartender then
-            if IsAddOnLoaded("Masque") then return end
+            if C_AddOns.IsAddOnLoaded("Masque") then return end
             for i = 1, 180 do
                 local ActionButton = _G["BT4Button" .. i]
                 if ActionButton then

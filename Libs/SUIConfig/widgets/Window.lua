@@ -22,7 +22,13 @@ function SUIConfig:Window(parent, width, height, title)
 	self:GlueTop(closeBtn, frame, -10, -10, 'RIGHT');
 
 	closeBtn:SetScript('OnClick', function(self)
-		self:GetParent():Hide();
+		local fadeInfo = {}
+		fadeInfo.mode = "OUT"
+		fadeInfo.timeToFade = 0.2
+		fadeInfo.finishedFunc = function()
+			self:GetParent():Hide()
+		end
+		UIFrameFade(self:GetParent(), fadeInfo)
 	end);
 
 	frame.closeBtn = closeBtn;

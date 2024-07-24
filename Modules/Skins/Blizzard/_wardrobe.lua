@@ -16,13 +16,13 @@ function Module:OnEnable()
                     WardrobeFrame.NineSlice.BottomLeftCorner,
                     WardrobeFrame.NineSlice.BottomRightCorner,
                 }) do
-                    v:SetVertexColor(.15, .15, .15)
+                    v:SetVertexColor(unpack(SUI:Color(0.15)))
                 end
                 for i, v in pairs({
                     WardrobeFrame.Bg,
                     WardrobeFrame.TitleBg
                 }) do
-                    v:SetVertexColor(.3, .3, .3)
+                    v:SetVertexColor(unpack(SUI:Color(0.15)))
                 end
                 for i, v in pairs({
                     WardrobeCollectionFrame.ItemsCollectionFrame.NineSlice.TopEdge,
@@ -50,7 +50,7 @@ function Module:OnEnable()
                     WardrobeCollectionFrame.SetsCollectionFrame.RightInset.NineSlice.BottomLeftCorner,
                     WardrobeCollectionFrame.SetsCollectionFrame.RightInset.NineSlice.BottomRightCorner
                 }) do
-                    v:SetVertexColor(.3, .3, .3)
+                    v:SetVertexColor(unpack(SUI:Color(0.15)))
                 end
                 for i, v in pairs({
                     WardrobeCollectionFrameScrollFrameScrollBarBottom,
@@ -58,7 +58,7 @@ function Module:OnEnable()
                     WardrobeCollectionFrameScrollFrameScrollBarTop,
                     WardrobeCollectionFrameScrollFrameScrollBarThumbTexture
                 }) do
-                    v:SetVertexColor(.4, .4, .4)
+                    v:SetVertexColor(unpack(SUI:Color(0.15)))
                 end
             end
         end)

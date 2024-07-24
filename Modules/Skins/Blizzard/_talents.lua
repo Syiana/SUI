@@ -5,36 +5,59 @@ function Module:OnEnable()
         local f = CreateFrame("Frame")
         f:RegisterEvent("ADDON_LOADED")
         f:SetScript("OnEvent", function(self, event, name)
-            if name == "Blizzard_ClassTalentUI" then
+            if name == "Blizzard_PlayerSpells" then
                 for i, v in pairs({
-                    ClassTalentFrame.NineSlice.TopEdge,
-                    ClassTalentFrame.NineSlice.RightEdge,
-                    ClassTalentFrame.NineSlice.BottomEdge,
-                    ClassTalentFrame.NineSlice.LeftEdge,
-                    ClassTalentFrame.NineSlice.TopRightCorner,
-                    ClassTalentFrame.NineSlice.TopLeftCorner,
-                    ClassTalentFrame.NineSlice.BottomLeftCorner,
-                    ClassTalentFrame.NineSlice.BottomRightCorner,
-                    ClassTalentFrame.NineSlice.BottomEdge,
-                    ClassTalentFrame.TalentsTab.TopEdge,
-                    ClassTalentFrame.TalentsTab.RightEdge,
-                    ClassTalentFrame.TalentsTab.BottomEdge,
-                    ClassTalentFrame.TalentsTab.LeftEdge,
-                    ClassTalentFrame.TalentsTab.TopRightCorner,
-                    ClassTalentFrame.TalentsTab.TopLeftCorner,
-                    ClassTalentFrame.TalentsTab.BottomLeftCorner,
-                    ClassTalentFrame.TalentsTab.BottomRightCorner,
-                    ClassTalentFrame.TalentsTab.BottomEdge,
+                    PlayerSpellsFrame.TalentsFrame.BottomBar,
+                    PlayerSpellsFrame.TalentsFrame.OverlayBackgroundMidMask,
+                    PlayerSpellsFrame.TalentsFrame.OverlayBackgroundRightMask,
+                    PlayerSpellsFrame.TalentsFrame.LoadSystem.Dropdown.Background,
+                    PlayerSpellsFrame.TalentsFrame.LoadSystem.Dropdown.Arrow,
+                    PlayerSpellsFrame.TalentsFrame.SearchBox.Left,
+                    PlayerSpellsFrame.TalentsFrame.SearchBox.Middle,
+                    PlayerSpellsFrame.TalentsFrame.SearchBox.Right,
+                    PlayerSpellsFrame.TalentsFrame.SearchPreviewContainer.Background,
+                    PlayerSpellsFrame.TalentsFrame.SearchPreviewContainer.DefaultResultButton.HighlightTexture,
+                    PlayerSpellsFrame.TalentsFrame.ApplyButton.Left,
+                    PlayerSpellsFrame.TalentsFrame.ApplyButton.Middle,
+                    PlayerSpellsFrame.TalentsFrame.ApplyButton.Right,
+                    PlayerSpellsFrame.TabSystem.tabs[1].Left,
+                    PlayerSpellsFrame.TabSystem.tabs[1].Middle,
+                    PlayerSpellsFrame.TabSystem.tabs[1].Right,
+                    PlayerSpellsFrame.TabSystem.tabs[1].LeftActive,
+                    PlayerSpellsFrame.TabSystem.tabs[1].MiddleActive,
+                    PlayerSpellsFrame.TabSystem.tabs[1].RightActive,
+                    PlayerSpellsFrame.TabSystem.tabs[1].LeftHighlight,
+                    PlayerSpellsFrame.TabSystem.tabs[1].MiddleHighlight,
+                    PlayerSpellsFrame.TabSystem.tabs[1].RightHighlight,
+                    PlayerSpellsFrame.TabSystem.tabs[2].Left,
+                    PlayerSpellsFrame.TabSystem.tabs[2].Middle,
+                    PlayerSpellsFrame.TabSystem.tabs[2].Right,
+                    PlayerSpellsFrame.TabSystem.tabs[2].LeftActive,
+                    PlayerSpellsFrame.TabSystem.tabs[2].MiddleActive,
+                    PlayerSpellsFrame.TabSystem.tabs[2].RightActive,
+                    PlayerSpellsFrame.TabSystem.tabs[2].LeftHighlight,
+                    PlayerSpellsFrame.TabSystem.tabs[2].MiddleHighlight,
+                    PlayerSpellsFrame.TabSystem.tabs[2].RightHighlight,
+                    PlayerSpellsFrame.TabSystem.tabs[3].Left,
+                    PlayerSpellsFrame.TabSystem.tabs[3].Middle,
+                    PlayerSpellsFrame.TabSystem.tabs[3].Right,
+                    PlayerSpellsFrame.TabSystem.tabs[3].LeftActive,
+                    PlayerSpellsFrame.TabSystem.tabs[3].MiddleActive,
+                    PlayerSpellsFrame.TabSystem.tabs[3].RightActive,
+                    PlayerSpellsFrame.TabSystem.tabs[3].LeftHighlight,
+                    PlayerSpellsFrame.TabSystem.tabs[3].MiddleHighlight,
+                    PlayerSpellsFrame.TabSystem.tabs[3].RightHighlight,
+                    HeroTalentsSelectionDialog.NineSlice.Center,
+                    HeroTalentsSelectionDialog.NineSlice.TopRightCorner,
+                    HeroTalentsSelectionDialog.NineSlice.TopLeftCorner,
+                    HeroTalentsSelectionDialog.NineSlice.RightEdge,
+                    HeroTalentsSelectionDialog.NineSlice.TopEdge,
+                    HeroTalentsSelectionDialog.NineSlice.BottomEdge,
+                    HeroTalentsSelectionDialog.NineSlice.BottomLeftCorner,
+                    HeroTalentsSelectionDialog.NineSlice.BottomRightCorner,
+                    HeroTalentsSelectionDialog.NineSlice.LeftEdge
                 }) do
-                    v:SetVertexColor(.15, .15, .15)
-                end
-                for i, v in pairs({
-                    ClassTalentFrameTalentsPvpTalentFrameTalentListScrollFrameScrollBarThumbTexture,
-                    ClassTalentFrameTalentsPvpTalentFrameTalentListScrollFrameScrollBarTop,
-                    ClassTalentFrameTalentsPvpTalentFrameTalentListScrollFrameScrollBarMiddle,
-                    ClassTalentFrameTalentsPvpTalentFrameTalentListScrollFrameScrollBarBottom,
-                }) do
-                    v:SetVertexColor(.4, .4, .4)
+                    v:SetVertexColor(unpack(SUI:Color(0.15)))
                 end
                 for i, v in pairs({
                     PVEFrameTopFiligree,
@@ -42,14 +65,14 @@ function Module:OnEnable()
                     PVEFrameBlueBg,
                     LFGListFrame.CategorySelection.Inset.CustomBG
                 }) do
-                    v:SetVertexColor(.5, .5, .5)
+                    v:SetVertexColor(unpack(SUI:Color(0.15)))
                 end
                 for i, v in pairs({
                     ClassTalentFrameTitleBg,
                     ClassTalentFrameBg,
                     ClassTalentFrameTalentsPvpTalentFrameTalentListBg
                 }) do
-                    v:SetVertexColor(.3, .3, .3)
+                    v:SetVertexColor(unpack(SUI:Color(0.15)))
                 end
             end
         end)

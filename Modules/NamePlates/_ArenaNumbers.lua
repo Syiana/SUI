@@ -1,7 +1,7 @@
 local Module = SUI:NewModule("NamePlates.ArenaNumbers");
 
 function Module:OnEnable()
-    if IsAddOnLoaded('Plater') or IsAddOnLoaded('TidyPlates_ThreatPlates') or IsAddOnLoaded('TidyPlates') or IsAddOnLoaded('Kui_Nameplates') then return end
+    if C_AddOns.IsAddOnLoaded('Plater') or C_AddOns.IsAddOnLoaded('TidyPlates_ThreatPlates') or C_AddOns.IsAddOnLoaded('TidyPlates') or C_AddOns.IsAddOnLoaded('Kui_Nameplates') then return end
     local db = SUI.db.profile.nameplates.arenanumber
     if (db) then
         local frame = CreateFrame("Frame")
