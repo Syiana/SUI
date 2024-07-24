@@ -38,6 +38,15 @@ function Module:OnEnable()
             FriendsTabHeaderTab2.LeftHighlight,
             FriendsTabHeaderTab2.MiddleHighlight,
             FriendsTabHeaderTab2.RightHighlight,
+            FriendsTabHeaderTab3.Left,
+            FriendsTabHeaderTab3.Middle,
+            FriendsTabHeaderTab3.Right,
+            FriendsTabHeaderTab3.LeftActive,
+            FriendsTabHeaderTab3.MiddleActive,
+            FriendsTabHeaderTab3.RightActive,
+            FriendsTabHeaderTab3.LeftHighlight,
+            FriendsTabHeaderTab3.MiddleHighlight,
+            FriendsTabHeaderTab3.RightHighlight,
             FriendsFrameTab1.Left,
             FriendsFrameTab1.Middle,
             FriendsFrameTab1.Right,
@@ -74,6 +83,14 @@ function Module:OnEnable()
             FriendsFrameTab4.LeftHighlight,
             FriendsFrameTab4.MiddleHighlight,
             FriendsFrameTab4.RightHighlight,
+            RecruitAFriendFrame.RecruitList.ScrollFrameInset.NineSlice.TopEdge,
+            RecruitAFriendFrame.RecruitList.ScrollFrameInset.NineSlice.TopLeftCorner,
+            RecruitAFriendFrame.RecruitList.ScrollFrameInset.NineSlice.TopRightCorner,
+            RecruitAFriendFrame.RecruitList.ScrollFrameInset.NineSlice.LeftEdge,
+            RecruitAFriendFrame.RecruitList.ScrollFrameInset.NineSlice.RightEdge,
+            RecruitAFriendFrame.RecruitList.ScrollFrameInset.NineSlice.BottomEdge,
+            RecruitAFriendFrame.RecruitList.ScrollFrameInset.NineSlice.BottomLeftCorner,
+            RecruitAFriendFrame.RecruitList.ScrollFrameInset.NineSlice.BottomRightCorner,
         }) do
             v:SetVertexColor(unpack(SUI:Color(0.15)))
         end
@@ -90,7 +107,15 @@ function Module:OnEnable()
             FriendsFrameInset.NineSlice.LeftEdge,
             FriendsFrameInset.NineSlice.TopLeftCorner
         }) do
-            v:SetVertexColor(unpack(SUI:Color()))
+            v:SetVertexColor(unpack(SUI:Color(0.15)))
+        end
+
+        for i, v in pairs({WhoFrameListInset.NineSlice:GetRegions()}) do
+            v:SetVertexColor(unpack(SUI:Color(0.15)))
+        end
+
+        for i, v in pairs({WhoFrameEditBoxInset.NineSlice:GetRegions()}) do
+            v:SetVertexColor(unpack(SUI:Color(0.15)))
         end
     end
 end
