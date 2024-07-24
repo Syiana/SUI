@@ -85,5 +85,13 @@ function Module:OnEnable()
         }) do
             v:SetVertexColor(unpack(SUI:Color(0.15)))
         end
+
+        for i, v in pairs({ClubFinderGuildFinderFrame.InsetFrame.NineSlice:GetRegions()}) do
+            v:SetVertexColor(unpack(SUI:Color(0.15)))
+        end
+
+        for i, v in pairs({ClubFinderCommunityAndGuildFinderFrame.InsetFrame.NineSlice:GetRegions()}) do
+            v:SetVertexColor(unpack(SUI:Color(0.15)))
+        end
     end
 end

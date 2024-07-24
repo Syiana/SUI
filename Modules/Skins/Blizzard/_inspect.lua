@@ -100,6 +100,14 @@ function Module:OnEnable()
                 _G.select(InspectMainHandSlot:GetNumRegions(), InspectMainHandSlot:GetRegions()):Hide()
                 _G.select(InspectSecondaryHandSlot:GetNumRegions(), InspectSecondaryHandSlot:GetRegions()):Hide()
             end
+
+            if name == "Blizzard_Professions" then
+                for i, v in pairs ({
+                    InspectRecipeFrame.NineSlice:GetRegions()
+                }) do
+                    v:SetVertexColor(unpack(SUI:Color(0.15)))
+                end
+            end
         end)
     end
 end

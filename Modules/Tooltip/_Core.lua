@@ -278,7 +278,7 @@ function Module:OnEnable()
                 local tooltipName               = tooltipData.lines[2].leftText
                 local spellInfo = C_Spell.GetSpellInfo(tooltipName)
 
-                if (spellInfo.spellID) then
+                if (spellInfo and spellInfo.spellID) then
                     TooltipAddSpellID(self, spellInfo.spellID)
                 end
             end
