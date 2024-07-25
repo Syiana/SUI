@@ -1,6 +1,6 @@
 ## Interface: 110000
 ## Author: Syiana & Muleyo
-## Version: 11.0.03
+## Version: 11.0.04
 ## Title: |cffea00ffS|r|cff00a2ffUI|r
 ## SavedVariables: SUIDB
 ## IconTexture: Interface\AddOns\SUI\Media\Icons\SUI
