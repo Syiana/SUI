@@ -29,11 +29,11 @@ LSM:Register("font", "Myriad Web Bold", [[Interface\Addons\SUI\Media\Fonts\Myria
 --   STATUSBAR
 -- -----
 LSM:Register("statusbar", "Default", [[Interface\Default]])
-LSM:Register("statusbar", "SUI", [[Interface\Addons\SUI\Media\Textures\Status\Smooth.blp]])
 LSM:Register("statusbar", "Flat", [[Interface\Addons\SUI\Media\Textures\Status\Flat.blp]])
 LSM:Register("statusbar", "Melli", [[Interface\Addons\SUI\Media\Textures\Status\Melli.tga]])
 LSM:Register("statusbar", "Melli 6px", [[Interface\Addons\SUI\Media\Textures\Status\Melli6px.tga]])
 LSM:Register("statusbar", "Melli Dark", [[Interface\Addons\SUI\Media\Textures\Status\MelliDark.tga]])
 LSM:Register("statusbar", "Melli Dark Rough", [[Interface\Addons\SUI\Media\Textures\Status\MelliDarkRough.tga]])
 LSM:Register("statusbar", "Minimalist", [[Interface\Addons\SUI\Media\Textures\Status\Minimalist.tga]])
+LSM:Register("statusbar", "Smooth", [[Interface\Addons\SUI\Media\Textures\Status\Smooth.blp]])
 LSM:Register("statusbar", "Smooth v2", [[Interface\Addons\SUI\Media\Textures\Status\Smoothv2.tga]])
