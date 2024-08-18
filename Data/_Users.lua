@@ -20,7 +20,6 @@ Data.specials = {
   { text = Colors.druid .. 'Sivax|r' },
   { text = Colors.dk .. 'Kyrea|r' },
   { text = Colors.monk .. 'Yjing|r' },
-  { text = Colors.druid .. 'Xexexexexexe|r' },
   { text = Colors.sham .. 'Caccie|r' },
   { text = Colors.priest .. 'Huf|r' },
   { text = Colors.hunter .. 'Yazo|r' },
@@ -44,7 +43,8 @@ Data.specials = {
   { text = Colors.monk .. 'Tizi|r' },
   { text = Colors.pala .. 'Ayro|r' },
   { text = Colors.rog .. 'Avidance|r' },
-  { text = Colors.pala .. 'Aviwings|r' }
+  { text = Colors.pala .. 'Aviwings|r' },
+  { text = Colors.druid .. 'Xexexexexexe|r' }
 }
 
 Data.supporter = {
