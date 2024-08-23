@@ -13,8 +13,11 @@ function Module:OnEnable()
             PlayerCastingBarFrame.Text:ClearAllPoints()
             PlayerCastingBarFrame.Text:SetPoint("TOP", PlayerCastingBarFrame, "TOP", 0, -1)
             PlayerCastingBarFrame.Text:SetFont(STANDARD_TEXT_FONT, 12, "OUTLINE")
-            PlayerCastingBarFrame.Border:SetVertexColor(unpack(SUI:Color(0.15)))
-            PlayerCastingBarFrame.Background:SetVertexColor(unpack(SUI:Color(0.15)))
+
+            if SUI:Color() then
+                PlayerCastingBarFrame.Border:SetVertexColor(unpack(SUI:Color(0.15)))
+                PlayerCastingBarFrame.Background:SetVertexColor(unpack(SUI:Color(0.15)))
+            end
 
             if db.icon then
                 PlayerCastingBarFrame.Icon:Show()
