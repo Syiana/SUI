@@ -118,7 +118,9 @@ function Module:OnInitialize()
             SystemFont_Outline_WTF2,
             GameTooltipHeader,
             System_IME,
-            Number12Font_o1
+            Number12Font_o1,
+            ObjectiveTrackerLineFont,
+            ObjectiveTrackerHeaderFont
         }
 
         for i, FontObject in pairs(FontObjects) do
