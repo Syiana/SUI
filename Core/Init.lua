@@ -176,9 +176,9 @@ local defaults = {
                 y = 3
             },
             queueicon = {
-                point = 'TOPRIGHT',
-                x = -177.4291998171339,
-                y = -224.431776383344
+                point = 'CENTER',
+                x = 0,
+                y = 0
             },
             micromenu = {
                 point = 'BOTTOMRIGHT',
