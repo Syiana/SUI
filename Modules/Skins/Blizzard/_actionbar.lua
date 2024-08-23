@@ -57,7 +57,6 @@ function Module:OnEnable()
             v:SetVertexColor(unpack(SUI:Color()))
         end
 
-
         for i, v in pairs({
             MainMenuBar.ActionBarPageNumber.UpButton:GetRegions()
         }) do
@@ -74,6 +73,12 @@ function Module:OnEnable()
             MainMenuBar.ActionBarPageNumber.DownButton:GetRegions()
         }) do
             v:SetVertexColor(unpack(SUI:Color(0.2)))
+        end
+
+        for _,v in pairs({MainMenuBar:GetChildren()}) do
+            for _,v in pairs({v:GetRegions()}) do
+                v:SetVertexColor(unpack(SUI:Color(0.2)))
+            end
         end
     end
 end
