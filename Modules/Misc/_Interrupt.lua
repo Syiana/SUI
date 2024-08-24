@@ -9,11 +9,11 @@ function Module:OnEnable()
             if IsInGroup() then
                 local _, event, _, sourceGUID, _, _, _, _, destName, _, _, _, _, _, spellID = CombatLogGetCurrentEventInfo()
                 if not (event == "SPELL_INTERRUPT" and sourceGUID == UnitGUID("player")) then return end
-                SendChatMessage("INTERRUPTED" .. " " .. destName .. ": " .. GetSpellLink(spellID), "PARTY")
+                SendChatMessage("INTERRUPTED" .. " " .. destName .. ": " .. C_Spell.GetSpellLink(spellID), "PARTY")
             elseif IsInRaid() then
                 local _, event, _, sourceGUID, _, _, _, _, destName, _, _, _, _, _, spellID = CombatLogGetCurrentEventInfo()
                 if not (event == "SPELL_INTERRUPT" and sourceGUID == UnitGUID("player")) then return end
-                SendChatMessage("INTERRUPTED" .. " " .. destName .. ": " .. GetSpellLink(spellID), "RAID")
+                SendChatMessage("INTERRUPTED" .. " " .. destName .. ": " .. C_Spell.GetSpellLink(spellID), "RAID")
             end
         end)
     end
