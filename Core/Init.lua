@@ -180,16 +180,6 @@ local defaults = {
                 x = 0,
                 y = 0
             },
-            micromenu = {
-                point = 'BOTTOMRIGHT',
-                x = 0,
-                y = 0
-            },
-            bagbar = {
-                point = 'BOTTOMRIGHT',
-                x = 0,
-                y = 50
-            }
         },
     }
 }

@@ -55,7 +55,7 @@ end
 ----------------------------------------------------
 local SpellInfoMethods = {
 	SetSpell = function(self, nameOrId)
-		local name, _, i, _, _, _, spellId = GetSpellInfo(nameOrId);
+		local name, _, i, _, _, _, spellId = C_Spell.GetSpellInfo(nameOrId);
 		self.spellId = spellId;
 		self.spellName = name;
 
@@ -118,7 +118,7 @@ end;
 
 local SpellCheckboxMethods = {
 	SetSpell = function(self, nameOrId)
-		local name, _, i, _, _, _, spellId = GetSpellInfo(nameOrId);
+		local name, _, i, _, _, _, spellId = C_Spell.GetSpellInfo(nameOrId);
 		self.spellId = spellId;
 		self.spellName = name;
 

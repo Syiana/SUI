@@ -110,7 +110,7 @@ SUIConfig.Util = {
 	spellValidator      = function(self)
 		local text = self:GetText();
 		text = text:trim();
-		local name, _, icon, _, _, _, spellId = GetSpellInfo(text);
+		local name, _, icon, _, _, _, spellId = C_Spell.GetSpellInfo(text);
 
 		if not name then
 			self.SUIConfig:MarkAsValid(self, false);
