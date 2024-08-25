@@ -6,7 +6,7 @@ function Module:OnEnable()
         module = SUI.db.profile.modules.unitframes
     }
 
-    if ((not db) and db.module) then
+    if ((not db.hitindicator) and db.module) then
         PlayerFrameGroupIndicator:SetAlpha(0)
         PlayerHitIndicator:SetText(nil)
         PlayerHitIndicator.SetText = function() end
