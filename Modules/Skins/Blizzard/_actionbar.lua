@@ -46,16 +46,6 @@ function Module:OnEnable()
         }) do
             v:SetVertexColor(unpack(SUI:Color(0.15)))
         end
-        for i, v in pairs({
-            MainMenuBar.EndCaps.LeftEndCap,
-            MainMenuBar.EndCaps.RightEndCap,
-            StanceBarLeft,
-            StanceBarMiddle,
-            StanceBarRight,
-        }) do
-            v:SetDesaturated(true)
-            v:SetVertexColor(unpack(SUI:Color()))
-        end
 
         for i, v in pairs({
             MainMenuBar.ActionBarPageNumber.UpButton:GetRegions()
@@ -77,7 +67,7 @@ function Module:OnEnable()
 
         for _,v in pairs({MainMenuBar:GetChildren()}) do
             for _,v in pairs({v:GetRegions()}) do
-                v:SetVertexColor(unpack(SUI:Color(0.2)))
+                v:SetVertexColor(unpack(SUI:Color()))
             end
         end
     end
