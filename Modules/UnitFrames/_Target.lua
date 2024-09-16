@@ -20,23 +20,6 @@ function Module:OnEnable()
         end
     end
 
-    local function frameText(self)
-        local MAX_PLAYER_LEVEL = GetMaxLevelForPlayerExpansion()
-
-        if UnitLevel(self.unit) >= MAX_PLAYER_LEVEL then
-            -- Hide Target Level
-            TargetFrame.TargetFrameContent.TargetFrameContentMain.LevelText:Hide()
-
-            -- Adjust Target Name position
-            TargetFrame.TargetFrameContent.TargetFrameContentMain.Name:ClearAllPoints()
-            TargetFrame.TargetFrameContent.TargetFrameContentMain.Name:SetPoint("TOPLEFT", self.TargetFrameContent.TargetFrameContentMain.ReputationColor, "TOPRIGHT", -130, -1)
-        else
-            -- Adjust Target Name position
-            TargetFrame.TargetFrameContent.TargetFrameContentMain.Name:ClearAllPoints()
-            TargetFrame.TargetFrameContent.TargetFrameContentMain.Name:SetPoint("TOPLEFT", self.TargetFrameContent.TargetFrameContentMain.ReputationColor, "TOPRIGHT", -112, -1)
-        end
-    end
-
     local hooked = {}
     local function UpdateFrameAuras(aura)
         if db.theme ~= 'Blizzard' then
@@ -97,11 +80,6 @@ function Module:OnEnable()
             healthTexture(self)
         end
 
-        -- Remove Level Text
-        if not db.unitframes.level then
-            frameText(self)
-        end
-
         -- Recolor Reputation Bar
         if (SUI:Color()) then
             SUIColorRepBar(self)
@@ -117,11 +95,6 @@ function Module:OnEnable()
         -- Set Health Texture
         if db.texture ~= [[Interface\Default]] then
             healthTexture(self)
-        end
-
-        -- Remove Level Text
-        if not db.unitframes.level then
-            frameText(self)
         end
 
         -- Recolor Reputation Bar

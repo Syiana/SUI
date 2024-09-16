@@ -101,14 +101,6 @@ function Layout:OnEnable()
                     tooltip = 'Display corner icon on Unitframes',
                     column = 4,
                     order = 1
-                },
-                level = {
-                    key = 'unitframes.level',
-                    type = 'checkbox',
-                    label = 'Level',
-                    tooltip = 'Display level on Unitframes',
-                    column = 4,
-                    order = 2,
                 }
             },
             {

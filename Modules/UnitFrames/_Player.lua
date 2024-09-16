@@ -48,13 +48,6 @@ function Module:OnEnable()
                 PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual.PlayerPortraitCornerIcon:Hide()
             end
 
-            if not db.unitframes.level then
-                local MAX_PLAYER_LEVEL = GetMaxLevelForPlayerExpansion()
-                if UnitLevel("player") >= MAX_PLAYER_LEVEL then
-                    PlayerLevelText:Hide()
-                end
-            end
-
             if not db.classbar then
                 if RogueComboPointBarFrame then
                     RogueComboPointBarFrame:Hide()

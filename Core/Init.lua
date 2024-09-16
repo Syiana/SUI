@@ -44,7 +44,6 @@ local defaults = {
             totemicons = true,
             classbar = true,
             cornericon = true,
-            level = true,
             player = {
                 size = 1
             },
