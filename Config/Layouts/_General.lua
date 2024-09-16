@@ -194,6 +194,14 @@ function Layout:OnEnable()
                     column = 3,
                     order = 2
                 },
+                movementSpeed = {
+                    key = 'display.movementSpeed',
+                    type = 'checkbox',
+                    label = 'Movement Speed',
+                    tooltip = 'Show current movement speed',
+                    column = 4,
+                    order = 3
+                },
             }
         },
     }
