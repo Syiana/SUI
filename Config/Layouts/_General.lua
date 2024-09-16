@@ -192,15 +192,15 @@ function Layout:OnEnable()
                     label = 'Error Messages',
                     tooltip = 'Display Error Messages (Out of Range etc.)',
                     column = 3,
-                    order = 2
+                    order = 3
                 },
                 movementSpeed = {
                     key = 'display.movementSpeed',
                     type = 'checkbox',
                     label = 'Movement Speed',
                     tooltip = 'Show current movement speed',
-                    column = 4,
-                    order = 3
+                    column = 3,
+                    order = 2
                 },
             }
         },
