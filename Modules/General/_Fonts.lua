@@ -120,7 +120,8 @@ function Module:OnInitialize()
             System_IME,
             Number12Font_o1,
             ObjectiveTrackerLineFont,
-            ObjectiveTrackerHeaderFont
+            ObjectiveTrackerHeaderFont,
+            Game15Font_Shadow
         }
 
         for i, FontObject in pairs(FontObjects) do
