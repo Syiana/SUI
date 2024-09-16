@@ -28,7 +28,7 @@ function Module:OnEnable()
             self.TextBorder:ClearAllPoints()
             self.TextBorder:SetAlpha(0)
             self.Text:ClearAllPoints()
-            self.Text:SetPoint("TOP", self, "TOP", 0, 1.5)
+            self.Text:SetPoint("TOP", self, "TOP", 0, 2.5)
             self.Text:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
             if SUI:Color() then
                 self.Border:SetVertexColor(unpack(SUI:Color(0.15)))
