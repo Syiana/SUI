@@ -5,7 +5,7 @@ function Module:OnEnable()
     if (db) then
         local frame = CreateFrame("Frame", "Dampening_Display", UIParent, "UIWidgetTemplateIconAndText")
         local _
-        local dampeningtext = C_Spell.GetSpellInfo(110310)
+        local spellInfo = C_Spell.GetSpellInfo(110310)
         local widgetSetID = C_UIWidgetManager.GetTopCenterWidgetSetID()
         local widgetSetInfo = C_UIWidgetManager.GetWidgetSetInfo(widgetSetID)
         local C_Commentator_GetDampeningPercent = C_Commentator.GetDampeningPercent
@@ -27,7 +27,7 @@ function Module:OnEnable()
                 end
                 if self.dampening ~= percentage then
                     self.dampening = percentage
-                    self.Text:SetText(dampeningtext .. ": " .. percentage .. "%")
+                    self.Text:SetText(spellInfo.name .. ": " .. percentage .. "%")
                 end
             elseif self:IsShown() then
                 self:Hide()
