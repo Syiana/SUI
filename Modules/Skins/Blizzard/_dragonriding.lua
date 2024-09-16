@@ -18,7 +18,9 @@ function Module:OnEnable()
         end
     end
 
-    UIWidgetPowerBarContainerFrame:HookScript("OnShow", skinVigor())
-    --skinVigor()
-
+    local updateFrame = CreateFrame("Frame")
+    updateFrame:RegisterEvent("UPDATE_UI_WIDGET")
+    updateFrame:HookScript("OnEvent", function()
+        skinVigor()
+    end)
 end
