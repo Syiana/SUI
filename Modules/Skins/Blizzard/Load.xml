@@ -16,6 +16,7 @@
   <Include file='_Classtrainer.lua'/>
   <Include file='_Collections.lua'/>
   <Include file='_Communities.lua'/>
+  <Include file='_Dragonriding.lua'/>
   <Include file='_Dressup.lua'/>
   <Include file='_Encounterjournal.lua'/>
   <Include file='_Flightmap.lua'/>
