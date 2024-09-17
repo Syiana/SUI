@@ -64,7 +64,7 @@ function SUIConfig:Dialog(title, message, dialogId)
 		window.messageLabel:SetText(message);
 	else
 		window.messageLabel = self:Label(window, message);
-		window.messageLabel:SetJustifyH('MIDDLE');
+		--window.messageLabel:SetJustifyH('MIDDLE');
 		self:GlueAcross(window.messageLabel, window, 5, -10, -5, 5);
 	end
 
