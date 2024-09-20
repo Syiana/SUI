@@ -31,8 +31,14 @@ function Module:OnEnable()
 
             local function getLatency() return "|c00ffffff" .. select(4, GetNetStats()) .. "|r ms" end
 
-            local function getMovementSpeed() return "|c00ffffff" .. string.format("%d", GetUnitSpeed("player") / 7 * 100) .. "|r%" end
-
+            local isGliding, canGlide, forwardSpeed = C_PlayerInfo.GetGlidingInfo()
+            local function getMovementSpeed() 
+                if isGliding then
+                    return "|c00ffffff" .. string.format("%d", forwardSpeed and (forwardSpeed / BASE_MOVEMENT_SPEED * 100)) .. "|r%"
+                else
+                    return "|c00ffffff" .. string.format("%d", (GetUnitSpeed("player") / BASE_MOVEMENT_SPEED * 100)) .. "|r%"
+                end
+            end
 
             local result = {}
             if db.display.fps then
