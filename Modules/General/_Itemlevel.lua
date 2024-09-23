@@ -11,8 +11,56 @@ function Module:OnEnable()
                 oPrint("|cff6600ccBetterCharacterPanel|r: " .. GetTime() .. " :", msg);
             end
         end
+        local IsCata = select(4, GetBuildInfo()) >= 40000 and select(4, GetBuildInfo()) < 50000;
 
-        local NUM_SOCKET_TEXTURES = 3;
+        local GetDetailedItemLevelInfo = (C_Item and C_Item.GetDetailedItemLevelInfo) and C_Item
+        .GetDetailedItemLevelInfo or GetDetailedItemLevelInfo;
+        local GetItemQualityColor = (C_Item and C_Item.GetItemQualityColor) and C_Item.GetItemQualityColor or
+        GetItemQualityColor;
+        local GetItemInfoInstant = (C_Item and C_Item.GetItemInfoInstant) and C_Item.GetItemInfoInstant or GetItemInfo;
+        local GetInventoryItemDurability = (C_Item and C_Item.GetInventoryItemDurability) and
+        C_Item.GetInventoryItemDurability or GetInventoryItemDurability;
+        local GetInventoryItemQuality = (C_Item and C_Item.GetInventoryItemQuality) and C_Item.GetInventoryItemQuality or
+        GetInventoryItemQuality;
+
+        local NUM_SOCKET_TEXTURES = 4;
+
+        local expansionRequiredSockets = {
+            [10] = {
+                [INVSLOT_NECK] = 2,
+                [INVSLOT_FINGER1] = 2,
+                [INVSLOT_FINGER2] = 2,
+            },
+            [9] = {
+                [INVSLOT_NECK] = 3,
+            }
+        }
+
+        local expansionEnchantableSlots = {
+            [10] = {
+                [INVSLOT_BACK] = true,
+                [INVSLOT_CHEST] = true,
+                [INVSLOT_WRIST] = true,
+                [INVSLOT_WRIST] = true,
+                [INVSLOT_LEGS] = true,
+                [INVSLOT_FEET] = true,
+                [INVSLOT_MAINHAND] = true,
+                [INVSLOT_FINGER1] = true,
+                [INVSLOT_FINGER2] = true,
+            },
+            [9] = {
+                [INVSLOT_HEAD] = true,
+                [INVSLOT_BACK] = true,
+                [INVSLOT_CHEST] = true,
+                [INVSLOT_WRIST] = true,
+                [INVSLOT_WAIST] = true,
+                [INVSLOT_LEGS] = true,
+                [INVSLOT_FEET] = true,
+                [INVSLOT_MAINHAND] = true,
+                [INVSLOT_FINGER1] = true,
+                [INVSLOT_FINGER2] = true,
+            },
+        }
 
         local buttonLayout =
         {
@@ -36,6 +84,248 @@ function Module:OnEnable()
             [INVSLOT_OFFHAND] = "center",
         };
 
+        local scanningTooltip, enchantReplacementTable;
+        local GetItemEnchantAsText, GetSocketTextures, ProcessEnchantText, CanEnchantSlot;
+        if (IsCata) then
+            buttonLayout[INVSLOT_RANGED] = "center";
+            scanningTooltip = CreateFrame("GameTooltip", "BCPScanningTooltip", nil, "GameTooltipTemplate");
+            scanningTooltip:SetOwner(UIParent, "ANCHOR_NONE");
+
+            enchantReplacementTable =
+            {
+                ["Stamina"] = "Stam",
+                ["Intellect"] = "Int",
+                ["Agility"] = "Agi",
+                ["Strength"] = "Str",
+
+                ["Mastery"] = "Mast",
+                ["Versatility"] = "Vers",
+                ["Critical Strike"] = "Crit",
+                ["Haste"] = "Haste",
+                ["Avoidance"] = "Avoid",
+
+                ["Rating"] = "",
+                ["rating"] = "",
+
+                [" and "] = " ",
+            };
+
+            function GetItemEnchantAsText(unit, slot)
+                scanningTooltip:ClearLines();
+                scanningTooltip:SetInventoryItem(unit, slot);
+
+                for i = 3, scanningTooltip:NumLines() do
+                    local fontString = _G["BCPScanningTooltipTextLeft" .. i]
+                    if (fontString and fontString:GetObjectType() == "FontString") then
+                        local text = fontString:GetText(); -- string or nil
+                        if (text) then
+                            local r, g, b, a = fontString:GetTextColor();
+                            if (r == 0 and g == 1 and b == 0 and a == 1) then
+                                if (not string.find(text, "Reforged") and not string.find(text, "Equip: ") and not string.find(text, "%(%d+ min%)")) then
+                                    local startsWithPlus = string.find(text, "^%+");
+                                    local containsMastery = string.find(text, "Mastery");
+                                    local isActuallyMastery = string.find(text, "Mastery Rating");
+
+                                    if (startsWithPlus) then
+                                        if (not containsMastery or isActuallyMastery) then
+                                            return nil, ProcessEnchantText(text);
+                                        end
+                                    elseif ((slot == INVSLOT_MAINHAND or slot == INVSLOT_OFFHAND or slot == INVSLOT_BACK) and not containsMastery) then
+                                        return nil, ProcessEnchantText(text);
+                                    end
+                                end
+                            end
+                        end
+                    end
+                end
+            end
+
+            function GetSocketTextures(unit, slot)
+                scanningTooltip:ClearLines();
+                scanningTooltip:SetInventoryItem(unit, slot);
+
+                local textures = {};
+
+                for i = 1, 10 do
+                    local texture = _G["BCPScanningTooltipTexture" .. i];
+                    if (texture and texture:IsShown()) then
+                        table.insert(textures, texture:GetTexture());
+                    end
+                end
+
+                return textures;
+            end
+
+            local slotsThatHaveEnchants = {
+                [INVSLOT_HEAD] = true,
+                [INVSLOT_SHOULDER] = true,
+                [INVSLOT_BACK] = true,
+                [INVSLOT_CHEST] = true,
+                [INVSLOT_WRIST] = true,
+                [INVSLOT_LEGS] = true,
+                [INVSLOT_HAND] = true,
+                [INVSLOT_FEET] = true,
+                [INVSLOT_MAINHAND] = true,
+                [INVSLOT_OFFHAND] = true,
+            };
+
+            function CanEnchantSlot(unit, slot)
+                local class = select(2, UnitClass(unit));
+                if (class == "HUNTER" and slot == INVSLOT_RANGED) then
+                    return true;
+                end
+
+                return slotsThatHaveEnchants[slot];
+            end
+
+            CharacterFrame:HookScript("OnShow", function()
+                CharacterFrameExpandButton:Click();
+            end);
+        else
+            enchantReplacementTable =
+            {
+                ["Stamina"] = "Stam",
+                ["Intellect"] = "Int",
+                ["Agility"] = "Agi",
+                ["Strength"] = "Str",
+
+                ["Mastery"] = "Mast",
+                ["Versatility"] = "Vers",
+                ["Critical Strike"] = "Crit",
+                ["Haste"] = "Haste",
+                ["Avoidance"] = "Avoid",
+
+                ["Minor Speed Increase"] = "Speed",
+                ["Homebound Speed"] = "Speed & HS Red.",
+                ["Plainsrunner's Breeze"] = "Speed",
+                ["Graceful Avoid"] = "Avoid",
+                ["Regenerative Leech"] = "Leech",
+                ["Watcher's Loam"] = "Stam",
+                ["Rider's Reassurance"] = "Mount Speed",
+                ["Accelerated Agility"] = "Speed & Agi",
+                ["Reserve of Int"] = "Mana & Int",
+                ["Sustained Str"] = "Stam & Str",
+                ["Waking Stats"] = "Primary Stat",
+
+                ["Cavalry's March"] = "Mount Speed",
+                ["Scout's March"] = "Speed",
+
+                ["Defender's March"] = "Stam",
+                ["Stormrider's Agi"] = "Agi & Speed",
+                ["Council's Intellect"] = "Int & Mana",
+                ["Crystalline Radiance"] = "Int",
+                ["Oathsworn's Strength"] = "Str & Stam",
+
+                ["Chant of Armored Avoid"] = "Avoid",
+                ["Chant of Armored Leech"] = "Leech",
+                ["Chant of Armored Speed"] = "Speed",
+                ["Chant of Winged Grace"] = "Avoid & FallDmg",
+                ["Chant of Leeching Fangs"] = "Leech & Recup",
+                ["Chant of Burrowing Rapidity"] = "Speed & HScd",
+
+                ["Cursed Haste"] = "Haste & \124cffcc0000-Vers\124r",
+                ["Cursed Crit"] = "Crit & \124cffcc0000-Haste\124r",
+                ["Cursed Mastery"] = "Mast & \124cffcc0000-Crit\124r",
+                ["Cursed Versatility"] = "Vers & \124cffcc0000-Mast\124r",
+
+                ["Shadowed Belt Clasp"] = "Stamina",
+
+                ["Incandescent Essence"] = "Essence",
+                -- strip all +, we are starved for space
+                ["+"] = "",
+            };
+
+
+
+            local enchantPattern = ENCHANTED_TOOLTIP_LINE:gsub('%%s', '(.*)');
+            local enchantAtlasPattern = "(.*)%s*|A:(.*):20:20|a";
+            local enchatColoredPatten = "|cn(.*):(.*)|r";
+
+            function GetItemEnchantAsText(unit, slot)
+                local data = C_TooltipInfo.GetInventoryItem(unit, slot);
+                for _, line in ipairs(data.lines) do
+                    local text = line.leftText;
+                    local enchantText = string.match(text, enchantPattern);
+                    if (enchantText) then
+                        local maybeEnchantText, atlas;
+                        local maybeEnchantColor, maybeEnchantTextColored = enchantText:match(enchatColoredPatten);
+                        if (maybeEnchantColor) then
+                            enchantText = maybeEnchantTextColored;
+                        else
+                            maybeEnchantText, atlas = enchantText:match(enchantAtlasPattern);
+                            enchantText = maybeEnchantText or enchantText;
+                        end
+
+                        return atlas, ProcessEnchantText(enchantText)
+                    end
+                end
+
+                return nil, nil;
+            end
+
+            function GetSocketTextures(unit, slot)
+                local data = C_TooltipInfo.GetInventoryItem(unit, slot);
+                local textures = {};
+                for i, line in ipairs(data.lines) do
+                    if line.type == 3 then
+                        if (line.gemIcon) then
+                            table.insert(textures, line.gemIcon);
+                        else
+                            table.insert(textures,
+                                string.format("Interface\\ItemSocketingFrame\\UI-EmptySocket-%s", line.socketType));
+                        end
+                    end
+                end
+
+                return textures;
+            end
+
+            function CanEnchantSlot(unit, slot)
+                local expansion = GetExpansionForLevel(UnitLevel(unit));
+                local slotsThatHaveEnchants = expansion and expansionEnchantableSlots[expansion] or {};
+
+                -- all classes have something that increases power or survivability on chest/cloak/weapons/rings/wrist/boots/legs
+                if (slotsThatHaveEnchants[slot]) then
+                    return true;
+                end
+
+                -- Offhand filtering smile :)
+                if (slot == INVSLOT_OFFHAND) then
+                    local offHandItemLink = GetInventoryItemLink(unit, slot);
+                    if (offHandItemLink) then
+                        local itemEquipLoc = select(4, GetItemInfoInstant(offHandItemLink));
+                        return itemEquipLoc ~= "INVTYPE_HOLDABLE" and itemEquipLoc ~= "INVTYPE_SHIELD";
+                    end
+                    return false;
+                end
+
+                return false;
+            end
+        end
+
+        local function pairsByKeys(t, f)
+            local a = {}
+            for n in pairs(t) do table.insert(a, n) end
+            table.sort(a, f)
+            local i = 0   -- iterator variable
+            local iter = function() -- iterator function
+                i = i + 1
+                if a[i] == nil then
+                    return nil
+                else
+                    return a[i], t[a[i]]
+                end
+            end
+            return iter
+        end
+
+        function ProcessEnchantText(enchantText)
+            for seek, replacement in pairsByKeys(enchantReplacementTable) do
+                enchantText = enchantText:gsub(seek, replacement);
+            end
+            return enchantText;
+        end
+
         local function ColorGradient(perc, ...)
             if perc >= 1 then
                 local r, g, b = select(select('#', ...) - 2, ...);
@@ -57,137 +347,7 @@ function Module:OnEnable()
             return ColorGradient(perc, 1, 0, 0, 1, 1, 0, 0, 1, 0);
         end
 
-        local enchantReplacementTable =
-        {
-            ["Stamina"] = "Stam",
-            ["Intellect"] = "Int",
-            ["Agility"] = "Agi",
-            ["Strength"] = "Str",
-            ["Mastery"] = "Mast",
-            ["Versatility"] = "Vers",
-            ["Critical Strike"] = "Crit",
-            ["Haste"] = "Haste",
-            ["Avoidance"] = "Avoid",
-            ["Minor Speed Increase"] = "Speed",
 
-            -- Dragonflight Enchants
-            ["Homebound Speed"] = "Speed & HS Red.",
-            ["Plainsrunner's Breeze"] = "Speed",
-            ["Graceful Avoidance"] = "Avoid",
-            ["Regenerative Leech"] = "Leech",
-            ["Watcher's Loam"] = "Stam",
-            ["Rider's Reassurance"] = "Mount Speed",
-            ["Accelerated Agility"] = "Speed & Agi",
-            ["Reserve of Intellect"] = "Mana & Int",
-            ["Sustained Strength"] = "Stam & Str",
-            ["Waking Stats"] = "Primary Stat",
-            ["Shadowed Belt Clasp"] = "Stamina",
-            ["Incandescent Essence"] = "Essence",
-
-            -- TWW Enchants
-            ["Cavalry's March"] = "Mount Speed",
-            ["Scout's March"] = "Speed",
-            ["Defender's March"] = "Stam",
-            ["Council's Intellect"] = "Mana & Int",
-            ["Stormrider's Agility"] = "Speed & Agi",
-            ["Crystalline Radiance"] = "Primary Stat",
-            ["Oathsworn's Strength"] = "Stam & Str",
-            ["Chant of Armored Avoidance"] = "Avoid",
-            ["Chant of Armored Leech"] = "Leech",
-            ["Chant of Armored Speed"] = "Speed",
-            ["Chant of Winged Grace"] = "Avoid & Falldmg",
-            ["Chant of Leeching Fangs"] = "Leech & Reg",
-            ["Chant of Burrowing Rapidity"] = "Speed & HS Red.",
-            ["Authority of Air"] = "Auth. of Air",
-            ["Authority of Fiery Resolve"] = "Fiery Resolve",
-            ["Authority of Radiant Power"] = "Radiant Power",
-            ["Authority of the Depths"] = "Auth. of Depths",
-            ["Authority of Storms"] = "Auth. of Storms",
-
-
-            -- strip all +, we are starved for space
-            ["+"] = "",
-        };
-
-        local function ProcessEnchantText(enchantText)
-            for seek, replacement in pairs(enchantReplacementTable) do
-                enchantText = enchantText:gsub(seek, replacement);
-            end
-            return enchantText;
-        end
-
-        local slotsThatHaveEnchants = {
-            [INVSLOT_HEAD] = false,
-            [INVSLOT_BACK] = true,
-            [INVSLOT_CHEST] = true,
-            [INVSLOT_WRIST] = true,
-            [INVSLOT_WAIST] = true,
-            [INVSLOT_LEGS] = true,
-            [INVSLOT_FEET] = true,
-            [INVSLOT_FINGER1] = true,
-            [INVSLOT_FINGER2] = true,
-            [INVSLOT_MAINHAND] = true,
-        };
-
-        local function CanEnchantSlot(unit, slot)
-            -- all classes have something that increases power or survivability on chest/cloak/weapons/rings/wrist/boots/legs
-            if (slotsThatHaveEnchants[slot]) then
-                return true;
-            end
-
-            -- Offhand filtering smile :)
-            if (slot == INVSLOT_OFFHAND) then
-                local offHandItemLink = GetInventoryItemLink(unit, slot);
-                if (offHandItemLink) then
-                    local itemEquipLoc = select(4, GetItemInfoInstant(offHandItemLink));
-                    return itemEquipLoc ~= "INVTYPE_HOLDABLE" and itemEquipLoc ~= "INVTYPE_SHIELD";
-                end
-                return false;
-            end
-
-            return false;
-        end
-
-        local enchantPattern = ENCHANTED_TOOLTIP_LINE:gsub('%%s', '(.*)');
-        local enchantAtlasPattern = "(.*)%s*|A:(.*):20:20|a";
-        local enchatColoredPatten = "|cn(.*):(.*)|r";
-        local function GetItemEnchantAsText(unit, slot)
-            local data = C_TooltipInfo.GetInventoryItem(unit, slot);
-            for _, line in ipairs(data.lines) do
-                local text = line.leftText;
-                local enchantText = string.match(text, enchantPattern);
-                if (enchantText) then
-                    local maybeEnchantText, atlas;
-                    local maybeEnchantColor, maybeEnchantTextColored = enchantText:match(enchatColoredPatten);
-                    if (maybeEnchantColor) then
-                        enchantText = maybeEnchantTextColored;
-                    else
-                        maybeEnchantText, atlas = enchantText:match(enchantAtlasPattern);
-                        enchantText = maybeEnchantText or enchantText;
-                    end
-
-                    return atlas, ProcessEnchantText(enchantText)
-                end
-            end
-
-            return nil, nil;
-        end
-
-        local function GetSocketTextures(unit, slot)
-            local data = C_TooltipInfo.GetInventoryItem(unit, slot);
-            local textures = {};
-            for i, line in ipairs(data.lines) do
-                TooltipUtil.FindLinesFromData(line);
-                if line.gemIcon then
-                    table.insert(textures, line.gemIcon);
-                elseif line.socketType then
-                    table.insert(textures,
-                        string.format("Interface\\ItemSocketingFrame\\UI-EmptySocket-%s", line.socketType));
-                end
-            end
-
-            return textures;
-        end
 
         local function AnchorTextureLeftOfParent(parent, textures)
             textures[1]:SetPoint("RIGHT", parent, "LEFT", -3, 1);
@@ -278,15 +438,36 @@ function Module:OnEnable()
 
             additionalFrame.ilvlDisplay:SetPoint("BOTTOM", button, "TOP", 0, 7);
 
-            --left center
-            if (button:GetID() == 16) then
-                additionalFrame.enchantDisplay:SetPoint("BOTTOMRIGHT", button, "BOTTOMLEFT", -5, 0);
+            local buttonId = button:GetID();
+            if (IsCata) then
+                if (buttonId == INVSLOT_MAINHAND) then
+                    additionalFrame.enchantDisplay:SetPoint("BOTTOMRIGHT", button, "BOTTOMLEFT", -5, 0);
 
-                AnchorTextureLeftOfParent(additionalFrame.ilvlDisplay, additionalFrame.socketDisplay);
+                    additionalFrame.socketDisplay[1]:SetPoint("RIGHT", button, "LEFT", -5, 0);
+                    for i = 2, NUM_SOCKET_TEXTURES do
+                        additionalFrame.socketDisplay[i]:SetPoint("RIGHT", additionalFrame.socketDisplay[i - 1], "LEFT",
+                            -2, 0);
+                    end
+                elseif (buttonId == INVSLOT_RANGED) then
+                    additionalFrame.enchantDisplay:SetPoint("BOTTOMLEFT", button, "BOTTOMRIGHT", 5, 0);
+
+                    additionalFrame.socketDisplay[1]:SetPoint("LEFT", button, "RIGHT", 5, 0);
+                    for i = 2, NUM_SOCKET_TEXTURES do
+                        additionalFrame.socketDisplay[i]:SetPoint("LEFT", additionalFrame.socketDisplay[i - 1], "RIGHT",
+                            2, 0);
+                    end
+                else
+                    additionalFrame.enchantDisplay:SetPoint("BOTTOM", button, "TOP", 0, 20);
+                    AnchorTextureLeftOfParent(additionalFrame.ilvlDisplay, additionalFrame.socketDisplay);
+                end
             else
-                additionalFrame.enchantDisplay:SetPoint("BOTTOMLEFT", button, "BOTTOMRIGHT", 5, 0);
-
-                AnchorTextureRightOfParent(additionalFrame.ilvlDisplay, additionalFrame.socketDisplay);
+                if (button:GetID() == INVSLOT_MAINHAND) then
+                    additionalFrame.enchantDisplay:SetPoint("BOTTOMRIGHT", button, "BOTTOMLEFT", -5, 0);
+                    AnchorTextureLeftOfParent(additionalFrame.ilvlDisplay, additionalFrame.socketDisplay);
+                else
+                    additionalFrame.enchantDisplay:SetPoint("BOTTOMLEFT", button, "BOTTOMRIGHT", 5, 0);
+                    AnchorTextureRightOfParent(additionalFrame.ilvlDisplay, additionalFrame.socketDisplay);
+                end
             end
         end
 
@@ -311,10 +492,10 @@ function Module:OnEnable()
             if (not additionalFrame.prevItemLink or itemLink ~= additionalFrame.prevItemLink) then
                 local itemiLvlText = "";
                 if (itemLink) then
-                    local ilvl = C_Item.GetDetailedItemLevelInfo(itemLink);
+                    local ilvl = GetDetailedItemLevelInfo(itemLink);
                     local quality = GetInventoryItemQuality(unit, slot);
                     if (quality) then
-                        local hex = select(4, C_Item.GetItemQualityColor(quality));
+                        local hex = select(4, GetItemQualityColor(quality));
                         itemiLvlText = "|c" .. hex .. ilvl .. "|r";
                     else
                         itemiLvlText = ilvl;
@@ -330,11 +511,19 @@ function Module:OnEnable()
                 local canEnchant = CanEnchantSlot(unit, slot);
 
                 if (not enchantText) then
-                    local shouldDisplayEchantMissingText = canEnchant and IsLevelAtEffectiveMaxLevel(UnitLevel(unit));
+                    local shouldDisplayEchantMissingText = canEnchant and itemLink and
+                    IsLevelAtEffectiveMaxLevel(UnitLevel(unit));
                     additionalFrame.enchantDisplay:SetText(shouldDisplayEchantMissingText and "|cffff0000No Enchant|r" or
                     "");
                 else
-                    enchantText = string.sub(enchantText, 0, 18);
+                    --trim size
+                    local maxSize = 18;
+                    local containsColor = string.find(enchantText, "|c");
+                    if (containsColor) then
+                        maxSize = maxSize + strlen("|cffffffff|r");
+                    end
+                    enchantText = string.sub(enchantText, 1, maxSize);
+
                     local enchantQuality = "";
                     if atlas then
                         enchantQuality = "|A:" .. atlas .. ":12:12|a";
@@ -356,9 +545,10 @@ function Module:OnEnable()
                         socketTexture:SetVertexColor(1, 1, 1);
                         socketTexture:Show();
                     else
-                        if (slot == INVSLOT_NECK or slot == INVSLOT_FINGER1 or slot == INVSLOT_FINGER2) then
-                            if i == 3 then return end
-                            socketTexture:SetTexture("Interface\\ItemSocketingFrame\\UI-EmptySocket-Prismatic");
+                        local expansion = GetExpansionForLevel(UnitLevel(unit));
+                        local expansionSocketRequirement = expansion and expansionRequiredSockets[expansion];
+                        if (expansionSocketRequirement and expansionSocketRequirement[slot] and i <= expansionSocketRequirement[slot]) then
+                            socketTexture:SetTexture("Interface\\ItemSocketingFrame\\UI-EmptySocket-Red");
                             socketTexture:SetVertexColor(1, 0, 0);
                             socketTexture:Show();
                         else
@@ -388,7 +578,8 @@ function Module:OnEnable()
         local function CreateInspectIlvlDisplay()
             local parent = InspectPaperDollItemsFrame;
             if (not parent.ilvlDisplay) then
-                parent.ilvlDisplay = parent:CreateFontString(nil, "OVERLAY", "GameFontHighlightOutline22");
+                parent.ilvlDisplay = parent:CreateFontString(nil, "OVERLAY",
+                    IsCata and "GameFontHighlightOutline" or "GameFontHighlightOutline22");
                 parent.ilvlDisplay:SetPoint("TOPRIGHT", parent, "TOPRIGHT", 0, -20);
                 parent.ilvlDisplay:SetPoint("BOTTOMLEFT", parent, "TOPRIGHT", -80, -67);
             end
@@ -401,6 +592,7 @@ function Module:OnEnable()
         for i = 4, 1, -1 do
             levelThresholds[i] = LEGENDARY_ITEM_LEVEL - (STEP_ITEM_LEVEL * (i - 1));
         end
+
 
         local function UpdateInspectIlvlDisplay(unit)
             local ilvl = C_PaperDollInfo.GetInspectItemLevel(unit);
@@ -434,83 +626,88 @@ function Module:OnEnable()
 
         hooksecurefunc("PaperDollItemSlotButton_Update", function(button) updateButton(button, "player"); end);
 
+        function addon:MoveTalentButton(talentButton)
+            talentButton:SetSize(72, 32);
+
+            talentButton.Left:SetTexture(nil);
+            talentButton.Left:SetTexCoord(0, 1, 0, 1);
+            talentButton.Left:ClearAllPoints();
+            talentButton.Left:SetPoint("TOPLEFT");
+            talentButton.Left:SetAtlas("uiframe-tab-left", true);
+            talentButton.Left:SetHeight(36);
+
+            talentButton.Right:SetTexture(nil);
+            talentButton.Right:SetTexCoord(0, 1, 0, 1);
+            talentButton.Right:ClearAllPoints();
+            talentButton.Right:SetPoint("TOPRIGHT", 6);
+            talentButton.Right:SetAtlas("uiframe-tab-right", true);
+            talentButton.Right:SetHeight(36);
+
+            talentButton.Middle:SetTexture(nil);
+            talentButton.Middle:SetTexCoord(0, 1, 0, 1);
+            talentButton.Middle:ClearAllPoints();
+            talentButton.Middle:SetPoint("LEFT", talentButton.Left, "RIGHT");
+            talentButton.Middle:SetPoint("RIGHT", talentButton.Right, "LEFT");
+            talentButton.Middle:SetAtlas("_uiframe-tab-center", true);
+            talentButton.Middle:SetHeight(36);
+
+            talentButton.LeftHighlight = talentButton:CreateTexture();
+            talentButton.LeftHighlight:SetAtlas("uiframe-tab-left", true);
+            talentButton.LeftHighlight:SetAlpha(0.4);
+            talentButton.LeftHighlight:SetBlendMode("ADD");
+            talentButton.LeftHighlight:SetPoint("TOPLEFT");
+            talentButton.LeftHighlight:Hide();
+
+            talentButton.RightHighlight = talentButton:CreateTexture();
+            talentButton.RightHighlight:SetAtlas("uiframe-tab-right", true);
+            talentButton.RightHighlight:SetAlpha(0.4);
+            talentButton.RightHighlight:SetBlendMode("ADD");
+            talentButton.RightHighlight:SetPoint("TOPRIGHT", 6);
+            talentButton.RightHighlight:Hide();
+
+            talentButton.MiddleHighlight = talentButton:CreateTexture();
+            talentButton.MiddleHighlight:SetAtlas("_uiframe-tab-center", true);
+            talentButton.MiddleHighlight:SetAlpha(0.4);
+            talentButton.MiddleHighlight:SetBlendMode("ADD");
+            talentButton.MiddleHighlight:SetPoint("LEFT", talentButton.Left, "RIGHT");
+            talentButton.MiddleHighlight:SetPoint("RIGHT", talentButton.Right, "LEFT");
+            talentButton.MiddleHighlight:Hide();
+
+            talentButton:SetNormalFontObject(GameFontNormalSmall);
+            talentButton:SetHighlightFontObject(GameFontHighlightSmall);
+            talentButton:ClearHighlightTexture();
+            talentButton.Text:ClearAllPoints();
+            talentButton.Text:SetPoint("CENTER", 0, 2);
+            talentButton.Text:SetHeight(10);
+
+            talentButton:HookScript("OnEnter", function(self)
+                for _, v in ipairs({ "MiddleHighlight", "LeftHighlight", "RightHighlight" }) do
+                    self[v]:Show();
+                end
+            end);
+
+            talentButton:HookScript("OnLeave", function(self)
+                for _, v in ipairs({ "MiddleHighlight", "LeftHighlight", "RightHighlight" }) do
+                    self[v]:Hide();
+                end
+            end);
+
+            talentButton:SetScript("OnMouseDown", nil);
+            talentButton:SetScript("OnMouseUp", nil);
+            talentButton:SetScript("OnShow", nil);
+            talentButton:SetScript("OnEnable", nil);
+            talentButton:SetScript("OnDisable", nil);
+
+            talentButton:ClearAllPoints();
+            talentButton:SetPoint("LEFT", InspectFrameTab3, "RIGHT", 3, 0);
+        end
+
         function addon:ADDON_LOADED(addonName)
             if (addonName == "Blizzard_InspectUI") then
                 local talentButton = InspectPaperDollItemsFrame.InspectTalents;
-
-                talentButton:SetSize(72, 32);
-
-                talentButton.Left:SetTexture(nil);
-                talentButton.Left:SetTexCoord(0, 1, 0, 1);
-                talentButton.Left:ClearAllPoints();
-                talentButton.Left:SetPoint("TOPLEFT");
-                talentButton.Left:SetAtlas("uiframe-tab-left", true);
-                talentButton.Left:SetHeight(36);
-
-                talentButton.Right:SetTexture(nil);
-                talentButton.Right:SetTexCoord(0, 1, 0, 1);
-                talentButton.Right:ClearAllPoints();
-                talentButton.Right:SetPoint("TOPRIGHT", 6);
-                talentButton.Right:SetAtlas("uiframe-tab-right", true);
-                talentButton.Right:SetHeight(36);
-
-                talentButton.Middle:SetTexture(nil);
-                talentButton.Middle:SetTexCoord(0, 1, 0, 1);
-                talentButton.Middle:ClearAllPoints();
-                talentButton.Middle:SetPoint("LEFT", talentButton.Left, "RIGHT");
-                talentButton.Middle:SetPoint("RIGHT", talentButton.Right, "LEFT");
-                talentButton.Middle:SetAtlas("_uiframe-tab-center", true);
-                talentButton.Middle:SetHeight(36);
-
-                talentButton.LeftHighlight = talentButton:CreateTexture();
-                talentButton.LeftHighlight:SetAtlas("uiframe-tab-left", true);
-                talentButton.LeftHighlight:SetAlpha(0.4);
-                talentButton.LeftHighlight:SetBlendMode("ADD");
-                talentButton.LeftHighlight:SetPoint("TOPLEFT");
-                talentButton.LeftHighlight:Hide();
-
-                talentButton.RightHighlight = talentButton:CreateTexture();
-                talentButton.RightHighlight:SetAtlas("uiframe-tab-right", true);
-                talentButton.RightHighlight:SetAlpha(0.4);
-                talentButton.RightHighlight:SetBlendMode("ADD");
-                talentButton.RightHighlight:SetPoint("TOPRIGHT", 6);
-                talentButton.RightHighlight:Hide();
-
-                talentButton.MiddleHighlight = talentButton:CreateTexture();
-                talentButton.MiddleHighlight:SetAtlas("_uiframe-tab-center", true);
-                talentButton.MiddleHighlight:SetAlpha(0.4);
-                talentButton.MiddleHighlight:SetBlendMode("ADD");
-                talentButton.MiddleHighlight:SetPoint("LEFT", talentButton.Left, "RIGHT");
-                talentButton.MiddleHighlight:SetPoint("RIGHT", talentButton.Right, "LEFT");
-                talentButton.MiddleHighlight:Hide();
-
-                talentButton:SetNormalFontObject(GameFontNormalSmall);
-                talentButton:SetHighlightFontObject(GameFontHighlightSmall);
-                talentButton:ClearHighlightTexture();
-                talentButton.Text:ClearAllPoints();
-                talentButton.Text:SetPoint("CENTER", 0, 2);
-                talentButton.Text:SetHeight(10);
-
-                talentButton:HookScript("OnEnter", function(self)
-                    for _, v in ipairs({ "MiddleHighlight", "LeftHighlight", "RightHighlight" }) do
-                        self[v]:Show();
-                    end
-                end);
-
-                talentButton:HookScript("OnLeave", function(self)
-                    for _, v in ipairs({ "MiddleHighlight", "LeftHighlight", "RightHighlight" }) do
-                        self[v]:Hide();
-                    end
-                end);
-
-                talentButton:SetScript("OnMouseDown", nil);
-                talentButton:SetScript("OnMouseUp", nil);
-                talentButton:SetScript("OnShow", nil);
-                talentButton:SetScript("OnEnable", nil);
-                talentButton:SetScript("OnDisable", nil);
-
-                talentButton:ClearAllPoints();
-                talentButton:SetPoint("LEFT", InspectFrameTab3, "RIGHT", 3, 0);
+                if (talentButton) then
+                    addon:MoveTalentButton(talentButton);
+                end
 
                 hooksecurefunc("InspectPaperDollItemSlotButton_Update", function(button)
                     updateButton(button, InspectFrame.unit);
@@ -519,7 +716,9 @@ function Module:OnEnable()
                 hooksecurefunc("InspectPaperDollFrame_SetLevel", function()
                     if (not InspectFrame.unit) then return; end
                     CreateInspectIlvlDisplay();
-                    UpdateInspectIlvlDisplay(InspectFrame.unit);
+                    if (not IsCata) then
+                        UpdateInspectIlvlDisplay(InspectFrame.unit);
+                    end
                 end);
             end
         end
@@ -572,213 +771,41 @@ function Module:OnEnable()
 
         -- cache list
         local gemsWeCareAbout = {
-            -- Dragonflight Gems
-            192989, -- Increased Primary Stat and Versatility Rank 1
-            192990, -- Increased Primary Stat and Versatility Rank 2
-            192991, -- Increased Primary Stat and Versatility Rank 3
+            192991, -- Increased Primary Stat and Versatility
+            192985, -- Increased Primary Stat and Haste
+            192982, -- Increased Primary Stat and Critical Strike
+            192988, -- Increased Primary Stat and Mastery
 
-            192983, -- Increased Primary Stat and Haste Rank 1
-            192984, -- Increased Primary Stat and Haste Rank 2
-            192985, -- Increased Primary Stat and Haste Rank 3
-
-            192980, -- Increased Primary Stat and Critical Strike Rank 1
-            192981, -- Increased Primary Stat and Critical Strike Rank 2
-            192982, -- Increased Primary Stat and Critical Strike Rank 3
-
-            192986, -- Increased Primary Stat and Mastery Rank 1
-            192987, -- Increased Primary Stat and Mastery Rank 2
-            192988, -- Increased Primary Stat and Mastery Rank 3
-
-            192943, -- Increased Haste and Critical Strike
-            192944, -- Increased Haste and Critical Strike
             192945, -- Increased Haste and Critical Strike
-
-            192946, -- Increased Haste and Mastery
-            192947, -- Increased Haste and Mastery
             192948, -- Increased Haste and Mastery
-
-            192950, -- Increased Haste and Versatility
-            192951, -- Increased Haste and Versatility
             192952, -- Increased Haste and Versatility
-
-            192953, -- Increased Haste
-            192954, -- Increased Haste
             192955, -- Increased Haste
 
-            192959, -- Increased Mastery and Haste
-            192960, -- Increased Mastery and Haste
             192961, -- Increased Mastery and Haste
-
-            192956, -- Increased Mastery and Critical Strike
-            192957, -- Increased Mastery and Critical Strike
             192958, -- Increased Mastery and Critical Strike
-
-            192962, -- Increased Mastery and Versatility
-            192963, -- Increased Mastery and Versatility
             192964, -- Increased Mastery and Versatility
-
-            192965, -- Increased Mastery
-            192966, -- Increased Mastery
             192967, -- Increased Mastery
 
-            192917, -- Increased Critical Strike and Haste
-            192918, -- Increased Critical Strike and Haste
             192919, -- Increased Critical Strike and Haste
-
-            192923, -- Increased Critical Strike and Versatility
-            192924, -- Increased Critical Strike and Versatility
             192925, -- Increased Critical Strike and Versatility
-
-            192920, -- Increased Critical Strike and Mastery
-            192921, -- Increased Critical Strike and Mastery
             192922, -- Increased Critical Strike and Mastery
-
-            192926, -- Increased Critical Strike
-            192927, -- Increased Critical Strike
             192928, -- Increased Critical Strike
 
-            192933, -- Increased Versatility and Haste
-            192934, -- Increased Versatility and Haste
             192935, -- Increased Versatility and Haste
-
-            192929, -- Increased Versatility and Critical Strike
-            192931, -- Increased Versatility and Critical Strike
             192932, -- Increased Versatility and Critical Strike
-
-            192936, -- Increased Versatility and Mastery
-            192937, -- Increased Versatility and Mastery
             192938, -- Increased Versatility and Mastery
-
-            192940, -- Increased Versatility
-            192941, -- Increased Versatility
             192942, -- Increased Versatility
 
-            192971, -- Increased Stamina and Haste
-            192972, -- Increased Stamina and Haste
             192973, -- Increased Stamina and Haste
-
-            192968, -- Increased Stamina and Critical Strike
-            192969, -- Increased Stamina and Critical Strike
             192970, -- Increased Stamina and Critical Strike
-
-            192977, -- Increased Stamina and Versatility
-            192978, -- Increased Stamina and Versatility
             192979, -- Increased Stamina and Versatility
-
-            192974, -- Increased Stamina and Mastery
-            192975, -- Increased Stamina and Mastery
             192976, -- Increased Stamina and Mastery
-
-            -- TWW Gems
-            217113, -- Cubic Blasphemia Rank 1
-            217114, -- Cubic Blasphemia Rank 2
-            217115, -- Cubic Blasphemia Rank 3
-
-            213738, -- Insightful Blasphemite Rank 1
-            213739, -- Insightful Blasphemite Rank 1
-            213740, -- Insightful Blasphemite Rank 1
-
-            213741, -- Culminating Blasphemite Rank 1
-            213742, -- Culminating Blasphemite Rank 2
-            213743, -- Culminating Blasphemite Rank 3
-
-            213744, -- Elusive Blasphemite Rank 1
-            213745, -- Elusive Blasphemite Rank 1
-            213746, -- Elusive Blasphemite Rank 1
-
-            213747, -- Enduring Bloodstone
-            213748, -- Cognitive Bloodstone
-            213749, -- Enduring Bloodstone
-
-            434555, -- Masterful Sapphire
-            434556, -- Masterful Sapphire
-            434557, -- Masterful Sapphire
-
-            213453, -- Quick Ruby
-            213454, -- Quick Ruby
-            213455, -- Quick Ruby
-
-            213456, -- Masterful Ruby
-            213457, -- Masterful Ruby
-            213458, -- Masterful Ruby
-
-            213459, -- Versatile Ruby
-            213460, -- Versatile Ruby
-            213461, -- Versatile Ruby
-
-            213462, -- Deadly Ruby
-            213463, -- Deadly Ruby
-            213464, -- Deadly Ruby
-
-            213465, -- Deadly Sapphire
-            213466, -- Deadly Sapphire
-            213467, -- Deadly Sapphire
-
-            213468, -- Quick Sapphire
-            213469, -- Quick Sapphire
-            213470, -- Quick Sapphire
-
-            213474, -- Versatile Sapphire
-            213475, -- Versatile Sapphire
-            213476, -- Versatile Sapphire
-
-            213477, -- Deadly Emerald
-            213478, -- Deadly Emerald
-            213479, -- Deadly Emerald
-
-            213480, -- Masterful Emerald
-            213481, -- Masterful Emerald
-            213482, -- Masterful Emerald
-
-            213483, -- Versatile Emerald
-            213484, -- Versatile Emerald
-            213485, -- Versatile Emerald
-
-            213486, -- Quick Emerald
-            213487, -- Quick Emerald
-            213488, -- Quick Emerald
-
-            213489, -- Deadly Onyx
-            213490, -- Deadly Onyx
-            213491, -- Deadly Onyx
-
-            213492, -- Quick Onyx
-            213493, -- Quick Onyx
-            213494, -- Quick Onyx
-
-            213495, -- Versatile Onyx
-            213496, -- Versatile Onyx
-            213497, -- Versatile Onyx
-
-            213498, -- Masterful Onyx
-            213499, -- Masterful Onyx
-            213500, -- Masterful Onyx
-
-            213501, -- Deadly Amber
-            213502, -- Deadly Amber
-            213503, -- Deadly Amber
-
-            213504, -- Quick Amber
-            213505, -- Quick Amber
-            213506, -- Quick Amber
-
-            213507, -- Masterful Amber
-            213508, -- Masterful Amber
-            213509, -- Masterful Amber
-
-            213510, -- Versatile Amber
-            213511, -- Versatile Amber
-            213512, -- Versatile Amber
-
-            213515, -- Solid Amber
-            213516, -- Solid Amber
-            213517, -- Solid Amber
         };
 
         -- There is no escaping the cache!!!
         function addon:PLAYER_ENTERING_WORLD(isInitialLogin, isReloadingUi)
             for _, gemID in ipairs(gemsWeCareAbout) do
-                C_Item.GetItemInfo(gemID);
+                C_Item.RequestLoadItemDataByID(gemID);
             end
         end
 
