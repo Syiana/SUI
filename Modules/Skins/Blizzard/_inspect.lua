@@ -43,6 +43,15 @@ function Module:OnEnable()
                     InspectFrameTab3.LeftHighlight,
                     InspectFrameTab3.MiddleHighlight,
                     InspectFrameTab3.RightHighlight,
+                    InspectPaperDollItemsFrame.InspectTalents.Left,
+                    InspectPaperDollItemsFrame.InspectTalents.Middle,
+                    InspectPaperDollItemsFrame.InspectTalents.Right,
+                    InspectPaperDollItemsFrame.InspectTalents.LeftActive,
+                    InspectPaperDollItemsFrame.InspectTalents.MiddleActive,
+                    InspectPaperDollItemsFrame.InspectTalents.RightActive,
+                    InspectPaperDollItemsFrame.InspectTalents.LeftHighlight,
+                    InspectPaperDollItemsFrame.InspectTalents.MiddleHighlight,
+                    InspectPaperDollItemsFrame.InspectTalents.RightHighlight,
                     InspectPVPFrame.BG,
                 }) do
                     v:SetVertexColor(unpack(SUI:Color(0.15)))
