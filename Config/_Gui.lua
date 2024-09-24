@@ -1,8 +1,5 @@
 local Gui = SUI:NewModule("Config.Gui")
 
--- Imports
-local User = SUI:GetModule("Data.User")
-
 local General = SUI:GetModule("Config.Layout.General")
 local Unitframes = SUI:GetModule("Config.Layout.Unitframes")
 local Nameplates = SUI:GetModule("Config.Layout.Nameplates")
@@ -151,125 +148,8 @@ function Gui:OnEnable()
         Map = Map.layout,
         Chat = Chat.layout,
         Misc = Misc.layout,
-        FAQ = {
-            layoutConfig = { padding = { top = 15 } },
-            rows = {
-                {
-                    header = {
-                        type = 'header',
-                        label = 'Credits'
-                    }
-                },
-                {
-                    team = {
-                        type = 'scroll',
-                        label = 'Team',
-                        scrollChild = function(self)
-                            local items = {};
-                            local function update(parent, label, data)
-                                label.data = data;
-                                label:SetText(data.text);
-                                SUIConfig:SetObjSize(label, 60, 20);
-                                label:SetPoint('RIGHT');
-                                label:SetPoint('LEFT');
-                                return label;
-                            end
-
-                            SUIConfig:ObjectList(self.scrollChild, items, 'Label', update, User.team);
-                        end,
-                        height = 220,
-                        column = 4,
-                        order = 1
-                    },
-                    special = {
-                        type = 'scroll',
-                        label = 'Specials',
-                        scrollChild = function(self)
-                            local items = {};
-                            local function update(parent, label, data)
-                                label.data = data;
-                                label:SetText(data.text);
-                                SUIConfig:SetObjSize(label, 60, 20);
-                                label:SetPoint('RIGHT');
-                                label:SetPoint('LEFT');
-                                return label;
-                            end
-
-                            SUIConfig:ObjectList(self.scrollChild, items, 'Label', update, User.specials);
-                        end,
-                        height = 220,
-                        column = 4,
-                        order = 2
-                    },
-                    supporter = {
-                        type = 'scroll',
-                        label = 'Supporter',
-                        scrollChild = function(self)
-                            local items = {};
-                            local function update(parent, label, data)
-                                label.data = data;
-                                label:SetText(data.text);
-                                SUIConfig:SetObjSize(label, 60, 20);
-                                label:SetPoint('RIGHT');
-                                label:SetPoint('LEFT');
-                                return label;
-                            end
-
-                            SUIConfig:ObjectList(self.scrollChild, items, 'Label', update, User.supporter);
-                        end,
-                        height = 220,
-                        column = 4,
-                        order = 3
-                    },
-                },
-                {
-                    header = {
-                        type = 'header',
-                        label = 'Help'
-                    }
-                },
-                {
-                    discord = {
-                        type = 'button',
-                        text = 'Discord',
-                        onClick = function()
-                            SUIConfig:Dialog('Discord', 'discord.gg/yBWkxxR')
-                        end,
-                        column = 3,
-                        order = 1
-                    },
-                    twitch = {
-                        type = 'button',
-                        text = 'Twitch',
-                        onClick = function()
-                            SUIConfig:Dialog('Twitch', 'twitch.tv/syiana')
-                        end,
-                        column = 3,
-                        order = 2
-                    },
-                    reset = {
-                        type = 'button',
-                        text = 'Reset UI',
-                        onClick = function()
-                            local buttons = {
-                                ok = {
-                                    text    = 'Confirm',
-                                    onClick = function() db:ResetProfile() ReloadUI() end
-                                },
-                                cancel = {
-                                    text    = 'Cancel',
-                                    onClick = function(self) self:GetParent():Hide() end
-                                }
-                            }
-                            SUIConfig:Confirm('Reset UI', 'This will reset your profile', buttons)
-                        end,
-                        column = 3,
-                        order = 3
-                    }
-                }
-            },
-        },
-        Profiles = Profiles.layout
+        Profiles = Profiles.layout,
+        FAQ = FAQ.layout
     }
 
     --Categories
@@ -284,8 +164,8 @@ function Gui:OnEnable()
         { title = 'Map', name = 'Map', layout = options['Map'] },
         { title = 'Chat', name = 'Chat', layout = options['Chat'] },
         { title = 'Misc', name = 'Misc', layout = options['Misc'] },
-        { title = 'FAQ', name = 'FAQ', layout = options['FAQ'] },
-        { title = 'Profiles', name = 'Profiles', layout = options['Profiles'] }
+        { title = 'Profiles', name = 'Profiles', layout = options['Profiles'] },
+        { title = 'FAQ', name = 'FAQ', layout = options['FAQ'] }
     }
 
     -- Tabs
