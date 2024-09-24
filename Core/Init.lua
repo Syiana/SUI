@@ -1,4 +1,4 @@
-SUI = LibStub("AceAddon-3.0"):NewAddon("SUI", "AceEvent-3.0")
+SUI = LibStub("AceAddon-3.0"):NewAddon("SUI", "AceEvent-3.0", "AceComm-3.0", "AceSerializer-3.0")
 
 C_AddOns.DisableAddOn('LortiUI')
 C_AddOns.DisableAddOn('UberUI')
@@ -245,6 +245,52 @@ function SUI:OnInitialize()
             end
             return color
         end
+    end
+
+    -- SUI Version check
+    local currentVersion = C_AddOns.GetAddOnMetadata(addonName, "Version")
+
+    local function GetDefaultCommChannel()
+        if IsInRaid() then
+            return IsInRaid(LE_PARTY_CATEGORY_INSTANCE) and "INSTANCE_CHAT" or "RAID"
+        elseif IsInGroup() then
+            return IsInGroup(LE_PARTY_CATEGORY_INSTANCE) and "INSTANCE_CHAT" or "PARTY"
+        elseif IsInGuild() then
+            return "GUILD"
+        else
+            return "YELL"
+        end
+    end
+
+    function self:ReceiveVersion(_, version, _, sender)
+        if not SUI.db.profile.new_version then
+            if (version > currentVersion) then
+                print("|cffff00d5S|r|cff027bffUI|r:", "A newer version is available. If you experience any errors or bugs, updating is highly recommended.")
+
+                SUI.db.profile.new_version = version
+            end
+        elseif (SUI.db.profile.new_version == currentVersion) or (SUI.db.profile.new_version <= currentVersion) then
+            SUI.db.profile.new_version = false
+        end
+    end
+
+    function self:SendVersion(channel)
+        self:SendCommMessage("SUIVersion", currentVersion, channel or GetDefaultCommChannel())
+    end
+
+    self:RegisterComm("SUIVersion", "ReceiveVersion")
+    self:RegisterEvent("ZONE_CHANGED_NEW_AREA", function()
+        self:SendVersion()
+        if IsInGuild() then self:SendVersion("GUILD") end
+    end)
+    C_Timer.After(30, function()
+        self:SendVersion()
+        if IsInGuild() then self:SendVersion("GUILD") end
+        self:SendVersion("YELL")
+    end)
+
+    if (SUI.db.profile.new_version and SUI.db.profile.new_version > currentVersion) then
+        print("|cffff00d5S|r|cff027bffUI|r:", "A newer version is available. If you experience any errors or bugs, updating is highly recommended.")
     end
 end
 
