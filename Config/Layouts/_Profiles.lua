@@ -4,73 +4,10 @@ function Layout:OnEnable()
     -- Database
     local db = SUI.db
 
-    -- Layout
-    -- Layout.layout = {
-    --   layoutConfig = { padding = { top = 15 } },
-    --   rows = {
-    --     {
-    --       header = {
-    --         type = 'header',
-    --         label = 'Profiles'
-    --       }
-    --     },
-    --     {
-    --       profile = {
-    --         type = 'dropdown',
-    --         label = 'Profile',
-    --         options = {
-    --           { value = 1, text = 'Default' },
-    --           { value = 2, text = 'Custom' }
-    --         },
-    --         initialValue = 1,
-    --         column = 6,
-    --         order = 1
-    --       }
-    --     },
-    --     {
-    --       copy = {
-    --         type = 'dropdown',
-    --         label = 'Copy from',
-    --         options = {
-    --           { value = 1, text = 'Default' },
-    --           { value = 2, text = 'Custom' }
-    --         },
-    --         initialValue = 1,
-    --         column = 6,
-    --         order = 1
-    --       }
-    --     },
-    --     {
-    --       new = {
-    --         type = 'button',
-    --         text = 'New',
-    --         onClick = function()
-    --           print("new profile");
-    --         end,
-    --         column = 3,
-    --         order = 1
-    --       },
-    --       delete = {
-    --         type = 'button',
-    --         text = 'Delete',
-    --         column = 3,
-    --         order = 2
-    --       },
-    --       export = {
-    --         type = 'button',
-    --         text = 'Export',
-    --         column = 3,
-    --         order = 3
-    --       },
-    --       import = {
-    --         type = 'button',
-    --         text = 'Import',
-    --         column = 3,
-    --         order = 4
-    --       }
-    --     }
-    --   },
-    -- }
+    -- Components
+    local SUIConfig = LibStub('SUIConfig')
+    local ProfileExport = SUI:GetModule("Config.Components.ProfileExport")
+    local ProfileImport = SUI:GetModule("Config.Components.ProfileImport")
 
     Layout.layout = {
         layoutConfig = { padding = { top = 15 } },
@@ -78,13 +15,46 @@ function Layout:OnEnable()
             {
                 header = {
                     type = 'header',
-                    label = 'Profiles'
-                }
+                    label = 'Profile Sharing'
+                },
             },
             {
-                profile = {
-                    type = 'label',
-                    label = 'coming soon ...',
+                export = {
+                    type = 'button',
+                    text = 'Export',
+                    onClick = function()
+                        ProfileExport.Show(tostring(db))
+                    end,
+                    column = 3,
+                    order = 1
+                },
+                import = {
+                    type = 'button',
+                    text = 'Import',
+                    onClick = function()
+                        ProfileImport.Show()
+                    end,
+                    column = 3,
+                    order = 2
+                },
+                reset = {
+                    type = 'button',
+                    text = 'Reset UI',
+                    onClick = function()
+                        local buttons = {
+                            ok = {
+                                text    = 'Confirm',
+                                onClick = function() db:ResetProfile() ReloadUI() end
+                            },
+                            cancel = {
+                                text    = 'Cancel',
+                                onClick = function(self) self:GetParent():Hide() end
+                            }
+                        }
+                        SUIConfig:Confirm('Reset UI', 'This will reset all your SUI settings!', buttons)
+                    end,
+                    column = 3,
+                    order = 3
                 }
             }
         },
