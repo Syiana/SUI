@@ -1,4 +1,5 @@
 SUI = LibStub("AceAddon-3.0"):NewAddon("SUI", "AceEvent-3.0", "AceComm-3.0", "AceSerializer-3.0")
+local addonName, addon = ...
 
 C_AddOns.DisableAddOn('LortiUI')
 C_AddOns.DisableAddOn('UberUI')
@@ -248,7 +249,7 @@ function SUI:OnInitialize()
     end
 
     -- SUI Version check
-    local currentVersion = C_AddOns.GetAddOnMetadata(addonName, "Version")
+    local currentVersion = C_AddOns.GetAddOnMetadata(addonName, "version")
 
     local function GetDefaultCommChannel()
         if IsInRaid() then
