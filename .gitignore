@@ -14,5 +14,7 @@
 /Libs/LibEditMode/**
 /Libs/LibEditModeOverride/**
 /Libs/LibSharedMedia-3.0/**
+/Libs/AceComm-3.0/**
+/Libs/AceSerializer-3.0/**
 .DS_Store
 Modules/.DS_Store
