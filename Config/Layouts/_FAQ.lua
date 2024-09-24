@@ -4,6 +4,12 @@ function Layout:OnEnable()
     -- Database
     local db = SUI.db
 
+    -- Components
+    local SUIConfig = LibStub('SUIConfig')
+
+    -- Imports
+    local User = SUI:GetModule("Data.User")
+
     -- Layout
     Layout.layout = {
         layoutConfig = { padding = { top = 15 } },
@@ -100,25 +106,6 @@ function Layout:OnEnable()
                     end,
                     column = 3,
                     order = 2
-                },
-                reset = {
-                    type = 'button',
-                    text = 'Reset UI',
-                    onClick = function()
-                        local buttons = {
-                            ok = {
-                                text    = 'Confirm',
-                                onClick = function() db:ResetProfile() ReloadUI() end
-                            },
-                            cancel = {
-                                text    = 'Cancel',
-                                onClick = function(self) self:GetParent():Hide() end
-                            }
-                        }
-                        SUIConfig:Confirm('Reset UI', 'This will reset your profile', buttons)
-                    end,
-                    column = 3,
-                    order = 3
                 }
             }
         },
