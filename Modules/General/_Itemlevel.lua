@@ -213,7 +213,7 @@ function Module:OnEnable()
                 ["Defender's March"] = "Stam",
                 ["Stormrider's Agi"] = "Agi & Speed",
                 ["Council's Intellect"] = "Int & Mana",
-                ["Crystalline Radiance"] = "Int",
+                ["Crystalline Radiance"] = "Primary Stat",
                 ["Oathsworn's Strength"] = "Str & Stam",
 
                 ["Chant of Armored Avoid"] = "Avoid",
