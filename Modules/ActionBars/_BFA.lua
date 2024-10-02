@@ -403,14 +403,14 @@ function Module:OnEnable()
 		end
 
 		local function PlayerEnteredCombat()
-			ShowAsExperienceBarCheckbox_Disable()
-			ActionBarCheckboxes_Disable()
+			--ShowAsExperienceBarCheckbox_Disable()
+			--ActionBarCheckboxes_Disable()
 		end
 		local f = CreateFrame("Frame")
 		f:RegisterEvent("PLAYER_REGEN_DISABLED")
 		f:SetScript("OnEvent", PlayerEnteredCombat)
 
-		local ShowAsExperienceBarCheckbox_Text = ReputationDetailMainScreenCheckBoxText:GetText()
+		--local ShowAsExperienceBarCheckbox_Text = ReputationDetailMainScreenCheckBoxText:GetText()
 
 		local function ShowAsExperienceBarCheckbox_Enable()
 			ReputationDetailMainScreenCheckBox:Enable()
@@ -432,8 +432,8 @@ function Module:OnEnable()
 		end
 
 		local function PlayerLeftCombat()
-			ShowAsExperienceBarCheckbox_Enable()
-			ActionBarCheckboxes_Enable()
+			--ShowAsExperienceBarCheckbox_Enable()
+			--ActionBarCheckboxes_Enable()
 
 			-- Update layout
 			Initial_ActionBarPositioning()

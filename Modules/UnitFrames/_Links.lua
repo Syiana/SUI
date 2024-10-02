@@ -17,26 +17,24 @@ function Module:OnEnable()
             return server
         end
 
-        local function generateURL(type, dropdownMenu)
+        local function generateURL(type, name, server)
             local url
-            local name
-            if dropdownMenu and dropdownMenu.name then
-                name = dropdownMenu.name:lower()
-            else
+
+            if not (name or server) then
                 print("|cffff00d5S|r|cff027bffUI|r: Cannot find player name to create character link.")
                 return
             end
 
-            local server = fixServerName(dropdownMenu.server) or fixServerName(GetNormalizedRealmName())
+            local server = fixServerName(server) or fixServerName(GetNormalizedRealmName())
             if server == nil or server == "" then
                 print("|cffff00d5S|r|cff027bffUI|r: Cannot find server to create character link.")
                 return
             end
 
             if type == "warcraftlogs" then
-                url = "https://classic.warcraftlogs.com/character/" .. region .. "/" .. server .. "/" .. name
+                url = "https://vanilla.warcraftlogs.com/character/" .. region .. "/" .. server .. "/" .. name
             elseif type == "armory" then
-                url = "https://www.classic-armory.org/character/" .. region .. "/cataclysm/" .. server .. "/" .. name
+                url = "https://www.classic-armory.org/character/" .. region .. "/vanilla/" .. server .. "/" .. name
             elseif type == "ironforge" then
                 url = "https://ironforge.pro/pvp/player/" .. server .. "/" .. name
             end
@@ -47,8 +45,8 @@ function Module:OnEnable()
             return url
         end
 
-        local function popupLink(self)
-            local url = generateURL(self.value, _G["UIDROPDOWNMENU_INIT_MENU"])
+        local function popupLink(type, name, server)
+            local url = generateURL(type, name, server)
             if not url then return end
             StaticPopupDialogs["SUIpopup"] = nil
             StaticPopupDialogs["SUIpopup"] = {
@@ -78,65 +76,33 @@ function Module:OnEnable()
             StaticPopup_Show("SUIpopup", "", "", { url = url })
         end
 
-        hooksecurefunc("UnitPopup_ShowMenu", function(dropdownMenu, which)
-            if (UIDROPDOWNMENU_MENU_LEVEL > 1) then
-                return
-            end
-            if which == "TARGET" or which == "PET" or which == "OTHERPET" then
-                return
-            end
+        Menu.ModifyMenu("MENU_UNIT_SELF", function(ownerRegion, rootDescription, contextData)
+            local name, server = UnitNameUnmodified(contextData.unit)
 
-            local info = UIDropDownMenu_CreateInfo()
-            local separatorInfo = {
-                hasArrow = false,
-                dist = 0,
-                isTitle = true,
-                isUninteractable = true,
-                notCheckable = true,
-                iconOnly = true,
-                icon = "Interface\\Common\\UI-TooltipDivider-Transparent",
-                tCoordLeft = 0,
-                tCoordRight = 1,
-                tCoordTop = 0,
-                tCoordBottom = 1,
-                tSizeX = 0,
-                tSizeY = 8,
-                tFitDropDownSizeX = true,
-                iconInfo = {
-                    tCoordLeft = 0,
-                    tCoordRight = 1,
-                    tCoordTop = 0,
-                    tCoordBottom = 1,
-                    tSizeX = 0,
-                    tSizeY = 8,
-                    tFitDropDownSizeX = true
-                }
-            }
+            rootDescription:CreateDivider()
+            rootDescription:CreateTitle("Character Links")
+            rootDescription:CreateButton("WarcraftLogs",
+                function()
+                    popupLink("warcraftlogs", name, server)
+                end)
+            rootDescription:CreateButton("Armory",
+                function()
+                    popupLink("armory", name, server)
+                end)
+        end)
 
-            UIDropDownMenu_AddButton(separatorInfo);
-
-            info.text = "Character Links"
-            info.isTitle = true
-            info.notCheckable = 1
-            UIDropDownMenu_AddButton(info)
-
-            info = UIDropDownMenu_CreateInfo()
-            info.isTitle = false
-            info.owner = which
-            info.notCheckable = 1
-            info.func = popupLink
-
-            info.text = "WarcraftLogs"
-            info.value = "warcraftlogs"
-            UIDropDownMenu_AddButton(info)
-
-            info.text = "Armory"
-            info.value = "armory"
-            UIDropDownMenu_AddButton(info)
-
-            info.text = "Ironforge"
-            info.value = "ironforge"
-            UIDropDownMenu_AddButton(info)
+        Menu.ModifyMenu("MENU_UNIT_PLAYER", function(ownerRegion, rootDescription, contextData)
+            local name, server = UnitNameUnmodified(contextData.unit)
+            rootDescription:CreateDivider()
+            rootDescription:CreateTitle("Character Links")
+            rootDescription:CreateButton("WarcraftLogs",
+                function()
+                    popupLink("warcraftlogs", name, server)
+                end)
+            rootDescription:CreateButton("Armory",
+                function()
+                    popupLink("armory", name, server)
+                end)
         end)
     end
 end
