@@ -405,8 +405,8 @@ function Module:OnEnable()
 		end
 
 		local function PlayerEnteredCombat()
-			ShowAsExperienceBarCheckbox_Disable()
-			ActionBarCheckboxes_Disable()
+			--ShowAsExperienceBarCheckbox_Disable()
+			--ActionBarCheckboxes_Disable()
 		end
 		local f = CreateFrame("Frame")
 		f:RegisterEvent("PLAYER_REGEN_DISABLED")
@@ -434,8 +434,8 @@ function Module:OnEnable()
 		end
 
 		local function PlayerLeftCombat()
-			ShowAsExperienceBarCheckbox_Enable()
-			ActionBarCheckboxes_Enable()
+			--ShowAsExperienceBarCheckbox_Enable()
+			--ActionBarCheckboxes_Enable()
 
 			-- Update layout
 			Initial_ActionBarPositioning()
