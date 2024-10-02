@@ -47,6 +47,7 @@
   <Include file='_Timemanager.lua'/>
   <Include file='_Timer.lua'/>
   <Include file='_Tooltip.lua'/>
+  <Include file='_Trade.lua'/>
   <Include file='_Tradeskill.lua'/>
   <Include file='_Unitframes.lua'/>
   <Include file='_Wardrobe.lua'/>
