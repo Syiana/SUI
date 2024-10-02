@@ -17,6 +17,7 @@ LSM:Register("font", "Avant Garde", [[Interface\Addons\SUI\Media\Fonts\AvantGard
 LSM:Register("font", "Arial Bold", [[Interface\Addons\SUI\Media\Fonts\Arial_Bold.ttf]])
 LSM:Register("font", "Exo 2 Bold", [[Interface\Addons\SUI\Media\Fonts\Exo2Bold.ttf]])
 LSM:Register("font", "Expressway", [[Interface\Addons\SUI\Media\Fonts\Expressway.ttf]])
+LSM:Register("font", "Gotham Narrow Black", [[Interface\Addons\SUI\Media\Fonts\GothamNarrow-Black.ttf]])
 LSM:Register("font", "Inter Bold", [[Interface\Addons\SUI\Media\Fonts\InterBold.ttf]])
 LSM:Register("font", "MagistralTT Bold", [[Interface\Addons\SUI\Media\Fonts\MagistralTTBold.ttf]])
 LSM:Register("font", "Myriad Web Bold", [[Interface\Addons\SUI\Media\Fonts\MyriadWebBold.ttf]])
