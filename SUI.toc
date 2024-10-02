@@ -1,6 +1,6 @@
-## Interface: 11503
+## Interface: 11504
 ## Author: Syiana & Muleyo
-## Version: 1.15.11
+## Version: 1.15.12
 ## Title: |cffff00d5S|r|cff027bffUI|r
 ## Notes: Made with <3 by Syiana & Muleyo
 ## SavedVariables: SUIDB
