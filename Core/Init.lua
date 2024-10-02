@@ -168,6 +168,7 @@ local defaults = {
             losecontrol = false,
             repbar = false,
             menubutton = true,
+            dragonflying = true,
         },
         edit = {
             statsframe = {

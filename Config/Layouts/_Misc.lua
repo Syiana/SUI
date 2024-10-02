@@ -114,8 +114,17 @@ function Layout:OnEnable()
                     key = 'repbar',
                     type = 'checkbox',
                     label = 'XP/Rep/Honor Bar',
+                    tooltip = 'Hide the XP/Rep/Honor Bar',
                     column = 4,
                     order = 1
+                },
+                dragonflying = {
+                    key = 'dragonflying',
+                    type = 'checkbox',
+                    label = 'Dragonflying Wings',
+                    tooltip = 'Hide the Dragonflying Bar Wings',
+                    column = 4,
+                    order = 2
                 },
             }
         },

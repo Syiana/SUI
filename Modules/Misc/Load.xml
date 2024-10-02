@@ -6,4 +6,5 @@
 	<Script file="_Dampening.lua"/>
 	<Script file="_Surrender.lua"/>
 	<Include file="_Safequeue.xml"/>
+	<Include file="_Hide.lua"/>
 </Ui>
