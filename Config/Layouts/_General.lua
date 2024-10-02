@@ -168,14 +168,14 @@ function Layout:OnEnable()
                     column = 2,
                     order = 3
                 },
-                talkhead = {
-                    key = 'cosmetic.talkinghead',
+                movementSpeed = {
+                    key = 'display.movementSpeed',
                     type = 'checkbox',
-                    label = 'Talkinghead',
-                    tooltip = 'Show Talkinghead frame',
+                    label = 'Movement Speed',
+                    tooltip = 'Show current movement speed',
                     column = 3,
                     order = 4
-                }
+                },
             },
             {
                 afkscreen = {
@@ -186,13 +186,21 @@ function Layout:OnEnable()
                     column = 3,
                     order = 1
                 },
+                talkhead = {
+                    key = 'cosmetic.talkinghead',
+                    type = 'checkbox',
+                    label = 'Talkinghead',
+                    tooltip = 'Show Talkinghead frame',
+                    column = 3,
+                    order = 2
+                },
                 Errors = {
                     key = 'cosmetic.errors',
                     type = 'checkbox',
                     label = 'Error Messages',
                     tooltip = 'Display Error Messages (Out of Range etc.)',
                     column = 3,
-                    order = 2
+                    order = 3
                 },
             }
         },

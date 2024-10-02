@@ -32,7 +32,8 @@ local defaults = {
             display = {
                 ilvl = true,
                 fps = true,
-                ms = true
+                ms = true,
+                movementSpeed = false
             }
         },
         unitframes = {

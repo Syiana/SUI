@@ -10,7 +10,7 @@ function Module:OnEnable()
     StatsFrame:ClearAllPoints()
     StatsFrame:SetPoint(db.statsframe.point, UIParent, db.statsframe.point, db.statsframe.x, db.statsframe.y)
 
-    if (db.display.fps or db.display.ms) then
+    if (db.display.fps or db.display.ms or db.display.movementSpeed) then
         local font = STANDARD_TEXT_FONT
         local fontSize = 13
         local fontFlag = "THINOUTLINE"
@@ -31,13 +31,29 @@ function Module:OnEnable()
 
             local function getLatency() return "|c00ffffff" .. select(4, GetNetStats()) .. "|r ms" end
 
-            if (db.display.fps and db.display.ms) then
-                return getFPS() .. " " .. getLatency()
-            elseif (db.display.fps) then
-                return getFPS()
-            elseif (db.display.ms) then
-                return getLatency()
+            local isGliding, canGlide, forwardSpeed = C_PlayerInfo.GetGlidingInfo()
+            local function getMovementSpeed() 
+                if isGliding then
+                    return "|c00ffffff" .. string.format("%d", forwardSpeed and (forwardSpeed / BASE_MOVEMENT_SPEED * 100)) .. "%|r speed"
+                else
+                    return "|c00ffffff" .. string.format("%d", (GetUnitSpeed("player") / BASE_MOVEMENT_SPEED * 100)) .. "%|r speed"
+                end
             end
+
+            local result = {}
+            if db.display.fps then
+                table.insert(result, getFPS())
+            end
+
+            if db.display.ms then
+                table.insert(result, getLatency())
+            end
+
+            if db.display.movementSpeed then
+                table.insert(result, getMovementSpeed())
+            end
+
+            return table.concat(result, " ")
         end
 
         StatsFrame:SetWidth(50)
