@@ -47,42 +47,6 @@ function Module:OnEnable()
             if not db.unitframes.cornericon then
                 PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual.PlayerPortraitCornerIcon:Hide()
             end
-
-            if not db.classbar then
-                if RogueComboPointBarFrame then
-                    RogueComboPointBarFrame:Hide()
-                end
-
-                if MageArcaneChargesFrame then
-                    MageArcaneChargesFrame:Hide()
-                end
-
-                if WarlockPowerFrame then
-                    WarlockPowerFrame:Hide()
-                end
-
-                if DruidComboPointBarFrame then
-                    DruidComboPointBarFrame:Hide()
-                end
-
-                if MonkHarmonyBarFrame then
-                    MonkHarmonyBarFrame:Hide()
-                end
-
-                if EssencePlayerFrame then
-                    EssencePlayerFrame:Hide()
-                end
-
-                if RuneFrame then
-                    RuneFrame:Hide()
-                end
-
-                if PaladinPowerBarFrame then
-                    PaladinPowerBarFrame:HookScript("OnEvent", function()
-                        PaladinPowerBarFrame:Hide()
-                    end)
-                end
-            end
         end)
 
         PetFrame:HookScript("OnEvent", function(self, event)
@@ -91,6 +55,64 @@ function Module:OnEnable()
                 self.healthbar:GetStatusBarTexture():SetDrawLayer("BORDER")
             end
         end)
+    end
+
+    if not db.classbar then
+        if RogueComboPointBarFrame then
+            RogueComboPointBarFrame:HookScript("OnEvent", function()
+                RogueComboPointBarFrame:Hide()
+                RogueComboPointBarFrame.Show = function() end
+            end)
+        end
+
+        if MageArcaneChargesFrame then
+            MageArcaneChargesFrame:HookScript("OnEvent", function()
+                MageArcaneChargesFrame:Hide()
+                MageArcaneChargesFrame.Show = function() end
+            end)
+        end
+
+        if WarlockPowerFrame then
+            WarlockPowerFrame:HookScript("OnEvent", function()
+                WarlockPowerFrame:Hide()
+                WarlockPowerFrame.Show = function() end
+            end)
+        end
+
+        if DruidComboPointBarFrame then
+            DruidComboPointBarFrame:HookScript("OnEvent", function()
+                DruidComboPointBarFrame:Hide()
+                DruidComboPointBarFrame.Show = function() end
+            end)
+        end
+
+        if MonkHarmonyBarFrame then
+            MonkHarmonyBarFrame:HookScript("OnEvent", function()
+                MonkHarmonyBarFrame:Hide()
+                MonkHarmonyBarFrame.Show = function() end
+            end)
+        end
+
+        if EssencePlayerFrame then
+            EssencePlayerFrame:HookScript("OnEvent", function()
+                EssencePlayerFrame:Hide()
+                EssencePlayerFrame.Show = function() end
+            end)
+        end
+
+        if RuneFrame then
+            RuneFrame:HookScript("OnEvent", function()
+                RuneFrame:Hide()
+                RuneFrame.Show = function() end
+            end)
+        end
+
+        if PaladinPowerBarFrame then
+            PaladinPowerBarFrame:HookScript("OnEvent", function()
+                PaladinPowerBarFrame:Hide()
+                PaladinPowerBarFrame.Show = function() end
+            end)
+        end
     end
 
     local statusTexture = PlayerFrame.PlayerFrameContent.PlayerFrameContentMain.StatusTexture;
