@@ -38,6 +38,13 @@ function Module:OnEnable()
             FocusFrameToT.FrameTexture:SetVertexColor(unpack(SUI:Color(0.15)))
         end)
 
+        BossTargetFrameContainer:HookScript("OnUpdate", function()
+            Boss1TargetFrame.TargetFrameContainer.FrameTexture:SetVertexColor(unpack(SUI:Color(0.15)))
+            Boss2TargetFrame.TargetFrameContainer.FrameTexture:SetVertexColor(unpack(SUI:Color(0.15)))
+            Boss3TargetFrame.TargetFrameContainer.FrameTexture:SetVertexColor(unpack(SUI:Color(0.15)))
+            Boss4TargetFrame.TargetFrameContainer.FrameTexture:SetVertexColor(unpack(SUI:Color(0.15)))
+        end)
+
         -- Totem Bar
         TotemFrame:HookScript("OnEvent", function(self)
             for totem, _ in self.totemPool:EnumerateActive() do
