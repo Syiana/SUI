@@ -172,15 +172,15 @@ function Gui:OnEnable()
     local tabs = SUIConfig:TabPanel(config, nil, nil, categories, true, 160, 27)
     SUIConfig:GlueAcross(tabs, config, 10, -35, -10, 10)
 
-    local scrollContainer = SUIConfig:Panel(config, 515, 370, tabs.container)
-    SUIConfig:GlueTop(scrollContainer, config, -10, -35, 'RIGHT')
+    --local scrollContainer = SUIConfig:Panel(config, 515, 370, tabs.container)
+    --SUIConfig:GlueTop(scrollContainer, config, -10, -35, 'RIGHT')
 
     -- SCROLL FRAMES BUGGY
-    -- local scrollTabs = SUIConfig:ScrollFrame(config,  160, 315, tabs.buttonContainer)
-    -- SUIConfig:GlueTop(scrollTabs, config, 10, -35, 'LEFT')
+    local scrollTabs = SUIConfig:ScrollFrame(config,  160, 315, tabs.buttonContainer)
+    SUIConfig:GlueTop(scrollTabs, config, 10, -35, 'LEFT')
 
-    -- local scrollContainer = SUIConfig:ScrollFrame(config, 515, 350, tabs.container)
-    -- SUIConfig:GlueTop(scrollContainer, config, -10, -35, 'RIGHT')
+    local scrollContainer = SUIConfig:ScrollFrame(config, 515, 370, tabs.container)
+    SUIConfig:GlueTop(scrollContainer, config, -10, -35, 'RIGHT')
 
     --Save
     local save = SUIConfig:Button(config, 160, 30, 'Save')

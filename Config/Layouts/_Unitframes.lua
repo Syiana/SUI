@@ -118,60 +118,6 @@ function Layout:OnEnable()
                     column = 4,
                     order = 1
                 },
-                size = {
-                    key = 'raidframes.size',
-                    type = 'dropdown',
-                    label = 'Custom Size',
-                    options = {
-                        { value = true, text = 'Enabled' },
-                        { value = false, text = 'Disabled' }
-                    },
-                    tooltip = 'Enable Custom Party-Raidframestyle Sizing',
-                    column = 4,
-                    order = 2
-                },
-            },
-            {
-                partyheight = {
-                    key = 'raidframes.height',
-                    type = 'slider',
-                    label = 'Height',
-                    precision = 1,
-                    min = 50,
-                    max = 300,
-                    column = 4,
-                    order = 1,
-                    onChange = function(slider)
-                        if db.profile.raidframes.size then
-                            for i = 1, 5 do
-                                _G["CompactPartyFrameMember" .. i]:SetHeight(slider.value)
-                                _G["CompactPartyFrameMember" .. i .. "StatusText"]:ClearAllPoints()
-                                _G["CompactPartyFrameMember" .. i .. "StatusText"]:SetPoint("CENTER",
-                                    _G["CompactPartyFrameMember" .. i], "CENTER")
-                            end
-                        end
-                    end,
-                },
-                partywidth = {
-                    key = 'raidframes.width',
-                    type = 'slider',
-                    label = 'Width',
-                    precision = 1,
-                    min = 50,
-                    max = 300,
-                    column = 4,
-                    order = 2,
-                    onChange = function(slider)
-                        if db.profile.raidframes.size then
-                            for i = 1, 5 do
-                                _G["CompactPartyFrameMember" .. i]:SetWidth(slider.value)
-                                _G["CompactPartyFrameMember" .. i .. "StatusText"]:ClearAllPoints()
-                                _G["CompactPartyFrameMember" .. i .. "StatusText"]:SetPoint("CENTER",
-                                    _G["CompactPartyFrameMember" .. i], "CENTER")
-                            end
-                        end
-                    end,
-                }
             },
         },
     }

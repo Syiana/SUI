@@ -72,7 +72,68 @@ local defaults = {
             stackingmode = false,
             height = 2,
             width = 1,
-            debuffs = false
+            debuffs = false,
+            npccolors = {
+                -- Mists of Tirna Scithe
+                { id = 164921, name = 'Soul Harvester', color = { r = 0, g = 0.55, b = 1 } },
+                { id = 166275, name = 'Mistveil Shaper', color = { r = 0, g = 0.55, b = 1 } },
+                { id = 166299, name = 'Mistveil Tender', color = { r = 0, g = 0.55, b = 1 } },
+                { id = 167111, name = 'Spinemaw Staghorn', color = { r = 0, g = 0.55, b = 1 } },
+
+                -- The Necrotic Wake
+                { id = 166302, name = 'Corpse Harvester', color = { r = 0, g = 0.55, b = 1 } },
+                { id = 165137, name = 'Zolramus Gatekeeper', color = { r = 0, g = 0.55, b = 1 } },
+                { id = 163128, name = 'Zolramus Sorcerer', color = { r = 0, g = 0.55, b = 1 } },
+                { id = 163618, name = 'Zolramus Necromancer', color = { r = 0, g = 0.55, b = 1 } },
+                { id = 163126, name = 'Brittlebone Mage', color = { r = 0, g = 0.55, b = 1 } },
+                { id = 165919, name = 'Skeletal Marauder', color = { r = 0, g = 0.55, b = 1 } },
+                { id = 165824, name = 'Nar\'zudah', color = { r = 0, g = 0.55, b = 1 } },
+                { id = 173016, name = 'Corpse Collector', color = { r = 0, g = 0.55, b = 1 } },
+
+                -- Siege of Boralus
+                { id = 129370, name = 'Irontide Waveshaper', color = { r = 0, g = 0.55, b = 1 } },
+                { id = 128969, name = 'Ashvane Commander', color = { r = 0, g = 0.55, b = 1 } },
+                { id = 135241, name = 'Bilge Rat Pillager', color = { r = 0, g = 0.55, b = 1 } },
+                { id = 129367, name = 'Bilge Rat Tempest', color = { r = 0, g = 0.55, b = 1 } },
+
+                -- The Stonevault
+                { id = 212389, name = 'Cursedheart Invader', color = { r = 0, g = 0.55, b = 1 } },
+                { id = 212453, name = 'Ghastly Voidsoul', color = { r = 0, g = 0.55, b = 1 } },
+                { id = 213338, name = 'Forgebound Mender', color = { r = 0, g = 0.55, b = 1 } },
+                { id = 221979, name = 'Void Bound Howler', color = { r = 0, g = 0.55, b = 1 } },
+                { id = 214350, name = 'Turned Speaker', color = { r = 0, g = 0.55, b = 1 } },
+
+                -- The Dawnbreaker
+                { id = 214066, name = 'Cursedforge Stoneshaper', color = { r = 0, g = 0.55, b = 1 } },
+                { id = 213892, name = 'Nightfall Shadowmage', color = { r = 0, g = 0.55, b = 1 } },
+                { id = 214762, name = 'Nightfall Commander', color = { r = 0, g = 0.55, b = 1 } },
+                { id = 210966, name = 'Sureki Webmage', color = { r = 0, g = 0.55, b = 1 } },
+                { id = 213893, name = 'Nightfall Darkcaster', color = { r = 0, g = 0.55, b = 1 } },
+
+                -- Grim Batol
+                { id = 224219, name = 'Twilight Earthcaller', color = { r = 0, g = 0.55, b = 1 } },
+                { id = 40167, name = 'Twilight Beguiler', color = { r = 0, g = 0.55, b = 1 } },
+                { id = 224271, name = 'Twilight Warlock', color = { r = 0, g = 0.55, b = 1 } },
+
+                -- Ara-Kara
+                { id = 216293, name = 'Trilling Attendant', color = { r = 0, g = 0.55, b = 1 } },
+                { id = 217531, name = 'Ixin', color = { r = 0, g = 0.55, b = 1 } },
+                { id = 218324, name = 'Nakt', color = { r = 0, g = 0.55, b = 1 } },
+                { id = 217533, name = 'Atik', color = { r = 0, g = 0.55, b = 1 } },
+                { id = 223253, name = 'Bloodstained Webmage', color = { r = 0, g = 0.55, b = 1 } },
+                { id = 216340, name = 'Sentry Stagshell', color = { r = 0, g = 0.55, b = 1 } },
+                { id = 220599, name = 'Bloodstained Webmage', color = { r = 0, g = 0.55, b = 1 } },
+                { id = 216364, name = 'Blood Overseer', color = { r = 0, g = 0.55, b = 1 } },
+
+                -- City of Threads
+                { id = 220195, name = 'Sureki Silkbinder', color = { r = 0, g = 0.55, b = 1 } },
+                { id = 220196, name = 'Herald Of Ansurek', color = { r = 0, g = 0.55, b = 1 } },
+                { id = 219984, name = 'Xephitik', color = { r = 0, g = 0.55, b = 1 } },
+                { id = 223844, name = 'Covert Webmancer', color = { r = 0, g = 0.55, b = 1 } },
+                { id = 224732, name = 'Covert Webmancer', color = { r = 0, g = 0.55, b = 1 } },
+                { id = 216339, name = 'Sureki Unnaturaler', color = { r = 0, g = 0.55, b = 1 } },
+                { id = 221102, name = 'Elder Shadeweaver', color = { r = 0, g = 0.55, b = 1 } },
+            }
         },
         raidframes = {
             texture = [[Interface\Addons\SUI\Media\Textures\Status\Flat.blp]],
