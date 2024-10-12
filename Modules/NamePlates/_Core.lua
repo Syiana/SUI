@@ -4,6 +4,8 @@ function Module:OnEnable()
     if C_AddOns.IsAddOnLoaded('Plater') or C_AddOns.IsAddOnLoaded('TidyPlates_ThreatPlates') or C_AddOns.IsAddOnLoaded('TidyPlates') or C_AddOns.IsAddOnLoaded('Kui_Nameplates') then return end
     local db = SUI.db.profile.nameplates
 
+    local focusTexture = [[Interface\AddOns\SUI\Media\Textures\Nameplates\focusTexture]]
+
     local function iconSkin(icon, parent)
         if not icon or (icon and icon.styled) then return end
 
@@ -49,14 +51,10 @@ function Module:OnEnable()
     end
 
     local function nameplateCastbar(self)
+        if self:IsForbidden() then return end
         if self.unit and self.unit:find('nameplate%d') then
             local _, _, _, _, _, _, _, castInterrupt = UnitCastingInfo(self.unit);
             local _, _, _, _, _, _, channelInterrupt, _, _, _ = UnitChannelInfo(self.unit);
-
-            local inInstance, instanceType = IsInInstance()
-            if inInstance and not (instanceType == 'arena' or instanceType =='pvp') then
-                if self:IsForbidden() then return end
-            end
 
             if self and self.Icon then
                 if self.BorderShield then
@@ -100,10 +98,7 @@ function Module:OnEnable()
     end
 
     local function nameplateCastbarIcon(self)
-        local inInstance, instanceType = IsInInstance()
-        if inInstance and not (instanceType == 'arena' or instanceType =='pvp') then
-            if self:IsForbidden() then return end
-        end
+        if self:IsForbidden() then return end
 
         if self.castBar and self.castBar.Icon then
             if self.castBar.BorderShield then
@@ -130,10 +125,7 @@ function Module:OnEnable()
     end
 
     local function nameplateHealthTextFrame(self)
-        local inInstance, instanceType = IsInInstance()
-        if inInstance and not (instanceType == 'arena' or instanceType =='pvp') then
-            if self:IsForbidden() then return end
-        end
+        if self:IsForbidden() then return end
 
         if self.unit and self.unit:find('nameplate%d') then
             if self.healthBar and self.unit then
@@ -147,12 +139,9 @@ function Module:OnEnable()
     end
 
     local function nameplatePlayerName(self)
+        if self:IsForbidden() then return end
         if ShouldShowName(self) then
             if self.optionTable.colorNameBySelection then
-                local inInstance, instanceType = IsInInstance()
-                if inInstance and not (instanceType == 'arena' or instanceType =='pvp') then
-                    if self:IsForbidden() then return end
-                end
                 -- Classcolor Playername
                 if db.color and self.unit then
                     local _, class = UnitClass(self.unit)
@@ -188,13 +177,24 @@ function Module:OnEnable()
     end
 
     local function nameplateTexture(self)
-        local inInstance, instanceType = IsInInstance()
-        if inInstance and not (instanceType == 'arena' or instanceType =='pvp') then
-            if self:IsForbidden() then return end
-        end
+        if self:IsForbidden() then return end
         if self.unit and self.unit:find('nameplate%d') then
             if self.healthBar then
-                self.healthBar:SetStatusBarTexture(db.texture)
+                if not UnitIsUnit(self.unit, "focus") then
+                    self.healthBar:SetStatusBarTexture(db.texture)
+                else
+                    self.healthBar:SetStatusBarTexture(focusTexture)
+                end
+
+                if db.colors then
+                    local _, _, _, _, _, id = strsplit("-", UnitGUID(self.unit) or "")
+                    for _, npc in pairs(db.npccolors) do
+                        if id ~= nil and npc.id == tonumber(id) then
+                            self.healthBar:SetStatusBarColor(npc.color.r, npc.color.g, npc.color.b, npc.color.a)
+                        end
+                    end
+                end
+
                 ClassNameplateManaBarFrame:SetStatusBarTexture(db.texture)
             end
         end
@@ -210,11 +210,9 @@ function Module:OnEnable()
 
         -- Set Heal Prediction Texture
         hooksecurefunc("CompactUnitFrame_UpdateHealthColor", function(self)
+            if self:IsForbidden() then return end
             if not strfind(self.unit, "nameplate") then return end
             local inInstance, instanceType = IsInInstance()
-            if inInstance and not (instanceType == 'arena' or instanceType =='pvp') then
-                if self:IsForbidden() then return end
-            end
 
             self.myHealPrediction:SetTexture(db.texture)
             self.myHealPrediction:SetVertexColor(16 / 510, 424 / 510, 400 / 510)
@@ -235,5 +233,22 @@ function Module:OnEnable()
 
         -- Set Nameplate Name Color
         hooksecurefunc("CompactUnitFrame_UpdateName", nameplatePlayerName)
+
+        -- Set Focus Texture
+        local focus = CreateFrame("Frame")
+        focus:RegisterEvent("PLAYER_FOCUS_CHANGED")
+        focus:HookScript("OnEvent", function()
+            if not db.focusHighlight then return end
+
+            for _, nameplate in pairs(C_NamePlate.GetNamePlates()) do
+                local unit = nameplate.namePlateUnitToken
+
+                if UnitIsUnit(unit, "focus") then
+                    nameplate.UnitFrame.HealthBarsContainer.healthBar:SetStatusBarTexture(focusTexture)
+                else
+                    nameplate.UnitFrame.HealthBarsContainer.healthBar:SetStatusBarTexture(db.texture)
+                end
+            end
+        end)
     end
 end
