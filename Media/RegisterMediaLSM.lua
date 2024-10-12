@@ -38,3 +38,4 @@ LSM:Register("statusbar", "Melli Dark Rough", [[Interface\Addons\SUI\Media\Textu
 LSM:Register("statusbar", "Minimalist", [[Interface\Addons\SUI\Media\Textures\Status\Minimalist.tga]])
 LSM:Register("statusbar", "Smooth", [[Interface\Addons\SUI\Media\Textures\Status\Smooth.blp]])
 LSM:Register("statusbar", "Smooth v2", [[Interface\Addons\SUI\Media\Textures\Status\Smoothv2.tga]])
+LSM:Register("statusbar", "Dragonflight", [[Interface\AddOns\SUI\Media\Textures\Status\DragonflightTexture.tga]])
