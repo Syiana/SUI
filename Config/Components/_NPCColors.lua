@@ -67,23 +67,29 @@ local function buildBrowser()
             width  = 75,
             align  = 'LEFT',
             index  = 'id',
-            format = 'string',
-            events = {
-                OnClick = function(table, cellFrame, rowFrame, rowData, columnData, rowIndex)
-                    print(rowData.color)
-                end
-            }
+            format = 'string'
         },
         {
             name   = 'Color',
             width  = 75,
             align  = 'LEFT',
-            index  = 'color.r',
-            format = 'string',
-            value = 'Change Color',
+            index  = 'color',
+            format = 'color',
             events = {
-                OnShow = function(table, cellFrame, rowFrame, rowData, columnData, rowIndex)
-                    SUIConfig:ColorInput(rowFrame, 'Change Color', nil, nil, rowData.color, function() end, function() end)
+                OnClick = function(table, cellFrame, rowFrame, rowData, columnData, rowIndex)
+                    SUIConfig:ColorPickerFrame(
+                        rowData.color.r,
+                        rowData.color.g,
+                        rowData.color.b,
+                        rowData.color.a,
+                        function(cpf)
+                            rowData.color = cpf:GetColor()
+                            table:SetData(data)
+                        end,
+                        function() end,
+                        nil,
+                        function() end
+                    );
                 end
             }
         },

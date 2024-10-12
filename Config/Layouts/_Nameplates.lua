@@ -152,18 +152,26 @@ function Layout:OnEnable()
             {
                 header = {
                     type = 'header',
-                    label = 'Extras'
+                    label = 'Mythic+ Options'
                 }
             },
             {
+                colors = {
+                    key = 'colors',
+                    type = 'checkbox',
+                    label = 'NPC Colors',
+                    tooltip = 'Enable/Disable NPC Colors for important NPCs',
+                    column = 4,
+                    order = 1
+                },
                 npccolors = {
                     type = 'button',
-                    text = 'NPC Colors',
+                    text = 'Change NPC Colors',
                     onClick = function()
                         NPCColors.Show()
                     end,
-                    column = 3,
-                    order = 1
+                    column = 4,
+                    order = 2
                 }
             },
         },

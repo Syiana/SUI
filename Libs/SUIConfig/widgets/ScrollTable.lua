@@ -479,6 +479,16 @@ local methods = {
 					cellFrame.texture = table.SUIConfig:Texture(cellFrame, iconSize, iconSize, value);
 					cellFrame.texture:SetPoint('CENTER', 0, 0);
 				end
+			elseif format == 'color' then
+				if cellFrame.texture then
+					cellFrame.texture:SetTexture([[Interface\Buttons\WHITE8X8]])
+					cellFrame.texture:SetVertexColor(value.r, value.g, value.b, value.a)
+				else
+					local iconSize = 10
+					cellFrame.texture = table.SUIConfig:Texture(cellFrame, iconSize, iconSize, [[Interface\Buttons\WHITE8X8]])
+					cellFrame.texture:SetVertexColor(value.r, value.g, value.b, value.a)
+					cellFrame.texture:SetPoint('CENTER', 0, 0)
+				end
 			elseif format == 'custom' then
 				columnData.renderer(cellFrame, value, rowData, columnData);
 			else
@@ -497,7 +507,9 @@ local methods = {
 			end
 
 			if color then
-				cellFrame.text:SetTextColor(color.r, color.g, color.b, color.a);
+				if columnData.name ~= 'NPC ID' then
+					cellFrame.text:SetTextColor(color.r, color.g, color.b, color.a);
+				end
 			else
 				table.SUIConfig:SetTextColor(cellFrame.text, 'normal');
 			end
