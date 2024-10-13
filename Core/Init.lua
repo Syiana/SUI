@@ -77,7 +77,7 @@ local defaults = {
             colors = true,
             npccolors = {
                 -- Mists of Tirna Scithe
-                { id = 164921, name = 'Soul Harvester', color = { r = 0, g = 0.55, b = 1, a = 1 } },
+                { id = 164921, name = 'Drust Harvester', color = { r = 0, g = 0.55, b = 1, a = 1 } },
                 { id = 166275, name = 'Mistveil Shaper', color = { r = 0, g = 0.55, b = 1, a = 1 } },
                 { id = 166299, name = 'Mistveil Tender', color = { r = 0, g = 0.55, b = 1, a = 1 } },
                 { id = 167111, name = 'Spinemaw Staghorn', color = { r = 0, g = 0.55, b = 1, a = 1 } },
@@ -111,6 +111,7 @@ local defaults = {
                 { id = 214762, name = 'Nightfall Commander', color = { r = 0, g = 0.55, b = 1, a = 1 } },
                 { id = 210966, name = 'Sureki Webmage', color = { r = 0, g = 0.55, b = 1, a = 1 } },
                 { id = 213893, name = 'Nightfall Darkcaster', color = { r = 0, g = 0.55, b = 1, a = 1 } },
+                { id = 213932, name = 'Sureki Militant', color = { r = 0, g = 0.55, b = 1, a = 1 } },
 
                 -- Grim Batol
                 { id = 224219, name = 'Twilight Earthcaller', color = { r = 0, g = 0.55, b = 1, a = 1 } },
