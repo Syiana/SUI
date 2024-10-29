@@ -97,6 +97,7 @@ local defaults = {
                 { id = 128969, name = 'Ashvane Commander', color = { r = 0, g = 0.55, b = 1, a = 1 } },
                 { id = 135241, name = 'Bilge Rat Pillager', color = { r = 0, g = 0.55, b = 1, a = 1 } },
                 { id = 129367, name = 'Bilge Rat Tempest', color = { r = 0, g = 0.55, b = 1, a = 1 } },
+                { id = 144071, name = 'Irontide Waveshaper', color = { r = 0, g = 0.55, b = 1, a = 1 } },
 
                 -- The Stonevault
                 { id = 212389, name = 'Cursedheart Invader', color = { r = 0, g = 0.55, b = 1, a = 1 } },
@@ -104,9 +105,10 @@ local defaults = {
                 { id = 213338, name = 'Forgebound Mender', color = { r = 0, g = 0.55, b = 1, a = 1 } },
                 { id = 221979, name = 'Void Bound Howler', color = { r = 0, g = 0.55, b = 1, a = 1 } },
                 { id = 214350, name = 'Turned Speaker', color = { r = 0, g = 0.55, b = 1, a = 1 } },
+                { id = 214066, name = 'Cursedforge Stoneshaper', color = { r = 0, g = 0.55, b = 1, a = 1 } },
+                { id = 224962, name = 'Cursedforge Mender', color = { r = 0, g = 0.55, b = 1, a = 1 } },
 
                 -- The Dawnbreaker
-                { id = 214066, name = 'Cursedforge Stoneshaper', color = { r = 0, g = 0.55, b = 1, a = 1 } },
                 { id = 213892, name = 'Nightfall Shadowmage', color = { r = 0, g = 0.55, b = 1, a = 1 } },
                 { id = 214762, name = 'Nightfall Commander', color = { r = 0, g = 0.55, b = 1, a = 1 } },
                 { id = 210966, name = 'Sureki Webmage', color = { r = 0, g = 0.55, b = 1, a = 1 } },
@@ -255,7 +257,7 @@ function SUI:OnInitialize()
     -- Also check _Install.lua for the next reset!
     if (SUIDB and not SUIDB.profiles.Default.reset) then
         SUIDB = {}
-        print('|cfff58cbaS|r|cff009cffUI|r: |cffff0000You had a broken database from a previous version of SUI, unfortunately we had to reset the profile.|r')
+        print('|cffea00ffS|r|cff00a2ffUI|r: |cffff0000You had a broken database from a previous version of SUI, unfortunately we had to reset the profile.|r')
     end
 
     -- Database
