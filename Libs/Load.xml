@@ -17,5 +17,6 @@
   <Include file='LibEditMode\embed.xml'/>
   <Include file='LibEditModeOverride\LibEditModeOverride.xml'/>
   <Include file='LibSharedMedia-3.0\LibSharedMedia-3.0\lib.xml'/>
+  <Include file='LibNPCInfo\lib.xml'/>
   <Include file='SUIConfig\SUIConfig.xml'/>
 </Ui>

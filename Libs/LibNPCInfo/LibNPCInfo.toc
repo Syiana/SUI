@@ -1,0 +1,10 @@
+## Interface: 110002
+## Author: fang2hou
+## Version: 1.005
+## Title: LibNPCInfo
+## Notes: A library for providing ability of getting NPC information by its ID.
+## X-Curse-Project-ID: 618664
+## X-WoWI-ID: 26290
+## X-Wago-ID: XrNkV3Ga
+
+lib.xml
