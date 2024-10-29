@@ -203,6 +203,12 @@ end
 --- SearchEditBox
 ----------------------------------------------------
 
+local NumericBoxEvents = {
+	OnEnterPressed = function(self)
+		self:Validate();
+	end
+}
+
 local NumericBoxMethods = {
 	SetMaxValue = function(self, value)
 		self.maxValue = value;
@@ -238,6 +244,10 @@ function SUIConfig:NumericBox(parent, width, height, text, validator)
 	end
 
 	button:SetScript('OnClick', EditBoxButtonOnClick);
+
+	for k, v in pairs(NumericBoxEvents) do
+		editBox:SetScript(k, v);
+	end
 
 	return editBox;
 end

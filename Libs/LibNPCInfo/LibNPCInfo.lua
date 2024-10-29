@@ -99,12 +99,10 @@ end
 -- -----------------------------------------------------
 function lib.GetNPCInfoByID(npcID, callback, failedCallback)
     if not npcID then
-        print("LibNPCInfo.GetNPCInfoByID: npcID is nil.")
         return
     end
 
     if type(npcID) ~= "number" or callback and type(callback) ~= "function" then
-        print('LibNPCInfo.GetNPCInfoByID: "npcID" must be a number and "callback" must be a function or nil.')
         return
     end
 
@@ -156,8 +154,6 @@ function lib.GetNPCInfoByID(npcID, callback, failedCallback)
 
                         if failedCallback then
                             failedCallback(npcID)
-                        else
-                            print("LibNPCInfo.GetNPCInfoByID: failed to fetch data for npcID " .. npcID)
                         end
                     end
                 )
@@ -179,12 +175,10 @@ end
 -- -----------------------------------------------------
 function lib.GetNPCInfoWithIDTable(npcIDs, callback)
     if not npcIDs then
-        print("LibNPCInfo.GetNPCInfoWithIDTable: npcIDs is nil.")
         return
     end
 
     if type(npcIDs) ~= "table" or callback and type(callback) ~= "function" then
-        print('LibNPCInfo.GetNPCInfoWithIDTable: "npcIDs" must be a table and "callback" must be a function or nil.')
         return
     end
 

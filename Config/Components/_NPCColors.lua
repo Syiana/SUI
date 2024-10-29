@@ -151,12 +151,9 @@ local function buildWindow()
         end
     end)
 
-    -- Create Input Field
-    local input = SUIConfig:NumericBox(window, 150, 24)
-    SUIConfig:GlueBelow(input, window, 0, 40, 'CENTER')
-
-    input.button:HookScript("OnClick", function(self)
-        local npcID = tonumber(self.editBox:GetText()) -- convert to number as it's necessary
+    -- Add NPC function
+    local function addNPC(value)
+        local npcID = tonumber(value) -- convert to number as it's necessary
 
         npcInfo.GetNPCInfoByID(
             npcID,
@@ -189,6 +186,26 @@ local function buildWindow()
                 print('|cffea00ffS|r|cff00a2ffUI|r: NPC with ID \'' .. npcID .. '\' does not exist.')
             end
         )
+    end
+
+    -- Create Input Field
+    local input = SUIConfig:NumericBox(window, 150, 24, nil, function() end)
+    SUIConfig:GlueBelow(input, window, 0, 40, 'CENTER')
+
+    input.button:HookScript("OnClick", function(self)
+        -- Add NPC
+        addNPC(self.editBox:GetText())
+
+        -- Clear Input Field
+        self.editBox:SetValue('')
+    end)
+
+    input:HookScript("OnEnterPressed", function(self)
+        -- Add NPC
+        addNPC(self:GetText())
+
+        -- Clear Input Field
+        self:SetValue('')
     end)
 
     -- Input Field Label
