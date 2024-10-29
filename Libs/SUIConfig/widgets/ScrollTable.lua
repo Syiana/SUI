@@ -489,6 +489,14 @@ local methods = {
 					cellFrame.texture:SetVertexColor(value.r, value.g, value.b, value.a)
 					cellFrame.texture:SetPoint('CENTER', 0, 0)
 				end
+			elseif format == 'delete' then
+				if not cellFrame.texture then
+					local iconSize = 15
+					cellFrame.texture = table.SUIConfig:Texture(cellFrame, iconSize, iconSize, [[Interface\UITools\UITools]])
+					cellFrame.texture:SetTexCoord(0.0009765625, 0.0205078125, 0.3515625, 0.5078125)
+					cellFrame.texture:SetVertexColor(1, 0, 0, 1)
+					cellFrame.texture:SetPoint('CENTER', 0, 0)
+				end
 			elseif format == 'custom' then
 				columnData.renderer(cellFrame, value, rowData, columnData);
 			else

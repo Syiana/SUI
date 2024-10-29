@@ -227,9 +227,17 @@ function SUIConfig:NumericBox(parent, width, height, text, validator)
 	local editBox = self:EditBox(parent, width, height, text, validator);
 	editBox:SetNumeric(true);
 
+	local button = self:Button(editBox, 40, height - 4, OKAY);
+	button:SetPoint('RIGHT', -2, 0);
+	button:Hide();
+	button.editBox = editBox;
+	editBox.button = button;
+
 	for k, v in pairs(NumericBoxMethods) do
 		editBox[k] = v;
 	end
+
+	button:SetScript('OnClick', EditBoxButtonOnClick);
 
 	return editBox;
 end
