@@ -1,7 +1,11 @@
 local NPCColors = SUI:NewModule('Config.Components.NPCColors');
 
-local function buildBrowser()
+local function buildWindow()
+    -- Load Libs
     local SUIConfig = LibStub('SUIConfig')
+    local npcInfo = LibStub('LibNPCInfo')
+
+    -- Set Layout
     SUIConfig.config = {
         font = {
             family    = STANDARD_TEXT_FONT,
@@ -48,12 +52,15 @@ local function buildBrowser()
         }
     }
 
+    -- Read Data
     local data = SUI.db.profile.nameplates.npccolors
 
-    local browser = SUIConfig:Window(UIParent, 400, 300, 'NPC Colors')
-    browser:SetPoint('CENTER')
-    browser:SetFrameStrata('DIALOG');
+    -- Create Window
+    local window = SUIConfig:Window(UIParent, 500, 385, 'NPC Colors')
+    window:SetPoint('CENTER')
+    window:SetFrameStrata('DIALOG');
 
+    -- Table Columns
     local cols = {
         {
             name   = 'NPC Name',
@@ -93,15 +100,102 @@ local function buildBrowser()
                 end
             }
         },
+        {
+            name = 'Delete',
+            width = 75,
+            align = 'LEFT',
+            index = 'delete',
+            format = 'delete',
+            events = {
+                OnClick = function(self, cellFrame, rowFrame, rowData, columnData, rowIndex)
+                    -- Remove entry
+                    table.remove(data, rowIndex)
+                    self:SetData(data)
+
+                    -- Print feedback to the user
+                    print('|cffea00ffS|r|cff00a2ffUI|r: \'' .. rowData.name .. '\' (ID: ' .. rowData.id .. ') has been removed.')
+                end
+            }
+        }
     }
 
-    local table = SUIConfig:ScrollTable(browser, cols, 14, 14)
-    table:EnableSelection(true);
-    SUIConfig:GlueTop(table, browser, 0, -60)
+    -- Create Table
+    local dataTable = SUIConfig:ScrollTable(window, cols, 14, 14)
+    dataTable:EnableSelection(true);
+    SUIConfig:GlueTop(dataTable, window, 0, -60)
 
-    table:SetData(data)
+    -- Set Table Data
+    dataTable:SetData(data)
+
+    -- Search Box
+    local searchBox = SUIConfig:SearchEditBox(window, 458, 24, 'Search')
+    SUIConfig:GlueBelow(searchBox, window, 0, 100, 'CENTER')
+
+    searchBox:HookScript("OnTextChanged", function(self)
+        -- Initiate Results table
+        local results = {}
+
+        -- Set Search text into variable
+        local text = string.lower(self:GetText())
+        
+        if text ~= '' then
+            for _, k in ipairs(data) do
+                if string.lower(k.name):find(text) then
+                    table.insert(results, k)
+                end
+            end
+
+            dataTable:SetData(results)
+        else
+            dataTable:SetData(data)
+        end
+    end)
+
+    -- Create Input Field
+    local input = SUIConfig:NumericBox(window, 150, 24)
+    SUIConfig:GlueBelow(input, window, 0, 40, 'CENTER')
+
+    input.button:HookScript("OnClick", function(self)
+        local npcID = tonumber(self.editBox:GetText()) -- convert to number as it's necessary
+
+        npcInfo.GetNPCInfoByID(
+            npcID,
+            function(npc)
+                if npc.name then
+                    local values = {
+                        id = npcID,
+                        name = npc.name,
+                        color = { r = 0, g = 0.55, b = 1, a = 1 }
+                    }
+
+                    -- Check if an entry already exists
+                    for _, k in pairs(data) do
+                        if k.id == npc.id then
+                            -- Print feedback to the user and return
+                            print('|cffea00ffS|r|cff00a2ffUI|r: \'' .. npc.name .. '\' (ID: ' .. npc.id .. ') already exists.')
+
+                            return
+                        end
+                    end
+
+                    -- Insert into table and print feedback to the user
+                    table.insert(data, values)
+                    print('|cffea00ffS|r|cff00a2ffUI|r: \'' .. npc.name .. '\' (ID: ' .. npc.id .. ') has been added.')
+
+                    dataTable:SetData(data)
+                end
+            end,
+            function()
+                print('|cffea00ffS|r|cff00a2ffUI|r: NPC with ID \'' .. npcID .. '\' does not exist.')
+            end
+        )
+    end)
+
+    -- Input Field Label
+    local inputLabel = SUIConfig:Header(window, 'Add NPC by ID', 12)
+    SUIConfig:GlueBelow(inputLabel, window, 0, 55, 'CENTER')
 end
 
 NPCColors.Show = function(self)
-    buildBrowser()
+    buildWindow()
 end
