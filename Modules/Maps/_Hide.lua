@@ -17,10 +17,6 @@ function Module:OnEnable()
             TimeManagerClockButton:Hide()
         end
 
-        Minimap:HookScript("OnEvent", function()
-            MiniMapWorldMapButton:Hide()
-        end)
-
         MinimapBorderTop:Hide()
         MinimapZoomIn:Hide()
         MinimapZoomOut:Hide()
