@@ -6,6 +6,28 @@ function Module:OnEnable()
 
     local focusTexture = [[Interface\AddOns\SUI\Media\Textures\Nameplates\focusTexture]]
 
+    -- NPC Colors Table
+    SUI_NPCColors = {}
+
+    -- Insert NPC Colors with Keyvalues
+    for _, npc in pairs(db.npccolors) do
+        SUI_NPCColors[npc.id] = npc.color
+    end
+
+    -- Get Player Roles
+    local getRoles = CreateFrame("Frame")
+    local playerRole
+    getRoles:RegisterEvent("PLAYER_ENTERING_WORLD")
+    getRoles:RegisterEvent("GROUP_ROSTER_UPDATE")
+    getRoles:RegisterEvent("PLAYER_ROLES_ASSIGNED")
+    getRoles:RegisterEvent("PLAYER_SPECIALIZATION_CHANGED")
+    getRoles:RegisterEvent("PET_DISMISS_START")
+    getRoles:RegisterEvent("PET_DISMISS_START")
+
+    getRoles:HookScript("OnEvent", function()
+        playerRole = UnitGroupRolesAssigned("player")
+    end)
+
     local function iconSkin(icon, parent)
         if not icon or (icon and icon.styled) then return end
 
@@ -112,19 +134,7 @@ function Module:OnEnable()
         end
     end
 
-    local function nameplateHealthText(unit, healthBar)
-        if not healthBar.text then
-            healthBar.text = healthBar:CreateFontString(nil, "ARTWORK", nil)
-            healthBar.text:SetPoint("CENTER")
-            healthBar.text:SetFont(STANDARD_TEXT_FONT, 8, 'OUTLINE')
-        else
-            local _, maxHealth = healthBar:GetMinMaxValues()
-            local currentHealth = healthBar:GetValue()
-            healthBar.text:SetText(string.format(math.floor((currentHealth / maxHealth) * 100)) .. "%")
-        end
-    end
-
-    local function nameplateHealthTextFrame(self)
+    local function nameplateHealthText(self)
         if self:IsForbidden() then return end
 
         if self.unit and self.unit:find('nameplate%d') then
@@ -132,7 +142,46 @@ function Module:OnEnable()
                 if UnitName("player") ~= UnitName(self.unit) then
                     local unit = self.unit
                     local healthBar = self.healthBar
-                    nameplateHealthText(unit, healthBar)
+
+                    if not healthBar.text then
+                        healthBar.text = healthBar:CreateFontString(nil, "ARTWORK", nil)
+                        healthBar.text:SetPoint("CENTER")
+                        healthBar.text:SetFont(STANDARD_TEXT_FONT, 8, 'OUTLINE')
+                    else
+                        local _, maxHealth = healthBar:GetMinMaxValues()
+                        local currentHealth = healthBar:GetValue()
+                        healthBar.text:SetText(string.format("%.2f", (currentHealth / maxHealth) * 100) .. "%")
+                    end
+
+                    if db.colors then
+                        if UnitIsPlayer(self.unit) or (not UnitCanAttack("player", self.unit)) then return end
+                        local _, _, _, _, _, id = strsplit("-", UnitGUID(self.unit) or "")
+                        local _, status = UnitDetailedThreatSituation("player", self.unit)
+                        local color = SUI_NPCColors[tonumber(id)] or { r = 0, g = 1, b = 0.6, a = 1 }
+                        local nColor = SUI_NPCColors[tonumber(id)] or { r = 1, g = 0, b = 0.3, a = 1 }
+
+                        if playerRole == "TANK" then
+                            if status and status == 3 then
+                                healthBar:SetStatusBarColor(color.r, color.g, color.b, color.a)
+                            elseif status and status == 2 then
+                                healthBar:SetStatusBarColor(1, 0.8, 0, 1)
+                            elseif status and status == 1 then
+                                healthBar:SetStatusBarColor(1, 0, 0.3, 1)
+                            else
+                                healthBar:SetStatusBarColor(nColor.r, nColor.g, nColor.b, nColor.a)
+                            end
+                        elseif playerRole == "HEALER" or playerRole == "DAMAGER" then
+                            if status and status == 3 then
+                                healthBar:SetStatusBarColor(1, 0, 0.3, 1)
+                            elseif status and status == 2 then
+                                healthBar:SetStatusBarColor(1, 0.8, 0, 1)
+                            elseif status and status == 1 then
+                                healthBar:SetStatusBarColor(color.r, color.g, color.b, color.a)
+                            end
+                        else
+                            healthBar:SetStatusBarColor(nColor.r, nColor.g, nColor.b, nColor.a)
+                        end
+                    end
                 end
             end
         end
@@ -186,15 +235,6 @@ function Module:OnEnable()
                     self.healthBar:SetStatusBarTexture(focusTexture)
                 end
 
-                if db.colors then
-                    local _, _, _, _, _, id = strsplit("-", UnitGUID(self.unit) or "")
-                    for _, npc in pairs(db.npccolors) do
-                        if id ~= nil and npc.id == tonumber(id) then
-                            self.healthBar:SetStatusBarColor(npc.color.r, npc.color.g, npc.color.b, npc.color.a)
-                        end
-                    end
-                end
-
                 ClassNameplateManaBarFrame:SetStatusBarTexture(db.texture)
             end
         end
@@ -226,9 +266,9 @@ function Module:OnEnable()
 
         -- Set Nameplate Health Percentage
         if db.healthtext then
-            hooksecurefunc("CompactUnitFrame_UpdateHealthColor", nameplateHealthTextFrame)
-            hooksecurefunc("CompactUnitFrame_UpdateHealth", nameplateHealthTextFrame)
-            hooksecurefunc("CompactUnitFrame_UpdateStatusText", nameplateHealthTextFrame)
+            hooksecurefunc("CompactUnitFrame_UpdateHealthColor", nameplateHealthText)
+            hooksecurefunc("CompactUnitFrame_UpdateHealth", nameplateHealthText)
+            hooksecurefunc("CompactUnitFrame_UpdateStatusText", nameplateHealthText)
         end
 
         -- Set Nameplate Name Color

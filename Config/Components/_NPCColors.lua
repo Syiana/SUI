@@ -92,6 +92,7 @@ local function buildWindow()
                         function(cpf)
                             rowData.color = cpf:GetColor()
                             table:SetData(data)
+                            SUI_NPCColors[rowData.id] = cpf:GetColor()
                         end,
                         function() end,
                         nil,
@@ -111,9 +112,11 @@ local function buildWindow()
                     -- Remove entry
                     table.remove(data, rowIndex)
                     self:SetData(data)
+                    SUI_NPCColors[rowData.id] = nil
 
                     -- Print feedback to the user
-                    print('|cffea00ffS|r|cff00a2ffUI|r: \'' .. rowData.name .. '\' (ID: ' .. rowData.id .. ') has been removed.')
+                    print('|cffea00ffS|r|cff00a2ffUI|r: \'' ..
+                        rowData.name .. '\' (ID: ' .. rowData.id .. ') has been removed.')
                 end
             }
         }
@@ -137,7 +140,7 @@ local function buildWindow()
 
         -- Set Search text into variable
         local text = string.lower(self:GetText())
-        
+
         if text ~= '' then
             for _, k in ipairs(data) do
                 if string.lower(k.name):find(text) then
@@ -169,7 +172,8 @@ local function buildWindow()
                     for _, k in pairs(data) do
                         if k.id == npc.id then
                             -- Print feedback to the user and return
-                            print('|cffea00ffS|r|cff00a2ffUI|r: \'' .. npc.name .. '\' (ID: ' .. npc.id .. ') already exists.')
+                            print('|cffea00ffS|r|cff00a2ffUI|r: \'' ..
+                                npc.name .. '\' (ID: ' .. npc.id .. ') already exists.')
 
                             return
                         end
@@ -177,6 +181,7 @@ local function buildWindow()
 
                     -- Insert into table and print feedback to the user
                     table.insert(data, values)
+                    SUI_NPCColors[npc.id] = { r = 0, g = 0.55, b = 1, a = 1 }
                     print('|cffea00ffS|r|cff00a2ffUI|r: \'' .. npc.name .. '\' (ID: ' .. npc.id .. ') has been added.')
 
                     dataTable:SetData(data)
