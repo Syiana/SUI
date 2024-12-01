@@ -16,7 +16,7 @@ function expBar:OnEnable()
         -- Reposition Exp Bar
         SUIExpBar:ClearAllPoints()
         SUIExpBar:SetPoint("LEFT", SUIMainMenuBar, "LEFT", 1, -30)
-        SUIExpBar:SetWidth(SUIMainMenuBar:GetWidth()-5.5)
+        SUIExpBar:SetWidth(SUIMainMenuBar:GetWidth() - 5.5)
 
         -- Status Text
         SUIExpBarText:SetFont(STANDARD_TEXT_FONT, 11, 'OUTLINE')
@@ -29,7 +29,7 @@ function expBar:OnEnable()
         -- Add Border to ExpBar
         SUIExpBarBorder = CreateFrame("Frame", SUIExpBarBorder, SUIExpBar, "BackdropTemplate")
         SUIExpBarBorder:SetPoint("LEFT", SUIExpBar, "LEFT", -1.5, 0)
-        SUIExpBarBorder:SetSize(SUIExpBar:GetWidth()+3, SUIExpBar:GetHeight()+2)
+        SUIExpBarBorder:SetSize(SUIExpBar:GetWidth() + 3, SUIExpBar:GetHeight() + 2)
         SUIExpBarBorder:SetBackdrop({
             edgeFile = [[Interface\Tooltips\UI-Tooltip-Border]],
             tileEdge = false,
@@ -37,14 +37,16 @@ function expBar:OnEnable()
             insets = { left = 1, right = 1, top = 1, bottom = 1 },
         })
 
-        SUIExpBarBorder:SetBackdropBorderColor(unpack(SUI:Color(.15)))
+        if SUI:Color() then
+            SUIExpBarBorder:SetBackdropBorderColor(unpack(SUI:Color(.15)))
+        end
 
         -- Check Level
         local expBar = CreateFrame("Frame")
         expBar:RegisterEvent("PLAYER_ENTERING_WORLD")
         expBar:RegisterEvent("PLAYER_LEVEL_UP")
         expBar:HookScript("OnEvent", function()
-            local rLevel =  GetMaxLevelForExpansionLevel(GetClampedCurrentExpansionLevel())
+            local rLevel = GetMaxLevelForExpansionLevel(GetClampedCurrentExpansionLevel())
             if UnitLevel("player") >= rLevel then
                 SUIExpBar:Hide()
             else
