@@ -184,7 +184,7 @@ function Gui:OnEnable()
     SUIConfig:GlueAcross(tabs, config, 10, -35, -10, 10)
 
     -- Module Button Texts
-    local function moduleText (module)
+    local function moduleText(module)
         if not module then return end
 
         if (module == 'General') then
@@ -289,14 +289,14 @@ function Gui:OnEnable()
                     }
                 },
                 {
-                  color = {
-                    key = 'color',
-                    type = 'color',
-                    label = 'Custom Color',
-                    column = 3,
-                    update = function() end,
-                    cancel = function() end
-                  }
+                    color = {
+                        key = 'color',
+                        type = 'color',
+                        label = 'Custom Color',
+                        column = 3,
+                        update = function() end,
+                        cancel = function() end
+                    }
                 },
                 {
                     header = {
@@ -545,6 +545,16 @@ function Gui:OnEnable()
                     }
                 },
                 {
+                    elite = {
+                        key = 'unitframes.elite',
+                        type = 'checkbox',
+                        label = 'Elite Chain',
+                        tooltip = 'Display a Rare-Elite Chain around the Player Unitframe',
+                        column = 4,
+                        order = 1
+                    }
+                },
+                {
                     textsize = {
                         key = 'unitframes.textsize',
                         type = 'slider',
@@ -595,7 +605,7 @@ function Gui:OnEnable()
                         label = 'Style',
                         options = {
                             { value = 'Default', text = 'Default' },
-                            { value = 'Custom', text = 'Custom' }
+                            { value = 'Custom',  text = 'Custom' }
                         },
                         column = 5,
                         order = 1
@@ -680,11 +690,11 @@ function Gui:OnEnable()
                         key = 'style',
                         type = 'dropdown',
                         options = {
-                            { value = 'Default',     text = 'Default' },
-                            { value = 'DefaultNoBg', text = 'Default (hide background)' },
-                            { value = 'BFA', text = 'BFA Style' },
+                            { value = 'Default',        text = 'Default' },
+                            { value = 'DefaultNoBg',    text = 'Default (hide background)' },
+                            { value = 'BFA',            text = 'BFA Style' },
                             { value = 'BFATransparent', text = 'BFA (hide background)' },
-                            { value = 'Small',       text = 'Small' }
+                            { value = 'Small',          text = 'Small' }
                         },
                         initialValue = 1,
                         column = 5,
@@ -774,9 +784,9 @@ function Gui:OnEnable()
                         type = 'dropdown',
                         label = 'MicroMenu',
                         options = {
-                            { value = 'always',     text = 'Show always' },
-                            { value = 'mouseover',  text = 'Show on Mouseover' },
-                            { value = 'hidden',     text = 'Hide always' }
+                            { value = 'always',    text = 'Show always' },
+                            { value = 'mouseover', text = 'Show on Mouseover' },
+                            { value = 'hidden',    text = 'Hide always' }
                         },
                         initialValue = 1,
                         column = 5,
@@ -787,9 +797,9 @@ function Gui:OnEnable()
                         type = 'dropdown',
                         label = 'Bag Buttons',
                         options = {
-                            { value = 'always',     text = 'Show always' },
-                            { value = 'mouseover',  text = 'Show on Mouseover' },
-                            { value = 'hidden',     text = 'Hide always' }
+                            { value = 'always',    text = 'Show always' },
+                            { value = 'mouseover', text = 'Show on Mouseover' },
+                            { value = 'hidden',    text = 'Hide always' }
                         },
                         initialValue = 1,
                         column = 5,
@@ -1251,7 +1261,7 @@ function Gui:OnEnable()
                         tooltip = 'Adds a searchbox to the bags.',
                         column = 3,
                         order = 3
-                      },
+                    },
                 },
                 {
                     sortbags = {
@@ -1261,8 +1271,8 @@ function Gui:OnEnable()
                         tooltip = 'Adds a sort button to the bags.',
                         column = 3,
                         order = 1
-                      },
-                      expbar = {
+                    },
+                    expbar = {
                         key = 'expbar',
                         type = 'checkbox',
                         label = 'Show Exp Bar',
@@ -1320,12 +1330,14 @@ function Gui:OnEnable()
                                 db.profile.modules.general = false
                                 self:SetChecked(false)
 
-                                print("|cffff00d5S|r|cff027bffUI|r:", "Module 'General' |cffff0000deactivated|r.", "Reload required.")
+                                print("|cffff00d5S|r|cff027bffUI|r:", "Module 'General' |cffff0000deactivated|r.",
+                                    "Reload required.")
                             else
                                 db.profile.modules.general = true
                                 self:SetChecked(true)
 
-                                print("|cffff00d5S|r|cff027bffUI|r:", "Module 'General' |cff00ff77activated|r.", "Reload required.")
+                                print("|cffff00d5S|r|cff027bffUI|r:", "Module 'General' |cff00ff77activated|r.",
+                                    "Reload required.")
                             end
                             self.text:SetText(moduleText('General'))
                         end
@@ -1342,12 +1354,14 @@ function Gui:OnEnable()
                                 db.profile.modules.unitframes = false
                                 self:SetChecked(false)
 
-                                print("|cffff00d5S|r|cff027bffUI|r:", "Module 'Unitframes' |cffff0000deactivated|r.", "Reload required.")
+                                print("|cffff00d5S|r|cff027bffUI|r:", "Module 'Unitframes' |cffff0000deactivated|r.",
+                                    "Reload required.")
                             else
                                 db.profile.modules.unitframes = true
                                 self:SetChecked(true)
 
-                                print("|cffff00d5S|r|cff027bffUI|r:", "Module 'Unitframes' |cff00ff77activated|r.", "Reload required.")
+                                print("|cffff00d5S|r|cff027bffUI|r:", "Module 'Unitframes' |cff00ff77activated|r.",
+                                    "Reload required.")
                             end
                             self.text:SetText(moduleText('Unitframes'))
                         end
@@ -1364,12 +1378,14 @@ function Gui:OnEnable()
                                 db.profile.modules.nameplates = false
                                 self:SetChecked(false)
 
-                                print("|cffff00d5S|r|cff027bffUI|r:", "Module 'Nameplates' |cffff0000deactivated|r.", "Reload required.")
+                                print("|cffff00d5S|r|cff027bffUI|r:", "Module 'Nameplates' |cffff0000deactivated|r.",
+                                    "Reload required.")
                             else
                                 db.profile.modules.nameplates = true
                                 self:SetChecked(true)
 
-                                print("|cffff00d5S|r|cff027bffUI|r:", "Module 'Nameplates' |cff00ff77activated|r.", "Reload required.")
+                                print("|cffff00d5S|r|cff027bffUI|r:", "Module 'Nameplates' |cff00ff77activated|r.",
+                                    "Reload required.")
                             end
                             self.text:SetText(moduleText('Nameplates'))
                         end
@@ -1388,12 +1404,14 @@ function Gui:OnEnable()
                                 db.profile.modules.actionbar = false
                                 self:SetChecked(false)
 
-                                print("|cffff00d5S|r|cff027bffUI|r:", "Module 'Actionbar' |cffff0000deactivated|r.", "Reload required.")
+                                print("|cffff00d5S|r|cff027bffUI|r:", "Module 'Actionbar' |cffff0000deactivated|r.",
+                                    "Reload required.")
                             else
                                 db.profile.modules.actionbar = true
                                 self:SetChecked(true)
 
-                                print("|cffff00d5S|r|cff027bffUI|r:", "Module 'Actionbar' |cff00ff77activated|r.", "Reload required.")
+                                print("|cffff00d5S|r|cff027bffUI|r:", "Module 'Actionbar' |cff00ff77activated|r.",
+                                    "Reload required.")
                             end
                             self.text:SetText(moduleText('Actionbar'))
                         end
@@ -1410,12 +1428,14 @@ function Gui:OnEnable()
                                 db.profile.modules.castbars = false
                                 self:SetChecked(false)
 
-                                print("|cffff00d5S|r|cff027bffUI|r:", "Module 'Castbars' |cffff0000deactivated|r.", "Reload required.")
+                                print("|cffff00d5S|r|cff027bffUI|r:", "Module 'Castbars' |cffff0000deactivated|r.",
+                                    "Reload required.")
                             else
                                 db.profile.modules.castbars = true
                                 self:SetChecked(true)
 
-                                print("|cffff00d5S|r|cff027bffUI|r:", "Module 'Castbars' |cff00ff77activated|r.", "Reload required.")
+                                print("|cffff00d5S|r|cff027bffUI|r:", "Module 'Castbars' |cff00ff77activated|r.",
+                                    "Reload required.")
                             end
                             self.text:SetText(moduleText('Castbars'))
                         end
@@ -1432,12 +1452,14 @@ function Gui:OnEnable()
                                 db.profile.modules.tooltip = false
                                 self:SetChecked(false)
 
-                                print("|cffff00d5S|r|cff027bffUI|r:", "Module 'Tooltip' |cffff0000deactivated|r.", "Reload required.")
+                                print("|cffff00d5S|r|cff027bffUI|r:", "Module 'Tooltip' |cffff0000deactivated|r.",
+                                    "Reload required.")
                             else
                                 db.profile.modules.tooltip = true
                                 self:SetChecked(true)
 
-                                print("|cffff00d5S|r|cff027bffUI|r:", "Module 'Tooltip' |cff00ff77activated|r.", "Reload required.")
+                                print("|cffff00d5S|r|cff027bffUI|r:", "Module 'Tooltip' |cff00ff77activated|r.",
+                                    "Reload required.")
                             end
                             self.text:SetText(moduleText('Tooltip'))
                         end
@@ -1456,12 +1478,14 @@ function Gui:OnEnable()
                                 db.profile.modules.buffs = false
                                 self:SetChecked(false)
 
-                                print("|cffff00d5S|r|cff027bffUI|r:", "Module 'Buffs' |cffff0000deactivated|r.", "Reload required.")
+                                print("|cffff00d5S|r|cff027bffUI|r:", "Module 'Buffs' |cffff0000deactivated|r.",
+                                    "Reload required.")
                             else
                                 db.profile.modules.buffs = true
                                 self:SetChecked(true)
 
-                                print("|cffff00d5S|r|cff027bffUI|r:", "Module 'Buffs' |cff00ff77activated|r.", "Reload required.")
+                                print("|cffff00d5S|r|cff027bffUI|r:", "Module 'Buffs' |cff00ff77activated|r.",
+                                    "Reload required.")
                             end
                             self.text:SetText(moduleText('Buffs'))
                         end
@@ -1478,12 +1502,14 @@ function Gui:OnEnable()
                                 db.profile.modules.map = false
                                 self:SetChecked(false)
 
-                                print("|cffff00d5S|r|cff027bffUI|r:", "Module 'Map' |cffff0000deactivated|r.", "Reload required.")
+                                print("|cffff00d5S|r|cff027bffUI|r:", "Module 'Map' |cffff0000deactivated|r.",
+                                    "Reload required.")
                             else
                                 db.profile.modules.map = true
                                 self:SetChecked(true)
 
-                                print("|cffff00d5S|r|cff027bffUI|r:", "Module 'Map' |cff00ff77activated|r.", "Reload required.")
+                                print("|cffff00d5S|r|cff027bffUI|r:", "Module 'Map' |cff00ff77activated|r.",
+                                    "Reload required.")
                             end
                             self.text:SetText(moduleText('Map'))
                         end
@@ -1500,12 +1526,14 @@ function Gui:OnEnable()
                                 db.profile.modules.chat = false
                                 self:SetChecked(false)
 
-                                print("|cffff00d5S|r|cff027bffUI|r:", "Module 'Chat' |cffff0000deactivated|r.", "Reload required.")
+                                print("|cffff00d5S|r|cff027bffUI|r:", "Module 'Chat' |cffff0000deactivated|r.",
+                                    "Reload required.")
                             else
                                 db.profile.modules.chat = true
                                 self:SetChecked(true)
 
-                                print("|cffff00d5S|r|cff027bffUI|r:", "Module 'Chat' |cff00ff77activated|r.", "Reload required.")
+                                print("|cffff00d5S|r|cff027bffUI|r:", "Module 'Chat' |cff00ff77activated|r.",
+                                    "Reload required.")
                             end
                             self.text:SetText(moduleText('Chat'))
                         end
@@ -1524,12 +1552,14 @@ function Gui:OnEnable()
                                 db.profile.modules.misc = false
                                 self:SetChecked(false)
 
-                                print("|cffff00d5S|r|cff027bffUI|r:", "Module 'Misc' |cffff0000deactivated|r.", "Reload required.")
+                                print("|cffff00d5S|r|cff027bffUI|r:", "Module 'Misc' |cffff0000deactivated|r.",
+                                    "Reload required.")
                             else
                                 db.profile.modules.misc = true
                                 self:SetChecked(true)
 
-                                print("|cffff00d5S|r|cff027bffUI|r:", "Module 'Misc' |cff00ff77activated|r.", "Reload required.")
+                                print("|cffff00d5S|r|cff027bffUI|r:", "Module 'Misc' |cff00ff77activated|r.",
+                                    "Reload required.")
                             end
                             self.text:SetText(moduleText('Misc'))
                         end
@@ -1661,7 +1691,10 @@ function Gui:OnEnable()
                 {
                     label = {
                         type = 'label',
-                        label = 'Legend: ' .. Colors.aut .. 'Owner|r, ' .. Colors.mod .. 'Moderator|r, ' .. Colors.dev .. 'Developer|r, ' .. Colors.sup .. 'Supporter|r'
+                        label = 'Legend: ' ..
+                        Colors.aut ..
+                        'Owner|r, ' ..
+                        Colors.mod .. 'Moderator|r, ' .. Colors.dev .. 'Developer|r, ' .. Colors.sup .. 'Supporter|r'
                     }
                 },
                 {

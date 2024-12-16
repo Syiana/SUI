@@ -6,7 +6,8 @@ function Module:OnEnable()
         pvpbadge = SUI.db.profile.unitframes.pvpbadge,
         texture = SUI.db.profile.general.texture,
         size = SUI.db.profile.unitframes.size,
-        module = SUI.db.profile.modules.unitframes
+        module = SUI.db.profile.modules.unitframes,
+        elite = SUI.db.profile.unitframes.elite
     }
 
     if (db.module) then
@@ -23,7 +24,12 @@ function Module:OnEnable()
 
             if (db.style == "Big") then
                 PlayerFrameGroupIndicator:SetAlpha(0)
-                PlayerFrameTexture:SetTexture([[Interface\Addons\SUI\Media\Textures\UnitFrames\UI-TargetingFrame]]);
+                if db.elite then
+                    PlayerFrameTexture:SetTexture(
+                        [[Interface\Addons\SUI\Media\Textures\UnitFrames\UI-TargetingFrame-Rare-Elite]]);
+                else
+                    PlayerFrameTexture:SetTexture([[Interface\Addons\SUI\Media\Textures\UnitFrames\UI-TargetingFrame]]);
+                end
                 self.name:ClearAllPoints();
                 self.name:SetPoint("CENTER", PlayerFrame, "CENTER", 50.5, 36);
                 self.healthbar:SetPoint("TOPLEFT", 106, -24);
