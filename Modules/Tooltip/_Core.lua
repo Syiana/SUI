@@ -38,7 +38,8 @@ function Module:OnEnable()
         }
 
         if (db) then
-            GameTooltipStatusBar:SetStatusBarTexture("Interface\\Addons\\SUI\\Media\\Textures\\Tooltip\\UI-TargetingFrame-BarFill_test")
+            GameTooltipStatusBar:SetStatusBarTexture(
+                "Interface\\Addons\\SUI\\Media\\Textures\\Tooltip\\UI-TargetingFrame-BarFill_test")
         end
 
         local function GetHexColor(color)
@@ -244,18 +245,22 @@ function Module:OnEnable()
 
         --hooksecurefunc GameTooltip SetUnitBuff
         hooksecurefunc(GameTooltip, "SetUnitBuff", function(self, unitToken, index, filter)
-            TooltipAddSpellID(self, select(10, AuraUtil.UnpackAuraData(C_UnitAuras.GetBuffDataByIndex(unitToken, index, filter))))
+            TooltipAddSpellID(self,
+                select(10, AuraUtil.UnpackAuraData(C_UnitAuras.GetBuffDataByIndex(unitToken, index, filter))))
         end)
 
         --hooksecurefunc GameTooltip SetUnitDebuff
         hooksecurefunc(GameTooltip, "SetUnitDebuff", function(self, unitToken, index, filter)
-            TooltipAddSpellID(self, select(10, AuraUtil.UnpackAuraData(C_UnitAuras.GetDebuffDataByIndex(unitToken, index, filter))))
+            TooltipAddSpellID(self,
+                select(10, AuraUtil.UnpackAuraData(C_UnitAuras.GetDebuffDataByIndex(unitToken, index, filter))))
         end)
 
         --hooksecurefunc GameTooltip SetUnitAura
         hooksecurefunc(GameTooltip, "SetUnitAura", function(self, unitToken, index, filter)
-            TooltipAddSpellID(self, select(10, AuraUtil.UnpackAuraData(C_UnitAuras.GetBuffDataByIndex(unitToken, index, filter))))
-            TooltipAddBuffSource(self, select(7, AuraUtil.UnpackAuraData(C_UnitAuras.GetBuffDataByIndex(unitToken, index, filter))))
+            TooltipAddSpellID(self,
+                select(10, AuraUtil.UnpackAuraData(C_UnitAuras.GetBuffDataByIndex(unitToken, index, filter))))
+            TooltipAddBuffSource(self,
+                select(7, AuraUtil.UnpackAuraData(C_UnitAuras.GetBuffDataByIndex(unitToken, index, filter))))
         end)
 
         --hooksecurefunc SetItemRef
@@ -267,16 +272,16 @@ function Module:OnEnable()
         end)
 
         --HookScript GameTooltip OnTooltipSetSpell
-        local function OnTooltipSetSpell(self)
-            TooltipAddSpellID(self, select(2, self:GetSpell()))
+        local function OnTooltipSetSpell(self, data)
+            TooltipAddSpellID(self, data.id)
         end
 
         local function OnMacroTooltipSetSpell(self)
             if self:GetTooltipData() and self:GetTooltipData().lines and self:GetTooltipData().lines[2] and
                 self:GetTooltipData().lines[2].leftText then
-                local tooltipData               = self:GetTooltipData()
-                local tooltipName               = tooltipData.lines[2].leftText
-                local spellInfo = C_Spell.GetSpellInfo(tooltipName)
+                local tooltipData = self:GetTooltipData()
+                local tooltipName = tooltipData.lines[2].leftText
+                local spellInfo   = C_Spell.GetSpellInfo(tooltipName)
 
                 if (spellInfo and spellInfo.spellID) then
                     TooltipAddSpellID(self, spellInfo.spellID)
@@ -286,6 +291,7 @@ function Module:OnEnable()
 
         TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Macro, OnMacroTooltipSetSpell)
         TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Spell, OnTooltipSetSpell)
+        TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.UnitAura, OnTooltipSetSpell)
     end
 
     if (db.hideincombat) then
