@@ -4,24 +4,17 @@ local Module = SUI:NewModule("General.Inspect");
 function Module:OnEnable()
     local db = SUI.db.profile.general.display.ilvl
     if (db) then
-        local oPrint = print;
-        local function print(...)
-            if (true) then
-                local msg = strjoin(" ", tostringall(...));
-                oPrint("|cff6600ccBetterCharacterPanel|r: " .. GetTime() .. " :", msg);
-            end
-        end
         local IsCata = select(4, GetBuildInfo()) >= 40000 and select(4, GetBuildInfo()) < 50000;
 
         local GetDetailedItemLevelInfo = (C_Item and C_Item.GetDetailedItemLevelInfo) and C_Item
-        .GetDetailedItemLevelInfo or GetDetailedItemLevelInfo;
+            .GetDetailedItemLevelInfo or GetDetailedItemLevelInfo;
         local GetItemQualityColor = (C_Item and C_Item.GetItemQualityColor) and C_Item.GetItemQualityColor or
-        GetItemQualityColor;
+            GetItemQualityColor;
         local GetItemInfoInstant = (C_Item and C_Item.GetItemInfoInstant) and C_Item.GetItemInfoInstant or GetItemInfo;
         local GetInventoryItemDurability = (C_Item and C_Item.GetInventoryItemDurability) and
-        C_Item.GetInventoryItemDurability or GetInventoryItemDurability;
+            C_Item.GetInventoryItemDurability or GetInventoryItemDurability;
         local GetInventoryItemQuality = (C_Item and C_Item.GetInventoryItemQuality) and C_Item.GetInventoryItemQuality or
-        GetInventoryItemQuality;
+            GetInventoryItemQuality;
 
         local NUM_SOCKET_TEXTURES = 4;
 
@@ -307,7 +300,7 @@ function Module:OnEnable()
             local a = {}
             for n in pairs(t) do table.insert(a, n) end
             table.sort(a, f)
-            local i = 0   -- iterator variable
+            local i = 0             -- iterator variable
             local iter = function() -- iterator function
                 i = i + 1
                 if a[i] == nil then
@@ -512,9 +505,9 @@ function Module:OnEnable()
 
                 if (not enchantText) then
                     local shouldDisplayEchantMissingText = canEnchant and itemLink and
-                    IsLevelAtEffectiveMaxLevel(UnitLevel(unit));
+                        IsLevelAtEffectiveMaxLevel(UnitLevel(unit));
                     additionalFrame.enchantDisplay:SetText(shouldDisplayEchantMissingText and "|cffff0000No Enchant|r" or
-                    "");
+                        "");
                 else
                     --trim size
                     local maxSize = 18;
@@ -808,6 +801,17 @@ function Module:OnEnable()
                 C_Item.RequestLoadItemDataByID(gemID);
             end
         end
+
+        CharacterFrame:HookScript("OnUpdate", function()
+            local _, equippedItemLevel = GetAverageItemLevel()
+            local itemLevelText
+            if equippedItemLevel == math.floor(equippedItemLevel) then
+                itemLevelText = string.format("%d", equippedItemLevel)
+            else
+                itemLevelText = string.format("%.2f", equippedItemLevel)
+            end
+            CharacterStatsPane.ItemLevelFrame.Value:SetText(itemLevelText)
+        end)
 
         local eventListener = CreateFrame("frame");
         eventListener:SetScript("OnEvent", function(self, event, ...)
