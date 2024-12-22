@@ -10,12 +10,13 @@ function Module:OnEnable()
             PlayerCastingBarFrame:SetSize(209, 18)
             PlayerCastingBarFrame.TextBorder:ClearAllPoints()
             PlayerCastingBarFrame.TextBorder:SetAlpha(0)
+            PlayerCastingBarFrame.Border:ClearAllPoints()
+            PlayerCastingBarFrame.Border:SetAlpha(0)
             PlayerCastingBarFrame.Text:ClearAllPoints()
             PlayerCastingBarFrame.Text:SetPoint("TOP", PlayerCastingBarFrame, "TOP", 0, -1)
             PlayerCastingBarFrame.Text:SetFont(STANDARD_TEXT_FONT, 12, "OUTLINE")
 
             if SUI:Color() then
-                PlayerCastingBarFrame.Border:SetVertexColor(unpack(SUI:Color(0.15)))
                 PlayerCastingBarFrame.Background:SetVertexColor(unpack(SUI:Color(0.15)))
             end
 
