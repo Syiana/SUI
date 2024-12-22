@@ -6,14 +6,14 @@ function Module:OnEnable()
     if db and db.style ~= 'Default' then
         local function updateCvars()
             if db.stackingmode then
-                SetCVar("nameplateMotion", 1) -- Set Nameplate to Stacking-Mode
+                SetCVar("nameplateMotion", 1)     -- Set Nameplate to Stacking-Mode
                 SetCVar("nameplateOverlapH", 0.5) -- Set Nameplate Stacking Distance Horizontal
                 SetCVar("nameplateOverlapV", 0.5) -- Set Nameplate Stacking Distance Vertical
-                SetCVar("nameplateMinScale", 1) -- Set Nameplate Stacking Distance Vertical
+                SetCVar("nameplateMinScale", 1)   -- Set Nameplate Stacking Distance Vertical
             end
 
             if db.height and db.width then
-                SetCVar("NamePlateVerticalScale", db.height) -- Set Nameplate Height
+                SetCVar("NamePlateVerticalScale", db.height)  -- Set Nameplate Height
                 SetCVar("NamePlateHorizontalScale", db.width) -- Set Nameplate Width
             end
         end
@@ -34,8 +34,9 @@ function Module:OnEnable()
                 local nameplate = C_NamePlate.GetNamePlateForUnit(unitId)
                 local frame = nameplate.UnitFrame
                 if not nameplate or frame:IsForbidden() then return end
-                frame.BuffFrame:ClearAllPoints()
-                frame.BuffFrame:SetAlpha(0)
+                --frame.BuffFrame:ClearAllPoints()
+                frame.BuffFrame:Hide()
+                frame.BuffFrame.UpdateBuffs = function() end
             end
 
             for b, u in pairs(events) do
