@@ -28,7 +28,7 @@ function Layout:OnEnable()
                     type = 'dropdown',
                     options = {
                         { value = 'Default', text = 'Default' },
-                        { value = 'Custom', text = 'Custom' }
+                        { value = 'Custom',  text = 'Custom' }
                     },
                     initialValue = 1,
                     column = 5,
@@ -44,6 +44,19 @@ function Layout:OnEnable()
                 }
             },
             {
+                decimals = {
+                    key = 'decimals',
+                    label = 'Health Text Decimals',
+                    type = 'dropdown',
+                    options = {
+                        { value = '0', text = '0 (e.g. 99%)' },
+                        { value = '1', text = '1 (e.g. 99.9%)' },
+                        { value = '2', text = '2 (e.g. 99.99%)' }
+                    },
+                    initialValue = 1,
+                    column = 4,
+                    order = 1
+                },
                 height = {
                     key = 'height',
                     type = 'slider',
@@ -51,8 +64,8 @@ function Layout:OnEnable()
                     precision = 1,
                     min = 1,
                     max = 5,
-                    column = 4,
-                    order = 1
+                    column = 3,
+                    order = 2
                 },
                 width = {
                     key = 'width',
@@ -61,9 +74,9 @@ function Layout:OnEnable()
                     precision = 1,
                     min = 1,
                     max = 5,
-                    column = 4,
-                    order = 2
-                }
+                    column = 3,
+                    order = 3
+                },
             },
             {
                 header = {

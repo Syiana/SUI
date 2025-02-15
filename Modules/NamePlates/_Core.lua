@@ -148,9 +148,12 @@ function Module:OnEnable()
                         healthBar.text:SetPoint("CENTER")
                         healthBar.text:SetFont(STANDARD_TEXT_FONT, 8, 'OUTLINE')
                     else
-                        local _, maxHealth = healthBar:GetMinMaxValues()
-                        local currentHealth = healthBar:GetValue()
-                        healthBar.text:SetText(string.format("%.2f", (currentHealth / maxHealth) * 100) .. "%")
+                        local maxHealth = UnitHealthMax(self.unit)
+                        local currentHealth = UnitHealth(self.unit)
+                        --local _, maxHealth = healthBar:GetMinMaxValues()
+                        --local currentHealth = healthBar:GetValue()
+                        healthBar.text:SetText(string.format("%." .. db.decimals .. "f",
+                            (currentHealth / maxHealth) * 100) .. "%")
                     end
 
                     if db.colors then

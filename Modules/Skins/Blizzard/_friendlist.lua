@@ -24,6 +24,8 @@ function Module:OnEnable()
         SUI:Skin(WhoFrameListInset.NineSlice, true)
         SUI:Skin(WhoFrameEditBoxInset, true)
         SUI:Skin(WhoFrameEditBoxInset.NineSlice, true)
+        SUI:Skin(FriendsFrameBattlenetFrame.BroadcastFrame, true)
+        SUI:Skin(FriendsFrameBattlenetFrame.BroadcastFrame.Border, true)
 
         -- Tabs
         SUI:Skin(FriendsTabHeaderTab1, true)

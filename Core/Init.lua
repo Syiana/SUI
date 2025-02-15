@@ -72,6 +72,7 @@ local defaults = {
             stackingmode = false,
             height = 2,
             width = 1,
+            decimals = 0,
             debuffs = false,
             focusHighlight = false,
             colors = true,
