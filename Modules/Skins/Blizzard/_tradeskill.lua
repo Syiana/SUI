@@ -6,8 +6,8 @@ function Module:OnEnable()
         f:RegisterEvent("ADDON_LOADED")
         f:SetScript("OnEvent", function(self, event, name)
             if name == "Blizzard_TradeSkillUI" then
-                SUI:Skin(TradeSkillFrame)
-                SUI:Skin(TradeSkillFrame.NineSlice)
+                SUI:Skin(TradeSkillFrame, true)
+                SUI:Skin(TradeSkillFrame.NineSlice, true)
             end
         end)
     end

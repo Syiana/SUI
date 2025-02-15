@@ -2,22 +2,22 @@ local Module = SUI:NewModule("Skins.Quest");
 
 function Module:OnEnable()
     if (SUI:Color()) then
-        SUI:Skin(QuestFrame)
-        SUI:Skin(QuestFrame.NineSlice)
-        SUI:Skin(QuestFrameInset)
-        SUI:Skin(QuestFrameInset.NineSlice)
-        SUI:Skin(QuestLogPopupDetailFrame)
-        SUI:Skin(QuestLogPopupDetailFrame.NineSlice)
-        SUI:Skin(ObjectiveTrackerFrame)
-        SUI:Skin(ObjectiveTrackerFrame.Header)
-        SUI:Skin(CampaignQuestObjectiveTracker)
-        SUI:Skin(CampaignQuestObjectiveTracker.Header)
-        SUI:Skin(QuestObjectiveTracker)
-        SUI:Skin(QuestObjectiveTracker.Header)
-        SUI:Skin(ProfessionsRecipeTracker)
-        SUI:Skin(ProfessionsRecipeTracker.Header)
-        SUI:Skin(ScenarioObjectiveTracker)
-        SUI:Skin(ScenarioObjectiveTracker.Header)
+        SUI:Skin(QuestFrame, true)
+        SUI:Skin(QuestFrame.NineSlice, true)
+        SUI:Skin(QuestFrameInset, true)
+        SUI:Skin(QuestFrameInset.NineSlice, true)
+        SUI:Skin(QuestLogPopupDetailFrame, true)
+        SUI:Skin(QuestLogPopupDetailFrame.NineSlice, true)
+        SUI:Skin(ObjectiveTrackerFrame, true)
+        SUI:Skin(ObjectiveTrackerFrame.Header, true)
+        SUI:Skin(CampaignQuestObjectiveTracker, true)
+        SUI:Skin(CampaignQuestObjectiveTracker.Header, true)
+        SUI:Skin(QuestObjectiveTracker, true)
+        SUI:Skin(QuestObjectiveTracker.Header, true)
+        SUI:Skin(ProfessionsRecipeTracker, true)
+        SUI:Skin(ProfessionsRecipeTracker.Header, true)
+        SUI:Skin(ScenarioObjectiveTracker, true)
+        SUI:Skin(ScenarioObjectiveTracker.Header, true)
         SUI:Skin({
             QuestNPCModelTopBorder,
             QuestNPCModelRightBorder,
@@ -35,6 +35,6 @@ function Module:OnEnable()
             QuestNPCModelTextBottomLeftCorner,
             QuestNPCModelTextLeftBorder,
             QuestNPCModelTextTopLeftCorner
-        }, false, true)
+        }, true, true)
     end
 end

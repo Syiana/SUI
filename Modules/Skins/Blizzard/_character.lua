@@ -2,16 +2,16 @@ local Module = SUI:NewModule("Skins.Character");
 
 function Module:OnEnable()
     if (SUI:Color()) then
-        SUI:Skin(CharacterFrame)
-        SUI:Skin(CharacterFrame.NineSlice)
-        SUI:Skin(CharacterFrameInset)
-        SUI:Skin(CharacterFrameInset.NineSlice)
-        SUI:Skin(CharacterFrameInsetRight)
-        SUI:Skin(CharacterFrameInsetRight.NineSlice)
-        SUI:Skin(TokenFramePopup)
-        SUI:Skin(TokenFramePopup.Border)
-        SUI:Skin(CharacterStatsPane)
-        SUI:Skin(ReputationFrame.ReputationDetailFrame)
+        SUI:Skin(CharacterFrame, true)
+        SUI:Skin(CharacterFrame.NineSlice, true)
+        SUI:Skin(CharacterFrameInset, true)
+        SUI:Skin(CharacterFrameInset.NineSlice, true)
+        SUI:Skin(CharacterFrameInsetRight, true)
+        SUI:Skin(CharacterFrameInsetRight.NineSlice, true)
+        SUI:Skin(TokenFramePopup, true)
+        SUI:Skin(TokenFramePopup.Border, true)
+        SUI:Skin(CharacterStatsPane, true)
+        SUI:Skin(ReputationFrame.ReputationDetailFrame, true)
         SUI:Skin({
             CharacterFeetSlotFrame,
             CharacterHandsSlotFrame,
@@ -42,19 +42,19 @@ function Module:OnEnable()
             PaperDollInnerBorderBottomLeft,
             PaperDollInnerBorderBottomRight,
             PaperDollInnerBorderBottom2
-        }, false, true)
+        }, true, true)
 
         -- Tabs
-        SUI:Skin(CharacterFrameTab1)
-        SUI:Skin(CharacterFrameTab2)
-        SUI:Skin(CharacterFrameTab3)
+        SUI:Skin(CharacterFrameTab1, true)
+        SUI:Skin(CharacterFrameTab2, true)
+        SUI:Skin(CharacterFrameTab3, true)
 
         local f = CreateFrame("Frame")
         f:RegisterEvent("ADDON_LOADED")
         f:SetScript("OnEvent", function(self, event, name)
             if name == "Blizzard_ItemSocketingUI" then
-                SUI:Skin(ItemSocketingFrame)
-                SUI:Skin(ItemSocketingFrame.NineSlice)
+                SUI:Skin(ItemSocketingFrame, true)
+                SUI:Skin(ItemSocketingFrame.NineSlice, true)
             end
         end)
     end

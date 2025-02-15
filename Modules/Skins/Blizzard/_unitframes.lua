@@ -168,7 +168,7 @@ function Module:OnEnable()
                     DeathKnightResourceOverlayFrame.Rune6.BG_Active,
                     DeathKnightResourceOverlayFrame.Rune6.BG_Inactive,
                     DeathKnightResourceOverlayFrame.Rune6.BG_Shadow
-                }, false, true)
+                }, true, true)
             end)
         elseif (playerClass == 'EVOKER') then
             -- Evoker

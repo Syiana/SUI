@@ -6,11 +6,11 @@ function Module:OnEnable()
         f:RegisterEvent("ADDON_LOADED")
         f:SetScript("OnEvent", function(self, event, name)
             if name == "Blizzard_TimeManager" then
-                SUI:Skin(TimeManagerFrame)
-                SUI:Skin(TimeManagerFrame.NineSlice)
-                SUI:Skin(TimeManagerFrameInset)
-                SUI:Skin(TimeManagerFrameInset.NineSlice)
-                SUI:Skin({ StopwatchFrameBackgroundLeft }, false, true)
+                SUI:Skin(TimeManagerFrame, true)
+                SUI:Skin(TimeManagerFrame.NineSlice, true)
+                SUI:Skin(TimeManagerFrameInset, true)
+                SUI:Skin(TimeManagerFrameInset.NineSlice, true)
+                SUI:Skin({ StopwatchFrameBackgroundLeft }, true, true)
             end
         end)
     end

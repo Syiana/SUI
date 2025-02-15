@@ -6,7 +6,7 @@ function Module:OnEnable()
         f:RegisterEvent("ADDON_LOADED")
         f:SetScript("OnEvent", function(self, event, name)
             if name == "Blizzard_ChallengesUI" then
-                SUI:Skin(ChallengesFrameInset.NineSlice)
+                SUI:Skin(ChallengesFrameInset.NineSlice, true)
             end
         end)
     end

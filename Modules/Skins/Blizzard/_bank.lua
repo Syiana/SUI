@@ -2,21 +2,21 @@ local Module = SUI:NewModule("Skins.Bank");
 
 function Module:OnEnable()
     if (SUI:Color()) then
-        SUI:Skin(BankFrame)
-        SUI:Skin(BankFrame.NineSlice)
-        SUI:Skin(BankSlotsFrame.NineSlice)
-        SUI:Skin(BankFrameMoneyFrameBorder)
-        SUI:Skin(AccountBankPanel.NineSlice)
-        SUI:Skin(AccountBankPanel.MoneyFrame.Border)
+        SUI:Skin(BankFrame, true)
+        SUI:Skin(BankFrame.NineSlice, true)
+        SUI:Skin(BankSlotsFrame.NineSlice, true)
+        SUI:Skin(BankFrameMoneyFrameBorder, true)
+        SUI:Skin(AccountBankPanel.NineSlice, true)
+        SUI:Skin(AccountBankPanel.MoneyFrame.Border, true)
 
         ReagentBankFrame:HookScript("OnShow", function()
-            SUI:Skin(ReagentBankFrame)
-            SUI:Skin(ReagentBankFrame.NineSlice)
+            SUI:Skin(ReagentBankFrame, true)
+            SUI:Skin(ReagentBankFrame.NineSlice, true)
         end)
 
         -- Tabs
-        SUI:Skin(BankFrameTab1)
-        SUI:Skin(BankFrameTab2)
-        SUI:Skin(BankFrameTab3)
+        SUI:Skin(BankFrameTab1, true)
+        SUI:Skin(BankFrameTab2, true)
+        SUI:Skin(BankFrameTab3, true)
     end
 end

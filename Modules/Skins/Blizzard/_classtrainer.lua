@@ -6,10 +6,10 @@ function Module:OnEnable()
         f:RegisterEvent("ADDON_LOADED")
         f:SetScript("OnEvent", function(self, event, name)
             if name == "Blizzard_TrainerUI" then
-                SUI:Skin(ClassTrainerFrame)
-                SUI:Skin(ClassTrainerFrame.NineSlice)
-                SUI:Skin(ClassTrainerFrameBottomInset.NineSlice)
-                SUI:Skin(ClassTrainerFrameInset.NineSlice)
+                SUI:Skin(ClassTrainerFrame, true)
+                SUI:Skin(ClassTrainerFrame.NineSlice, true)
+                SUI:Skin(ClassTrainerFrameBottomInset.NineSlice, true)
+                SUI:Skin(ClassTrainerFrameInset.NineSlice, true)
             end
         end)
     end

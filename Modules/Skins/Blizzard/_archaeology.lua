@@ -6,7 +6,7 @@ function Module:OnEnable()
         f:RegisterEvent("ADDON_LOADED")
         f:SetScript("OnEvent", function(self, event, name)
             if name == "Blizzard_ArchaeologyUI" then
-                SUI:Skin(ArchaeologyFrame.NineSlice)
+                SUI:Skin(ArchaeologyFrame.NineSlice, true)
             end
         end)
     end

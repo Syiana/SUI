@@ -6,22 +6,22 @@ function Module:OnEnable()
         f:RegisterEvent("ADDON_LOADED")
         f:SetScript("OnEvent", function(self, event, name)
             if name == "Blizzard_MacroUI" then
-                SUI:Skin(MacroFrame)
-                SUI:Skin(MacroFrame.NineSlice)
-                SUI:Skin(MacroFrameInset)
-                SUI:Skin(MacroFrameInset.NineSlice)
-                SUI:Skin(MacroFrameTextBackground)
-                SUI:Skin(MacroFrameTextBackground.NineSlice)
+                SUI:Skin(MacroFrame, true)
+                SUI:Skin(MacroFrame.NineSlice, true)
+                SUI:Skin(MacroFrameInset, true)
+                SUI:Skin(MacroFrameInset.NineSlice, true)
+                SUI:Skin(MacroFrameTextBackground, true)
+                SUI:Skin(MacroFrameTextBackground.NineSlice, true)
                 SUI:Skin({
                     MacroButtonScrollFrameTop,
                     MacroButtonScrollFrameMiddle,
                     MacroButtonScrollFrameBottom,
                     MacroButtonScrollFrameScrollBarThumbTexture
-                }, false, true)
+                }, true, true)
 
                 -- Tabs
-                SUI:Skin(MacroFrameTab1)
-                SUI:Skin(MacroFrameTab2)
+                SUI:Skin(MacroFrameTab1, true)
+                SUI:Skin(MacroFrameTab2, true)
             end
         end)
     end

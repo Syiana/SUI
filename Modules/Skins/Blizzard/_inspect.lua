@@ -6,13 +6,13 @@ function Module:OnEnable()
         f:RegisterEvent("ADDON_LOADED")
         f:SetScript("OnEvent", function(self, event, name)
             if name == "Blizzard_InspectUI" then
-                SUI:Skin(InspectFrame)
-                SUI:Skin(InspectFrame.NineSlice)
-                SUI:Skin(InspectFrameInset)
-                SUI:Skin(InspectFrameInset.NineSlice)
-                SUI:Skin(InspectPaperDollItemsFrame)
-                SUI:Skin(InspectPaperDollItemsFrame.InspectTalents)
-                SUI:Skin(InspectPVPFrame)
+                SUI:Skin(InspectFrame, true)
+                SUI:Skin(InspectFrame.NineSlice, true)
+                SUI:Skin(InspectFrameInset, true)
+                SUI:Skin(InspectFrameInset.NineSlice, true)
+                SUI:Skin(InspectPaperDollItemsFrame, true)
+                SUI:Skin(InspectPaperDollItemsFrame.InspectTalents, true)
+                SUI:Skin(InspectPVPFrame, true)
                 SUI:Skin({
                     InspectModelFrameBorderLeft,
                     InspectModelFrameBorderRight,
@@ -40,12 +40,12 @@ function Module:OnEnable()
                     InspectNeckSlotFrame,
                     InspectHeadSlotFrame,
                     InspectSecondaryHandSlotFrame,
-                }, false, true)
+                }, true, true)
 
                 -- Tabs
-                SUI:Skin(InspectFrameTab1)
-                SUI:Skin(InspectFrameTab2)
-                SUI:Skin(InspectFrameTab3)
+                SUI:Skin(InspectFrameTab1, true)
+                SUI:Skin(InspectFrameTab2, true)
+                SUI:Skin(InspectFrameTab3, true)
 
                 -- Hide
                 InspectMainHandSlotFrame:Hide()
@@ -54,8 +54,8 @@ function Module:OnEnable()
             end
 
             if name == "Blizzard_Professions" then
-                SUI:Skin(InspectRecipeFrame)
-                SUI:Skin(InspectRecipeFrame.NineSlice)
+                SUI:Skin(InspectRecipeFrame, true)
+                SUI:Skin(InspectRecipeFrame.NineSlice, true)
             end
         end)
     end

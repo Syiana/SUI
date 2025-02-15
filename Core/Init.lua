@@ -367,7 +367,6 @@ function SUI:OnInitialize()
 
     function self:Skin(frame, customColor, isTable, color, desaturated)
         SUI_forbiddenFrames = {
-            ["AchievementFrame.Header.Shield"] = true,
             ["CalendarCreateEventIcon"] = true,
             ["FriendsFrameIcon"] = true,
             ["MacroFramePortrait"] = true,

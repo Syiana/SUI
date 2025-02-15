@@ -6,10 +6,10 @@ function Module:OnEnable()
         f:RegisterEvent("ADDON_LOADED")
         f:SetScript("OnEvent", function(self, event, name)
             if name == "Blizzard_GarrisonUI" then
-                SUI:Skin(GarrisonCapacitiveDisplayFrame)
-                SUI:Skin(GarrisonCapacitiveDisplayFrame.NineSlice)
-                SUI:Skin(GarrisonCapacitiveDisplayFrameInset)
-                SUI:Skin(GarrisonCapacitiveDisplayFrameInset.NineSlice)
+                SUI:Skin(GarrisonCapacitiveDisplayFrame, true)
+                SUI:Skin(GarrisonCapacitiveDisplayFrame.NineSlice, true)
+                SUI:Skin(GarrisonCapacitiveDisplayFrameInset, true)
+                SUI:Skin(GarrisonCapacitiveDisplayFrameInset.NineSlice, true)
             end
         end)
     end

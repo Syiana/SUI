@@ -6,9 +6,9 @@ function Module:OnEnable()
         f:RegisterEvent("ADDON_LOADED")
         f:SetScript("OnEvent", function(self, event, name)
             if name == "Blizzard_IslandsQueueUI" then
-                SUI:Skin(IslandsQueueFrame)
-                SUI:Skin(IslandsQueueFrame.NineSlice)
-                SUI:Skin(IslandsQueueFrame.ArtOverlayFrame)
+                SUI:Skin(IslandsQueueFrame, true)
+                SUI:Skin(IslandsQueueFrame.NineSlice, true)
+                SUI:Skin(IslandsQueueFrame.ArtOverlayFrame, true)
             end
         end)
     end

@@ -6,19 +6,19 @@ function Module:OnEnable()
         f:RegisterEvent("ADDON_LOADED")
         f:SetScript("OnEvent", function(self, event, name)
             if name == "Blizzard_Calendar" then
-                SUI:Skin(CalendarFrame)
-                SUI:Skin(CalendarCreateEventFrame)
-                SUI:Skin(CalendarCreateEventFrame.Header)
-                SUI:Skin(CalendarCreateEventFrame.Border)
-                SUI:Skin(CalendarViewHolidayFrame)
-                SUI:Skin(CalendarViewHolidayFrame.Header)
-                SUI:Skin(CalendarViewHolidayFrame.Border)
+                SUI:Skin(CalendarFrame, true)
+                SUI:Skin(CalendarCreateEventFrame, true)
+                SUI:Skin(CalendarCreateEventFrame.Header, true)
+                SUI:Skin(CalendarCreateEventFrame.Border, true)
+                SUI:Skin(CalendarViewHolidayFrame, true)
+                SUI:Skin(CalendarViewHolidayFrame.Header, true)
+                SUI:Skin(CalendarViewHolidayFrame.Border, true)
                 SUI:Skin({
                     CalendarCreateEventDivider,
                     CalendarCreateEventFrameButtonBackground,
                     CalendarCreateEventMassInviteButtonBorder,
                     CalendarCreateEventCreateButtonBorder
-                }, false, true)
+                }, true, true)
             end
         end)
     end

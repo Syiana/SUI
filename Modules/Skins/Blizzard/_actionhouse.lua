@@ -7,35 +7,35 @@ function Module:OnEnable()
         f:SetScript("OnEvent", function(self, event, name)
             -- Crafting Orders
             if name == "Blizzard_ProfessionsCustomerOrders" then
-                SUI:Skin(ProfessionsCustomerOrdersFrame)
-                SUI:Skin(ProfessionsCustomerOrdersFrame.NineSlice)
-                SUI:Skin(ProfessionsCustomerOrdersFrame.BrowseOrders.CategoryList.NineSlice)
-                SUI:Skin(ProfessionsCustomerOrdersFrame.MoneyFrameBorder)
-                SUI:Skin(ProfessionsCustomerOrdersFrame.MoneyFrameInset.NineSlice)
+                SUI:Skin(ProfessionsCustomerOrdersFrame, true)
+                SUI:Skin(ProfessionsCustomerOrdersFrame.NineSlice, true)
+                SUI:Skin(ProfessionsCustomerOrdersFrame.BrowseOrders.CategoryList.NineSlice, true)
+                SUI:Skin(ProfessionsCustomerOrdersFrame.MoneyFrameBorder, true)
+                SUI:Skin(ProfessionsCustomerOrdersFrame.MoneyFrameInset.NineSlice, true)
 
                 -- Tabs
-                SUI:Skin(ProfessionsCustomerOrdersFrameBrowseTab)
-                SUI:Skin(ProfessionsCustomerOrdersFrameOrdersTab)
+                SUI:Skin(ProfessionsCustomerOrdersFrameBrowseTab, true)
+                SUI:Skin(ProfessionsCustomerOrdersFrameOrdersTab, true)
             end
 
             -- Auction House
             if name == "Blizzard_AuctionHouseUI" then
-                SUI:Skin(AuctionHouseFrame)
-                SUI:Skin(AuctionHouseFrame.NineSlice)
-                SUI:Skin(AuctionHouseFrame.NineSlice)
-                SUI:Skin(AuctionHouseFrame.WoWTokenResults.GameTimeTutorial.NineSlice)
-                SUI:Skin(AuctionHouseFrame.BuyDialog)
-                SUI:Skin(AuctionHouseFrame.BuyDialog.Border)
-                SUI:Skin(AuctionHouseFrame.MoneyFrameBorder)
-                SUI:Skin(AuctionHouseFrame.MoneyFrameInset.NineSlice)
-                SUI:Skin(AuctionHouseFrame.CategoriesList)
+                SUI:Skin(AuctionHouseFrame, true)
+                SUI:Skin(AuctionHouseFrame.NineSlice, true)
+                SUI:Skin(AuctionHouseFrame.NineSlice, true)
+                SUI:Skin(AuctionHouseFrame.WoWTokenResults.GameTimeTutorial.NineSlice, true)
+                SUI:Skin(AuctionHouseFrame.BuyDialog, true)
+                SUI:Skin(AuctionHouseFrame.BuyDialog.Border, true)
+                SUI:Skin(AuctionHouseFrame.MoneyFrameBorder, true)
+                SUI:Skin(AuctionHouseFrame.MoneyFrameInset.NineSlice, true)
+                SUI:Skin(AuctionHouseFrame.CategoriesList, true)
 
                 -- Tabs
-                SUI:Skin(AuctionHouseFrameBuyTab)
-                SUI:Skin(AuctionHouseFrameSellTab)
-                SUI:Skin(AuctionHouseFrameAuctionsTab)
-                SUI:Skin(AuctionHouseFrameAuctionsFrameAuctionsTab)
-                SUI:Skin(AuctionHouseFrameAuctionsFrameBidsTab)
+                SUI:Skin(AuctionHouseFrameBuyTab, true)
+                SUI:Skin(AuctionHouseFrameSellTab, true)
+                SUI:Skin(AuctionHouseFrameAuctionsTab, true)
+                SUI:Skin(AuctionHouseFrameAuctionsFrameAuctionsTab, true)
+                SUI:Skin(AuctionHouseFrameAuctionsFrameBidsTab, true)
             end
         end)
     end

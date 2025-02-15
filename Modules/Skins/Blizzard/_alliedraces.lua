@@ -6,9 +6,9 @@ function Module:OnEnable()
         f:RegisterEvent("ADDON_LOADED")
         f:SetScript("OnEvent", function(self, event, name)
             if name == "Blizzard_AlliedRacesUI" then
-                SUI:Skin(AlliedRacesFrame)
-                SUI:Skin(AlliedRacesFrame.NineSlice)
-                SUI:Skin(AlliedRacesFrameInset.NineSlice)
+                SUI:Skin(AlliedRacesFrame, true)
+                SUI:Skin(AlliedRacesFrame.NineSlice, true)
+                SUI:Skin(AlliedRacesFrameInset.NineSlice, true)
             end
         end)
     end

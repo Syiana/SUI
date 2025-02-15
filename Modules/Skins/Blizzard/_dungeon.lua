@@ -2,13 +2,13 @@ local Module = SUI:NewModule("Skins.Dungeon");
 
 function Module:OnEnable()
     if (SUI:Color()) then
-        SUI:Skin(GameMenuFrame)
-        SUI:Skin(GameMenuFrame.Border)
-        SUI:Skin(StaticPopup1)
-        SUI:Skin(StaticPopup1.Border)
-        SUI:Skin(StaticPopup2)
-        SUI:Skin(StaticPopup2.Border)
-        SUI:Skin(StaticPopup3)
-        SUI:Skin(StaticPopup3.Border)
+        SUI:Skin(GameMenuFrame, true)
+        SUI:Skin(GameMenuFrame.Border, true)
+        SUI:Skin(StaticPopup1, true)
+        SUI:Skin(StaticPopup1.Border, true)
+        SUI:Skin(StaticPopup2, true)
+        SUI:Skin(StaticPopup2.Border, true)
+        SUI:Skin(StaticPopup3, true)
+        SUI:Skin(StaticPopup3.Border, true)
     end
 end

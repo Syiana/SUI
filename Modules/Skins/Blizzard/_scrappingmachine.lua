@@ -6,8 +6,8 @@ function Module:OnEnable()
         f:RegisterEvent("ADDON_LOADED")
         f:SetScript("OnEvent", function(self, event, name)
             if name == "Blizzard_ScrappingMachineUI" then
-                SUI:Skin(ScrappingMachineFrame)
-                SUI:Skin(ScrappingMachineFrame.NineSlice)
+                SUI:Skin(ScrappingMachineFrame, true)
+                SUI:Skin(ScrappingMachineFrame.NineSlice, true)
             end
         end)
     end
