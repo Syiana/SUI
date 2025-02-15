@@ -371,6 +371,8 @@ function SUI:OnInitialize()
             ["CalendarCreateEventIcon"] = true,
             ["FriendsFrameIcon"] = true,
             ["MacroFramePortrait"] = true,
+            [select(3, GossipFrame:GetRegions())] = true,
+            ["QuestFrameDetailPanelBg"] = true,
         }
 
         if (frame) then
