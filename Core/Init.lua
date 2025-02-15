@@ -372,6 +372,14 @@ function SUI:OnInitialize()
             ["MacroFramePortrait"] = true,
             [select(3, GossipFrame:GetRegions())] = true,
             ["QuestFrameDetailPanelBg"] = true,
+            [select(3, DressUpFrame:GetRegions())] = true,
+            [select(2, ChatFrame1EditBox:GetRegions())] = true,
+            [select(2, ChatFrame2EditBox:GetRegions())] = true,
+            [select(2, ChatFrame3EditBox:GetRegions())] = true,
+            [select(2, ChatFrame4EditBox:GetRegions())] = true,
+            [select(2, ChatFrame5EditBox:GetRegions())] = true,
+            [select(2, ChatFrame6EditBox:GetRegions())] = true,
+            [select(2, ChatFrame7EditBox:GetRegions())] = true,
         }
 
         if (frame) then
