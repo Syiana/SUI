@@ -165,7 +165,7 @@ function Module:OnEnable()
                                 healthBar:SetStatusBarColor(color.r, color.g, color.b, color.a)
                             elseif status and status == 2 then
                                 healthBar:SetStatusBarColor(1, 0.8, 0, 1)
-                            elseif status and status == 1 then
+                            elseif status and (status == 1 or status == 0) then
                                 healthBar:SetStatusBarColor(1, 0, 0.3, 1)
                             else
                                 if (UnitIsTapDenied(unit)) and not UnitPlayerControlled(unit) then
@@ -188,7 +188,7 @@ function Module:OnEnable()
                                 healthBar:SetStatusBarColor(1, 0, 0.3, 1)
                             elseif status and status == 2 then
                                 healthBar:SetStatusBarColor(1, 0.8, 0, 1)
-                            elseif status and status == 1 then
+                            elseif status and (status == 1 or status == 0) then
                                 healthBar:SetStatusBarColor(color.r, color.g, color.b, color.a)
                             else
                                 if (UnitIsTapDenied(unit)) and not UnitPlayerControlled(unit) then

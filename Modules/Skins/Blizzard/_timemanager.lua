@@ -6,24 +6,11 @@ function Module:OnEnable()
         f:RegisterEvent("ADDON_LOADED")
         f:SetScript("OnEvent", function(self, event, name)
             if name == "Blizzard_TimeManager" then
-                for i, v in pairs({ TimeManagerFrame.NineSlice.TopEdge,
-                    TimeManagerFrame.NineSlice.RightEdge,
-                    TimeManagerFrame.NineSlice.BottomEdge,
-                    TimeManagerFrame.NineSlice.LeftEdge,
-                    TimeManagerFrame.NineSlice.TopRightCorner,
-                    TimeManagerFrame.NineSlice.TopLeftCorner,
-                    TimeManagerFrame.NineSlice.BottomLeftCorner,
-                    TimeManagerFrame.NineSlice.BottomRightCorner,
-                    TimeManagerFrameInset.NineSlice.TopEdge,
-                    TimeManagerFrameInset.NineSlice.RightEdge,
-                    TimeManagerFrameInset.NineSlice.BottomEdge,
-                    TimeManagerFrameInset.NineSlice.LeftEdge,
-                    TimeManagerFrameInset.NineSlice.TopRightCorner,
-                    TimeManagerFrameInset.NineSlice.TopLeftCorner,
-                    StopwatchFrameBackgroundLeft,
-                }) do
-                    v:SetVertexColor(unpack(SUI:Color(0.15)))
-                end
+                SUI:Skin(TimeManagerFrame)
+                SUI:Skin(TimeManagerFrame.NineSlice)
+                SUI:Skin(TimeManagerFrameInset)
+                SUI:Skin(TimeManagerFrameInset.NineSlice)
+                SUI:Skin({ StopwatchFrameBackgroundLeft }, false, true)
             end
         end)
     end

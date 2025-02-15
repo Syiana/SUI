@@ -6,133 +6,46 @@ function Module:OnEnable()
         f:RegisterEvent("ADDON_LOADED")
         f:SetScript("OnEvent", function(self, event, name)
             if name == "Blizzard_Collections" then
-                for i, v in pairs({
-                    CollectionsJournal.NineSlice.TopEdge,
-                    CollectionsJournal.NineSlice.TopRightCorner,
-                    CollectionsJournal.NineSlice.RightEdge,
-                    CollectionsJournal.NineSlice.BottomRightCorner,
-                    CollectionsJournal.NineSlice.BottomEdge,
-                    CollectionsJournal.NineSlice.BottomLeftCorner,
-                    CollectionsJournal.NineSlice.LeftEdge,
-                    CollectionsJournal.NineSlice.TopLeftCorner,
-                    CollectionsJournalTab1.Left,
-                    CollectionsJournalTab1.Middle,
-                    CollectionsJournalTab1.Right,
-                    CollectionsJournalTab1.LeftActive,
-                    CollectionsJournalTab1.MiddleActive,
-                    CollectionsJournalTab1.RightActive,
-                    CollectionsJournalTab1.LeftHighlight,
-                    CollectionsJournalTab1.MiddleHighlight,
-                    CollectionsJournalTab1.RightHighlight,
-                    CollectionsJournalTab2.Left,
-                    CollectionsJournalTab2.Middle,
-                    CollectionsJournalTab2.Right,
-                    CollectionsJournalTab2.LeftActive,
-                    CollectionsJournalTab2.MiddleActive,
-                    CollectionsJournalTab2.RightActive,
-                    CollectionsJournalTab2.LeftHighlight,
-                    CollectionsJournalTab2.MiddleHighlight,
-                    CollectionsJournalTab2.RightHighlight,
-                    CollectionsJournalTab3.Left,
-                    CollectionsJournalTab3.Middle,
-                    CollectionsJournalTab3.Right,
-                    CollectionsJournalTab3.LeftActive,
-                    CollectionsJournalTab3.MiddleActive,
-                    CollectionsJournalTab3.RightActive,
-                    CollectionsJournalTab3.LeftHighlight,
-                    CollectionsJournalTab3.MiddleHighlight,
-                    CollectionsJournalTab3.RightHighlight,
-                    CollectionsJournalTab4.Left,
-                    CollectionsJournalTab4.Middle,
-                    CollectionsJournalTab4.Right,
-                    CollectionsJournalTab4.LeftActive,
-                    CollectionsJournalTab4.MiddleActive,
-                    CollectionsJournalTab4.RightActive,
-                    CollectionsJournalTab4.LeftHighlight,
-                    CollectionsJournalTab4.MiddleHighlight,
-                    CollectionsJournalTab4.RightHighlight,
-                    CollectionsJournalTab5.Left,
-                    CollectionsJournalTab5.Middle,
-                    CollectionsJournalTab5.Right,
-                    CollectionsJournalTab5.LeftActive,
-                    CollectionsJournalTab5.MiddleActive,
-                    CollectionsJournalTab5.RightActive,
-                    CollectionsJournalTab5.LeftHighlight,
-                    CollectionsJournalTab5.MiddleHighlight,
-                    CollectionsJournalTab5.RightHighlight,
-                }) do
-                    v:SetVertexColor(unpack(SUI:Color(0.15)))
-                end
-                for i, v in pairs({
-                    CollectionsJournalBg
-                }) do
-                    v:SetVertexColor(unpack(SUI:Color(0.15)))
-                end
-                for i, v in pairs({
-                    MountJournal.LeftInset.NineSlice.TopEdge,
-                    MountJournal.LeftInset.NineSlice.TopRightCorner,
-                    MountJournal.LeftInset.NineSlice.TopLeftCorner,
-                    MountJournal.LeftInset.NineSlice.RightEdge,
-                    MountJournal.LeftInset.NineSlice.BottomRightCorner,
-                    MountJournal.LeftInset.NineSlice.BottomEdge,
-                    MountJournal.LeftInset.NineSlice.BottomLeftCorner,
-                    MountJournal.LeftInset.NineSlice.LeftEdge,
-                    MountJournal.BottomLeftInset.NineSlice.TopEdge,
-                    MountJournal.BottomLeftInset.NineSlice.TopRightCorner,
-                    MountJournal.BottomLeftInset.NineSlice.TopLeftCorner,
-                    MountJournal.BottomLeftInset.NineSlice.RightEdge,
-                    MountJournal.BottomLeftInset.NineSlice.BottomRightCorner,
-                    MountJournal.BottomLeftInset.NineSlice.BottomEdge,
-                    MountJournal.BottomLeftInset.NineSlice.BottomLeftCorner,
-                    MountJournal.BottomLeftInset.NineSlice.LeftEdge,
-                    MountJournal.RightInset.NineSlice.TopEdge,
-                    MountJournal.RightInset.NineSlice.TopRightCorner,
-                    MountJournal.RightInset.NineSlice.TopLeftCorner,
-                    MountJournal.RightInset.NineSlice.RightEdge,
-                    MountJournal.RightInset.NineSlice.BottomRightCorner,
-                    MountJournal.RightInset.NineSlice.BottomEdge,
-                    MountJournal.RightInset.NineSlice.BottomLeftCorner,
-                    MountJournal.RightInset.NineSlice.LeftEdge,
-                    ToyBox.iconsFrame.NineSlice.TopEdge,
-                    ToyBox.iconsFrame.NineSlice.RightEdge,
-                    ToyBox.iconsFrame.NineSlice.BottomEdge,
-                    ToyBox.iconsFrame.NineSlice.LeftEdge,
-                    ToyBox.iconsFrame.NineSlice.TopRightCorner,
-                    ToyBox.iconsFrame.NineSlice.TopLeftCorner,
-                    ToyBox.iconsFrame.NineSlice.BottomLeftCorner,
-                    ToyBox.iconsFrame.NineSlice.BottomRightCorner,
-                    ToyBox.iconsFrame.NineSlice.BottomEdge,
-                    HeirloomsJournal.iconsFrame.NineSlice.TopEdge,
-                    HeirloomsJournal.iconsFrame.NineSlice.RightEdge,
-                    HeirloomsJournal.iconsFrame.NineSlice.BottomEdge,
-                    HeirloomsJournal.iconsFrame.NineSlice.LeftEdge,
-                    HeirloomsJournal.iconsFrame.NineSlice.TopRightCorner,
-                    HeirloomsJournal.iconsFrame.NineSlice.TopLeftCorner,
-                    HeirloomsJournal.iconsFrame.NineSlice.BottomLeftCorner,
-                    HeirloomsJournal.iconsFrame.NineSlice.BottomRightCorner,
-                    HeirloomsJournal.iconsFrame.NineSlice.BottomEdge,
-                    PetJournalLeftInset.NineSlice.TopEdge,
-                    PetJournalLeftInset.NineSlice.RightEdge,
-                    PetJournalLeftInset.NineSlice.BottomEdge,
-                    PetJournalLeftInset.NineSlice.LeftEdge,
-                    PetJournalLeftInset.NineSlice.TopRightCorner,
-                    PetJournalLeftInset.NineSlice.TopLeftCorner,
-                    PetJournalLeftInset.NineSlice.BottomLeftCorner,
-                    PetJournalLeftInset.NineSlice.BottomRightCorner,
-                    PetJournalLeftInset.NineSlice.BottomEdge,
-                    PetJournalPetCardInset.NineSlice.TopEdge,
-                    PetJournalPetCardInset.NineSlice.RightEdge,
-                    PetJournalPetCardInset.NineSlice.BottomEdge,
-                    PetJournalPetCardInset.NineSlice.LeftEdge,
-                    PetJournalPetCardInset.NineSlice.TopRightCorner,
-                    PetJournalPetCardInset.NineSlice.TopLeftCorner,
-                    PetJournalPetCardInset.NineSlice.BottomLeftCorner,
-                    PetJournalPetCardInset.NineSlice.BottomRightCorner,
-                    PetJournalPetCardInset.NineSlice.BottomEdge,
-                }) do
-                    v:SetVertexColor(unpack(SUI:Color(0.15)))
-                end
-                for i, v in pairs({
+                -- Collections Frame
+                SUI:Skin(CollectionsJournal)
+                SUI:Skin(CollectionsJournal.NineSlice)
+
+                -- Mount Journal
+                SUI:Skin(MountJournal)
+                SUI:Skin(MountJournal.MountDisplay)
+                SUI:Skin(MountJournal.LeftInset.NineSlice)
+                SUI:Skin(MountJournal.BottomLeftInset)
+                SUI:Skin(MountJournal.BottomLeftInset.NineSlice)
+                SUI:Skin(MountJournal.RightInset.NineSlice)
+
+                -- ToyBox
+                SUI:Skin(ToyBox)
+                SUI:Skin(ToyBox.iconsFrame)
+                SUI:Skin(ToyBox.iconsFrame.NineSlice)
+
+                -- Heirlooms Journal
+                SUI:Skin(HeirloomsJournal)
+                SUI:Skin(HeirloomsJournal.iconsFrame)
+                SUI:Skin(HeirloomsJournal.iconsFrame.NineSlice)
+
+                -- Pet Journal
+                SUI:Skin(PetJournalLeftInset)
+                SUI:Skin(PetJournalLeftInset.NineSlice)
+                SUI:Skin(PetJournalPetCardInset)
+                SUI:Skin(PetJournalPetCardInset.NineSlice)
+                SUI:Skin(PetJournalPetCard)
+                SUI:Skin(PetJournalLoadoutPet1)
+                SUI:Skin(PetJournalLoadoutPet2)
+                SUI:Skin(PetJournalLoadoutPet3)
+                SUI:Skin(PetJournalLoadoutBorder)
+                SUI:Skin(PetJournalRightInset.NineSlice)
+
+                -- Wardrobe
+                SUI:Skin(WardrobeCollectionFrame.ItemsCollectionFrame)
+
+                -- Specific Frames
+                SUI:Skin({
+                    CollectionsJournalBg,
                     MountJournalListScrollFrameScrollBarThumbTexture,
                     MountJournalListScrollFrameScrollBarTop,
                     MountJournalListScrollFrameScrollBarMiddle,
@@ -140,10 +53,17 @@ function Module:OnEnable()
                     PetJournalListScrollFrameScrollBarThumbTexture,
                     PetJournalListScrollFrameScrollBarTop,
                     PetJournalListScrollFrameScrollBarMiddle,
-                    PetJournalListScrollFrameScrollBarBottom,
-                }) do
-                    v:SetVertexColor(unpack(SUI:Color(0.15)))
-                end
+                    PetJournalListScrollFrameScrollBarBottom
+                }, false, true)
+
+                -- Tabs
+                SUI:Skin(CollectionsJournalTab1)
+                SUI:Skin(CollectionsJournalTab2)
+                SUI:Skin(CollectionsJournalTab3)
+                SUI:Skin(CollectionsJournalTab4)
+                SUI:Skin(CollectionsJournalTab5)
+                SUI:Skin(WardrobeCollectionFrameTab1)
+                SUI:Skin(WardrobeCollectionFrameTab2)
             end
         end)
     end

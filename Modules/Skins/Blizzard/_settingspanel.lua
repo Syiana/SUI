@@ -5,28 +5,9 @@ function Module:OnEnable()
         local f = CreateFrame("Frame")
         f:RegisterEvent("ADDON_LOADED")
         f:SetScript("OnEvent", function(self, event, name)
-            for i, v in pairs({
-                SettingsPanel.bg,
-                SettingsPanel.Bg.TopSection,
-                SettingsPanel.Bg.BottomEdge,
-                SettingsPanel.NineSlice.TopEdge,
-                SettingsPanel.NineSlice.TopLeftCorner,
-                SettingsPanel.NineSlice.TopRightCorner,
-                SettingsPanel.NineSlice.BottomLeftCorner,
-                SettingsPanel.NineSlice.BottomRightCorner,
-                SettingsPanel.NineSlice.BottomEdge,
-                SettingsPanel.NineSlice.LeftEdge,
-                SettingsPanel.NineSlice.RightEdge,
-            }) do
-                v:SetVertexColor(unpack(SUI:Color(0.15)))
-            end
-
-            for i, v in pairs({
-                SettingsPanel.Bg.BottomLeft,
-                SettingsPanel.Bg.BottomRight
-            }) do
-                v:SetVertexColor(unpack(SUI:Color(0.15)))
-            end
+            SUI:Skin(SettingsPanel)
+            SUI:Skin(SettingsPanel.Bg)
+            SUI:Skin(SettingsPanel.NineSlice)
         end)
     end
 end

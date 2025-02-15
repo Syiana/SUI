@@ -2,25 +2,23 @@ local Module = SUI:NewModule("Skins.Quest");
 
 function Module:OnEnable()
     if (SUI:Color()) then
-        for i, v in pairs({
-            QuestFrame.NineSlice.TopEdge,
-            QuestFrame.NineSlice.RightEdge,
-            QuestFrame.NineSlice.BottomEdge,
-            QuestFrame.NineSlice.LeftEdge,
-            QuestFrame.NineSlice.TopRightCorner,
-            QuestFrame.NineSlice.TopLeftCorner,
-            QuestFrame.NineSlice.BottomLeftCorner,
-            QuestFrame.NineSlice.BottomRightCorner,
-            QuestFrameInset.NineSlice.BottomEdge,
-            QuestLogPopupDetailFrame.NineSlice.TopEdge,
-            QuestLogPopupDetailFrame.NineSlice.RightEdge,
-            QuestLogPopupDetailFrame.NineSlice.BottomEdge,
-            QuestLogPopupDetailFrame.NineSlice.LeftEdge,
-            QuestLogPopupDetailFrame.NineSlice.TopRightCorner,
-            QuestLogPopupDetailFrame.NineSlice.TopLeftCorner,
-            QuestLogPopupDetailFrame.NineSlice.BottomLeftCorner,
-            QuestLogPopupDetailFrame.NineSlice.BottomRightCorner,
-            QuestLogPopupDetailFrame.NineSlice.BottomEdge,
+        SUI:Skin(QuestFrame)
+        SUI:Skin(QuestFrame.NineSlice)
+        SUI:Skin(QuestFrameInset)
+        SUI:Skin(QuestFrameInset.NineSlice)
+        SUI:Skin(QuestLogPopupDetailFrame)
+        SUI:Skin(QuestLogPopupDetailFrame.NineSlice)
+        SUI:Skin(ObjectiveTrackerFrame)
+        SUI:Skin(ObjectiveTrackerFrame.Header)
+        SUI:Skin(CampaignQuestObjectiveTracker)
+        SUI:Skin(CampaignQuestObjectiveTracker.Header)
+        SUI:Skin(QuestObjectiveTracker)
+        SUI:Skin(QuestObjectiveTracker.Header)
+        SUI:Skin(ProfessionsRecipeTracker)
+        SUI:Skin(ProfessionsRecipeTracker.Header)
+        SUI:Skin(ScenarioObjectiveTracker)
+        SUI:Skin(ScenarioObjectiveTracker.Header)
+        SUI:Skin({
             QuestNPCModelTopBorder,
             QuestNPCModelRightBorder,
             QuestNPCModelTopRightCorner,
@@ -36,21 +34,7 @@ function Module:OnEnable()
             QuestNPCModelTextBottomBorder,
             QuestNPCModelTextBottomLeftCorner,
             QuestNPCModelTextLeftBorder,
-            QuestNPCModelTextTopLeftCorner,
-            ObjectiveTrackerFrame.Header.Background,
-            CampaignQuestObjectiveTracker.Header.Background,
-            QuestObjectiveTracker.Header.Background,
-            ProfessionsRecipeTracker.Header.Background,
-            ScenarioObjectiveTracker.Header.Background
-        }) do
-            v:SetVertexColor(unpack(SUI:Color(0.15)))
-        end
-        for i, v in pairs({
-            QuestFrame.Bg,
-            QuestFrame.TitleBg,
-            QuestFrameInset.Bg
-        }) do
-            v:SetVertexColor(unpack(SUI:Color(0.15)))
-        end
+            QuestNPCModelTextTopLeftCorner
+        }, false, true)
     end
 end

@@ -2,93 +2,17 @@ local Module = SUI:NewModule("Skins.Character");
 
 function Module:OnEnable()
     if (SUI:Color()) then
-        for i, v in pairs({
-            CharacterFrame.NineSlice.RightEdge,
-            CharacterFrame.NineSlice.LeftEdge,
-            CharacterFrame.NineSlice.TopEdge,
-            CharacterFrame.NineSlice.BottomEdge,
-            CharacterFrame.NineSlice.PortraitFrame,
-            CharacterFrame.NineSlice.TopRightCorner,
-            CharacterFrame.NineSlice.TopLeftCorner,
-            CharacterFrame.NineSlice.BottomLeftCorner,
-            CharacterFrame.NineSlice.BottomRightCorner,
-            TokenFramePopup.Border.TopEdge,
-            TokenFramePopup.Border.RightEdge,
-            TokenFramePopup.Border.BottomEdge,
-            TokenFramePopup.Border.LeftEdge,
-            TokenFramePopup.Border.TopRightCorner,
-            TokenFramePopup.Border.TopLeftCorner,
-            TokenFramePopup.Border.BottomLeftCorner,
-            TokenFramePopup.Border.BottomRightCorner,
-            CharacterStatsPane.ClassBackground,
-            CharacterFrameInsetRight.Bg,
-            CharacterFrameTab1.Left,
-            CharacterFrameTab1.Middle,
-            CharacterFrameTab1.Right,
-            CharacterFrameTab1.LeftActive,
-            CharacterFrameTab1.MiddleActive,
-            CharacterFrameTab1.RightActive,
-            CharacterFrameTab1.LeftHighlight,
-            CharacterFrameTab1.MiddleHighlight,
-            CharacterFrameTab1.RightHighlight,
-            CharacterFrameTab2.Left,
-            CharacterFrameTab2.Middle,
-            CharacterFrameTab2.Right,
-            CharacterFrameTab2.LeftActive,
-            CharacterFrameTab2.MiddleActive,
-            CharacterFrameTab2.RightActive,
-            CharacterFrameTab2.LeftHighlight,
-            CharacterFrameTab2.MiddleHighlight,
-            CharacterFrameTab2.RightHighlight,
-            CharacterFrameTab3.Left,
-            CharacterFrameTab3.Middle,
-            CharacterFrameTab3.Right,
-            CharacterFrameTab3.LeftActive,
-            CharacterFrameTab3.MiddleActive,
-            CharacterFrameTab3.RightActive,
-            CharacterFrameTab3.LeftHighlight,
-            CharacterFrameTab3.MiddleHighlight,
-            CharacterFrameTab3.RightHighlight,
-            CharacterFrame.Background
-        }) do
-            v:SetVertexColor(unpack(SUI:Color(0.15)))
-        end
-
-        for i, v in pairs({
-            CharacterFrame.Bg,
-            CharacterFrame.TitleBg,
-            CharacterFrameInset.NineSlice.RightEdge,
-            CharacterFrameInset.NineSlice.LeftEdge,
-            CharacterFrameInset.NineSlice.TopEdge,
-            CharacterFrameInset.NineSlice.BottomEdge,
-            CharacterFrameInset.NineSlice.PortraitFrame,
-            CharacterFrameInset.NineSlice.TopRightCorner,
-            CharacterFrameInset.NineSlice.TopLeftCorner,
-            CharacterFrameInset.NineSlice.BottomLeftCorner,
-            CharacterFrameInset.NineSlice.BottomRightCorner,
-            CharacterFrameInsetRight.NineSlice.RightEdge,
-            CharacterFrameInsetRight.NineSlice.LeftEdge,
-            CharacterFrameInsetRight.NineSlice.TopEdge,
-            CharacterFrameInsetRight.NineSlice.BottomEdge,
-            CharacterFrameInsetRight.NineSlice.PortraitFrame,
-            CharacterFrameInsetRight.NineSlice.TopRightCorner,
-            CharacterFrameInsetRight.NineSlice.TopLeftCorner,
-            CharacterFrameInsetRight.NineSlice.BottomLeftCorner,
-            CharacterFrameInsetRight.NineSlice.BottomRightCorner,
-            PaperDollInnerBorderLeft,
-            PaperDollInnerBorderRight,
-            PaperDollInnerBorderTop,
-            PaperDollInnerBorderTopLeft,
-            PaperDollInnerBorderTopRight,
-            PaperDollInnerBorderBottom,
-            PaperDollInnerBorderBottomLeft,
-            PaperDollInnerBorderBottomRight,
-            PaperDollInnerBorderBottom2
-        }) do
-            v:SetVertexColor(unpack(SUI:Color()))
-        end
-
-        for i, v in pairs({
+        SUI:Skin(CharacterFrame)
+        SUI:Skin(CharacterFrame.NineSlice)
+        SUI:Skin(CharacterFrameInset)
+        SUI:Skin(CharacterFrameInset.NineSlice)
+        SUI:Skin(CharacterFrameInsetRight)
+        SUI:Skin(CharacterFrameInsetRight.NineSlice)
+        SUI:Skin(TokenFramePopup)
+        SUI:Skin(TokenFramePopup.Border)
+        SUI:Skin(CharacterStatsPane)
+        SUI:Skin(ReputationFrame.ReputationDetailFrame)
+        SUI:Skin({
             CharacterFeetSlotFrame,
             CharacterHandsSlotFrame,
             CharacterWaistSlotFrame,
@@ -108,9 +32,30 @@ function Module:OnEnable()
             CharacterMainHandSlotFrame,
             CharacterSecondaryHandSlotFrame,
             _G.select(CharacterMainHandSlot:GetNumRegions(), CharacterMainHandSlot:GetRegions()),
-            _G.select(CharacterSecondaryHandSlot:GetNumRegions(), CharacterSecondaryHandSlot:GetRegions())
-        }) do
-            v:SetAlpha(0)
-        end
+            _G.select(CharacterSecondaryHandSlot:GetNumRegions(), CharacterSecondaryHandSlot:GetRegions()),
+            PaperDollInnerBorderLeft,
+            PaperDollInnerBorderRight,
+            PaperDollInnerBorderTop,
+            PaperDollInnerBorderTopLeft,
+            PaperDollInnerBorderTopRight,
+            PaperDollInnerBorderBottom,
+            PaperDollInnerBorderBottomLeft,
+            PaperDollInnerBorderBottomRight,
+            PaperDollInnerBorderBottom2
+        }, false, true)
+
+        -- Tabs
+        SUI:Skin(CharacterFrameTab1)
+        SUI:Skin(CharacterFrameTab2)
+        SUI:Skin(CharacterFrameTab3)
+
+        local f = CreateFrame("Frame")
+        f:RegisterEvent("ADDON_LOADED")
+        f:SetScript("OnEvent", function(self, event, name)
+            if name == "Blizzard_ItemSocketingUI" then
+                SUI:Skin(ItemSocketingFrame)
+                SUI:Skin(ItemSocketingFrame.NineSlice)
+            end
+        end)
     end
 end

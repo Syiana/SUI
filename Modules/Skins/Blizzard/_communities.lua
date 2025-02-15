@@ -2,96 +2,30 @@ local Module = SUI:NewModule("Skins.Communities");
 
 function Module:OnEnable()
     if (SUI:Color()) then
-        for i, v in pairs({
-            CommunitiesFrame.NineSlice.TopEdge,
-            CommunitiesFrame.NineSlice.RightEdge,
-            CommunitiesFrame.NineSlice.BottomEdge,
-            CommunitiesFrame.NineSlice.LeftEdge,
-            CommunitiesFrame.NineSlice.TopRightCorner,
-            CommunitiesFrame.NineSlice.TopLeftCorner,
-            CommunitiesFrame.NineSlice.BottomLeftCorner,
-            CommunitiesFrame.NineSlice.BottomRightCorner,
-            CommunitiesFrame.GuildMemberDetailFrame.Border.TopEdge,
-            CommunitiesFrame.GuildMemberDetailFrame.Border.RightEdge,
-            CommunitiesFrame.GuildMemberDetailFrame.Border.BottomEdge,
-            CommunitiesFrame.GuildMemberDetailFrame.Border.LeftEdge,
-            CommunitiesFrame.GuildMemberDetailFrame.Border.TopRightCorner,
-            CommunitiesFrame.GuildMemberDetailFrame.Border.TopLeftCorner,
-            CommunitiesFrame.GuildMemberDetailFrame.Border.BottomLeftCorner,
-            CommunitiesFrame.GuildMemberDetailFrame.Border.BottomRightCorner,
-        }) do
-            v:SetVertexColor(unpack(SUI:Color(0.15)))
-        end
-        for i, v in pairs({
-            CommunitiesFrame.Bg,
-            CommunitiesFrame.TitleBg,
-            CommunitiesFrameInset.Bg,
-            CommunitiesFrame.MemberList.ColumnDisplay.Background,
-
-        }) do
-            v:SetVertexColor(unpack(SUI:Color(0.15)))
-        end
-        for i, v in pairs({
-            CommunitiesFrameInset.NineSlice.TopEdge,
-            CommunitiesFrameInset.NineSlice.RightEdge,
-            CommunitiesFrameInset.NineSlice.BottomEdge,
-            CommunitiesFrameInset.NineSlice.LeftEdge,
-            CommunitiesFrameInset.NineSlice.TopRightCorner,
-            CommunitiesFrameInset.NineSlice.TopLeftCorner,
-            CommunitiesFrameInset.NineSlice.BottomLeftCorner,
-            CommunitiesFrameInset.NineSlice.BottomRightCorner,
-            CommunitiesFrameCommunitiesList.InsetFrame.NineSlice.TopEdge,
-            CommunitiesFrameCommunitiesList.InsetFrame.NineSlice.RightEdge,
-            CommunitiesFrameCommunitiesList.InsetFrame.NineSlice.BottomEdge,
-            CommunitiesFrameCommunitiesList.InsetFrame.NineSlice.LeftEdge,
-            CommunitiesFrameCommunitiesList.InsetFrame.NineSlice.TopRightCorner,
-            CommunitiesFrameCommunitiesList.InsetFrame.NineSlice.TopLeftCorner,
-            CommunitiesFrameCommunitiesList.InsetFrame.NineSlice.BottomLeftCorner,
-            CommunitiesFrameCommunitiesList.InsetFrame.NineSlice.BottomRightCorner,
-            CommunitiesFrame.ChatEditBox.Left,
-            CommunitiesFrame.ChatEditBox.Mid,
-            CommunitiesFrame.ChatEditBox.Right,
-            CommunitiesFrame.Chat.InsetFrame.NineSlice.TopEdge,
-            CommunitiesFrame.Chat.InsetFrame.NineSlice.RightEdge,
-            CommunitiesFrame.Chat.InsetFrame.NineSlice.BottomEdge,
-            CommunitiesFrame.Chat.InsetFrame.NineSlice.LeftEdge,
-            CommunitiesFrame.Chat.InsetFrame.NineSlice.TopRightCorner,
-            CommunitiesFrame.Chat.InsetFrame.NineSlice.TopLeftCorner,
-            CommunitiesFrame.Chat.InsetFrame.NineSlice.BottomLeftCorner,
-            CommunitiesFrame.Chat.InsetFrame.NineSlice.BottomRightCorner,
-            CommunitiesFrame.MemberList.InsetFrame.NineSlice.TopEdge,
-            CommunitiesFrame.MemberList.InsetFrame.NineSlice.RightEdge,
-            CommunitiesFrame.MemberList.InsetFrame.NineSlice.BottomEdge,
-            CommunitiesFrame.MemberList.InsetFrame.NineSlice.LeftEdge,
-            CommunitiesFrame.MemberList.InsetFrame.NineSlice.TopRightCorner,
-            CommunitiesFrame.MemberList.InsetFrame.NineSlice.TopLeftCorner,
-            CommunitiesFrame.MemberList.InsetFrame.NineSlice.BottomLeftCorner,
-            CommunitiesFrame.MemberList.InsetFrame.NineSlice.BottomRightCorner,
-        }) do
-            v:SetVertexColor(unpack(SUI:Color(0.15)))
-        end
-        for i, v in pairs({
-            CommunitiesFrameCommunitiesList.TopFiligree,
-            CommunitiesFrameCommunitiesList.BottomFiligree,
-            CommunitiesFrameCommunitiesList.Bg
-        }) do
-            v:SetVertexColor(unpack(SUI:Color(0.15)))
-        end
-        for i, v in pairs({
+        SUI:Skin(CommunitiesFrame)
+        SUI:Skin(CommunitiesFrame.GuildMemberDetailFrame)
+        SUI:Skin(CommunitiesFrame.GuildMemberDetailFrame.Border)
+        SUI:Skin(CommunitiesFrame.ChatEditBox)
+        SUI:Skin(CommunitiesFrame.Chat.InsetFrame)
+        SUI:Skin(CommunitiesFrame.Chat.InsetFrame.NineSlice)
+        SUI:Skin(CommunitiesFrame.MemberList.InsetFrame)
+        SUI:Skin(CommunitiesFrame.MemberList.InsetFrame.NineSlice)
+        SUI:Skin(CommunitiesFrame.NineSlice)
+        SUI:Skin(CommunitiesFrame.MemberList.ColumnDisplay)
+        SUI:Skin(CommunitiesFrameInset)
+        SUI:Skin(CommunitiesFrameInset.NineSlice)
+        SUI:Skin(CommunitiesFrameCommunitiesList)
+        SUI:Skin(CommunitiesFrameCommunitiesList.InsetFrame)
+        SUI:Skin(CommunitiesFrameCommunitiesList.InsetFrame.NineSlice)
+        SUI:Skin(ClubFinderGuildFinderFrame.InsetFrame)
+        SUI:Skin(ClubFinderGuildFinderFrame.InsetFrame.NineSlice)
+        SUI:Skin(ClubFinderCommunityAndGuildFinderFrame.InsetFrame)
+        SUI:Skin(ClubFinderCommunityAndGuildFinderFrame.InsetFrame.NineSlice)
+        SUI:Skin({
             CommunitiesFrameCommunitiesListListScrollFrameThumbTexture,
             CommunitiesFrameCommunitiesListListScrollFrameTop,
             CommunitiesFrameCommunitiesListListScrollFrameMiddle,
             CommunitiesFrameCommunitiesListListScrollFrameBottom
-        }) do
-            v:SetVertexColor(unpack(SUI:Color(0.15)))
-        end
-
-        for i, v in pairs({ClubFinderGuildFinderFrame.InsetFrame.NineSlice:GetRegions()}) do
-            v:SetVertexColor(unpack(SUI:Color(0.15)))
-        end
-
-        for i, v in pairs({ClubFinderCommunityAndGuildFinderFrame.InsetFrame.NineSlice:GetRegions()}) do
-            v:SetVertexColor(unpack(SUI:Color(0.15)))
-        end
+        }, false, true)
     end
 end

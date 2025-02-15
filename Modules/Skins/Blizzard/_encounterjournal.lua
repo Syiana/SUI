@@ -6,7 +6,20 @@ function Module:OnEnable()
         f:RegisterEvent("ADDON_LOADED")
         f:SetScript("OnEvent", function(self, event, name)
             if name == "Blizzard_EncounterJournal" then
-                for i, v in pairs({
+                SUI:Skin(EncounterJournal)
+                SUI:Skin(EncounterJournal.NineSlice)
+                SUI:Skin(EncounterJournalInset)
+                SUI:Skin(EncounterJournalInset.NineSlice)
+                SUI:Skin(EncounterJournalNavBar)
+                SUI:Skin(EncounterJournalNavBar.overlay)
+
+                -- Tabs
+                SUI:Skin(EncounterJournalMonthlyActivitiesTab)
+                SUI:Skin(EncounterJournalSuggestTab)
+                SUI:Skin(EncounterJournalDungeonTab)
+                SUI:Skin(EncounterJournalRaidTab)
+                SUI:Skin(EncounterJournalLootJournalTab)
+                --[[for i, v in pairs({
                     EncounterJournal.NineSlice.TopEdge,
                     EncounterJournal.NineSlice.RightEdge,
                     EncounterJournal.NineSlice.BottomEdge,
@@ -68,14 +81,8 @@ function Module:OnEnable()
                     EncounterJournalLootJournalTab.RightHighlight,
                 }) do
                     v:SetVertexColor(unpack(SUI:Color(0.15)))
-                end
+                end]]
                 EncounterJournalInset:SetAlpha(0)
-                for i, v in pairs({
-                    EncounterJournal.Bg,
-                    EncounterJournal.TitleBg
-                }) do
-                    v:SetVertexColor(unpack(SUI:Color(0.15)))
-                end
             end
         end)
     end

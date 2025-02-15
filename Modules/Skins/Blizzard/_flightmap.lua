@@ -6,23 +6,9 @@ function Module:OnEnable()
         f:RegisterEvent("ADDON_LOADED")
         f:SetScript("OnEvent", function(self, event, name)
             if name == "Blizzard_FlightMap" then
-                for i, v in pairs({ FlightMapFrame.BorderFrame.NineSlice.TopEdge,
-                    FlightMapFrame.BorderFrame.NineSlice.RightEdge,
-                    FlightMapFrame.BorderFrame.NineSlice.BottomEdge,
-                    FlightMapFrame.BorderFrame.NineSlice.LeftEdge,
-                    FlightMapFrame.BorderFrame.NineSlice.TopRightCorner,
-                    FlightMapFrame.BorderFrame.NineSlice.TopLeftCorner,
-                    FlightMapFrame.BorderFrame.NineSlice.BottomLeftCorner,
-                    FlightMapFrame.BorderFrame.NineSlice.BottomRightCorner,
-                }) do
-                    v:SetVertexColor(unpack(SUI:Color(0.15)))
-                end
-                for i, v in pairs({
-                    FlightMapFrame.Bg,
-                    FlightMapFrame.TitleBg
-                }) do
-                    v:SetVertexColor(unpack(SUI:Color(0.15)))
-                end
+                SUI:Skin(FlightMapFrame)
+                SUI:Skin(FlightMapFrame.BorderFrame)
+                SUI:Skin(FlightMapFrame.BorderFrame.NineSlice)
             end
         end)
     end

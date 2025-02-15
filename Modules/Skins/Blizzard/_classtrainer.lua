@@ -6,23 +6,10 @@ function Module:OnEnable()
         f:RegisterEvent("ADDON_LOADED")
         f:SetScript("OnEvent", function(self, event, name)
             if name == "Blizzard_TrainerUI" then
-                for i, v in pairs({ ClassTrainerFrame.NineSlice.TopEdge,
-                    ClassTrainerFrame.NineSlice.RightEdge,
-                    ClassTrainerFrame.NineSlice.BottomEdge,
-                    ClassTrainerFrame.NineSlice.LeftEdge,
-                    ClassTrainerFrame.NineSlice.TopRightCorner,
-                    ClassTrainerFrame.NineSlice.TopLeftCorner,
-                    ClassTrainerFrame.NineSlice.BottomLeftCorner,
-                    ClassTrainerFrame.NineSlice.BottomRightCorner
-                }) do
-                    v:SetVertexColor(unpack(SUI:Color(0.15)))
-                end
-                for i, v in pairs({
-                    ClassTrainerFrame.Bg,
-                    ClassTrainerFrame.TitleBg
-                }) do
-                    v:SetVertexColor(unpack(SUI:Color(0.15)))
-                end
+                SUI:Skin(ClassTrainerFrame)
+                SUI:Skin(ClassTrainerFrame.NineSlice)
+                SUI:Skin(ClassTrainerFrameBottomInset.NineSlice)
+                SUI:Skin(ClassTrainerFrameInset.NineSlice)
             end
         end)
     end

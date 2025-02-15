@@ -35,6 +35,7 @@ function Module:OnEnable()
                 local frame = nameplate.UnitFrame
                 if not nameplate or frame:IsForbidden() then return end
                 --frame.BuffFrame:ClearAllPoints()
+                frame.BuffFrame:SetAlpha(0)
                 frame.BuffFrame:Hide()
                 frame.BuffFrame.UpdateBuffs = function() end
             end

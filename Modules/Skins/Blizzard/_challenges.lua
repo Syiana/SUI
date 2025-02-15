@@ -6,18 +6,7 @@ function Module:OnEnable()
         f:RegisterEvent("ADDON_LOADED")
         f:SetScript("OnEvent", function(self, event, name)
             if name == "Blizzard_ChallengesUI" then
-                for i, v in pairs({
-                    ChallengesFrameInset.NineSlice.TopEdge,
-                    ChallengesFrameInset.NineSlice.TopRightCorner,
-                    ChallengesFrameInset.NineSlice.RightEdge,
-                    ChallengesFrameInset.NineSlice.BottomRightCorner,
-                    ChallengesFrameInset.NineSlice.BottomEdge,
-                    ChallengesFrameInset.NineSlice.BottomLeftCorner,
-                    ChallengesFrameInset.NineSlice.LeftEdge,
-                    ChallengesFrameInset.NineSlice.TopLeftCorner,
-                }) do
-                    v:SetVertexColor(unpack(SUI:Color(0.15)))
-                end
+                SUI:Skin(ChallengesFrameInset.NineSlice)
             end
         end)
     end

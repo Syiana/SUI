@@ -6,60 +6,22 @@ function Module:OnEnable()
         f:RegisterEvent("ADDON_LOADED")
         f:SetScript("OnEvent", function(self, event, name)
             if name == "Blizzard_Collections" or name == "Blizzard_Wardrobe" then
-                for i, v in pairs({
-                    WardrobeFrame.NineSlice.TopEdge,
-                    WardrobeFrame.NineSlice.RightEdge,
-                    WardrobeFrame.NineSlice.BottomEdge,
-                    WardrobeFrame.NineSlice.LeftEdge,
-                    WardrobeFrame.NineSlice.TopRightCorner,
-                    WardrobeFrame.NineSlice.TopLeftCorner,
-                    WardrobeFrame.NineSlice.BottomLeftCorner,
-                    WardrobeFrame.NineSlice.BottomRightCorner,
-                }) do
-                    v:SetVertexColor(unpack(SUI:Color(0.15)))
-                end
-                for i, v in pairs({
-                    WardrobeFrame.Bg,
-                    WardrobeFrame.TitleBg
-                }) do
-                    v:SetVertexColor(unpack(SUI:Color(0.15)))
-                end
-                for i, v in pairs({
-                    WardrobeCollectionFrame.ItemsCollectionFrame.NineSlice.TopEdge,
-                    WardrobeCollectionFrame.ItemsCollectionFrame.NineSlice.RightEdge,
-                    WardrobeCollectionFrame.ItemsCollectionFrame.NineSlice.BottomEdge,
-                    WardrobeCollectionFrame.ItemsCollectionFrame.NineSlice.LeftEdge,
-                    WardrobeCollectionFrame.ItemsCollectionFrame.NineSlice.TopRightCorner,
-                    WardrobeCollectionFrame.ItemsCollectionFrame.NineSlice.TopLeftCorner,
-                    WardrobeCollectionFrame.ItemsCollectionFrame.NineSlice.BottomLeftCorner,
-                    WardrobeCollectionFrame.ItemsCollectionFrame.NineSlice.BottomRightCorner,
-                    WardrobeCollectionFrame.SetsCollectionFrame.LeftInset.NineSlice.TopEdge,
-                    WardrobeCollectionFrame.SetsCollectionFrame.LeftInset.NineSlice.RightEdge,
-                    WardrobeCollectionFrame.SetsCollectionFrame.LeftInset.NineSlice.BottomEdge,
-                    WardrobeCollectionFrame.SetsCollectionFrame.LeftInset.NineSlice.LeftEdge,
-                    WardrobeCollectionFrame.SetsCollectionFrame.LeftInset.NineSlice.TopRightCorner,
-                    WardrobeCollectionFrame.SetsCollectionFrame.LeftInset.NineSlice.TopLeftCorner,
-                    WardrobeCollectionFrame.SetsCollectionFrame.LeftInset.NineSlice.BottomLeftCorner,
-                    WardrobeCollectionFrame.SetsCollectionFrame.LeftInset.NineSlice.BottomRightCorner,
-                    WardrobeCollectionFrame.SetsCollectionFrame.RightInset.NineSlice.TopEdge,
-                    WardrobeCollectionFrame.SetsCollectionFrame.RightInset.NineSlice.RightEdge,
-                    WardrobeCollectionFrame.SetsCollectionFrame.RightInset.NineSlice.BottomEdge,
-                    WardrobeCollectionFrame.SetsCollectionFrame.RightInset.NineSlice.LeftEdge,
-                    WardrobeCollectionFrame.SetsCollectionFrame.RightInset.NineSlice.TopRightCorner,
-                    WardrobeCollectionFrame.SetsCollectionFrame.RightInset.NineSlice.TopLeftCorner,
-                    WardrobeCollectionFrame.SetsCollectionFrame.RightInset.NineSlice.BottomLeftCorner,
-                    WardrobeCollectionFrame.SetsCollectionFrame.RightInset.NineSlice.BottomRightCorner
-                }) do
-                    v:SetVertexColor(unpack(SUI:Color(0.15)))
-                end
-                for i, v in pairs({
+                SUI:Skin(WardrobeFrame)
+                SUI:Skin(WardrobeFrame.NineSlice)
+                SUI:Skin(WardrobeCollectionFrame)
+                SUI:Skin(WardrobeCollectionFrame.ItemsCollectionFrame)
+                SUI:Skin(WardrobeCollectionFrame.ItemsCollectionFrame.NineSlice)
+                SUI:Skin(WardrobeCollectionFrame.SetsCollectionFrame)
+                SUI:Skin(WardrobeCollectionFrame.SetsCollectionFrame.LeftInset)
+                SUI:Skin(WardrobeCollectionFrame.SetsCollectionFrame.LeftInset.NineSlice)
+                SUI:Skin(WardrobeCollectionFrame.SetsCollectionFrame.RightInset)
+                SUI:Skin(WardrobeCollectionFrame.SetsCollectionFrame.RightInset.NineSlice)
+                SUI:Skin({
                     WardrobeCollectionFrameScrollFrameScrollBarBottom,
                     WardrobeCollectionFrameScrollFrameScrollBarMiddle,
                     WardrobeCollectionFrameScrollFrameScrollBarTop,
                     WardrobeCollectionFrameScrollFrameScrollBarThumbTexture
-                }) do
-                    v:SetVertexColor(unpack(SUI:Color(0.15)))
-                end
+                }, false, true)
             end
         end)
     end

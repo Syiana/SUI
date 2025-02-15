@@ -7,21 +7,14 @@ function Module:OnEnable()
         f:SetScript("OnEvent", function(self, event, name)
             -- Professions
             if name == "Blizzard_ProfessionsBook" then
-                for i, v in pairs({
-                    ProfessionsBookFrame.NineSlice.BottomEdge,
-                    ProfessionsBookFrame.NineSlice.BottomLeftCorner,
-                    ProfessionsBookFrame.NineSlice.BottomRightCorner,
-                    ProfessionsBookFrame.NineSlice.Center,
-                    ProfessionsBookFrame.NineSlice.LeftEdge,
-                    ProfessionsBookFrame.NineSlice.RightEdge,
-                    ProfessionsBookFrame.NineSlice.TopEdge,
-                    ProfessionsBookFrame.NineSlice.TopLeftCorner,
-                    ProfessionsBookFrame.NineSlice.TopRightCorner,
+                SUI:Skin(ProfessionsBookFrame)
+                SUI:Skin(ProfessionsBookFrame.NineSlice)
+                SUI:Skin(ProfessionsBookFrameInset)
+                SUI:Skin(ProfessionsBookFrameInset.NineSlice)
+                SUI:Skin({
                     ProfessionsBookPage1,
                     ProfessionsBookPage2
-                }) do
-                    v:SetVertexColor(unpack(SUI:Color(0.15)))
-                end
+                }, false, true)
 
                 for i, v in pairs({
                     SecondaryProfession1Missing,
@@ -37,44 +30,13 @@ function Module:OnEnable()
 
             -- Spellbook
             if name == "Blizzard_PlayerSpells" then
-                for i, v in pairs({
-                    PlayerSpellsFrame.SpellBookFrame.TopBar,
-                    PlayerSpellsFrame.NineSlice.TopEdge,
-                    PlayerSpellsFrame.NineSlice.RightEdge,
-                    PlayerSpellsFrame.NineSlice.LeftEdge,
-                    PlayerSpellsFrame.NineSlice.TopEdge,
-                    PlayerSpellsFrame.NineSlice.BottomEdge,
-                    PlayerSpellsFrame.NineSlice.PortraitFrame,
-                    PlayerSpellsFrame.NineSlice.TopRightCorner,
-                    PlayerSpellsFrame.NineSlice.TopLeftCorner,
-                    PlayerSpellsFrame.NineSlice.BottomLeftCorner,
-                    PlayerSpellsFrame.NineSlice.BottomRightCorner,
-                    PlayerSpellsFrame.NineSlice.BottomEdge,
-                    PlayerSpellsFrame.SpellBookFrame.BookBGLeft,
-                    PlayerSpellsFrame.SpellBookFrame.BookBGRight,
-                    PlayerSpellsFrame.SpellBookFrame.BookCornerFlipbook,
-                    PlayerSpellsFrame.SpellBookFrame.BookBGHalved,
-                    PlayerSpellsFrame.SpellBookFrame.CategoryTabSystem.tabs[1].Left,
-                    PlayerSpellsFrame.SpellBookFrame.CategoryTabSystem.tabs[1].Middle,
-                    PlayerSpellsFrame.SpellBookFrame.CategoryTabSystem.tabs[1].Right,
-                    PlayerSpellsFrame.SpellBookFrame.CategoryTabSystem.tabs[1].LeftActive,
-                    PlayerSpellsFrame.SpellBookFrame.CategoryTabSystem.tabs[1].MiddleActive,
-                    PlayerSpellsFrame.SpellBookFrame.CategoryTabSystem.tabs[1].RightActive,
-                    PlayerSpellsFrame.SpellBookFrame.CategoryTabSystem.tabs[1].LeftHighlight,
-                    PlayerSpellsFrame.SpellBookFrame.CategoryTabSystem.tabs[1].MiddleHighlight,
-                    PlayerSpellsFrame.SpellBookFrame.CategoryTabSystem.tabs[1].RightHighlight,
-                    PlayerSpellsFrame.SpellBookFrame.CategoryTabSystem.tabs[2].Left,
-                    PlayerSpellsFrame.SpellBookFrame.CategoryTabSystem.tabs[2].Middle,
-                    PlayerSpellsFrame.SpellBookFrame.CategoryTabSystem.tabs[2].Right,
-                    PlayerSpellsFrame.SpellBookFrame.CategoryTabSystem.tabs[2].LeftActive,
-                    PlayerSpellsFrame.SpellBookFrame.CategoryTabSystem.tabs[2].MiddleActive,
-                    PlayerSpellsFrame.SpellBookFrame.CategoryTabSystem.tabs[2].RightActive,
-                    PlayerSpellsFrame.SpellBookFrame.CategoryTabSystem.tabs[2].LeftHighlight,
-                    PlayerSpellsFrame.SpellBookFrame.CategoryTabSystem.tabs[2].MiddleHighlight,
-                    PlayerSpellsFrame.SpellBookFrame.CategoryTabSystem.tabs[2].RightHighlight,
-                }) do
-                    v:SetVertexColor(unpack(SUI:Color(0.15)))
-                end
+                SUI:Skin(PlayerSpellsFrame)
+                SUI:Skin(PlayerSpellsFrame.SpellBookFrame)
+                SUI:Skin(PlayerSpellsFrame.NineSlice)
+
+                -- Tabs
+                SUI:Skin(PlayerSpellsFrame.SpellBookFrame.CategoryTabSystem.tabs[1])
+                SUI:Skin(PlayerSpellsFrame.SpellBookFrame.CategoryTabSystem.tabs[2])
                 PlayerSpellsFrame.SpellBookFrame.PagedSpellsFrame.PagingControls.PageText:SetVertexColor(0.8, 0.8, 0.8)
                 hooksecurefunc(SpellBookItemMixin, "UpdateVisuals", function(self)
                     self.Name:SetTextColor(0.8, 0.8, 0.8)

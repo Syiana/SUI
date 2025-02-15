@@ -2,7 +2,6 @@ local Module = SUI:NewModule("Skins.UnitFrames");
 
 function Module:OnEnable()
     if (SUI:Color()) then
-
         -- Alternate Power Bar
         for i, v in ipairs({
             PlayerFrameAlternateManaBarBorder,
@@ -17,7 +16,8 @@ function Module:OnEnable()
         -- Player Frame
         PlayerFrame:HookScript("OnUpdate", function()
             PlayerFrame.PlayerFrameContainer.FrameTexture:SetVertexColor(unpack(SUI:Color(0.15)))
-            PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual.PlayerPortraitCornerIcon:SetVertexColor(unpack(SUI:Color(0.15)))
+            PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual.PlayerPortraitCornerIcon:SetVertexColor(unpack(
+                SUI:Color(0.15)))
             PlayerFrame.PlayerFrameContainer.AlternatePowerFrameTexture:SetVertexColor(unpack(SUI:Color(0.15)))
         end)
 
@@ -131,46 +131,18 @@ function Module:OnEnable()
         elseif (playerClass == 'DEATHKNIGHT') then
             -- Death Knight
             hooksecurefunc(RuneFrame, "UpdateRunes", function()
-                for _, bar in ipairs({
-                    RuneFrame.Rune1.BG_Active,
-                    RuneFrame.Rune1.BG_Inactive,
-                    RuneFrame.Rune1.BG_Shadow,
-                    RuneFrame.Rune2.BG_Active,
-                    RuneFrame.Rune2.BG_Inactive,
-                    RuneFrame.Rune2.BG_Shadow,
-                    RuneFrame.Rune3.BG_Active,
-                    RuneFrame.Rune3.BG_Inactive,
-                    RuneFrame.Rune3.BG_Shadow,
-                    RuneFrame.Rune4.BG_Active,
-                    RuneFrame.Rune4.BG_Inactive,
-                    RuneFrame.Rune4.BG_Shadow,
-                    RuneFrame.Rune5.BG_Active,
-                    RuneFrame.Rune5.BG_Inactive,
-                    RuneFrame.Rune5.BG_Shadow,
-                    RuneFrame.Rune6.BG_Active,
-                    RuneFrame.Rune6.BG_Inactive,
-                    RuneFrame.Rune6.BG_Shadow,
-                    DeathKnightResourceOverlayFrame.Rune1.BG_Active,
-                    DeathKnightResourceOverlayFrame.Rune1.BG_Inactive,
-                    DeathKnightResourceOverlayFrame.Rune1.BG_Shadow,
-                    DeathKnightResourceOverlayFrame.Rune2.BG_Active,
-                    DeathKnightResourceOverlayFrame.Rune2.BG_Inactive,
-                    DeathKnightResourceOverlayFrame.Rune2.BG_Shadow,
-                    DeathKnightResourceOverlayFrame.Rune3.BG_Active,
-                    DeathKnightResourceOverlayFrame.Rune3.BG_Inactive,
-                    DeathKnightResourceOverlayFrame.Rune3.BG_Shadow,
-                    DeathKnightResourceOverlayFrame.Rune4.BG_Active,
-                    DeathKnightResourceOverlayFrame.Rune4.BG_Inactive,
-                    DeathKnightResourceOverlayFrame.Rune4.BG_Shadow,
-                    DeathKnightResourceOverlayFrame.Rune5.BG_Active,
-                    DeathKnightResourceOverlayFrame.Rune5.BG_Inactive,
-                    DeathKnightResourceOverlayFrame.Rune5.BG_Shadow,
-                    DeathKnightResourceOverlayFrame.Rune6.BG_Active,
-                    DeathKnightResourceOverlayFrame.Rune6.BG_Inactive,
-                    DeathKnightResourceOverlayFrame.Rune6.BG_Shadow
-                }) do
-                    bar:SetVertexColor(unpack(SUI:Color(0.15)))
-                end
+                SUI:Skin(RuneFrame.Rune1)
+                SUI:Skin(RuneFrame.Rune2)
+                SUI:Skin(RuneFrame.Rune3)
+                SUI:Skin(RuneFrame.Rune4)
+                SUI:Skin(RuneFrame.Rune5)
+                SUI:Skin(RuneFrame.Rune6)
+                SUI:Skin(DeathKnightResourceOverlayFrame.Rune1)
+                SUI:Skin(DeathKnightResourceOverlayFrame.Rune2)
+                SUI:Skin(DeathKnightResourceOverlayFrame.Rune3)
+                SUI:Skin(DeathKnightResourceOverlayFrame.Rune4)
+                SUI:Skin(DeathKnightResourceOverlayFrame.Rune5)
+                SUI:Skin(DeathKnightResourceOverlayFrame.Rune6)
             end)
         elseif (playerClass == 'EVOKER') then
             -- Evoker

@@ -6,17 +6,7 @@ function Module:OnEnable()
         f:RegisterEvent("ADDON_LOADED")
         f:SetScript("OnEvent", function(self, event, name)
             if name == "Blizzard_ArchaeologyUI" then
-                for i, v in pairs({ ArchaeologyFrame.NineSlice.TopEdge,
-                    ArchaeologyFrame.NineSlice.RightEdge,
-                    ArchaeologyFrame.NineSlice.BottomEdge,
-                    ArchaeologyFrame.NineSlice.LeftEdge,
-                    ArchaeologyFrame.NineSlice.TopRightCorner,
-                    ArchaeologyFrame.NineSlice.TopLeftCorner,
-                    ArchaeologyFrame.NineSlice.BottomLeftCorner,
-                    ArchaeologyFrame.NineSlice.BottomRightCorner,
-                }) do
-                    v:SetVertexColor(unpack(SUI:Color(0.15)))
-                end
+                SUI:Skin(ArchaeologyFrame.NineSlice)
             end
         end)
     end

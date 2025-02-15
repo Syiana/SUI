@@ -11,14 +11,14 @@ function Module:OnEnable()
 	-- Thou shalt not hard disable the Raid Frames
 	hooksecurefunc("C_AddOns.DisableAddOn", function(addon)
 		if t[addon] then
-			EnableAddOn(addon)
+			C_AddOns.EnableAddOn(addon)
 		end
 	end)
 
 	-- So It Has Come To This
 	if not C_AddOns.IsAddOnLoaded("Blizzard_CompactRaidFrames") then
 		for k in pairs(t) do
-			EnableAddOn(k)
+			C_AddOns.EnableAddOn(k)
 		end
 
 		local old = SetItemRef
@@ -69,7 +69,7 @@ function Module:OnEnable()
 			-- Bug #2: sometimes selecting different than the intended target
 
 			-- change back and forth from flush <-> discrete
-			local mode = container.groupMode -- groupMode changes after _SetGroupMode calls
+			local mode = container.groupMode                  -- groupMode changes after _SetGroupMode calls
 			CompactRaidFrameContainer_SetGroupMode(container, t[mode]) -- forth
 			CompactRaidFrameContainer_SetGroupMode(container, mode) -- back
 		end
