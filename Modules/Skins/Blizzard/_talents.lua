@@ -29,6 +29,7 @@ function Module:OnEnable()
 
                 -- Reset Background
                 select(4, PlayerSpellsFrame.TalentsFrame:GetRegions()):SetVertexColor(1, 1, 1, 0.7)
+                select(4, PlayerSpellsFrame.TalentsFrame:GetRegions()):SetDesaturated(false)
             end
         end)
     end
