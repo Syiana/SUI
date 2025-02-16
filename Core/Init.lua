@@ -382,6 +382,12 @@ function SUI:OnInitialize()
             [select(2, ChatFrame6EditBox:GetRegions())] = true,
             [select(2, ChatFrame7EditBox:GetRegions())] = true,
             [select(1, TradeFrame.RecipientOverlay:GetRegions())] = true,
+            ["StaticPopup1AlertIcon"] = true,
+            ["StaticPopup2AlertIcon"] = true,
+            ["StaticPopup3AlertIcon"] = true,
+            ["PVPReadyDialogBackground"] = true,
+            ["LFGDungeonReadyDialogBackground"] = true,
+            [select(4, LFGListInviteDialog:GetRegions())] = true,
         }
 
         if (frame) then
