@@ -12,6 +12,11 @@ function Module:OnEnable()
         SUI:Skin(TokenFramePopup.Border, true)
         SUI:Skin(CharacterStatsPane, true)
         SUI:Skin(ReputationFrame.ReputationDetailFrame, true)
+        SUI:Skin(ReputationFrame.ReputationDetailFrame.Border, true)
+        SUI:Skin(CurrencyTransferLog, true)
+        SUI:Skin(CurrencyTransferLog.TitleContainer, true)
+        SUI:Skin(CurrencyTransferLog.NineSlice, true)
+        SUI:Skin(CurrencyTransferLogInset.NineSlice, true)
         SUI:Skin({
             CharacterFeetSlotFrame,
             CharacterHandsSlotFrame,
