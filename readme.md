@@ -14,8 +14,8 @@
 <p><span style="font-family: tahoma, arial, helvetica, sans-serif;">&nbsp;</span></p>
 <p><span style="font-family: tahoma, arial, helvetica, sans-serif; font-size: 24px;">Issues</span></p>
 <ul>
-<li><span style="font-family: tahoma, arial, helvetica, sans-serif;">If you've discovered something that's clearly wrong, or if you get an error,&nbsp;<a href="https://github.com/Syiana/SUI/issues" target="_blank" rel="noopener noreferrer">post&nbsp;a&nbsp;Issue</a>.</span></li>
-<li><span style="font-family: tahoma, arial, helvetica, sans-serif;">Feel free to join our&nbsp;<a href="https://discord.com/invite/whAAUmFc" target="_blank" rel="nofollow noopener noreferrer">Discord Community</a>&nbsp;to talk, get help and discuss everything about SUI!</span></li>
+<li><span style="font-family: tahoma, arial, helvetica, sans-serif;">If you've discovered something that's clearly wrong, or if you get an error,&nbsp;<a href="https://github.com/Syiana/SUI/issues/new/choose" target="_blank" rel="noopener noreferrer">post&nbsp;an&nbsp;Issue</a>.</span></li>
+<li><span style="font-family: tahoma, arial, helvetica, sans-serif;">Feel free to join our&nbsp;<a href="https://discord.gg/S3r4Acqvqv" target="_blank" rel="nofollow noopener noreferrer">Discord Community</a>&nbsp;to talk, get help and discuss everything about SUI!</span></li>
 </ul>
 <p><span style="font-family: tahoma, arial, helvetica, sans-serif;">&nbsp;</span></p>
 <p><span style="font-family: tahoma, arial, helvetica, sans-serif; font-size: 24px;">Support</span></p>
