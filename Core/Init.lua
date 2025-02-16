@@ -366,7 +366,7 @@ function SUI:OnInitialize()
             "A newer version is available. If you experience any errors or bugs, updating is highly recommended.")
     end
 
-    function self:Skin(frame, customColor, isTable, color, desaturated)
+    function self:Skin(frame, customColor, isTable)
         SUI_forbiddenFrames = {
             ["CalendarCreateEventIcon"] = true,
             ["FriendsFrameIcon"] = true,
@@ -388,12 +388,11 @@ function SUI:OnInitialize()
                 for _, v in pairs({ frame:GetRegions() }) do
                     if (not SUI_forbiddenFrames[v:GetName()]) and (not SUI_forbiddenFrames[v]) then
                         if v:GetObjectType() == "Texture" then
-                            if (color) then
-                                v:SetVertexColor(color.r, color.g, color.b)
-                                v:SetDesaturated(1)
-                            elseif (customColor) then
+                            if (customColor) then
+                                v:SetDesaturated(true)
                                 v:SetVertexColor(unpack(SUI:Color(.15)))
                             else
+                                v:SetDesaturated(true)
                                 v:SetVertexColor(.15, .15, .15)
                             end
                         end
@@ -403,11 +402,10 @@ function SUI:OnInitialize()
                 for _, v in pairs(frame) do
                     if (v) then
                         if (customColor) then
-                            v:SetVertexColor(unpack(SUI:Color(.15)))
-                        elseif (desaturated) then
                             v:SetDesaturated(true)
-                            v:SetVertexColor(1, 1, 1)
+                            v:SetVertexColor(unpack(SUI:Color(.15)))
                         else
+                            v:SetDesaturated(true)
                             v:SetVertexColor(.15, .15, .15)
                         end
                     end
