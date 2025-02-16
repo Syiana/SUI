@@ -32,11 +32,13 @@ function Module:OnEnable()
             local function getLatency() return "|c00ffffff" .. select(4, GetNetStats()) .. "|r ms" end
 
             local isGliding, canGlide, forwardSpeed = C_PlayerInfo.GetGlidingInfo()
-            local function getMovementSpeed() 
+            local function getMovementSpeed()
                 if isGliding then
-                    return "|c00ffffff" .. string.format("%d", forwardSpeed and (forwardSpeed / BASE_MOVEMENT_SPEED * 100)) .. "%|r speed"
+                    return "|c00ffffff" ..
+                    string.format("%d", forwardSpeed and (forwardSpeed / BASE_MOVEMENT_SPEED * 100)) .. "%|r speed"
                 else
-                    return "|c00ffffff" .. string.format("%d", (GetUnitSpeed("player") / BASE_MOVEMENT_SPEED * 100)) .. "%|r speed"
+                    return "|c00ffffff" ..
+                    string.format("%d", (GetUnitSpeed("player") / BASE_MOVEMENT_SPEED * 100)) .. "%|r speed"
                 end
             end
 
@@ -71,7 +73,7 @@ function Module:OnEnable()
 
         local function update(self, elapsed)
             lastUpdate = lastUpdate + elapsed
-            if lastUpdate > 1 then
+            if lastUpdate > 0.2 then
                 lastUpdate = 0
                 StatsFrame.text:SetText(status())
                 self:SetWidth(StatsFrame.text:GetStringWidth())
