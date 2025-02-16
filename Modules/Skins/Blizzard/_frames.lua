@@ -16,5 +16,7 @@ function Module:OnEnable()
         SUI:Skin(VehicleSeatIndicator, true)
         SUI:Skin(ReportFrame, true)
         SUI:Skin(ReportFrame.Border, true)
+        SUI:Skin(LFGDungeonReadyDialog, true)
+        SUI:Skin(LFGDungeonReadyDialog.Border, true)
     end
 end
