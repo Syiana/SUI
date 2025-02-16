@@ -12,9 +12,6 @@ assignees: 'muleyo'
 **Expected behavior**
 
 **Steps to reproduce the behaviour**
-1. ...
-2. ...
-3. ...
 
 **Which SUI version are you using?**
 
