@@ -2,7 +2,7 @@
 name: Suggestion
 about: Missing something? Feel free to suggest
 title: ""
-labels: 'Bug'
+labels: 'Suggestion'
 assignees: 'muleyo'
 
 ---
