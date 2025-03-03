@@ -366,6 +366,37 @@ function SUI:OnInitialize()
             "A newer version is available. If you experience any errors or bugs, updating is highly recommended.")
     end
 
+    if currentVersion == "11.0.37" then
+        StaticPopupDialogs["SUIPopup"] = nil
+        StaticPopupDialogs["SUIPopup"] = {
+            text =
+            "|cffff00d5S|r|cff027bffUI|r\n\n|cffffcc00SUI is not being actively developed at the moment. Consider switching over to mUI (very similar to SUI) for future updates and support.\n\nPress CTRL+C to copy the link|r",
+            button1 = CLOSE,
+            whileDead = true,
+            hideOnEscape = true,
+            hasEditBox = true,
+            editBoxWidth = 200,
+            EditBoxOnEscapePressed = function(self)
+                self:GetParent():Hide()
+            end,
+            OnShow = function(self, data)
+                self.editBox:SetText("https://curseforge.com/wow/addons/muleyoui")
+                C_Timer.After(0, function()
+                    self.editBox:HighlightText()
+                end)
+                self.editBox:SetScript("OnKeyDown", function(_, key)
+                    if key == "C" and IsControlKeyDown() then
+                        C_Timer.After(0.3, function()
+                            self.editBox:GetParent():Hide()
+                            UIErrorsFrame:AddMessage("Link copied to clipboard")
+                        end)
+                    end
+                end)
+            end,
+        }
+        StaticPopup_Show("SUIPopup", "", "", { url = url })
+    end
+
     function self:Skin(frame, customColor, isTable)
         SUI_forbiddenFrames = {
             ["CalendarCreateEventIcon"] = true,
