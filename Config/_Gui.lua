@@ -538,6 +538,20 @@ function Gui:OnEnable()
                     }
                 },
                 {
+                    mobnamepos = {
+                        key = 'unitframes.mobnamepos',
+                        type = 'dropdown',
+                        label = 'Target Name Position',
+                        options = {
+                            { value = 'above', text = 'Above Healthbar' },
+                            { value = 'below', text = 'Below Healthbar' },
+                            { value = 'inbar', text = 'In Healthbar' }
+                        },
+                        column = 4,
+                        order = 2
+                    }
+                },
+                {
                     textsize = {
                         key = 'unitframes.textsize',
                         type = 'slider',

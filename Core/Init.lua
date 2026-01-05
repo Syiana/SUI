@@ -43,6 +43,7 @@ local defaults = {
             hitindicator = false,
             links = false,
             elite = false,
+            mobnamepos = 'above',
             size = 1,
             textsize = 11,
             player = {

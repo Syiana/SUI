@@ -6,6 +6,7 @@ function Module:OnEnable()
         texture = SUI.db.profile.general.texture,
         size = SUI.db.profile.unitframes.size,
         pvpbadge = SUI.db.profile.general.pvpbadge,
+        mobnamepos = SUI.db.profile.unitframes.mobnamepos,
         module = SUI.db.profile.modules.unitframes
     }
 
@@ -15,13 +16,24 @@ function Module:OnEnable()
         --FocusFrame:SetScale(db.size)
 
         local function SUITargetFrame(self, forceNormalTexture)
+            local function ApplyMobNamePosition()
+                if not self.name or not self.healthbar then return end
+                self.name:ClearAllPoints()
+                if db.mobnamepos == 'below' then
+                    self.name:SetPoint("TOPLEFT", self.healthbar, "BOTTOMLEFT", 10, -2)
+                elseif db.mobnamepos == 'inbar' then
+                    self.name:SetPoint("CENTER", self.healthbar, "CENTER", 0, 0)
+                else
+                    self.name:SetPoint("BOTTOMLEFT", self.healthbar, "TOPLEFT", 10, 2)
+                end
+            end
+
             if (db.style == 'Big') then
                 local classification = UnitClassification(self.unit);
                 self.highLevelTexture:SetPoint("CENTER", self.levelText, "CENTER", 0, 0);
                 self.deadText:SetPoint("CENTER", self.healthbar, "CENTER", 0, 0);
                 self.nameBackground:Hide();
                 --self.threatIndicator:SetTexture([[Interface\TargetingFrame\UI-TargetingFrame-Flash]]);
-                self.name:SetPoint("LEFT", self, 15, 36);
                 self.healthbar:SetSize(119, 26);
                 self.healthbar:SetPoint("TOPLEFT", 5, -24);
                 if (self.healthbar.LeftText) then
@@ -73,7 +85,6 @@ function Module:OnEnable()
                     if (classification == "minus") then
                         self.Background:SetSize(119, 12);
                         self.Background:SetPoint("BOTTOMLEFT", self, "BOTTOMLEFT", 7, 47);
-                        self.name:SetPoint("LEFT", self, 16, 19);
                         self.healthbar:ClearAllPoints();
                         self.healthbar:SetPoint("LEFT", 5, 3);
                         self.healthbar:SetHeight(12);
@@ -107,6 +118,7 @@ function Module:OnEnable()
                     end
                 end
                 self.healthbar.lockColor = true;
+                ApplyMobNamePosition()
             end
 
             if (db.texture ~= 'Default') then
