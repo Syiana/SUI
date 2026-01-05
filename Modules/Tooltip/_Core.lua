@@ -131,16 +131,97 @@ function Module:OnEnable()
                 cfg.barColor = color
                 GameTooltipStatusBar:SetStatusBarColor(color.r, color.g, color.b)
                 _G["GameTooltipTextLeft1"]:SetTextColor(color.r, color.g, color.b)
-                --color textleft2 by guildcolor
+                --guild + level lines
                 local guildName, guildRank = GetGuildInfo(unit)
-                if guildName then
-                    _G["GameTooltipTextLeft2"]:SetText("<" .. guildName .. "> [" .. guildRank .. "]")
-                    _G["GameTooltipTextLeft2"]:SetTextColor(unpack(cfg.guildColor))
+                local playerLevel = UnitLevel(unit)
+
+                local function GetLine(i)
+                    return _G["GameTooltipTextLeft" .. i]
                 end
-                local levelLine = guildName and _G["GameTooltipTextLeft3"] or _G["GameTooltipTextLeft2"]
-                local l = UnitLevel(unit)
-                local color = GetCreatureDifficultyColor((l > 0) and l or 999)
-                levelLine:SetTextColor(color.r, color.g, color.b)
+
+                local function GetLineText(i)
+                    local line = GetLine(i)
+                    return line and line:GetText() or nil
+                end
+
+                local function FindLineByTextPredicate(minLine, maxLine, predicate)
+                    for i = minLine, maxLine do
+                        local text = GetLineText(i)
+                        if text and text ~= "" and predicate(text, i) then
+                            return i
+                        end
+                    end
+                    return nil
+                end
+
+                local function FindEmptyLine(minLine, maxLine)
+                    for i = minLine, maxLine do
+                        local text = GetLineText(i)
+                        if not text or text == "" then
+                            return i
+                        end
+                    end
+                    return nil
+                end
+
+                local maxLine = math.min(self:NumLines() or GameTooltip:NumLines(), 15)
+
+                if guildName then
+                    local guildFormatted = "<" .. guildName .. ">" .. (guildRank and (" [" .. guildRank .. "]") or "")
+
+                    local guildIndex = FindLineByTextPredicate(2, maxLine, function(text)
+                        return text:find(guildName, 1, true) ~= nil
+                    end)
+
+                    if not guildIndex then
+                        guildIndex = 2
+                        local preserved = GetLineText(2)
+
+                        local line2 = GetLine(2)
+                        if line2 then
+                            line2:SetText(guildFormatted)
+                            line2:SetTextColor(unpack(cfg.guildColor))
+                        end
+
+                        if preserved and preserved ~= "" and preserved:find(guildName, 1, true) == nil then
+                            local emptyIndex = FindEmptyLine(3, maxLine)
+                            if emptyIndex then
+                                local emptyLine = GetLine(emptyIndex)
+                                if emptyLine then
+                                    emptyLine:SetText(preserved)
+                                    self:Show()
+                                end
+                            else
+                                self:AddLine(preserved)
+                                self:Show()
+                                maxLine = math.min(self:NumLines() or GameTooltip:NumLines(), 15)
+                            end
+                        end
+                    else
+                        local guildLine = GetLine(guildIndex)
+                        if guildLine then
+                            guildLine:SetText(guildFormatted)
+                            guildLine:SetTextColor(unpack(cfg.guildColor))
+                        end
+                    end
+                end
+
+                local levelIndex
+                if playerLevel and playerLevel > 0 then
+                    local levelStr = tostring(playerLevel)
+                    levelIndex = FindLineByTextPredicate(2, maxLine, function(text)
+                        if guildName and text:find(guildName, 1, true) then return false end
+                        return text:find(levelStr, 1, true) ~= nil
+                    end)
+                end
+
+                if levelIndex then
+                    local levelLine = GetLine(levelIndex)
+                    if levelLine then
+                        local lvlColor = GetCreatureDifficultyColor((playerLevel > 0) and playerLevel or 999)
+                        levelLine:SetTextColor(lvlColor.r, lvlColor.g, lvlColor.b)
+                    end
+                end
                 --afk?
                 if UnitIsAFK(unit) then
                     self:AppendText((" |cff%s<AFK>|r"):format(cfg.afkColorHex))
