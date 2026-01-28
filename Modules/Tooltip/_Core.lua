@@ -230,85 +230,20 @@ function Module:OnEnable()
             if not spellid then return end
             if type(spellid) == "table" and #spellid == 1 then spellid = spellid[1] end
             
-            -- Cache the spell ID search pattern to avoid repeated string operations
+            -- Check if ID already exists in tooltip
             local tooltipName = self:GetName()
             for i = 1, 15 do
                 local frame = _G[tooltipName .. "TextLeft" .. i]
                 if frame then 
-                    -- Wrap entire operation in pcall to protect against secret values
                     local success, text = pcall(frame.GetText, frame)
-                    if success and text and type(text) == "string" then
-                        if text:find("|cff0099ffID|r", 1, true) then return end
+                    if success and text and type(text) == "string" and text:find("|cff0099ffID|r", 1, true) then 
+                        return 
                     end
                 end
             end
             self:AddDoubleLine("|cff0099ffID|r", spellid)
             self:Show()
         end
-
-        local function TooltipAddBuffSource(self, caster)
-            local name = caster and UnitName(caster)
-            if name then
-                self:AddDoubleLine("|cff0099ffCast by|r", name, nil, nil, nil, 1, 1, 1)
-                self:Show()
-            end
-        end
-
-        --[[ Disabled due to secret value errors in secure contexts
-        --hooksecurefunc GameTooltip SetUnitBuff
-        hooksecurefunc(GameTooltip, "SetUnitBuff", function(self, unitToken, index, filter)
-            if not canaccessvalue(unitToken) then return end
-            local auraData = C_UnitAuras.GetBuffDataByIndex(unitToken, index, filter)
-            if auraData and canaccessvalue(auraData) then
-                local success, spellId = pcall(function()
-                    return select(10, AuraUtil.UnpackAuraData(auraData))
-                end)
-                if success and spellId and canaccessvalue(spellId) then
-                    TooltipAddSpellID(self, spellId)
-                end
-            end
-        end)
-        --]]
-
-        --[[ Disabled due to secret value errors in secure contexts
-        --hooksecurefunc GameTooltip SetUnitDebuff
-        hooksecurefunc(GameTooltip, "SetUnitDebuff", function(self, unitToken, index, filter)
-            if not canaccessvalue(unitToken) then return end
-            local auraData = C_UnitAuras.GetDebuffDataByIndex(unitToken, index, filter)
-            if auraData and canaccessvalue(auraData) then
-                local success, spellId = pcall(function()
-                    return select(10, AuraUtil.UnpackAuraData(auraData))
-                end)
-                if success and spellId and canaccessvalue(spellId) then
-                    TooltipAddSpellID(self, spellId)
-                end
-            end
-        end)
-        --]]
-
-        --[[ Disabled due to secret value errors in secure contexts
-        --hooksecurefunc GameTooltip SetUnitAura
-        hooksecurefunc(GameTooltip, "SetUnitAura", function(self, unitToken, index, filter)
-            if not canaccessvalue(unitToken) then return end
-            local auraData = C_UnitAuras.GetBuffDataByIndex(unitToken, index, filter)
-            if auraData and canaccessvalue(auraData) then
-                local success, unpackedData = pcall(function()
-                    return {AuraUtil.UnpackAuraData(auraData)}
-                end)
-                if success and unpackedData then
-                    local spellId = unpackedData[10]
-                    local caster = unpackedData[7]
-                    
-                    if spellId and canaccessvalue(spellId) then
-                        TooltipAddSpellID(self, spellId)
-                    end
-                    if caster and canaccessvalue(caster) then
-                        TooltipAddBuffSource(self, caster)
-                    end
-                end
-            end
-        end)
-        --]]
 
         --hooksecurefunc SetItemRef
         hooksecurefunc("SetItemRef", function(link)
@@ -318,32 +253,33 @@ function Module:OnEnable()
             end
         end)
 
-        --HookScript GameTooltip OnTooltipSetSpell
+        --OnTooltipSetSpell callback
         local function OnTooltipSetSpell(self, data)
-            if not data or not canaccessvalue(data) then return end
-            if data.id and canaccessvalue(data.id) then
+            if data and canaccessvalue(data) and data.id and canaccessvalue(data.id) then
                 TooltipAddSpellID(self, data.id)
             end
         end
 
+        --OnMacroTooltipSetSpell callback
         local function OnMacroTooltipSetSpell(self)
             if not canaccessvalue(self) then return end
+            
             local tooltipData = self:GetTooltipData()
-            if tooltipData and tooltipData.lines and tooltipData.lines[2] and
-                tooltipData.lines[2].leftText and canaccessvalue(tooltipData.lines[2].leftText) then
-                local tooltipName = tooltipData.lines[2].leftText
-                local spellInfo = C_Spell.GetSpellInfo(tooltipName)
-
-                if spellInfo and spellInfo.spellID then
-                    TooltipAddSpellID(self, spellInfo.spellID)
+            if tooltipData and tooltipData.lines and tooltipData.lines[2] then
+                local leftText = tooltipData.lines[2].leftText
+                if leftText and canaccessvalue(leftText) then
+                    local spellInfo = C_Spell.GetSpellInfo(leftText)
+                    if spellInfo and spellInfo.spellID then
+                        TooltipAddSpellID(self, spellInfo.spellID)
+                    end
                 end
             end
         end
 
+        -- Register tooltip callbacks
         TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Macro, OnMacroTooltipSetSpell)
         TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Spell, OnTooltipSetSpell)
-        -- Disabled due to secret value errors in secure contexts
-        -- TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.UnitAura, OnTooltipSetSpell)
+        -- Note: UnitAura callback disabled due to secret value errors in secure contexts
     end
 
     if (db.hideincombat) then
