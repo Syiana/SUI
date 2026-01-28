@@ -156,7 +156,7 @@ function Gui:OnEnable()
     local categories = {
         { title = 'General', name = 'General', layout = options['General'] },
         { title = 'Unitframes', name = 'Unitframes', layout = options['Unitframes'] },
-        { title = 'Nameplates', name = 'Nameplates', layout = options['Nameplates'] },
+        -- { title = 'Nameplates', name = 'Nameplates', layout = options['Nameplates'] },
         { title = 'Actionbar', name = 'Actionbar', layout = options['Actionbar'] },
         { title = 'Castbars', name = 'Castbars', layout = options['Castbars'] },
         { title = 'Tooltip', name = 'Tooltip', layout = options['Tooltip'] },
@@ -169,14 +169,14 @@ function Gui:OnEnable()
     }
 
     -- Tabs
-    local tabs = SUIConfig:TabPanel(config, nil, nil, categories, true, 160, 27)
+    local tabs = SUIConfig:TabPanel(config, nil, nil, categories, true, 141, 27)
     SUIConfig:GlueAcross(tabs, config, 10, -35, -10, 10)
 
     --local scrollContainer = SUIConfig:Panel(config, 515, 370, tabs.container)
     --SUIConfig:GlueTop(scrollContainer, config, -10, -35, 'RIGHT')
 
     -- SCROLL FRAMES BUGGY
-    local scrollTabs = SUIConfig:ScrollFrame(config,  160, 315, tabs.buttonContainer)
+    local scrollTabs = SUIConfig:ScrollFrame(config,  160, 311, tabs.buttonContainer)
     SUIConfig:GlueTop(scrollTabs, config, 10, -35, 'LEFT')
 
     local scrollContainer = SUIConfig:ScrollFrame(config, 515, 370, tabs.container)

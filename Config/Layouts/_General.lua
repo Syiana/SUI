@@ -171,7 +171,7 @@ function Layout:OnEnable()
                 movementSpeed = {
                     key = 'display.movementSpeed',
                     type = 'checkbox',
-                    label = 'Movement Speed',
+                    label = 'Speed',
                     tooltip = 'Show current movement speed',
                     column = 3,
                     order = 4

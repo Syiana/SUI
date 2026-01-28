@@ -1,5 +1,4 @@
 <Ui xmlns='http://www.blizzard.com/wow/ui/'>
-  <Include file='NamePlates\Load.xml'/>
   <Include file='RaidFrames\Load.xml'/>
   <Include file='Misc\Load.xml'/>
   <Include file='Chat\Load.xml'/>
