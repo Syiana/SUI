@@ -5,8 +5,6 @@
   <Include file='_Addonlist.lua' />
   <Include file='_Alliedraces.lua' />
   <Include file='_Archaeology.lua' />
-  <!--<Include
-  file='_Arena.lua'/>-->
   <Include file='_Azerite.lua' />
   <Include file='_Bags.lua' />
   <Include file='_Bank.lua' />
@@ -52,4 +50,5 @@
   <Include file='_Tradeskill.lua' />
   <Include file='_Unitframes.lua' />
   <Include file='_Wardrobe.lua' />
+  <Include file='_Housing.lua' />
 </Ui>
