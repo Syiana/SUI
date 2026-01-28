@@ -1,4 +1,4 @@
-local Debuffs = SUI:NewModule("Buffs.Debuffs");
+local Debuffs = SUI:NewModule("Buffs.Debuffs")
 
 function Debuffs:OnEnable()
     if C_AddOns.IsAddOnLoaded("BlizzBuffsFacade") then return end
@@ -6,31 +6,38 @@ function Debuffs:OnEnable()
     local db = SUI.db.profile.unitframes.buffs
     local theme = SUI.db.profile.general.theme
 
-    -- Update Duration Text for Buffs
+    -- Update Duration Text for Debuffs
     local function UpdateDuration(self, timeLeft)
-        if timeLeft >= 86400 then
-            self.Duration:SetFormattedText("%dd", ceil(timeLeft / 86400))
-        elseif timeLeft >= 3600 then
-            self.Duration:SetFormattedText("%dh", ceil(timeLeft / 3600))
-        elseif timeLeft >= 60 then
-            self.Duration:SetFormattedText("%dm", ceil(timeLeft / 60))
-        else
-            self.Duration:SetFormattedText("%ds", timeLeft)
-        end
-    end
-
-    local function HookDurationUpdates(auraFrames)
-        for _, auraFrame in pairs(auraFrames) do
-            if auraFrame.SetFormattedText then
-                --hooksecurefunc(auraFrame.Duration, "SetFormattedText", UpdateDuration)
-                hooksecurefunc(auraFrame, "UpdateDuration", function(self)
-                    UpdateDuration(self, self.timeLeft)
-                end)
+        local success, result = pcall(function()
+            if not timeLeft or timeLeft < 0 then
+                return
             end
+            
+            if timeLeft >= 86400 then
+                self.Duration:SetFormattedText("%dd", ceil(timeLeft / 86400))
+            elseif timeLeft >= 3600 then
+                self.Duration:SetFormattedText("%dh", ceil(timeLeft / 3600))
+            elseif timeLeft >= 60 then
+                self.Duration:SetFormattedText("%dm", ceil(timeLeft / 60))
+            else
+                self.Duration:SetFormattedText("%ds", timeLeft)
+            end
+        end)
+        
+        if not success then
+            -- Silently fail if value is tainted/secret
+            return
         end
     end
 
-    HookDurationUpdates(DebuffFrame.auraFrames)
+    -- Hook duration updates for all debuff frames
+    for _, auraFrame in pairs(DebuffFrame.auraFrames) do
+        if auraFrame.SetFormattedText then
+            hooksecurefunc(auraFrame, "UpdateDuration", function(self)
+                UpdateDuration(self, self.timeLeft)
+            end)
+        end
+    end
 
     -- DebuffType Colors for the Debuff Border
     local DebuffColor      = {}
@@ -51,21 +58,16 @@ function Debuffs:OnEnable()
         }
 
         local icon = button.Icon
-
         local border = CreateFrame("Frame", nil, button)
         border:SetSize(icon:GetWidth() + 4, icon:GetHeight() + 4)
+        
+        -- Position border based on debuff container orientation
         if DebuffFrame.AuraContainer.isHorizontal then
-            if DebuffFrame.AuraContainer.addIconsToTop then
-                border:SetPoint("CENTER", button, "CENTER", 0, -5)
-            else
-                border:SetPoint("CENTER", button, "CENTER", 0, 5)
-            end
-        elseif not DebuffFrame.AuraContainer.isHorizontal then
-            if not DebuffFrame.AuraContainer.addIconsToRight then
-                border:SetPoint("CENTER", button, "CENTER", 15, 0)
-            else
-                border:SetPoint("CENTER", button, "CENTER", -15, 0)
-            end
+            local yOffset = DebuffFrame.AuraContainer.addIconsToTop and -5 or 5
+            border:SetPoint("CENTER", button, "CENTER", 0, yOffset)
+        else
+            local xOffset = DebuffFrame.AuraContainer.addIconsToRight and -15 or 15
+            border:SetPoint("CENTER", button, "CENTER", xOffset, 0)
         end
 
         border:SetFrameLevel(8)
@@ -73,10 +75,8 @@ function Debuffs:OnEnable()
         border.texture = border:CreateTexture()
         border.texture:SetAllPoints()
         border.texture:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\Core\\gloss_border_w")
-        --border.texture:SetVertexColor(0.20, 0.60, 1.00)
         border.texture:SetDrawLayer("BACKGROUND", -7)
         border.texture:SetTexCoord(0, 1, 0, 1)
-
 
         border.shadow = CreateFrame("Frame", nil, border, "BackdropTemplate")
         border.shadow:SetPoint("TOPLEFT", border, "TOPLEFT", -4, 4)
@@ -87,42 +87,67 @@ function Debuffs:OnEnable()
         button.SUIBorder = border
     end
 
-    function updateDebuffs()
+    local function UpdateDebuffs()
         local Children = { DebuffFrame.AuraContainer:GetChildren() }
 
         for index, child in pairs(Children) do
             local frame = select(index, DebuffFrame.AuraContainer:GetChildren())
-            local icon = frame.Icon
 
             if child.Border then
                 child.Border:Hide()
             end
 
+            frame.Icon:SetTexCoord(0.08, 0.92, 0.08, 0.92)
 
-            icon:SetTexCoord(0.08, 0.92, 0.08, 0.92)
-
-            if frame.SUIBorder == nil then
+            if not frame.SUIBorder then
                 ButtonDefault(frame)
             end
 
             -- Set the color of the Debuff Border
-            local debuffType
-            if (child.buttonInfo) then
-                debuffType = child.buttonInfo.debuffType
-            end
-            if (frame.SUIBorder) then
-                local color
-                if (debuffType) then
-                    color = DebuffColor[debuffType]
-                else
-                    color = DebuffColor["none"]
+            local debuffType = nil
+            if child.buttonInfo then
+                -- Use pcall to safely access potentially protected data
+                local success, result = pcall(function() return child.buttonInfo.debuffType end)
+                if success then
+                    debuffType = result
                 end
-
-                if color ~= nil then
+            end
+            
+            if frame.SUIBorder then
+                local color = DebuffColor[debuffType or "none"]
+                if color then
                     frame.SUIBorder.texture:SetVertexColor(color.r, color.g, color.b, 1)
                 else
                     frame.SUIBorder.texture:SetVertexColor(unpack(SUI:Color(0.15)))
                 end
+            end
+        end
+    end
+
+    -- Update debuff text positions
+    local function UpdateAuraPositions()
+        for i = 1, #DebuffFrame.auraFrames do
+            local aura = DebuffFrame.auraFrames[i]
+            
+            -- Duration styling
+            if aura.Duration and aura.Duration.SetDrawLayer then
+                aura.Duration:ClearAllPoints()
+                aura.Duration:SetPoint("CENTER", 0, -17.5)
+                aura.Duration:SetDrawLayer("ARTWORK")
+                aura.Duration:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
+            end
+
+            -- Count styling
+            if aura.Count and aura.Count.SetDrawLayer then
+                aura.Count:ClearAllPoints()
+                aura.Count:SetPoint("BOTTOMRIGHT", 0, 11)
+                aura.Count:SetDrawLayer("ARTWORK")
+                aura.Count:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
+            end
+
+            -- Hide default debuff border
+            if aura.DebuffBorder then
+                aura.DebuffBorder:SetAlpha(0)
             end
         end
     end
@@ -132,99 +157,14 @@ function Debuffs:OnEnable()
         frame:RegisterEvent("PLAYER_ENTERING_WORLD", self, "Update")
         frame:RegisterUnitEvent("UNIT_AURA", self, "Update")
         frame:RegisterEvent("GROUP_ROSTER_UPDATE")
-        frame:SetScript("OnEvent", function(self, event, ...)
-            updateDebuffs()
+        frame:SetScript("OnEvent", function()
+            UpdateDebuffs()
+            UpdateAuraPositions()
         end)
 
-        hooksecurefunc(AuraFrameMixin, "Update", function(self)
-            -- Set Duration Font size and reposition it
-            if DebuffFrame.AuraContainer.isHorizontal then
-                if DebuffFrame.AuraContainer.addIconsToTop then
-                    for i = 1, #DebuffFrame.auraFrames do
-                        if DebuffFrame.auraFrames[i].Count then
-                            local count = DebuffFrame.auraFrames[i].Count
-
-                            count:SetPoint("TOPRIGHT", 0, 12)
-                        count:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
-                        end
-
-                        if DebuffFrame.auraFrames[i].Duration then
-                            local duration = DebuffFrame.auraFrames[i].Duration
-                            if duration.SetFont then
-                                duration:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
-                            end
-
-                            duration:ClearAllPoints()
-                            duration:SetPoint("CENTER", 0, -15)
-                        end
-                    end
-                else
-                    for i = 1, #DebuffFrame.auraFrames do
-                        if DebuffFrame.auraFrames[i].Count then
-                            local count = DebuffFrame.auraFrames[i].Count
-
-                            count:SetPoint("TOPRIGHT", 0, 12)
-                            count:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
-                        end
-
-                        if DebuffFrame.auraFrames[i].Duration then
-                            local duration = DebuffFrame.auraFrames[i].Duration
-                            if duration.SetFont then
-                                duration:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
-                            end
-
-                            duration:ClearAllPoints()
-                            duration:SetPoint("CENTER", 0, -5)
-                        end
-                    end
-                end
-            elseif not DebuffFrame.AuraContainer.isHorizontal then
-                if not DebuffFrame.AuraContainer.addIconsToRight then
-                    for i = 1, #DebuffFrame.auraFrames do
-                        if DebuffFrame.auraFrames[i].Count then
-                            local count = DebuffFrame.auraFrames[i].Count
-
-                            count:SetPoint("TOPRIGHT", 0, 12)
-                            count:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
-                        end
-
-                        if DebuffFrame.auraFrames[i].Duration then
-                            local duration = DebuffFrame.auraFrames[i].Duration
-                            if duration.SetFont then
-                                duration:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
-                            end
-
-                            duration:ClearAllPoints()
-                            duration:SetPoint("CENTER", 15, -10)
-                        end
-                    end
-                else
-                    for i = 1, #DebuffFrame.auraFrames do
-                        if DebuffFrame.auraFrames[i].Count then
-                            local count = DebuffFrame.auraFrames[i].Count
-
-                            count:SetPoint("TOPRIGHT", -30, 12)
-                            count:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
-                        end
-
-                        if DebuffFrame.auraFrames[i].Duration then
-                            local duration = DebuffFrame.auraFrames[i].Duration
-                            if duration.SetFont then
-                                duration:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
-                            end
-
-                            duration:ClearAllPoints()
-                            duration:SetPoint("CENTER", -13.5, -10)
-                        end
-                    end
-                end
-            end
-
-            for i = 1, #DebuffFrame.auraFrames do
-                if DebuffFrame.auraFrames[i].DebuffBorder then
-                    DebuffFrame.auraFrames[i].DebuffBorder:SetAlpha(0)
-                end
-            end
+        -- Hook to update positions whenever debuffs update
+        hooksecurefunc(AuraFrameMixin, "Update", function()
+            C_Timer.After(0, UpdateAuraPositions)
         end)
     end
 end

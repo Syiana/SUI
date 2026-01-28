@@ -20,19 +20,21 @@ function Module:OnEnable()
 
 					if name:find('CompactPartyFrame') then
 						if SUI:Color() then
+						if self.horizDivider then
 							self.horizDivider:SetVertexColor(.3, .3, .3)
-							for _, region in pairs({ CompactPartyFrameBorderFrame:GetRegions() }) do
-								if region:IsObjectType("Texture") then
-									region:SetVertexColor(unpack(SUI:Color(0.15)))
-								end
+						end
+						for _, region in pairs({ CompactPartyFrameBorderFrame:GetRegions() }) do
+							if region:IsObjectType("Texture") then
+								region:SetVertexColor(unpack(SUI:Color(0.15)))
+							end
 							end
 						end
 					end
 
-					self.vertLeftBorder:Hide()
-					self.vertRightBorder:Hide()
-					self.horizTopBorder:Hide()
-					self.horizBottomBorder:Hide()
+				if self.vertLeftBorder then self.vertLeftBorder:Hide() end
+				if self.vertRightBorder then self.vertRightBorder:Hide() end
+				if self.horizTopBorder then self.horizTopBorder:Hide() end
+				if self.horizBottomBorder then self.horizBottomBorder:Hide() end
 				end
 			end
 		end

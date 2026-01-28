@@ -102,11 +102,15 @@ function Module:OnEnable()
                 --color textleft2 by classificationcolor
                 local unitClassification = UnitClassification(unit)
                 local levelLine
-                if string.find(GameTooltipTextLeft2:GetText() or "empty", "%a%s%d") then
+                local text2 = GameTooltipTextLeft2:GetText()
+                if text2 and text2:match("%a%s%d") then
                     levelLine = GameTooltipTextLeft2
-                elseif GameTooltipTextLeft3 ~= nil and string.find(GameTooltipTextLeft3:GetText() or "empty", "%a%s%d") then
-                    GameTooltipTextLeft2:SetTextColor(unpack(cfg.guildColor))
-                    levelLine = GameTooltipTextLeft3
+                elseif GameTooltipTextLeft3 then
+                    local text3 = GameTooltipTextLeft3:GetText()
+                    if text3 and text3:match("%a%s%d") then
+                        GameTooltipTextLeft2:SetTextColor(unpack(cfg.guildColor))
+                        levelLine = GameTooltipTextLeft3
+                    end
                 end
                 if levelLine then
                     local l = UnitLevel(unit)
@@ -225,11 +229,15 @@ function Module:OnEnable()
         local function TooltipAddSpellID(self, spellid)
             if not spellid then return end
             if type(spellid) == "table" and #spellid == 1 then spellid = spellid[1] end
-            local frame, text
+            
+            -- Cache the spell ID search pattern to avoid repeated string operations
+            local tooltipName = self:GetName()
             for i = 1, 15 do
-                frame = _G[self:GetName() .. "TextLeft" .. i]
-                if frame then text = frame:GetText() end
-                if text and string.find(text, "|cff0099ffID|r") then return end
+                local frame = _G[tooltipName .. "TextLeft" .. i]
+                if frame then 
+                    local text = frame:GetText()
+                    if text and type(text) == "string" and text:find("|cff0099ffID|r", 1, true) then return end
+                end
             end
             self:AddDoubleLine("|cff0099ffID|r", spellid)
             self:Show()

@@ -3,54 +3,92 @@ local Module = SUI:NewModule("Skins.Bags");
 function Module:OnEnable()
 
     function SUICombinedBags()
-        local container = ContainerFrameCombinedBags
+        local container = _G["ContainerFrameCombinedBags"]
+        if not container then return end  -- Exit if container doesn't exist
+        
         SUIStyleBG(container)
         SUIStyleNineSlice(container)
-        container.MoneyFrame.Border.Left:SetVertexColor(unpack(SUI:Color(0.1)))
-        container.MoneyFrame.Border.Middle:SetVertexColor(unpack(SUI:Color(0.1)))
-        container.MoneyFrame.Border.Right:SetVertexColor(unpack(SUI:Color(0.1)))
+        
+        if container.MoneyFrame and container.MoneyFrame.Border then
+            container.MoneyFrame.Border.Left:SetVertexColor(unpack(SUI:Color(0.1)))
+            container.MoneyFrame.Border.Middle:SetVertexColor(unpack(SUI:Color(0.1)))
+            container.MoneyFrame.Border.Right:SetVertexColor(unpack(SUI:Color(0.1)))
+        end
 
-        hooksecurefunc(ContainerFrameCombinedBags, "Update", function(self)
-            for button, _ in self.itemButtonPool:EnumerateActive() do
-                button.NormalTexture:SetVertexColor(unpack(SUI:Color(0.15)))
-            end
-        end)
+        if container.Update then
+            hooksecurefunc(container, "Update", function(self)
+                if self.itemButtonPool then
+                    for button, _ in self.itemButtonPool:EnumerateActive() do
+                        if button.NormalTexture then
+                            button.NormalTexture:SetVertexColor(unpack(SUI:Color(0.15)))
+                        end
+                    end
+                end
+            end)
+        end
     end
 
     function SUIDefaultBags()
         for i = 1, 13 do
             local container = _G["ContainerFrame" .. i]
+            
+            -- Only proceed if container exists
+            if container then
+                SUIStyleNineSlice(container)
+                SUIStyleBG(container)
 
-            SUIStyleNineSlice(container)
-            SUIStyleBG(container)
-
-            -- Bag Slots
-            local bagSlots = _G["ContainerFrame" .. i]
-            hooksecurefunc(bagSlots, "Update", function(self)
-                for button, _ in self.itemButtonPool:EnumerateActive() do
-                    button.NormalTexture:SetVertexColor(unpack(SUI:Color(0.15)))
+                -- Bag Slots - only hook if Update method exists
+                if container.Update then
+                    hooksecurefunc(container, "Update", function(self)
+                        if self.itemButtonPool then
+                            for button, _ in self.itemButtonPool:EnumerateActive() do
+                                if button.NormalTexture then
+                                    button.NormalTexture:SetVertexColor(unpack(SUI:Color(0.15)))
+                                end
+                            end
+                        end
+                    end)
                 end
-            end)
-            --print(bagSlots.NormalTexture)
+            end
         end
 
-        ContainerFrame1MoneyFrame.Border.Left:SetVertexColor(unpack(SUI:Color(0.1)))
-        ContainerFrame1MoneyFrame.Border.Middle:SetVertexColor(unpack(SUI:Color(0.1)))
-        ContainerFrame1MoneyFrame.Border.Right:SetVertexColor(unpack(SUI:Color(0.1)))
+        -- Handle ContainerFrame1MoneyFrame safely
+        local moneyFrame = _G["ContainerFrame1MoneyFrame"]
+        if moneyFrame and moneyFrame.Border then
+            moneyFrame.Border.Left:SetVertexColor(unpack(SUI:Color(0.1)))
+            moneyFrame.Border.Middle:SetVertexColor(unpack(SUI:Color(0.1)))
+            moneyFrame.Border.Right:SetVertexColor(unpack(SUI:Color(0.1)))
+        end
 
-        BackpackTokenFrame.Border.Left:SetVertexColor(unpack(SUI:Color(0.1)))
-        BackpackTokenFrame.Border.Middle:SetVertexColor(unpack(SUI:Color(0.1)))
-        BackpackTokenFrame.Border.Right:SetVertexColor(unpack(SUI:Color(0.1)))
+        -- Handle BackpackTokenFrame safely
+        local backpackTokenFrame = _G["BackpackTokenFrame"]
+        if backpackTokenFrame and backpackTokenFrame.Border then
+            backpackTokenFrame.Border.Left:SetVertexColor(unpack(SUI:Color(0.1)))
+            backpackTokenFrame.Border.Middle:SetVertexColor(unpack(SUI:Color(0.1)))
+            backpackTokenFrame.Border.Right:SetVertexColor(unpack(SUI:Color(0.1)))
+        end
     end
 
     function SUIStyleBG(container)
-        container.Bg.TopSection:SetVertexColor(unpack(SUI:Color(0.1)))
-        container.Bg.BottomEdge:SetVertexColor(unpack(SUI:Color(0.1)))
-        container.Bg.BottomLeft:SetVertexColor(0, 0, 0, 0.78)
-        container.Bg.BottomRight:SetVertexColor(0, 0, 0, 0.78)
+        if not container or not container.Bg then return end
+        
+        if container.Bg.TopSection then
+            container.Bg.TopSection:SetVertexColor(unpack(SUI:Color(0.1)))
+        end
+        if container.Bg.BottomEdge then
+            container.Bg.BottomEdge:SetVertexColor(unpack(SUI:Color(0.1)))
+        end
+        if container.Bg.BottomLeft then
+            container.Bg.BottomLeft:SetVertexColor(0, 0, 0, 0.78)
+        end
+        if container.Bg.BottomRight then
+            container.Bg.BottomRight:SetVertexColor(0, 0, 0, 0.78)
+        end
     end
 
     function SUIStyleNineSlice(container)
+        if not container or not container.NineSlice then return end
+        
         local nineSlice = {
             "BottomEdge",
             "BottomLeftCorner",
@@ -66,7 +104,9 @@ function Module:OnEnable()
         container.NineSlice:SetVertexColor(unpack(SUI:Color(1)))
 
         for _, ns in pairs(nineSlice) do
-            container.NineSlice[ns]:SetVertexColor(unpack(SUI:Color(0.1)))
+            if container.NineSlice[ns] then
+                container.NineSlice[ns]:SetVertexColor(unpack(SUI:Color(0.1)))
+            end
         end
     end
 

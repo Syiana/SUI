@@ -43,13 +43,13 @@ function Layout:OnEnable()
                     tooltip = 'Display spell icons on castbar',
                     column = 4
                 },
-                casttime = {
-                    key = 'timer',
-                    type = 'checkbox',
-                    label = 'Timer',
-                    tooltip = 'Display cast time on castbar',
-                    column = 4
-                },
+                -- casttime = {
+                --     key = 'timer',
+                --     type = 'checkbox',
+                --     label = 'Timer',
+                --     tooltip = 'Display cast time on castbar',
+                --     column = 4
+                -- },
                 targetCastbar = {
                     key = 'targetCastbar',
                     type = 'checkbox',

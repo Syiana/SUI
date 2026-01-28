@@ -20,10 +20,24 @@ function Module:OnEnable()
         SUI:Skin(RecruitAFriendFrame.RewardClaiming.Inset.NineSlice, true)
         SUI:Skin(RecruitAFriendRecruitmentFrame, true)
         SUI:Skin(RecruitAFriendRecruitmentFrame.Border, true)
-        SUI:Skin(WhoFrameListInset, true)
-        SUI:Skin(WhoFrameListInset.NineSlice, true)
-        SUI:Skin(WhoFrameEditBoxInset, true)
-        SUI:Skin(WhoFrameEditBoxInset.NineSlice, true)
+        
+        -- Handle Who Frame elements (may not exist in current version)
+        local whoFrameListInset = _G["WhoFrameListInset"]
+        if whoFrameListInset then
+            SUI:Skin(whoFrameListInset, true)
+            if whoFrameListInset.NineSlice then
+                SUI:Skin(whoFrameListInset.NineSlice, true)
+            end
+        end
+        
+        local whoFrameEditBoxInset = _G["WhoFrameEditBoxInset"]
+        if whoFrameEditBoxInset then
+            SUI:Skin(whoFrameEditBoxInset, true)
+            if whoFrameEditBoxInset.NineSlice then
+                SUI:Skin(whoFrameEditBoxInset.NineSlice, true)
+            end
+        end
+        
         SUI:Skin(FriendsFrameBattlenetFrame.BroadcastFrame, true)
         SUI:Skin(FriendsFrameBattlenetFrame.BroadcastFrame.Border, true)
 

@@ -197,7 +197,7 @@ function Layout:OnEnable()
                 Errors = {
                     key = 'cosmetic.errors',
                     type = 'checkbox',
-                    label = 'Error Messages',
+                    label = 'Messages',
                     tooltip = 'Display Error Messages (Out of Range etc.)',
                     column = 3,
                     order = 3

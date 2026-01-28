@@ -7,7 +7,6 @@ function Module:OnEnable()
         if (db.targetOnTop) then
             TargetFrameSpellBar:HookScript("OnUpdate", function(self)
                 self:ClearAllPoints()
-                self:SetPoint("TOPLEFT", TargetFrame, "TOPLEFT", 45, 0)
             end)
         end
 

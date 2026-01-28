@@ -26,9 +26,16 @@ function Module:OnEnable()
             if not self.timer then return end
             if self.update and self.update < elapsed then
                 if self.casting then
-                    self.timer:SetText(format("%.1f", max(self.maxValue - self.value, 0)))
+                    local currentValue = self:GetValue()
+                    local minValue, maxValue = self:GetMinMaxValues()
+                    if currentValue and maxValue and type(currentValue) == "number" and type(maxValue) == "number" then
+                        self.timer:SetText(format("%.1f", max(maxValue - currentValue, 0)))
+                    end
                 elseif self.channeling then
-                    self.timer:SetText(format("%.1f", max(self.value, 0)))
+                    local currentValue = self:GetValue()
+                    if currentValue and type(currentValue) == "number" then
+                        self.timer:SetText(format("%.1f", max(currentValue, 0)))
+                    end
                 else
                     self.timer:SetText("")
                 end

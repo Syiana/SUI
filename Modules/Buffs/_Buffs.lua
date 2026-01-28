@@ -1,4 +1,4 @@
-local Buffs = SUI:NewModule("Buffs.Buffs");
+local Buffs = SUI:NewModule("Buffs.Buffs")
 
 function Buffs:OnEnable()
     if C_AddOns.IsAddOnLoaded("BlizzBuffsFacade") then return end
@@ -8,29 +8,36 @@ function Buffs:OnEnable()
 
     -- Update Duration Text for Buffs
     local function UpdateDuration(self, timeLeft)
-        if timeLeft >= 86400 then
-            self.Duration:SetFormattedText("%dd", ceil(timeLeft / 86400))
-        elseif timeLeft >= 3600 then
-            self.Duration:SetFormattedText("%dh", ceil(timeLeft / 3600))
-        elseif timeLeft >= 60 then
-            self.Duration:SetFormattedText("%dm", ceil(timeLeft / 60))
-        else
-            self.Duration:SetFormattedText("%ds", timeLeft)
-        end
-    end
-
-    local function HookDurationUpdates(auraFrames)
-        for _, auraFrame in pairs(auraFrames) do
-            if auraFrame.SetFormattedText then
-                --hooksecurefunc(auraFrame.Duration, "SetFormattedText", UpdateDuration)
-                hooksecurefunc(auraFrame, "UpdateDuration", function(self)
-                    UpdateDuration(self, self.timeLeft)
-                end)
+        local success, result = pcall(function()
+            if not timeLeft or timeLeft < 0 then
+                return
             end
+            
+            if timeLeft >= 86400 then
+                self.Duration:SetFormattedText("%dd", ceil(timeLeft / 86400))
+            elseif timeLeft >= 3600 then
+                self.Duration:SetFormattedText("%dh", ceil(timeLeft / 3600))
+            elseif timeLeft >= 60 then
+                self.Duration:SetFormattedText("%dm", ceil(timeLeft / 60))
+            else
+                self.Duration:SetFormattedText("%ds", timeLeft)
+            end
+        end)
+        
+        if not success then
+            -- Silently fail if value is tainted/secret
+            return
         end
     end
 
-    HookDurationUpdates(BuffFrame.auraFrames)
+    -- Hook duration updates for all buff frames
+    for _, auraFrame in pairs(BuffFrame.auraFrames) do
+        if auraFrame.SetFormattedText then
+            hooksecurefunc(auraFrame, "UpdateDuration", function(self)
+                UpdateDuration(self, self.timeLeft)
+            end)
+        end
+    end
 
     local function ButtonDefault(button)
         local Backdrop = {
@@ -43,23 +50,17 @@ function Buffs:OnEnable()
         }
 
         local icon = button.Icon
-
         local border = CreateFrame("Frame", nil, button)
         border:SetSize(icon:GetWidth() + 4, icon:GetHeight() + 4)
-        if BuffFrame.AuraContainer.isHorizontal then
-            if BuffFrame.AuraContainer.addIconsToTop then
-                border:SetPoint("CENTER", button, "CENTER", 0, -5)
-            else
-                border:SetPoint("CENTER", button, "CENTER", 0, 5)
-            end
-        elseif not BuffFrame.AuraContainer.isHorizontal then
-            if not BuffFrame.AuraContainer.addIconsToRight then
-                border:SetPoint("CENTER", button, "CENTER", 15, 0)
-            else
-                border:SetPoint("CENTER", button, "CENTER", -15, 0)
-            end
-        end
 
+        -- Position border based on buff container orientation
+        if BuffFrame.AuraContainer.isHorizontal then
+            local yOffset = BuffFrame.AuraContainer.addIconsToTop and -5 or 5
+            border:SetPoint("CENTER", button, "CENTER", 0, yOffset)
+        else
+            local xOffset = BuffFrame.AuraContainer.addIconsToRight and -15 or 15
+            border:SetPoint("CENTER", button, "CENTER", xOffset, 0)
+        end
 
         border.texture = border:CreateTexture()
         border.texture:SetAllPoints()
@@ -77,51 +78,38 @@ function Buffs:OnEnable()
         button.SUIBorder = border
     end
 
-    local function ButtonBackdrop(button)
-        local Backdrop = {
-            bgFile = "",
-            edgeFile = "Interface\\Addons\\SUI\\Media\\Textures\\Core\\outer_shadow",
-            tile = false,
-            tileSize = 32,
-            edgeSize = 5,
-            insets = { left = 5, right = 5, top = 5, bottom = 5 }
-        }
-
-        local icon = button.Icon
-        local point, relativeTo, relativePoint, xOfs, yOfs = icon:GetPoint()
-
-        local border = CreateFrame("Frame", nil, button)
-        border:SetSize(icon:GetWidth(), icon:GetHeight())
-        border:SetPoint("CENTER", button, "CENTER", 0, 5)
-
-        local shadow = CreateFrame("Frame", nil, border, "BackdropTemplate")
-        shadow:SetPoint("TOPLEFT", border, "TOPLEFT", -4, 4)
-        shadow:SetPoint("BOTTOMRIGHT", border, "BOTTOMRIGHT", 4, -4)
-        shadow:SetBackdrop(Backdrop)
-        shadow:SetBackdropBorderColor(0, 0, 0)
-
-        button.SUIBorder = border
-    end
-
-    local function ButtonBordered(button)
-
-    end
-
-    function updateBuffs()
-        local Children = BuffFrame.auraFrames
-
-        for index, child in pairs(Children) do
+    local function UpdateBuffs()
+        for index, child in pairs(BuffFrame.auraFrames) do
             local frame = select(index, BuffFrame.AuraContainer:GetChildren())
-            local icon = frame.Icon
-            local count = frame.count
+            
+            frame.Icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
 
-            icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+            if frame.TempEnchantBorder then 
+                frame.TempEnchantBorder:Hide() 
+            end
 
-            if frame.TempEnchantBorder then frame.TempEnchantBorder:Hide() end
-
-            if frame.SUIBorder == nil then
+            if not frame.SUIBorder then
                 ButtonDefault(frame)
             end
+        end
+    end
+
+    -- Update buff text positions
+    local function UpdateAuraPositions()
+        for i = 1, #BuffFrame.auraFrames do
+            local aura = BuffFrame.auraFrames[i]
+            
+            -- Duration styling
+            aura.Duration:ClearAllPoints()
+            aura.Duration:SetPoint("CENTER", 0, -17.5)
+            aura.Duration:SetDrawLayer("ARTWORK")
+            aura.Duration:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
+
+            -- Count styling
+            aura.Count:ClearAllPoints()
+            aura.Count:SetPoint("BOTTOMRIGHT", 0, 11)
+            aura.Count:SetDrawLayer("ARTWORK")
+            aura.Count:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
         end
     end
 
@@ -131,68 +119,14 @@ function Buffs:OnEnable()
         frame:RegisterUnitEvent("UNIT_AURA", "player")
         frame:RegisterEvent("WEAPON_ENCHANT_CHANGED")
         frame:RegisterEvent("GROUP_ROSTER_UPDATE")
-        frame:SetScript("OnEvent", updateBuffs)
+        frame:SetScript("OnEvent", function()
+            UpdateBuffs()
+            UpdateAuraPositions()
+        end)
 
-        hooksecurefunc(AuraFrameMixin, "Update", function(self)
-            -- Set Duration Font size and reposition it
-            if BuffFrame.AuraContainer.isHorizontal then
-                if BuffFrame.AuraContainer.addIconsToTop then
-                    for i = 1, #BuffFrame.auraFrames do
-                        local duration = BuffFrame.auraFrames[i].Duration
-                        local count = BuffFrame.auraFrames[i].Count
-    
-                        count:SetPoint("TOPRIGHT", 0, 12)
-                        count:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
-    
-                        duration:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
-                        duration:ClearAllPoints()
-                        duration:SetPoint("CENTER", 0, -15)
-                    end
-                else
-                    for i = 1, #BuffFrame.auraFrames do
-                        local duration = BuffFrame.auraFrames[i].Duration
-                        local count = BuffFrame.auraFrames[i].Count
-                        
-                        count:SetPoint("TOPRIGHT", 0, 12)
-                        count:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
-    
-                        duration:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
-                        duration:ClearAllPoints()
-                        duration:SetPoint("CENTER", 0, -5)
-                    end
-                end
-            elseif not BuffFrame.AuraContainer.isHorizontal then
-                if not BuffFrame.AuraContainer.addIconsToRight then
-                    for i = 1, #BuffFrame.auraFrames do
-                        local duration = BuffFrame.auraFrames[i].Duration
-                        local count = BuffFrame.auraFrames[i].Count
-    
-                        count:SetPoint("TOPRIGHT", 0, 12)
-                        count:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
-    
-                        duration:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
-                        duration:ClearAllPoints()
-                        duration:SetPoint("CENTER", 15, -10)
-                    end
-                else
-                    for i = 1, #BuffFrame.auraFrames do
-                        local duration = BuffFrame.auraFrames[i].Duration
-                        local count = BuffFrame.auraFrames[i].Count
-    
-                        count:SetPoint("TOPRIGHT", -30, 12)
-                        count:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
-                        
-                        duration:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
-                        duration:ClearAllPoints()
-                        duration:SetPoint("CENTER", -13.5, -10)
-                    end
-                end
-            end
-    
-            for i = 1, #BuffFrame.auraFrames do
-                local duration = BuffFrame.auraFrames[i].Duration
-                duration:SetDrawLayer("OVERLAY")
-            end
+        -- Hook to update positions whenever buffs update
+        hooksecurefunc(AuraFrameMixin, "Update", function()
+            C_Timer.After(0, UpdateAuraPositions)
         end)
     end
 

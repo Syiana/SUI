@@ -87,7 +87,7 @@ function Module:OnEnable()
                 end
             end
 
-            local DefaultActionBarShowable = _G["MainMenuBar"].numButtonsShowable
+            local DefaultActionBarShowable = _G["MainActionBar"].numButtonsShowable
 
             for i = 1, DefaultActionBarShowable do
                 local Button = _G["ActionButton" .. i]
