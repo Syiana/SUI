@@ -3,6 +3,8 @@ local Module = SUI:NewModule("NamePlates.Core");
 function Module:OnEnable()
     if C_AddOns.IsAddOnLoaded('Plater') or C_AddOns.IsAddOnLoaded('TidyPlates_ThreatPlates') or C_AddOns.IsAddOnLoaded('TidyPlates') or C_AddOns.IsAddOnLoaded('Kui_Nameplates') then return end
     local db = SUI.db.profile.nameplates
+    local _, playerClass = UnitClass("player")
+    local playerClassColor = RAID_CLASS_COLORS[playerClass]
 
     local focusTexture = [[Interface\AddOns\SUI\Media\Textures\Nameplates\focusTexture]]
 
@@ -284,6 +286,20 @@ function Module:OnEnable()
         end
     end
 
+    local function personalResourceColor(self)
+        if self:IsForbidden() then return end
+        if not playerClassColor then return end
+        if not self.healthBar then return end
+
+        local parent = self:GetParent()
+        local isPersonalResource = (self.unit == "player" or self.displayedUnit == "player") and
+            (parent == NamePlatePlayerResourceFrame or (parent and parent:GetName() == "NamePlatePlayerResourceFrame"))
+
+        if isPersonalResource then
+            self.healthBar:SetStatusBarColor(playerClassColor.r, playerClassColor.g, playerClassColor.b)
+        end
+    end
+
     if db.style ~= 'Default' then
         -- Set Nameplate Texture
         if db.texture ~= [[Interface\Default]] then
@@ -317,6 +333,8 @@ function Module:OnEnable()
 
         -- Set Nameplate Name Color
         hooksecurefunc("CompactUnitFrame_UpdateName", nameplatePlayerName)
+        hooksecurefunc("CompactUnitFrame_UpdateHealthColor", personalResourceColor)
+        hooksecurefunc("CompactUnitFrame_UpdateHealth", personalResourceColor)
 
         -- Set Focus Texture
         local focus = CreateFrame("Frame")

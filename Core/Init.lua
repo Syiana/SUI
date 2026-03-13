@@ -405,27 +405,49 @@ function SUI:OnInitialize()
 
         if (frame) then
             if not (isTable) then
-                for _, v in pairs({ frame:GetRegions() }) do
-                    if (not SUI_forbiddenFrames[v:GetName()]) and (not SUI_forbiddenFrames[v]) then
-                        if v:GetObjectType() == "Texture" then
-                            if (customColor) then
-                                v:SetDesaturated(true)
-                                v:SetVertexColor(unpack(SUI:Color(.15)))
-                            else
-                                v:SetDesaturated(true)
-                                v:SetVertexColor(.15, .15, .15)
+                if frame.GetRegions then
+                    for _, v in pairs({ frame:GetRegions() }) do
+                        if (not SUI_forbiddenFrames[v:GetName()]) and (not SUI_forbiddenFrames[v]) then
+                            if v:GetObjectType() == "Texture" then
+                                if (customColor) then
+                                    if v.SetDesaturated then
+                                        v:SetDesaturated(true)
+                                    end
+                                    v:SetVertexColor(unpack(SUI:Color(.15)))
+                                else
+                                    if v.SetDesaturated then
+                                        v:SetDesaturated(true)
+                                    end
+                                    v:SetVertexColor(.15, .15, .15)
+                                end
                             end
                         end
+                    end
+                elseif frame.GetObjectType and frame:GetObjectType() == "Texture" then
+                    if (customColor) then
+                        if frame.SetDesaturated then
+                            frame:SetDesaturated(true)
+                        end
+                        frame:SetVertexColor(unpack(SUI:Color(.15)))
+                    else
+                        if frame.SetDesaturated then
+                            frame:SetDesaturated(true)
+                        end
+                        frame:SetVertexColor(.15, .15, .15)
                     end
                 end
             else
                 for _, v in pairs(frame) do
                     if (v) then
                         if (customColor) then
-                            v:SetDesaturated(true)
+                            if v.SetDesaturated then
+                                v:SetDesaturated(true)
+                            end
                             v:SetVertexColor(unpack(SUI:Color(.15)))
                         else
-                            v:SetDesaturated(true)
+                            if v.SetDesaturated then
+                                v:SetDesaturated(true)
+                            end
                             v:SetVertexColor(.15, .15, .15)
                         end
                     end

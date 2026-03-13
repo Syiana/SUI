@@ -2,6 +2,29 @@ local Module = SUI:NewModule("Skins.UnitFrames");
 
 function Module:OnEnable()
     if (SUI:Color()) then
+        local function skinPaladinPowerBar(frame)
+            if not frame or (frame.IsForbidden and frame:IsForbidden()) then
+                return
+            end
+
+            local objects = {}
+            if frame.Background then
+                objects[#objects + 1] = frame.Background
+            end
+
+            if #objects > 0 then
+                SUI:Skin(objects, true, true)
+            end
+
+            if frame.Background then
+                frame.Background:SetVertexColor(unpack(SUI:Color(0.15)))
+            end
+
+            if frame.ActiveTexture then
+                frame.ActiveTexture:Hide()
+            end
+        end
+
         -- Alternate Power Bar
         for i, v in ipairs({
             PlayerFrameAlternateManaBarBorder,
@@ -185,12 +208,26 @@ function Module:OnEnable()
             end)
         elseif (playerClass == 'PALADIN') then
             -- Paladin
-            hooksecurefunc(PaladinPowerBar, "UpdatePower", function()
-                PaladinPowerBarFrame.Background:SetVertexColor(unpack(SUI:Color(0.15)))
-                PaladinPowerBarFrame.ActiveTexture:Hide()
-                ClassNameplateBarPaladinFrame.Background:SetVertexColor(unpack(SUI:Color(0.15)))
-                ClassNameplateBarPaladinFrame.ActiveTexture:Hide()
-            end)
+            if PaladinPowerBarFrame and PaladinPowerBarFrame.UpdatePower then
+                hooksecurefunc(PaladinPowerBarFrame, "UpdatePower", function()
+                    skinPaladinPowerBar(PaladinPowerBarFrame)
+                end)
+                skinPaladinPowerBar(PaladinPowerBarFrame)
+            end
+
+            if ClassNameplateBarPaladinFrame and ClassNameplateBarPaladinFrame.UpdatePower then
+                hooksecurefunc(ClassNameplateBarPaladinFrame, "UpdatePower", function()
+                    skinPaladinPowerBar(ClassNameplateBarPaladinFrame)
+                end)
+                skinPaladinPowerBar(ClassNameplateBarPaladinFrame)
+            end
+
+            if prdClassFrame and prdClassFrame.UpdatePower then
+                hooksecurefunc(prdClassFrame, "UpdatePower", function()
+                    skinPaladinPowerBar(prdClassFrame)
+                end)
+                skinPaladinPowerBar(prdClassFrame)
+            end
         end
     end
 end

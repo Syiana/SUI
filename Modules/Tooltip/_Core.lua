@@ -92,7 +92,7 @@ function Module:OnEnable()
             --position raidicon
             if unit and canaccessvalue(unit) then
                 local raidIconIndex = GetRaidTargetIndex(unit)
-                if raidIconIndex then
+                if raidIconIndex and canaccessvalue(raidIconIndex) then
                     if raidIconIndex == 16 then
                         GameTooltipTextLeft1:SetText(("%s"):format(unitName or ""))
                     else

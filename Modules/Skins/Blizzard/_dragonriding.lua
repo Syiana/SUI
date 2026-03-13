@@ -3,6 +3,10 @@ local Module = SUI:NewModule("Skins.Dragonriding");
 function Module:OnEnable()
     if (SUI:Color()) then
         local function skinVigor()
+            if not UIWidgetPowerBarContainerFrame then
+                return
+            end
+
             for _, child in ipairs({ UIWidgetPowerBarContainerFrame:GetChildren() }) do
                 for _, v in ipairs({ child:GetRegions() }) do
                     if v:GetObjectType() == "Texture" then
