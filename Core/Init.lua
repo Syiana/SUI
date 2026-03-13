@@ -228,7 +228,47 @@ local defaults = {
             friendlist = true,
             quickjoin = true,
             looticons = true,
-            roleicons = true
+            roleicons = true,
+            whisperalert = false,
+            settings = {
+                color = { 0.88, 0.74, 0.36 },
+                tooltips = true,
+                smooth = true,
+                fade = {
+                    enabled = true,
+                    click = false,
+                    out_delay = 60
+                },
+                buttons = {
+                    up_and_down = false
+                },
+                chat = {
+                    alpha = 0.4,
+                    x_padding = 8,
+                    y_padding = 0,
+                    font = {
+                        size = 12,
+                        shadow = true,
+                        outline = true
+                    }
+                },
+                dock = {
+                    alpha = 0.8,
+                    fade = {
+                        enabled = true
+                    }
+                },
+                edit = {
+                    alpha = 0.8,
+                    position = "top",
+                    offset = 32,
+                    font = {
+                        size = 12,
+                        shadow = true,
+                        outline = true
+                    }
+                }
+            }
         },
         maps = {
             minimapsize = 1,
@@ -283,6 +323,15 @@ function SUI:OnInitialize()
 
     -- Database
     self.db = LibStub("AceDB-3.0"):New("SUIDB", defaults, true)
+
+    -- Normalize legacy chat style values so the config dropdown stays in sync.
+    if self.db.profile.chat then
+        if self.db.profile.chat.style == "SUI" then
+            self.db.profile.chat.style = "Custom"
+        elseif self.db.profile.chat.style ~= "Default" and self.db.profile.chat.style ~= "Custom" then
+            self.db.profile.chat.style = defaults.profile.chat.style
+        end
+    end
 
     -- Colors
     local _, class = UnitClass("player")

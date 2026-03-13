@@ -32,6 +32,7 @@ Data.specials = {
   { text = Colors.warri .. 'Beiskaldi|r' },
   { text = Colors.warri .. 'Limps|r' },
   { text = Colors.monk .. 'Tem|r' },
+  { text = Colors.druid .. 'Shimaya|r' },
   { text = Colors.dh .. 'Instababe|r' },
   { text = Colors.rog .. 'Citney|r' },
   { text = Colors.dk .. 'Eyu|r' },
