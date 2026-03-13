@@ -52,22 +52,28 @@ local defaults = {
             target = {
                 size = 1
             },
+            personalbar = {
+                texture = [[Interface\Addons\SUI\Media\Textures\Status\Smooth.blp]],
+                width = 130,
+                height = 14,
+                manaheight = 8
+            },
             buffs = {
                 size = 26,
                 collapse = false,
-                textsize = 11,
-                durationoffset = 2,
+                textsize = 12,
+                durationoffset = 5,
                 countx = -1,
-                county = -1,
+                county = -2,
                 targetx = 0,
                 targety = 0
             },
             debuffs = {
                 size = 20,
-                textsize = 11,
+                textsize = 12,
                 durationoffset = 2,
                 countx = -1,
-                county = -1,
+                county = -2,
                 targetx = 0,
                 targety = 0
             }
