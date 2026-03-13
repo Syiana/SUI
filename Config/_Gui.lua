@@ -37,6 +37,7 @@ function Gui:OnEnable()
     local searchBox
     local clearSearchButton
     local isClearingSearch = false
+    local refreshSearchResults
 
     local function normalizeSearchText(text)
         return ((text or ""):lower():gsub("^%s+", ""):gsub("%s+$", ""))
@@ -114,6 +115,9 @@ function Gui:OnEnable()
             isClearingSearch = true
             searchBox:SetText('')
             isClearingSearch = false
+            if refreshSearchResults then
+                refreshSearchResults('')
+            end
         end
 
         local fadeInfo = {
@@ -133,6 +137,10 @@ function Gui:OnEnable()
             ToggleGameMenu()
         end
     end
+
+    config.closeBtn:SetScript('OnClick', function()
+        fadeConfig(false, false)
+    end)
 
     function SUI:Config(toggle)
         if toggle then
@@ -290,7 +298,7 @@ function Gui:OnEnable()
 
     local lastSelectedTab = categories[1] and categories[1].name or nil
 
-    local function refreshSearchResults(query)
+    refreshSearchResults = function(query)
         if clearSearchButton then
             if normalizeSearchText(query) ~= "" then
                 clearSearchButton:Show()
@@ -364,6 +372,7 @@ function Gui:OnEnable()
     local edit = SUIConfig:Button(config, 160, 28, 'Edit Mode')
     SUIConfig:GlueAbove(edit, save, 0, 6, 'LEFT')
     edit:SetScript('OnClick', function()
+        fadeConfig(false, false)
         if EditModeManagerFrame then
             ShowUIPanel(EditModeManagerFrame)
         end
