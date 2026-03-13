@@ -4,9 +4,25 @@ if not SUIConfig then
 	return
 end
 
-local module, version = 'Tab', 4;
+local module, version = 'Tab', 5;
 if not SUIConfig:UpgradeNeeded(module, version) then
 	return
+end
+
+local function ResetTabFrame(frame)
+	if not frame then
+		return
+	end
+
+	frame:Hide();
+
+	for _, child in ipairs({ frame:GetChildren() }) do
+		child:Hide();
+		child:SetParent(nil);
+	end
+
+	frame.rows = nil;
+	frame.elements = nil;
 end
 
 ----------------------------------------------------
@@ -14,6 +30,33 @@ end
 ----------------------------------------------------
 
 local TabPanelMethods = {
+	CleanupRemovedTabs = function(self, newTabs)
+		if not self.tabs then
+			return
+		end
+
+		local existing = {};
+		for _, tab in pairs(newTabs or {}) do
+			existing[tab.name] = true;
+		end
+
+		for _, tab in pairs(self.tabs) do
+			if not existing[tab.name] then
+				if tab.button then
+					tab.button:Hide();
+				end
+
+				if tab.frame then
+					tab.frame:Hide();
+				end
+
+				if self.selectedTab == tab then
+					self.selectedTab = nil;
+				end
+			end
+		end
+	end,
+
 	--- Runs callback thru all tabs, if callback returns truthy value, enumeration stops and function returns result
 	EnumerateTabs = function(self, callback, ...)
 		local result;
@@ -44,50 +87,59 @@ local TabPanelMethods = {
 				tab.button:Hide();
 			end
 
-			local btn = tab.button;
-			local btnContainer = self.buttonContainer;
+			if not tab.hiddenButton then
+				local btn = tab.button;
+				local btnContainer = self.buttonContainer;
 
-			if not btn then
-				btn = self.SUIConfig:Button(btnContainer, nil, self.buttonHeight);
-				tab.button = btn;
-				btn.tabFrame = self;
+				if not btn then
+					btn = self.SUIConfig:Button(btnContainer, nil, self.buttonHeight);
+					tab.button = btn;
+					btn.tabFrame = self;
 
-				btn:SetScript('OnClick', function(bt)
-					bt.tabFrame:SelectTab(bt.tab.name);
-				end);
-			end
-
-			btn.tab = tab;
-			btn:SetText(tab.title);
-			btn:ClearAllPoints();
-
-			if self.vertical then
-				btn:SetWidth(self.buttonWidth);
-			else
-				self.SUIConfig:ButtonAutoWidth(btn);
-			end
-
-			if self.vertical then
-				if not prevBtn then
-					self.SUIConfig:GlueTop(btn, btnContainer, 0, 0, 'CENTER');
-				else
-					self.SUIConfig:GlueBelow(btn, prevBtn, 0, -1);
+					btn:SetScript('OnClick', function(bt)
+						bt.tabFrame:SelectTab(bt.tab.name);
+					end);
 				end
-			else
-				if not prevBtn then
-					self.SUIConfig:GlueTop(btn, btnContainer, 0, 0, 'LEFT');
-				else
-					self.SUIConfig:GlueRight(btn, prevBtn, 5, 0);
-				end
-			end
 
-			btn:Show();
-			prevBtn = btn;
+				btn.tab = tab;
+				btn:SetText(tab.title);
+				btn:ClearAllPoints();
+
+				if self.vertical then
+					btn:SetWidth(self.buttonWidth);
+				else
+					self.SUIConfig:ButtonAutoWidth(btn);
+				end
+
+				if self.vertical then
+					if not prevBtn then
+						self.SUIConfig:GlueTop(btn, btnContainer, 0, 0, 'CENTER');
+					else
+						self.SUIConfig:GlueBelow(btn, prevBtn, 0, -1);
+					end
+				else
+					if not prevBtn then
+						self.SUIConfig:GlueTop(btn, btnContainer, 0, 0, 'LEFT');
+					else
+						self.SUIConfig:GlueRight(btn, prevBtn, 5, 0);
+					end
+				end
+
+				btn:Show();
+				prevBtn = btn;
+			end
 		end
 	end,
 
 	DrawFrames = function(self)
 		for _, tab in pairs(self.tabs) do
+			if tab.frame and tab.builtLayout ~= tab.layout then
+				ResetTabFrame(tab.frame);
+				tab.frame:SetParent(nil);
+				tab.frame = nil;
+				tab.builtLayout = nil;
+			end
+
 			if not tab.frame then
 				tab.frame = self.SUIConfig:Frame(self.container);
 			end
@@ -95,9 +147,10 @@ local TabPanelMethods = {
 			tab.frame:ClearAllPoints();
 			tab.frame:SetAllPoints();
 
-			if tab.layout then
+			if tab.layout and (tab.builtLayout ~= tab.layout or not tab.frame.rows) then
 				self.SUIConfig:BuildWindow(tab.frame, tab.layout);
 				self.SUIConfig:EasyLayout(tab.frame, { padding = { top = 10, left = 5, right = 5 } });
+				tab.builtLayout = tab.layout;
 
 				tab.frame:SetScript('OnShow', function(of)
 					of:DoLayout();
@@ -112,6 +165,7 @@ local TabPanelMethods = {
 
 	Update = function(self, newTabs)
 		if newTabs then
+			self:CleanupRemovedTabs(newTabs);
 			self.tabs = newTabs;
 		end
 		self:DrawButtons();
@@ -128,7 +182,7 @@ local TabPanelMethods = {
 
 	SelectTab = function(self, name)
 		self.selected = name;
-		if self.selectedTab then
+		if self.selectedTab and self.selectedTab.button then
 			self.selectedTab.button:Enable();
 		end
 
@@ -136,7 +190,9 @@ local TabPanelMethods = {
 		local foundTab = self:GetTabByName(name);
 
 		if foundTab.name == name and foundTab.frame then
-			foundTab.button:Disable();
+			if foundTab.button then
+				foundTab.button:Disable();
+			end
 			foundTab.frame:Show();
 			self.selectedTab = foundTab;
 			return true;

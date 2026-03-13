@@ -15,6 +15,7 @@ local Theme = SUI:GetModule("Config.Components.Theme")
 
 function Gui:OnEnable()
     local SUIConfig = LibStub('SUIConfig')
+    local util = SUIConfig.Util
     Theme:Apply()
 
     -- Database
@@ -32,6 +33,77 @@ function Gui:OnEnable()
 
     local logo = SUIConfig:Texture(config.titlePanel, 120, 35, "Interface\\AddOns\\SUI\\Media\\Textures\\Config\\Logo")
     SUIConfig:GlueAbove(logo, config, 0, -35)
+
+    local function normalizeSearchText(text)
+        return ((text or ""):lower():gsub("^%s+", ""):gsub("%s+$", ""))
+    end
+
+    local function cloneConfigElement(element)
+        local copy = {}
+        for key, value in pairs(element) do
+            copy[key] = value
+        end
+        copy.column = 12
+        copy.order = 1
+        return copy
+    end
+
+    local function getDatabaseValue(dbRef, key)
+        if not dbRef or not key then
+            return nil
+        end
+
+        local startPos = dbRef
+        for subKey in string.gmatch(key, "[^%.]+") do
+            if type(startPos) ~= "table" then
+                return nil
+            end
+            startPos = startPos[subKey]
+            if startPos == nil then
+                return nil
+            end
+        end
+
+        return startPos
+    end
+
+    local function setDatabaseValue(dbRef, key, value)
+        if not dbRef or not key then
+            return
+        end
+
+        local accessor = {}
+        for subKey in string.gmatch(key, "[^%.]+") do
+            accessor[#accessor + 1] = subKey
+        end
+
+        if #accessor == 0 then
+            return
+        end
+
+        local startPos = dbRef
+        for index = 1, #accessor - 1 do
+            local subKey = accessor[index]
+            if type(startPos[subKey]) ~= "table" then
+                startPos[subKey] = {}
+            end
+            startPos = startPos[subKey]
+        end
+
+        startPos[accessor[#accessor]] = value
+    end
+
+    local function getWidgetValue(_, value)
+        return value
+    end
+
+    local searchableTypes = {
+        checkbox = true,
+        dropdown = true,
+        slider = true,
+        sliderWithBox = true,
+        editBox = true
+    }
 
     local function fadeConfig(visible, toggleMenu)
         local fadeInfo = {
@@ -100,9 +172,127 @@ function Gui:OnEnable()
         }
     end
 
+    local searchCategory = {
+        title = 'Search',
+        name = 'Search',
+        hiddenButton = true
+    }
+
+    local function buildSearchLayout(query)
+        local rows = {}
+        local normalizedQuery = normalizeSearchText(query)
+        local resultCount = 0
+
+        if normalizedQuery == "" then
+            rows[#rows + 1] = {
+                info = {
+                    type = 'label',
+                    label = 'Type above to search the config.'
+                },
+            }
+        else
+            for _, entry in ipairs(layoutModules) do
+                local layout = entry.module.layout
+                local sectionLabel
+
+                if layout and layout.rows then
+                    for _, row in ipairs(layout.rows) do
+                        for rowKey, element in util.orderedPairs(row) do
+                            if type(element) == 'table' then
+                                if element.type == 'header' then
+                                    sectionLabel = element.label
+                                elseif searchableTypes[element.type] and element.label then
+                                    local labelText = normalizeSearchText(element.label)
+                                    local isMatch = labelText ~= "" and labelText:find(normalizedQuery, 1, true)
+
+                                    if isMatch then
+                                        rows[#rows + 1] = {
+                                            result = (function()
+                                                local resultElement = cloneConfigElement(element)
+                                                local sourceDb = layout.database
+                                                local sourceKey = element.key or rowKey
+
+                                                resultElement.initialValue = getDatabaseValue(sourceDb, sourceKey)
+                                                resultElement.onValueChanged = function(widget, value)
+                                                    local newValue = getWidgetValue(widget, value)
+                                                    setDatabaseValue(sourceDb, sourceKey, newValue)
+                                                    if element.onChange then
+                                                        element.onChange(newValue)
+                                                    end
+                                                end
+
+                                                return resultElement
+                                            end)()
+                                        }
+                                        resultCount = resultCount + 1
+                                    end
+                                end
+                            end
+                        end
+                    end
+                end
+            end
+
+            if resultCount == 0 then
+                rows[#rows + 1] = {
+                    info = {
+                        type = 'label',
+                        label = 'No matching settings found.'
+                    },
+                }
+            end
+        end
+
+        return {
+            layoutConfig = { padding = { top = 15 } },
+            rows = rows
+        }
+    end
+
+    local function buildTabs(query)
+        if normalizeSearchText(query) == "" then
+            return categories
+        end
+
+        searchCategory.layout = buildSearchLayout(query)
+
+        local tabsWithSearch = {
+            searchCategory
+        }
+
+        for _, category in ipairs(categories) do
+            tabsWithSearch[#tabsWithSearch + 1] = category
+        end
+
+        return tabsWithSearch
+    end
+
     -- Tabs
     local tabs = SUIConfig:TabPanel(config, nil, nil, categories, true, 141, 27)
     SUIConfig:GlueAcross(tabs, config, 10, -35, -10, 10)
+
+    local lastSelectedTab = categories[1] and categories[1].name or nil
+
+    local function refreshSearchResults(query)
+        local selectedTab = tabs:GetSelectedTab()
+        if selectedTab and selectedTab.name ~= searchCategory.name then
+            lastSelectedTab = selectedTab.name
+        end
+
+        tabs:Update(buildTabs(query))
+
+        if normalizeSearchText(query) ~= "" then
+            tabs:SelectTab(searchCategory.name)
+        elseif lastSelectedTab then
+            tabs:SelectTab(lastSelectedTab)
+        end
+    end
+
+    local searchBox = SUIConfig:SearchEditBox(config.titlePanel, 185, 20, 'Search settings')
+    searchBox:SetPoint('RIGHT', config.titlePanel, 'RIGHT', -10, 0)
+    searchBox.OnValueChanged = function(self, value)
+        refreshSearchResults(value)
+    end
 
     -- Scroll tab list
     local scrollTabs = SUIConfig:ScrollFrame(config, 160, 311, tabs.buttonContainer)
