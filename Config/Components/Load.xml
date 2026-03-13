@@ -1,4 +1,5 @@
 <Ui xmlns='http://www.blizzard.com/wow/ui/'>
+  <Include file='_Theme.lua'/>
   <Include file='_CvarsBrowser.lua'/>
   <Include file='_ProfileExport.lua'/>
   <Include file='_ProfileImport.lua'/>

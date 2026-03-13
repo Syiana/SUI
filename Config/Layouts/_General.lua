@@ -7,8 +7,6 @@ function Layout:OnEnable()
     -- Data
     local Themes = SUI:GetModule("Data.Themes")
     local Fonts = SUI:GetModule("Data.Fonts")
-    local Textures = SUI:GetModule("Data.Textures")
-
     -- Layout
     Layout.layout = {
         layoutConfig = { padding = { top = 15 } },
@@ -187,7 +185,7 @@ function Layout:OnEnable()
                     order = 1
                 },
                 talkhead = {
-                    key = 'cosmetic.talkinghead',
+                    key = 'cosmetic.talkhead',
                     type = 'checkbox',
                     label = 'Talkinghead',
                     tooltip = 'Show Talkinghead frame',
@@ -199,6 +197,32 @@ function Layout:OnEnable()
                     type = 'checkbox',
                     label = 'Messages',
                     tooltip = 'Display Error Messages (Out of Range etc.)',
+                    column = 3,
+                    order = 3
+                },
+            },
+            {
+                testSell = {
+                    key = 'automation.sell',
+                    type = 'checkbox',
+                    label = 'Test Sell',
+                    tooltip = 'Scroll test row',
+                    column = 3,
+                    order = 1
+                },
+                testDelete = {
+                    key = 'automation.delete',
+                    type = 'checkbox',
+                    label = 'Test Delete',
+                    tooltip = 'Scroll test row',
+                    column = 3,
+                    order = 2
+                },
+                testInvite = {
+                    key = 'automation.invite',
+                    type = 'checkbox',
+                    label = 'Test Invite',
+                    tooltip = 'Scroll test row',
                     column = 3,
                     order = 3
                 },

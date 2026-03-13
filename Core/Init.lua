@@ -187,7 +187,8 @@ local defaults = {
         tooltip = {
             style = 'Custom',
             lifeontop = true,
-            mouseanchor = false
+            mouseanchor = false,
+            hideincombat = false
         },
         buffs = {
             buff = {

@@ -91,34 +91,39 @@ function Debuffs:OnEnable()
         local Children = { DebuffFrame.AuraContainer:GetChildren() }
 
         for index, child in pairs(Children) do
-            local frame = select(index, DebuffFrame.AuraContainer:GetChildren())
+            if canaccessvalue(index) and canaccessvalue(child) then
+                local frame = select(index, DebuffFrame.AuraContainer:GetChildren())
+                if frame and canaccessvalue(frame) then
+                    if child.Border then
+                        child.Border:Hide()
+                    end
 
-            if child.Border then
-                child.Border:Hide()
-            end
+                    if frame.Icon and canaccessvalue(frame.Icon) then
+                        frame.Icon:SetTexCoord(0.08, 0.92, 0.08, 0.92)
+                    end
 
-            frame.Icon:SetTexCoord(0.08, 0.92, 0.08, 0.92)
+                    if not frame.SUIBorder then
+                        ButtonDefault(frame)
+                    end
 
-            if not frame.SUIBorder then
-                ButtonDefault(frame)
-            end
-
-            -- Set the color of the Debuff Border
-            local debuffType = nil
-            if child.buttonInfo then
-                -- Use pcall to safely access potentially protected data
-                local success, result = pcall(function() return child.buttonInfo.debuffType end)
-                if success then
-                    debuffType = result
-                end
-            end
-            
-            if frame.SUIBorder then
-                local color = DebuffColor[debuffType or "none"]
-                if color then
-                    frame.SUIBorder.texture:SetVertexColor(color.r, color.g, color.b, 1)
-                else
-                    frame.SUIBorder.texture:SetVertexColor(unpack(SUI:Color(0.15)))
+                    -- Set the color of the Debuff Border
+                    local debuffType = nil
+                    if child.buttonInfo and canaccessvalue(child.buttonInfo) then
+                        -- Use pcall to safely access potentially protected data
+                        local success, result = pcall(function() return child.buttonInfo.debuffType end)
+                        if success and canaccessvalue(result) then
+                            debuffType = result
+                        end
+                    end
+                    
+                    if frame.SUIBorder then
+                        local color = DebuffColor[debuffType or "none"]
+                        if color then
+                            frame.SUIBorder.texture:SetVertexColor(color.r, color.g, color.b, 1)
+                        else
+                            frame.SUIBorder.texture:SetVertexColor(unpack(SUI:Color(0.15)))
+                        end
+                    end
                 end
             end
         end

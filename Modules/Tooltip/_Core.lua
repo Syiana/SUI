@@ -70,7 +70,9 @@ function Module:OnEnable()
             end
 
             local unitName, unit = self:GetUnit()
-            if not unit then return end
+            if not unit or not canaccessvalue(unit) then return end
+            if unitName and not canaccessvalue(unitName) then unitName = nil end
+            
             --color tooltip textleft
             for i = 2, GameTooltip:NumLines() do
                 local line = _G["GameTooltipTextLeft" .. i]
@@ -81,12 +83,14 @@ function Module:OnEnable()
                 end
             end
             --position raidicon
-            if unit and GetRaidTargetIndex(unit) then
+            if unit and canaccessvalue(unit) then
                 local raidIconIndex = GetRaidTargetIndex(unit)
-                if GetRaidTargetIndex(unit) == 16 then
-                    GameTooltipTextLeft1:SetText(("%s"):format(unitName))
-                else
-                    GameTooltipTextLeft1:SetText(("%s %s"):format(ICON_LIST[raidIconIndex] .. "14|t", unitName))
+                if raidIconIndex then
+                    if raidIconIndex == 16 then
+                        GameTooltipTextLeft1:SetText(("%s"):format(unitName or ""))
+                    else
+                        GameTooltipTextLeft1:SetText(("%s %s"):format(ICON_LIST[raidIconIndex] .. "14|t", unitName or ""))
+                    end
                 end
             end
             if not UnitIsPlayer(unit) then
@@ -232,12 +236,14 @@ function Module:OnEnable()
             
             -- Check if ID already exists in tooltip
             local tooltipName = self:GetName()
-            for i = 1, 15 do
-                local frame = _G[tooltipName .. "TextLeft" .. i]
-                if frame then 
-                    local success, text = pcall(frame.GetText, frame)
-                    if success and text and type(text) == "string" and text:find("|cff0099ffID|r", 1, true) then 
-                        return 
+            if tooltipName and canaccessvalue(tooltipName) then
+                for i = 1, 15 do
+                    local frame = _G[tooltipName .. "TextLeft" .. i]
+                    if frame then 
+                        local success, text = pcall(frame.GetText, frame)
+                        if success and text and canaccessvalue(text) and type(text) == "string" and text:find("|cff0099ffID|r", 1, true) then 
+                            return 
+                        end
                     end
                 end
             end
