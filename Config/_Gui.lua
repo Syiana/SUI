@@ -24,15 +24,19 @@ function Gui:OnEnable()
     -- Config
     local config = SUIConfig:Window(UIParent, 700, 415)
     config:SetPoint('CENTER')
-    config.titlePanel:SetPoint('LEFT', 10, 0)
-    config.titlePanel:SetPoint('RIGHT', -35, 0)
+    config.titlePanel:SetPoint('LEFT', 0, 0)
+    config.titlePanel:SetPoint('RIGHT', -33, 0)
     config:Hide()
 
     local version = SUIConfig:Label(config.titlePanel, C_AddOns.GetAddOnMetadata("SUI", "version"))
-    SUIConfig:GlueLeft(version, config.titlePanel, 50, 0)
+    SUIConfig:GlueLeft(version, config.titlePanel, 40, 0)
 
     local logo = SUIConfig:Texture(config.titlePanel, 120, 35, "Interface\\AddOns\\SUI\\Media\\Textures\\Config\\Logo")
     SUIConfig:GlueAbove(logo, config, 0, -35)
+
+    local searchBox
+    local clearSearchButton
+    local isClearingSearch = false
 
     local function normalizeSearchText(text)
         return ((text or ""):lower():gsub("^%s+", ""):gsub("%s+$", ""))
@@ -106,6 +110,12 @@ function Gui:OnEnable()
     }
 
     local function fadeConfig(visible, toggleMenu)
+        if not visible and searchBox then
+            isClearingSearch = true
+            searchBox:SetText('')
+            isClearingSearch = false
+        end
+
         local fadeInfo = {
             mode = visible and "IN" or "OUT",
             timeToFade = 0.2,
@@ -207,6 +217,13 @@ function Gui:OnEnable()
 
                                     if isMatch then
                                         rows[#rows + 1] = {
+                                            category = {
+                                                type = 'label',
+                                                label = entry.title
+                                            },
+                                        }
+
+                                        rows[#rows + 1] = {
                                             result = (function()
                                                 local resultElement = cloneConfigElement(element)
                                                 local sourceDb = layout.database
@@ -274,6 +291,14 @@ function Gui:OnEnable()
     local lastSelectedTab = categories[1] and categories[1].name or nil
 
     local function refreshSearchResults(query)
+        if clearSearchButton then
+            if normalizeSearchText(query) ~= "" then
+                clearSearchButton:Show()
+            else
+                clearSearchButton:Hide()
+            end
+        end
+
         local selectedTab = tabs:GetSelectedTab()
         if selectedTab and selectedTab.name ~= searchCategory.name then
             lastSelectedTab = selectedTab.name
@@ -288,10 +313,38 @@ function Gui:OnEnable()
         end
     end
 
-    local searchBox = SUIConfig:SearchEditBox(config.titlePanel, 185, 20, 'Search settings')
-    searchBox:SetPoint('RIGHT', config.titlePanel, 'RIGHT', -10, 0)
+    searchBox = SUIConfig:SearchEditBox(config.titlePanel, 185, 20, 'Search settings')
+    searchBox:SetPoint('RIGHT', config.titlePanel, 'RIGHT', 0, 0)
+    searchBox:SetTextInsets(3, 22, 3, 3)
     searchBox.OnValueChanged = function(self, value)
+        if isClearingSearch then
+            return
+        end
         refreshSearchResults(value)
+    end
+
+    clearSearchButton = SUIConfig:Button(searchBox, 16, 16, 'X')
+    clearSearchButton.text:SetFontSize(11)
+    clearSearchButton:SetPoint('RIGHT', searchBox, 'RIGHT', -2, 0)
+    clearSearchButton:Hide()
+    clearSearchButton:SetScript('OnClick', function()
+        isClearingSearch = true
+        searchBox:SetText('')
+        isClearingSearch = false
+        refreshSearchResults('')
+        searchBox:ClearFocus()
+    end)
+
+    local originalSelectTab = tabs.SelectTab
+    tabs.SelectTab = function(self, name)
+        if name ~= searchCategory.name and searchBox and normalizeSearchText(searchBox:GetText()) ~= "" then
+            isClearingSearch = true
+            searchBox:SetText('')
+            isClearingSearch = false
+            refreshSearchResults('')
+        end
+
+        return originalSelectTab(self, name)
     end
 
     -- Scroll tab list
