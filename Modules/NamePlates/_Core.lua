@@ -9,14 +9,14 @@ function Module:OnEnable()
 
     local focusTexture = [[Interface\AddOns\SUI\Media\Textures\Nameplates\focusTexture]]
 
+    local personalBarCfg = {}
     local function personalBarConfig()
         local cfg = unitframes.personalbar or {}
-        return {
-            texture = cfg.texture or SUI.db.profile.general.texture,
-            width = cfg.width or 110,
-            height = cfg.height or 4,
-            manaheight = cfg.manaheight or 4
-        }
+        personalBarCfg.texture = cfg.texture or SUI.db.profile.general.texture
+        personalBarCfg.width = cfg.width or 130
+        personalBarCfg.height = cfg.height or 14
+        personalBarCfg.manaheight = cfg.manaheight or 8
+        return personalBarCfg
     end
 
     local function getPersonalHealthContainer()
@@ -58,8 +58,48 @@ function Module:OnEnable()
 
     local function setTexture(textureObject, texturePath)
         if textureObject and textureObject.SetTexture then
+            if textureObject.suiTexturePath == texturePath then
+                return
+            end
             textureObject:SetTexture(texturePath)
+            textureObject.suiTexturePath = texturePath
         end
+    end
+
+    local function setWidth(frame, width)
+        if frame and frame.SetWidth and frame.suiWidth ~= width then
+            frame:SetWidth(width)
+            frame.suiWidth = width
+        end
+    end
+
+    local function setHeight(frame, height)
+        if frame and frame.SetHeight and frame.suiHeight ~= height then
+            frame:SetHeight(height)
+            frame.suiHeight = height
+        end
+    end
+
+    local function setAlpha(frame, alpha)
+        if frame and frame.SetAlpha and frame.suiAlpha ~= alpha then
+            frame:SetAlpha(alpha)
+            frame.suiAlpha = alpha
+        end
+    end
+
+    local function setBarColor(bar, r, g, b)
+        if not bar or not bar.SetStatusBarColor then
+            return
+        end
+
+        if bar.suiColorR == r and bar.suiColorG == g and bar.suiColorB == b then
+            return
+        end
+
+        bar:SetStatusBarColor(r, g, b)
+        bar.suiColorR = r
+        bar.suiColorG = g
+        bar.suiColorB = b
     end
 
     local function applyTextureToPredictionBar(bar)
@@ -190,53 +230,53 @@ function Module:OnEnable()
 
         if NamePlatePlayerResourceFrame and NamePlatePlayerResourceFrame.SetWidth then
             enforceBarWidth(NamePlatePlayerResourceFrame)
-            NamePlatePlayerResourceFrame:SetWidth(cfg.width)
+            setWidth(NamePlatePlayerResourceFrame, cfg.width)
         end
 
         if root and root.SetWidth then
             enforceBarWidth(root)
-            root:SetWidth(cfg.width)
+            setWidth(root, cfg.width)
         end
 
         if container and container.SetWidth then
             enforceBarWidth(container)
-            container:SetWidth(cfg.width)
+            setWidth(container, cfg.width)
         end
 
         if healthBar and healthBar.SetWidth then
             enforceBarWidth(healthBar)
-            healthBar:SetWidth(cfg.width)
+            setWidth(healthBar, cfg.width)
         end
 
         if container and container.SetHeight then
-            container:SetHeight(cfg.height)
+            setHeight(container, cfg.height)
         end
 
         if healthBar and healthBar.SetHeight then
-            healthBar:SetHeight(cfg.height)
+            setHeight(healthBar, cfg.height)
         end
 
         if manaBar and manaBar.SetWidth then
             enforceBarWidth(manaBar)
-            manaBar:SetWidth(cfg.width)
+            setWidth(manaBar, cfg.width)
         end
 
         if manaBar and manaBar.SetHeight then
             manaBar.bbpHeight = cfg.manaheight
-            manaBar:SetHeight(cfg.manaheight)
+            setHeight(manaBar, cfg.manaheight)
         end
 
         if manaBar and manaBar.Texture and manaBar.Texture.SetWidth then
-            manaBar.Texture:SetWidth(cfg.width)
+            setWidth(manaBar.Texture, cfg.width)
         end
 
         if manaBar and manaBar.background and manaBar.background.SetWidth then
-            manaBar.background:SetWidth(cfg.width)
+            setWidth(manaBar.background, cfg.width)
         end
 
         if extraBar and extraBar.SetWidth then
             enforceBarWidth(extraBar)
-            extraBar:SetWidth(cfg.width)
+            setWidth(extraBar, cfg.width)
         end
     end
 
@@ -252,7 +292,7 @@ function Module:OnEnable()
         if healthBar and playerClassColor then
             enforceBarTexture(healthBar)
             applyBarTexture(healthBar)
-            healthBar:SetStatusBarColor(playerClassColor.r, playerClassColor.g, playerClassColor.b)
+            setBarColor(healthBar, playerClassColor.r, playerClassColor.g, playerClassColor.b)
         end
 
         applyHealPredictionTextures(NamePlatePlayerResourceFrame and NamePlatePlayerResourceFrame.UnitFrame, true)
@@ -271,11 +311,11 @@ function Module:OnEnable()
             applyBarTexture(manaBar)
 
             if manaBar.FullPowerFrame then
-                manaBar.FullPowerFrame:SetAlpha(0)
+                setAlpha(manaBar.FullPowerFrame, 0)
             end
 
             if manaBar.FeedbackFrame then
-                manaBar.FeedbackFrame:SetAlpha(0)
+                setAlpha(manaBar.FeedbackFrame, 0)
             end
 
             applyTextureToPredictionBar(manaBar.ManaCostPredictionBar)
@@ -285,7 +325,7 @@ function Module:OnEnable()
             local powerColor = PowerBarColor[powerToken] or PowerBarColor["MANA"]
             if powerColor then
                 if manaBar.SetStatusBarColor then
-                    manaBar:SetStatusBarColor(powerColor.r, powerColor.g, powerColor.b)
+                    setBarColor(manaBar, powerColor.r, powerColor.g, powerColor.b)
                 end
                 if manaBar.Texture and manaBar.Texture.SetVertexColor then
                     manaBar.Texture:SetVertexColor(powerColor.r, powerColor.g, powerColor.b)
@@ -298,7 +338,7 @@ function Module:OnEnable()
             applyBarTexture(manaAlias)
             manaAlias.bbpHeight = personalBarConfig().manaheight
             if manaAlias.SetHeight then
-                manaAlias:SetHeight(manaAlias.bbpHeight)
+                setHeight(manaAlias, manaAlias.bbpHeight)
             end
         end
 
@@ -306,6 +346,19 @@ function Module:OnEnable()
             enforceBarTexture(extraBar)
             applyBarTexture(extraBar)
         end
+    end
+
+    local personalResourceUpdateQueued = false
+    local function requestPersonalResourceUpdate()
+        if personalResourceUpdateQueued then
+            return
+        end
+
+        personalResourceUpdateQueued = true
+        C_Timer.After(0, function()
+            personalResourceUpdateQueued = false
+            updatePersonalResourceBars()
+        end)
     end
 
     local personalBarHooksInstalled = false
@@ -688,7 +741,7 @@ function Module:OnEnable()
         if NamePlatePlayerResourceFrame and NamePlatePlayerResourceFrame.UnitFrame then
             personalResourceStyle(NamePlatePlayerResourceFrame.UnitFrame)
         end
-        updatePersonalResourceBars()
+        requestPersonalResourceUpdate()
     end
 
     local personalResource = CreateFrame("Frame")
@@ -703,19 +756,19 @@ function Module:OnEnable()
         if NamePlatePlayerResourceFrame and NamePlatePlayerResourceFrame.UnitFrame then
             personalResourceStyle(NamePlatePlayerResourceFrame.UnitFrame)
         end
-        updatePersonalResourceBars()
+        requestPersonalResourceUpdate()
     end)
 
     if type(UnitFramePersonalResourceBarMixin_UpdatePowerBarTextureAndColor) == "function" then
-        hooksecurefunc("UnitFramePersonalResourceBarMixin_UpdatePowerBarTextureAndColor", updatePersonalResourceBars)
+        hooksecurefunc("UnitFramePersonalResourceBarMixin_UpdatePowerBarTextureAndColor", requestPersonalResourceUpdate)
     end
 
     if type(UnitFrameManaBar_UpdateType) == "function" then
-        hooksecurefunc("UnitFrameManaBar_UpdateType", updatePersonalResourceBars)
+        hooksecurefunc("UnitFrameManaBar_UpdateType", requestPersonalResourceUpdate)
     end
 
     if PersonalResourceDisplayFrame and PersonalResourceDisplayFrame.HookScript then
-        PersonalResourceDisplayFrame:HookScript("OnShow", updatePersonalResourceBars)
+        PersonalResourceDisplayFrame:HookScript("OnShow", requestPersonalResourceUpdate)
     end
 
     if C_NamePlate and C_NamePlate.SetNamePlateSelfSize then
@@ -733,7 +786,7 @@ function Module:OnEnable()
         end)
     end
     installPersonalResourceHooks()
-    updatePersonalResourceBars()
+    requestPersonalResourceUpdate()
 
     if db.style ~= 'Default' then
         -- Set Nameplate Texture
