@@ -6,7 +6,13 @@ function Layout:OnEnable()
 
     -- Data
     local Textures = SUI:GetModule("Data.Textures")
-    local Partyprofile = SUI:GetModule("Data.Partyprofile")
+    local TargetModule = SUI:GetModule("UnitFrames.Target", true)
+
+    local function refreshTargetAuras()
+        if TargetModule and TargetModule.RefreshAuras then
+            TargetModule:RefreshAuras()
+        end
+    end
 
     -- Layout
     Layout.layout = {
@@ -16,7 +22,7 @@ function Layout:OnEnable()
             {
                 header = {
                     type = 'header',
-                    label = 'Unitframes'
+                    label = 'Player and Target'
                 },
             },
             {
@@ -106,17 +112,87 @@ function Layout:OnEnable()
             {
                 header = {
                     type = 'header',
-                    label = 'Raid/Party Frame'
+                    label = 'Raid and Party'
                 },
             },
             {
-                style = {
+                texture = {
                     key = 'raidframes.texture',
                     type = 'dropdown',
                     label = 'Texture',
                     options = Textures.data,
                     column = 4,
                     order = 1
+                },
+            },
+            {
+                header = {
+                    type = 'header',
+                    label = 'Target Auras'
+                },
+            },
+            {
+                buffsize = {
+                    key = 'unitframes.buffs.size',
+                    type = 'slider',
+                    label = 'Target Buff Size',
+                    max = 50,
+                    column = 4,
+                    order = 1,
+                    onChange = refreshTargetAuras
+                },
+                debuffsize = {
+                    key = 'unitframes.debuffs.size',
+                    type = 'slider',
+                    label = 'Target Debuff Size',
+                    max = 50,
+                    column = 4,
+                    order = 2,
+                    onChange = refreshTargetAuras
+                },
+            },
+            {
+                buffx = {
+                    key = 'unitframes.buffs.targetx',
+                    type = 'slider',
+                    label = 'Buff X Offset',
+                    min = -50,
+                    max = 50,
+                    column = 4,
+                    order = 1,
+                    onChange = refreshTargetAuras
+                },
+                buffy = {
+                    key = 'unitframes.buffs.targety',
+                    type = 'slider',
+                    label = 'Buff Y Offset',
+                    min = -50,
+                    max = 50,
+                    column = 4,
+                    order = 2,
+                    onChange = refreshTargetAuras
+                },
+            },
+            {
+                debuffx = {
+                    key = 'unitframes.debuffs.targetx',
+                    type = 'slider',
+                    label = 'Debuff X Offset',
+                    min = -50,
+                    max = 50,
+                    column = 4,
+                    order = 1,
+                    onChange = refreshTargetAuras
+                },
+                debuffy = {
+                    key = 'unitframes.debuffs.targety',
+                    type = 'slider',
+                    label = 'Debuff Y Offset',
+                    min = -50,
+                    max = 50,
+                    column = 4,
+                    order = 2,
+                    onChange = refreshTargetAuras
                 },
             },
         },

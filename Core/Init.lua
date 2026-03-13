@@ -54,10 +54,22 @@ local defaults = {
             },
             buffs = {
                 size = 26,
-                collapse = false
+                collapse = false,
+                textsize = 11,
+                durationoffset = 2,
+                countx = -1,
+                county = -1,
+                targetx = 0,
+                targety = 0
             },
             debuffs = {
-                size = 20
+                size = 20,
+                textsize = 11,
+                durationoffset = 2,
+                countx = -1,
+                county = -1,
+                targetx = 0,
+                targety = 0
             }
         },
         nameplates = {

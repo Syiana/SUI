@@ -3,7 +3,7 @@ local Debuffs = SUI:NewModule("Buffs.Debuffs")
 function Debuffs:OnEnable()
     if C_AddOns.IsAddOnLoaded("BlizzBuffsFacade") then return end
 
-    local db = SUI.db.profile.unitframes.buffs
+    local db = SUI.db.profile.unitframes.debuffs
     local theme = SUI.db.profile.general.theme
 
     -- Update Duration Text for Debuffs
@@ -137,17 +137,17 @@ function Debuffs:OnEnable()
             -- Duration styling
             if aura.Duration and aura.Duration.SetDrawLayer then
                 aura.Duration:ClearAllPoints()
-                aura.Duration:SetPoint("CENTER", 0, -17.5)
+                aura.Duration:SetPoint("TOP", aura, "BOTTOM", 0, db.durationoffset or 2)
                 aura.Duration:SetDrawLayer("ARTWORK")
-                aura.Duration:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
+                aura.Duration:SetFont(STANDARD_TEXT_FONT, db.textsize or 11, "OUTLINE")
             end
 
             -- Count styling
             if aura.Count and aura.Count.SetDrawLayer then
                 aura.Count:ClearAllPoints()
-                aura.Count:SetPoint("BOTTOMRIGHT", 0, 11)
+                aura.Count:SetPoint("TOPRIGHT", aura, "TOPRIGHT", db.countx or -1, db.county or -1)
                 aura.Count:SetDrawLayer("ARTWORK")
-                aura.Count:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
+                aura.Count:SetFont(STANDARD_TEXT_FONT, db.textsize or 11, "OUTLINE")
             end
 
             -- Hide default debuff border
@@ -157,19 +157,29 @@ function Debuffs:OnEnable()
         end
     end
 
+    function Debuffs:Refresh()
+        if theme == 'Blizzard' then
+            return
+        end
+
+        UpdateDebuffs()
+        UpdateAuraPositions()
+    end
+
     if theme ~= 'Blizzard' then
         local frame = CreateFrame("Frame")
         frame:RegisterEvent("PLAYER_ENTERING_WORLD", self, "Update")
         frame:RegisterUnitEvent("UNIT_AURA", self, "Update")
         frame:RegisterEvent("GROUP_ROSTER_UPDATE")
         frame:SetScript("OnEvent", function()
-            UpdateDebuffs()
-            UpdateAuraPositions()
+            Debuffs:Refresh()
         end)
 
         -- Hook to update positions whenever debuffs update
         hooksecurefunc(AuraFrameMixin, "Update", function()
-            C_Timer.After(0, UpdateAuraPositions)
+            C_Timer.After(0, function()
+                Debuffs:Refresh()
+            end)
         end)
     end
 end

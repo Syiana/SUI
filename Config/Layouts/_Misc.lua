@@ -25,8 +25,8 @@ function Layout:OnEnable()
                     onClick = function()
                         CvarsBrowser.Show()
                     end,
-                    column = 3,
-                    order = 3
+                    column = 4,
+                    order = 1
                 }
             },
             {
@@ -39,9 +39,9 @@ function Layout:OnEnable()
                 interrupt = {
                     key = 'interrupt',
                     type = 'checkbox',
-                    label = 'Interrupt',
+                    label = 'Interrupt Announce',
                     tooltip = 'Announce successful interrupts party',
-                    column = 3,
+                    column = 4,
                     order = 1
                 },
                 menubutton = {
@@ -49,7 +49,7 @@ function Layout:OnEnable()
                     type = 'checkbox',
                     label = 'Menu Button',
                     tooltip = 'Show SUI Button on ESC-Menu',
-                    column = 3,
+                    column = 4,
                     order = 2
                 }
             },
@@ -63,7 +63,7 @@ function Layout:OnEnable()
                 safequeue = {
                     key = 'safequeue',
                     type = 'checkbox',
-                    label = 'SafeQueue',
+                    label = 'Safe Queue',
                     tooltip = 'Show time left to join and remove leave-button on queuepop-window',
                     column = 3,
                     order = 1
@@ -97,7 +97,7 @@ function Layout:OnEnable()
                 losecontrol = {
                     key = 'losecontrol',
                     type = 'checkbox',
-                    label = 'LoseControl',
+                    label = 'Lose Control',
                     tooltip = 'More transparent Loss of Control Alert frame',
                     column = 3,
                     order = 1

@@ -100,16 +100,35 @@ function Buffs:OnEnable()
             local aura = BuffFrame.auraFrames[i]
             
             -- Duration styling
-            aura.Duration:ClearAllPoints()
-            aura.Duration:SetPoint("CENTER", 0, -17.5)
-            aura.Duration:SetDrawLayer("ARTWORK")
-            aura.Duration:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
+            if aura.Duration and aura.Duration.SetDrawLayer then
+                aura.Duration:ClearAllPoints()
+                aura.Duration:SetPoint("TOP", aura, "BOTTOM", 0, db.durationoffset or 2)
+                aura.Duration:SetDrawLayer("ARTWORK")
+                aura.Duration:SetFont(STANDARD_TEXT_FONT, db.textsize or 11, "OUTLINE")
+            end
 
             -- Count styling
-            aura.Count:ClearAllPoints()
-            aura.Count:SetPoint("BOTTOMRIGHT", 0, 11)
-            aura.Count:SetDrawLayer("ARTWORK")
-            aura.Count:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
+            if aura.Count and aura.Count.SetDrawLayer then
+                aura.Count:ClearAllPoints()
+                aura.Count:SetPoint("TOPRIGHT", aura, "TOPRIGHT", db.countx or -1, db.county or -1)
+                aura.Count:SetDrawLayer("ARTWORK")
+                aura.Count:SetFont(STANDARD_TEXT_FONT, db.textsize or 11, "OUTLINE")
+            end
+        end
+    end
+
+    function Buffs:Refresh()
+        if theme == 'Blizzard' then
+            return
+        end
+
+        UpdateBuffs()
+        UpdateAuraPositions()
+
+        if db.collapse then
+            BuffFrame.CollapseAndExpandButton:Show()
+        else
+            BuffFrame.CollapseAndExpandButton:Hide()
         end
     end
 
@@ -120,13 +139,14 @@ function Buffs:OnEnable()
         frame:RegisterEvent("WEAPON_ENCHANT_CHANGED")
         frame:RegisterEvent("GROUP_ROSTER_UPDATE")
         frame:SetScript("OnEvent", function()
-            UpdateBuffs()
-            UpdateAuraPositions()
+            Buffs:Refresh()
         end)
 
         -- Hook to update positions whenever buffs update
         hooksecurefunc(AuraFrameMixin, "Update", function()
-            C_Timer.After(0, UpdateAuraPositions)
+            C_Timer.After(0, function()
+                Buffs:Refresh()
+            end)
         end)
     end
 
