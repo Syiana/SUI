@@ -1,7 +1,8 @@
 ## Interface: 120000
 ## Author: Syiana
 ## Version: 12.0.2
-## Title: |cffea00ffS|r|cff00a2ffUI|r
+## Title: |cffea00ffSyiana|r|cff00a2ffUI|r
+## Notes: A sleek and modern UI Addon. |n|nVisit |cff00a2ffhttps://twitch.tv/syiana|r for more information and support.
 ## SavedVariables: SUIDB
 ## IconTexture: Interface\AddOns\SUI\Media\Icons\SUI
 ## AddonCompartmentFunc: SUI_Options

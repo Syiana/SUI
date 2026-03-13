@@ -29,7 +29,7 @@ function Gui:OnEnable()
     config:Hide()
 
     local version = SUIConfig:Label(config.titlePanel, C_AddOns.GetAddOnMetadata("SUI", "version"))
-    SUIConfig:GlueLeft(version, config.titlePanel, 40, 0)
+    SUIConfig:GlueLeft(version, config.titlePanel, 36, 0)
 
     local logo = SUIConfig:Texture(config.titlePanel, 120, 35, "Interface\\AddOns\\SUI\\Media\\Textures\\Config\\Logo")
     SUIConfig:GlueAbove(logo, config, 0, -35)
@@ -38,6 +38,7 @@ function Gui:OnEnable()
     local clearSearchButton
     local isClearingSearch = false
     local refreshSearchResults
+    local syncOriginalElement
 
     local function normalizeSearchText(text)
         return ((text or ""):lower():gsub("^%s+", ""):gsub("%s+$", ""))
@@ -190,6 +191,11 @@ function Gui:OnEnable()
         }
     end
 
+    local categoryLookup = {}
+    for _, category in ipairs(categories) do
+        categoryLookup[category.name] = category
+    end
+
     local searchCategory = {
         title = 'Search',
         name = 'Search',
@@ -241,6 +247,9 @@ function Gui:OnEnable()
                                                 resultElement.onValueChanged = function(widget, value)
                                                     local newValue = getWidgetValue(widget, value)
                                                     setDatabaseValue(sourceDb, sourceKey, newValue)
+                                                    if syncOriginalElement then
+                                                        syncOriginalElement(entry.title, rowKey, newValue)
+                                                    end
                                                     if element.onChange then
                                                         element.onChange(newValue)
                                                     end
@@ -297,6 +306,24 @@ function Gui:OnEnable()
     SUIConfig:GlueAcross(tabs, config, 10, -35, -10, 10)
 
     local lastSelectedTab = categories[1] and categories[1].name or nil
+
+    syncOriginalElement = function(tabName, rowKey, value)
+        local category = categoryLookup[tabName]
+        if not category or not category.frame or not category.frame.elements then
+            return
+        end
+
+        local widget = category.frame.elements[rowKey]
+        if not widget then
+            return
+        end
+
+        if widget.SetChecked then
+            widget:SetChecked(value, true)
+        elseif widget.SetValue then
+            widget:SetValue(value)
+        end
+    end
 
     refreshSearchResults = function(query)
         if clearSearchButton then
