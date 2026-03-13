@@ -52,9 +52,18 @@ function Module:OnEnable()
         end
 
         local function GetTarget(unit)
-            if UnitIsUnit(unit, "player") then
-                return ("|cffff0000%s|r"):format("<YOU>")
-            elseif UnitIsPlayer(unit) then
+            if not unit or not canaccessvalue(unit) then
+                return nil
+            end
+
+            if UnitIsPlayer(unit) then
+                local unitName = UnitName(unit)
+                local playerName = UnitName("player")
+
+                if unitName and playerName and unitName == playerName then
+                    return ("|cffff0000%s|r"):format("<YOU>")
+                end
+
                 local _, class = UnitClass(unit)
                 return ("|cff%s%s|r"):format(classColorHex[class], UnitName(unit))
             elseif UnitReaction(unit, "player") then
@@ -76,10 +85,8 @@ function Module:OnEnable()
             --color tooltip textleft
             for i = 2, GameTooltip:NumLines() do
                 local line = _G["GameTooltipTextLeft" .. i]
-                if line then
-                    if not line == 4 then
-                        line:SetTextColor(unpack(cfg.textColor))
-                    end
+                if line and i ~= 4 then
+                    line:SetTextColor(unpack(cfg.textColor))
                 end
             end
             --position raidicon
