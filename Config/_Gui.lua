@@ -24,8 +24,8 @@ function Gui:OnEnable()
     -- Config
     local config = SUIConfig:Window(UIParent, 700, 415)
     config:SetPoint('CENTER')
-    config.titlePanel:SetPoint('LEFT', 0, 0)
-    config.titlePanel:SetPoint('RIGHT', -33, 0)
+    config.titlePanel:SetPoint('LEFT', 10, 0)
+    config.titlePanel:SetPoint('RIGHT', -35, 0)
     config:Hide()
 
     local version = SUIConfig:Label(config.titlePanel, C_AddOns.GetAddOnMetadata("SUI", "version"))
@@ -313,8 +313,8 @@ function Gui:OnEnable()
         end
     end
 
-    searchBox = SUIConfig:SearchEditBox(config.titlePanel, 185, 20, 'Search settings')
-    searchBox:SetPoint('RIGHT', config.titlePanel, 'RIGHT', 0, 0)
+    searchBox = SUIConfig:SearchEditBox(config.titlePanel, 165, 20, 'Search settings')
+    searchBox:SetPoint('RIGHT', config.closeBtn, 'LEFT', -4, 0)
     searchBox:SetTextInsets(3, 22, 3, 3)
     searchBox.OnValueChanged = function(self, value)
         if isClearingSearch then
