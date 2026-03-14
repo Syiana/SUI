@@ -53,7 +53,7 @@ local defaults = {
                 size = 1
             },
             personalbar = {
-                texture = [[Interface\Addons\SUI\Media\Textures\Status\Smooth.blp]],
+                texture = [[Interface\Addons\SUI\Media\Textures\Status\Flat.blp]],
                 width = 130,
                 height = 14,
                 manaheight = 8
@@ -71,7 +71,7 @@ local defaults = {
             debuffs = {
                 size = 20,
                 textsize = 12,
-                durationoffset = 2,
+                durationoffset = 5,
                 countx = -1,
                 county = -2,
                 targetx = 0,

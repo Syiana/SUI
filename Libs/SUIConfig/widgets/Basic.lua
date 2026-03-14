@@ -39,6 +39,8 @@ function SUIConfig:PanelWithTitle(parent, width, height, text)
 	frame.titlePanel:SetPoint('TOP', 0, -10);
 	frame.titlePanel:SetPoint('LEFT', 35, 0);
 	frame.titlePanel:SetPoint('RIGHT', -35, 0);
+	frame.titlePanel.label:SetJustifyH('CENTER');
+	frame.titlePanel.label:SetPoint('CENTER');
 
 
 	--frame.titlePanel:SetBackdrop(nil);
