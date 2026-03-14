@@ -3,7 +3,7 @@ local Colors = SUI:GetModule('Data.Colors');
 
 Data.team = {
   { text = Colors.aut .. 'Syiana|r' },
-  { text = Colors.aut .. 'Muleyo|r' },
+  { text = Colors.dev .. 'Muleyo|r' },
   { text = Colors.dev .. 'Rulez|r' },
   { text = Colors.dev .. 'Baine|r' },
   { text = Colors.dev .. 'Phoyk|r' },

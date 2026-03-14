@@ -59,14 +59,14 @@ local defaults = {
                 manaheight = 8
             },
             buffs = {
-                size = 26,
+                size = 20,
                 collapse = false,
                 textsize = 12,
                 durationoffset = 5,
                 countx = -1,
                 county = -2,
                 targetx = 0,
-                targety = 0
+                targety = -2
             },
             debuffs = {
                 size = 20,
@@ -75,7 +75,7 @@ local defaults = {
                 countx = -1,
                 county = -2,
                 targetx = 0,
-                targety = 0
+                targety = -2
             }
         },
         nameplates = {
