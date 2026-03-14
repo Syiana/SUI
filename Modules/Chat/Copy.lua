@@ -79,7 +79,7 @@ function Copy:OnInitialize()
         end
 
         Copy.button:ClearAllPoints()
-        Copy.button:SetPoint("TOPLEFT", ChatFrame1, "TOPLEFT", -24, 26)
+        Copy.button:SetPoint("TOPRIGHT", ChatFrame1, "TOPRIGHT", -4, -4)
         Copy.button:SetFrameStrata("HIGH")
         Copy.button:SetFrameLevel(ChatFrame1:GetFrameLevel() + 20)
     end
@@ -117,12 +117,35 @@ function Copy:OnEnable()
         return
     end
 
+    local function showButton()
+        Copy.button:SetAlpha(1)
+        Copy.button:Show()
+    end
+
+    local function hideButton()
+        if Copy.button:IsMouseOver() or ChatFrame1:IsMouseOver() then
+            return
+        end
+        Copy.button:SetAlpha(0)
+        Copy.button:Show()
+    end
+
     Copy:PositionButton()
+    Copy.button:SetAlpha(0)
     Copy.button:Show()
     Copy:RawHookScript(Copy.button, "OnClick", Copy.Chatlog)
+
+    if not Copy.button.suiHoverHooked then
+        ChatFrame1:HookScript("OnEnter", showButton)
+        ChatFrame1:HookScript("OnLeave", hideButton)
+        Copy:RawHookScript(Copy.button, "OnEnter", showButton)
+        Copy:RawHookScript(Copy.button, "OnLeave", hideButton)
+        Copy.button.suiHoverHooked = true
+    end
+
     C_Timer.After(0, function()
         Copy:PositionButton()
-        Copy.button:Show()
+        hideButton()
     end)
 end
 
