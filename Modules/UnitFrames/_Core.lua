@@ -2,8 +2,13 @@ local Module = SUI:NewModule("UnitFrames.Core");
 
 function Module:OnEnable()
     local db = {
-        texture = SUI.db.profile.general.texture
+        texture = SUI.db.profile.general.texture,
+        unitframes = SUI.db.profile.unitframes
     }
+
+    if db.unitframes.style == "Classic" then
+        return
+    end
 
     if db.texture ~= [[Interface\Default]] then
         local function manaTexture(self)

@@ -7,6 +7,7 @@ function Module:OnEnable()
         texture = SUI.db.profile.general.texture,
         theme = SUI.db.profile.general.theme
     }
+    local isClassic = db.unitframes.style == "Classic"
 
     -- Set Target/Focus Textures
     local function healthTexture(self)
@@ -137,12 +138,12 @@ function Module:OnEnable()
 
     hooksecurefunc(TargetFrame, "OnEvent", function(self)
         -- Set Health Texture
-        if db.texture ~= [[Interface\Default]] then
+        if not isClassic and db.texture ~= [[Interface\Default]] then
             healthTexture(self)
         end
 
         -- Recolor Reputation Bar
-        if (SUI:Color()) then
+        if not isClassic and (SUI:Color()) then
             SUIColorRepBar(self)
         end
 
@@ -154,12 +155,12 @@ function Module:OnEnable()
 
     hooksecurefunc(FocusFrame, "OnEvent", function(self)
         -- Set Health Texture
-        if db.texture ~= [[Interface\Default]] then
+        if not isClassic and db.texture ~= [[Interface\Default]] then
             healthTexture(self)
         end
 
         -- Recolor Reputation Bar
-        if (SUI:Color()) then
+        if not isClassic and (SUI:Color()) then
             SUIColorRepBar(self)
         end
 
@@ -171,14 +172,14 @@ function Module:OnEnable()
 
     hooksecurefunc(TargetFrameToT, "Update", function(self)
         -- Set Health Texture
-        if db.texture ~= [[Interface\Default]] then
+        if not isClassic and db.texture ~= [[Interface\Default]] then
             healthTexture(self)
         end
     end)
 
     hooksecurefunc(FocusFrameToT, "Update", function(self)
         -- Set Health Texture
-        if db.texture ~= [[Interface\Default]] then
+        if not isClassic and db.texture ~= [[Interface\Default]] then
             healthTexture(self)
         end
     end)

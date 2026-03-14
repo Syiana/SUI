@@ -39,6 +39,7 @@ function Layout:OnEnable()
                     label   = 'Style',
                     options = {
                         { value = 'Default', text = 'Default' },
+                        { value = 'Classic', text = 'Classic' },
                         --{ value = 'Big', text = 'Big' },
                         --{ value = 'Small', text = 'Transparent' }
                     },

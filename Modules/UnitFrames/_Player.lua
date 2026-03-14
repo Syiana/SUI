@@ -6,6 +6,7 @@ function Module:OnEnable()
         texture = SUI.db.profile.general.texture,
         classbar = SUI.db.profile.unitframes.classbar
     }
+    local isClassic = db.unitframes.style == "Classic"
 
     if not db.unitframes.totemicons then
         hooksecurefunc(TotemFrame, "Update", function()
@@ -13,7 +14,7 @@ function Module:OnEnable()
         end)
     end
 
-    if db.texture ~= [[Interface\Default]] then
+    if not isClassic and db.texture ~= [[Interface\Default]] then
         local function healthTexture(self, event)
             if event == "PLAYER_ENTERING_WORLD" then
                 self.healthbar:SetStatusBarTexture(db.texture)
@@ -113,6 +114,10 @@ function Module:OnEnable()
                 PaladinPowerBarFrame.Show = function() end
             end)
         end
+    end
+
+    if isClassic then
+        return
     end
 
     local statusTexture = PlayerFrame.PlayerFrameContent.PlayerFrameContentMain.StatusTexture;

@@ -2,6 +2,7 @@
 	<Script file="_Boss.lua"/>
 	<Script file="_Text.lua"/>
 	<Script file="_Combat.lua"/>
+	<Script file="_Classic.lua"/>
 	<Script file="_Classportrait.lua"/>
 	<Script file="_Hide.lua"/>
 	<Script file="_Color.lua"/>
