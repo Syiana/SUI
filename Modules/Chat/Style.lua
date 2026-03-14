@@ -27,7 +27,7 @@ function Style:OnEnable()
         return
     end
 
-    if SUIAddon.db.profile.chat.style ~= "Custom" then
+    if SUIAddon.db.profile.chat.style ~= "Modern" then
         return
     end
 

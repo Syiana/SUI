@@ -51,6 +51,19 @@ function Layout:OnEnable()
         end
     end
 
+    local function updateQuickJoinIcon()
+        local module = SUI:GetModule("Chat.Quickjoin", true)
+        if not module then
+            return
+        end
+
+        if not module:IsEnabled() then
+            module:Enable()
+        elseif module.OnEnable then
+            module:OnEnable()
+        end
+    end
+
     local function toggleFeature(moduleName, enabled)
         if not ChatModule then
             return
@@ -89,7 +102,8 @@ function Layout:OnEnable()
                     type = 'dropdown',
                     options = {
                         { value = 'Default', text = 'Default' },
-                        { value = 'Custom', text = 'Custom' }
+                        { value = 'Custom', text = 'Custom' },
+                        { value = 'Modern', text = 'Modern' }
                     },
                     column = 4,
                     order = 1,
@@ -113,13 +127,22 @@ function Layout:OnEnable()
                 }
             },
             {
+                quickjoin = {
+                    key = 'quickjoin',
+                    type = 'checkbox',
+                    label = 'Friendlist Icon Mouseover',
+                    tooltip = 'Show the friendlist icon only on mouseover',
+                    column = 4,
+                    order = 1,
+                    onChange = updateQuickJoinIcon
+                },
                 link = {
                     key = 'link',
                     type = 'checkbox',
                     label = 'Link Copy',
                     tooltip = 'Make links clickable to copy them',
                     column = 4,
-                    order = 1,
+                    order = 2,
                     onChange = function(_, value)
                         toggleFeature("SUI.Modules.Chat.Link", value)
                     end
@@ -130,18 +153,20 @@ function Layout:OnEnable()
                     label = 'Copy Button',
                     tooltip = 'Show the copy chat-history button',
                     column = 4,
-                    order = 2,
+                    order = 3,
                     onChange = function(_, value)
                         toggleFeature("SUI.Modules.Chat.Copy", value)
                     end
-                },
+                }
+            },
+            {
                 whisperalert = {
                     key = 'whisperalert',
                     type = 'checkbox',
                     label = 'Whisper Alert',
                     tooltip = 'Play a sound on incoming whispers',
                     column = 4,
-                    order = 3,
+                    order = 4,
                     onChange = function(_, value)
                         toggleFeature("SUI.Modules.Chat.WhisperAlert", value)
                     end
@@ -150,7 +175,7 @@ function Layout:OnEnable()
             {
                 header = {
                     type = 'header',
-                    label = 'Custom Chat'
+                    label = 'Modern Chat'
                 }
             },
             {

@@ -12,7 +12,7 @@ end
 function Modules:OnEnable()
     Modules.db = SUIAddon.db.profile.chat
 
-    if Modules.db.style == "Custom" then
+    if Modules.db.style == "Modern" then
         Modules.Style:Enable()
     end
     if Modules.db.link then

@@ -221,7 +221,8 @@ local defaults = {
             }
         },
         chat = {
-            style = 'Custom',
+            style = 'Modern',
+            styleversion = 2,
             top = true,
             link = true,
             copy = true,
@@ -326,9 +327,14 @@ function SUI:OnInitialize()
 
     -- Normalize legacy chat style values so the config dropdown stays in sync.
     if self.db.profile.chat then
-        if self.db.profile.chat.style == "SUI" then
-            self.db.profile.chat.style = "Custom"
-        elseif self.db.profile.chat.style ~= "Default" and self.db.profile.chat.style ~= "Custom" then
+        if self.db.profile.chat.styleversion ~= 2 then
+            if self.db.profile.chat.style == "SUI" or self.db.profile.chat.style == "Custom" then
+                self.db.profile.chat.style = "Modern"
+            end
+            self.db.profile.chat.styleversion = 2
+        end
+
+        if self.db.profile.chat.style ~= "Default" and self.db.profile.chat.style ~= "Custom" and self.db.profile.chat.style ~= "Modern" then
             self.db.profile.chat.style = defaults.profile.chat.style
         end
     end

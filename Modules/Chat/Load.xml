@@ -1,6 +1,7 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/">
     <Include file="Link.lua" />
     <Include file="Copy.lua" />
+    <Include file="_Core.lua" />
     <Include file="Core.lua" />
     <Include file="WhisperAlert.lua" />
     <Include file="Components\Backdrop.lua" />
@@ -12,5 +13,6 @@
     <Include file="Style.lua" />
     <Include file="Modules.lua" />
     <Script file="_Friendlist.lua" />
+    <Script file="_Quickjoin.lua" />
     <Frame name="SUIHyperlinkPropagator" propagateHyperlinksToParent="true" virtual="true" />
 </Ui>
