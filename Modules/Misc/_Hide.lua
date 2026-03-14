@@ -7,12 +7,9 @@ function Module:OnEnable()
             if not UIWidgetPowerBarContainerFrame then return end
             
             for _, child in ipairs({UIWidgetPowerBarContainerFrame:GetChildren()}) do
-                if child then
-                    for _, v in ipairs({child:GetRegions()}) do
-                        if v and v:GetObjectType() == "Texture" then
-                            v:Hide()
-                        end
-                    end
+                if child and child.DecorLeft and child.DecorRight then
+                    child.DecorLeft:Hide()
+                    child.DecorRight:Hide()
                 end
             end
         end
