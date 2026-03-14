@@ -143,6 +143,8 @@ function Layout:OnEnable()
                     order = 2,
                     onChange = refreshPersonalBar
                 },
+            },
+            {
                 personalbarheight = {
                     key = 'unitframes.personalbar.height',
                     type = 'slider',
@@ -151,20 +153,18 @@ function Layout:OnEnable()
                     max = 35,
                     step = 0.1,
                     column = 4,
-                    order = 3,
+                    order = 1,
                     onChange = refreshPersonalBar
                 },
-            },
-            {
                 personalbarmanaheight = {
                     key = 'unitframes.personalbar.manaheight',
                     type = 'slider',
-                    label = 'Personal Mana Height',
+                    label = 'Mana Height',
                     min = 1,
                     max = 35,
                     step = 0.1,
                     column = 4,
-                    order = 1,
+                    order = 2,
                     onChange = refreshPersonalBar
                 },
             },

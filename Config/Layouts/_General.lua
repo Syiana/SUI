@@ -80,17 +80,17 @@ function Layout:OnEnable()
                 duel    = {
                     key = 'automation.decline',
                     type = 'checkbox',
-                    label = 'Auto Decline Duel',
+                    label = 'Decline Duel',
                     tooltip = 'Declines duels automatically',
-                    column = 4,
+                    column = 3,
                     order = 3
                 },
                 release = {
                     key = 'automation.release',
                     type = 'checkbox',
-                    label = 'Auto Release',
+                    label = 'Release',
                     tooltip = 'Release automatically when you died',
-                    column = 2,
+                    column = 3,
                     order = 4
                 }
             },
@@ -98,7 +98,7 @@ function Layout:OnEnable()
                 resurrect = {
                     key = 'automation.resurrect',
                     type = 'checkbox',
-                    label = 'Auto Accept Resurrect',
+                    label = 'Accept Resurrect',
                     tooltip = 'Accept ress automatically',
                     column = 4,
                     order = 1
@@ -106,7 +106,7 @@ function Layout:OnEnable()
                 invite = {
                     key = 'automation.invite',
                     type = 'checkbox',
-                    label = 'Auto Accept Invite',
+                    label = 'Accept Invite',
                     tooltip = 'Accept group invite automatically',
                     column = 4,
                     order = 2
