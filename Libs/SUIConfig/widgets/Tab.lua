@@ -149,7 +149,7 @@ local TabPanelMethods = {
 
 			if tab.layout and (tab.builtLayout ~= tab.layout or not tab.frame.rows) then
 				self.SUIConfig:BuildWindow(tab.frame, tab.layout);
-				self.SUIConfig:EasyLayout(tab.frame, { padding = { top = 10, left = 5, right = 5 } });
+				self.SUIConfig:EasyLayout(tab.frame, { padding = { top = 10, left = 5, right = 5, bottom = 1 } });
 				tab.builtLayout = tab.layout;
 
 				tab.frame:SetScript('OnShow', function(of)
