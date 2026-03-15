@@ -145,8 +145,8 @@ function Module:OnEnable()
                 local l = UnitLevel(unit)
                 local color = GetCreatureDifficultyColor((l > 0) and l or 999)
                 levelLine:SetTextColor(color.r, color.g, color.b)
-                --afk?
-                if UnitIsAFK(unit) then
+                --afk? (skip in combat: UnitIsAFK returns secret boolean during combat)
+                if not InCombatLockdown() and UnitIsAFK(unit) then
                     self:AppendText((" |cff%s<AFK>|r"):format(cfg.afkColorHex))
                 end
             end
