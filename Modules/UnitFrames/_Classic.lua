@@ -215,6 +215,12 @@ function Module:OnEnable()
             context.RaidTargetIcon:ClearAllPoints()
             context.RaidTargetIcon:SetPoint("CENTER", container.Portrait, "TOP", 1.5, 1)
         end
+        if frame.threatIndicator then
+            ForceTextureHidden(frame.threatIndicator)
+        end
+        if context.NumericalThreat then
+            context.NumericalThreat:SetAlpha(0)
+        end
 
         if frame.totFrame then
             local tot = frame.totFrame
@@ -351,6 +357,9 @@ function Module:OnEnable()
         end
         if context.PlayerPortraitCornerIcon then
             context.PlayerPortraitCornerIcon:SetAtlas(nil)
+        end
+        if frame.threatIndicator then
+            frame.threatIndicator:SetAlpha(0)
         end
         if context.RoleIcon then
             context.RoleIcon:ClearAllPoints()

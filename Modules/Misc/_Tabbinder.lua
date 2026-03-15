@@ -16,19 +16,13 @@ function Module:OnEnable()
         TabBinder:RegisterEvent("PLAYER_REGEN_ENABLED")
         TabBinder:RegisterEvent("DUEL_REQUESTED")
         TabBinder:RegisterEvent("DUEL_FINISHED")
-        TabBinder:RegisterEvent("CHAT_MSG_SYSTEM")
 
         local RTB_Fail, RTB_DefaultKey, RTB_LastTargetKey, RTB_TargetKey, RTB_CurrentBind, RTB_Success = false, true
 
         TabBinder:SetScript(
             "OnEvent",
             function(self, event, ...)
-                if event == "CHAT_MSG_SYSTEM" then
-                    local RTBChatMessage = ...
-                    if RTBChatMessage == ERR_DUEL_REQUESTED then
-                        event = "DUEL_REQUESTED"
-                    end
-                elseif event == "ZONE_CHANGED_NEW_AREA" or event == "PLAYER_ENTERING_WORLD" or
+                if event == "ZONE_CHANGED_NEW_AREA" or event == "PLAYER_ENTERING_WORLD" or
                     (event == "PLAYER_REGEN_ENABLED" and RTB_Fail) or
                     event == "DUEL_REQUESTED" or
                     event == "DUEL_FINISHED"

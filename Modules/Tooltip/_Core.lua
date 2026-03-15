@@ -157,18 +157,22 @@ function Module:OnEnable()
                 local color = GetCreatureDifficultyColor((l > 0) and l or 999)
                 levelLine:SetTextColor(color.r, color.g, color.b)
                 --afk?
-                if UnitIsAFK(unit) then
+                local isAFK = UnitIsAFK(unit)
+                if isAFK and canaccessvalue(isAFK) then
                     self:AppendText((" |cff%s<AFK>|r"):format(cfg.afkColorHex))
                 end
             end
             --dead?
-            if UnitIsDeadOrGhost(unit) then
+            local isDead = UnitIsDeadOrGhost(unit)
+            if isDead and canaccessvalue(isDead) then
                 _G["GameTooltipTextLeft1"]:SetTextColor(unpack(cfg.deadColor))
             end
             --target line
-            if (UnitExists(unit .. "target")) then
+            local targetUnit = unit and (unit .. "target") or nil
+            local targetExists = targetUnit and UnitExists(targetUnit)
+            if targetExists and canaccessvalue(targetExists) then
                 GameTooltip:AddDoubleLine(("|cff%s%s|r"):format(cfg.targetColorHex, "Target"),
-                    GetTarget(unit .. "target") or "Unknown")
+                    GetTarget(targetUnit) or "Unknown")
             end
         end
 

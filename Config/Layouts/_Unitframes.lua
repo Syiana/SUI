@@ -6,7 +6,9 @@ function Layout:OnEnable()
 
     -- Data
     local Textures = SUI:GetModule("Data.Textures")
+    local PlayerModule = SUI:GetModule("UnitFrames.Player", true)
     local TargetModule = SUI:GetModule("UnitFrames.Target", true)
+    local CoreModule = SUI:GetModule("UnitFrames.Core", true)
     local NameplateModule = SUI:GetModule("NamePlates.Core", true)
 
     local function refreshTargetAuras()
@@ -18,6 +20,18 @@ function Layout:OnEnable()
     local function refreshPersonalBar()
         if NameplateModule and NameplateModule.RefreshPersonalResource then
             NameplateModule:RefreshPersonalResource()
+        end
+    end
+
+    local function refreshUnitframeTextures()
+        if PlayerModule and PlayerModule.RefreshTextures then
+            PlayerModule:RefreshTextures()
+        end
+        if TargetModule and TargetModule.RefreshTextures then
+            TargetModule:RefreshTextures()
+        end
+        if CoreModule and CoreModule.RefreshTextures then
+            CoreModule:RefreshTextures()
         end
     end
 
@@ -52,7 +66,8 @@ function Layout:OnEnable()
                     label = 'Texture',
                     options = Textures.data,
                     column = 4,
-                    order = 3
+                    order = 3,
+                    onChange = refreshUnitframeTextures
                 },
             },
             {

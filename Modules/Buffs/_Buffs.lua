@@ -51,15 +51,18 @@ function Buffs:OnEnable()
 
         local icon = button.Icon
         local border = CreateFrame("Frame", nil, button)
-        border:SetSize(icon:GetWidth() + 4, icon:GetHeight() + 4)
+        border:SetPoint("TOPLEFT", icon, "TOPLEFT", -2, 2)
+        border:SetPoint("BOTTOMRIGHT", icon, "BOTTOMRIGHT", 2, -2)
 
         -- Position border based on buff container orientation
         if BuffFrame.AuraContainer.isHorizontal then
             local yOffset = BuffFrame.AuraContainer.addIconsToTop and -5 or 5
-            border:SetPoint("CENTER", button, "CENTER", 0, yOffset)
+            border:SetPoint("TOPLEFT", icon, "TOPLEFT", -2, 2 + yOffset)
+            border:SetPoint("BOTTOMRIGHT", icon, "BOTTOMRIGHT", 2, -2 + yOffset)
         else
             local xOffset = BuffFrame.AuraContainer.addIconsToRight and -15 or 15
-            border:SetPoint("CENTER", button, "CENTER", xOffset, 0)
+            border:SetPoint("TOPLEFT", icon, "TOPLEFT", -2 + xOffset, 2)
+            border:SetPoint("BOTTOMRIGHT", icon, "BOTTOMRIGHT", 2 + xOffset, -2)
         end
 
         border.texture = border:CreateTexture()

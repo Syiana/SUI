@@ -1,5 +1,29 @@
 local Module = SUI:NewModule("UnitFrames.Target");
 
+function Module:RefreshTextures()
+    local texture = SUI.db.profile.general.texture
+    if SUI.db.profile.unitframes.style == "Classic" or texture == [[Interface\Default]] then
+        return
+    end
+
+    local function Apply(frame)
+        if not frame or frame:IsForbidden() or not frame.healthbar then
+            return
+        end
+
+        frame.healthbar:SetStatusBarTexture(texture)
+        frame.healthbar:GetStatusBarTexture():SetDrawLayer("BORDER")
+        if frame.myHealPredictionBar then
+            frame.myHealPredictionBar:SetTexture(texture)
+        end
+    end
+
+    Apply(TargetFrame)
+    Apply(FocusFrame)
+    Apply(TargetFrameToT)
+    Apply(FocusFrameToT)
+end
+
 function Module:OnEnable()
 
     local db = {

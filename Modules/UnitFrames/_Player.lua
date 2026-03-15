@@ -1,5 +1,36 @@
 local Module = SUI:NewModule("UnitFrames.Player");
 
+function Module:RefreshTextures()
+    local texture = SUI.db.profile.general.texture
+    if SUI.db.profile.unitframes.style == "Classic" or texture == [[Interface\Default]] then
+        return
+    end
+
+    if PlayerFrame and PlayerFrame.healthbar then
+        PlayerFrame.healthbar:SetStatusBarTexture(texture)
+        PlayerFrame.healthbar:GetStatusBarTexture():SetDrawLayer("BORDER")
+        if PlayerFrame.healthbar.AnimatedLossBar then
+            PlayerFrame.healthbar.AnimatedLossBar:SetStatusBarTexture(texture)
+            PlayerFrame.healthbar.AnimatedLossBar:GetStatusBarTexture():SetDrawLayer("BORDER")
+        end
+    end
+
+    if PlayerFrame and PlayerFrame.manabar and PlayerFrame.manabar.texture then
+        local powerColor = PowerBarColor[PlayerFrame.manabar.powerType]
+        PlayerFrame.manabar.texture:SetTexture(texture)
+        if PlayerFrame.manabar.powerType == 0 then
+            PlayerFrame.manabar:SetStatusBarColor(0, 0.5, 1)
+        elseif powerColor then
+            PlayerFrame.manabar:SetStatusBarColor(powerColor.r, powerColor.g, powerColor.b)
+        end
+    end
+
+    if PetFrame and PetFrame.healthbar then
+        PetFrame.healthbar:SetStatusBarTexture(texture)
+        PetFrame.healthbar:GetStatusBarTexture():SetDrawLayer("BORDER")
+    end
+end
+
 function Module:OnEnable()
     local db = {
         unitframes = SUI.db.profile.unitframes,
