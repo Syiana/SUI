@@ -48,36 +48,49 @@ function Debuffs:OnEnable()
     DebuffColor["Poison"]  = { r = 0.00, g = 0.60, b = 0 };
 
     local function ButtonDefault(button)
-        local Backdrop = {
-            bgFile = nil,
-            edgeFile = "Interface\\Addons\\SUI\\Media\\Textures\\Core\\outer_shadow",
-            tile = false,
-            tileSize = 32,
-            edgeSize = 6,
-            insets = { left = 6, right = 6, top = 6, bottom = 6 },
-        }
-
         local icon = button.Icon
-        local border = CreateFrame("Frame", nil, button)
-        border:ClearAllPoints()
-        border:SetPoint("TOPLEFT", icon, "TOPLEFT", -2, 2)
-        border:SetPoint("BOTTOMRIGHT", icon, "BOTTOMRIGHT", 2, -2)
+        local holder = button.SUIBorderFrame
+        local border = button.SUIBorder
+        local shadow = button.SUIShadow
+        local size = 34
 
-        border:SetFrameLevel(8)
+        if not holder then
+            holder = CreateFrame("Frame", nil, button)
+            holder:SetFrameLevel(button:GetFrameLevel() - 1)
+            holder:SetPoint("CENTER", icon, "CENTER", 0, 0)
+            button.SUIBorderFrame = holder
+        end
 
-        border.texture = border:CreateTexture()
-        border.texture:SetAllPoints()
-        border.texture:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\Core\\gloss_border_w")
-        border.texture:SetDrawLayer("BACKGROUND", -7)
-        border.texture:SetTexCoord(0, 1, 0, 1)
+        holder:ClearAllPoints()
+        holder:SetPoint("CENTER", icon, "CENTER", 0, 0)
+        holder:SetSize(size, size)
 
-        border.shadow = CreateFrame("Frame", nil, border, "BackdropTemplate")
-        border.shadow:SetPoint("TOPLEFT", border, "TOPLEFT", -4, 4)
-        border.shadow:SetPoint("BOTTOMRIGHT", border, "BOTTOMRIGHT", 4, -4)
-        border.shadow:SetBackdrop(Backdrop)
-        border.shadow:SetBackdropBorderColor(unpack(SUI:Color(0.25, 0.9)))
+        if not border then
+            border = holder:CreateTexture(nil, "BACKGROUND", nil, -7)
+            border:SetAllPoints()
+            border:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\Core\\gloss_border_w")
+            border:SetTexCoord(0, 1, 0, 1)
+            button.SUIBorder = border
+        end
 
-        button.SUIBorder = border
+        if not shadow then
+            shadow = holder:CreateTexture(nil, "BACKGROUND", nil, -8)
+            shadow:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\Nameplates\\textureShadow")
+            shadow:SetVertexColor(0, 0, 0, 0.9)
+            shadow:SetPoint("CENTER", holder, "CENTER", 0, 0)
+            shadow:SetWidth(size + 8)
+            shadow:SetHeight(size + 8)
+            button.SUIShadow = shadow
+        end
+
+        if not button.SUIAlphaHooked then
+            hooksecurefunc(icon, "SetAlpha", function(_, alpha)
+                holder:SetAlpha(alpha)
+            end)
+            button.SUIAlphaHooked = true
+        end
+
+        holder:SetAlpha(icon:GetAlpha() or 1)
     end
 
     local function UpdateDebuffs()
@@ -112,9 +125,9 @@ function Debuffs:OnEnable()
                     if frame.SUIBorder then
                         local color = DebuffColor[debuffType or "none"]
                         if color then
-                            frame.SUIBorder.texture:SetVertexColor(color.r, color.g, color.b, 1)
+                            frame.SUIBorder:SetVertexColor(color.r, color.g, color.b, 1)
                         else
-                            frame.SUIBorder.texture:SetVertexColor(unpack(SUI:Color(0.15)))
+                            frame.SUIBorder:SetVertexColor(unpack(SUI:Color(0.15)))
                         end
                     end
                 end
