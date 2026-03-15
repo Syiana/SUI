@@ -56,21 +56,31 @@ function Module:OnEnable()
                 return nil
             end
 
-            if UnitIsPlayer(unit) then
+            local isPlayer = UnitIsPlayer(unit)
+            if isPlayer and canaccessvalue(isPlayer) then
                 local unitName = UnitName(unit)
                 local playerName = UnitName("player")
 
-                if unitName and playerName and unitName == playerName then
+                if unitName and playerName and canaccessvalue(unitName) and canaccessvalue(playerName) and unitName == playerName then
                     return ("|cffff0000%s|r"):format("<YOU>")
                 end
 
                 local _, class = UnitClass(unit)
-                return ("|cff%s%s|r"):format(classColorHex[class], UnitName(unit))
-            elseif UnitReaction(unit, "player") then
-                return ("|cff%s%s|r"):format(factionColorHex[UnitReaction(unit, "player")], UnitName(unit))
+                if class and classColorHex[class] and unitName and canaccessvalue(unitName) then
+                    return ("|cff%s%s|r"):format(classColorHex[class], unitName)
+                end
             else
-                return ("|cffffffff%s|r"):format(UnitName(unit))
+                local reaction = UnitReaction(unit, "player")
+                local targetName = UnitName(unit)
+                if reaction and canaccessvalue(reaction) and targetName and canaccessvalue(targetName) then
+                    return ("|cff%s%s|r"):format(factionColorHex[reaction], targetName)
+                elseif targetName and canaccessvalue(targetName) then
+                    return ("|cffffffff%s|r"):format(targetName)
+                end
+                return nil
             end
+
+            return nil
         end
 
         local function OnTooltipSetUnit(self)
