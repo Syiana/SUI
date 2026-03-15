@@ -153,7 +153,7 @@ function Module:OnEnable()
                 if unit == "player" then
                     local isAFK = UnitIsAFK(unit)
                     local isDead = UnitIsDead(unit)
-                    if isAFK and canaccessvalue(isAFK) and not (isDead and canaccessvalue(isDead)) and not InCombatLockdown() and not isArena then
+                    if canaccessvalue(isAFK) and isAFK and not (canaccessvalue(isDead) and isDead) and not InCombatLockdown() and not isArena then
                         MoveViewRightStart(0.1)
                         AFKPanel:Show()
                         AFKPanelTop:Show()
@@ -171,7 +171,7 @@ function Module:OnEnable()
                 MoveViewRightStop()
             elseif event == "PLAYER_DEAD" then
                 local isAFK = UnitIsAFK("player")
-                if isAFK and canaccessvalue(isAFK) then
+                if canaccessvalue(isAFK) and isAFK then
                     MoveViewRightStop()
                     AFKPanel:Hide()
                     AFKPanelTop:Hide()

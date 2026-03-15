@@ -59,16 +59,9 @@ function Debuffs:OnEnable()
 
         local icon = button.Icon
         local border = CreateFrame("Frame", nil, button)
-        border:SetSize(icon:GetWidth() + 4, icon:GetHeight() + 4)
-        
-        -- Position border based on debuff container orientation
-        if DebuffFrame.AuraContainer.isHorizontal then
-            local yOffset = DebuffFrame.AuraContainer.addIconsToTop and -5 or 5
-            border:SetPoint("CENTER", button, "CENTER", 0, yOffset)
-        else
-            local xOffset = DebuffFrame.AuraContainer.addIconsToRight and -15 or 15
-            border:SetPoint("CENTER", button, "CENTER", xOffset, 0)
-        end
+        border:ClearAllPoints()
+        border:SetPoint("TOPLEFT", icon, "TOPLEFT", -2, 2)
+        border:SetPoint("BOTTOMRIGHT", icon, "BOTTOMRIGHT", 2, -2)
 
         border:SetFrameLevel(8)
 

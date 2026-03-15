@@ -168,19 +168,19 @@ function Module:OnEnable()
                 levelLine:SetTextColor(color.r, color.g, color.b)
                 --afk?
                 local isAFK = UnitIsAFK(unit)
-                if isAFK and canaccessvalue(isAFK) then
+                if canaccessvalue(isAFK) and isAFK then
                     self:AppendText((" |cff%s<AFK>|r"):format(cfg.afkColorHex))
                 end
             end
             --dead?
             local isDead = UnitIsDeadOrGhost(unit)
-            if isDead and canaccessvalue(isDead) then
+            if canaccessvalue(isDead) and isDead then
                 _G["GameTooltipTextLeft1"]:SetTextColor(unpack(cfg.deadColor))
             end
             --target line
             local targetUnit = unit and (unit .. "target") or nil
             local targetExists = targetUnit and UnitExists(targetUnit)
-            if targetExists and canaccessvalue(targetExists) then
+            if canaccessvalue(targetExists) and targetExists then
                 GameTooltip:AddDoubleLine(("|cff%s%s|r"):format(cfg.targetColorHex, "Target"),
                     GetTarget(targetUnit) or "Unknown")
             end
