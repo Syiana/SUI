@@ -52,16 +52,35 @@ function Module:OnEnable()
         end
 
         local function GetTarget(unit)
-            if UnitIsUnit(unit, "player") then
-                return ("|cffff0000%s|r"):format("<YOU>")
-            elseif UnitIsPlayer(unit) then
-                local _, class = UnitClass(unit)
-                return ("|cff%s%s|r"):format(classColorHex[class], UnitName(unit))
-            elseif UnitReaction(unit, "player") then
-                return ("|cff%s%s|r"):format(factionColorHex[UnitReaction(unit, "player")], UnitName(unit))
-            else
-                return ("|cffffffff%s|r"):format(UnitName(unit))
+            if not unit or not canaccessvalue(unit) then
+                return nil
             end
+
+            local isPlayer = UnitIsPlayer(unit)
+            if isPlayer and canaccessvalue(isPlayer) then
+                local unitName = UnitName(unit)
+                local playerName = UnitName("player")
+
+                if unitName and playerName and canaccessvalue(unitName) and canaccessvalue(playerName) and unitName == playerName then
+                    return ("|cffff0000%s|r"):format("<YOU>")
+                end
+
+                local _, class = UnitClass(unit)
+                if class and classColorHex[class] and unitName and canaccessvalue(unitName) then
+                    return ("|cff%s%s|r"):format(classColorHex[class], unitName)
+                end
+            else
+                local reaction = UnitReaction(unit, "player")
+                local targetName = UnitName(unit)
+                if reaction and canaccessvalue(reaction) and targetName and canaccessvalue(targetName) then
+                    return ("|cff%s%s|r"):format(factionColorHex[reaction], targetName)
+                elseif targetName and canaccessvalue(targetName) then
+                    return ("|cffffffff%s|r"):format(targetName)
+                end
+                return nil
+            end
+
+            return nil
         end
 
         local function OnTooltipSetUnit(self)
@@ -70,23 +89,25 @@ function Module:OnEnable()
             end
 
             local unitName, unit = self:GetUnit()
-            if not unit then return end
+            if not unit or not canaccessvalue(unit) then return end
+            if unitName and not canaccessvalue(unitName) then unitName = nil end
+            
             --color tooltip textleft
             for i = 2, GameTooltip:NumLines() do
                 local line = _G["GameTooltipTextLeft" .. i]
-                if line then
-                    if not line == 4 then
-                        line:SetTextColor(unpack(cfg.textColor))
-                    end
+                if line and i ~= 4 then
+                    line:SetTextColor(unpack(cfg.textColor))
                 end
             end
             --position raidicon
-            if unit and GetRaidTargetIndex(unit) then
+            if unit and canaccessvalue(unit) then
                 local raidIconIndex = GetRaidTargetIndex(unit)
-                if GetRaidTargetIndex(unit) == 16 then
-                    GameTooltipTextLeft1:SetText(("%s"):format(unitName))
-                else
-                    GameTooltipTextLeft1:SetText(("%s %s"):format(ICON_LIST[raidIconIndex] .. "14|t", unitName))
+                if raidIconIndex and canaccessvalue(raidIconIndex) then
+                    if raidIconIndex == 16 then
+                        GameTooltipTextLeft1:SetText(("%s"):format(unitName or ""))
+                    else
+                        GameTooltipTextLeft1:SetText(("%s %s"):format(ICON_LIST[raidIconIndex] .. "14|t", unitName or ""))
+                    end
                 end
             end
             if not UnitIsPlayer(unit) then
@@ -146,18 +167,22 @@ function Module:OnEnable()
                 local color = GetCreatureDifficultyColor((l > 0) and l or 999)
                 levelLine:SetTextColor(color.r, color.g, color.b)
                 --afk?
-                if UnitIsAFK(unit) then
+                local isAFK = UnitIsAFK(unit)
+                if canaccessvalue(isAFK) and isAFK then
                     self:AppendText((" |cff%s<AFK>|r"):format(cfg.afkColorHex))
                 end
             end
             --dead?
-            if UnitIsDeadOrGhost(unit) then
+            local isDead = UnitIsDeadOrGhost(unit)
+            if canaccessvalue(isDead) and isDead then
                 _G["GameTooltipTextLeft1"]:SetTextColor(unpack(cfg.deadColor))
             end
             --target line
-            if (UnitExists(unit .. "target")) then
+            local targetUnit = unit and (unit .. "target") or nil
+            local targetExists = targetUnit and UnitExists(targetUnit)
+            if canaccessvalue(targetExists) and targetExists then
                 GameTooltip:AddDoubleLine(("|cff%s%s|r"):format(cfg.targetColorHex, "Target"),
-                    GetTarget(unit .. "target") or "Unknown")
+                    GetTarget(targetUnit) or "Unknown")
             end
         end
 
@@ -232,12 +257,14 @@ function Module:OnEnable()
             
             -- Check if ID already exists in tooltip
             local tooltipName = self:GetName()
-            for i = 1, 15 do
-                local frame = _G[tooltipName .. "TextLeft" .. i]
-                if frame then 
-                    local success, text = pcall(frame.GetText, frame)
-                    if success and text and type(text) == "string" and text:find("|cff0099ffID|r", 1, true) then 
-                        return 
+            if tooltipName and canaccessvalue(tooltipName) then
+                for i = 1, 15 do
+                    local frame = _G[tooltipName .. "TextLeft" .. i]
+                    if frame then 
+                        local success, text = pcall(frame.GetText, frame)
+                        if success and text and canaccessvalue(text) and type(text) == "string" and text:find("|cff0099ffID|r", 1, true) then 
+                            return 
+                        end
                     end
                 end
             end

@@ -7,7 +7,6 @@
   <Include file='_General.lua'/>
   <Include file='_Map.lua'/>
   <Include file='_Misc.lua'/>
-  <Include file='_Nameplates.lua'/>
   <Include file='_Profiles.lua'/>
   <Include file='_Tooltip.lua'/>
   <Include file='_Unitframes.lua'/>

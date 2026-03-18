@@ -3,7 +3,7 @@ local Debuffs = SUI:NewModule("Buffs.Debuffs")
 function Debuffs:OnEnable()
     if C_AddOns.IsAddOnLoaded("BlizzBuffsFacade") then return end
 
-    local db = SUI.db.profile.unitframes.buffs
+    local db = SUI.db.profile.unitframes.debuffs
     local theme = SUI.db.profile.general.theme
 
     -- Update Duration Text for Debuffs
@@ -48,77 +48,88 @@ function Debuffs:OnEnable()
     DebuffColor["Poison"]  = { r = 0.00, g = 0.60, b = 0 };
 
     local function ButtonDefault(button)
-        local Backdrop = {
-            bgFile = nil,
-            edgeFile = "Interface\\Addons\\SUI\\Media\\Textures\\Core\\outer_shadow",
-            tile = false,
-            tileSize = 32,
-            edgeSize = 6,
-            insets = { left = 6, right = 6, top = 6, bottom = 6 },
-        }
-
         local icon = button.Icon
-        local border = CreateFrame("Frame", nil, button)
-        border:SetSize(icon:GetWidth() + 4, icon:GetHeight() + 4)
-        
-        -- Position border based on debuff container orientation
-        if DebuffFrame.AuraContainer.isHorizontal then
-            local yOffset = DebuffFrame.AuraContainer.addIconsToTop and -5 or 5
-            border:SetPoint("CENTER", button, "CENTER", 0, yOffset)
-        else
-            local xOffset = DebuffFrame.AuraContainer.addIconsToRight and -15 or 15
-            border:SetPoint("CENTER", button, "CENTER", xOffset, 0)
+        local holder = button.SUIBorderFrame
+        local border = button.SUIBorder
+        local shadow = button.SUIShadow
+        local size = 34
+
+        if not holder then
+            holder = CreateFrame("Frame", nil, button)
+            holder:SetFrameLevel(button:GetFrameLevel() - 1)
+            holder:SetPoint("CENTER", icon, "CENTER", 0, 0)
+            button.SUIBorderFrame = holder
         end
 
-        border:SetFrameLevel(8)
+        holder:ClearAllPoints()
+        holder:SetPoint("CENTER", icon, "CENTER", 0, 0)
+        holder:SetSize(size, size)
 
-        border.texture = border:CreateTexture()
-        border.texture:SetAllPoints()
-        border.texture:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\Core\\gloss_border_w")
-        border.texture:SetDrawLayer("BACKGROUND", -7)
-        border.texture:SetTexCoord(0, 1, 0, 1)
+        if not border then
+            border = holder:CreateTexture(nil, "BACKGROUND", nil, -7)
+            border:SetAllPoints()
+            border:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\Core\\gloss_border_w")
+            border:SetTexCoord(0, 1, 0, 1)
+            button.SUIBorder = border
+        end
 
-        border.shadow = CreateFrame("Frame", nil, border, "BackdropTemplate")
-        border.shadow:SetPoint("TOPLEFT", border, "TOPLEFT", -4, 4)
-        border.shadow:SetPoint("BOTTOMRIGHT", border, "BOTTOMRIGHT", 4, -4)
-        border.shadow:SetBackdrop(Backdrop)
-        border.shadow:SetBackdropBorderColor(unpack(SUI:Color(0.25, 0.9)))
+        if not shadow then
+            shadow = holder:CreateTexture(nil, "BACKGROUND", nil, -8)
+            shadow:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\Nameplates\\textureShadow")
+            shadow:SetVertexColor(0, 0, 0, 0.9)
+            shadow:SetPoint("CENTER", holder, "CENTER", 0, 0)
+            shadow:SetWidth(size + 8)
+            shadow:SetHeight(size + 8)
+            button.SUIShadow = shadow
+        end
 
-        button.SUIBorder = border
+        if not button.SUIAlphaHooked then
+            hooksecurefunc(icon, "SetAlpha", function(_, alpha)
+                holder:SetAlpha(alpha)
+            end)
+            button.SUIAlphaHooked = true
+        end
+
+        holder:SetAlpha(icon:GetAlpha() or 1)
     end
 
     local function UpdateDebuffs()
         local Children = { DebuffFrame.AuraContainer:GetChildren() }
 
         for index, child in pairs(Children) do
-            local frame = select(index, DebuffFrame.AuraContainer:GetChildren())
+            if canaccessvalue(index) and canaccessvalue(child) then
+                local frame = select(index, DebuffFrame.AuraContainer:GetChildren())
+                if frame and canaccessvalue(frame) then
+                    if child.Border then
+                        child.Border:Hide()
+                    end
 
-            if child.Border then
-                child.Border:Hide()
-            end
+                    if frame.Icon and canaccessvalue(frame.Icon) then
+                        frame.Icon:SetTexCoord(0.08, 0.92, 0.08, 0.92)
+                    end
 
-            frame.Icon:SetTexCoord(0.08, 0.92, 0.08, 0.92)
+                    if not frame.SUIBorder then
+                        ButtonDefault(frame)
+                    end
 
-            if not frame.SUIBorder then
-                ButtonDefault(frame)
-            end
-
-            -- Set the color of the Debuff Border
-            local debuffType = nil
-            if child.buttonInfo then
-                -- Use pcall to safely access potentially protected data
-                local success, result = pcall(function() return child.buttonInfo.debuffType end)
-                if success then
-                    debuffType = result
-                end
-            end
-            
-            if frame.SUIBorder then
-                local color = DebuffColor[debuffType or "none"]
-                if color then
-                    frame.SUIBorder.texture:SetVertexColor(color.r, color.g, color.b, 1)
-                else
-                    frame.SUIBorder.texture:SetVertexColor(unpack(SUI:Color(0.15)))
+                    -- Set the color of the Debuff Border
+                    local debuffType = nil
+                    if child.buttonInfo and canaccessvalue(child.buttonInfo) then
+                        -- Use pcall to safely access potentially protected data
+                        local success, result = pcall(function() return child.buttonInfo.debuffType end)
+                        if success and canaccessvalue(result) then
+                            debuffType = result
+                        end
+                    end
+                    
+                    if frame.SUIBorder then
+                        local color = DebuffColor[debuffType or "none"]
+                        if color then
+                            frame.SUIBorder:SetVertexColor(color.r, color.g, color.b, 1)
+                        else
+                            frame.SUIBorder:SetVertexColor(unpack(SUI:Color(0.15)))
+                        end
+                    end
                 end
             end
         end
@@ -132,17 +143,17 @@ function Debuffs:OnEnable()
             -- Duration styling
             if aura.Duration and aura.Duration.SetDrawLayer then
                 aura.Duration:ClearAllPoints()
-                aura.Duration:SetPoint("CENTER", 0, -17.5)
+                aura.Duration:SetPoint("TOP", aura, "BOTTOM", 0, db.durationoffset or 2)
                 aura.Duration:SetDrawLayer("ARTWORK")
-                aura.Duration:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
+                aura.Duration:SetFont(STANDARD_TEXT_FONT, db.textsize or 11, "OUTLINE")
             end
 
             -- Count styling
             if aura.Count and aura.Count.SetDrawLayer then
                 aura.Count:ClearAllPoints()
-                aura.Count:SetPoint("BOTTOMRIGHT", 0, 11)
+                aura.Count:SetPoint("TOPRIGHT", aura, "TOPRIGHT", db.countx or -1, db.county or -1)
                 aura.Count:SetDrawLayer("ARTWORK")
-                aura.Count:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
+                aura.Count:SetFont(STANDARD_TEXT_FONT, db.textsize or 11, "OUTLINE")
             end
 
             -- Hide default debuff border
@@ -152,19 +163,29 @@ function Debuffs:OnEnable()
         end
     end
 
+    function Debuffs:Refresh()
+        if theme == 'Blizzard' then
+            return
+        end
+
+        UpdateDebuffs()
+        UpdateAuraPositions()
+    end
+
     if theme ~= 'Blizzard' then
         local frame = CreateFrame("Frame")
         frame:RegisterEvent("PLAYER_ENTERING_WORLD", self, "Update")
         frame:RegisterUnitEvent("UNIT_AURA", self, "Update")
         frame:RegisterEvent("GROUP_ROSTER_UPDATE")
         frame:SetScript("OnEvent", function()
-            UpdateDebuffs()
-            UpdateAuraPositions()
+            Debuffs:Refresh()
         end)
 
         -- Hook to update positions whenever debuffs update
         hooksecurefunc(AuraFrameMixin, "Update", function()
-            C_Timer.After(0, UpdateAuraPositions)
+            C_Timer.After(0, function()
+                Debuffs:Refresh()
+            end)
         end)
     end
 end

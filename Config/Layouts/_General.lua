@@ -7,8 +7,6 @@ function Layout:OnEnable()
     -- Data
     local Themes = SUI:GetModule("Data.Themes")
     local Fonts = SUI:GetModule("Data.Fonts")
-    local Textures = SUI:GetModule("Data.Textures")
-
     -- Layout
     Layout.layout = {
         layoutConfig = { padding = { top = 15 } },
@@ -17,7 +15,7 @@ function Layout:OnEnable()
             {
                 header = {
                     type = 'header',
-                    label = 'General'
+                    label = 'Appearance'
                 }
             },
             {
@@ -82,7 +80,7 @@ function Layout:OnEnable()
                 duel    = {
                     key = 'automation.decline',
                     type = 'checkbox',
-                    label = 'Duel',
+                    label = 'Decline Duel',
                     tooltip = 'Declines duels automatically',
                     column = 3,
                     order = 3
@@ -100,25 +98,25 @@ function Layout:OnEnable()
                 resurrect = {
                     key = 'automation.resurrect',
                     type = 'checkbox',
-                    label = 'Resurrect',
+                    label = 'Accept Resurrect',
                     tooltip = 'Accept ress automatically',
-                    column = 3,
+                    column = 4,
                     order = 1
                 },
                 invite = {
                     key = 'automation.invite',
                     type = 'checkbox',
-                    label = 'Invite',
+                    label = 'Accept Invite',
                     tooltip = 'Accept group invite automatically',
-                    column = 3,
+                    column = 4,
                     order = 2
                 },
                 cinematic = {
                     key = 'automation.cinematic',
                     type = 'checkbox',
-                    label = 'Cinematic',
+                    label = 'Skip Cinematics',
                     tooltip = 'Skip cinematics automatically',
-                    column = 3,
+                    column = 4,
                     order = 3
                 },
             },
@@ -140,7 +138,7 @@ function Layout:OnEnable()
             {
                 header = {
                     type = 'header',
-                    label = 'Display'
+                    label = 'Information'
                 },
             },
             {
@@ -149,7 +147,7 @@ function Layout:OnEnable()
                     type = 'checkbox',
                     label = 'Item Info',
                     tooltip = 'Display item information on items in bags/bank and character/inspect frame',
-                    column = 3,
+                    column = 4,
                     order = 1
                 },
                 fps = {
@@ -173,8 +171,14 @@ function Layout:OnEnable()
                     type = 'checkbox',
                     label = 'Speed',
                     tooltip = 'Show current movement speed',
-                    column = 3,
+                    column = 4,
                     order = 4
+                },
+            },
+            {
+                header = {
+                    type = 'header',
+                    label = 'Interface'
                 },
             },
             {
@@ -187,14 +191,14 @@ function Layout:OnEnable()
                     order = 1
                 },
                 talkhead = {
-                    key = 'cosmetic.talkinghead',
+                    key = 'cosmetic.talkhead',
                     type = 'checkbox',
-                    label = 'Talkinghead',
-                    tooltip = 'Show Talkinghead frame',
+                    label = 'Talking Head',
+                    tooltip = 'Show Talking Head frame',
                     column = 3,
                     order = 2
                 },
-                Errors = {
+                errors = {
                     key = 'cosmetic.errors',
                     type = 'checkbox',
                     label = 'Messages',

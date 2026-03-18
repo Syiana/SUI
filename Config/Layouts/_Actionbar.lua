@@ -3,6 +3,13 @@ local Layout = SUI:NewModule('Config.Layout.Actionbar')
 function Layout:OnEnable()
     -- Database
     local db = SUI.db
+    local ButtonsModule = SUI:GetModule("ActionBars.Buttons", true)
+
+    local function refreshButtonText()
+        if ButtonsModule and ButtonsModule.RefreshText then
+            ButtonsModule:RefreshText()
+        end
+    end
 
     -- Layout
     Layout.layout = {
@@ -22,7 +29,8 @@ function Layout:OnEnable()
                     label = 'Hotkeys Text',
                     tooltip = 'Show Hotkeys text',
                     column = 4,
-                    order = 1
+                    order = 1,
+                    onChange = refreshButtonText
                 },
                 macros = {
                     key = 'buttons.macro',
@@ -30,7 +38,8 @@ function Layout:OnEnable()
                     label = 'Macro Text',
                     tooltip = 'Show Macro text',
                     column = 4,
-                    order = 2
+                    order = 2,
+                    onChange = refreshButtonText
                 },
                 flash = {
                     key = 'buttons.flash',
@@ -56,7 +65,8 @@ function Layout:OnEnable()
                     label = 'Text size',
                     max = 20,
                     column = 4,
-                    order = 1
+                    order = 1,
+                    onChange = refreshButtonText
                 },
             },
             {

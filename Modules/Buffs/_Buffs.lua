@@ -40,42 +40,50 @@ function Buffs:OnEnable()
     end
 
     local function ButtonDefault(button)
-        local Backdrop = {
-            bgFile = nil,
-            edgeFile = "Interface\\Addons\\SUI\\Media\\Textures\\Core\\outer_shadow",
-            tile = false,
-            tileSize = 32,
-            edgeSize = 6,
-            insets = { left = 6, right = 6, top = 6, bottom = 6 },
-        }
-
         local icon = button.Icon
-        local border = CreateFrame("Frame", nil, button)
-        border:SetSize(icon:GetWidth() + 4, icon:GetHeight() + 4)
+        local holder = button.SUIBorderFrame
+        local border = button.SUIBorder
+        local shadow = button.SUIShadow
+        local size = 34
 
-        -- Position border based on buff container orientation
-        if BuffFrame.AuraContainer.isHorizontal then
-            local yOffset = BuffFrame.AuraContainer.addIconsToTop and -5 or 5
-            border:SetPoint("CENTER", button, "CENTER", 0, yOffset)
-        else
-            local xOffset = BuffFrame.AuraContainer.addIconsToRight and -15 or 15
-            border:SetPoint("CENTER", button, "CENTER", xOffset, 0)
+        if not holder then
+            holder = CreateFrame("Frame", nil, button)
+            holder:SetFrameLevel(button:GetFrameLevel() - 1)
+            holder:SetPoint("CENTER", icon, "CENTER", 0, 0)
+            button.SUIBorderFrame = holder
         end
 
-        border.texture = border:CreateTexture()
-        border.texture:SetAllPoints()
-        border.texture:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\Core\\gloss")
-        border.texture:SetTexCoord(0, 1, 0, 1)
-        border.texture:SetDrawLayer("BACKGROUND", -7)
-        border.texture:SetVertexColor(0.4, 0.35, 0.35)
+        holder:ClearAllPoints()
+        holder:SetPoint("CENTER", icon, "CENTER", 0, 0)
+        holder:SetSize(size, size)
 
-        border.shadow = CreateFrame("Frame", nil, border, "BackdropTemplate")
-        border.shadow:SetPoint("TOPLEFT", border, "TOPLEFT", -4, 4)
-        border.shadow:SetPoint("BOTTOMRIGHT", border, "BOTTOMRIGHT", 4, -4)
-        border.shadow:SetBackdrop(Backdrop)
-        border.shadow:SetBackdropBorderColor(unpack(SUI:Color(0.25, 0.9)))
+        if not border then
+            border = holder:CreateTexture(nil, "BACKGROUND", nil, -7)
+            border:SetAllPoints()
+            border:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\Core\\gloss")
+            border:SetTexCoord(0, 1, 0, 1)
+            border:SetVertexColor(0.4, 0.35, 0.35)
+            button.SUIBorder = border
+        end
 
-        button.SUIBorder = border
+        if not shadow then
+            shadow = holder:CreateTexture(nil, "BACKGROUND", nil, -8)
+            shadow:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\Nameplates\\textureShadow")
+            shadow:SetVertexColor(0, 0, 0, 0.9)
+            shadow:SetPoint("CENTER", holder, "CENTER", 0, 0)
+            shadow:SetWidth(size + 8)
+            shadow:SetHeight(size + 8)
+            button.SUIShadow = shadow
+        end
+
+        if not button.SUIAlphaHooked then
+            hooksecurefunc(icon, "SetAlpha", function(_, alpha)
+                holder:SetAlpha(alpha)
+            end)
+            button.SUIAlphaHooked = true
+        end
+
+        holder:SetAlpha(icon:GetAlpha() or 1)
     end
 
     local function UpdateBuffs()
@@ -100,16 +108,35 @@ function Buffs:OnEnable()
             local aura = BuffFrame.auraFrames[i]
             
             -- Duration styling
-            aura.Duration:ClearAllPoints()
-            aura.Duration:SetPoint("CENTER", 0, -17.5)
-            aura.Duration:SetDrawLayer("ARTWORK")
-            aura.Duration:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
+            if aura.Duration and aura.Duration.SetDrawLayer then
+                aura.Duration:ClearAllPoints()
+                aura.Duration:SetPoint("TOP", aura, "BOTTOM", 0, db.durationoffset or 2)
+                aura.Duration:SetDrawLayer("ARTWORK")
+                aura.Duration:SetFont(STANDARD_TEXT_FONT, db.textsize or 11, "OUTLINE")
+            end
 
             -- Count styling
-            aura.Count:ClearAllPoints()
-            aura.Count:SetPoint("BOTTOMRIGHT", 0, 11)
-            aura.Count:SetDrawLayer("ARTWORK")
-            aura.Count:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
+            if aura.Count and aura.Count.SetDrawLayer then
+                aura.Count:ClearAllPoints()
+                aura.Count:SetPoint("TOPRIGHT", aura, "TOPRIGHT", db.countx or -1, db.county or -1)
+                aura.Count:SetDrawLayer("ARTWORK")
+                aura.Count:SetFont(STANDARD_TEXT_FONT, db.textsize or 11, "OUTLINE")
+            end
+        end
+    end
+
+    function Buffs:Refresh()
+        if theme == 'Blizzard' then
+            return
+        end
+
+        UpdateBuffs()
+        UpdateAuraPositions()
+
+        if db.collapse then
+            BuffFrame.CollapseAndExpandButton:Show()
+        else
+            BuffFrame.CollapseAndExpandButton:Hide()
         end
     end
 
@@ -120,13 +147,14 @@ function Buffs:OnEnable()
         frame:RegisterEvent("WEAPON_ENCHANT_CHANGED")
         frame:RegisterEvent("GROUP_ROSTER_UPDATE")
         frame:SetScript("OnEvent", function()
-            UpdateBuffs()
-            UpdateAuraPositions()
+            Buffs:Refresh()
         end)
 
         -- Hook to update positions whenever buffs update
         hooksecurefunc(AuraFrameMixin, "Update", function()
-            C_Timer.After(0, UpdateAuraPositions)
+            C_Timer.After(0, function()
+                Buffs:Refresh()
+            end)
         end)
     end
 

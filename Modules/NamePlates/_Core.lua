@@ -3,8 +3,438 @@ local Module = SUI:NewModule("NamePlates.Core");
 function Module:OnEnable()
     if C_AddOns.IsAddOnLoaded('Plater') or C_AddOns.IsAddOnLoaded('TidyPlates_ThreatPlates') or C_AddOns.IsAddOnLoaded('TidyPlates') or C_AddOns.IsAddOnLoaded('Kui_Nameplates') then return end
     local db = SUI.db.profile.nameplates
+    local unitframes = SUI.db.profile.unitframes
+    local _, playerClass = UnitClass("player")
+    local playerClassColor = RAID_CLASS_COLORS[playerClass]
 
     local focusTexture = [[Interface\AddOns\SUI\Media\Textures\Nameplates\focusTexture]]
+
+    local personalBarCfg = {}
+    local function isPersonalBarCustom()
+        local cfg = unitframes.personalbar or {}
+        return (cfg.style or "Custom") == "Custom"
+    end
+
+    local function personalBarConfig()
+        local cfg = unitframes.personalbar or {}
+        personalBarCfg.style = cfg.style or "Custom"
+        personalBarCfg.texture = cfg.texture or SUI.db.profile.general.texture
+        personalBarCfg.width = cfg.width or 130
+        personalBarCfg.height = cfg.height or 14
+        personalBarCfg.manaheight = cfg.manaheight or 8
+        return personalBarCfg
+    end
+
+    local function getPersonalHealthContainer()
+        return PersonalResourceDisplayFrame and PersonalResourceDisplayFrame.HealthBarsContainer or nil
+    end
+
+    local function getPersonalHealthBar()
+        local container = getPersonalHealthContainer()
+        if not container then
+            return nil
+        end
+
+        if container.healthBar and container.healthBar.SetStatusBarColor then
+            return container.healthBar
+        end
+
+        if container.SetStatusBarColor and container.SetStatusBarTexture then
+            return container
+        end
+
+        return nil
+    end
+
+    local function getPersonalPowerBar()
+        if PersonalResourceDisplayFrame and PersonalResourceDisplayFrame.PowerBar then
+            return PersonalResourceDisplayFrame.PowerBar
+        end
+
+        if ClassNameplateManaBarFrame then
+            return ClassNameplateManaBarFrame
+        end
+
+        return nil
+    end
+
+    local function getPersonalExtraBar()
+        return ClassNameplateBrewmasterBarFrame
+    end
+
+    local function setTexture(textureObject, texturePath)
+        if textureObject and textureObject.SetTexture then
+            if textureObject.suiTexturePath == texturePath then
+                return
+            end
+            textureObject:SetTexture(texturePath)
+            textureObject.suiTexturePath = texturePath
+        end
+    end
+
+    local function setWidth(frame, width)
+        if frame and frame.SetWidth and frame.suiWidth ~= width then
+            frame:SetWidth(width)
+            frame.suiWidth = width
+        end
+    end
+
+    local function setHeight(frame, height)
+        if frame and frame.SetHeight and frame.suiHeight ~= height then
+            frame:SetHeight(height)
+            frame.suiHeight = height
+        end
+    end
+
+    local function setAlpha(frame, alpha)
+        if frame and frame.SetAlpha and frame.suiAlpha ~= alpha then
+            frame:SetAlpha(alpha)
+            frame.suiAlpha = alpha
+        end
+    end
+
+    local function setBarColor(bar, r, g, b)
+        if not bar or not bar.SetStatusBarColor then
+            return
+        end
+
+        if bar.suiColorR == r and bar.suiColorG == g and bar.suiColorB == b then
+            return
+        end
+
+        bar:SetStatusBarColor(r, g, b)
+        bar.suiColorR = r
+        bar.suiColorG = g
+        bar.suiColorB = b
+    end
+
+    local function applyTextureToPredictionBar(bar)
+        local cfg = personalBarConfig()
+        if not bar or not isPersonalBarCustom() or cfg.texture == [[Interface\Default]] then
+            return
+        end
+
+        if bar.SetStatusBarTexture then
+            bar:SetStatusBarTexture(cfg.texture)
+        end
+
+        if bar.GetStatusBarTexture and bar:GetStatusBarTexture() then
+            bar:GetStatusBarTexture():SetDrawLayer("BORDER")
+        end
+
+        if bar.SetTexture then
+            bar:SetTexture(cfg.texture)
+        end
+    end
+
+    local function applyHealPredictionTextures(frame, usePersonalTexture)
+        if not frame then
+            return
+        end
+
+        if usePersonalTexture and not isPersonalBarCustom() then
+            return
+        end
+
+        local texture = usePersonalTexture and personalBarConfig().texture or db.texture
+        if texture == [[Interface\Default]] then
+            return
+        end
+
+        if frame.myHealPrediction then
+            frame.myHealPrediction:SetTexture(texture)
+            frame.myHealPrediction:SetVertexColor(16 / 510, 424 / 510, 400 / 510)
+        end
+
+        if frame.otherHealPrediction then
+            frame.otherHealPrediction:SetTexture(texture)
+            frame.otherHealPrediction:SetVertexColor(0 / 510, 325 / 510, 292 / 510)
+        end
+
+        if frame.totalAbsorb then
+            frame.totalAbsorb:SetTexture(texture)
+        end
+    end
+
+    local function applyBarTexture(bar)
+        if not bar then return end
+        local cfg = personalBarConfig()
+        if not isPersonalBarCustom() then return end
+        if cfg.texture == [[Interface\Default]] then return end
+
+        if bar.SetStatusBarTexture then
+            bar:SetStatusBarTexture(cfg.texture)
+            if bar.GetStatusBarTexture and bar:GetStatusBarTexture() then
+                bar:GetStatusBarTexture():SetDrawLayer("BORDER")
+            end
+        end
+
+        if bar.Texture then
+            setTexture(bar.Texture, cfg.texture)
+        end
+
+        if bar.texture then
+            setTexture(bar.texture, cfg.texture)
+        end
+
+        if bar.GetRegions then
+            for _, region in ipairs({ bar:GetRegions() }) do
+                if region and region.GetObjectType and region:GetObjectType() == "Texture" and region.SetTexture then
+                    local name = region.GetName and region:GetName() or ""
+                    if name:find("Texture") or name:find("barTexture") or name:find("BarTexture") then
+                        region:SetTexture(cfg.texture)
+                    end
+                end
+            end
+        end
+    end
+
+    local function enforceBarTexture(bar)
+        if not bar or bar.suiTextureHooked or not bar.SetStatusBarTexture then
+            return
+        end
+
+        hooksecurefunc(bar, "SetStatusBarTexture", function(self)
+            local cfg = personalBarConfig()
+            if self.suiApplyingTexture or not isPersonalBarCustom() or cfg.texture == [[Interface\Default]] then
+                return
+            end
+
+            self.suiApplyingTexture = true
+            self:SetStatusBarTexture(cfg.texture)
+            self.suiApplyingTexture = nil
+        end)
+
+        bar.suiTextureHooked = true
+    end
+
+    local function enforceBarWidth(bar)
+        if not bar or bar.suiWidthHooked or not bar.SetWidth then
+            return
+        end
+
+        hooksecurefunc(bar, "SetWidth", function(self)
+            local width = personalBarConfig().width
+            if self.suiApplyingWidth or not isPersonalBarCustom() then
+                return
+            end
+
+            self.suiApplyingWidth = true
+            self:SetWidth(width)
+            self.suiApplyingWidth = nil
+        end)
+
+        bar.suiWidthHooked = true
+    end
+
+    local function applyPersonalResourceSize()
+        if not isPersonalBarCustom() then
+            return
+        end
+
+        local root = PersonalResourceDisplayFrame
+        local container = getPersonalHealthContainer()
+        local healthBar = getPersonalHealthBar()
+        local manaBar = getPersonalPowerBar()
+        local extraBar = getPersonalExtraBar()
+        local cfg = personalBarConfig()
+
+        if C_NamePlate and C_NamePlate.SetNamePlateSelfSize then
+            C_NamePlate.SetNamePlateSelfSize(cfg.width, 45)
+        end
+
+        if NamePlatePlayerResourceFrame and NamePlatePlayerResourceFrame.SetWidth then
+            enforceBarWidth(NamePlatePlayerResourceFrame)
+            setWidth(NamePlatePlayerResourceFrame, cfg.width)
+        end
+
+        if root and root.SetWidth then
+            enforceBarWidth(root)
+            setWidth(root, cfg.width)
+        end
+
+        if container and container.SetWidth then
+            enforceBarWidth(container)
+            setWidth(container, cfg.width)
+        end
+
+        if healthBar and healthBar.SetWidth then
+            enforceBarWidth(healthBar)
+            setWidth(healthBar, cfg.width)
+        end
+
+        if container and container.SetHeight then
+            setHeight(container, cfg.height)
+        end
+
+        if healthBar and healthBar.SetHeight then
+            setHeight(healthBar, cfg.height)
+        end
+
+        if manaBar and manaBar.SetWidth then
+            enforceBarWidth(manaBar)
+            setWidth(manaBar, cfg.width)
+        end
+
+        if manaBar and manaBar.SetHeight then
+            manaBar.bbpHeight = cfg.manaheight
+            setHeight(manaBar, cfg.manaheight)
+        end
+
+        if manaBar and manaBar.Texture and manaBar.Texture.SetWidth then
+            setWidth(manaBar.Texture, cfg.width)
+        end
+
+        if manaBar and manaBar.background and manaBar.background.SetWidth then
+            setWidth(manaBar.background, cfg.width)
+        end
+
+        if extraBar and extraBar.SetWidth then
+            enforceBarWidth(extraBar)
+            setWidth(extraBar, cfg.width)
+        end
+    end
+
+    local function updatePersonalResourceBars()
+        if not isPersonalBarCustom() then
+            return
+        end
+
+        local container = getPersonalHealthContainer()
+        local healthBar = getPersonalHealthBar()
+        local manaBar = getPersonalPowerBar()
+        local manaAlias = ClassNameplateManaBarFrame
+        local extraBar = getPersonalExtraBar()
+
+        applyPersonalResourceSize()
+
+        if healthBar and playerClassColor then
+            enforceBarTexture(healthBar)
+            applyBarTexture(healthBar)
+            setBarColor(healthBar, playerClassColor.r, playerClassColor.g, playerClassColor.b)
+        end
+
+        applyHealPredictionTextures(NamePlatePlayerResourceFrame and NamePlatePlayerResourceFrame.UnitFrame, true)
+
+        if container then
+            applyTextureToPredictionBar(container.myHealPrediction)
+            applyTextureToPredictionBar(container.otherHealPrediction)
+            applyTextureToPredictionBar(container.totalAbsorb)
+            applyTextureToPredictionBar(container.myHealAbsorb)
+            applyTextureToPredictionBar(container.overAbsorbGlow)
+            applyTextureToPredictionBar(container.overHealAbsorbGlow)
+        end
+
+        if manaBar then
+            enforceBarTexture(manaBar)
+            applyBarTexture(manaBar)
+
+            if manaBar.FullPowerFrame then
+                setAlpha(manaBar.FullPowerFrame, 0)
+            end
+
+            if manaBar.FeedbackFrame then
+                setAlpha(manaBar.FeedbackFrame, 0)
+            end
+
+            applyTextureToPredictionBar(manaBar.ManaCostPredictionBar)
+            applyTextureToPredictionBar(manaBar.ManaCostPredictionBarOverlay)
+
+            local _, powerToken = UnitPowerType("player")
+            local powerColor = PowerBarColor[powerToken] or PowerBarColor["MANA"]
+            if powerColor then
+                if manaBar.SetStatusBarColor then
+                    setBarColor(manaBar, powerColor.r, powerColor.g, powerColor.b)
+                end
+                if manaBar.Texture and manaBar.Texture.SetVertexColor then
+                    manaBar.Texture:SetVertexColor(powerColor.r, powerColor.g, powerColor.b)
+                end
+            end
+        end
+
+        if manaAlias and manaAlias ~= manaBar then
+            enforceBarTexture(manaAlias)
+            applyBarTexture(manaAlias)
+            manaAlias.bbpHeight = personalBarConfig().manaheight
+            if manaAlias.SetHeight then
+                setHeight(manaAlias, manaAlias.bbpHeight)
+            end
+        end
+
+        if extraBar then
+            enforceBarTexture(extraBar)
+            applyBarTexture(extraBar)
+        end
+    end
+
+    local personalResourceUpdateQueued = false
+    local function requestPersonalResourceUpdate()
+        if personalResourceUpdateQueued then
+            return
+        end
+
+        personalResourceUpdateQueued = true
+        C_Timer.After(0, function()
+            personalResourceUpdateQueued = false
+            updatePersonalResourceBars()
+        end)
+    end
+
+    local personalBarHooksInstalled = false
+    local function installPersonalResourceHooks()
+        if personalBarHooksInstalled then
+            return
+        end
+
+        local healthBar = getPersonalHealthBar()
+        if not healthBar then
+            return
+        end
+
+        hooksecurefunc(healthBar, "SetStatusBarColor", function(bar)
+            if bar.suiUpdatingColor or not playerClassColor or not isPersonalBarCustom() then
+                return
+            end
+
+            bar.suiUpdatingColor = true
+            bar:SetStatusBarColor(playerClassColor.r, playerClassColor.g, playerClassColor.b)
+            bar.suiUpdatingColor = nil
+        end)
+
+        local function hookManaBarHeight(bar)
+            if not bar or bar.suiHeightHooked or not bar.SetHeight then
+                return
+            end
+
+            hooksecurefunc(bar, "SetHeight", function(self)
+                local height = self.bbpHeight or personalBarConfig().manaheight
+                if self.changing or not isPersonalBarCustom() then
+                    return
+                end
+
+                self.changing = true
+                self:SetHeight(height)
+                self.changing = false
+            end)
+            bar.suiHeightHooked = true
+        end
+
+        hookManaBarHeight(getPersonalPowerBar())
+        hookManaBarHeight(ClassNameplateManaBarFrame)
+
+        personalBarHooksInstalled = true
+    end
+
+    local function isPersonalResourceFrame(self)
+        if not self then return false end
+
+        local parent = self:GetParent()
+        local parentName = parent and parent.GetName and parent:GetName()
+
+        return (self.unit == "player" or self.displayedUnit == "player") and
+            (parent == NamePlatePlayerResourceFrame or parent == PersonalResourceDisplayFrame or
+                parentName == "NamePlatePlayerResourceFrame" or parentName == "PersonalResourceDisplayFrame")
+    end
 
     -- NPC Colors Table
     SUI_NPCColors = {}
@@ -273,16 +703,110 @@ function Module:OnEnable()
         if self:IsForbidden() then return end
         if self.unit and self.unit:find('nameplate%d') then
             if self.healthBar then
-                if not UnitIsUnit(self.unit, "focus") then
+                if isPersonalResourceFrame(self) then
+                    applyBarTexture(self.healthBar)
+                elseif not UnitIsUnit(self.unit, "focus") then
                     self.healthBar:SetStatusBarTexture(db.texture)
                 else
                     self.healthBar:SetStatusBarTexture(focusTexture)
                 end
 
-                ClassNameplateManaBarFrame:SetStatusBarTexture(db.texture)
+                local manaBar = getPersonalPowerBar()
+                if manaBar then
+                    applyBarTexture(manaBar)
+                end
+
+                if ClassNameplateBrewmasterBarFrame and ClassNameplateBrewmasterBarFrame.SetStatusBarTexture then
+                    ClassNameplateBrewmasterBarFrame:SetStatusBarTexture(db.texture)
+                end
             end
         end
     end
+
+    local function personalResourceStyle(self)
+        if self:IsForbidden() then return end
+        if not isPersonalBarCustom() then return end
+        if not playerClassColor then return end
+        if not self.healthBar then return end
+
+        if isPersonalResourceFrame(self) then
+            local manaBar = getPersonalPowerBar()
+            local extraBar = getPersonalExtraBar()
+
+            applyBarTexture(self.healthBar)
+            self.healthBar:SetStatusBarColor(playerClassColor.r, playerClassColor.g, playerClassColor.b)
+
+            if manaBar then
+                applyBarTexture(manaBar)
+                local powerType = select(2, UnitPowerType("player"))
+                local powerColor = PowerBarColor[powerType] or PowerBarColor["MANA"]
+                if powerColor then
+                    if manaBar.SetStatusBarColor then
+                        manaBar:SetStatusBarColor(powerColor.r, powerColor.g, powerColor.b)
+                    end
+                    if manaBar.Texture and manaBar.Texture.SetVertexColor then
+                        manaBar.Texture:SetVertexColor(powerColor.r, powerColor.g, powerColor.b)
+                    end
+                end
+            end
+
+            if extraBar then
+                applyBarTexture(extraBar)
+            end
+        end
+    end
+
+    function Module:RefreshPersonalResource()
+        installPersonalResourceHooks()
+        if isPersonalBarCustom() and NamePlatePlayerResourceFrame and NamePlatePlayerResourceFrame.UnitFrame then
+            personalResourceStyle(NamePlatePlayerResourceFrame.UnitFrame)
+        end
+        requestPersonalResourceUpdate()
+    end
+
+    local personalResource = CreateFrame("Frame")
+    personalResource:RegisterEvent("PLAYER_LOGIN")
+    personalResource:RegisterEvent("PLAYER_ENTERING_WORLD")
+    personalResource:RegisterEvent("UNIT_POWER_UPDATE")
+    personalResource:RegisterEvent("UNIT_DISPLAYPOWER")
+    personalResource:RegisterEvent("PLAYER_SPECIALIZATION_CHANGED")
+    personalResource:HookScript("OnEvent", function(_, _, unit)
+        if unit and unit ~= "player" then return end
+        installPersonalResourceHooks()
+        if NamePlatePlayerResourceFrame and NamePlatePlayerResourceFrame.UnitFrame then
+            personalResourceStyle(NamePlatePlayerResourceFrame.UnitFrame)
+        end
+        requestPersonalResourceUpdate()
+    end)
+
+    if type(UnitFramePersonalResourceBarMixin_UpdatePowerBarTextureAndColor) == "function" then
+        hooksecurefunc("UnitFramePersonalResourceBarMixin_UpdatePowerBarTextureAndColor", requestPersonalResourceUpdate)
+    end
+
+    if type(UnitFrameManaBar_UpdateType) == "function" then
+        hooksecurefunc("UnitFrameManaBar_UpdateType", requestPersonalResourceUpdate)
+    end
+
+    if PersonalResourceDisplayFrame and PersonalResourceDisplayFrame.HookScript then
+        PersonalResourceDisplayFrame:HookScript("OnShow", requestPersonalResourceUpdate)
+    end
+
+    if C_NamePlate and C_NamePlate.SetNamePlateSelfSize then
+        local widthEnforcer = CreateFrame("Frame")
+        widthEnforcer:RegisterEvent("PLAYER_LOGIN")
+        widthEnforcer:RegisterEvent("PLAYER_ENTERING_WORLD")
+        widthEnforcer:RegisterEvent("PLAYER_TARGET_CHANGED")
+        widthEnforcer:RegisterEvent("NAME_PLATE_UNIT_ADDED")
+        widthEnforcer:SetScript("OnEvent", function(_, _, unit)
+            if unit and unit ~= "player" then
+                return
+            end
+            local cfg = personalBarConfig()
+            C_NamePlate.SetNamePlateSelfSize(cfg.width, 45)
+        end)
+    end
+    installPersonalResourceHooks()
+    requestPersonalResourceUpdate()
 
     if db.style ~= 'Default' then
         -- Set Nameplate Texture
@@ -296,12 +820,12 @@ function Module:OnEnable()
         hooksecurefunc("CompactUnitFrame_UpdateHealthColor", function(self)
             if self:IsForbidden() then return end
             if not strfind(self.unit, "nameplate") then return end
-            local inInstance, instanceType = IsInInstance()
-
-            self.myHealPrediction:SetTexture(db.texture)
-            self.myHealPrediction:SetVertexColor(16 / 510, 424 / 510, 400 / 510)
-            self.otherHealPrediction:SetTexture(db.texture)
-            self.otherHealPrediction:SetVertexColor(0 / 510, 325 / 510, 292 / 510)
+            applyHealPredictionTextures(self, isPersonalResourceFrame(self))
+        end)
+        hooksecurefunc("CompactUnitFrame_UpdateHealPrediction", function(self)
+            if self:IsForbidden() then return end
+            if not strfind(self.unit, "nameplate") then return end
+            applyHealPredictionTextures(self, isPersonalResourceFrame(self))
         end)
 
         -- Set Nameplate Castbars
@@ -317,6 +841,8 @@ function Module:OnEnable()
 
         -- Set Nameplate Name Color
         hooksecurefunc("CompactUnitFrame_UpdateName", nameplatePlayerName)
+        hooksecurefunc("CompactUnitFrame_UpdateHealthColor", personalResourceStyle)
+        hooksecurefunc("CompactUnitFrame_UpdateHealth", personalResourceStyle)
 
         -- Set Focus Texture
         local focus = CreateFrame("Frame")

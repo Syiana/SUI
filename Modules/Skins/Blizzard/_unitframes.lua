@@ -2,6 +2,45 @@ local Module = SUI:NewModule("Skins.UnitFrames");
 
 function Module:OnEnable()
     if (SUI:Color()) then
+        local function enumerateFrames(frame)
+            if not frame then
+                return {}
+            end
+
+            if frame.classResourceButtonPool and frame.classResourceButtonPool.EnumerateActive then
+                local objects = {}
+                for bar in frame.classResourceButtonPool:EnumerateActive() do
+                    objects[#objects + 1] = bar
+                end
+                return objects
+            end
+
+            return { frame:GetChildren() }
+        end
+
+        local function skinPaladinPowerBar(frame)
+            if not frame or (frame.IsForbidden and frame:IsForbidden()) then
+                return
+            end
+
+            local objects = {}
+            if frame.Background then
+                objects[#objects + 1] = frame.Background
+            end
+
+            if #objects > 0 then
+                SUI:Skin(objects, true, true)
+            end
+
+            if frame.Background then
+                frame.Background:SetVertexColor(unpack(SUI:Color(0.15)))
+            end
+
+            if frame.ActiveTexture then
+                frame.ActiveTexture:Hide()
+            end
+        end
+
         -- Alternate Power Bar
         for i, v in ipairs({
             PlayerFrameAlternateManaBarBorder,
@@ -75,6 +114,15 @@ function Module:OnEnable()
                         bar.ChargedFrameActive:SetVertexColor(unpack(SUI:Color(0.15)))
                     end
                 end
+
+                for _, bar in pairs(enumerateFrames(prdClassFrame)) do
+                    if bar.BGActive then bar.BGActive:SetVertexColor(unpack(SUI:Color(0.15))) end
+                    if bar.BGInactive then bar.BGInactive:SetVertexColor(unpack(SUI:Color(0.15))) end
+                    if bar.BGShadow then bar.BGShadow:SetVertexColor(unpack(SUI:Color(0.15))) end
+                    if bar.isCharged and bar.ChargedFrameActive then
+                        bar.ChargedFrameActive:SetVertexColor(unpack(SUI:Color(0.15)))
+                    end
+                end
             end)
         elseif (playerClass == 'MAGE') then
             -- Mage
@@ -88,6 +136,11 @@ function Module:OnEnable()
                     bar.ArcaneBG:SetVertexColor(unpack(SUI:Color(0.15)))
                     bar.ArcaneBGShadow:SetVertexColor(unpack(SUI:Color(0.15)))
                 end
+
+                for _, bar in pairs(enumerateFrames(prdClassFrame)) do
+                    if bar.ArcaneBG then bar.ArcaneBG:SetVertexColor(unpack(SUI:Color(0.15))) end
+                    if bar.ArcaneBGShadow then bar.ArcaneBGShadow:SetVertexColor(unpack(SUI:Color(0.15))) end
+                end
             end)
         elseif (playerClass == 'WARLOCK') then
             -- Warlock
@@ -98,6 +151,10 @@ function Module:OnEnable()
 
                 for bar, _ in ClassNameplateBarWarlockFrame.classResourceButtonPool:EnumerateActive() do
                     bar.Background:SetVertexColor(unpack(SUI:Color(0.15)))
+                end
+
+                for _, bar in pairs(enumerateFrames(prdClassFrame)) do
+                    if bar.Background then bar.Background:SetVertexColor(unpack(SUI:Color(0.15))) end
                 end
             end)
         elseif (playerClass == 'DRUID') then
@@ -114,6 +171,12 @@ function Module:OnEnable()
                     bar.BG_Inactive:SetVertexColor(unpack(SUI:Color(0.15)))
                     bar.BG_Shadow:SetVertexColor(unpack(SUI:Color(0.15)))
                 end
+
+                for _, bar in pairs(enumerateFrames(prdClassFrame)) do
+                    if bar.BG_Active then bar.BG_Active:SetVertexColor(unpack(SUI:Color(0.15))) end
+                    if bar.BG_Inactive then bar.BG_Inactive:SetVertexColor(unpack(SUI:Color(0.15))) end
+                    if bar.BG_Shadow then bar.BG_Shadow:SetVertexColor(unpack(SUI:Color(0.15))) end
+                end
             end)
         elseif (playerClass == 'MONK') then
             -- Monk
@@ -126,6 +189,11 @@ function Module:OnEnable()
                 for bar, _ in ClassNameplateBarWindwalkerMonkFrame.classResourceButtonPool:EnumerateActive() do
                     bar.Chi_BG:SetVertexColor(unpack(SUI:Color(0.15)))
                     bar.Chi_BG_Active:SetVertexColor(unpack(SUI:Color(0.15)))
+                end
+
+                for _, bar in pairs(enumerateFrames(prdClassFrame)) do
+                    if bar.Chi_BG then bar.Chi_BG:SetVertexColor(unpack(SUI:Color(0.15))) end
+                    if bar.Chi_BG_Active then bar.Chi_BG_Active:SetVertexColor(unpack(SUI:Color(0.15))) end
                 end
             end)
         elseif (playerClass == 'DEATHKNIGHT') then
@@ -169,6 +237,12 @@ function Module:OnEnable()
                     DeathKnightResourceOverlayFrame.Rune6.BG_Inactive,
                     DeathKnightResourceOverlayFrame.Rune6.BG_Shadow
                 }, true, true)
+
+                for _, bar in pairs(enumerateFrames(prdClassFrame)) do
+                    if bar.BG_Active then bar.BG_Active:SetVertexColor(unpack(SUI:Color(0.15))) end
+                    if bar.BG_Inactive then bar.BG_Inactive:SetVertexColor(unpack(SUI:Color(0.15))) end
+                    if bar.BG_Shadow then bar.BG_Shadow:SetVertexColor(unpack(SUI:Color(0.15))) end
+                end
             end)
         elseif (playerClass == 'EVOKER') then
             -- Evoker
@@ -182,15 +256,40 @@ function Module:OnEnable()
                     bar.EssenceFillDone.CircBG:SetVertexColor(unpack(SUI:Color(0.15)))
                     bar.EssenceFillDone.CircBGActive:SetVertexColor(unpack(SUI:Color(0.15)))
                 end
+
+                for _, bar in pairs(enumerateFrames(prdClassFrame)) do
+                    if bar.EssenceFillDone then
+                        if bar.EssenceFillDone.CircBG then
+                            bar.EssenceFillDone.CircBG:SetVertexColor(unpack(SUI:Color(0.15)))
+                        end
+                        if bar.EssenceFillDone.CircBGActive then
+                            bar.EssenceFillDone.CircBGActive:SetVertexColor(unpack(SUI:Color(0.15)))
+                        end
+                    end
+                end
             end)
         elseif (playerClass == 'PALADIN') then
             -- Paladin
-            hooksecurefunc(PaladinPowerBar, "UpdatePower", function()
-                PaladinPowerBarFrame.Background:SetVertexColor(unpack(SUI:Color(0.15)))
-                PaladinPowerBarFrame.ActiveTexture:Hide()
-                ClassNameplateBarPaladinFrame.Background:SetVertexColor(unpack(SUI:Color(0.15)))
-                ClassNameplateBarPaladinFrame.ActiveTexture:Hide()
-            end)
+            if PaladinPowerBarFrame and PaladinPowerBarFrame.UpdatePower then
+                hooksecurefunc(PaladinPowerBarFrame, "UpdatePower", function()
+                    skinPaladinPowerBar(PaladinPowerBarFrame)
+                end)
+                skinPaladinPowerBar(PaladinPowerBarFrame)
+            end
+
+            if ClassNameplateBarPaladinFrame and ClassNameplateBarPaladinFrame.UpdatePower then
+                hooksecurefunc(ClassNameplateBarPaladinFrame, "UpdatePower", function()
+                    skinPaladinPowerBar(ClassNameplateBarPaladinFrame)
+                end)
+                skinPaladinPowerBar(ClassNameplateBarPaladinFrame)
+            end
+
+            if prdClassFrame and prdClassFrame.UpdatePower then
+                hooksecurefunc(prdClassFrame, "UpdatePower", function()
+                    skinPaladinPowerBar(prdClassFrame)
+                end)
+                skinPaladinPowerBar(prdClassFrame)
+            end
         end
     end
 end

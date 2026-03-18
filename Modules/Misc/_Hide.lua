@@ -4,11 +4,12 @@ function Module:OnEnable()
     local db = SUI.db.profile.misc.dragonflying
     if (db) then
         local function hideWings()
+            if not UIWidgetPowerBarContainerFrame then return end
+            
             for _, child in ipairs({UIWidgetPowerBarContainerFrame:GetChildren()}) do
-                for _, v in ipairs({child:GetRegions()}) do
-                    if v:GetObjectType() == "Texture" then
-                        v:Hide()
-                    end
+                if child and child.DecorLeft and child.DecorRight then
+                    child.DecorLeft:Hide()
+                    child.DecorRight:Hide()
                 end
             end
         end

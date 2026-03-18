@@ -4,7 +4,7 @@ function Module:OnEnable()
     if C_AddOns.IsAddOnLoaded('Plater') or C_AddOns.IsAddOnLoaded('TidyPlates_ThreatPlates') or C_AddOns.IsAddOnLoaded('TidyPlates') or C_AddOns.IsAddOnLoaded('Kui_Nameplates') then return end
     local db = SUI.db.profile.nameplates.totemicons
     if db then
-        local f = CreateFrame("Frame", nil, UIParent)
+        local f = CreateFrame("Frame")
         f:RegisterEvent("NAME_PLATE_UNIT_ADDED")
         f:RegisterEvent("NAME_PLATE_UNIT_REMOVED")
         f:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")

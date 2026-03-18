@@ -23,7 +23,7 @@ function Layout:OnEnable()
                     type = 'button',
                     text = 'Export',
                     onClick = function()
-                        ProfileExport.Show(tostring(db))
+                        ProfileExport.Show()
                     end,
                     column = 3,
                     order = 1

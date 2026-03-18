@@ -11,6 +11,35 @@ function Layout:OnEnable()
     local User = SUI:GetModule("Data.User")
 
     -- Layout
+    local function createCopyBox(value)
+        return {
+            type = 'custom',
+            label = value.label,
+            column = 4,
+            createFunction = function(frame)
+                local editBox = SUIConfig:SimpleEditBox(frame, nil, 20, value.text)
+                editBox:SetCursorPosition(0)
+                editBox:SetScript('OnEditFocusGained', function(self)
+                    self:HighlightText()
+                end)
+                editBox:SetScript('OnMouseUp', function(self)
+                    self:SetFocus()
+                    self:HighlightText()
+                end)
+                editBox:SetScript('OnEscapePressed', function(self)
+                    self:ClearFocus()
+                    self:HighlightText(0, 0)
+                end)
+                editBox:SetScript('OnTextChanged', function(self)
+                    if self:GetText() ~= value.text then
+                        self:SetText(value.text)
+                    end
+                end)
+                return editBox
+            end
+        }
+    end
+
     Layout.layout = {
         layoutConfig = { padding = { top = 15 } },
         rows = {
@@ -89,24 +118,14 @@ function Layout:OnEnable()
                 }
             },
             {
-                discord = {
-                    type = 'button',
-                    text = 'Discord',
-                    onClick = function()
-                        SUIConfig:Dialog('Discord', 'discord.gg/yBWkxxR')
-                    end,
-                    column = 3,
-                    order = 1
-                },
-                twitch = {
-                    type = 'button',
-                    text = 'Twitch',
-                    onClick = function()
-                        SUIConfig:Dialog('Twitch', 'twitch.tv/syiana')
-                    end,
-                    column = 3,
-                    order = 2
-                }
+                discord = createCopyBox({
+                    label = 'Discord',
+                    text = 'discord.gg/yBWkxxR'
+                }),
+                twitch = createCopyBox({
+                    label = 'Twitch',
+                    text = 'twitch.tv/syiana'
+                })
             }
         },
     }

@@ -52,12 +52,31 @@ local defaults = {
             target = {
                 size = 1
             },
+            personalbar = {
+                style = 'Custom',
+                texture = [[Interface\Addons\SUI\Media\Textures\Status\Flat.blp]],
+                width = 130,
+                height = 14,
+                manaheight = 8
+            },
             buffs = {
-                size = 26,
-                collapse = false
+                size = 20,
+                collapse = false,
+                textsize = 12,
+                durationoffset = 5,
+                countx = -1,
+                county = -2,
+                targetx = 0,
+                targety = -2
             },
             debuffs = {
-                size = 20
+                size = 20,
+                textsize = 12,
+                durationoffset = 5,
+                countx = -1,
+                county = -2,
+                targetx = 0,
+                targety = -2
             }
         },
         nameplates = {
@@ -187,7 +206,8 @@ local defaults = {
         tooltip = {
             style = 'Custom',
             lifeontop = true,
-            mouseanchor = false
+            mouseanchor = false,
+            hideincombat = false
         },
         buffs = {
             buff = {
@@ -202,14 +222,55 @@ local defaults = {
             }
         },
         chat = {
-            style = 'Custom',
+            style = 'Modern',
+            styleversion = 2,
             top = true,
             link = true,
             copy = true,
             friendlist = true,
             quickjoin = true,
             looticons = true,
-            roleicons = true
+            roleicons = true,
+            whisperalert = false,
+            settings = {
+                color = { 0.88, 0.74, 0.36 },
+                tooltips = true,
+                smooth = true,
+                fade = {
+                    enabled = true,
+                    click = false,
+                    out_delay = 60
+                },
+                buttons = {
+                    up_and_down = false
+                },
+                chat = {
+                    alpha = 0.4,
+                    x_padding = 8,
+                    y_padding = 0,
+                    font = {
+                        size = 12,
+                        shadow = true,
+                        outline = false
+                    }
+                },
+                dock = {
+                    alpha = 0.8,
+                    fade = {
+                        enabled = true
+                    }
+                },
+                edit = {
+                    alpha = 0.8,
+                    position = "top",
+                    offset = 32,
+                    font = {
+                        size = 12,
+                        shadow = true,
+                        outline = true
+                    }
+                }
+            }
         },
         maps = {
             minimapsize = 1,
@@ -264,6 +325,20 @@ function SUI:OnInitialize()
 
     -- Database
     self.db = LibStub("AceDB-3.0"):New("SUIDB", defaults, true)
+
+    -- Normalize legacy chat style values so the config dropdown stays in sync.
+    if self.db.profile.chat then
+        if self.db.profile.chat.styleversion ~= 2 then
+            if self.db.profile.chat.style == "SUI" or self.db.profile.chat.style == "Custom" then
+                self.db.profile.chat.style = "Modern"
+            end
+            self.db.profile.chat.styleversion = 2
+        end
+
+        if self.db.profile.chat.style ~= "Default" and self.db.profile.chat.style ~= "Custom" and self.db.profile.chat.style ~= "Modern" then
+            self.db.profile.chat.style = defaults.profile.chat.style
+        end
+    end
 
     -- Colors
     local _, class = UnitClass("player")
@@ -392,27 +467,49 @@ function SUI:OnInitialize()
 
         if (frame) then
             if not (isTable) then
-                for _, v in pairs({ frame:GetRegions() }) do
-                    if (not SUI_forbiddenFrames[v:GetName()]) and (not SUI_forbiddenFrames[v]) then
-                        if v:GetObjectType() == "Texture" then
-                            if (customColor) then
-                                v:SetDesaturated(true)
-                                v:SetVertexColor(unpack(SUI:Color(.15)))
-                            else
-                                v:SetDesaturated(true)
-                                v:SetVertexColor(.15, .15, .15)
+                if frame.GetRegions then
+                    for _, v in pairs({ frame:GetRegions() }) do
+                        if (not SUI_forbiddenFrames[v:GetName()]) and (not SUI_forbiddenFrames[v]) then
+                            if v:GetObjectType() == "Texture" then
+                                if (customColor) then
+                                    if v.SetDesaturated then
+                                        v:SetDesaturated(true)
+                                    end
+                                    v:SetVertexColor(unpack(SUI:Color(.15)))
+                                else
+                                    if v.SetDesaturated then
+                                        v:SetDesaturated(true)
+                                    end
+                                    v:SetVertexColor(.15, .15, .15)
+                                end
                             end
                         end
+                    end
+                elseif frame.GetObjectType and frame:GetObjectType() == "Texture" then
+                    if (customColor) then
+                        if frame.SetDesaturated then
+                            frame:SetDesaturated(true)
+                        end
+                        frame:SetVertexColor(unpack(SUI:Color(.15)))
+                    else
+                        if frame.SetDesaturated then
+                            frame:SetDesaturated(true)
+                        end
+                        frame:SetVertexColor(.15, .15, .15)
                     end
                 end
             else
                 for _, v in pairs(frame) do
                     if (v) then
                         if (customColor) then
-                            v:SetDesaturated(true)
+                            if v.SetDesaturated then
+                                v:SetDesaturated(true)
+                            end
                             v:SetVertexColor(unpack(SUI:Color(.15)))
                         else
-                            v:SetDesaturated(true)
+                            if v.SetDesaturated then
+                                v:SetDesaturated(true)
+                            end
                             v:SetVertexColor(.15, .15, .15)
                         end
                     end

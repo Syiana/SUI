@@ -62,9 +62,10 @@ function SUIConfig:Dialog(title, message, dialogId)
 
 	if window.messageLabel then
 		window.messageLabel:SetText(message);
+		window.messageLabel:SetJustifyH('CENTER');
 	else
 		window.messageLabel = self:Label(window, message);
-		--window.messageLabel:SetJustifyH('MIDDLE');
+		window.messageLabel:SetJustifyH('CENTER');
 		self:GlueAcross(window.messageLabel, window, 5, -10, -5, 5);
 	end
 

@@ -3,7 +3,7 @@ local Colors = SUI:GetModule('Data.Colors');
 
 Data.team = {
   { text = Colors.aut .. 'Syiana|r' },
-  { text = Colors.aut .. 'Muleyo|r' },
+  { text = Colors.dev .. 'Muleyo|r' },
   { text = Colors.dev .. 'Rulez|r' },
   { text = Colors.dev .. 'Baine|r' },
   { text = Colors.dev .. 'Phoyk|r' },
@@ -32,6 +32,7 @@ Data.specials = {
   { text = Colors.warri .. 'Beiskaldi|r' },
   { text = Colors.warri .. 'Limps|r' },
   { text = Colors.monk .. 'Tem|r' },
+  { text = Colors.druid .. 'Shimaya|r' },
   { text = Colors.dh .. 'Instababe|r' },
   { text = Colors.rog .. 'Citney|r' },
   { text = Colors.dk .. 'Eyu|r' },

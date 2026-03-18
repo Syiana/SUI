@@ -25,21 +25,21 @@ function Layout:OnEnable()
                         { value = 'Custom', text = 'Custom' }
                     },
                     initialValue = 1,
-                    column = 5,
+                    column = 4,
                     order = 1
                 }
             },
             {
                 header = {
                     type = 'header',
-                    label = 'Settings'
+                    label = 'Behavior'
                 },
             },
             {
                 mouseanchor = {
                     key = 'mouseanchor',
                     type = 'checkbox',
-                    label = 'Mouseanchor',
+                    label = 'Mouse Anchor',
                     tooltip = 'Attach tooltip to mouse cursor',
                     column = 4
                 },

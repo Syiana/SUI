@@ -40,7 +40,7 @@ function Module:OnEnable()
             end
 
             local castText = self.Text:GetText()
-            if castText ~= nil then
+            if castText ~= nil and canaccessvalue(castText) then
                 if (strlen(castText) > 19) then
                     local newCastText = strsub(castText, 0, 19)
                     self.Text:SetText(newCastText .. "...")

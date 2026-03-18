@@ -196,6 +196,20 @@ local EasyLayout = {
 			local row = self.rows[i];
 			y = y - row:DrawRow(width, y);
 		end
+
+		if l.padding.bottom and l.padding.bottom > 0 then
+			if not self.bottomSpacer then
+				self.bottomSpacer = self.SUIConfig:Frame(self, 1, l.padding.bottom);
+			end
+
+			self.bottomSpacer:ClearAllPoints();
+			self.bottomSpacer:SetPoint('TOPLEFT', self, 'TOPLEFT', 0, y);
+			self.bottomSpacer:SetSize(1, l.padding.bottom);
+			self.bottomSpacer:Show();
+			y = y - l.padding.bottom;
+		elseif self.bottomSpacer then
+			self.bottomSpacer:Hide();
+		end
 	end
 };
 

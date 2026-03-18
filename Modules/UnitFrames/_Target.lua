@@ -1,5 +1,29 @@
 local Module = SUI:NewModule("UnitFrames.Target");
 
+function Module:RefreshTextures()
+    local texture = SUI.db.profile.general.texture
+    if SUI.db.profile.unitframes.style == "Classic" or texture == [[Interface\Default]] then
+        return
+    end
+
+    local function Apply(frame)
+        if not frame or frame:IsForbidden() or not frame.healthbar then
+            return
+        end
+
+        frame.healthbar:SetStatusBarTexture(texture)
+        frame.healthbar:GetStatusBarTexture():SetDrawLayer("BORDER")
+        if frame.myHealPredictionBar then
+            frame.myHealPredictionBar:SetTexture(texture)
+        end
+    end
+
+    Apply(TargetFrame)
+    Apply(FocusFrame)
+    Apply(TargetFrameToT)
+    Apply(FocusFrameToT)
+end
+
 function Module:OnEnable()
 
     local db = {
@@ -7,6 +31,7 @@ function Module:OnEnable()
         texture = SUI.db.profile.general.texture,
         theme = SUI.db.profile.general.theme
     }
+    local isClassic = db.unitframes.style == "Classic"
 
     -- Set Target/Focus Textures
     local function healthTexture(self)
@@ -72,16 +97,77 @@ function Module:OnEnable()
         reputationBar:SetVertexColor(unpack(SUI:Color(0.15)))
     end
 
+    local function CacheAuraAnchor(aura)
+        local point, relativeTo, relativePoint, x, y = aura:GetPoint(1)
+        if not point then
+            return
+        end
+
+        aura.SUIOriginalAnchor = {
+            point = point,
+            relativeTo = relativeTo,
+            relativePoint = relativePoint,
+            x = x or 0,
+            y = y or 0,
+        }
+    end
+
+    local function ShouldOffsetAura(aura)
+        local _, relativeTo = aura:GetPoint(1)
+        return not (relativeTo and relativeTo.Icon)
+    end
+
+    local function OffsetAuraPosition(aura, xOffset, yOffset)
+        if not ShouldOffsetAura(aura) then
+            return
+        end
+
+        local anchor = aura.SUIOriginalAnchor
+        if not anchor then
+            CacheAuraAnchor(aura)
+            anchor = aura.SUIOriginalAnchor
+        end
+
+        if not anchor then
+            return
+        end
+
+        aura:ClearAllPoints()
+        aura:SetPoint(anchor.point, anchor.relativeTo, anchor.relativePoint, anchor.x + xOffset, anchor.y + yOffset)
+    end
+
+    local function StyleTargetBuff(buff)
+        buff:SetSize(db.unitframes.buffs.size, db.unitframes.buffs.size)
+        OffsetAuraPosition(buff, db.unitframes.buffs.targetx or 0, db.unitframes.buffs.targety or 0)
+
+        if buff.Count then
+            buff.Count:SetFont(STANDARD_TEXT_FONT, 10, "OUTLINE")
+            buff.Count:ClearAllPoints()
+            buff.Count:SetPoint("BOTTOMRIGHT", buff, "BOTTOMRIGHT", 2, 0)
+        end
+    end
+
+    local function StyleTargetDebuff(debuff)
+        debuff:SetSize(db.unitframes.debuffs.size, db.unitframes.debuffs.size)
+        OffsetAuraPosition(debuff, db.unitframes.debuffs.targetx or 0, db.unitframes.debuffs.targety or 0)
+
+        if debuff.Count then
+            debuff.Count:SetFont(STANDARD_TEXT_FONT, 10, "OUTLINE")
+            debuff.Count:ClearAllPoints()
+            debuff.Count:SetPoint("BOTTOMRIGHT", debuff, "BOTTOMRIGHT", 2, 0)
+        end
+    end
+
     -- Hooks
 
     hooksecurefunc(TargetFrame, "OnEvent", function(self)
         -- Set Health Texture
-        if db.texture ~= [[Interface\Default]] then
+        if not isClassic and db.texture ~= [[Interface\Default]] then
             healthTexture(self)
         end
 
         -- Recolor Reputation Bar
-        if (SUI:Color()) then
+        if not isClassic and (SUI:Color()) then
             SUIColorRepBar(self)
         end
 
@@ -93,12 +179,12 @@ function Module:OnEnable()
 
     hooksecurefunc(FocusFrame, "OnEvent", function(self)
         -- Set Health Texture
-        if db.texture ~= [[Interface\Default]] then
+        if not isClassic and db.texture ~= [[Interface\Default]] then
             healthTexture(self)
         end
 
         -- Recolor Reputation Bar
-        if (SUI:Color()) then
+        if not isClassic and (SUI:Color()) then
             SUIColorRepBar(self)
         end
 
@@ -110,38 +196,66 @@ function Module:OnEnable()
 
     hooksecurefunc(TargetFrameToT, "Update", function(self)
         -- Set Health Texture
-        if db.texture ~= [[Interface\Default]] then
+        if not isClassic and db.texture ~= [[Interface\Default]] then
             healthTexture(self)
         end
     end)
 
     hooksecurefunc(FocusFrameToT, "Update", function(self)
         -- Set Health Texture
-        if db.texture ~= [[Interface\Default]] then
+        if not isClassic and db.texture ~= [[Interface\Default]] then
             healthTexture(self)
         end
     end)
 
+    local function RefreshFrameAuras(frame)
+        if not frame or not frame.auraPools then
+            return
+        end
+
+        for aura, _ in frame.auraPools:EnumerateActive() do
+            UpdateFrameAuras(aura)
+
+            if aura.Border then
+                StyleTargetDebuff(aura)
+            else
+                StyleTargetBuff(aura)
+            end
+        end
+    end
+
+    function Module:RefreshAuras()
+        if type(TargetFrame_UpdateAuras) == "function" then
+            TargetFrame_UpdateAuras(TargetFrame)
+            if FocusFrame then
+                TargetFrame_UpdateAuras(FocusFrame)
+            end
+        end
+
+        if TargetFrame and type(TargetFrame.UpdateAuras) == "function" then
+            TargetFrame:UpdateAuras()
+        else
+            RefreshFrameAuras(TargetFrame)
+        end
+
+        if FocusFrame and type(FocusFrame.UpdateAuras) == "function" then
+            FocusFrame:UpdateAuras()
+        else
+            RefreshFrameAuras(FocusFrame)
+        end
+    end
+
+    hooksecurefunc(TargetFrame, "UpdateAuras", RefreshFrameAuras)
+    hooksecurefunc(FocusFrame, "UpdateAuras", RefreshFrameAuras)
+
     -- Set TargetFrame Buff/Debuff SetSize
     hooksecurefunc("TargetFrame_UpdateBuffAnchor", function(_, buff)
-        buff:SetSize(db.unitframes.buffs.size, db.unitframes.buffs.size)
-
-        if buff.Count then
-            local fontSize = db.unitframes.buffs.size / 2.75
-            buff.Count:SetFont(STANDARD_TEXT_FONT, 10, "OUTLINE")
-            buff.Count:ClearAllPoints()
-            buff.Count:SetPoint("BOTTOMRIGHT", buff, "BOTTOMRIGHT", 2, 0)
-        end
+        CacheAuraAnchor(buff)
+        StyleTargetBuff(buff)
     end)
 
     hooksecurefunc("TargetFrame_UpdateDebuffAnchor", function(_, debuff)
-        debuff:SetSize(db.unitframes.debuffs.size, db.unitframes.debuffs.size)
-
-        if debuff.Count then
-            local fontSize = db.unitframes.debuffs.size / 2.75
-            debuff.Count:SetFont(STANDARD_TEXT_FONT, 10, "OUTLINE")
-            debuff.Count:ClearAllPoints()
-            debuff.Count:SetPoint("BOTTOMRIGHT", debuff, "BOTTOMRIGHT", 2, 0)
-        end
+        CacheAuraAnchor(debuff)
+        StyleTargetDebuff(debuff)
     end)
 end

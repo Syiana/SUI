@@ -1,5 +1,72 @@
 ﻿local Module = SUI:NewModule("ActionBars.Buttons");
 
+function Module:RefreshText()
+    local FONT = STANDARD_TEXT_FONT
+    local db = SUI.db.profile.actionbar.buttons
+
+    local function UpdateHotkeys(Button)
+        if not Button or not Button.GetName then
+            return
+        end
+
+        local Name = Button:GetName()
+        local HotKey = _G[Name .. "HotKey"]
+        local Macro = _G[Name .. "Name"]
+        local Count = _G[Name .. "Count"]
+
+        if HotKey then
+            HotKey:SetFont(FONT, db.size, "OUTLINE")
+            HotKey:SetAlpha(db.key and 1 or 0)
+        end
+
+        if Macro then
+            Macro:SetFont(FONT, db.size, "OUTLINE")
+            Macro:SetAlpha(db.macro and 1 or 0)
+        end
+
+        if Count then
+            Count:SetFont(FONT, db.size, "OUTLINE")
+        end
+    end
+
+    local bars = {
+        _G["MainActionBar"],
+        _G["MultiBarBottomLeft"],
+        _G["MultiBarBottomRight"],
+        _G["MultiBarRight"],
+        _G["MultiBarLeft"],
+        _G["MultiBar5"],
+        _G["MultiBar6"],
+        _G["MultiBar7"],
+    }
+
+    for _, bar in ipairs(bars) do
+        if bar and bar.numButtonsShowable then
+            local prefix = bar == _G["MainActionBar"] and "ActionButton" or (bar:GetName() .. "Button")
+            for i = 1, bar.numButtonsShowable do
+                UpdateHotkeys(_G[prefix .. i])
+            end
+        end
+    end
+
+    for i = 1, 10 do
+        UpdateHotkeys(_G["StanceButton" .. i])
+        UpdateHotkeys(_G["PetActionButton" .. i])
+        UpdateHotkeys(_G["DominosPetActionButton" .. i])
+        UpdateHotkeys(_G["DominosStanceButton" .. i])
+        UpdateHotkeys(_G["BT4PetButton" .. i])
+        UpdateHotkeys(_G["BT4StanceButton" .. i])
+    end
+
+    for i = 1, 140 do
+        UpdateHotkeys(_G["DominosActionButton" .. i])
+    end
+
+    for i = 1, 180 do
+        UpdateHotkeys(_G["BT4Button" .. i])
+    end
+end
+
 function Module:OnEnable()
 
     if (SUI:Color()) then
@@ -155,5 +222,6 @@ function Module:OnEnable()
         end
 
         Init()
+        self:RefreshText()
     end
 end

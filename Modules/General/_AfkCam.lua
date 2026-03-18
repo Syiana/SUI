@@ -151,13 +151,15 @@ function Module:OnEnable()
             if event == "PLAYER_FLAGS_CHANGED" then
                 local isArena, isRegistered = C_PvP.IsArena()
                 if unit == "player" then
-                    if UnitIsAFK(unit) and not UnitIsDead(unit) and not InCombatLockdown() and not isArena then
+                    local isAFK = UnitIsAFK(unit)
+                    local isDead = UnitIsDead(unit)
+                    if canaccessvalue(isAFK) and isAFK and not (canaccessvalue(isDead) and isDead) and not InCombatLockdown() and not isArena then
                         MoveViewRightStart(0.1)
                         AFKPanel:Show()
                         AFKPanelTop:Show()
                         Minimap:Hide()
                         isActive = true
-                    elseif not UnitIsAFK(unit) and not InCombatLockdown() then
+                    elseif isAFK ~= nil and canaccessvalue(isAFK) and not isAFK and not InCombatLockdown() then
                         MoveViewRightStop()
                         AFKPanel:Hide()
                         AFKPanelTop:Hide()
@@ -168,7 +170,8 @@ function Module:OnEnable()
             elseif event == "PLAYER_LEAVING_WORLD" then
                 MoveViewRightStop()
             elseif event == "PLAYER_DEAD" then
-                if UnitIsAFK("player") then
+                local isAFK = UnitIsAFK("player")
+                if canaccessvalue(isAFK) and isAFK then
                     MoveViewRightStop()
                     AFKPanel:Hide()
                     AFKPanelTop:Hide()
@@ -197,7 +200,8 @@ function Module:OnEnable()
         leaveAFK:RegisterEvent("PLAYER_LEAVE_COMBAT")
         leaveAFK:RegisterEvent("PLAYER_REGEN_ENABLED")
         leaveAFK:SetScript("OnEvent", function()
-            if isActive and not UnitIsAFK("player") then
+            local isAFK = UnitIsAFK("player")
+            if isActive and isAFK ~= nil and canaccessvalue(isAFK) and not isAFK then
                 MoveViewRightStop()
                 AFKPanel:Hide()
                 AFKPanelTop:Hide()

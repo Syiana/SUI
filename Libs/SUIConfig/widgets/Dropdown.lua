@@ -4,7 +4,7 @@ if not SUIConfig then
 	return
 end
 
-local module, version = 'Dropdown', 4;
+local module, version = 'Dropdown', 5;
 if not SUIConfig:UpgradeNeeded(module, version) then return end;
 
 local TableInsert = tinsert;
@@ -61,13 +61,24 @@ local DropdownMethods = {
 			dropdowns[i]:HideOptions();
 		end
 
+		if self.optsFrame:GetParent() ~= UIParent then
+			self.optsFrame:SetParent(UIParent);
+		end
+
 		self.optsFrame:UpdateSize(self:GetWidth(), self.optsFrame:GetHeight());
+		self.optsFrame:ClearAllPoints();
+		self.SUIConfig:GlueBelow(self.optsFrame, self, 0, 1, 'LEFT');
+		self.optsFrame:SetFrameStrata('DIALOG');
+		self.optsFrame:SetFrameLevel(self:GetFrameLevel() + 25);
 		self.optsFrame:Show();
 		self.optsFrame:Update();
 		self:RepaintOptions();
 	end,
 
 	HideOptions = function(self)
+		if self.optsFrame:GetParent() ~= self then
+			self.optsFrame:SetParent(self);
+		end
 		self.optsFrame:Hide();
 	end,
 
