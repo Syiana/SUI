@@ -41,9 +41,9 @@ function Module:OnEnable()
 
         name:SetParent(frame.SUIClassicFrame or frame)
         name:ClearAllPoints()
-        name:SetPoint("BOTTOM", anchor, "TOP", 0, -3)
+        name:SetPoint("BOTTOM", anchor, "TOP", 0, -5)
         name:SetWidth(width or 69)
-        name:SetScale(0.85)
+        name:SetScale(0.9)
         name:SetJustifyH("CENTER")
         name:SetWordWrap(false)
     end
@@ -70,6 +70,32 @@ function Module:OnEnable()
         end
 
         return frame.SUIClassicFrame.Texture
+    end
+
+    local function RaiseAuras(frame)
+        if not frame then
+            return
+        end
+
+        local main = frame.TargetFrameContent and frame.TargetFrameContent.TargetFrameContentMain
+        local aurasFrame = main and main.AurasFrame
+        if aurasFrame then
+            aurasFrame:SetAlpha(1)
+            aurasFrame:Show()
+            aurasFrame:SetFrameStrata("FULLSCREEN")
+            aurasFrame:SetFrameLevel(frame:GetFrameLevel() + 19)
+        end
+
+        if not frame.auraPools then
+            return
+        end
+
+        for aura in frame.auraPools:EnumerateActive() do
+            aura:SetAlpha(1)
+            aura:Show()
+            aura:SetFrameStrata("FULLSCREEN")
+            aura:SetFrameLevel(frame:GetFrameLevel() + 20)
+        end
     end
 
     local function ForceTextureHidden(texture)
@@ -105,6 +131,99 @@ function Module:OnEnable()
         end)
     end
 
+    local function ForceTextureAlphaZero(texture)
+        if not texture or texture.SUIClassicZeroed then
+            return
+        end
+
+        texture.SUIClassicZeroed = true
+        texture:SetAlpha(0)
+
+        hooksecurefunc(texture, "SetAlpha", function(self)
+            if self.SUIClassicChanging then
+                return
+            end
+
+            self.SUIClassicChanging = true
+            self:SetAlpha(0)
+            self.SUIClassicChanging = false
+        end)
+
+        hooksecurefunc(texture, "Show", function(self)
+            if self.SUIClassicChanging then
+                return
+            end
+
+            self.SUIClassicChanging = true
+            self:SetAlpha(0)
+            self.SUIClassicChanging = false
+        end)
+    end
+
+    local function ForcePlayerFrameTextureHidden(texture)
+        if not texture or texture.SUIClassicPlayerHidden then
+            return
+        end
+
+        texture.SUIClassicPlayerHidden = true
+        texture:SetParent(hiddenFrame)
+        texture:SetAlpha(0)
+        texture:Hide()
+
+        hooksecurefunc(texture, "SetAlpha", function(self)
+            if self.SUIClassicChanging then
+                return
+            end
+
+            self.SUIClassicChanging = true
+            self:SetAlpha(0)
+            self.SUIClassicChanging = false
+        end)
+
+        hooksecurefunc(texture, "Show", function(self)
+            if self.SUIClassicChanging then
+                return
+            end
+
+            self.SUIClassicChanging = true
+            self:SetParent(hiddenFrame)
+            self:SetAlpha(0)
+            self:Hide()
+            self.SUIClassicChanging = false
+        end)
+    end
+
+    local function HookTargetFrameTexture(texture)
+        if not texture or texture.SUIClassicTargetHooked then
+            return
+        end
+
+        texture.SUIClassicTargetHooked = true
+        texture:SetAlpha(0)
+        texture:Hide()
+
+        hooksecurefunc(texture, "SetAlpha", function(self)
+            if self.SUIClassicChanging then
+                return
+            end
+
+            self.SUIClassicChanging = true
+            self:SetAlpha(0)
+            self.SUIClassicChanging = false
+        end)
+
+        hooksecurefunc(texture, "Show", function(self)
+            if self.SUIClassicChanging then
+                return
+            end
+
+            self.SUIClassicChanging = true
+            self:SetAlpha(0)
+            self:Hide()
+            self.SUIClassicChanging = false
+        end)
+    end
+
     local function StyleTargetLike(frame)
         if not frame or not frame.TargetFrameContent or not frame.TargetFrameContainer then
             return
@@ -121,7 +240,8 @@ function Module:OnEnable()
         if container.FrameTexture then
             container.FrameTexture:ClearAllPoints()
             container.FrameTexture:SetPoint("TOPLEFT", 20.5, -18)
-            ForceTextureHidden(container.FrameTexture)
+            HookTargetFrameTexture(container.FrameTexture)
+            container.FrameTexture:Hide()
         end
         texture:SetTexture(targetTexture)
         texture:SetTexCoord(0.09375, 1, 0, 0.78125)
@@ -133,7 +253,6 @@ function Module:OnEnable()
 
         EnsureBackdrop(frame, hp.HealthBar, mana, 3, 9, -7, 0)
         StyleFrameName(frame, hp, 69)
-        context:SetParent(frame.SUIClassicFrame)
 
         if hp.HealthBarMask then
             hp.HealthBarMask:SetSize(125, 17)
@@ -199,24 +318,28 @@ function Module:OnEnable()
             main.ReputationColor:SetPoint("TOPRIGHT", -87, -31)
         end
         if context.HighLevelTexture then
+            context.HighLevelTexture:SetParent(frame.SUIClassicFrame)
             context.HighLevelTexture:ClearAllPoints()
             context.HighLevelTexture:SetPoint("CENTER", frame, "BOTTOMRIGHT", -34, 25)
         end
         if context.PetBattleIcon then
+            context.PetBattleIcon:SetParent(frame.SUIClassicFrame)
             context.PetBattleIcon:ClearAllPoints()
             context.PetBattleIcon:SetPoint("CENTER", frame, "BOTTOMRIGHT", -35, 25)
         end
 
         if context.LeaderIcon then
+            context.LeaderIcon:SetParent(frame.SUIClassicFrame)
             context.LeaderIcon:ClearAllPoints()
             context.LeaderIcon:SetPoint("TOPRIGHT", -84, -13.5)
         end
         if context.RaidTargetIcon then
+            context.RaidTargetIcon:SetParent(frame.SUIClassicFrame)
             context.RaidTargetIcon:ClearAllPoints()
             context.RaidTargetIcon:SetPoint("CENTER", container.Portrait, "TOP", 1.5, 1)
         end
         if frame.threatIndicator then
-            ForceTextureHidden(frame.threatIndicator)
+            frame.threatIndicator:SetAlpha(0)
         end
         if context.NumericalThreat then
             context.NumericalThreat:SetAlpha(0)
@@ -241,6 +364,9 @@ function Module:OnEnable()
             tot.ManaBar:ClearAllPoints()
             tot.ManaBar:SetPoint("TOPRIGHT", -29, -23)
         end
+
+        RaiseAuras(frame)
+
     end
 
     local function StylePlayer()
@@ -260,17 +386,17 @@ function Module:OnEnable()
         if container.FrameTexture then
             container.FrameTexture:ClearAllPoints()
             container.FrameTexture:SetPoint("TOPLEFT", -19, 7)
-            ForceTextureHidden(container.FrameTexture)
+            ForcePlayerFrameTextureHidden(container.FrameTexture)
         end
         if container.AlternatePowerFrameTexture then
             container.AlternatePowerFrameTexture:ClearAllPoints()
             container.AlternatePowerFrameTexture:SetPoint("TOPLEFT", -19, -8)
-            ForceTextureHidden(container.AlternatePowerFrameTexture)
+            ForceTextureAlphaZero(container.AlternatePowerFrameTexture)
         end
         if container.VehicleFrameTexture then
             container.VehicleFrameTexture:ClearAllPoints()
             container.VehicleFrameTexture:SetPoint("TOPLEFT", -3, 1)
-            ForceTextureHidden(container.VehicleFrameTexture)
+            ForceTextureAlphaZero(container.VehicleFrameTexture)
         end
         texture:SetTexture(playerTexture)
         texture:SetTexCoord(1, 0.09375, 0, 0.78125)
@@ -287,7 +413,6 @@ function Module:OnEnable()
             end
         end
         StyleFrameName(frame, hp, 76)
-        context:SetParent(frame.SUIClassicFrame)
 
         if hp.HealthBarMask then
             hp.HealthBarMask:SetSize(126, 17)
@@ -348,6 +473,7 @@ function Module:OnEnable()
         end
 
         if context.AttackIcon then
+            context.AttackIcon:SetParent(frame.SUIClassicFrame)
             context.AttackIcon:ClearAllPoints()
             context.AttackIcon:SetPoint("CENTER", -80, -23.5)
             context.AttackIcon:SetSize(32, 31)
@@ -362,10 +488,12 @@ function Module:OnEnable()
             frame.threatIndicator:SetAlpha(0)
         end
         if context.RoleIcon then
+            context.RoleIcon:SetParent(frame.SUIClassicFrame)
             context.RoleIcon:ClearAllPoints()
             context.RoleIcon:SetPoint("TOPLEFT", 192, -34)
         end
         if context.GroupIndicator then
+            context.GroupIndicator:SetParent(frame.SUIClassicFrame)
             context.GroupIndicator:ClearAllPoints()
             context.GroupIndicator:SetPoint("BOTTOMRIGHT", frame, "TOPRIGHT", -21, -33.5)
         end
@@ -416,4 +544,6 @@ function Module:OnEnable()
     hooksecurefunc("PlayerFrame_ToPlayerArt", ApplyClassic)
     hooksecurefunc(TargetFrame, "CheckClassification", function() ApplyClassic() end)
     hooksecurefunc(FocusFrame, "CheckClassification", function() ApplyClassic() end)
+    hooksecurefunc(TargetFrame, "UpdateAuras", function() RaiseAuras(TargetFrame) end)
+    hooksecurefunc(FocusFrame, "UpdateAuras", function() RaiseAuras(FocusFrame) end)
 end
