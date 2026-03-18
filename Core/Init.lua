@@ -53,6 +53,7 @@ local defaults = {
                 size = 1
             },
             personalbar = {
+                style = 'Custom',
                 texture = [[Interface\Addons\SUI\Media\Textures\Status\Flat.blp]],
                 width = 130,
                 height = 14,
@@ -250,7 +251,7 @@ local defaults = {
                     font = {
                         size = 12,
                         shadow = true,
-                        outline = true
+                        outline = false
                     }
                 },
                 dock = {

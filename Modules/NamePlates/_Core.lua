@@ -10,8 +10,14 @@ function Module:OnEnable()
     local focusTexture = [[Interface\AddOns\SUI\Media\Textures\Nameplates\focusTexture]]
 
     local personalBarCfg = {}
+    local function isPersonalBarCustom()
+        local cfg = unitframes.personalbar or {}
+        return (cfg.style or "Custom") == "Custom"
+    end
+
     local function personalBarConfig()
         local cfg = unitframes.personalbar or {}
+        personalBarCfg.style = cfg.style or "Custom"
         personalBarCfg.texture = cfg.texture or SUI.db.profile.general.texture
         personalBarCfg.width = cfg.width or 130
         personalBarCfg.height = cfg.height or 14
@@ -104,7 +110,7 @@ function Module:OnEnable()
 
     local function applyTextureToPredictionBar(bar)
         local cfg = personalBarConfig()
-        if not bar or cfg.texture == [[Interface\Default]] then
+        if not bar or not isPersonalBarCustom() or cfg.texture == [[Interface\Default]] then
             return
         end
 
@@ -123,6 +129,10 @@ function Module:OnEnable()
 
     local function applyHealPredictionTextures(frame, usePersonalTexture)
         if not frame then
+            return
+        end
+
+        if usePersonalTexture and not isPersonalBarCustom() then
             return
         end
 
@@ -149,6 +159,7 @@ function Module:OnEnable()
     local function applyBarTexture(bar)
         if not bar then return end
         local cfg = personalBarConfig()
+        if not isPersonalBarCustom() then return end
         if cfg.texture == [[Interface\Default]] then return end
 
         if bar.SetStatusBarTexture then
@@ -185,7 +196,7 @@ function Module:OnEnable()
 
         hooksecurefunc(bar, "SetStatusBarTexture", function(self)
             local cfg = personalBarConfig()
-            if self.suiApplyingTexture or cfg.texture == [[Interface\Default]] then
+            if self.suiApplyingTexture or not isPersonalBarCustom() or cfg.texture == [[Interface\Default]] then
                 return
             end
 
@@ -204,7 +215,7 @@ function Module:OnEnable()
 
         hooksecurefunc(bar, "SetWidth", function(self)
             local width = personalBarConfig().width
-            if self.suiApplyingWidth then
+            if self.suiApplyingWidth or not isPersonalBarCustom() then
                 return
             end
 
@@ -217,6 +228,10 @@ function Module:OnEnable()
     end
 
     local function applyPersonalResourceSize()
+        if not isPersonalBarCustom() then
+            return
+        end
+
         local root = PersonalResourceDisplayFrame
         local container = getPersonalHealthContainer()
         local healthBar = getPersonalHealthBar()
@@ -281,6 +296,10 @@ function Module:OnEnable()
     end
 
     local function updatePersonalResourceBars()
+        if not isPersonalBarCustom() then
+            return
+        end
+
         local container = getPersonalHealthContainer()
         local healthBar = getPersonalHealthBar()
         local manaBar = getPersonalPowerBar()
@@ -373,7 +392,7 @@ function Module:OnEnable()
         end
 
         hooksecurefunc(healthBar, "SetStatusBarColor", function(bar)
-            if bar.suiUpdatingColor or not playerClassColor then
+            if bar.suiUpdatingColor or not playerClassColor or not isPersonalBarCustom() then
                 return
             end
 
@@ -389,7 +408,7 @@ function Module:OnEnable()
 
             hooksecurefunc(bar, "SetHeight", function(self)
                 local height = self.bbpHeight or personalBarConfig().manaheight
-                if self.changing then
+                if self.changing or not isPersonalBarCustom() then
                     return
                 end
 
@@ -706,6 +725,7 @@ function Module:OnEnable()
 
     local function personalResourceStyle(self)
         if self:IsForbidden() then return end
+        if not isPersonalBarCustom() then return end
         if not playerClassColor then return end
         if not self.healthBar then return end
 
@@ -738,7 +758,7 @@ function Module:OnEnable()
 
     function Module:RefreshPersonalResource()
         installPersonalResourceHooks()
-        if NamePlatePlayerResourceFrame and NamePlatePlayerResourceFrame.UnitFrame then
+        if isPersonalBarCustom() and NamePlatePlayerResourceFrame and NamePlatePlayerResourceFrame.UnitFrame then
             personalResourceStyle(NamePlatePlayerResourceFrame.UnitFrame)
         end
         requestPersonalResourceUpdate()

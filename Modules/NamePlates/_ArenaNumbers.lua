@@ -7,13 +7,13 @@ function Module:OnEnable()
         local frame = CreateFrame("Frame")
         frame:RegisterEvent("ZONE_CHANGED_NEW_AREA")
         frame:HookScript("OnEvent", function()
-            local U = UnitIsUnit
             hooksecurefunc(
                 "CompactUnitFrame_UpdateName",
                 function(F)
                     if IsActiveBattlefieldArena() and F.unit:find("nameplate") then
                         for i = 1, 5 do
-                            if U(F.unit, "arena" .. i) then
+                            local success, matches = pcall(UnitIsUnit, F.unit, "arena" .. i)
+                            if success and canaccessvalue(matches) and matches then
                                 F.name:SetText(i)
                                 F.name:SetTextColor(1, 1, 0)
                                 break

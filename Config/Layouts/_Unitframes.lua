@@ -139,6 +139,20 @@ function Layout:OnEnable()
                 },
             },
             {
+                personalbarstyle = {
+                    key = 'unitframes.personalbar.style',
+                    type = 'dropdown',
+                    label = 'Style',
+                    options = {
+                        { value = 'Default', text = 'Default' },
+                        { value = 'Custom', text = 'Custom' }
+                    },
+                    column = 4,
+                    order = 1,
+                    onChange = refreshPersonalBar
+                },
+            },
+            {
                 personalbartexture = {
                     key = 'unitframes.personalbar.texture',
                     type = 'dropdown',
