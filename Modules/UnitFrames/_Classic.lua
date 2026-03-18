@@ -539,11 +539,38 @@ function Module:OnEnable()
         StylePet()
     end
 
+    local queuedStyles = {}
+    local function QueueStyle(key, fn)
+        if queuedStyles[key] then
+            return
+        end
+
+        queuedStyles[key] = true
+        C_Timer.After(0, function()
+            queuedStyles[key] = nil
+            if SUI.db.profile.unitframes.style ~= "Classic" then
+                return
+            end
+            fn()
+        end)
+    end
+
     ApplyClassic()
     C_Timer.After(0, ApplyClassic)
-    hooksecurefunc("PlayerFrame_ToPlayerArt", ApplyClassic)
-    hooksecurefunc(TargetFrame, "CheckClassification", function() ApplyClassic() end)
-    hooksecurefunc(FocusFrame, "CheckClassification", function() ApplyClassic() end)
+    hooksecurefunc("PlayerFrame_ToPlayerArt", function()
+        QueueStyle("player", StylePlayer)
+        QueueStyle("pet", StylePet)
+    end)
+    hooksecurefunc(TargetFrame, "CheckClassification", function()
+        QueueStyle("target", function()
+            StyleTargetLike(TargetFrame)
+        end)
+    end)
+    hooksecurefunc(FocusFrame, "CheckClassification", function()
+        QueueStyle("focus", function()
+            StyleTargetLike(FocusFrame)
+        end)
+    end)
     hooksecurefunc(TargetFrame, "UpdateAuras", function() RaiseAuras(TargetFrame) end)
     hooksecurefunc(FocusFrame, "UpdateAuras", function() RaiseAuras(FocusFrame) end)
 end
