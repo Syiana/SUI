@@ -164,19 +164,6 @@ function Layout:OnEnable()
                 }
             },
             {
-                whisperalert = {
-                    key = 'whisperalert',
-                    type = 'checkbox',
-                    label = 'Whisper Alert',
-                    tooltip = 'Play a sound on incoming whispers',
-                    column = 4,
-                    order = 4,
-                    onChange = function(_, value)
-                        toggleFeature("Chat.WhisperAlert", value)
-                    end
-                }
-            },
-            {
                 header = {
                     type = 'header',
                     label = 'Modern Chat'

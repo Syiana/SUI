@@ -231,7 +231,6 @@ local defaults = {
             quickjoin = true,
             looticons = true,
             roleicons = true,
-            whisperalert = false,
             settings = {
                 color = { 0.88, 0.74, 0.36 },
                 tooltips = true,

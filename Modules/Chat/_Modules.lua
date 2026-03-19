@@ -6,7 +6,6 @@ function Modules:OnInitialize()
     Modules.Style = SUIAddon:GetModule("Chat.Modern", true)
     Modules.Link = SUIAddon:GetModule("Chat.Url", true)
     Modules.Copy = SUIAddon:GetModule("Chat.Copy", true)
-    Modules.WhisperAlert = SUIAddon:GetModule("Chat.WhisperAlert", true)
 end
 
 local function setModuleEnabled(module, enabled)
@@ -32,7 +31,6 @@ function Modules:OnEnable()
     setModuleEnabled(Modules.Style, Modules.db.style == "Modern")
     setModuleEnabled(Modules.Link, Modules.db.link)
     setModuleEnabled(Modules.Copy, Modules.db.copy)
-    setModuleEnabled(Modules.WhisperAlert, Modules.db.whisperalert)
 end
 
 function Modules:OnDisable()
@@ -40,5 +38,4 @@ function Modules:OnDisable()
     setModuleEnabled(Modules.Style, false)
     setModuleEnabled(Modules.Link, false)
     setModuleEnabled(Modules.Copy, false)
-    setModuleEnabled(Modules.WhisperAlert, false)
 end
