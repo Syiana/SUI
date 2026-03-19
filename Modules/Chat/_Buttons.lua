@@ -27,9 +27,31 @@ local function configureButtonTexture(texture, texCoords, topLeftX, topLeftY, bo
     texture:SetTexture("Interface\\AddOns\\SUI\\Media\\Textures\\Chat\\icons")
     texture:SetTexCoord(unpack(texCoords))
     texture:ClearAllPoints()
-    texture:SetPoint("TOPLEFT", topLeftX, topLeftY)
-    texture:SetPoint("BOTTOMRIGHT", bottomRightX, bottomRightY)
+    texture:SetPoint("TOPLEFT", texture:GetParent(), "TOPLEFT", topLeftX, topLeftY)
+    texture:SetPoint("BOTTOMRIGHT", texture:GetParent(), "BOTTOMRIGHT", bottomRightX, bottomRightY)
     texture:SetVertexColor(color.r, color.g, color.b)
+    texture:SetDrawLayer("ARTWORK")
+    texture:SetAlpha(1)
+end
+
+local function hideTexture(texture)
+    if not texture then
+        return
+    end
+
+    texture:SetTexture(0)
+    texture:SetAlpha(0)
+    texture:Hide()
+end
+
+local function clampButtonIcon(texture, owner)
+    if not texture or not owner then
+        return
+    end
+
+    texture:ClearAllPoints()
+    texture:SetPoint("TOPLEFT", owner, "TOPLEFT", 3, -3)
+    texture:SetPoint("BOTTOMRIGHT", owner, "BOTTOMRIGHT", -3, 3)
 end
 
 local function handleButton(frame, ...)
@@ -50,14 +72,16 @@ local function handleButton(frame, ...)
 
     local texCoords = {...}
     local normalTexture = frame:GetNormalTexture()
-    configureButtonTexture(normalTexture, texCoords, 1, -1, 19, -19)
+    configureButtonTexture(normalTexture, texCoords, 1, -1, -1, 1)
 
     local pushedTexture = frame:GetPushedTexture()
-    configureButtonTexture(pushedTexture, texCoords, 2, -2, 20, -20)
+    configureButtonTexture(pushedTexture, texCoords, 2, -2, 0, 0)
 
     -- PropertyButtonMixin resets this stuff, so nil it
     frame:ClearHighlightTexture()
     frame.highlightAtlas = nil
+    clampButtonIcon(frame.Icon, frame)
+    clampButtonIcon(frame.IconTexture, frame)
 
     Style:ApplyBorderAccent(frame.HighlightLeft, frame.HighlightMiddle, frame.HighlightRight, frame)
 end
@@ -85,6 +109,17 @@ function Style:HandleQuickJoinToastButton(frame)
     frame:ClearAllPoints()
     frame:SetPoint("TOPRIGHT", ChatFrame1.buttonFrame, "TOPRIGHT", 2, 0)
     frame:SetSize(20, 30)
+
+    local normalTexture = frame:GetNormalTexture()
+    normalTexture:ClearAllPoints()
+    normalTexture:SetPoint("TOPLEFT", frame, "TOPLEFT", 1, -3)
+    normalTexture:SetPoint("BOTTOMRIGHT", frame, "TOPLEFT", 19, -21)
+
+    local pushedTexture = frame:GetPushedTexture()
+    pushedTexture:ClearAllPoints()
+    pushedTexture:SetPoint("TOPLEFT", frame, "TOPLEFT", 2, -4)
+    pushedTexture:SetPoint("BOTTOMRIGHT", frame, "TOPLEFT", 20, -22)
+
     frame.FriendCount:ClearAllPoints()
     frame.FriendCount:SetPoint("BOTTOMLEFT", -1.5, 4)
     frame.FriendCount:SetPoint("BOTTOMRIGHT", 2.5, 4)
@@ -142,7 +177,7 @@ function Style:HandleChannelButton(frame)
 
     frame:ClearAllPoints()
     frame:SetPoint("TOPRIGHT", QuickJoinToastButton, "BOTTOMRIGHT", 0, -1)
-    frame.Icon:SetTexture(0)
+    hideTexture(frame.Icon)
 
     local flash = frame.Flash
     flash:ClearAllPoints()
@@ -167,10 +202,9 @@ function Style:HandleTTSButton(frame)
 
     handleButton(frame, 0.25, 0.5, 0.5, 1)
 
-    frame.Icon:SetTexture(0)
-    frame.Icon:Hide()
+    hideTexture(frame.Icon)
 
-    frame.Background:SetTexture(0)
+    hideTexture(frame.Background)
 
     frame:ClearAllPoints()
     frame:SetPoint("TOPLEFT", parent, "TOPLEFT", 0, 0)
