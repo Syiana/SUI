@@ -119,8 +119,7 @@ function Module:OnEnable()
 		local function SetupChatPosAndFont()
 			for i = 1, NUM_CHAT_WINDOWS do
 				local chat = _G[format("ChatFrame%s", i)]
-				local id = chat:GetID()
-				local _, fontSize = FCF_GetChatWindowInfo(id)
+				local fontSize = db.settings and db.settings.chat and db.settings.chat.font and db.settings.chat.font.size or 12
 
 				-- Min. size for chat font
 				if fontSize < 11 then

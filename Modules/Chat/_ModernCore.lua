@@ -283,6 +283,10 @@ function Style:ApplyChatFrameFont(chatFrame)
 
     local fontPath, fontSize, fontOutline, useShadow = resolveFontSettings(Style.db.chat.font)
 
+    if chatFrame.SetFont then
+        chatFrame:SetFont(fontPath, fontSize, fontOutline)
+    end
+
     local fontObject = chatFrame:GetFontObject()
     if fontObject then
         applyFontStyle(fontObject, fontPath, fontSize, fontOutline, useShadow)

@@ -38,6 +38,10 @@ function Layout:OnEnable()
     end
 
     local function updateChatFont()
+        if ChatModule and ChatModule.UpdateSharedMessageFonts then
+            ChatModule:UpdateSharedMessageFonts()
+        end
+
         if ChatModule and ChatModule.Style and ChatModule.Style.UpdateMessageFonts then
             ChatModule.Style:UpdateMessageFonts()
         end
