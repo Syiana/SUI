@@ -86,6 +86,21 @@ local function updateButtonAlpha(chatFrame)
     end
 end
 
+local function updateButtonPosition(chatFrame)
+    local button = chatButtons[chatFrame]
+    if not button or not chatFrame then
+        return
+    end
+
+    button:ClearAllPoints()
+
+    if SUI.db.profile.chat.style == "Modern" then
+        button:SetPoint("TOPRIGHT", chatFrame, "TOPRIGHT", -4, -4)
+    else
+        button:SetPoint("TOPRIGHT", chatFrame, "TOPRIGHT", 10, -5)
+    end
+end
+
 local function attachCopyButton(chatFrame)
     if not chatFrame or chatButtons[chatFrame] then
         return
@@ -93,7 +108,6 @@ local function attachCopyButton(chatFrame)
 
     local button = CreateFrame("Button", nil, chatFrame)
     button:SetSize(20, 20)
-    button:SetPoint("TOPRIGHT", chatFrame, "TOPRIGHT", -4, -4)
     button:SetNormalTexture("Interface\\AddOns\\SUI\\Media\\Textures\\Chat\\copynormal")
     button:GetNormalTexture():SetSize(20, 20)
     button:SetHighlightTexture("Interface\\AddOns\\SUI\\Media\\Textures\\Chat\\copyhighlight")
@@ -121,6 +135,7 @@ local function attachCopyButton(chatFrame)
     end)
 
     chatButtons[chatFrame] = button
+    updateButtonPosition(chatFrame)
     updateButtonAlpha(chatFrame)
 end
 
@@ -130,6 +145,7 @@ function Module:RefreshButtons()
         if chatFrame then
             attachCopyButton(chatFrame)
             if chatButtons[chatFrame] then
+                updateButtonPosition(chatFrame)
                 chatButtons[chatFrame]:Show()
                 updateButtonAlpha(chatFrame)
             end

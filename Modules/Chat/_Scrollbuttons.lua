@@ -1,169 +1,179 @@
 local SUIAddon = SUI
 local Style = SUIAddon:GetModule("Chat.Modern")
 
--- Lua
 local _G = getfenv(0)
 local next = _G.next
 local unpack = _G.unpack
 
--- Mine
-local ICONS = {{0 / 128, 52 / 128, 0 / 128, 52 / 128}, -- 1, "to bottom"
-{52 / 128, 104 / 128, 0 / 128, 52 / 128}, -- 2, "new"
-{0 / 128, 52 / 128, 52 / 128, 104 / 128}, -- 3, "down"
-{52 / 128, 104 / 128, 52 / 128, 104 / 128} -- 4, "up"
+local ICON_TEXTURE = "Interface\\AddOns\\SUI\\Media\\Textures\\Chat\\scroll-buttons"
+local REPEAT_DELAY = 0.3
+local ICONS = {
+    [1] = {0 / 128, 52 / 128, 0 / 128, 52 / 128},
+    [2] = {52 / 128, 104 / 128, 0 / 128, 52 / 128},
+    [3] = {0 / 128, 52 / 128, 52 / 128, 104 / 128},
+    [4] = {52 / 128, 104 / 128, 52 / 128, 104 / 128}
 }
 
-local buttons = {}
-
-local button_proto = {}
+local trackedButtons = setmetatable({}, {__mode = "k"})
+local buttonPrototype = {}
 
 local _, class = UnitClass("player")
 local color = RAID_CLASS_COLORS[class]
 
-function button_proto:SetState(state, isInstant)
-    if state ~= self.state then
-        self.state = state
+local function setTextureLayout(texture, offsets)
+    texture:SetTexture(ICON_TEXTURE)
+    texture:ClearAllPoints()
+    texture:SetPoint("TOPLEFT", offsets[1], offsets[2])
+    texture:SetPoint("BOTTOMRIGHT", offsets[3], offsets[4])
+    texture:SetAlpha(0.8)
+    texture:SetVertexColor(color.r, color.g, color.b)
+end
 
-        if isInstant then
-            self.NormalTexture:SetTexCoord(unpack(ICONS[state]))
-            self.PushedTexture:SetTexCoord(unpack(ICONS[state]))
-        else
-            Style:StopFading(self.NormalTexture, 1)
-            Style:FadeOut(self.NormalTexture, 0, 0.1, function()
-                self.NormalTexture:SetTexCoord(unpack(ICONS[state]))
-                self.PushedTexture:SetTexCoord(unpack(ICONS[state]))
+local function applyIconState(button, state)
+    local texCoord = ICONS[state]
+    button.NormalTexture:SetTexCoord(unpack(texCoord))
+    button.PushedTexture:SetTexCoord(unpack(texCoord))
+end
 
-                Style:FadeIn(self.NormalTexture, 0.1)
-            end)
-        end
+local function stopButtonRepeat(button)
+    button.repeatTicker = nil
+    button:SetScript("OnUpdate", nil)
+end
+
+local function stepScroll(frame, state)
+    local delta = state == 3 and -1 or 1
+
+    if frame.OnMouseWheel then
+        frame:OnMouseWheel(-delta)
+        return
+    end
+
+    if delta < 0 and frame.ScrollDown then
+        frame:ScrollDown()
+        return
+    end
+
+    if delta > 0 and frame.ScrollUp then
+        frame:ScrollUp()
     end
 end
 
-local function setUpBaseButton(button, state)
+function buttonPrototype:SetState(state, instant)
+    if self.state == state then
+        return
+    end
+
+    self.state = state
+
+    if instant then
+        applyIconState(self, state)
+        return
+    end
+
+    Style:StopFading(self.NormalTexture, 1)
+    Style:FadeOut(self.NormalTexture, 0, 0.1, function()
+        applyIconState(self, state)
+        Style:FadeIn(self.NormalTexture, 0.1)
+    end)
+end
+
+local function createBaseButton(parent, state)
+    local button = Mixin(CreateFrame("Button", nil, parent), buttonPrototype)
     button:SetFlattensRenderLayers(true)
     button:SetSize(24, 24)
     button:Hide()
-
     button.Backdrop = Style:CreateBackdrop(button, Style.db.dock.alpha)
 
     button:SetNormalTexture(0)
     button:SetPushedTexture(0)
     button:SetHighlightTexture(0)
 
-    local normalTexture = button:GetNormalTexture()
-    normalTexture:SetTexture("Interface\\AddOns\\SUI\\Media\\Textures\\Chat\\scroll-buttons")
-    normalTexture:ClearAllPoints()
-    normalTexture:SetPoint("TOPLEFT", 3, -3)
-    normalTexture:SetPoint("BOTTOMRIGHT", -3, 3)
-    normalTexture:SetAlpha(0.8)
-    normalTexture:SetVertexColor(color.r, color.g, color.b)
-    button.NormalTexture = normalTexture
+    button.NormalTexture = button:GetNormalTexture()
+    button.PushedTexture = button:GetPushedTexture()
 
-    local pushedTexture = button:GetPushedTexture()
-    pushedTexture:SetTexture("Interface\\AddOns\\SUI\\Media\\Textures\\Chat\\scroll-buttons")
-    pushedTexture:ClearAllPoints()
-    pushedTexture:SetPoint("TOPLEFT", 4, -4)
-    pushedTexture:SetPoint("BOTTOMRIGHT", -2, 2)
-    pushedTexture:SetAlpha(0.8)
-    pushedTexture:SetVertexColor(color.r, color.g, color.b)
-    button.PushedTexture = pushedTexture
+    setTextureLayout(button.NormalTexture, {3, -3, -3, 3})
+    setTextureLayout(button.PushedTexture, {4, -4, -2, 2})
 
-    local highlightLeft = button:CreateTexture(nil, "HIGHLIGHT")
-    local highlightMiddle = button:CreateTexture(nil, "HIGHLIGHT")
-    local highlightRight = button:CreateTexture(nil, "HIGHLIGHT")
-    Style:ApplyBorderAccent(highlightLeft, highlightMiddle, highlightRight, button)
+    Style:ApplyBorderAccent(
+        button:CreateTexture(nil, "HIGHLIGHT"),
+        button:CreateTexture(nil, "HIGHLIGHT"),
+        button:CreateTexture(nil, "HIGHLIGHT"),
+        button
+    )
 
-    button:SetState(state)
-
-    buttons[button] = true
+    button:SetState(state, true)
+    trackedButtons[button] = true
 
     return button
 end
 
-do
-    local scroll_to_bottom_button_proto = {}
+local function bindRepeatHandlers(button)
+    button:RegisterForClicks("LeftButtonDown", "RightButtonDown")
 
-    function scroll_to_bottom_button_proto:OnClick()
+    button:SetScript("OnHide", function(self)
+        stopButtonRepeat(self)
+    end)
+
+    button:SetScript("OnMouseUp", function(self)
+        stopButtonRepeat(self)
+    end)
+
+    button:SetScript("OnMouseDown", function(self)
         local frame = self:GetParent()
-        if frame then
-            -- Use ScrollToBottom for standard WoW chat frames
-            if frame.ScrollToBottom then
-                frame:ScrollToBottom()
-            elseif frame.FastForward then
-                frame:FastForward()
+        if not frame then
+            return
+        end
+
+        stepScroll(frame, self.state)
+        self.repeatTicker = 0
+        self:SetScript("OnUpdate", function(activeButton, elapsed)
+            activeButton.repeatTicker = (activeButton.repeatTicker or 0) + elapsed
+            if activeButton.repeatTicker < REPEAT_DELAY then
+                return
             end
 
-            Style:FadeOut(self, 0, 0.1, function()
-                self:SetState(1, true)
-                self:Hide()
-            end)
-        end
-    end
-
-    function Style:CreateScrollToBottomButton(parent)
-        local button = Mixin(CreateFrame("Button", nil, parent), button_proto, scroll_to_bottom_button_proto)
-        Style:RawHookScript(button, "OnClick", button.OnClick)
-        button:SetAlpha(0)
-
-        return setUpBaseButton(button, 1)
-    end
+            activeButton.repeatTicker = 0
+            stepScroll(activeButton:GetParent(), activeButton.state)
+        end)
+    end)
 end
 
-do
-    local scroll_button_proto = {}
+function Style:CreateScrollToBottomButton(parent)
+    local button = createBaseButton(parent, 1)
+    button:SetAlpha(0)
 
-    function scroll_button_proto:OnHide()
-        self:SetScript("OnUpdate", nil)
-    end
-
-    function scroll_button_proto:OnMouseDown()
+    button:SetScript("OnClick", function(self)
         local frame = self:GetParent()
-        if frame then
-            -- Scroll line by line for standard WoW chat frames
-            local direction = self.state == 3 and -1 or 1 -- down = -1, up = 1
-
-            if frame.OnMouseWheel then
-                frame:OnMouseWheel(-1 * direction)
-            elseif direction == -1 and frame.ScrollDown then
-                frame:ScrollDown()
-            elseif direction == 1 and frame.ScrollUp then
-                frame:ScrollUp()
-            end
-
-            self.elapsed = 0
-            self:SetScript("OnUpdate", self.OnUpdate)
+        if not frame then
+            return
         end
-    end
 
-    function scroll_button_proto:OnMouseUp()
-        self:SetScript("OnUpdate", nil)
-    end
-
-    function scroll_button_proto:OnUpdate(elapsed)
-        self.elapsed = (self.elapsed or 0) + elapsed
-        if self.elapsed > 0.3 then -- SCROLL_DURATION + POST_SCROLL_DELAY
-            self.elapsed = 0
-
-            self:OnMouseDown()
+        if frame.ScrollToBottom then
+            frame:ScrollToBottom()
+        elseif frame.FastForward then
+            frame:FastForward()
         end
-    end
 
-    function Style:CreateScrollButton(parent, state)
-        local button = Mixin(CreateFrame("Button", nil, parent), button_proto, scroll_button_proto)
-        button:RegisterForClicks("LeftButtonDown", "RightButtonDown")
-        Style:RawHookScript(button, "OnMouseDown", button.OnMouseDown)
-        Style:RawHookScript(button, "OnMouseUp", button.OnMouseUp)
-        Style:RawHookScript(button, "OnHide", button.OnHide)
-        button:SetAlpha(1)
+        Style:FadeOut(self, 0, 0.1, function()
+            self:SetState(1, true)
+            self:Hide()
+        end)
+    end)
 
-        return setUpBaseButton(button, state)
-    end
+    return button
+end
+
+function Style:CreateScrollButton(parent, state)
+    local button = createBaseButton(parent, state)
+    button:SetAlpha(1)
+    bindRepeatHandlers(button)
+    return button
 end
 
 function Style:UpdateScrollButtonAlpha()
     local alpha = Style.db.dock.alpha
 
-    for button in next, buttons do
+    for button in next, trackedButtons do
         button.Backdrop:UpdateAlpha(alpha)
     end
 end

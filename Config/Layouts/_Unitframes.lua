@@ -10,6 +10,10 @@ function Layout:OnEnable()
     local TargetModule = SUI:GetModule("UnitFrames.Target", true)
     local CoreModule = SUI:GetModule("UnitFrames.Core", true)
     local NameplateModule = SUI:GetModule("NamePlates.Core", true)
+    local HideModule = SUI:GetModule("UnitFrames.Hide", true)
+    local CombatModule = SUI:GetModule("UnitFrames.Combat", true)
+    local TextModule = SUI:GetModule("UnitFrames.Text", true)
+    local ColorModule = SUI:GetModule("UnitFrames.Colors", true)
 
     local function refreshTargetAuras()
         if TargetModule and TargetModule.RefreshAuras then
@@ -32,6 +36,36 @@ function Layout:OnEnable()
         end
         if CoreModule and CoreModule.RefreshTextures then
             CoreModule:RefreshTextures()
+        end
+    end
+
+    local function refreshPlayerVisibility()
+        if PlayerModule and PlayerModule.RefreshVisibility then
+            PlayerModule:RefreshVisibility()
+        end
+    end
+
+    local function refreshPvPBadge()
+        if HideModule and HideModule.RefreshVisibility then
+            HideModule:RefreshVisibility()
+        end
+    end
+
+    local function refreshCombatIcon()
+        if CombatModule and CombatModule.RefreshVisibility then
+            CombatModule:RefreshVisibility()
+        end
+    end
+
+    local function refreshHitIndicator()
+        if TextModule and TextModule.RefreshVisibility then
+            TextModule:RefreshVisibility()
+        end
+    end
+
+    local function refreshUnitframeColors()
+        if ColorModule and ColorModule.RefreshColors then
+            ColorModule:RefreshColors()
         end
     end
 
@@ -77,7 +111,8 @@ function Layout:OnEnable()
                     label = 'Class Color',
                     tooltip = 'Change healthcolor to class color',
                     column = 4,
-                    order = 1
+                    order = 1,
+                    onChange = refreshUnitframeColors
                 },
                 pvp = {
                     key = 'unitframes.pvpbadge',
@@ -85,7 +120,8 @@ function Layout:OnEnable()
                     label = 'PvP Badge',
                     tooltip = 'Display PVP icon on Unit frames',
                     column = 4,
-                    order = 2
+                    order = 2,
+                    onChange = refreshPvPBadge
                 },
                 hitindicator = {
                     key = 'unitframes.hitindicator',
@@ -93,7 +129,8 @@ function Layout:OnEnable()
                     label = 'Hit indicator',
                     tooltip = 'Display numbers on Player Portrait',
                     column = 4,
-                    order = 3
+                    order = 3,
+                    onChange = refreshHitIndicator
                 },
             },
             {
@@ -103,7 +140,8 @@ function Layout:OnEnable()
                     label = 'Combat Icon',
                     tooltip = 'Display combat icon on Unitframes',
                     column = 4,
-                    order = 1
+                    order = 1,
+                    onChange = refreshCombatIcon
                 },
                 totemicons = {
                     key = 'unitframes.totemicons',
@@ -129,7 +167,8 @@ function Layout:OnEnable()
                     label = 'Corner Icon',
                     tooltip = 'Display corner icon on Unitframes',
                     column = 4,
-                    order = 1
+                    order = 1,
+                    onChange = refreshPlayerVisibility
                 }
             },
             {

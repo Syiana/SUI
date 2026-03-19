@@ -1,5 +1,15 @@
 local Module = SUI:NewModule("UnitFrames.Player");
 
+local function setCornerIconShown()
+    local icon = PlayerFrame and PlayerFrame.PlayerFrameContent and PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual and
+        PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual.PlayerPortraitCornerIcon
+    if not icon then
+        return
+    end
+
+    icon:SetShown(SUI.db.profile.unitframes.cornericon)
+end
+
 function Module:RefreshTextures()
     local texture = SUI.db.profile.general.texture
     if SUI.db.profile.unitframes.style == "Classic" or texture == [[Interface\Default]] then
@@ -29,6 +39,10 @@ function Module:RefreshTextures()
         PetFrame.healthbar:SetStatusBarTexture(texture)
         PetFrame.healthbar:GetStatusBarTexture():SetDrawLayer("BORDER")
     end
+end
+
+function Module:RefreshVisibility()
+    setCornerIconShown()
 end
 
 function Module:OnEnable()
@@ -76,9 +90,7 @@ function Module:OnEnable()
             healthTexture(self, event)
             manaTexture(self, event)
 
-            if not db.unitframes.cornericon then
-                PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual.PlayerPortraitCornerIcon:Hide()
-            end
+            setCornerIconShown()
         end)
 
         PetFrame:HookScript("OnEvent", function(self, event)
@@ -160,4 +172,6 @@ function Module:OnEnable()
             statusAnimation:Hide()
         end
     end)
+
+    Module:RefreshVisibility()
 end

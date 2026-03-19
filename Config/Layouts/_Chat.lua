@@ -26,6 +26,9 @@ function Layout:OnEnable()
     end
 
     local function updateChatAlpha()
+        if ChatModule and ChatModule.UpdateSharedChatBackgroundAlpha then
+            ChatModule:UpdateSharedChatBackgroundAlpha()
+        end
         if ChatModule and ChatModule.Style and ChatModule.Style.UpdateChatBackgroundAlpha then
             ChatModule.Style:UpdateChatBackgroundAlpha()
         end
@@ -38,6 +41,10 @@ function Layout:OnEnable()
     end
 
     local function updateChatFont()
+        if ChatModule and ChatModule.UpdateSharedMessageFonts then
+            ChatModule:UpdateSharedMessageFonts()
+        end
+
         if ChatModule and ChatModule.Style and ChatModule.Style.UpdateMessageFonts then
             ChatModule.Style:UpdateMessageFonts()
         end
@@ -65,6 +72,12 @@ function Layout:OnEnable()
             module:Enable()
         elseif module.OnEnable then
             module:OnEnable()
+        end
+    end
+
+    local function updateTooltips()
+        if ChatModule and ChatModule.EnableSharedTooltips then
+            ChatModule:EnableSharedTooltips()
         end
     end
 
@@ -102,8 +115,9 @@ function Layout:OnEnable()
             {
                 style = {
                     key = 'style',
-                    label = 'Style',
+                    label = 'Style (Reload Required)',
                     type = 'dropdown',
+                    tooltip = 'Changing the chat style requires a /reload.',
                     options = {
                         { value = 'Default', text = 'Default' },
                         { value = 'Custom', text = 'Custom' },
@@ -119,7 +133,8 @@ function Layout:OnEnable()
                     label = 'Mouseover Tooltips',
                     tooltip = 'Show hyperlink tooltips on mouseover in custom chat',
                     column = 4,
-                    order = 2
+                    order = 2,
+                    onChange = updateTooltips
                 },
                 friendlist = {
                     key = 'friendlist',

@@ -1,25 +1,36 @@
 local Module = SUI:NewModule("UnitFrames.Hide");
 
-function Module:OnEnable()
+function Module:RefreshVisibility()
     local db = SUI.db.profile.unitframes
-    hooksecurefunc("PlayerFrame_UpdateStatus", function()
-        -- pvpbadge
-        if not (db.pvpbadge) then
-            PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual.PrestigeBadge:SetAlpha(0)
-            PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual.PrestigePortrait:SetAlpha(0)
-            TargetFrame.TargetFrameContent.TargetFrameContentContextual.PrestigeBadge:SetAlpha(0)
-            TargetFrame.TargetFrameContent.TargetFrameContentContextual.PrestigePortrait:SetAlpha(0)
-            FocusFrame.TargetFrameContent.TargetFrameContentContextual.PrestigeBadge:SetAlpha(0)
-            FocusFrame.TargetFrameContent.TargetFrameContentContextual.PrestigePortrait:SetAlpha(0)
-            if (PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual.PVPIcon) then
-                PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual.PVPIcon:SetAlpha(0)
+    local alpha = db.pvpbadge and 1 or 0
+    local contextualFrames = {
+        PlayerFrame and PlayerFrame.PlayerFrameContent and PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual,
+        TargetFrame and TargetFrame.TargetFrameContent and TargetFrame.TargetFrameContent.TargetFrameContentContextual,
+        FocusFrame and FocusFrame.TargetFrameContent and FocusFrame.TargetFrameContent.TargetFrameContentContextual
+    }
+
+    for _, frame in ipairs(contextualFrames) do
+        if frame then
+            if frame.PrestigeBadge then
+                frame.PrestigeBadge:SetAlpha(alpha)
             end
-            if (TargetFrame.TargetFrameContent.TargetFrameContentContextual.PvpIcon) then
-                TargetFrame.TargetFrameContent.TargetFrameContentContextual.PvpIcon:SetAlpha(0)
+            if frame.PrestigePortrait then
+                frame.PrestigePortrait:SetAlpha(alpha)
             end
-            if (FocusFrame.TargetFrameContent.TargetFrameContentContextual.PvpIcon) then
-                FocusFrame.TargetFrameContent.TargetFrameContentContextual.PvpIcon:SetAlpha(0)
+            if frame.PVPIcon then
+                frame.PVPIcon:SetAlpha(alpha)
+            end
+            if frame.PvpIcon then
+                frame.PvpIcon:SetAlpha(alpha)
             end
         end
+    end
+end
+
+function Module:OnEnable()
+    hooksecurefunc("PlayerFrame_UpdateStatus", function()
+        Module:RefreshVisibility()
     end)
+
+    Module:RefreshVisibility()
 end

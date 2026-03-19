@@ -139,10 +139,6 @@ function Style:OnInitialize()
     Style.db = SUIAddon.db.profile.chat.settings
 end
 
-----------------------
--- HIDE SCROLLBAR --
-----------------------
-
 function Style:HideDefaultScrollbar(chatFrame)
     if not chatFrame then
         return
@@ -162,10 +158,6 @@ function Style:HideDefaultScrollbar(chatFrame)
         end
     end
 end
-
--------------------------------
--- HIDE CHATFRAME BACKGROUND --
--------------------------------
 
 function Style:HideChatFrameBackground(chatFrame)
     if not chatFrame then
@@ -188,16 +180,11 @@ function Style:HideChatFrameBackground(chatFrame)
     clearNamedRegions(chatFrame, FRAME_TEXTURE_PARTS)
 end
 
------------------------------
--- ADD CHATFRAME BACKGROUND --
------------------------------
-
 function Style:AddChatFrameBackground(chatFrame)
     if not chatFrame then
         return
     end
 
-    -- Create a custom backdrop for the chat frame with insets to create padding
     if not chatFrame.SUIBackdrop then
         chatFrame.SUIBackdrop = Style:CreateBackdrop(chatFrame, Style.db.chat.alpha, -4, -4)
     end
@@ -212,10 +199,6 @@ function Style:UpdateChatBackgroundAlpha()
         end
     end)
 end
-
-------------------------------
--- SETUP SCROLL BUTTONS --
-------------------------------
 
 function Style:SetupScrollButtons(chatFrame)
     if not chatFrame or chatFrame.SUIScrollButtonsSetup then
@@ -270,10 +253,6 @@ function Style:SetupScrollButtons(chatFrame)
     chatFrame.SUIScrollButtonsSetup = true
 end
 
----------------------------------
--- UPDATE MESSAGE FONTS --
----------------------------------
-
 function Style:UpdateEditBoxFont()
     eachChatFrame(function(_, index)
         local editBox = _G["ChatFrame" .. index .. "EditBox"]
@@ -303,6 +282,10 @@ function Style:ApplyChatFrameFont(chatFrame)
     end
 
     local fontPath, fontSize, fontOutline, useShadow = resolveFontSettings(Style.db.chat.font)
+
+    if chatFrame.SetFont then
+        chatFrame:SetFont(fontPath, fontSize, fontOutline)
+    end
 
     local fontObject = chatFrame:GetFontObject()
     if fontObject then
@@ -341,41 +324,25 @@ end or function()
     return false
 end
 
---------------------
--- TEXT PROCESSOR --
---------------------
-
 do
-    local TEXT_PROCESSORS = { -- Shorten channel names by removing zone/city suffixes
+    local TEXT_PROCESSORS = {
     function(text)
-        -- Helper function to trim whitespace
         local function trim(s)
             return s:match("^%s*(.-)%s*$")
         end
 
-        -- Handle |Hchannel:channel:...|h[number. Trade (Services) - Zone]|h -> |Hchannel:channel:...|h[Services]|h
         text = text:gsub("(|Hchannel:channel:[^|]-|h)%[%d+%. Trade %(([^%)]+)%)%s*%-%s*[^%]]+%](|h)", function(prefix, name, suffix)
             return prefix .. "[" .. trim(name) .. "]" .. suffix
         end)
 
-        -- Handle |Hchannel:channel:...|h[number. ChannelName - Zone]|h -> |Hchannel:channel:...|h[ChannelName]|h
         text = text:gsub("(|Hchannel:channel:[^|]-|h)%[%d+%. ([^%-%]]+)%s*%-%s*[^%]]+%](|h)", function(prefix, name, suffix)
             return prefix .. "[" .. trim(name) .. "]" .. suffix
         end)
 
-        -- Abbreviate Instance/Instance Leader -> [I]
         text = text:gsub("(|Hchannel:INSTANCE_CHAT|h)%[.-%](|h)", "%1[I]%2")
-
-        -- Abbreviate Raid/Raid Leader -> [R]
         text = text:gsub("(|Hchannel:RAID|h)%[.-%](|h)", "%1[R]%2")
-
-        -- Abbreviate Party/Party Leader -> [P]
         text = text:gsub("(|Hchannel:PARTY|h)%[.-%](|h)", "%1[P]%2")
-
-        -- Abbreviate Guild -> [G]
         text = text:gsub("(|Hchannel:GUILD|h)%[.-%](|h)", "%1[G]%2")
-
-        -- Abbreviate Officer -> [G]
         text = text:gsub("(|Hchannel:OFFICER|h)%[.-%](|h)", "%1[G]%2")
 
         return text
@@ -393,7 +360,6 @@ do
     end
 
     function Style:EnableTextProcessing()
-        -- Hook AddMessage for all chat frames
         for i = 1, Constants.ChatFrameConstants.MaxChatWindows do
             local chatFrame = _G["ChatFrame" .. i]
             if chatFrame and not chatFrame.SUITextProcessingHooked then
@@ -408,10 +374,6 @@ do
         end
     end
 end
-
-------------
--- EVENTS --
-------------
 
 do
     local listeners = {}
@@ -489,10 +451,6 @@ do
     end
 end
 
------------
--- UTILS --
------------
-
 do
     local hidden = CreateFrame("Frame", nil, UIParent)
     hidden:Hide()
@@ -528,10 +486,6 @@ do
         end
     end
 end
-
------------
--- FADER --
------------
 
 do
     local function clamp(v)
@@ -590,7 +544,6 @@ do
         objects[object] = {
             mode = mode,
             fadeTimer = -delay,
-            -- initAlpha = initAlpha,
             finalAlpha = finalAlpha,
             duration = duration,
             callback = callback
@@ -643,10 +596,6 @@ do
     end
 end
 
--------------
--- COLOURS --
--------------
-
 do
     local color_proto = {}
 
@@ -654,12 +603,10 @@ do
         return self.hex
     end
 
-    -- override ColorMixin:GetRGBA
     function color_proto:GetRGBA(a)
         return self.r, self.g, self.b, a or self.a
     end
 
-    -- override ColorMixin:SetRGBA
     function color_proto:SetRGBA(r, g, b, a)
         if r > 1 or g > 1 or b > 1 then
             r, g, b = r / 255, g / 255, b / 255
@@ -672,7 +619,6 @@ do
         self.hex = s_format('ff%02x%02x%02x', self:GetRGBAsBytes())
     end
 
-    -- override ColorMixin:WrapTextInColorCode
     function color_proto:WrapTextInColorCode(text)
         return "|c" .. self.hex .. text .. "|r"
     end
@@ -684,10 +630,6 @@ do
         return color
     end
 end
-
------------
--- MATHS --
------------
 
 function Style:Round(v)
     return m_floor(v + 0.5)

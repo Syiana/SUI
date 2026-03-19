@@ -1,7 +1,6 @@
 local SUIAddon = SUI
 local Style = SUIAddon:GetModule("Chat.Modern")
 
--- Lua
 local _G = getfenv(0)
 local hooksecurefunc = _G.hooksecurefunc
 local next = _G.next
@@ -73,7 +72,6 @@ function Style:HandleChatTab(frame)
         Style:SecureHook(frame.Text, "SetPoint", chatTabText_SetPoint)
         Style:SecureHook(frame.Text, "SetTextColor", chatTabText_SetTextColor)
 
-        -- Hook tab click to update fonts when switching tabs
         Style:SecureHookScript(frame, "OnClick", function(self)
             C_Timer.After(0, function()
                 Style:UpdateMessageFonts()
@@ -101,7 +99,6 @@ function Style:HandleChatTab(frame)
         frame.Text:SetTextColor(NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b)
     end
 
-    -- it can be "CENTER" or "LEFT", so just use the index
     frame.Text:SetPoint(frame.Text:GetPoint())
 end
 
@@ -126,7 +123,6 @@ function Style:HandleMinimizedTab(frame)
 
     Style:ApplyBorderAccent(frame.HighlightLeft, frame.HighlightMiddle, frame.HighlightRight, frame)
 
-    -- reset the tab
     if not frame.selectedColorTable then
         frame.Text:SetTextColor(NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b)
     end

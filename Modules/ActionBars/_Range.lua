@@ -1,5 +1,33 @@
 local Range = SUI:NewModule("ActionBars.Range");
 
+function Range:RefreshColors()
+    if SUI.db.profile.actionbar.buttons.range then
+        return
+    end
+
+    local prefixes = {
+        "ActionButton",
+        "MultiBarBottomLeftButton",
+        "MultiBarBottomRightButton",
+        "MultiBarRightButton",
+        "MultiBarLeftButton",
+        "MultiBar5Button",
+        "MultiBar6Button",
+        "MultiBar7Button",
+        "PetActionButton",
+        "StanceButton"
+    }
+
+    for _, prefix in ipairs(prefixes) do
+        for i = 1, 12 do
+            local button = _G[prefix .. i]
+            if button and button.icon then
+                button.icon:SetVertexColor(1, 1, 1)
+            end
+        end
+    end
+end
+
 function Range:OnEnable()
     local db = SUI.db.profile.actionbar
 

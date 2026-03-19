@@ -6,6 +6,34 @@ function Debuffs:OnEnable()
     local db = SUI.db.profile.unitframes.debuffs
     local theme = SUI.db.profile.general.theme
 
+    local function GetAuraBorderColor()
+        local currentTheme = SUI.db.profile.general.theme
+        if currentTheme == "Dark" then
+            return 0.1, 0.1, 0.1, 1
+        end
+
+        local color = SUI:Color()
+        if color then
+            return color[1], color[2], color[3], 1
+        end
+
+        return 0.1, 0.1, 0.1, 1
+    end
+
+    local function GetAuraShadowColor()
+        local currentTheme = SUI.db.profile.general.theme
+        if currentTheme == "Dark" then
+            return 0, 0, 0, 0.9
+        end
+
+        local color = SUI:Color(0.2, 0.9)
+        if color then
+            return color[1], color[2], color[3], color[4]
+        end
+
+        return 0, 0, 0, 0.9
+    end
+
     -- Update Duration Text for Debuffs
     local function UpdateDuration(self, timeLeft)
         local success, result = pcall(function()
@@ -56,7 +84,7 @@ function Debuffs:OnEnable()
 
         if not holder then
             holder = CreateFrame("Frame", nil, button)
-            holder:SetFrameLevel(button:GetFrameLevel() - 1)
+            holder:SetFrameLevel(button:GetFrameLevel())
             holder:SetPoint("CENTER", icon, "CENTER", 0, 0)
             button.SUIBorderFrame = holder
         end
@@ -66,17 +94,17 @@ function Debuffs:OnEnable()
         holder:SetSize(size, size)
 
         if not border then
-            border = holder:CreateTexture(nil, "BACKGROUND", nil, -7)
+            border = button:CreateTexture(nil, "OVERLAY", nil, 1)
             border:SetAllPoints()
             border:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\Core\\gloss_border_w")
             border:SetTexCoord(0, 1, 0, 1)
+            border:SetVertexColor(GetAuraBorderColor())
             button.SUIBorder = border
         end
 
         if not shadow then
             shadow = holder:CreateTexture(nil, "BACKGROUND", nil, -8)
             shadow:SetTexture("Interface\\Addons\\SUI\\Media\\Textures\\Nameplates\\textureShadow")
-            shadow:SetVertexColor(0, 0, 0, 0.9)
             shadow:SetPoint("CENTER", holder, "CENTER", 0, 0)
             shadow:SetWidth(size + 8)
             shadow:SetHeight(size + 8)
@@ -123,12 +151,17 @@ function Debuffs:OnEnable()
                     end
                     
                     if frame.SUIBorder then
+                        frame.SUIBorder:SetAllPoints(frame.SUIBorderFrame or frame)
                         local color = DebuffColor[debuffType or "none"]
                         if color then
                             frame.SUIBorder:SetVertexColor(color.r, color.g, color.b, 1)
                         else
-                            frame.SUIBorder:SetVertexColor(unpack(SUI:Color(0.15)))
+                            frame.SUIBorder:SetVertexColor(GetAuraBorderColor())
                         end
+                    end
+
+                    if frame.SUIShadow then
+                        frame.SUIShadow:SetVertexColor(GetAuraShadowColor())
                     end
                 end
             end

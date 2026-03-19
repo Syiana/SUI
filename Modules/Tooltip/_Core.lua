@@ -1,4 +1,60 @@
 local Module = SUI:NewModule("Tooltip.Core");
+local anchorHooked
+local combatHideFrame
+
+function Module:RefreshAnchor()
+    if anchorHooked then
+        return
+    end
+
+    hooksecurefunc("GameTooltip_SetDefaultAnchor", function(tooltip, parent)
+        if SUI.db.profile.tooltip.mouseanchor then
+            tooltip:SetOwner(parent, "ANCHOR_CURSOR")
+        else
+            tooltip:SetOwner(parent, "ANCHOR_NONE")
+        end
+    end)
+
+    anchorHooked = true
+end
+
+function Module:RefreshLifeOnTop()
+    if SUI.db.profile.tooltip.lifeontop then
+        GameTooltipStatusBar:ClearAllPoints()
+        GameTooltipStatusBar:SetPoint("LEFT", 4.5, 0)
+        GameTooltipStatusBar:SetPoint("RIGHT", -4.5, 0)
+        GameTooltipStatusBar:SetPoint("TOP", 0, -3)
+        GameTooltipStatusBar:SetHeight(4)
+    else
+        GameTooltipStatusBar:ClearAllPoints()
+        GameTooltipStatusBar:SetPoint("LEFT", 4.5, 0)
+        GameTooltipStatusBar:SetPoint("RIGHT", -4.5, 0)
+        GameTooltipStatusBar:SetPoint("BOTTOM", 0, 3)
+        GameTooltipStatusBar:SetHeight(4)
+    end
+end
+
+function Module:RefreshHideInCombat()
+    if not combatHideFrame then
+        combatHideFrame = CreateFrame("Frame")
+        combatHideFrame:SetScript("OnEvent", function(_, event)
+            if event == "PLAYER_REGEN_DISABLED" then
+                GameTooltip:SetScript('OnShow', GameTooltip.Hide)
+            else
+                GameTooltip:SetScript('OnShow', GameTooltip.Show)
+            end
+        end)
+    end
+
+    combatHideFrame:UnregisterAllEvents()
+
+    if SUI.db.profile.tooltip.hideincombat then
+        combatHideFrame:RegisterEvent("PLAYER_REGEN_DISABLED")
+        combatHideFrame:RegisterEvent("PLAYER_REGEN_ENABLED")
+    else
+        GameTooltip:SetScript('OnShow', GameTooltip.Show)
+    end
+end
 
 function Module:OnEnable()
     local db = SUI.db.profile.tooltip
@@ -8,15 +64,7 @@ function Module:OnEnable()
     TooltipFrame:SetSize(150, 25)
 
     -- tooltip anchor
-    if (db.mouseanchor) then
-        hooksecurefunc("GameTooltip_SetDefaultAnchor", function(tooltip, parent)
-            tooltip:SetOwner(parent, "ANCHOR_CURSOR")
-        end)
-    else
-        hooksecurefunc("GameTooltip_SetDefaultAnchor", function(tooltip, parent)
-            tooltip:SetOwner(parent, "ANCHOR_NONE")
-        end)
-    end
+    Module:RefreshAnchor()
 
     if (db.style == "Custom") then
         FONT = STANDARD_TEXT_FONT
@@ -215,19 +263,7 @@ function Module:OnEnable()
         --Tooltip_Small:SetShadowOffset(1,-2)
         --Tooltip_Small:SetShadowColor(0,0,0,0.75)
 
-        if (db.lifeontop) then
-            GameTooltipStatusBar:ClearAllPoints()
-            GameTooltipStatusBar:SetPoint("LEFT", 4.5, 0)
-            GameTooltipStatusBar:SetPoint("RIGHT", -4.5, 0)
-            GameTooltipStatusBar:SetPoint("TOP", 0, -3)
-            GameTooltipStatusBar:SetHeight(4)
-        else
-            GameTooltipStatusBar:ClearAllPoints()
-            GameTooltipStatusBar:SetPoint("LEFT", 4.5, 0)
-            GameTooltipStatusBar:SetPoint("RIGHT", -4.5, 0)
-            GameTooltipStatusBar:SetPoint("BOTTOM", 0, 3)
-            GameTooltipStatusBar:SetHeight(4)
-        end
+        Module:RefreshLifeOnTop()
 
         --gametooltip statusbar bg
         GameTooltipStatusBar.bg = GameTooltipStatusBar:CreateTexture(nil, "BACKGROUND", nil, -8)
@@ -309,16 +345,5 @@ function Module:OnEnable()
         -- Note: UnitAura callback disabled due to secret value errors in secure contexts
     end
 
-    if (db.hideincombat) then
-        local f = CreateFrame("Frame")
-        f:RegisterEvent("PLAYER_REGEN_DISABLED")
-        f:RegisterEvent("PLAYER_REGEN_ENABLED")
-        f:SetScript("OnEvent", function(self, event, ...)
-            if event == "PLAYER_REGEN_DISABLED" then
-                GameTooltip:SetScript('OnShow', GameTooltip.Hide)
-            else
-                GameTooltip:SetScript('OnShow', GameTooltip.Show)
-            end
-        end)
-    end
+    Module:RefreshHideInCombat()
 end

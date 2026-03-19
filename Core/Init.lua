@@ -364,13 +364,6 @@ function SUI:OnInitialize()
             end
         end,
         Data = function()
-            local themes = {
-                Blizzard = nil,
-                Dark = { 0.3, 0.3, 0.3 },
-                Class = { classColor.r, classColor.g, classColor.b },
-                Custom = { customColor.r, customColor.g, customColor.b },
-            }
-            local theme = themes[self.db.profile.general.theme]
             return {
                 style = self.db.profile.general.theme,
                 color = self.db.profile.general.color
