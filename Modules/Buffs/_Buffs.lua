@@ -125,7 +125,7 @@ function Buffs:OnEnable()
         for index, child in pairs(BuffFrame.auraFrames) do
             local frame = select(index, BuffFrame.AuraContainer:GetChildren())
             
-            frame.Icon:SetTexCoord(0.1, 0.9, 0.09, 0.91)
+            frame.Icon:SetTexCoord(0.08, 0.92, 0.08, 0.92)
 
             if frame.TempEnchantBorder then 
                 frame.TempEnchantBorder:Hide() 

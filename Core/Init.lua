@@ -340,19 +340,16 @@ function SUI:OnInitialize()
     end
 
     -- Colors
-    local function ResolveTheme()
-        local _, class = UnitClass("player")
-        local classColor = RAID_CLASS_COLORS[class]
-        local customColor = self.db.profile.general.color
-        local themes = {
-            Blizzard = nil,
-            Dark = { 0.3, 0.3, 0.3 },
-            Class = { classColor.r, classColor.g, classColor.b },
-            Custom = { customColor.r, customColor.g, customColor.b },
-        }
-
-        return themes[self.db.profile.general.theme]
-    end
+    local _, class = UnitClass("player")
+    local classColor = RAID_CLASS_COLORS[class]
+    local customColor = self.db.profile.general.color
+    local themes = {
+        Blizzard = nil,
+        Dark = { 0.3, 0.3, 0.3 },
+        Class = { classColor.r, classColor.g, classColor.b },
+        Custom = { customColor.r, customColor.g, customColor.b },
+    }
+    local theme = themes[self.db.profile.general.theme]
 
     self.Theme = {
         Register = function(n, f)
@@ -378,7 +375,6 @@ function SUI:OnInitialize()
     }
 
     function self:Color(sub, alpha)
-        local theme = ResolveTheme()
         if (theme) then
             if not (alpha) then alpha = 1 end
             local color = { 0, 0, 0, alpha }
