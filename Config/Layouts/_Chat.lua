@@ -14,18 +14,12 @@ function Layout:OnEnable()
 
     local function updateEditPosition(_, value)
         db.profile.chat.top = value == "top"
-        if ChatModule and ChatModule.UpdateSharedEditBoxPosition then
-            ChatModule:UpdateSharedEditBoxPosition()
-        end
         if ChatModule and ChatModule.Style and ChatModule.Style.UpdateEditBoxPosition then
             ChatModule.Style:UpdateEditBoxPosition()
         end
     end
 
     local function updateEditAlpha()
-        if ChatModule and ChatModule.UpdateSharedEditBoxAlpha then
-            ChatModule:UpdateSharedEditBoxAlpha()
-        end
         if ChatModule and ChatModule.Style and ChatModule.Style.UpdateEditBoxAlpha then
             ChatModule.Style:UpdateEditBoxAlpha()
         end
@@ -41,9 +35,6 @@ function Layout:OnEnable()
     end
 
     local function updateEditFont()
-        if ChatModule and ChatModule.UpdateSharedEditBoxFont then
-            ChatModule:UpdateSharedEditBoxFont()
-        end
         if ChatModule and ChatModule.Style and ChatModule.Style.UpdateEditBoxFont then
             ChatModule.Style:UpdateEditBoxFont()
         end
