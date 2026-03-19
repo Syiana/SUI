@@ -14,24 +14,36 @@ function Layout:OnEnable()
 
     local function updateEditPosition(_, value)
         db.profile.chat.top = value == "top"
+        if ChatModule and ChatModule.UpdateSharedEditBoxPosition then
+            ChatModule:UpdateSharedEditBoxPosition()
+        end
         if ChatModule and ChatModule.Style and ChatModule.Style.UpdateEditBoxPosition then
             ChatModule.Style:UpdateEditBoxPosition()
         end
     end
 
     local function updateEditAlpha()
+        if ChatModule and ChatModule.UpdateSharedEditBoxAlpha then
+            ChatModule:UpdateSharedEditBoxAlpha()
+        end
         if ChatModule and ChatModule.Style and ChatModule.Style.UpdateEditBoxAlpha then
             ChatModule.Style:UpdateEditBoxAlpha()
         end
     end
 
     local function updateChatAlpha()
+        if ChatModule and ChatModule.UpdateSharedChatBackgroundAlpha then
+            ChatModule:UpdateSharedChatBackgroundAlpha()
+        end
         if ChatModule and ChatModule.Style and ChatModule.Style.UpdateChatBackgroundAlpha then
             ChatModule.Style:UpdateChatBackgroundAlpha()
         end
     end
 
     local function updateEditFont()
+        if ChatModule and ChatModule.UpdateSharedEditBoxFont then
+            ChatModule:UpdateSharedEditBoxFont()
+        end
         if ChatModule and ChatModule.Style and ChatModule.Style.UpdateEditBoxFont then
             ChatModule.Style:UpdateEditBoxFont()
         end
@@ -69,6 +81,12 @@ function Layout:OnEnable()
             module:Enable()
         elseif module.OnEnable then
             module:OnEnable()
+        end
+    end
+
+    local function updateTooltips()
+        if ChatModule and ChatModule.EnableSharedTooltips then
+            ChatModule:EnableSharedTooltips()
         end
     end
 
@@ -123,7 +141,8 @@ function Layout:OnEnable()
                     label = 'Mouseover Tooltips',
                     tooltip = 'Show hyperlink tooltips on mouseover in custom chat',
                     column = 4,
-                    order = 2
+                    order = 2,
+                    onChange = updateTooltips
                 },
                 friendlist = {
                     key = 'friendlist',
