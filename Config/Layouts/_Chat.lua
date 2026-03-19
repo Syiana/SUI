@@ -124,8 +124,9 @@ function Layout:OnEnable()
             {
                 style = {
                     key = 'style',
-                    label = 'Style',
+                    label = 'Style (Reload Required)',
                     type = 'dropdown',
+                    tooltip = 'Changing the chat style requires a /reload.',
                     options = {
                         { value = 'Default', text = 'Default' },
                         { value = 'Custom', text = 'Custom' },
