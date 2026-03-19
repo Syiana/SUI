@@ -1,7 +1,6 @@
 local SUIAddon = SUI
 local Style = SUIAddon:GetModule("Chat.Modern")
 
--- Lua
 local _G = getfenv(0)
 local next = _G.next
 
@@ -37,12 +36,6 @@ function Style:HandleEditBox(frame)
     end
 
     positionEditBox(frame, Style.db.edit.position, Style.db.edit.offset)
-
-    --[[frame:SetFontObject("SUIEditBoxFont")
-    frame.header:SetFontObject("SUIEditBoxFont")
-    frame.headerSuffix:SetFontObject("SUIEditBoxFont")
-    frame.NewcomerHint:SetFontObject("SUIEditBoxFont")
-    frame.prompt:SetFontObject("SUIEditBoxFont")]]
 end
 
 function Style:UpdateEditBoxPosition()

@@ -1,7 +1,6 @@
 local SUIAddon = SUI
 local Style = SUIAddon:GetModule("Chat.Modern")
 
--- Lua
 local _G = getfenv(0)
 local hooksecurefunc = _G.hooksecurefunc
 local next = _G.next
@@ -9,7 +8,6 @@ local t_remove = _G.table.remove
 local tonumber = _G.tonumber
 local unpack = _G.unpack
 
--- Mine
 local handledbuttons = {}
 
 local _, class = UnitClass("player")
@@ -77,7 +75,6 @@ local function handleButton(frame, ...)
     local pushedTexture = frame:GetPushedTexture()
     configureButtonTexture(pushedTexture, texCoords, 2, -2, 0, 0)
 
-    -- PropertyButtonMixin resets this stuff, so nil it
     frame:ClearHighlightTexture()
     frame.highlightAtlas = nil
     clampButtonIcon(frame.Icon, frame)

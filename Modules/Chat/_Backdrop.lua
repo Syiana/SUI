@@ -1,7 +1,6 @@
 local SUIAddon = SUI
 local Style = SUIAddon:GetModule("Chat.Modern")
 
--- Lua
 local _G = getfenv(0)
 local t_insert = _G.table.insert
 
@@ -29,10 +28,8 @@ function Style:CreateBackdrop(parent, alpha, xOffset, yOffset)
         tileEdge = true,
         tileSize = 8,
         edgeSize = 8
-        -- insets = {left = 4, right = 4, top = 4, bottom = 4},
     })
 
-    -- the way Blizz position it creates really weird gaps, so fix it
     backdrop.Center:ClearAllPoints()
     backdrop.Center:SetPoint("TOPLEFT", backdrop.TopLeftCorner, "BOTTOMRIGHT", 0, 0)
     backdrop.Center:SetPoint("BOTTOMRIGHT", backdrop.BottomRightCorner, "TOPLEFT", 0, 0)

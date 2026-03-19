@@ -1,49 +1,60 @@
 local SUIAddon = SUI
 local Style = SUIAddon:GetModule("Chat.Modern")
 
--- Lua
 local _G = getfenv(0)
 local hooksecurefunc = _G.hooksecurefunc
 
-local alertingFrames = {}
-
--- Fading constants
+local DOCK_HEIGHT = 20
 local DOCK_FADE_IN_DURATION = 0.2
+local alertFrames = setmetatable({}, {__mode = "k"})
 
-function Style:HandleDock(frame)
-    frame:SetHeight(20)
-    frame.scrollFrame:SetHeight(20)
-    frame.scrollFrame.child:SetHeight(20)
+local function applyDockHeight(frame)
+    frame:SetHeight(DOCK_HEIGHT)
+    frame.scrollFrame:SetHeight(DOCK_HEIGHT)
+    frame.scrollFrame.child:SetHeight(DOCK_HEIGHT)
+end
 
-    frame.scrollFrame:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", 0, 0)
-    hooksecurefunc(frame.scrollFrame, "SetPoint", function(self, p, anchor, rP, x, _, shouldIgnore)
-        if shouldIgnore then
+local function pinScrollFrame(frame)
+    if frame.SUIScrollFramePinned then
+        return
+    end
+
+    hooksecurefunc(frame.scrollFrame, "SetPoint", function(scrollFrame, point, anchor, relativePoint, offsetX, _, bypass)
+        if bypass or point ~= "BOTTOMRIGHT" or anchor ~= frame then
             return
         end
 
-        if p == "BOTTOMRIGHT" and anchor == frame then
-            self:SetPoint(p, anchor, rP, x, 0, true)
-        end
+        scrollFrame:SetPoint(point, anchor, relativePoint, offsetX, 0, true)
     end)
 
+    frame.SUIScrollFramePinned = true
+end
+
+local function hasAlerts()
+    return next(alertFrames) ~= nil
+end
+
+function Style:HandleDock(frame)
+    if not frame then
+        return
+    end
+
+    applyDockHeight(frame)
+    frame.scrollFrame:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", 0, 0)
+    pinScrollFrame(frame)
     Style:HandleOverflowButton(frame.overflowButton)
 end
 
 function Style:EnableAlerts()
     Style:SecureHook("FCF_StartAlertFlash", function(chatFrame)
-        alertingFrames[chatFrame] = true
-
+        alertFrames[chatFrame] = true
         Style:FadeIn(GeneralDockManager, DOCK_FADE_IN_DURATION)
     end)
 
     Style:SecureHook("FCF_StopAlertFlash", function(chatFrame)
-        alertingFrames[chatFrame] = nil
+        alertFrames[chatFrame] = nil
+        if not hasAlerts() then
+            Style:StopFading(GeneralDockManager, GeneralDockManager:GetAlpha())
+        end
     end)
-end
-
-function Style:ForChatFrame(id, method, ...)
-    local frame = _G["ChatFrame" .. id]
-    if frame and frame[method] then
-        frame[method](frame, ...)
-    end
 end
