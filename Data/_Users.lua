@@ -3,7 +3,6 @@ local Colors = SUI:GetModule('Data.Colors');
 
 Data.team = {
   { text = Colors.aut .. 'Syiana|r' },
-  { text = Colors.dev .. 'Muleyo|r' },
   { text = Colors.dev .. 'Rulez|r' },
   { text = Colors.dev .. 'Baine|r' },
   { text = Colors.dev .. 'Phoyk|r' },
@@ -52,7 +51,6 @@ Data.supporter = {
   { text = Colors.pala .. 'Akna|r' },
   { text = Colors.rog .. 'Jojo|r' },
   { text = Colors.priest .. 'Woogo|r' },
-  { text = Colors.pala .. 'Muleyo|r' },
   { text = Colors.druid .. 'OwldTV|r' },
   { text = Colors.rog .. 'Dartakiront|r' },
   { text = Colors.pala .. 'Oldsoul74|r' },

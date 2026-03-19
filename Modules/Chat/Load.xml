@@ -1,18 +1,17 @@
-<Ui xmlns="http://www.blizzard.com/wow/ui/">
-    <Include file="Link.lua" />
-    <Include file="Copy.lua" />
-    <Include file="_Core.lua" />
-    <Include file="Core.lua" />
-    <Include file="WhisperAlert.lua" />
-    <Include file="Components\Backdrop.lua" />
-    <Include file="Components\Button.lua" />
-    <Include file="Components\Dock.lua" />
-    <Include file="Components\Editbox.lua" />
-    <Include file="Components\Scrollbutton.lua" />
-    <Include file="Components\Tab.lua" />
-    <Include file="Style.lua" />
-    <Include file="Modules.lua" />
-    <Script file="_Friendlist.lua" />
-    <Script file="_Quickjoin.lua" />
-    <Frame name="SUIHyperlinkPropagator" propagateHyperlinksToParent="true" virtual="true" />
+<Ui xmlns='http://www.blizzard.com/wow/ui/'>
+    <Script file = "_Url.lua"/>
+    <Script file = "_Copy.lua"/>
+    <Script file = "_Core.lua"/>
+    <Script file = "_ModernCore.lua"/>
+    <Script file = "_Backdrop.lua"/>
+    <Script file = "_Buttons.lua"/>
+    <Script file = "_Dock.lua"/>
+    <Script file = "_Editbox.lua"/>
+    <Script file = "_Scrollbuttons.lua"/>
+    <Script file = "_Tabs.lua"/>
+    <Script file = "_ModernHooks.lua"/>
+    <Script file = "_Modules.lua"/>
+    <Script file = "_Friendlist.lua"/>
+    <Script file = "_Quickjoin.lua"/>
+    <Frame name="SUIHyperlinkPropagator" propagateHyperlinksToParent="true" virtual="true"/>
 </Ui>

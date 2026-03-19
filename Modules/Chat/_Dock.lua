@@ -1,5 +1,5 @@
 local SUIAddon = SUI
-local Style = SUIAddon:GetModule("SUI.Modules.Chat.Style")
+local Style = SUIAddon:GetModule("Chat.Modern")
 
 -- Lua
 local _G = getfenv(0)
