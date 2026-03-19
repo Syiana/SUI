@@ -1,9 +1,81 @@
 local SUIAddon = SUI
-local Style = SUIAddon:GetModule("SUI.Modules.Chat.Style")
+local Style = SUIAddon:GetModule("Chat.Modern")
 
 -- Store chat frame references at module level for config updates
 local chatFrames = {}
 local tempChatFrames = {}
+
+local function applyChatFrameFade(frame)
+    if not frame then
+        return
+    end
+
+    frame:SetFading(Style.db.fade.enabled)
+    if Style.db.fade.enabled then
+        frame:SetTimeVisible(Style.db.fade.out_delay)
+    end
+end
+
+local function applyHyperlinkScripts(frame)
+    if not frame or frame.SUIHyperlinkHooked then
+        return
+    end
+
+    frame:SetScript("OnHyperlinkEnter", function(self, link)
+        if not Style.db.tooltips then
+            return
+        end
+
+        GameTooltip:SetOwner(self, "ANCHOR_CURSOR")
+        GameTooltip:SetHyperlink(link)
+        GameTooltip:Show()
+    end)
+
+    frame:SetScript("OnHyperlinkLeave", function()
+        if not Style.db.tooltips then
+            return
+        end
+
+        GameTooltip:Hide()
+    end)
+
+    frame.SUIHyperlinkHooked = true
+end
+
+local function styleChatFrame(frame)
+    if not frame then
+        return
+    end
+
+    local frameName = frame:GetName()
+    if not frameName then
+        return
+    end
+
+    local tab = _G[frameName .. "Tab"]
+    local editBox = _G[frameName .. "EditBox"]
+    local minimizeButton = _G[frameName .. "ButtonFrameMinimizeButton"]
+
+    Style:HandleChatTab(tab)
+    Style:HandleEditBox(editBox)
+    Style:HandleMinimizeButton(minimizeButton, tab)
+    Style:HideDefaultScrollbar(frame)
+    Style:HideChatFrameBackground(frame)
+    Style:AddChatFrameBackground(frame)
+
+    if frame.SUIScrollButtonsSetup then
+        if frame.ToggleScrollButtons then
+            frame:ToggleScrollButtons()
+        end
+    else
+        Style:SetupScrollButtons(frame)
+    end
+
+    Style:ApplyChatFrameFont(frame)
+    if editBox then
+        Style:ApplyEditBoxFont(editBox)
+    end
+end
 
 function Style:UpdateAllScrollButtons()
     -- Update scroll buttons on all static chat frames
@@ -36,10 +108,6 @@ function Style:OnEnable()
     -- Disable Altkeys for EditBox
     ChatFrame1EditBox:SetAltArrowKeyMode(false)
 
-    -- Create Fonts
-    -- Style:CreateFonts()
-
-    -- Handle Dock
     Style:HandleDock(GeneralDockManager)
 
     -- static chat frames
@@ -47,21 +115,10 @@ function Style:OnEnable()
         local frame = _G["ChatFrame" .. i]
         if frame then
             chatFrames[frame] = true
-
-            -- Set fading based on config
-            frame:SetFading(Style.db.fade.enabled)
-            if Style.db.fade.enabled then
-                frame:SetTimeVisible(Style.db.fade.out_delay)
-            end
+            applyChatFrameFade(frame)
+            applyHyperlinkScripts(frame)
+            styleChatFrame(frame)
         end
-
-        Style:HandleChatTab(_G["ChatFrame" .. i .. "Tab"])
-        Style:HandleEditBox(_G["ChatFrame" .. i .. "EditBox"])
-        Style:HandleMinimizeButton(_G["ChatFrame" .. i .. "ButtonFrameMinimizeButton"], _G["ChatFrame" .. i .. "Tab"])
-        Style:HideDefaultScrollbar(_G["ChatFrame" .. i])
-        Style:HideChatFrameBackground(_G["ChatFrame" .. i])
-        Style:AddChatFrameBackground(_G["ChatFrame" .. i])
-        Style:SetupScrollButtons(_G["ChatFrame" .. i])
 
         if i == 1 then
             Style:HandleQuickJoinToastButton(QuickJoinToastButton)
@@ -81,62 +138,15 @@ function Style:OnEnable()
     -- top of whatever we applied synchronously. We therefore defer all visual
     -- skinning one frame with C_Timer.After(0) so it always runs AFTER the full
     -- FCF_OpenTemporaryWindow call stack has finished.
-    Style:SecureHook("FCF_SetTemporaryWindowType", function(chatFrame, chatType, chatTarget)
-        -- Non-visual setup can happen immediately.
-        chatFrame:SetFading(Style.db.fade.enabled)
-        if Style.db.fade.enabled then
-            chatFrame:SetTimeVisible(Style.db.fade.out_delay)
-        end
-
-        if not chatFrame.SUIHyperlinkHooked then
-            chatFrame:SetScript("OnHyperlinkEnter", function(self, link, text, region, left, bottom, width, height)
-                if not Style.db.tooltips then
-                    return
-                end
-                GameTooltip:SetOwner(self, "ANCHOR_CURSOR")
-                GameTooltip:SetHyperlink(link)
-                GameTooltip:Show()
-            end)
-
-            chatFrame:SetScript("OnHyperlinkLeave", function(self)
-                if not Style.db.tooltips then
-                    return
-                end
-                GameTooltip:Hide()
-            end)
-
-            chatFrame.SUIHyperlinkHooked = true
-        end
-
+    Style:SecureHook("FCF_SetTemporaryWindowType", function(chatFrame)
+        applyChatFrameFade(chatFrame)
+        applyHyperlinkScripts(chatFrame)
         tempChatFrames[chatFrame] = true
 
         -- Defer visual skinning so it runs after FCF_DockFrame (and its
         -- FCFDock_UpdateTabs call) has finished overwriting tab state.
         C_Timer.After(0, function()
-            if not chatFrame:GetName() then
-                return
-            end
-
-            Style:HandleChatTab(_G[chatFrame:GetName() .. "Tab"])
-            Style:HandleEditBox(_G[chatFrame:GetName() .. "EditBox"])
-            Style:HandleMinimizeButton(_G[chatFrame:GetName() .. "ButtonFrameMinimizeButton"], _G[chatFrame:GetName() .. "Tab"])
-            Style:HideDefaultScrollbar(chatFrame)
-            Style:HideChatFrameBackground(chatFrame)
-            Style:AddChatFrameBackground(chatFrame)
-
-            if not chatFrame.SUIScrollButtonsSetup then
-                Style:SetupScrollButtons(chatFrame)
-            else
-                if chatFrame.ToggleScrollButtons then
-                    chatFrame:ToggleScrollButtons()
-                end
-            end
-
-            Style:ApplyChatFrameFont(chatFrame)
-            local editBox = _G[chatFrame:GetName() .. "EditBox"]
-            if editBox then
-                Style:ApplyEditBoxFont(editBox)
-            end
+            styleChatFrame(chatFrame)
         end)
     end)
 
@@ -158,9 +168,6 @@ function Style:OnEnable()
     if Style.db.dock.fade.enabled then
         Style:SetupTabAndButtonFading()
     end
-
-    -- Enable hyperlink tooltips
-    Style:EnableHyperlinkTooltips()
 
     -- ? consider moving it elsewhere as well
     Style:RegisterEvent("GLOBAL_MOUSE_DOWN", function(button)
@@ -216,6 +223,14 @@ function Style:OnEnable()
 end
 
 function Style:OnDisable()
+    for frame in next, chatFrames do
+        chatFrames[frame] = nil
+    end
+
+    for frame in next, tempChatFrames do
+        tempChatFrames[frame] = nil
+    end
+
     Style:UnhookAll()
 end
 
@@ -474,29 +489,5 @@ function Style:UpdateTabAndButtonFading(enabled)
 
         Style:StopFading(GeneralDockManager, 1)
         GeneralDockManager:SetAlpha(1)
-    end
-end
-
-function Style:EnableHyperlinkTooltips()
-    -- Hook hyperlink events for all chat frames
-    for i = 1, Constants.ChatFrameConstants.MaxChatWindows do
-        local chatFrame = _G["ChatFrame" .. i]
-        if chatFrame then
-            chatFrame:SetScript("OnHyperlinkEnter", function(self, link, text, region, left, bottom, width, height)
-                if not Style.db.tooltips then
-                    return
-                end
-                GameTooltip:SetOwner(self, "ANCHOR_CURSOR")
-                GameTooltip:SetHyperlink(link)
-                GameTooltip:Show()
-            end)
-
-            chatFrame:SetScript("OnHyperlinkLeave", function(self)
-                if not Style.db.tooltips then
-                    return
-                end
-                GameTooltip:Hide()
-            end)
-        end
     end
 end

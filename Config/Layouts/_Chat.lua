@@ -6,6 +6,10 @@ function Layout:OnEnable()
 
     local function updateStyleSetting(_, value)
         db.profile.chat.style = value
+        if ChatModule and ChatModule:IsEnabled() then
+            ChatModule:Disable()
+            ChatModule:Enable()
+        end
     end
 
     local function updateEditPosition(_, value)
@@ -144,7 +148,7 @@ function Layout:OnEnable()
                     column = 4,
                     order = 2,
                     onChange = function(_, value)
-                        toggleFeature("SUI.Modules.Chat.Link", value)
+                        toggleFeature("Chat.Url", value)
                     end
                 },
                 copy = {
@@ -155,7 +159,7 @@ function Layout:OnEnable()
                     column = 4,
                     order = 3,
                     onChange = function(_, value)
-                        toggleFeature("SUI.Modules.Chat.Copy", value)
+                        toggleFeature("Chat.Copy", value)
                     end
                 }
             },
@@ -168,7 +172,7 @@ function Layout:OnEnable()
                     column = 4,
                     order = 4,
                     onChange = function(_, value)
-                        toggleFeature("SUI.Modules.Chat.WhisperAlert", value)
+                        toggleFeature("Chat.WhisperAlert", value)
                     end
                 }
             },

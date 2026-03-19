@@ -1,12 +1,13 @@
 local SUIAddon = SUI
-local Style = SUIAddon:GetModule("SUI.Modules.Chat.Style")
+local Style = SUIAddon:GetModule("Chat.Modern")
 
 -- Lua
 local _G = getfenv(0)
 local t_insert = _G.table.insert
 
--- Mine
 local backdrops = {}
+local BORDER_HIGHLIGHT_TEXTURE = "Interface\\AddOns\\SUI\\Media\\Textures\\Chat\\border-highlight"
+local BORDER_COLOR = DEFAULT_TAB_SELECTED_COLOR_TABLE
 
 local backdrop_proto = {}
 do
@@ -42,4 +43,32 @@ function Style:CreateBackdrop(parent, alpha, xOffset, yOffset)
     t_insert(backdrops, backdrop)
 
     return backdrop
+end
+
+function Style:ApplyBorderAccent(leftTexture, middleTexture, rightTexture, anchor)
+    if not leftTexture or not middleTexture or not rightTexture or not anchor then
+        return
+    end
+
+    leftTexture:ClearAllPoints()
+    leftTexture:SetPoint("TOPLEFT", anchor, "TOPLEFT", 0, -2)
+    leftTexture:SetTexture(BORDER_HIGHLIGHT_TEXTURE)
+    leftTexture:SetVertexColor(BORDER_COLOR.r, BORDER_COLOR.g, BORDER_COLOR.b)
+    leftTexture:SetTexCoord(0, 1, 0.5, 1)
+    leftTexture:SetSize(8, 8)
+
+    rightTexture:ClearAllPoints()
+    rightTexture:SetPoint("TOPRIGHT", anchor, "TOPRIGHT", 0, -2)
+    rightTexture:SetTexture(BORDER_HIGHLIGHT_TEXTURE)
+    rightTexture:SetVertexColor(BORDER_COLOR.r, BORDER_COLOR.g, BORDER_COLOR.b)
+    rightTexture:SetTexCoord(1, 0, 0.5, 1)
+    rightTexture:SetSize(8, 8)
+
+    middleTexture:ClearAllPoints()
+    middleTexture:SetPoint("TOPLEFT", leftTexture, "TOPRIGHT", 0, 0)
+    middleTexture:SetPoint("TOPRIGHT", rightTexture, "TOPLEFT", 0, 0)
+    middleTexture:SetTexture(BORDER_HIGHLIGHT_TEXTURE)
+    middleTexture:SetVertexColor(BORDER_COLOR.r, BORDER_COLOR.g, BORDER_COLOR.b)
+    middleTexture:SetTexCoord(0, 1, 0, 0.5)
+    middleTexture:SetSize(8, 8)
 end

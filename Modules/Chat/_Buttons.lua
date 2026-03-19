@@ -1,5 +1,5 @@
 local SUIAddon = SUI
-local Style = SUIAddon:GetModule("SUI.Modules.Chat.Style")
+local Style = SUIAddon:GetModule("Chat.Modern")
 
 -- Lua
 local _G = getfenv(0)
@@ -7,12 +7,30 @@ local hooksecurefunc = _G.hooksecurefunc
 local next = _G.next
 local t_remove = _G.table.remove
 local tonumber = _G.tonumber
+local unpack = _G.unpack
 
 -- Mine
 local handledbuttons = {}
 
 local _, class = UnitClass("player")
 local color = RAID_CLASS_COLORS[class]
+
+local function removeAlertSubsystem(anchorFrame)
+    for index = #ChatAlertFrame.alertFrameSubSystems, 1, -1 do
+        if ChatAlertFrame.alertFrameSubSystems[index].anchorFrame == anchorFrame then
+            t_remove(ChatAlertFrame.alertFrameSubSystems, index)
+        end
+    end
+end
+
+local function configureButtonTexture(texture, texCoords, topLeftX, topLeftY, bottomRightX, bottomRightY)
+    texture:SetTexture("Interface\\AddOns\\SUI\\Media\\Textures\\Chat\\icons")
+    texture:SetTexCoord(unpack(texCoords))
+    texture:ClearAllPoints()
+    texture:SetPoint("TOPLEFT", topLeftX, topLeftY)
+    texture:SetPoint("BOTTOMRIGHT", bottomRightX, bottomRightY)
+    texture:SetVertexColor(color.r, color.g, color.b)
+end
 
 local function handleButton(frame, ...)
     if not handledbuttons[frame] then
@@ -30,47 +48,18 @@ local function handleButton(frame, ...)
     frame:SetPushedTexture(0)
     frame:SetHighlightTexture(0)
 
+    local texCoords = {...}
     local normalTexture = frame:GetNormalTexture()
-    normalTexture:SetTexture("Interface\\AddOns\\SUI\\Media\\Textures\\Chat\\icons")
-    normalTexture:SetTexCoord(...)
-    normalTexture:ClearAllPoints()
-    normalTexture:SetPoint("TOPLEFT", 1, -1)
-    normalTexture:SetPoint("BOTTOMRIGHT", frame, "TOPLEFT", 19, -19)
-    normalTexture:SetVertexColor(color.r, color.g, color.b)
+    configureButtonTexture(normalTexture, texCoords, 1, -1, 19, -19)
 
     local pushedTexture = frame:GetPushedTexture()
-    pushedTexture:SetTexture("Interface\\AddOns\\SUI\\Media\\Textures\\Chat\\icons")
-    pushedTexture:SetTexCoord(...)
-    pushedTexture:ClearAllPoints()
-    pushedTexture:SetPoint("TOPLEFT", 2, -2)
-    pushedTexture:SetPoint("BOTTOMRIGHT", frame, "TOPLEFT", 20, -20)
-    pushedTexture:SetVertexColor(color.r, color.g, color.b)
+    configureButtonTexture(pushedTexture, texCoords, 2, -2, 20, -20)
 
     -- PropertyButtonMixin resets this stuff, so nil it
     frame:ClearHighlightTexture()
     frame.highlightAtlas = nil
 
-    local highlightLeft = frame.HighlightLeft
-    highlightLeft:SetPoint("TOPLEFT", frame, "TOPLEFT", 0, -2)
-    highlightLeft:SetTexture("Interface\\AddOns\\SUI\\Media\\Textures\\Chat\\border-highlight")
-    highlightLeft:SetVertexColor(DEFAULT_TAB_SELECTED_COLOR_TABLE.r, DEFAULT_TAB_SELECTED_COLOR_TABLE.g, DEFAULT_TAB_SELECTED_COLOR_TABLE.b)
-    highlightLeft:SetTexCoord(0, 1, 0.5, 1)
-    highlightLeft:SetSize(8, 8)
-
-    local highlightRight = frame.HighlightRight
-    highlightRight:SetPoint("TOPRIGHT", frame, "TOPRIGHT", 0, -2)
-    highlightRight:SetTexture("Interface\\AddOns\\SUI\\Media\\Textures\\Chat\\border-highlight")
-    highlightRight:SetVertexColor(DEFAULT_TAB_SELECTED_COLOR_TABLE.r, DEFAULT_TAB_SELECTED_COLOR_TABLE.g, DEFAULT_TAB_SELECTED_COLOR_TABLE.b)
-    highlightRight:SetTexCoord(1, 0, 0.5, 1)
-    highlightRight:SetSize(8, 8)
-
-    local highlightMiddle = frame.HighlightMiddle
-    highlightMiddle:SetPoint("TOPLEFT", highlightLeft, "TOPRIGHT", 0, 0)
-    highlightMiddle:SetPoint("TOPRIGHT", highlightRight, "TOPLEFT", 0, 0)
-    highlightMiddle:SetTexture("Interface\\AddOns\\SUI\\Media\\Textures\\Chat\\border-highlight")
-    highlightMiddle:SetVertexColor(DEFAULT_TAB_SELECTED_COLOR_TABLE.r, DEFAULT_TAB_SELECTED_COLOR_TABLE.g, DEFAULT_TAB_SELECTED_COLOR_TABLE.b)
-    highlightMiddle:SetTexCoord(0, 1, 0, 0.5)
-    highlightMiddle:SetSize(8, 8)
+    Style:ApplyBorderAccent(frame.HighlightLeft, frame.HighlightMiddle, frame.HighlightRight, frame)
 end
 
 function Style:HandleMinimizeButton(frame, tab)
@@ -88,11 +77,7 @@ function Style:HandleMaximizeButton(frame)
 end
 
 function Style:HandleQuickJoinToastButton(frame)
-    for i = #ChatAlertFrame.alertFrameSubSystems, 1, -1 do
-        if ChatAlertFrame.alertFrameSubSystems[i].anchorFrame == frame then
-            t_remove(ChatAlertFrame.alertFrameSubSystems, i)
-        end
-    end
+    removeAlertSubsystem(frame)
 
     handleButton(frame, 0.5, 0.75, 0.5, 1)
     frame:SetParent(ChatFrame1.buttonFrame)
@@ -178,11 +163,7 @@ end
 function Style:HandleTTSButton(frame)
     local parent = frame:GetParent()
 
-    for i = #ChatAlertFrame.alertFrameSubSystems, 1, -1 do
-        if ChatAlertFrame.alertFrameSubSystems[i].anchorFrame == parent then
-            t_remove(ChatAlertFrame.alertFrameSubSystems, i)
-        end
-    end
+    removeAlertSubsystem(parent)
 
     handleButton(frame, 0.25, 0.5, 0.5, 1)
 

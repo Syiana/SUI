@@ -1,9 +1,141 @@
 local SUIAddon = SUI
-local Style = SUIAddon:NewModule("SUI.Modules.Chat.Style", "AceHook-3.0")
+local Style = SUIAddon:NewModule("Chat.Modern", "AceHook-3.0")
 local LSM = LibStub("LibSharedMedia-3.0")
+local _G = getfenv(0)
+local error = _G.error
+local ipairs = _G.ipairs
+local m_floor = _G.math.floor
+local next = _G.next
+local pcall = _G.pcall
+local select = _G.select
+local s_format = _G.string.format
+local t_insert = _G.table.insert
+local type = _G.type
+
+local DEFAULT_CHAT_FONT = "Fonts\\FRIZQT__.TTF"
+local FRAME_TEXTURE_PARTS = {
+    "Center",
+    "TopEdge",
+    "BottomEdge",
+    "LeftEdge",
+    "RightEdge",
+    "TopLeftCorner",
+    "TopRightCorner",
+    "BottomLeftCorner",
+    "BottomRightCorner"
+}
+local BUTTON_FRAME_PARTS = {
+    "ScrollToBottomButton",
+    "ScrollToTopButton",
+    "upButton",
+    "downButton",
+    "bottomButton"
+}
+
+local function eachChatFrame(callback)
+    for index = 1, Constants.ChatFrameConstants.MaxChatWindows do
+        callback(_G["ChatFrame" .. index], index)
+    end
+end
+
+local function clearTextureRegion(region)
+    if not region then
+        return
+    end
+
+    region:SetTexture(nil)
+    region:Hide()
+end
+
+local function clearFrameTextures(frame)
+    if not frame then
+        return
+    end
+
+    for regionIndex = 1, frame:GetNumRegions() do
+        local region = select(regionIndex, frame:GetRegions())
+        if region and region:GetObjectType() == "Texture" then
+            clearTextureRegion(region)
+        end
+    end
+end
+
+local function clearNamedRegions(frame, names)
+    if not frame then
+        return
+    end
+
+    for _, name in ipairs(names) do
+        clearTextureRegion(frame[name])
+    end
+end
+
+local function resolveFontSettings(fontConfig)
+    local fontPath = LSM:Fetch("font", SUIAddon.db.profile.general.font) or SUIAddon.db.profile.general.font or DEFAULT_CHAT_FONT
+    local fontSize = fontConfig.size or 12
+    local fontOutline = fontConfig.outline and "OUTLINE" or ""
+
+    return fontPath, fontSize, fontOutline, fontConfig.shadow
+end
+
+local function applyFontStyle(target, fontPath, fontSize, fontOutline, useShadow)
+    if not target then
+        return
+    end
+
+    if target.SetFont then
+        target:SetFont(fontPath, fontSize, fontOutline)
+    end
+
+    if not target.SetShadowOffset then
+        return
+    end
+
+    if useShadow then
+        target:SetShadowOffset(1, -1)
+        target:SetShadowColor(0, 0, 0, 1)
+    else
+        target:SetShadowOffset(0, 0)
+    end
+end
+
+local function updateBottomScrollButton(frame, shouldAnimate)
+    local button = frame and frame.SUIScrollToBottomButton
+    if not button then
+        return
+    end
+
+    if frame:AtBottom() then
+        if shouldAnimate then
+            Style:FadeOut(button, 0, 0.2, function()
+                button:Hide()
+            end)
+        else
+            button:Hide()
+        end
+        return
+    end
+
+    if button:IsShown() then
+        return
+    end
+
+    if shouldAnimate then
+        button:SetAlpha(0)
+        button:Show()
+        Style:FadeIn(button, 0.2)
+    else
+        button:Show()
+    end
+end
+
+local function attachScrollButton(button, anchor, relativeAnchor)
+    button:SetPoint("BOTTOMRIGHT", anchor, relativeAnchor, 0, 4)
+    button:SetParent(anchor:GetParent())
+    button:SetFrameLevel(anchor:GetParent():GetFrameLevel() + 10)
+end
 
 function Style:OnInitialize()
-    -- Load Database
     Style.db = SUIAddon.db.profile.chat.settings
 end
 
@@ -16,42 +148,18 @@ function Style:HideDefaultScrollbar(chatFrame)
         return
     end
 
-    -- Force hide ScrollBar (modern WoW)
-    if chatFrame.ScrollBar then
-        Style:ForceHide(chatFrame.ScrollBar)
+    for _, framePart in ipairs({"ScrollBar", "ScrollToBottomButton", "ScrollToTopButton", "ResizeButton"}) do
+        if chatFrame[framePart] then
+            Style:ForceHide(chatFrame[framePart])
+        end
     end
 
-    -- Force hide ScrollToBottomButton on the chatFrame itself
-    if chatFrame.ScrollToBottomButton then
-        Style:ForceHide(chatFrame.ScrollToBottomButton)
-    end
-
-    if chatFrame.ScrollToTopButton then
-        Style:ForceHide(chatFrame.ScrollToTopButton)
-    end
-
-    -- Force hide buttonFrame elements (retail WoW structure)
     if chatFrame.buttonFrame then
-        if chatFrame.buttonFrame.ScrollToBottomButton then
-            Style:ForceHide(chatFrame.buttonFrame.ScrollToBottomButton)
+        for _, buttonPart in ipairs(BUTTON_FRAME_PARTS) do
+            if chatFrame.buttonFrame[buttonPart] then
+                Style:ForceHide(chatFrame.buttonFrame[buttonPart])
+            end
         end
-        if chatFrame.buttonFrame.ScrollToTopButton then
-            Style:ForceHide(chatFrame.buttonFrame.ScrollToTopButton)
-        end
-        if chatFrame.buttonFrame.upButton then
-            Style:ForceHide(chatFrame.buttonFrame.upButton)
-        end
-        if chatFrame.buttonFrame.downButton then
-            Style:ForceHide(chatFrame.buttonFrame.downButton)
-        end
-        if chatFrame.buttonFrame.bottomButton then
-            Style:ForceHide(chatFrame.buttonFrame.bottomButton)
-        end
-    end
-
-    -- Force hide ResizeButton (also commonly visible)
-    if chatFrame.ResizeButton then
-        Style:ForceHide(chatFrame.ResizeButton)
     end
 end
 
@@ -64,71 +172,20 @@ function Style:HideChatFrameBackground(chatFrame)
         return
     end
 
-    -- Hide the default background texture
-    for i = 1, chatFrame:GetNumRegions() do
-        local region = select(i, chatFrame:GetRegions())
-        if region and region:GetObjectType() == "Texture" then
-            region:SetTexture(nil)
-            region:Hide()
-        end
-    end
+    clearFrameTextures(chatFrame)
 
-    -- Hide buttonFrame background and all its textures
     if chatFrame.buttonFrame then
         if chatFrame.buttonFrame.SetBackdrop then
             chatFrame.buttonFrame:SetBackdrop(nil)
         end
-        for i = 1, chatFrame.buttonFrame:GetNumRegions() do
-            local region = select(i, chatFrame.buttonFrame:GetRegions())
-            if region and region:GetObjectType() == "Texture" then
-                region:SetTexture(nil)
-                region:Hide()
-            end
-        end
+        clearFrameTextures(chatFrame.buttonFrame)
     end
 
-    -- Clear SetBackdrop if it exists to remove borders
     if chatFrame.SetBackdrop then
         chatFrame:SetBackdrop(nil)
     end
 
-    -- Hide all backdrop textures (Center, edges, corners)
-    if chatFrame.Center then
-        chatFrame.Center:SetTexture(nil)
-        chatFrame.Center:Hide()
-    end
-    if chatFrame.TopEdge then
-        chatFrame.TopEdge:SetTexture(nil)
-        chatFrame.TopEdge:Hide()
-    end
-    if chatFrame.BottomEdge then
-        chatFrame.BottomEdge:SetTexture(nil)
-        chatFrame.BottomEdge:Hide()
-    end
-    if chatFrame.LeftEdge then
-        chatFrame.LeftEdge:SetTexture(nil)
-        chatFrame.LeftEdge:Hide()
-    end
-    if chatFrame.RightEdge then
-        chatFrame.RightEdge:SetTexture(nil)
-        chatFrame.RightEdge:Hide()
-    end
-    if chatFrame.TopLeftCorner then
-        chatFrame.TopLeftCorner:SetTexture(nil)
-        chatFrame.TopLeftCorner:Hide()
-    end
-    if chatFrame.TopRightCorner then
-        chatFrame.TopRightCorner:SetTexture(nil)
-        chatFrame.TopRightCorner:Hide()
-    end
-    if chatFrame.BottomLeftCorner then
-        chatFrame.BottomLeftCorner:SetTexture(nil)
-        chatFrame.BottomLeftCorner:Hide()
-    end
-    if chatFrame.BottomRightCorner then
-        chatFrame.BottomRightCorner:SetTexture(nil)
-        chatFrame.BottomRightCorner:Hide()
-    end
+    clearNamedRegions(chatFrame, FRAME_TEXTURE_PARTS)
 end
 
 -----------------------------
@@ -149,12 +206,11 @@ end
 function Style:UpdateChatBackgroundAlpha()
     local alpha = Style.db.chat.alpha
 
-    for i = 1, Constants.ChatFrameConstants.MaxChatWindows do
-        local chatFrame = _G["ChatFrame" .. i]
+    eachChatFrame(function(chatFrame)
         if chatFrame and chatFrame.SUIBackdrop then
             chatFrame.SUIBackdrop:UpdateAlpha(alpha)
         end
-    end
+    end)
 end
 
 ------------------------------
@@ -166,37 +222,22 @@ function Style:SetupScrollButtons(chatFrame)
         return
     end
 
-    -- Create scroll up button (state 4)
-    -- Create scroll to bottom button (state 1) - positioned at bottom with small padding
     chatFrame.SUIScrollToBottomButton = Style:CreateScrollToBottomButton(chatFrame)
     chatFrame.SUIScrollToBottomButton:SetPoint("BOTTOMRIGHT", chatFrame, "BOTTOMRIGHT", -4, 4)
     chatFrame.SUIScrollToBottomButton:SetParent(chatFrame)
     chatFrame.SUIScrollToBottomButton:SetFrameLevel(chatFrame:GetFrameLevel() + 10)
     chatFrame.SUIScrollToBottomButton:Hide()
 
-    -- Create scroll down button (state 3) - positioned above scroll to bottom button
     chatFrame.SUIScrollDownButton = Style:CreateScrollButton(chatFrame, 3)
-    chatFrame.SUIScrollDownButton:SetPoint("BOTTOMRIGHT", chatFrame.SUIScrollToBottomButton, "TOPRIGHT", 0, 4)
-    chatFrame.SUIScrollDownButton:SetParent(chatFrame)
-    chatFrame.SUIScrollDownButton:SetFrameLevel(chatFrame:GetFrameLevel() + 10)
+    attachScrollButton(chatFrame.SUIScrollDownButton, chatFrame.SUIScrollToBottomButton, "TOPRIGHT")
 
-    -- Create scroll up button (state 4) - positioned above scroll down button
     chatFrame.SUIScrollUpButton = Style:CreateScrollButton(chatFrame, 4)
-    chatFrame.SUIScrollUpButton:SetPoint("BOTTOMRIGHT", chatFrame.SUIScrollDownButton, "TOPRIGHT", 0, 4)
-    chatFrame.SUIScrollUpButton:SetParent(chatFrame)
-    chatFrame.SUIScrollUpButton:SetFrameLevel(chatFrame:GetFrameLevel() + 10)
+    attachScrollButton(chatFrame.SUIScrollUpButton, chatFrame.SUIScrollDownButton, "TOPRIGHT")
 
-    -- Hook scroll events to show/hide ScrollToBottom button
     chatFrame:HookScript("OnMouseWheel", function(self)
-        if self.SUIScrollToBottomButton and self:AtBottom() then
-            self.SUIScrollToBottomButton:Hide()
-        elseif self.SUIScrollToBottomButton and not self:AtBottom() then
-            Style:FadeIn(self.SUIScrollToBottomButton, 0.2)
-            self.SUIScrollToBottomButton:Show()
-        end
+        updateBottomScrollButton(self, false)
     end)
 
-    -- Override mousewheel to scroll line by line (use SetScript to replace default behavior)
     if not chatFrame.SUIMouseWheelHooked then
         chatFrame:SetScript("OnMouseWheel", function(self, delta)
             if delta > 0 then
@@ -205,25 +246,11 @@ function Style:SetupScrollButtons(chatFrame)
                 self:ScrollDown()
             end
 
-            -- Update ScrollToBottom button visibility - always show when not at bottom
-            if self.SUIScrollToBottomButton then
-                if self:AtBottom() then
-                    Style:FadeOut(self.SUIScrollToBottomButton, 0, 0.2, function()
-                        self.SUIScrollToBottomButton:Hide()
-                    end)
-                else
-                    if not self.SUIScrollToBottomButton:IsShown() then
-                        self.SUIScrollToBottomButton:SetAlpha(0)
-                        self.SUIScrollToBottomButton:Show()
-                        Style:FadeIn(self.SUIScrollToBottomButton, 0.2)
-                    end
-                end
-            end
+            updateBottomScrollButton(self, true)
         end)
         chatFrame.SUIMouseWheelHooked = true
     end
 
-    -- Add ToggleScrollButtons method to the chat frame
     chatFrame.ToggleScrollButtons = function(self)
         local shouldShow = Style.db.buttons.up_and_down
         if self.SUIScrollUpButton then
@@ -239,9 +266,7 @@ function Style:SetupScrollButtons(chatFrame)
         end
     end
 
-    -- Show or hide based on current setting
     chatFrame:ToggleScrollButtons()
-
     chatFrame.SUIScrollButtonsSetup = true
 end
 
@@ -250,13 +275,12 @@ end
 ---------------------------------
 
 function Style:UpdateEditBoxFont()
-    -- Apply to all chat editboxes
-    for i = 1, Constants.ChatFrameConstants.MaxChatWindows do
-        local editBox = _G["ChatFrame" .. i .. "EditBox"]
+    eachChatFrame(function(_, index)
+        local editBox = _G["ChatFrame" .. index .. "EditBox"]
         if editBox then
             Style:ApplyEditBoxFont(editBox)
         end
-    end
+    end)
 end
 
 function Style:ApplyEditBoxFont(editBox)
@@ -264,45 +288,12 @@ function Style:ApplyEditBoxFont(editBox)
         return
     end
 
-    -- Get font settings
-    local fontPath = LSM:Fetch("font", SUIAddon.db.profile.general.font) or SUIAddon.db.profile.general.font
-    local fontSize = Style.db.edit.font.size or 12
-    local fontOutline = Style.db.edit.font.outline and "OUTLINE" or ""
+    local fontPath, fontSize, fontOutline, useShadow = resolveFontSettings(Style.db.edit.font)
+    applyFontStyle(editBox, fontPath, fontSize, fontOutline, useShadow)
 
-    -- Validate font
-    if not fontPath then
-        fontPath = "Fonts\\FRIZQT__.TTF"
-    end
-
-    -- Apply to main edit box
-    if editBox.SetFont then
-        editBox:SetFont(fontPath, fontSize, fontOutline)
-    end
-    if editBox.SetShadowOffset then
-        if Style.db.edit.font.shadow then
-            editBox:SetShadowOffset(1, -1)
-            editBox:SetShadowColor(0, 0, 0, 1)
-        else
-            editBox:SetShadowOffset(0, 0)
-        end
-    end
-
-    -- Apply to header elements
     local headerElements = {editBox.header, editBox.headerSuffix, editBox.prompt, editBox.NewcomerHint}
     for _, element in ipairs(headerElements) do
-        if element then
-            if element.SetFont then
-                element:SetFont(fontPath, fontSize, fontOutline)
-            end
-            if element.SetShadowOffset then
-                if Style.db.edit.font.shadow then
-                    element:SetShadowOffset(1, -1)
-                    element:SetShadowColor(0, 0, 0, 1)
-                else
-                    element:SetShadowOffset(0, 0)
-                end
-            end
-        end
+        applyFontStyle(element, fontPath, fontSize, fontOutline, useShadow)
     end
 end
 
@@ -311,55 +302,26 @@ function Style:ApplyChatFrameFont(chatFrame)
         return
     end
 
-    -- Get font settings
-    local fontPath = LSM:Fetch("font", SUIAddon.db.profile.general.font) or SUIAddon.db.profile.general.font
-    local fontSize = Style.db.chat.font.size or 12
-    local fontOutline = Style.db.chat.font.outline and "OUTLINE" or ""
-
-    -- Validate font
-    if not fontPath then
-        fontPath = "Fonts\\FRIZQT__.TTF"
-    end
+    local fontPath, fontSize, fontOutline, useShadow = resolveFontSettings(Style.db.chat.font)
 
     local fontObject = chatFrame:GetFontObject()
     if fontObject then
-        fontObject:SetFont(fontPath, fontSize, fontOutline)
-        if fontObject.SetShadowOffset then
-            if Style.db.chat.font.shadow then
-                fontObject:SetShadowOffset(1, -1)
-                fontObject:SetShadowColor(0, 0, 0, 1)
-            else
-                fontObject:SetShadowOffset(0, 0)
-            end
-        end
+        applyFontStyle(fontObject, fontPath, fontSize, fontOutline, useShadow)
     end
 
-    -- Also update existing font strings to apply immediately
     if chatFrame.fontStringPool then
         for fontString in chatFrame.fontStringPool:EnumerateActive() do
-            if fontString.SetFont then
-                fontString:SetFont(fontPath, fontSize, fontOutline)
-            end
-            if fontString.SetShadowOffset then
-                if Style.db.chat.font.shadow then
-                    fontString:SetShadowOffset(1, -1)
-                    fontString:SetShadowColor(0, 0, 0, 1)
-                else
-                    fontString:SetShadowOffset(0, 0)
-                end
-            end
+            applyFontStyle(fontString, fontPath, fontSize, fontOutline, useShadow)
         end
     end
 end
 
 function Style:UpdateMessageFonts()
-    -- Update the font objects used by chat frames
-    for i = 1, Constants.ChatFrameConstants.MaxChatWindows do
-        local chatFrame = _G["ChatFrame" .. i]
+    eachChatFrame(function(chatFrame)
         if chatFrame then
             Style:ApplyChatFrameFont(chatFrame)
         end
-    end
+    end)
 end
 
 function Style:ForMessageLinePool(id, method, ...)
@@ -373,20 +335,6 @@ function Style:ForMessageLinePool(id, method, ...)
     end
 end
 
--- Lua
-local _G = getfenv(0)
-local error = _G.error
-local ipairs = _G.ipairs
-local m_floor = _G.math.floor
-local next = _G.next
-local pcall = _G.pcall
-local s_format = _G.string.format
-local t_insert = _G.table.insert
-local type = _G.type
-local strsub = _G.string.sub
-local strupper = _G.string.upper
-local strlen = _G.string.len
-local format = _G.string.format
 local issecretvalue = canaccessvalue and function(v)
     return not canaccessvalue(v)
 end or function()

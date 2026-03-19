@@ -1,5 +1,5 @@
 local SUIAddon = SUI
-local Style = SUIAddon:GetModule("SUI.Modules.Chat.Style")
+local Style = SUIAddon:GetModule("Chat.Modern")
 
 -- Lua
 local _G = getfenv(0)
@@ -69,26 +69,9 @@ local function setUpBaseButton(button, state)
     button.PushedTexture = pushedTexture
 
     local highlightLeft = button:CreateTexture(nil, "HIGHLIGHT")
-    highlightLeft:SetPoint("TOPLEFT", button, "TOPLEFT", 0, -2)
-    highlightLeft:SetTexture("Interface\\AddOns\\SUI\\Media\\Textures\\Chat\\border-highlight")
-    highlightLeft:SetVertexColor(DEFAULT_TAB_SELECTED_COLOR_TABLE.r, DEFAULT_TAB_SELECTED_COLOR_TABLE.g, DEFAULT_TAB_SELECTED_COLOR_TABLE.b)
-    highlightLeft:SetTexCoord(0, 1, 0.5, 1)
-    highlightLeft:SetSize(8, 8)
-
-    local highlightRight = button:CreateTexture(nil, "HIGHLIGHT")
-    highlightRight:SetPoint("TOPRIGHT", button, "TOPRIGHT", 0, -2)
-    highlightRight:SetTexture("Interface\\AddOns\\SUI\\Media\\Textures\\Chat\\border-highlight")
-    highlightRight:SetVertexColor(DEFAULT_TAB_SELECTED_COLOR_TABLE.r, DEFAULT_TAB_SELECTED_COLOR_TABLE.g, DEFAULT_TAB_SELECTED_COLOR_TABLE.b)
-    highlightRight:SetTexCoord(1, 0, 0.5, 1)
-    highlightRight:SetSize(8, 8)
-
     local highlightMiddle = button:CreateTexture(nil, "HIGHLIGHT")
-    highlightMiddle:SetPoint("TOPLEFT", highlightLeft, "TOPRIGHT", 0, 0)
-    highlightMiddle:SetPoint("TOPRIGHT", highlightRight, "TOPLEFT", 0, 0)
-    highlightMiddle:SetTexture("Interface\\AddOns\\SUI\\Media\\Textures\\Chat\\border-highlight")
-    highlightMiddle:SetVertexColor(DEFAULT_TAB_SELECTED_COLOR_TABLE.r, DEFAULT_TAB_SELECTED_COLOR_TABLE.g, DEFAULT_TAB_SELECTED_COLOR_TABLE.b)
-    highlightMiddle:SetTexCoord(0, 1, 0, 0.5)
-    highlightMiddle:SetSize(8, 8)
+    local highlightRight = button:CreateTexture(nil, "HIGHLIGHT")
+    Style:ApplyBorderAccent(highlightLeft, highlightMiddle, highlightRight, button)
 
     button:SetState(state)
 
