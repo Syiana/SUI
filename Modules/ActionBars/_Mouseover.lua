@@ -1,15 +1,24 @@
 local Module = SUI:NewModule("ActionBars.Mouseover");
 
+function Module:RefreshConfig()
+    if MouseoverDefaultBars and MouseoverDefaultBars.loadConfig then
+        MouseoverDefaultBars:loadConfig()
+    end
+end
+
 function Module:OnEnable()
     if C_AddOns.IsAddOnLoaded('Bartender4') or C_AddOns.IsAddOnLoaded('Dominos') then return end
     MouseoverDefaultBars = LibStub("AceAddon-3.0"):NewAddon("MouseoverDefaultBars", "AceConsole-3.0", "AceTimer-3.0",
         "AceEvent-3.0", "AceHook-3.0")
-    local db = {
-        bars = SUI.db.profile.actionbar.bars,
-        micromenu = SUI.db.profile.actionbar.menu.micromenu,
-        bagbar = SUI.db.profile.actionbar.menu.bagbar,
-        maps = SUI.db.profile.maps
-    }
+
+    local function getDb()
+        return {
+            bars = SUI.db.profile.actionbar.bars,
+            micromenu = SUI.db.profile.actionbar.menu.micromenu,
+            bagbar = SUI.db.profile.actionbar.menu.bagbar,
+            maps = SUI.db.profile.maps
+        }
+    end
 
     local MICRO_BUTTONS = {
         "CharacterMicroButton",
@@ -54,12 +63,16 @@ function Module:OnEnable()
     local gcd = CreateFrame("Frame")
     gcd:RegisterEvent("SPELL_UPDATE_COOLDOWN")
     gcd:HookScript("OnEvent", function()
+        local db = getDb()
+
         if db.bars.bar1 then
             if ActionButton1:GetEffectiveAlpha() and ActionButton1:GetEffectiveAlpha() > 0.001 then
                 showGCD("ActionButton")
             else
                 hideGCD("ActionButton")
             end
+        else
+            showGCD("ActionButton")
         end
 
         if db.bars.bar2 then
@@ -68,6 +81,8 @@ function Module:OnEnable()
             else
                 hideGCD("MultiBarBottomLeftButton")
             end
+        else
+            showGCD("MultiBarBottomLeftButton")
         end
 
         if db.bars.bar3 then
@@ -76,6 +91,8 @@ function Module:OnEnable()
             else
                 hideGCD("MultiBarBottomRightButton")
             end
+        else
+            showGCD("MultiBarBottomRightButton")
         end
 
         if db.bars.bar4 then
@@ -84,6 +101,8 @@ function Module:OnEnable()
             else
                 hideGCD("MultiBarRightButton")
             end
+        else
+            showGCD("MultiBarRightButton")
         end
 
         if db.bars.bar5 then
@@ -92,6 +111,8 @@ function Module:OnEnable()
             else
                 hideGCD("MultiBarLeftButton")
             end
+        else
+            showGCD("MultiBarLeftButton")
         end
 
         if db.bars.bar6 then
@@ -100,6 +121,8 @@ function Module:OnEnable()
             else
                 hideGCD("MultiBar5Button")
             end
+        else
+            showGCD("MultiBar5Button")
         end
 
         if db.bars.bar7 then
@@ -108,6 +131,8 @@ function Module:OnEnable()
             else
                 hideGCD("MultiBar6Button")
             end
+        else
+            showGCD("MultiBar6Button")
         end
 
         if db.bars.bar8 then
@@ -116,6 +141,8 @@ function Module:OnEnable()
             else
                 hideGCD("MultiBar7Button")
             end
+        else
+            showGCD("MultiBar7Button")
         end
 
         if db.bars.petbar then
@@ -124,6 +151,8 @@ function Module:OnEnable()
             else
                 hideGCD("PetActionButton")
             end
+        else
+            showGCD("PetActionButton")
         end
 
         if db.bars.stancebar then
@@ -132,6 +161,8 @@ function Module:OnEnable()
             else
                 hideGCD("StanceButton")
             end
+        else
+            showGCD("StanceButton")
         end
     end)
 
@@ -140,6 +171,21 @@ function Module:OnEnable()
     end
 
     function MouseoverDefaultBars:loadConfig()
+        local db = getDb()
+
+        MouseoverDefaultBars:CancelAllTimers()
+        MouseoverDefaultBars:UnhookAll()
+
+        if MicroMenu then
+            MicroMenu:Show()
+            MicroMenu:SetAlpha(1)
+        end
+
+        if BagsBar then
+            BagsBar:Show()
+            BagsBar:SetAlpha(1)
+        end
+
         if db.bars.bar1 then
             MouseoverDefaultBars:onMouseover("bar1")
             MouseoverDefaultBars:Alpha("bar1", 0)
@@ -222,6 +268,8 @@ function Module:OnEnable()
         if db.maps.expansionbutton then
             MouseoverDefaultBars:onMouseover("expansionbutton")
             MouseoverDefaultBars:Alpha("expansionbutton", 0)
+        elseif ExpansionLandingPageMinimapButton then
+            MouseoverDefaultBars:Alpha("expansionbutton", 1)
         end
     end
 

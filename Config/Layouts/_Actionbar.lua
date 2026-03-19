@@ -4,10 +4,24 @@ function Layout:OnEnable()
     -- Database
     local db = SUI.db
     local ButtonsModule = SUI:GetModule("ActionBars.Buttons", true)
+    local MouseoverModule = SUI:GetModule("ActionBars.Mouseover", true)
+    local RangeModule = SUI:GetModule("ActionBars.Range", true)
 
     local function refreshButtonText()
         if ButtonsModule and ButtonsModule.RefreshText then
             ButtonsModule:RefreshText()
+        end
+    end
+
+    local function refreshMouseover()
+        if MouseoverModule and MouseoverModule.RefreshConfig then
+            MouseoverModule:RefreshConfig()
+        end
+    end
+
+    local function refreshRangeColors()
+        if RangeModule and RangeModule.RefreshColors then
+            RangeModule:RefreshColors()
         end
     end
 
@@ -57,7 +71,8 @@ function Layout:OnEnable()
                     label = 'Range Color',
                     tooltip = 'Show spell-color in red if out of range',
                     column = 4,
-                    order = 1
+                    order = 1,
+                    onChange = refreshRangeColors
                 },
                 size = {
                     key = 'buttons.size',
@@ -76,6 +91,7 @@ function Layout:OnEnable()
                     label = 'Bag Buttons',
                     column = 4,
                     order = 2,
+                    onChange = refreshMouseover,
                     options = {
                         { value = 'show', text = 'Show' },
                         { value = 'mouse_over', text = 'Show on Mouseover' },
@@ -88,6 +104,7 @@ function Layout:OnEnable()
                     label = 'MicroMenu',
                     column = 4,
                     order = 3,
+                    onChange = refreshMouseover,
                     options = {
                         { value = 'show', text = 'Show' },
                         { value = 'mouse_over', text = 'Show on Mouseover' },
@@ -107,28 +124,32 @@ function Layout:OnEnable()
                     type = 'checkbox',
                     label = 'Bar 1',
                     column = 3,
-                    order = 1
+                    order = 1,
+                    onChange = refreshMouseover
                 },
                 actionbar2 = {
                     key = 'bars.bar2',
                     type = 'checkbox',
                     label = 'Bar 2',
                     column = 3,
-                    order = 2
+                    order = 2,
+                    onChange = refreshMouseover
                 },
                 actionbar3 = {
                     key = 'bars.bar3',
                     type = 'checkbox',
                     label = 'Bar 3',
                     column = 3,
-                    order = 3
+                    order = 3,
+                    onChange = refreshMouseover
                 },
                 actionbar4 = {
                     key = 'bars.bar4',
                     type = 'checkbox',
                     label = 'Bar 4',
                     column = 3,
-                    order = 4
+                    order = 4,
+                    onChange = refreshMouseover
                 }
             },
             {
@@ -137,28 +158,32 @@ function Layout:OnEnable()
                     type = 'checkbox',
                     label = 'Bar 5',
                     column = 3,
-                    order = 1
+                    order = 1,
+                    onChange = refreshMouseover
                 },
                 actionbar6 = {
                     key = 'bars.bar6',
                     type = 'checkbox',
                     label = 'Bar 6',
                     column = 3,
-                    order = 2
+                    order = 2,
+                    onChange = refreshMouseover
                 },
                 actionbar7 = {
                     key = 'bars.bar7',
                     type = 'checkbox',
                     label = 'Bar 7',
                     column = 3,
-                    order = 3
+                    order = 3,
+                    onChange = refreshMouseover
                 },
                 actionbar8 = {
                     key = 'bars.bar8',
                     type = 'checkbox',
                     label = 'Bar 8',
                     column = 3,
-                    order = 4
+                    order = 4,
+                    onChange = refreshMouseover
                 }
             },
             {
@@ -167,14 +192,16 @@ function Layout:OnEnable()
                     type = 'checkbox',
                     label = 'Pet Bar',
                     column = 3,
-                    order = 1
+                    order = 1,
+                    onChange = refreshMouseover
                 },
                 stancebar = {
                     key = 'bars.stancebar',
                     type = 'checkbox',
                     label = 'Stance Bar',
                     column = 3,
-                    order = 2
+                    order = 2,
+                    onChange = refreshMouseover
                 },
             }
         }
