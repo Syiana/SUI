@@ -93,7 +93,7 @@ local function attachCopyButton(chatFrame)
 
     local button = CreateFrame("Button", nil, chatFrame)
     button:SetSize(20, 20)
-    button:SetPoint("TOPRIGHT", chatFrame, 15, -5)
+    button:SetPoint("TOPRIGHT", chatFrame, "TOPRIGHT", -4, -4)
     button:SetNormalTexture("Interface\\AddOns\\SUI\\Media\\Textures\\Chat\\copynormal")
     button:GetNormalTexture():SetSize(20, 20)
     button:SetHighlightTexture("Interface\\AddOns\\SUI\\Media\\Textures\\Chat\\copyhighlight")

@@ -112,13 +112,13 @@ function Style:HandleQuickJoinToastButton(frame)
 
     local normalTexture = frame:GetNormalTexture()
     normalTexture:ClearAllPoints()
-    normalTexture:SetPoint("TOPLEFT", frame, "TOPLEFT", 1, -2)
-    normalTexture:SetPoint("BOTTOMRIGHT", frame, "TOPLEFT", 19, -20)
+    normalTexture:SetPoint("TOPLEFT", frame, "TOPLEFT", 1, -1)
+    normalTexture:SetPoint("BOTTOMRIGHT", frame, "TOPLEFT", 19, -19)
 
     local pushedTexture = frame:GetPushedTexture()
     pushedTexture:ClearAllPoints()
-    pushedTexture:SetPoint("TOPLEFT", frame, "TOPLEFT", 2, -3)
-    pushedTexture:SetPoint("BOTTOMRIGHT", frame, "TOPLEFT", 20, -21)
+    pushedTexture:SetPoint("TOPLEFT", frame, "TOPLEFT", 2, -2)
+    pushedTexture:SetPoint("BOTTOMRIGHT", frame, "TOPLEFT", 20, -20)
 
     frame.FriendCount:ClearAllPoints()
     frame.FriendCount:SetPoint("BOTTOMLEFT", -1.5, 4)
