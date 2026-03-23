@@ -3,6 +3,7 @@ local Layout = SUI:NewModule('Config.Layout.Chat')
 function Layout:OnEnable()
     local db = SUI.db
     local ChatModule = SUI:GetModule("SUI.Modules.Chat", true)
+    local Fonts = SUI:GetModule("Data.Fonts")
 
     local function updateStyleSetting(_, value)
         db.profile.chat.style = value
@@ -259,6 +260,15 @@ function Layout:OnEnable()
                     order = 1,
                     onChange = updateChatAlpha
                 },
+                chatfont = {
+                    key = 'settings.chat.font.name',
+                    type = 'dropdown',
+                    label = 'Chat Font',
+                    options = Fonts.data,
+                    column = 4,
+                    order = 2,
+                    onChange = updateChatFont
+                },
                 chatfontsize = {
                     key = 'settings.chat.font.size',
                     type = 'slider',
@@ -266,17 +276,8 @@ function Layout:OnEnable()
                     min = 10,
                     max = 20,
                     column = 4,
-                    order = 2,
-                    onChange = updateChatFont
-                },
-                scrollbuttons = {
-                    key = 'settings.buttons.up_and_down',
-                    type = 'checkbox',
-                    label = 'Scroll Buttons',
-                    tooltip = 'Show custom scroll buttons in custom chat',
-                    column = 4,
                     order = 3,
-                    onChange = updateScrollButtons
+                    onChange = updateChatFont
                 }
             },
             {
@@ -306,6 +307,15 @@ function Layout:OnEnable()
                 }
             },
             {
+                scrollbuttons = {
+                    key = 'settings.buttons.up_and_down',
+                    type = 'checkbox',
+                    label = 'Scroll Buttons',
+                    tooltip = 'Show custom scroll buttons in custom chat',
+                    column = 4,
+                    order = 1,
+                    onChange = updateScrollButtons
+                },
                 fadeoutdelay = {
                     key = 'settings.fade.out_delay',
                     type = 'slider',
@@ -313,7 +323,7 @@ function Layout:OnEnable()
                     min = 10,
                     max = 240,
                     column = 4,
-                    order = 1,
+                    order = 2,
                     onChange = function() end
                 },
                 dockfade = {
@@ -321,9 +331,11 @@ function Layout:OnEnable()
                     type = 'checkbox',
                     label = 'Tabs and Buttons Fading',
                     column = 4,
-                    order = 2,
+                    order = 3,
                     onChange = updateDockFading
                 },
+            },
+            {
                 dockalpha = {
                     key = 'settings.dock.alpha',
                     type = 'slider',
@@ -332,7 +344,7 @@ function Layout:OnEnable()
                     max = 1,
                     precision = 1,
                     column = 4,
-                    order = 3,
+                    order = 1,
                     onChange = function() end
                 }
             }

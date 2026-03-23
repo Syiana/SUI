@@ -2,7 +2,22 @@ local Module = SUI:NewModule("Chat.Core");
 
 function Module:OnEnable()
 	local db = SUI.db.profile.chat
+	local defaultChatFont = (SUI.BlizzardFonts and SUI.BlizzardFonts.chat) or "Fonts\\FRIZQT__.TTF"
 	if (db.style == 'Custom') then
+		local LSM = LibStub("LibSharedMedia-3.0")
+		local fontSettings = db.settings and db.settings.chat and db.settings.chat.font or {}
+
+		local function ResolveChatFont()
+			if not fontSettings.name or fontSettings.name == "Default" then
+				return defaultChatFont
+			end
+
+			if type(fontSettings.name) == "string" and (fontSettings.name:find("\\", 1, true) or fontSettings.name:find("/", 1, true)) then
+				return fontSettings.name
+			end
+
+			return LSM:Fetch("font", fontSettings.name) or defaultChatFont
+		end
 
 		CHAT_FRAME_FADE_TIME = 0.3
 		CHAT_FRAME_FADE_OUT_TIME = 1
@@ -120,6 +135,7 @@ function Module:OnEnable()
 			for i = 1, NUM_CHAT_WINDOWS do
 				local chat = _G[format("ChatFrame%s", i)]
 				local fontSize = db.settings and db.settings.chat and db.settings.chat.font and db.settings.chat.font.size or 12
+				local chatFont = ResolveChatFont()
 
 				-- Min. size for chat font
 				if fontSize < 11 then
@@ -129,7 +145,7 @@ function Module:OnEnable()
 				end
 
 				-- Font and font style for chat
-				chat:SetFont(STANDARD_TEXT_FONT, fontSize, "")
+				chat:SetFont(chatFont, fontSize, "")
 			end
 		end
 

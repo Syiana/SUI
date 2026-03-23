@@ -12,7 +12,7 @@ local s_format = _G.string.format
 local t_insert = _G.table.insert
 local type = _G.type
 
-local DEFAULT_CHAT_FONT = "Fonts\\FRIZQT__.TTF"
+local DEFAULT_CHAT_FONT = (SUIAddon.BlizzardFonts and SUIAddon.BlizzardFonts.chat) or "Fonts\\FRIZQT__.TTF"
 local FRAME_TEXTURE_PARTS = {
     "Center",
     "TopEdge",
@@ -71,7 +71,17 @@ local function clearNamedRegions(frame, names)
 end
 
 local function resolveFontSettings(fontConfig)
-    local fontPath = LSM:Fetch("font", SUIAddon.db.profile.general.font) or SUIAddon.db.profile.general.font or DEFAULT_CHAT_FONT
+    local fontName = fontConfig.name
+    local fontPath
+
+    if not fontName or fontName == "Default" then
+        fontPath = DEFAULT_CHAT_FONT
+    elseif type(fontName) == "string" and (fontName:find("\\", 1, true) or fontName:find("/", 1, true)) then
+        fontPath = fontName
+    else
+        fontPath = LSM:Fetch("font", fontName) or DEFAULT_CHAT_FONT
+    end
+
     local fontSize = fontConfig.size or 12
     local fontOutline = fontConfig.outline and "OUTLINE" or ""
 

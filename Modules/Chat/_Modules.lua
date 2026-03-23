@@ -3,14 +3,29 @@ local Modules = SUIAddon:NewModule("SUI.Modules.Chat")
 local LSM = LibStub("LibSharedMedia-3.0")
 local _G = getfenv(0)
 
-local DEFAULT_CHAT_FONT = "Fonts\\FRIZQT__.TTF"
+local DEFAULT_CHAT_FONT = (SUIAddon.BlizzardFonts and SUIAddon.BlizzardFonts.chat) or "Fonts\\FRIZQT__.TTF"
 local tooltipFrames = setmetatable({}, {__mode = "k"})
 
+local function isDirectFontPath(fontName)
+    return type(fontName) == "string" and (fontName:find("\\", 1, true) or fontName:find("/", 1, true))
+end
+
+local function getConfiguredFont(fontName, fallback)
+    if not fontName or fontName == "Default" then
+        return DEFAULT_CHAT_FONT
+    end
+
+    if isDirectFontPath(fontName) then
+        return fontName
+    end
+
+    return LSM:Fetch("font", fontName) or fallback or DEFAULT_CHAT_FONT
+end
+
 local function resolveSharedChatFont()
-    local general = SUIAddon.db and SUIAddon.db.profile and SUIAddon.db.profile.general or {}
     local chatSettings = SUIAddon.db and SUIAddon.db.profile and SUIAddon.db.profile.chat and SUIAddon.db.profile.chat.settings
     local chatFont = chatSettings and chatSettings.chat and chatSettings.chat.font or {}
-    local fontPath = LSM:Fetch("font", general.font) or general.font or DEFAULT_CHAT_FONT
+    local fontPath = getConfiguredFont(chatFont.name, DEFAULT_CHAT_FONT)
     local fontSize = chatFont.size or 12
     local fontOutline = chatFont.outline and "OUTLINE" or ""
 
@@ -36,6 +51,64 @@ local function applySharedFontStyle(target, fontPath, fontSize, fontOutline, use
     end
 end
 
+local function refreshChatFrameFont(chatFrame, fontPath, fontSize, fontOutline, useShadow)
+    if not chatFrame then
+        return
+    end
+
+    if FCF_SetChatWindowFontSize then
+        FCF_SetChatWindowFontSize(nil, chatFrame, fontSize)
+    end
+
+    if SUIAddon.ChatFontObject then
+        SUIAddon.ChatFontObject:SetFont(fontPath, fontSize, fontOutline)
+        if SUIAddon.ChatFontObject.SetShadowOffset then
+            if useShadow then
+                SUIAddon.ChatFontObject:SetShadowOffset(1, -1)
+                SUIAddon.ChatFontObject:SetShadowColor(0, 0, 0, 1)
+            else
+                SUIAddon.ChatFontObject:SetShadowOffset(0, 0)
+            end
+        end
+        if chatFrame.SetFontObject then
+            chatFrame:SetFontObject(SUIAddon.ChatFontObject)
+        end
+    end
+
+    applySharedFontStyle(chatFrame, fontPath, fontSize, fontOutline, useShadow)
+
+    local fontObject = chatFrame.GetFontObject and chatFrame:GetFontObject()
+    if fontObject then
+        applySharedFontStyle(fontObject, fontPath, fontSize, fontOutline, useShadow)
+    end
+
+    if chatFrame.fontStringPool then
+        for fontString in chatFrame.fontStringPool:EnumerateActive() do
+            applySharedFontStyle(fontString, fontPath, fontSize, fontOutline, useShadow)
+        end
+    end
+
+    C_Timer.After(0, function()
+        if chatFrame and chatFrame:IsObjectType("ScrollingMessageFrame") then
+            if SUIAddon.ChatFontObject and chatFrame.SetFontObject then
+                chatFrame:SetFontObject(SUIAddon.ChatFontObject)
+            end
+            applySharedFontStyle(chatFrame, fontPath, fontSize, fontOutline, useShadow)
+
+            local fontObject = chatFrame.GetFontObject and chatFrame:GetFontObject()
+            if fontObject then
+                applySharedFontStyle(fontObject, fontPath, fontSize, fontOutline, useShadow)
+            end
+
+            if chatFrame.fontStringPool then
+                for fontString in chatFrame.fontStringPool:EnumerateActive() do
+                    applySharedFontStyle(fontString, fontPath, fontSize, fontOutline, useShadow)
+                end
+            end
+        end
+    end)
+end
+
 function Modules:OnInitialize()
     Modules.Legacy = SUIAddon:GetModule("Chat.Core", true)
     Modules.Style = SUIAddon:GetModule("Chat.Modern", true)
@@ -44,18 +117,31 @@ function Modules:OnInitialize()
 end
 
 function Modules:UpdateSharedMessageFonts()
+    if not Modules.db or Modules.db.style == "Default" then
+        return
+    end
+
     local fontPath, fontSize, fontOutline, useShadow = resolveSharedChatFont()
 
     for index = 1, Constants.ChatFrameConstants.MaxChatWindows do
         local chatFrame = _G["ChatFrame" .. index]
         if chatFrame then
-            applySharedFontStyle(chatFrame, fontPath, fontSize, fontOutline, useShadow)
+            refreshChatFrameFont(chatFrame, fontPath, fontSize, fontOutline, useShadow)
+        end
+    end
+end
 
-            if chatFrame.fontStringPool then
-                for fontString in chatFrame.fontStringPool:EnumerateActive() do
-                    applySharedFontStyle(fontString, fontPath, fontSize, fontOutline, useShadow)
-                end
+function Modules:RestoreDefaultMessageFonts()
+    for index = 1, Constants.ChatFrameConstants.MaxChatWindows do
+        local chatFrame = _G["ChatFrame" .. index]
+        if chatFrame then
+            local fontObject = _G.ChatFontNormal
+            if fontObject and chatFrame.SetFontObject then
+                chatFrame:SetFontObject(fontObject)
             end
+
+            local fontPath, fontSize, fontOutline = fontObject and fontObject:GetFont() or chatFrame:GetFont()
+            applySharedFontStyle(chatFrame, fontPath or DEFAULT_CHAT_FONT, fontSize or 12, fontOutline or "", true)
         end
     end
 end
@@ -120,9 +206,14 @@ function Modules:OnEnable()
     setModuleEnabled(Modules.Style, Modules.db.style == "Modern")
     setModuleEnabled(Modules.Link, Modules.db.link)
     setModuleEnabled(Modules.Copy, Modules.db.copy)
-    Modules:UpdateSharedMessageFonts()
 
-    if Modules.db.style ~= "Modern" then
+    if Modules.db.style == "Default" then
+        Modules:RestoreDefaultMessageFonts()
+    else
+        Modules:UpdateSharedMessageFonts()
+    end
+
+    if Modules.db.style == "Custom" then
         Modules:UpdateSharedChatBackgroundAlpha()
         Modules:EnableSharedTooltips()
     end
@@ -131,8 +222,12 @@ function Modules:OnEnable()
         hooksecurefunc("FCF_OpenTemporaryWindow", function()
             if Modules:IsEnabled() then
                 C_Timer.After(0, function()
-                    Modules:UpdateSharedMessageFonts()
-                    if Modules.db and Modules.db.style ~= "Modern" then
+                    if Modules.db and Modules.db.style == "Default" then
+                        Modules:RestoreDefaultMessageFonts()
+                    elseif Modules.db then
+                        Modules:UpdateSharedMessageFonts()
+                    end
+                    if Modules.db and Modules.db.style == "Custom" then
                         Modules:UpdateSharedChatBackgroundAlpha()
                         Modules:EnableSharedTooltips()
                     end

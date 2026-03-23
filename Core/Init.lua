@@ -1,6 +1,17 @@
 SUI = LibStub("AceAddon-3.0"):NewAddon("SUI", "AceEvent-3.0", "AceComm-3.0", "AceSerializer-3.0")
 local addonName, addon = ...
 
+SUI.BlizzardFonts = SUI.BlizzardFonts or {
+    standard = STANDARD_TEXT_FONT,
+    chat = (ChatFontNormal and select(1, ChatFontNormal:GetFont())) or "Fonts\\FRIZQT__.TTF"
+}
+SUI.ChatFontObject = SUI.ChatFontObject or CreateFont("SUIChatFontNormal")
+
+if ChatFontNormal and SUI.ChatFontObject and not SUI.ChatFontObject.__suiInitialized then
+    SUI.ChatFontObject:SetFontObject(ChatFontNormal)
+    SUI.ChatFontObject.__suiInitialized = true
+end
+
 C_AddOns.DisableAddOn('LortiUI')
 C_AddOns.DisableAddOn('UberUI')
 
@@ -248,6 +259,7 @@ local defaults = {
                     x_padding = 8,
                     y_padding = 0,
                     font = {
+                        name = nil,
                         size = 12,
                         shadow = true,
                         outline = false
@@ -264,6 +276,7 @@ local defaults = {
                     position = "top",
                     offset = 32,
                     font = {
+                        name = nil,
                         size = 12,
                         shadow = true,
                         outline = true
@@ -336,6 +349,11 @@ function SUI:OnInitialize()
 
         if self.db.profile.chat.style ~= "Default" and self.db.profile.chat.style ~= "Custom" and self.db.profile.chat.style ~= "Modern" then
             self.db.profile.chat.style = defaults.profile.chat.style
+        end
+
+        local chatFont = self.db.profile.chat.settings and self.db.profile.chat.settings.chat and self.db.profile.chat.settings.chat.font
+        if chatFont and chatFont.name == "" then
+            chatFont.name = nil
         end
     end
 
