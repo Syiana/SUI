@@ -131,6 +131,19 @@ function Module:OnEnable()
             return nil
         end
 
+        local function GetSafeFontStringText(fontString)
+            if not fontString then
+                return nil
+            end
+
+            local ok, text = pcall(fontString.GetText, fontString)
+            if not ok or not text or (canaccessvalue and not canaccessvalue(text)) then
+                return nil
+            end
+
+            return text
+        end
+
         local function OnTooltipSetUnit(self)
             if self ~= _G.GameTooltip then
                 return
@@ -171,11 +184,11 @@ function Module:OnEnable()
                 --color textleft2 by classificationcolor
                 local unitClassification = UnitClassification(unit)
                 local levelLine
-                local text2 = GameTooltipTextLeft2:GetText()
+                local text2 = GetSafeFontStringText(GameTooltipTextLeft2)
                 if text2 and text2:match("%a%s%d") then
                     levelLine = GameTooltipTextLeft2
                 elseif GameTooltipTextLeft3 then
-                    local text3 = GameTooltipTextLeft3:GetText()
+                    local text3 = GetSafeFontStringText(GameTooltipTextLeft3)
                     if text3 and text3:match("%a%s%d") then
                         GameTooltipTextLeft2:SetTextColor(unpack(cfg.guildColor))
                         levelLine = GameTooltipTextLeft3

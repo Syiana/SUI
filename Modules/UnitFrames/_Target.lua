@@ -1,5 +1,23 @@
 local Module = SUI:NewModule("UnitFrames.Target");
 
+local function ApplyPredictionTexture(bar, texture)
+    if not bar then
+        return
+    end
+
+    if bar.SetStatusBarTexture then
+        bar:SetStatusBarTexture(texture)
+        if bar.GetStatusBarTexture and bar:GetStatusBarTexture() then
+            bar:GetStatusBarTexture():SetDrawLayer("BORDER")
+        end
+        return
+    end
+
+    if bar.SetTexture then
+        bar:SetTexture(texture)
+    end
+end
+
 function Module:RefreshTextures()
     local texture = SUI.db.profile.general.texture
     if SUI.db.profile.unitframes.style == "Classic" or texture == [[Interface\Default]] then
@@ -14,7 +32,7 @@ function Module:RefreshTextures()
         frame.healthbar:SetStatusBarTexture(texture)
         frame.healthbar:GetStatusBarTexture():SetDrawLayer("BORDER")
         if frame.myHealPredictionBar then
-            frame.myHealPredictionBar:SetTexture(texture)
+            ApplyPredictionTexture(frame.myHealPredictionBar, texture)
         end
     end
 
@@ -41,7 +59,7 @@ function Module:OnEnable()
         self.healthbar:SetStatusBarTexture(db.texture)
         self.healthbar:GetStatusBarTexture():SetDrawLayer("BORDER")
         if self.myHealPrediction then
-            self.myHealPredictionBar:SetTexture(db.texture)
+            ApplyPredictionTexture(self.myHealPredictionBar, db.texture)
         end
     end
 

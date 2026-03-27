@@ -16,6 +16,13 @@ local staticFrames = setmetatable({}, {__mode = "k"})
 local dynamicFrames = setmetatable({}, {__mode = "k"})
 local fadeDriver
 local dockMouseState = false
+local refreshFonts
+local revealDock
+local concealDock
+local startFadeDriver
+local stopFadeDriver
+local enableTemporaryFrames
+local enableStaticFrames
 
 local function frameName(frame)
     return frame and frame:GetName()
@@ -119,6 +126,42 @@ local function refreshFrame(frame)
     Style:ApplyEditBoxFont(editBox)
 end
 
+function Style:RegisterManagedChatFrame(frame, isDynamic)
+    trackFrame(frame, isDynamic)
+end
+
+function Style:RefreshManagedChatFrame(frame)
+    refreshFrame(frame)
+end
+
+function Style:RefreshManagedChatFonts()
+    refreshFonts()
+end
+
+function Style:SetDockVisibility(isVisible)
+    if isVisible then
+        revealDock()
+    else
+        concealDock()
+    end
+end
+
+function Style:StartDockHoverDriver()
+    startFadeDriver()
+end
+
+function Style:StopDockHoverDriver()
+    stopFadeDriver()
+end
+
+function Style:InitializeStaticChatFrames()
+    enableStaticFrames()
+end
+
+function Style:InitializeTemporaryChatFrames()
+    enableTemporaryFrames()
+end
+
 local function activeTabAlpha(chatFrame)
     return chatFrame == SELECTED_DOCK_FRAME and 1 or INACTIVE_TAB_ALPHA
 end
@@ -131,6 +174,19 @@ end
 local function isAlerting(frame)
     local tab = tabForFrame(frame)
     return tab and tab.glow and tab.glow:IsShown() or false
+end
+
+local function getSafeBoolean(methodOwner, methodName)
+    if not methodOwner or not methodOwner[methodName] then
+        return false
+    end
+
+    local ok, value = pcall(methodOwner[methodName], methodOwner)
+    if not ok or (canaccessvalue and not canaccessvalue(value)) then
+        return false
+    end
+
+    return value and true or false
 end
 
 local function addDockElements(target)
@@ -160,7 +216,7 @@ local function fadeElements(elements, mode)
     end
 end
 
-local function revealDock()
+function revealDock()
     Style:FadeIn(GeneralDockManager, DOCK_FADE_IN_DURATION)
     Style:StopFading(GeneralDockManager, 1)
 
@@ -178,7 +234,7 @@ local function revealDock()
     end)
 end
 
-local function concealDock()
+function concealDock()
     local elements = {}
     addDockElements(elements)
     fadeElements(elements, "out")
@@ -215,7 +271,7 @@ local function syncFrameButtons(frame)
 end
 
 local function dockIsHovered()
-    if GeneralDockManager:IsMouseOver() then
+    if getSafeBoolean(GeneralDockManager, "IsMouseOver") then
         return true
     end
 
@@ -226,14 +282,16 @@ local function dockIsHovered()
         end
 
         local tab = tabForFrame(frame)
-        hovered = (tab and tab:IsShown() and tab:IsMouseOver()) or (frame:IsShown() and frame:IsMouseOver()) or
-            (frame.buttonFrame and frame.buttonFrame:IsShown() and frame.buttonFrame:IsMouseOver()) or false
+        hovered = (tab and getSafeBoolean(tab, "IsShown") and getSafeBoolean(tab, "IsMouseOver")) or
+            (getSafeBoolean(frame, "IsShown") and getSafeBoolean(frame, "IsMouseOver")) or
+            (frame.buttonFrame and getSafeBoolean(frame.buttonFrame, "IsShown") and
+                getSafeBoolean(frame.buttonFrame, "IsMouseOver")) or false
     end)
 
     return hovered
 end
 
-local function startFadeDriver()
+function startFadeDriver()
     if fadeDriver then
         return
     end
@@ -260,7 +318,7 @@ local function startFadeDriver()
     end)
 end
 
-local function stopFadeDriver()
+function stopFadeDriver()
     if not fadeDriver then
         return
     end
@@ -306,26 +364,26 @@ local function applyInitialDockFade()
     end)
 end
 
-local function refreshFonts()
+function refreshFonts()
     Style:UpdateMessageFonts()
     Style:UpdateEditBoxFont()
 end
 
-local function enableTemporaryFrames()
+function enableTemporaryFrames()
     Style:SecureHook("FCF_SetTemporaryWindowType", function(frame)
-        trackFrame(frame, true)
+        Style:RegisterManagedChatFrame(frame, true)
         C_Timer.After(0, function()
-            refreshFrame(frame)
+            Style:RefreshManagedChatFrame(frame)
         end)
     end)
 end
 
-local function enableStaticFrames()
+function enableStaticFrames()
     for index = 1, Constants.ChatFrameConstants.MaxChatWindows do
         local frame = _G["ChatFrame" .. index]
         if frame then
-            trackFrame(frame, false)
-            refreshFrame(frame)
+            Style:RegisterManagedChatFrame(frame, false)
+            Style:RefreshManagedChatFrame(frame)
         end
 
         if index == 1 then
@@ -358,11 +416,13 @@ function Style:OnEnable()
     ChatFrame1EditBox:SetAltArrowKeyMode(false)
 
     Style:HandleDock(GeneralDockManager)
-    enableStaticFrames()
-    enableTemporaryFrames()
+    Style:InitializeStaticChatFrames()
+    Style:InitializeTemporaryChatFrames()
 
     Style:SecureHook("FCF_SetChatWindowFontSize", function()
-        C_Timer.After(0, refreshFonts)
+        C_Timer.After(0, function()
+            Style:RefreshManagedChatFonts()
+        end)
     end)
 
     Style:SecureHook("FCF_MinimizeFrame", function(frame)
@@ -372,7 +432,7 @@ function Style:OnEnable()
     end)
 
     if Style.db.dock.fade.enabled then
-        startFadeDriver()
+        Style:StartDockHoverDriver()
         applyInitialDockFade()
     end
 
@@ -410,18 +470,20 @@ function Style:OnEnable()
     Style:EnableAlerts()
     Style:EnableTextProcessing()
 
-    refreshFonts()
-    C_Timer.After(0.5, refreshFonts)
+    Style:RefreshManagedChatFonts()
+    C_Timer.After(0.5, function()
+        Style:RefreshManagedChatFonts()
+    end)
 end
 
 function Style:OnDisable()
-    stopFadeDriver()
+    Style:StopDockHoverDriver()
     clearTrackedFrames()
     Style:UnhookAll()
 end
 
 function Style:SetupTabAndButtonFading()
-    startFadeDriver()
+    Style:StartDockHoverDriver()
     applyInitialDockFade()
 end
 
@@ -431,7 +493,7 @@ function Style:UpdateTabAndButtonFading(enabled)
         return
     end
 
-    stopFadeDriver()
+    Style:StopDockHoverDriver()
 
     eachKnownFrame(function(frame)
         local tab = tabForFrame(frame)

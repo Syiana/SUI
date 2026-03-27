@@ -38,14 +38,6 @@ function Module:OnEnable()
             if not db.icon then
                 self.Icon:Hide()
             end
-
-            local castText = self.Text:GetText()
-            if castText ~= nil then
-                if (strlen(castText) > 19) then
-                    local newCastText = strsub(castText, 0, 19)
-                    self.Text:SetText(newCastText .. "...")
-                end
-            end
         end)
     end
 end
