@@ -144,14 +144,30 @@ function Module:OnEnable()
             return text
         end
 
+        local function GetTooltipUnit(self)
+            if WorldFrame and WorldFrame:IsMouseMotionFocus() then
+                local mouseoverExists = UnitExists("mouseover")
+                if canaccessvalue(mouseoverExists) and mouseoverExists then
+                    return UnitName("mouseover"), "mouseover"
+                end
+            end
+
+            local ok, unitName, unit = pcall(self.GetUnit, self)
+            if not ok then
+                return nil, nil
+            end
+
+            return unitName, unit
+        end
+
         local function OnTooltipSetUnit(self)
             if self ~= _G.GameTooltip then
                 return
             end
 
-            local unitName, unit = self:GetUnit()
-            if not unit or not canaccessvalue(unit) then return end
-            if unitName and not canaccessvalue(unitName) then unitName = nil end
+            local unitName, unit = GetTooltipUnit(self)
+            if not canaccessvalue(unit) or not unit then return end
+            if not canaccessvalue(unitName) then unitName = nil end
             
             --color tooltip textleft
             for i = 2, GameTooltip:NumLines() do

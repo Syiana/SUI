@@ -112,18 +112,18 @@ local function refreshFrame(frame)
     Style:HandleChatTab(tab)
     Style:HandleEditBox(editBox)
     Style:HandleMinimizeButton(minimizeButton, tab)
-    Style:HideDefaultScrollbar(frame)
-    Style:HideChatFrameBackground(frame)
-    Style:AddChatFrameBackground(frame)
+    Style:SuppressNativeScrollControls(frame)
+    Style:StripNativeChatFrameTextures(frame)
+    Style:EnsureChatFrameBackdrop(frame)
 
     if frame.SUIScrollButtonsSetup then
         frame:ToggleScrollButtons()
     else
-        Style:SetupScrollButtons(frame)
+        Style:InitializeScrollButtons(frame)
     end
 
-    Style:ApplyChatFrameFont(frame)
-    Style:ApplyEditBoxFont(editBox)
+    Style:ApplyChatFrameTypography(frame)
+    Style:ApplyEditBoxTypography(editBox)
 end
 
 function Style:RegisterManagedChatFrame(frame, isDynamic)
@@ -365,8 +365,8 @@ local function applyInitialDockFade()
 end
 
 function refreshFonts()
-    Style:UpdateMessageFonts()
-    Style:UpdateEditBoxFont()
+    Style:RefreshMessageFonts()
+    Style:RefreshEditBoxFonts()
 end
 
 function enableTemporaryFrames()
@@ -468,7 +468,7 @@ function Style:OnEnable()
     Style:EnableDispatcher()
     Style:EnableDragHook()
     Style:EnableAlerts()
-    Style:EnableTextProcessing()
+    Style:EnableMessageTextProcessing()
 
     Style:RefreshManagedChatFonts()
     C_Timer.After(0.5, function()

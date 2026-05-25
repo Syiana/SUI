@@ -4,6 +4,7 @@ local Style = SUIAddon:GetModule("Chat.Modern")
 local _G = getfenv(0)
 local hooksecurefunc = _G.hooksecurefunc
 local next = _G.next
+local type = _G.type
 
 local _, class = UnitClass("player")
 local color = RAID_CLASS_COLORS[class]
@@ -49,18 +50,28 @@ local function applyGlowAnchor(glow, rightOffset)
     glow:SetPoint("BOTTOMRIGHT", rightOffset, 2)
 end
 
-local function restoreTabAnchor(frame)
-    local point, relativeTo, relativePoint, offsetX, offsetY = frame:GetPoint()
+local function restorePoint(target, point, relativeTo, relativePoint, offsetX, offsetY)
     if not point then
         return
     end
 
-    if relativeTo and type(relativeTo) == "table" then
-        frame:SetPoint(point, relativeTo, relativePoint, offsetX or 0, offsetY or 0)
+    local relativeType = type(relativeTo)
+    if relativeType == "table" or relativeType == "userdata" then
+        target:SetPoint(point, relativeTo, relativePoint or point, offsetX or 0, offsetY or 0)
         return
     end
 
-    frame:SetPoint(point, offsetX or 0, offsetY or 0)
+    target:SetPoint(point, offsetX or 0, offsetY or 0)
+end
+
+local function restoreTabAnchor(frame)
+    local point, relativeTo, relativePoint, offsetX, offsetY = frame:GetPoint()
+    restorePoint(frame, point, relativeTo, relativePoint, offsetX, offsetY)
+end
+
+local function restoreTextAnchor(text)
+    local point, relativeTo, relativePoint, offsetX, offsetY = text:GetPoint()
+    restorePoint(text, point, relativeTo, relativePoint, offsetX, offsetY)
 end
 
 function Style:HandleChatTab(frame)
@@ -99,7 +110,7 @@ function Style:HandleChatTab(frame)
         frame.Text:SetTextColor(NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b)
     end
 
-    frame.Text:SetPoint(frame.Text:GetPoint())
+    restoreTextAnchor(frame.Text)
 end
 
 local handledMiniTabs = {}

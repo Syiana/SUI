@@ -54,7 +54,7 @@ function Style:EnableAlerts()
     Style:SecureHook("FCF_StopAlertFlash", function(chatFrame)
         alertFrames[chatFrame] = nil
         if not hasAlerts() then
-            Style:StopFading(GeneralDockManager, GeneralDockManager:GetAlpha())
+            Style:StopFading(GeneralDockManager, Style:GetSafeAlpha(GeneralDockManager, 1))
         end
     end)
 end

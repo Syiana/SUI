@@ -1,4 +1,5 @@
 local Module = SUI:NewModule("Chat.Copy");
+local Style = SUI:GetModule("Chat.Modern", true)
 
 local container
 local title
@@ -82,7 +83,7 @@ local function updateButtonAlpha(chatFrame)
     local button = chatButtons[chatFrame]
     local tab = _G[chatFrame:GetName() .. "Tab"]
     if button and tab then
-        button:SetAlpha(tab:GetAlpha() * 0.55)
+        button:SetAlpha(((Style and Style.GetSafeAlpha and Style:GetSafeAlpha(tab, 1)) or 1) * 0.55)
     end
 end
 

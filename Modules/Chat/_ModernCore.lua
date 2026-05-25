@@ -149,7 +149,7 @@ function Style:OnInitialize()
     Style.db = SUIAddon.db.profile.chat.settings
 end
 
-function Style:HideDefaultScrollbar(chatFrame)
+function Style:SuppressNativeScrollControls(chatFrame)
     if not chatFrame then
         return
     end
@@ -169,7 +169,7 @@ function Style:HideDefaultScrollbar(chatFrame)
     end
 end
 
-function Style:HideChatFrameBackground(chatFrame)
+function Style:StripNativeChatFrameTextures(chatFrame)
     if not chatFrame then
         return
     end
@@ -190,7 +190,7 @@ function Style:HideChatFrameBackground(chatFrame)
     clearNamedRegions(chatFrame, FRAME_TEXTURE_PARTS)
 end
 
-function Style:AddChatFrameBackground(chatFrame)
+function Style:EnsureChatFrameBackdrop(chatFrame)
     if not chatFrame then
         return
     end
@@ -210,7 +210,7 @@ function Style:UpdateChatBackgroundAlpha()
     end)
 end
 
-function Style:SetupScrollButtons(chatFrame)
+function Style:InitializeScrollButtons(chatFrame)
     if not chatFrame or chatFrame.SUIScrollButtonsSetup then
         return
     end
@@ -263,16 +263,16 @@ function Style:SetupScrollButtons(chatFrame)
     chatFrame.SUIScrollButtonsSetup = true
 end
 
-function Style:UpdateEditBoxFont()
+function Style:RefreshEditBoxFonts()
     eachChatFrame(function(_, index)
         local editBox = _G["ChatFrame" .. index .. "EditBox"]
         if editBox then
-            Style:ApplyEditBoxFont(editBox)
+            Style:ApplyEditBoxTypography(editBox)
         end
     end)
 end
 
-function Style:ApplyEditBoxFont(editBox)
+function Style:ApplyEditBoxTypography(editBox)
     if not editBox then
         return
     end
@@ -286,7 +286,7 @@ function Style:ApplyEditBoxFont(editBox)
     end
 end
 
-function Style:ApplyChatFrameFont(chatFrame)
+function Style:ApplyChatFrameTypography(chatFrame)
     if not chatFrame then
         return
     end
@@ -309,15 +309,15 @@ function Style:ApplyChatFrameFont(chatFrame)
     end
 end
 
-function Style:UpdateMessageFonts()
+function Style:RefreshMessageFonts()
     eachChatFrame(function(chatFrame)
         if chatFrame then
-            Style:ApplyChatFrameFont(chatFrame)
+            Style:ApplyChatFrameTypography(chatFrame)
         end
     end)
 end
 
-function Style:ForMessageLinePool(id, method, ...)
+function Style:ForEachMessageLine(id, method, ...)
     local chatFrame = _G["ChatFrame" .. id]
     if chatFrame and chatFrame.fontStringPool then
         for fontString in chatFrame.fontStringPool:EnumerateActive() do
@@ -358,7 +358,7 @@ do
         return text
     end}
 
-    function Style:ProcessText(text)
+    function Style:TransformChatMessageText(text)
         for _, processor in ipairs(TEXT_PROCESSORS) do
             local isOK, val = pcall(processor, text)
             if isOK then
@@ -369,13 +369,13 @@ do
         return text
     end
 
-    function Style:EnableTextProcessing()
+function Style:EnableMessageTextProcessing()
         for i = 1, Constants.ChatFrameConstants.MaxChatWindows do
             local chatFrame = _G["ChatFrame" .. i]
             if chatFrame and not chatFrame.SUITextProcessingHooked then
                 Style:RawHook(chatFrame, "AddMessage", function(frame, text, ...)
                     if text and type(text) == "string" then
-                        text = Style:ProcessText(text)
+                        text = Style:TransformChatMessageText(text)
                     end
                     return Style.hooks[frame].AddMessage(frame, text, ...)
                 end, true)
@@ -519,13 +519,26 @@ do
     local objects = {}
     local add, remove
 
+    local function getSafeAlpha(object, fallback)
+        if not object or not object.GetAlpha then
+            return fallback or 1
+        end
+
+        local ok, alpha = pcall(object.GetAlpha, object)
+        if not ok or type(alpha) ~= "number" or (canaccessvalue and not canaccessvalue(alpha)) then
+            return fallback or 1
+        end
+
+        return clamp(alpha)
+    end
+
     local updater = CreateFrame("Frame", "SUIChatFader")
 
     local function updater_OnUpdate(_, elapsed)
         for object, data in next, objects do
             data.fadeTimer = data.fadeTimer + elapsed
             if data.fadeTimer > 0 then
-                data.initAlpha = data.initAlpha or object:GetAlpha()
+                data.initAlpha = data.initAlpha or getSafeAlpha(object, data.initAlpha)
 
                 object:SetAlpha(outCubic(data.fadeTimer, data.initAlpha, data.finalAlpha - data.initAlpha, data.duration))
 
@@ -544,7 +557,7 @@ do
     end
 
     function add(mode, object, delay, duration, callback)
-        local initAlpha = object:GetAlpha()
+        local initAlpha = getSafeAlpha(object)
         local finalAlpha = mode == FADE_IN and 1 or 0
 
         if delay == 0 and (duration == 0 or initAlpha == finalAlpha) then
@@ -577,7 +590,7 @@ do
             return
         end
 
-        add(FADE_IN, object, delay or 0, duration * (1 - object:GetAlpha()), callback)
+        add(FADE_IN, object, delay or 0, duration * (1 - getSafeAlpha(object)), callback)
     end
 
     function Style:FadeOut(object, ...)
@@ -595,7 +608,11 @@ do
 
         remove(object)
 
-        object:SetAlpha(alpha or object:GetAlpha())
+        object:SetAlpha(alpha or getSafeAlpha(object))
+    end
+
+    function Style:GetSafeAlpha(object, fallback)
+        return getSafeAlpha(object, fallback)
     end
 
     function Style:IsFading(object)
@@ -643,4 +660,49 @@ end
 
 function Style:Round(v)
     return m_floor(v + 0.5)
+end
+
+-- Compatibility wrappers for older call sites while the modern chat API transitions
+function Style:HideDefaultScrollbar(chatFrame)
+    return self:SuppressNativeScrollControls(chatFrame)
+end
+
+function Style:HideChatFrameBackground(chatFrame)
+    return self:StripNativeChatFrameTextures(chatFrame)
+end
+
+function Style:AddChatFrameBackground(chatFrame)
+    return self:EnsureChatFrameBackdrop(chatFrame)
+end
+
+function Style:SetupScrollButtons(chatFrame)
+    return self:InitializeScrollButtons(chatFrame)
+end
+
+function Style:UpdateEditBoxFont()
+    return self:RefreshEditBoxFonts()
+end
+
+function Style:ApplyEditBoxFont(editBox)
+    return self:ApplyEditBoxTypography(editBox)
+end
+
+function Style:ApplyChatFrameFont(chatFrame)
+    return self:ApplyChatFrameTypography(chatFrame)
+end
+
+function Style:UpdateMessageFonts()
+    return self:RefreshMessageFonts()
+end
+
+function Style:ForMessageLinePool(id, method, ...)
+    return self:ForEachMessageLine(id, method, ...)
+end
+
+function Style:ProcessText(text)
+    return self:TransformChatMessageText(text)
+end
+
+function Style:EnableTextProcessing()
+    return self:EnableMessageTextProcessing()
 end
