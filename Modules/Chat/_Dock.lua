@@ -8,6 +8,18 @@ local DOCK_HEIGHT = 20
 local DOCK_FADE_IN_DURATION = 0.2
 local alertFrames = setmetatable({}, {__mode = "k"})
 
+local function canUseKey(value)
+    if value == nil then
+        return false
+    end
+
+    if canaccessvalue and not canaccessvalue(value) then
+        return false
+    end
+
+    return true
+end
+
 local function applyDockHeight(frame)
     frame:SetHeight(DOCK_HEIGHT)
     frame.scrollFrame:SetHeight(DOCK_HEIGHT)
@@ -47,12 +59,16 @@ end
 
 function Style:EnableAlerts()
     Style:SecureHook("FCF_StartAlertFlash", function(chatFrame)
-        alertFrames[chatFrame] = true
+        if canUseKey(chatFrame) then
+            alertFrames[chatFrame] = true
+        end
         Style:FadeIn(GeneralDockManager, DOCK_FADE_IN_DURATION)
     end)
 
     Style:SecureHook("FCF_StopAlertFlash", function(chatFrame)
-        alertFrames[chatFrame] = nil
+        if canUseKey(chatFrame) then
+            alertFrames[chatFrame] = nil
+        end
         if not hasAlerts() then
             Style:StopFading(GeneralDockManager, Style:GetSafeAlpha(GeneralDockManager, 1))
         end

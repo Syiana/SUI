@@ -83,7 +83,12 @@ local function updateButtonAlpha(chatFrame)
     local button = chatButtons[chatFrame]
     local tab = _G[chatFrame:GetName() .. "Tab"]
     if button and tab then
-        button:SetAlpha(((Style and Style.GetSafeAlpha and Style:GetSafeAlpha(tab, 1)) or 1) * 0.55)
+        local alpha = 1
+        local ok, tabAlpha = pcall(tab.GetAlpha, tab)
+        if ok and type(tabAlpha) == "number" and (not canaccessvalue or canaccessvalue(tabAlpha)) then
+            alpha = tabAlpha
+        end
+        button:SetAlpha(alpha * 0.55)
     end
 end
 
@@ -115,13 +120,6 @@ local function attachCopyButton(chatFrame)
     button:GetHighlightTexture():SetAllPoints(button:GetNormalTexture())
 
     local tab = _G[chatFrame:GetName() .. "Tab"]
-    if tab and not tab.SUICopyAlphaHooked then
-        hooksecurefunc(tab, "SetAlpha", function()
-            updateButtonAlpha(chatFrame)
-        end)
-        tab.SUICopyAlphaHooked = true
-    end
-
     button:SetScript("OnMouseDown", function(self)
         self:GetNormalTexture():ClearAllPoints()
         self:GetNormalTexture():SetPoint("CENTER", 1, -1)
