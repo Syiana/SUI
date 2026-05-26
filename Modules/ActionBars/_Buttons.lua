@@ -145,6 +145,36 @@ function Module:OnEnable()
             end
         end
 
+        local function StyleMainActionBarChildFrames()
+            local mainActionBar = _G["MainActionBar"]
+            if not mainActionBar then
+                return
+            end
+
+            for _, child in pairs({ mainActionBar:GetChildren() }) do
+                if child then
+                    local topEdge = child.TopEdge
+                    local bottomEdge = child.BottomEdge
+                    local center = child.Center
+
+                    if topEdge and topEdge.SetDesaturated and topEdge.SetVertexColor then
+                        topEdge:SetDesaturated(true)
+                        topEdge:SetVertexColor(unpack(SUI:Color(0.15)))
+                    end
+
+                    if bottomEdge and bottomEdge.SetDesaturated and bottomEdge.SetVertexColor then
+                        bottomEdge:SetDesaturated(true)
+                        bottomEdge:SetVertexColor(unpack(SUI:Color(0.15)))
+                    end
+
+                    if center and center.SetDesaturated and center.SetVertexColor then
+                        center:SetDesaturated(true)
+                        center:SetVertexColor(unpack(SUI:Color(0.15)))
+                    end
+                end
+            end
+        end
+
         local function Init()
             for j = 1, #Bars do
                 local Bar = Bars[j]
@@ -173,6 +203,8 @@ function Module:OnEnable()
                 StyleButton(StanceButton, "StanceOrPet")
                 StyleButton(PetButton, "StanceOrPet")
             end
+
+            StyleMainActionBarChildFrames()
         end
 
         if dominos then
