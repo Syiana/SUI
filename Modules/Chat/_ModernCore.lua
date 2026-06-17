@@ -370,12 +370,25 @@ do
     end
 
 function Style:EnableMessageTextProcessing()
+        -- WoW secret value model (12.x+): rewriting AddMessage payloads can taint
+        -- chat execution paths globally. Prefer no-op over recurring taint spam.
+        if canaccessvalue then
+            return
+        end
+
         for i = 1, Constants.ChatFrameConstants.MaxChatWindows do
             local chatFrame = _G["ChatFrame" .. i]
             if chatFrame and not chatFrame.SUITextProcessingHooked then
                 Style:RawHook(chatFrame, "AddMessage", function(frame, text, ...)
+                    -- In modern WoW builds, chat payloads can be secret values.
+                    -- Never touch/convert those, just pass through to Blizzard.
                     if text and type(text) == "string" then
-                        text = Style:TransformChatMessageText(text)
+                        if not issecretvalue(text) then
+                            local ok, transformed = pcall(Style.TransformChatMessageText, Style, text)
+                            if ok and type(transformed) == "string" and not issecretvalue(transformed) then
+                                text = transformed
+                            end
+                        end
                     end
                     return Style.hooks[frame].AddMessage(frame, text, ...)
                 end, true)

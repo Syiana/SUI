@@ -1,4 +1,4 @@
-﻿local Skin = SUI:NewModule("Skins.DetailsSUI")
+local Skin = SUI:NewModule("Skins.DetailsSUI")
 
 local addonPath = "Interface\\AddOns\\SUI"
 local skinName = "|cff00a2ffSUI|r"
@@ -128,7 +128,7 @@ local skinTable = {
                 color = { 1, 1, 1, 1 },
                 texture = "Details BarBorder 2",
             },
-            icon_file = addonPath .. "\\Media\\Textures\\DetailsSkin\\ClassIconsSUI",
+            icon_file = "Interface\\AddOns\\Details\\images\\classes_small",
             start_after_icon = false,
             icon_offset = { -30, 0 },
 

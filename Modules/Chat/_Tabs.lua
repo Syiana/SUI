@@ -50,14 +50,27 @@ local function applyGlowAnchor(glow, rightOffset)
     glow:SetPoint("BOTTOMRIGHT", rightOffset, 2)
 end
 
+local function isAccessibleString(value)
+    return type(value) == "string" and (not canaccessvalue or canaccessvalue(value))
+end
+
 local function restorePoint(target, point, relativeTo, relativePoint, offsetX, offsetY)
-    if not point then
+    if not isAccessibleString(point) then
+        if isAccessibleString(relativePoint) then
+            point = relativePoint
+        else
+            return
+        end
+    end
+
+    if point == "" then
         return
     end
 
     local relativeType = type(relativeTo)
     if relativeType == "table" or relativeType == "userdata" then
-        target:SetPoint(point, relativeTo, relativePoint or point, offsetX or 0, offsetY or 0)
+        local resolvedRelativePoint = isAccessibleString(relativePoint) and relativePoint or point
+        target:SetPoint(point, relativeTo, resolvedRelativePoint, offsetX or 0, offsetY or 0)
         return
     end
 

@@ -31,10 +31,20 @@ Module.events = {
 }
 
 function Module:MessageFilter(_, _, str, ...)
+    if type(str) ~= "string" then
+        return false, str, ...
+    end
+
+    if canaccessvalue and not canaccessvalue(str) then
+        return false, str, ...
+    end
+
     for _, pattern in pairs(Module.patterns) do
-        local result, match = string.gsub(str, pattern, "|cff0394ff|Hurl:%1|h[%1]|h|r")
-        if match > 0 then
-            return false, result, ...
+        local ok, result, match = pcall(string.gsub, str, pattern, "|cff0394ff|Hurl:%1|h[%1]|h|r")
+        if ok and match and match > 0 then
+            if not canaccessvalue or canaccessvalue(result) then
+                return false, result, ...
+            end
         end
     end
 end
