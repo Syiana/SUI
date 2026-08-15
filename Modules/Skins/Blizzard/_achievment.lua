@@ -6,15 +6,34 @@ function Module:OnEnable()
         f:RegisterEvent("ADDON_LOADED")
         f:SetScript("OnEvent", function(self, event, name)
             if name == "Blizzard_AchievementUI" then
-                SUI:Skin(AchievementFrame, true)
-                SUI:Skin(AchievementFrame.Header, true)
-                SUI:Skin(AchievementFrame.Searchbox, true)
-                SUI:Skin(AchievementFrameSummary, true)
-                SUI:Skin(AchievementFrameTab1, true)
-                SUI:Skin(AchievementFrameTab2, true)
-                SUI:Skin(AchievementFrameTab3, true)
-                AchievementFrame.Header.PointBorder:SetAlpha(0)
-                select(8, AchievementFrame.Header:GetRegions()):SetVertexColor(1, 1, 1)
+                local function Skin(frame)
+                    if frame then
+                        SUI:Skin(frame, true)
+                    end
+                end
+
+                Skin(AchievementFrame)
+                Skin(AchievementFrame and AchievementFrame.Header)
+                Skin(AchievementFrame and AchievementFrame.Searchbox)
+                Skin(AchievementFrameSummary)
+                Skin(AchievementFrameTab1)
+                Skin(AchievementFrameTab2)
+                Skin(AchievementFrameTab3)
+
+                local header = AchievementFrame and AchievementFrame.Header
+                if header then
+                    if header.PointBorder then
+                        header.PointBorder:SetAlpha(0)
+                    end
+
+                    for _, region in next, { header:GetRegions() } do
+                        if region and region.SetVertexColor then
+                            region:SetVertexColor(1, 1, 1)
+                        end
+                    end
+                end
+
+                self:UnregisterEvent("ADDON_LOADED")
             end
         end)
     end

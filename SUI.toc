@@ -1,6 +1,6 @@
-## Interface: 120001
+## Interface: 120100
 ## Author: Syiana
-## Version: 12.0.13
+## Version: 12.1.1
 ## Title: |cffea00ffSyiana|r|cff00a2ffUI|r
 ## Notes: A sleek and modern UI Addon. |n|nVisit |cff00a2ffhttps://twitch.tv/syiana|r for more information and support.
 ## SavedVariables: SUIDB

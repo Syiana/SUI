@@ -12,6 +12,24 @@ if ChatFontNormal and SUI.ChatFontObject and not SUI.ChatFontObject.__suiInitial
     SUI.ChatFontObject.__suiInitialized = true
 end
 
+function SUI:GetClassColor(class)
+    if not class then
+        return nil
+    end
+
+    if C_ClassColor and C_ClassColor.GetClassColor then
+        local ok, color = pcall(C_ClassColor.GetClassColor, class)
+        if ok and color then
+            return color
+        end
+    end
+
+    local ok, color = pcall(function()
+        return RAID_CLASS_COLORS and RAID_CLASS_COLORS[class]
+    end)
+    return ok and color or nil
+end
+
 C_AddOns.DisableAddOn('LortiUI')
 C_AddOns.DisableAddOn('UberUI')
 
@@ -77,6 +95,7 @@ local defaults = {
                 durationoffset = 5,
                 countx = -1,
                 county = -2,
+                perrow = 7,
                 targetx = 0,
                 targety = -2
             },
@@ -86,6 +105,7 @@ local defaults = {
                 durationoffset = 5,
                 countx = -1,
                 county = -2,
+                perrow = 7,
                 targetx = 0,
                 targety = -2
             }
@@ -175,6 +195,8 @@ local defaults = {
             texture = [[Interface\Addons\SUI\Media\Textures\Status\Flat.blp]],
             alwaysontop = false,
             size = false,
+            raidscale = 1,
+            partyscale = 1,
             height = 75,
             width = 100,
         },
@@ -359,7 +381,7 @@ function SUI:OnInitialize()
 
     -- Colors
     local _, class = UnitClass("player")
-    local classColor = RAID_CLASS_COLORS[class]
+    local classColor = self:GetClassColor(class) or { r = 1, g = 1, b = 1 }
     local customColor = self.db.profile.general.color
     local themes = {
         Blizzard = nil,

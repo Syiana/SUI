@@ -14,6 +14,7 @@ function Layout:OnEnable()
     local CombatModule = SUI:GetModule("UnitFrames.Combat", true)
     local TextModule = SUI:GetModule("UnitFrames.Text", true)
     local ColorModule = SUI:GetModule("UnitFrames.Colors", true)
+    local RaidFramesModule = SUI:GetModule("RaidFrames.Core", true)
 
     local function refreshTargetAuras()
         if TargetModule and TargetModule.RefreshAuras then
@@ -66,6 +67,12 @@ function Layout:OnEnable()
     local function refreshUnitframeColors()
         if ColorModule and ColorModule.RefreshColors then
             ColorModule:RefreshColors()
+        end
+    end
+
+    local function refreshRaidFrames()
+        if RaidFramesModule and RaidFramesModule.RefreshLayout then
+            RaidFramesModule:RefreshLayout()
         end
     end
 
@@ -249,7 +256,30 @@ function Layout:OnEnable()
                     label = 'Texture',
                     options = Textures.data,
                     column = 4,
-                    order = 1
+                    order = 1,
+                    onChange = refreshRaidFrames
+                },
+                partyscale = {
+                    key = 'raidframes.partyscale',
+                    type = 'slider',
+                    label = 'Party Frame Scale',
+                    min = 0.5,
+                    max = 1.5,
+                    step = 0.1,
+                    column = 4,
+                    order = 2,
+                    onChange = refreshRaidFrames
+                },
+                raidscale = {
+                    key = 'raidframes.raidscale',
+                    type = 'slider',
+                    label = 'Raid Frame Scale',
+                    min = 0.5,
+                    max = 1.5,
+                    step = 0.1,
+                    column = 4,
+                    order = 3,
+                    onChange = refreshRaidFrames
                 },
             },
             {
@@ -273,6 +303,30 @@ function Layout:OnEnable()
                     type = 'slider',
                     label = 'Target Debuff Size',
                     max = 50,
+                    column = 4,
+                    order = 2,
+                    onChange = refreshTargetAuras
+                },
+            },
+            {
+                buffperrow = {
+                    key = 'unitframes.buffs.perrow',
+                    type = 'slider',
+                    label = 'Buffs Per Row',
+                    min = 1,
+                    max = 16,
+                    step = 1,
+                    column = 4,
+                    order = 1,
+                    onChange = refreshTargetAuras
+                },
+                debuffperrow = {
+                    key = 'unitframes.debuffs.perrow',
+                    type = 'slider',
+                    label = 'Debuffs Per Row',
+                    min = 1,
+                    max = 16,
+                    step = 1,
                     column = 4,
                     order = 2,
                     onChange = refreshTargetAuras

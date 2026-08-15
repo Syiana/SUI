@@ -7,7 +7,7 @@ local next = _G.next
 local type = _G.type
 
 local _, class = UnitClass("player")
-local color = RAID_CLASS_COLORS[class]
+local color = SUIAddon:GetClassColor(class) or { r = 1, g = 1, b = 1 }
 
 local function chatTab_SetPoint(self, _, anchor, _, _, _, shouldIgnore)
     if anchor == GeneralDockManager.scrollFrame.child and not shouldIgnore then

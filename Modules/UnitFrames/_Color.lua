@@ -12,8 +12,10 @@ local function colorHealthBar(healthbar, unit)
         healthbar:SetStatusBarDesaturated(1)
         if UnitIsPlayer(unit) and UnitIsConnected(unit) and UnitClass(unit) then
             local _, class = UnitClass(unit)
-            local color = RAID_CLASS_COLORS[class]
-            healthbar:SetStatusBarColor(color.r, color.g, color.b)
+            local color = SUI:GetClassColor(class)
+            if color then
+                healthbar:SetStatusBarColor(color.r, color.g, color.b)
+            end
         elseif UnitIsPlayer(unit) and not UnitIsConnected(unit) then
             healthbar:SetStatusBarColor(0.5, 0.5, 0.5)
         elseif UnitExists(unit) then

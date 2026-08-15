@@ -11,7 +11,7 @@ local unpack = _G.unpack
 local handledbuttons = {}
 
 local _, class = UnitClass("player")
-local color = RAID_CLASS_COLORS[class]
+local color = SUIAddon:GetClassColor(class) or { r = 1, g = 1, b = 1 }
 
 local function removeAlertSubsystem(anchorFrame)
     for index = #ChatAlertFrame.alertFrameSubSystems, 1, -1 do

@@ -99,6 +99,34 @@ function Module:OnEnable()
             end
         end
 
+        local function SafeTableGet(tbl, key)
+            if not tbl or not key or (canaccessvalue and not canaccessvalue(key)) then
+                return nil
+            end
+
+            local ok, value = pcall(function()
+                return tbl[key]
+            end)
+
+            if not ok or (canaccessvalue and not canaccessvalue(value)) then
+                return nil
+            end
+
+            return value
+        end
+
+        local function GetTooltipDataValue(data, ...)
+            local value = data
+            for i = 1, select("#", ...) do
+                value = SafeTableGet(value, select(i, ...))
+                if value == nil then
+                    return nil
+                end
+            end
+
+            return value
+        end
+
         local function GetTarget(unit)
             if not unit or not canaccessvalue(unit) then
                 return nil
@@ -114,14 +142,18 @@ function Module:OnEnable()
                 end
 
                 local _, class = UnitClass(unit)
-                if class and classColorHex[class] and unitName and canaccessvalue(unitName) then
-                    return ("|cff%s%s|r"):format(classColorHex[class], unitName)
+                local classColor = SafeTableGet(classColorHex, class)
+                if classColor and unitName and canaccessvalue(unitName) then
+                    return ("|cff%s%s|r"):format(classColor, unitName)
                 end
             else
                 local reaction = UnitReaction(unit, "player")
                 local targetName = UnitName(unit)
                 if reaction and canaccessvalue(reaction) and targetName and canaccessvalue(targetName) then
-                    return ("|cff%s%s|r"):format(factionColorHex[reaction], targetName)
+                    local reactionColor = SafeTableGet(factionColorHex, reaction)
+                    if reactionColor then
+                        return ("|cff%s%s|r"):format(reactionColor, targetName)
+                    end
                 elseif targetName and canaccessvalue(targetName) then
                     return ("|cffffffff%s|r"):format(targetName)
                 end
@@ -180,17 +212,18 @@ function Module:OnEnable()
             if unit and canaccessvalue(unit) then
                 local raidIconIndex = GetRaidTargetIndex(unit)
                 if raidIconIndex and canaccessvalue(raidIconIndex) then
+                    local raidIcon = SafeTableGet(ICON_LIST, raidIconIndex)
                     if raidIconIndex == 16 then
                         GameTooltipTextLeft1:SetText(("%s"):format(unitName or ""))
-                    else
-                        GameTooltipTextLeft1:SetText(("%s %s"):format(ICON_LIST[raidIconIndex] .. "14|t", unitName or ""))
+                    elseif raidIcon then
+                        GameTooltipTextLeft1:SetText(("%s %s"):format(raidIcon .. "14|t", unitName or ""))
                     end
                 end
             end
             if not UnitIsPlayer(unit) then
                 local reaction = UnitReaction(unit, "player")
                 if reaction then
-                    local color = FACTION_BAR_COLORS[reaction]
+                    local color = SafeTableGet(FACTION_BAR_COLORS, reaction)
                     if color then
                         cfg.barColor = color
                         GameTooltipStatusBar:SetStatusBarColor(color.r, color.g, color.b)
@@ -229,10 +262,12 @@ function Module:OnEnable()
                 --unit is any player
                 local _, unitClass = UnitClass(unit)
                 --color textleft1 and statusbar by class color
-                local color = RAID_CLASS_COLORS[unitClass]
-                cfg.barColor = color
-                GameTooltipStatusBar:SetStatusBarColor(color.r, color.g, color.b)
-                _G["GameTooltipTextLeft1"]:SetTextColor(color.r, color.g, color.b)
+                local color = SUI:GetClassColor(unitClass)
+                if color then
+                    cfg.barColor = color
+                    GameTooltipStatusBar:SetStatusBarColor(color.r, color.g, color.b)
+                    _G["GameTooltipTextLeft1"]:SetTextColor(color.r, color.g, color.b)
+                end
                 --color textleft2 by guildcolor
                 local guildName, guildRank = GetGuildInfo(unit)
                 if guildName then
@@ -276,7 +311,10 @@ function Module:OnEnable()
         --hex reaction colors
         --for idx, color in next, FACTION_BAR_COLORS do
         for i = 1, #FACTION_BAR_COLORS do
-            factionColorHex[i] = GetHexColor(FACTION_BAR_COLORS[i])
+            local color = SafeTableGet(FACTION_BAR_COLORS, i)
+            if color then
+                factionColorHex[i] = GetHexColor(color)
+            end
         end
 
         cfg.targetColorHex = GetHexColor(cfg.targetColor)
@@ -356,14 +394,16 @@ function Module:OnEnable()
         local function OnMacroTooltipSetSpell(self)
             if not canaccessvalue(self) then return end
             
-            local tooltipData = self:GetTooltipData()
-            if tooltipData and tooltipData.lines and tooltipData.lines[2] then
-                local leftText = tooltipData.lines[2].leftText
-                if leftText and canaccessvalue(leftText) then
-                    local spellInfo = C_Spell.GetSpellInfo(leftText)
-                    if spellInfo and spellInfo.spellID then
-                        TooltipAddSpellID(self, spellInfo.spellID)
-                    end
+            local ok, tooltipData = pcall(self.GetTooltipData, self)
+            if not ok then
+                return
+            end
+
+            local leftText = GetTooltipDataValue(tooltipData, "lines", 2, "leftText")
+            if leftText then
+                local spellInfo = C_Spell.GetSpellInfo(leftText)
+                if spellInfo and spellInfo.spellID then
+                    TooltipAddSpellID(self, spellInfo.spellID)
                 end
             end
         end

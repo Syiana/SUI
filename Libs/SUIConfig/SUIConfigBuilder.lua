@@ -92,8 +92,16 @@ function SUIConfig:BuildElement(frame, row, info, dataKey, db)
 	elseif info.type == 'slider' or info.type == 'sliderWithBox' then
 		element = self:SliderWithBox(frame, nil, 32, 0, info.min or 0, info.max or 2);
 
+		if info.step then
+			element:SetValueStep(info.step);
+		end
+
 		if info.precision then
 			element:SetPrecision(info.precision);
+		elseif info.step and info.step < 1 then
+			local stepString = tostring(info.step);
+			local decimals = stepString:match("%.(%d+)");
+			element:SetPrecision(decimals and #decimals or 0);
 		end
 	elseif info.type == 'color' then
 		element = self:ColorInput(frame, info.label, 100, 20, info.color, info.update, info.cancel);

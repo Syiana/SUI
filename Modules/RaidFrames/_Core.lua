@@ -1,5 +1,43 @@
 local Module = SUI:NewModule("RaidFrames.Core");
 
+function Module:ApplyRaidScale()
+	local db = SUI.db.profile.raidframes
+	local scale = db and db.raidscale or 1
+	if CompactRaidFrameContainer and not CompactRaidFrameContainer:IsForbidden() then
+		CompactRaidFrameContainer:SetScale(scale)
+	end
+end
+
+function Module:ApplyPartyScale()
+	local db = SUI.db.profile.raidframes
+	local scale = db and db.partyscale or 1
+	local scaled = false
+
+	if PartyFrame and not PartyFrame:IsForbidden() then
+		PartyFrame:SetScale(scale)
+		scaled = true
+	end
+
+	if CompactPartyFrame and not CompactPartyFrame:IsForbidden() then
+		CompactPartyFrame:SetScale(scale)
+		scaled = true
+	end
+
+	if not scaled then
+		for i = 1, 4 do
+			local frame = _G["PartyMemberFrame" .. i]
+			if frame and not frame:IsForbidden() then
+				frame:SetScale(scale)
+			end
+		end
+	end
+end
+
+function Module:RefreshLayout()
+	self:ApplyRaidScale()
+	self:ApplyPartyScale()
+end
+
 function Module:OnEnable()
 	local db = SUI.db.profile.raidframes
 	if db then
@@ -101,5 +139,27 @@ function Module:OnEnable()
 				updateSize(self)
 			end)
 		end
+
+		if CompactRaidFrameContainer and CompactRaidFrameContainer.ApplyToFrames then
+			hooksecurefunc(CompactRaidFrameContainer, "ApplyToFrames", function()
+				C_Timer.After(0.1, function()
+					Module:ApplyRaidScale()
+				end)
+			end)
+		end
+
+		local eventFrame = CreateFrame("Frame")
+		eventFrame:RegisterEvent("GROUP_ROSTER_UPDATE")
+		eventFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
+		eventFrame:RegisterEvent("UI_SCALE_CHANGED")
+		eventFrame:SetScript("OnEvent", function()
+			C_Timer.After(0.1, function()
+				Module:RefreshLayout()
+			end)
+		end)
+
+		C_Timer.After(0.1, function()
+			Module:RefreshLayout()
+		end)
 	end
 end

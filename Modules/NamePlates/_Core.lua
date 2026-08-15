@@ -5,7 +5,7 @@ function Module:OnEnable()
     local db = SUI.db.profile.nameplates
     local unitframes = SUI.db.profile.unitframes
     local _, playerClass = UnitClass("player")
-    local playerClassColor = RAID_CLASS_COLORS[playerClass]
+    local playerClassColor = SUI:GetClassColor(playerClass)
 
     local focusTexture = [[Interface\AddOns\SUI\Media\Textures\Nameplates\focusTexture]]
 
@@ -106,6 +106,23 @@ function Module:OnEnable()
         bar.suiColorR = r
         bar.suiColorG = g
         bar.suiColorB = b
+    end
+
+    local function skinPersonalBarRegions(frame, ignoredTexture)
+        if not frame or not frame.GetRegions then
+            return
+        end
+
+        for _, region in ipairs({ frame:GetRegions() }) do
+            if region and region.GetObjectType and region:GetObjectType() == "Texture" and region ~= ignoredTexture then
+                if region.SetDesaturated then
+                    region:SetDesaturated(true)
+                end
+                if region.SetVertexColor then
+                    region:SetVertexColor(unpack(SUI:Color(0.15)))
+                end
+            end
+        end
     end
 
     local function applyTextureToPredictionBar(bar)
@@ -312,6 +329,7 @@ function Module:OnEnable()
             enforceBarTexture(healthBar)
             applyBarTexture(healthBar)
             setBarColor(healthBar, playerClassColor.r, playerClassColor.g, playerClassColor.b)
+            skinPersonalBarRegions(healthBar, healthBar.GetStatusBarTexture and healthBar:GetStatusBarTexture())
         end
 
         applyHealPredictionTextures(NamePlatePlayerResourceFrame and NamePlatePlayerResourceFrame.UnitFrame, true)
@@ -328,6 +346,7 @@ function Module:OnEnable()
         if manaBar then
             enforceBarTexture(manaBar)
             applyBarTexture(manaBar)
+            skinPersonalBarRegions(manaBar, manaBar.GetStatusBarTexture and manaBar:GetStatusBarTexture())
 
             if manaBar.FullPowerFrame then
                 setAlpha(manaBar.FullPowerFrame, 0)
@@ -668,8 +687,8 @@ function Module:OnEnable()
                 -- Classcolor Playername
                 if db.color and self.unit then
                     local _, class = UnitClass(self.unit)
-                    local color = RAID_CLASS_COLORS[class]
-                    if UnitIsPlayer(self.unit) and self.name then
+                    local color = SUI:GetClassColor(class)
+                    if UnitIsPlayer(self.unit) and self.name and color then
                         self.name:SetVertexColor(color.r, color.g, color.b)
                     end
                 end

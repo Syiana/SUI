@@ -23,7 +23,7 @@ function Module:OnEnable()
             color = { r = 1, g = 1, b = 1 }
         else
             local _, class = UnitClass("player")
-            color = (CUSTOM_CLASS_COLORS or RAID_CLASS_COLORS)[class]
+            color = (CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[class]) or SUI:GetClassColor(class) or { r = 1, g = 1, b = 1 }
         end
 
         local function status()

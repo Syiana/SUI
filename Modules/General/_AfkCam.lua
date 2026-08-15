@@ -3,12 +3,26 @@ local Module = SUI:NewModule("General.AfkCam");
 function Module:OnEnable()
     local db = SUI.db.profile.general.cosmetic.afkscreen
     if (db) then
+        local C_PvP = C_PvP
+        local CompactRaidFrameContainer = CompactRaidFrameContainer
+        local CreateFrame = CreateFrame
+        local InCombatLockdown = InCombatLockdown
+        local LFGDungeonReadyDialog = LFGDungeonReadyDialog
+        local Minimap = Minimap
+        local MoveViewRightStart = MoveViewRightStart
+        local MoveViewRightStop = MoveViewRightStop
+        local PartyFrame = PartyFrame
+        local PVPReadyDialog = PVPReadyDialog
+        local UIFrameFadeOut = UIFrameFadeOut
+        local UIParent = UIParent
+        local UnitIsAFK = UnitIsAFK
+        local UnitIsDead = UnitIsDead
         local PName = UnitName("player")
         local PLevel = UnitLevel("player")
         local PClass = select(2, UnitClass("player"))
         local PRace = select(2, UnitRace("player"))
         local PFaction = UnitFactionGroup("player")
-        local color = RAID_CLASS_COLORS[PClass]
+        local color = SUI:GetClassColor(PClass) or { r = 1, g = 1, b = 1 }
         local PGuild = " "
 
         local font = STANDARD_TEXT_FONT
@@ -44,25 +58,21 @@ function Module:OnEnable()
         end
 
         local function addapi(object)
-            local mt = getmetatable(object).__index
-            if not object.SetTemplate then mt.SetTemplate = SetTemplate end
+            if not object then
+                return
+            end
+
+            local mt = getmetatable(object)
+            local index = mt and mt.__index
+            if type(index) == "table" and not index.SetTemplate then
+                index.SetTemplate = SetTemplate
+            end
         end
 
-        local handled = { ["Frame"] = true }
         local object = CreateFrame("Frame")
         addapi(object)
         addapi(object:CreateTexture())
         addapi(object:CreateFontString())
-
-        object = EnumerateFrames()
-        while object do
-            if not handled[object:GetObjectType()] then
-                addapi(object)
-                handled[object:GetObjectType()] = true
-            end
-
-            object = EnumerateFrames(object)
-        end
 
         local AFKPanel = CreateFrame("Frame", "AFKPanel", nil)
         AFKPanel:SetPoint("BOTTOMLEFT", UIParent, "BOTTOMLEFT", -2, -2)
@@ -104,12 +114,12 @@ function Module:OnEnable()
 
         -- Set Up the Player Model
         AFKPanel.playerModel = CreateFrame('PlayerModel', nil, AFKPanel);
-        AFKPanel.playerModel:SetSize(800, 1000)
+        AFKPanel.playerModel:SetSize(800, 1200)
         AFKPanel.playerModel:SetPoint("RIGHT", AFKPanel, "RIGHT", 250, 110)
         AFKPanel.playerModel:SetUnit('player');
         AFKPanel.playerModel:SetAnimation(0);
         AFKPanel.playerModel:SetRotation(math.rad(-15));
-        AFKPanel.playerModel:SetCamDistanceScale(1.8);
+        AFKPanel.playerModel:SetCamDistanceScale(1.2);
 
         if IsInGuild() then
             frame:SetScript("OnEvent", function()
@@ -137,6 +147,35 @@ function Module:OnEnable()
         end
 
         local interval = 0
+        local isActive = false
+        local queueResetPending = false
+
+        local function ShowAFKScreen()
+            if isActive then return end
+            MoveViewRightStart(0.1)
+            AFKPanel:Show()
+            AFKPanelTop:Show()
+            Minimap:Hide()
+            isActive = true
+        end
+
+        local function HideAFKScreen()
+            if not isActive then return end
+            MoveViewRightStop()
+            AFKPanel:Hide()
+            AFKPanelTop:Hide()
+            Minimap:Show()
+            isActive = false
+        end
+
+        local function ResetAFKScreenState()
+            MoveViewRightStop()
+            AFKPanel:Hide()
+            AFKPanelTop:Hide()
+            Minimap:Show()
+            isActive = false
+        end
+
         AFKPanelTop:SetScript("OnUpdate", function(self, elapsed)
             interval = interval - elapsed
             if (interval <= 0) then
@@ -146,7 +185,6 @@ function Module:OnEnable()
             end
         end)
 
-        local isActive = false
         local OnEvent = function(self, event, unit)
             if event == "PLAYER_FLAGS_CHANGED" then
                 local isArena, isRegistered = C_PvP.IsArena()
@@ -154,17 +192,10 @@ function Module:OnEnable()
                     local isAFK = UnitIsAFK(unit)
                     local isDead = UnitIsDead(unit)
                     if canaccessvalue(isAFK) and isAFK and not (canaccessvalue(isDead) and isDead) and not InCombatLockdown() and not isArena then
-                        MoveViewRightStart(0.1)
-                        AFKPanel:Show()
-                        AFKPanelTop:Show()
-                        Minimap:Hide()
-                        isActive = true
+                        queueResetPending = false
+                        ShowAFKScreen()
                     elseif isAFK ~= nil and canaccessvalue(isAFK) and not isAFK and not InCombatLockdown() then
-                        MoveViewRightStop()
-                        AFKPanel:Hide()
-                        AFKPanelTop:Hide()
-                        Minimap:Show()
-                        isActive = false
+                        ResetAFKScreenState()
                     end
                 end
             elseif event == "PLAYER_LEAVING_WORLD" then
@@ -172,10 +203,7 @@ function Module:OnEnable()
             elseif event == "PLAYER_DEAD" then
                 local isAFK = UnitIsAFK("player")
                 if canaccessvalue(isAFK) and isAFK then
-                    MoveViewRightStop()
-                    AFKPanel:Hide()
-                    AFKPanelTop:Hide()
-                    Minimap:Show()
+                    ResetAFKScreenState()
                 end
             end
         end
@@ -183,6 +211,7 @@ function Module:OnEnable()
         AFKPanel:RegisterEvent("PLAYER_ENTERING_WORLD")
         AFKPanel:RegisterEvent("PLAYER_LEAVING_WORLD")
         AFKPanel:RegisterEvent("PLAYER_FLAGS_CHANGED")
+        AFKPanel:RegisterEvent("PLAYER_DEAD")
         AFKPanel:SetScript("OnEvent", OnEvent)
         AFKPanel:SetScript("OnShow", function(self)
             UIParent:SetAlpha(0);
@@ -202,12 +231,33 @@ function Module:OnEnable()
         leaveAFK:SetScript("OnEvent", function()
             local isAFK = UnitIsAFK("player")
             if isActive and isAFK ~= nil and canaccessvalue(isAFK) and not isAFK then
-                MoveViewRightStop()
-                AFKPanel:Hide()
-                AFKPanelTop:Hide()
-                Minimap:Show()
-                isActive = false
+                ResetAFKScreenState()
             end
         end)
+
+        local function HookQueuePopup(frame)
+            if not frame or frame.SUIAFKHooked then return end
+            frame:HookScript("OnShow", function()
+                ResetAFKScreenState()
+                queueResetPending = true
+            end)
+            frame:HookScript("OnHide", function()
+                if queueResetPending then
+                    queueResetPending = false
+                    return
+                end
+                local isArena = C_PvP.IsArena()
+                local isAFK = UnitIsAFK("player")
+                local isDead = UnitIsDead("player")
+                if canaccessvalue(isAFK) and isAFK and not (canaccessvalue(isDead) and isDead) and
+                    not InCombatLockdown() and not isArena then
+                    ShowAFKScreen()
+                end
+            end)
+            frame.SUIAFKHooked = true
+        end
+
+        HookQueuePopup(PVPReadyDialog)
+        HookQueuePopup(LFGDungeonReadyDialog)
     end
 end
