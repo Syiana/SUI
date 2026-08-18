@@ -6,7 +6,7 @@ function Module:OnEnable()
 
         local backdrop = {
             bgFile = "Interface\\Buttons\\WHITE8x8",
-            bgColor = { 0.03, 0.03, 0.03, 0.9 },
+            bgColor = { 0.015, 0.015, 0.015, 0.97 },
             edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
             borderColor = { 0.1, 0.1, 0.1, 0.9 },
             azeriteBorderColor = { 1, 0.3, 0, 0.9 },
@@ -82,18 +82,50 @@ function Module:OnEnable()
             return true
         end
 
+        -- The Blizzard NineSlice center texture is partly translucent, so tinting it alone
+        -- never gets fully opaque. Back it with a solid texture like the aura tooltip does.
+        local function EnsureSolidBackground(self)
+            if self.SUISolidBackground then
+                return self.SUISolidBackground
+            end
+
+            local ok, tex = pcall(self.CreateTexture, self, nil, "BACKGROUND", nil, -8)
+            if not ok or not tex then
+                return nil
+            end
+
+            tex:SetTexture(backdrop.bgFile)
+            -- Keep the backdrop inside the insets so the rounded border art stays visible,
+            -- exactly like the aura tooltip backdrop does.
+            tex:SetPoint("TOPLEFT", self, "TOPLEFT", backdrop.insets.left, -backdrop.insets.top)
+            tex:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", -backdrop.insets.right, backdrop.insets.bottom)
+            self.SUISolidBackground = tex
+
+            return tex
+        end
+
         local function ApplyTooltipBackdrop(self)
             if not CanStyleTooltip(self) then
                 return
             end
 
-            SUI:AddMixin(self)
-            pcall(self.SetBackdrop, self, backdrop)
-            pcall(self.SetBackdropBorderColor, self, 0.1, 0.1, 0.1, 0)
-            if (theme == 'Dark') then
-                pcall(self.SetBackdropColor, self, unpack(backdrop.bgColor))
-            else
-                pcall(self.SetBackdropColor, self, unpack(SUI:Color(0.3, 0.3)))
+            local solid = EnsureSolidBackground(self)
+            if solid then
+                solid:SetVertexColor(unpack(backdrop.bgColor))
+            end
+
+            if self.NineSlice then
+                if (theme == 'Dark') then
+                    pcall(self.NineSlice.SetBorderColor, self.NineSlice, unpack(backdrop.borderColor))
+                    if self.NineSlice.Center then
+                        pcall(self.NineSlice.Center.SetVertexColor, self.NineSlice.Center, unpack(backdrop.bgColor))
+                    end
+                else
+                    pcall(self.NineSlice.SetBorderColor, self.NineSlice, unpack(SUI:Color(0.35, 1)))
+                    if self.NineSlice.Center then
+                        pcall(self.NineSlice.Center.SetVertexColor, self.NineSlice.Center, unpack(backdrop.bgColor))
+                    end
+                end
             end
         end
 
@@ -130,12 +162,12 @@ function Module:OnEnable()
         end
 
         local function StyleAuraTooltipBackdrop()
-            if not (AuraContainerInbound and AuraContainerInbound.SetTooltipBackdrop and CreateColor) then
+            if not AuraContainerInbound or not AuraContainerInbound.SetTooltipBackdrop or not CreateColor then
                 return
             end
 
             local borderColor
-            if (theme == 'Dark') then
+            if theme == 'Dark' then
                 borderColor = CreateColor(unpack(backdrop.borderColor))
             else
                 borderColor = CreateColor(unpack(SUI:Color(0.35, 1)))
@@ -143,7 +175,7 @@ function Module:OnEnable()
 
             pcall(AuraContainerInbound.SetTooltipBackdrop, {
                 backdropInfo = backdrop,
-                centerColor = CreateColor(0.03, 0.03, 0.03, 0.95),
+                centerColor = CreateColor(unpack(backdrop.bgColor)),
                 borderColor = borderColor
             })
         end
@@ -210,6 +242,14 @@ function Module:OnEnable()
         SafeAddTooltipPostCall(Enum.TooltipDataType.UnitAura, styleTooltip)
         SafeAddTooltipPostCall(Enum.TooltipDataType.Unit, styleTooltip)
 
+        local function HookTooltipMethod(tooltip, method)
+            if tooltip and type(tooltip[method]) == "function" then
+                hooksecurefunc(tooltip, method, function(self)
+                    ScheduleTooltipBackdrop(self)
+                end)
+            end
+        end
+
         StyleAuraTooltipBackdrop()
         C_Timer.After(0, StyleAuraTooltipBackdrop)
         C_Timer.After(1, StyleAuraTooltipBackdrop)
@@ -226,5 +266,9 @@ function Module:OnEnable()
                 end)
             end
         end
+
+        HookTooltipMethod(GameTooltip, "SetUnitAura")
+        HookTooltipMethod(GameTooltip, "SetUnitBuff")
+        HookTooltipMethod(GameTooltip, "SetUnitDebuff")
     end
 end

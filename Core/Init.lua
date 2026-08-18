@@ -89,7 +89,8 @@ local defaults = {
                 manaheight = 8
             },
             buffs = {
-                size = 20,
+                mode = 'purgeable',
+                size = 18,
                 collapse = false,
                 textsize = 12,
                 durationoffset = 5,
@@ -97,17 +98,20 @@ local defaults = {
                 county = -2,
                 perrow = 7,
                 targetx = 0,
-                targety = -2
+                targety = 0,
+                targettextsize = 10
             },
             debuffs = {
-                size = 20,
+                mode = 'all',
+                size = 18,
                 textsize = 12,
                 durationoffset = 5,
                 countx = -1,
                 county = -2,
                 perrow = 7,
                 targetx = 0,
-                targety = -2
+                targety = 0,
+                targettextsize = 10
             }
         },
         nameplates = {

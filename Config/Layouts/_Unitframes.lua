@@ -289,6 +289,35 @@ function Layout:OnEnable()
                 },
             },
             {
+                buffmode = {
+                    key = 'unitframes.buffs.mode',
+                    type = 'dropdown',
+                    label = 'Buffs',
+                    options = {
+                        { value = 'all',       text = 'Show All' },
+                        { value = 'normal',    text = 'Show Buffs' },
+                        { value = 'purgeable', text = 'Show Purgeable' },
+                        { value = 'hide',      text = 'Hide' }
+                    },
+                    column = 4,
+                    order = 1,
+                    onChange = refreshTargetAuras
+                },
+                debuffmode = {
+                    key = 'unitframes.debuffs.mode',
+                    type = 'dropdown',
+                    label = 'Debuffs',
+                    options = {
+                        { value = 'all',  text = 'Show All' },
+                        { value = 'own',  text = 'Show Own' },
+                        { value = 'hide', text = 'Hide' }
+                    },
+                    column = 4,
+                    order = 2,
+                    onChange = refreshTargetAuras
+                },
+            },
+            {
                 buffsize = {
                     key = 'unitframes.buffs.size',
                     type = 'slider',
@@ -303,6 +332,30 @@ function Layout:OnEnable()
                     type = 'slider',
                     label = 'Target Debuff Size',
                     max = 50,
+                    column = 4,
+                    order = 2,
+                    onChange = refreshTargetAuras
+                },
+            },
+            {
+                bufftextsize = {
+                    key = 'unitframes.buffs.targettextsize',
+                    type = 'slider',
+                    label = 'Target Buff Text Size',
+                    min = 6,
+                    max = 20,
+                    step = 1,
+                    column = 4,
+                    order = 1,
+                    onChange = refreshTargetAuras
+                },
+                debufftextsize = {
+                    key = 'unitframes.debuffs.targettextsize',
+                    type = 'slider',
+                    label = 'Target Debuff Text Size',
+                    min = 6,
+                    max = 20,
+                    step = 1,
                     column = 4,
                     order = 2,
                     onChange = refreshTargetAuras

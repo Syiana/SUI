@@ -300,8 +300,11 @@ function Module:OnEnable()
 
         local function SetStatusBarColor(self, r, g, b)
             if not cfg.barColor then return end
-            if r == cfg.barColor.r and g == cfg.barColor.g and b == cfg.barColor.b then return end
+
+            if self.SUISettingStatusBarColor then return end
+            self.SUISettingStatusBarColor = true
             self:SetStatusBarColor(cfg.barColor.r, cfg.barColor.g, cfg.barColor.b)
+            self.SUISettingStatusBarColor = nil
         end
 
         --hex class colors

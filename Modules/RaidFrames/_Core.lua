@@ -3,8 +3,12 @@ local Module = SUI:NewModule("RaidFrames.Core");
 function Module:ApplyRaidScale()
 	local db = SUI.db.profile.raidframes
 	local scale = db and db.raidscale or 1
+	if scale == 1 or InCombatLockdown() then
+		return
+	end
+
 	if CompactRaidFrameContainer and not CompactRaidFrameContainer:IsForbidden() then
-		CompactRaidFrameContainer:SetScale(scale)
+		pcall(CompactRaidFrameContainer.SetScale, CompactRaidFrameContainer, scale)
 	end
 end
 
@@ -12,14 +16,17 @@ function Module:ApplyPartyScale()
 	local db = SUI.db.profile.raidframes
 	local scale = db and db.partyscale or 1
 	local scaled = false
+	if scale == 1 or InCombatLockdown() then
+		return
+	end
 
 	if PartyFrame and not PartyFrame:IsForbidden() then
-		PartyFrame:SetScale(scale)
+		pcall(PartyFrame.SetScale, PartyFrame, scale)
 		scaled = true
 	end
 
 	if CompactPartyFrame and not CompactPartyFrame:IsForbidden() then
-		CompactPartyFrame:SetScale(scale)
+		pcall(CompactPartyFrame.SetScale, CompactPartyFrame, scale)
 		scaled = true
 	end
 
@@ -27,7 +34,7 @@ function Module:ApplyPartyScale()
 		for i = 1, 4 do
 			local frame = _G["PartyMemberFrame" .. i]
 			if frame and not frame:IsForbidden() then
-				frame:SetScale(scale)
+				pcall(frame.SetScale, frame, scale)
 			end
 		end
 	end
@@ -140,7 +147,7 @@ function Module:OnEnable()
 			end)
 		end
 
-		if CompactRaidFrameContainer and CompactRaidFrameContainer.ApplyToFrames then
+		if db.raidscale ~= 1 and CompactRaidFrameContainer and CompactRaidFrameContainer.ApplyToFrames then
 			hooksecurefunc(CompactRaidFrameContainer, "ApplyToFrames", function()
 				C_Timer.After(0.1, function()
 					Module:ApplyRaidScale()
@@ -153,13 +160,19 @@ function Module:OnEnable()
 		eventFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
 		eventFrame:RegisterEvent("UI_SCALE_CHANGED")
 		eventFrame:SetScript("OnEvent", function()
+			if db.raidscale == 1 and db.partyscale == 1 then
+				return
+			end
+
 			C_Timer.After(0.1, function()
 				Module:RefreshLayout()
 			end)
 		end)
 
-		C_Timer.After(0.1, function()
-			Module:RefreshLayout()
-		end)
+		if db.raidscale ~= 1 or db.partyscale ~= 1 then
+			C_Timer.After(0.1, function()
+				Module:RefreshLayout()
+			end)
+		end
 	end
 end

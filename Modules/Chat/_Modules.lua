@@ -169,6 +169,10 @@ function Modules:EnableSharedTooltips()
                     return
                 end
 
+                if type(link) == "string" and link:match("^item:") then
+                    return
+                end
+
                 GameTooltip:SetOwner(owner, "ANCHOR_CURSOR")
                 GameTooltip:SetHyperlink(link)
                 GameTooltip:Show()

@@ -134,8 +134,9 @@ function Gui:OnEnable()
         }
 
         UIFrameFade(config, fadeInfo)
-        if toggleMenu then
-            ToggleGameMenu()
+        if toggleMenu and GameMenuFrame and GameMenuFrame:IsShown() then
+            -- ToggleGameMenu() routes through the protected SpellStopCasting(), which taints us.
+            HideUIPanel(GameMenuFrame)
         end
     end
 

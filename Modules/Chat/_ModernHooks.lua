@@ -57,6 +57,10 @@ local function setupTooltip(frame)
             return
         end
 
+        if type(link) == "string" and link:match("^item:") then
+            return
+        end
+
         GameTooltip:SetOwner(owner, "ANCHOR_CURSOR")
         local ok = pcall(GameTooltip.SetHyperlink, GameTooltip, link)
         if ok then
