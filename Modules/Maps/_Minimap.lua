@@ -25,17 +25,26 @@ function Module:OnEnable()
         function Module:UpdateQueueIconPosition()
             if C_AddOns.IsAddOnLoaded("EditModeExpanded") then return end
             QueueStatusButton:SetParent(UIParent)
-            QueueStatusButton:SetFrameLevel(1)
+
+            -- Level 1 keeps the button out of the way in normal play, but it also puts
+            -- it under the Edit Mode overlay. While the manager is open the Editmode
+            -- module has lifted it, so leave the level alone; it restores it on exit.
+            if not (EditModeManagerFrame and EditModeManagerFrame:IsShown()) then
+                QueueStatusButton:SetFrameLevel(1)
+            end
+
             QueueStatusButton:SetScale(0.8, 0.8)
             QueueStatusButton:ClearAllPoints()
             QueueStatusButton:SetPoint(db.queueicon.point, UIParent, db.queueicon.point, db.queueicon.x, db.queueicon.y)
         end
 
         hooksecurefunc(QueueStatusButton, "UpdatePosition", function()
-            -- Edit Mode owns the button while the manager is open. Reanchoring here
-            -- would yank it out from under the drag and back to the stored spot,
-            -- which is why it used to snap back to the minimap corner.
-            if EditModeManagerFrame and EditModeManagerFrame:IsShown() then return end
+            -- This is a post-hook, so Blizzard has already reanchored the button by
+            -- the time we run and we have to put it back. The one moment we must not
+            -- is while LibEditMode has it selected for dragging: it flags the button
+            -- movable for exactly that window, and correcting the anchor mid-drag
+            -- would pull it out from under the cursor.
+            if QueueStatusButton:IsMovable() then return end
 
             Module:UpdateQueueIconPosition()
         end)
