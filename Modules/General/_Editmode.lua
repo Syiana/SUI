@@ -46,13 +46,34 @@ function Module:OnEnable()
     LEM:AddFrame(QueueStatusButton, queueIconPos, { point = 'CENTER', x = 0, y = 0 })
 
     local inQueue
+    local restoreStrata, restoreLevel
 
     LEM:RegisterCallback('enter', function()
         inQueue = QueueStatusButton:IsVisible()
+
+        -- The button rests on UIParent at frame level 1, which puts it underneath the
+        -- Edit Mode overlay. Lift it (and the LibEditMode selection frame parented to
+        -- it) for the duration of the session so it can be seen and dragged.
+        restoreStrata = QueueStatusButton:GetFrameStrata()
+        restoreLevel = QueueStatusButton:GetFrameLevel()
+
+        applyQueueIconPosition()
+        QueueStatusButton:SetFrameStrata("HIGH")
+        QueueStatusButton:SetFrameLevel(100)
         QueueStatusButton:Show()
     end)
 
     LEM:RegisterCallback('exit', function()
+        if restoreStrata then
+            QueueStatusButton:SetFrameStrata(restoreStrata)
+            restoreStrata = nil
+        end
+
+        if restoreLevel then
+            QueueStatusButton:SetFrameLevel(restoreLevel)
+            restoreLevel = nil
+        end
+
         if not inQueue then
             QueueStatusButton:Hide()
         end
