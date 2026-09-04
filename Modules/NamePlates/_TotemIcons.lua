@@ -7,7 +7,6 @@ function Module:OnEnable()
         local f = CreateFrame("Frame")
         f:RegisterEvent("NAME_PLATE_UNIT_ADDED")
         f:RegisterEvent("NAME_PLATE_UNIT_REMOVED")
-        f:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
 
         f:SetScript("OnEvent", function(self, event, ...)
             return self[event](self, event, ...)
@@ -18,7 +17,9 @@ function Module:OnEnable()
         local showFriendlyTotems = true
 
         local activeTotems = {}
-        local totemStartTimes = setmetatable({ __mode = "v" }, {})
+        -- keyed by totem GUID, so a totem that leaves and re-enters nameplate range
+        -- keeps its original start time instead of restarting the sweep
+        local totemStartTimes = {}
 
         -- /script SetCVar("nameplateShowFriendlyTotems", 1)
 
@@ -159,7 +160,17 @@ function Module:OnEnable()
                 local tex = C_Spell.GetSpellTexture(spellID)
 
                 iconFrame.icon:SetTexture(tex)
+
+                -- The combat log gave us the exact SPELL_SUMMON time, but it is closed
+                -- to addons since 12.0. A totem's nameplate appears when it spawns, so
+                -- the first time we see one is a good stand-in. Totems summoned out of
+                -- nameplate range start their sweep late; everything else is exact.
                 local startTime = totemStartTimes[guid]
+                if not startTime then
+                    startTime = GetTime()
+                    totemStartTimes[guid] = startTime
+                end
+
                 if startTime and showDuration then
                     iconFrame.cooldown:SetCooldown(startTime, duration)
                     iconFrame.cooldown:Show()
@@ -171,23 +182,20 @@ function Module:OnEnable()
 
         function f.NAME_PLATE_UNIT_REMOVED(self, event, unit)
             local np = C_NamePlate.GetNamePlateForUnit(unit)
-            if np.NugTotemIcon then
+            if np and np.NugTotemIcon then
                 np.NugTotemIcon:Hide()
 
                 local guid = UnitGUID(unit)
-                activeTotems[guid] = nil
-            end
-        end
+                if guid then
+                    activeTotems[guid] = nil
 
-        function f:COMBAT_LOG_EVENT_UNFILTERED(event, unit)
-            local timestamp, eventType, hideCaster,
-            srcGUID, srcName, srcFlags, srcFlags2,
-            dstGUID, dstName, dstFlags, dstFlags2 = CombatLogGetCurrentEventInfo()
-
-            if eventType == "SPELL_SUMMON" then
-                local npcID = GetNPCIDByGUID(dstGUID)
-                if npcID and totemNpcIDs[npcID] then
-                    totemStartTimes[dstGUID] = GetTime()
+                    -- drop the start time only once the totem can no longer be alive,
+                    -- so walking out of range and back does not restart its sweep
+                    local startTime = totemStartTimes[guid]
+                    local totemData = totemNpcIDs[GetNPCIDByGUID(guid) or 0]
+                    if startTime and totemData and (GetTime() - startTime) >= totemData[2] then
+                        totemStartTimes[guid] = nil
+                    end
                 end
             end
         end

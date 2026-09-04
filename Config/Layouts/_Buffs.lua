@@ -37,6 +37,15 @@ function Layout:OnEnable()
                     order = 1,
                     onChange = refreshTopAuras
                 },
+                buffdurationtext = {
+                    key = 'unitframes.buffs.durationtext',
+                    type = 'checkbox',
+                    label = 'Duration Text',
+                    tooltip = 'Show the remaining time underneath your buffs',
+                    column = 3,
+                    order = 2,
+                    onChange = refreshTopAuras
+                },
             },
             {
                 bufftextsize = {
@@ -86,6 +95,17 @@ function Layout:OnEnable()
                 header = {
                     type = 'header',
                     label = 'Debuffs'
+                },
+            },
+            {
+                debuffdurationtext = {
+                    key = 'unitframes.debuffs.durationtext',
+                    type = 'checkbox',
+                    label = 'Duration Text',
+                    tooltip = 'Show the remaining time underneath your debuffs',
+                    column = 3,
+                    order = 1,
+                    onChange = refreshTopAuras
                 },
             },
             {

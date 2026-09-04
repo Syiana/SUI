@@ -1,3 +1,6 @@
+-- 12.0 secret values; keep this callable on builds that do not expose it
+local canaccessvalue = canaccessvalue or function() return true end
+
 local Module = SUI:NewModule("NamePlates.ArenaNumbers");
 
 function Module:OnEnable()

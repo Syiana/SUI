@@ -22,7 +22,7 @@ function Module:OnEnable()
             end
         end
 
-        local function QueueStatusButton_Reposition()
+        function Module:UpdateQueueIconPosition()
             if C_AddOns.IsAddOnLoaded("EditModeExpanded") then return end
             QueueStatusButton:SetParent(UIParent)
             QueueStatusButton:SetFrameLevel(1)
@@ -30,9 +30,18 @@ function Module:OnEnable()
             QueueStatusButton:ClearAllPoints()
             QueueStatusButton:SetPoint(db.queueicon.point, UIParent, db.queueicon.point, db.queueicon.x, db.queueicon.y)
         end
-        
+
         hooksecurefunc(QueueStatusButton, "UpdatePosition", function()
-            QueueStatusButton_Reposition()
+            -- Edit Mode owns the button while the manager is open. Reanchoring here
+            -- would yank it out from under the drag and back to the stored spot,
+            -- which is why it used to snap back to the minimap corner.
+            if EditModeManagerFrame and EditModeManagerFrame:IsShown() then return end
+
+            Module:UpdateQueueIconPosition()
         end)
+
+        -- Blizzard only calls UpdatePosition when the queue state changes, so claim
+        -- the button up front rather than leaving it anchored to the minimap.
+        Module:UpdateQueueIconPosition()
     end
 end

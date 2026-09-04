@@ -236,6 +236,8 @@ function Module:OnEnable()
 
             function GetItemEnchantAsText(unit, slot)
                 local data = C_TooltipInfo.GetInventoryItem(unit, slot);
+                if (not data or not data.lines) then return nil, nil; end
+
                 for _, line in ipairs(data.lines) do
                     local text = line.leftText;
                     local enchantText = string.match(text, enchantPattern);
@@ -259,6 +261,8 @@ function Module:OnEnable()
             function GetSocketTextures(unit, slot)
                 local data = C_TooltipInfo.GetInventoryItem(unit, slot);
                 local textures = {};
+                if (not data or not data.lines) then return textures; end
+
                 for i, line in ipairs(data.lines) do
                     if line.type == 3 then
                         if (line.gemIcon) then
@@ -475,6 +479,52 @@ function Module:OnEnable()
             end
         end
 
+        local IsItemDataCachedByID = C_Item and C_Item.IsItemDataCachedByID;
+        local RequestLoadItemDataByID = C_Item and C_Item.RequestLoadItemDataByID;
+        local GetItemInfo = (C_Item and C_Item.GetItemInfo) or _G.GetItemInfo;
+
+        local pendingGemIDs = {};
+
+        local function IsGemDataReady(gemID)
+            if (IsItemDataCachedByID) then
+                return IsItemDataCachedByID(gemID);
+            end
+
+            if (GetItemInfo) then
+                return GetItemInfo(gemID) ~= nil;
+            end
+
+            -- no way to ask, so assume it is there rather than rescanning forever
+            return true;
+        end
+
+        -- The socket lines of an item tooltip only carry gem icons once the gems
+        -- themselves are in the local item cache. Right after a login or a reload
+        -- they usually are not, so we need to know when to come back and rescan.
+        local function AreLinkGemsReady(itemLink)
+            if (not itemLink) then return true; end
+
+            local itemString = string.match(itemLink, "item:([%-%d:]+)");
+            if (not itemString) then return true; end
+
+            local fields = { strsplit(":", itemString) };
+            local ready = true;
+
+            -- fields 3 through 6 of the item string hold the socketed gem ids
+            for i = 3, 6 do
+                local gemID = tonumber(fields[i]);
+                if (gemID and gemID ~= 0 and not IsGemDataReady(gemID)) then
+                    pendingGemIDs[gemID] = true;
+                    if (RequestLoadItemDataByID) then
+                        RequestLoadItemDataByID(gemID);
+                    end
+                    ready = false;
+                end
+            end
+
+            return ready;
+        end
+
         local function UpdateAdditionalDisplay(button, unit)
             local additionalFrame = button.BCPDisplay;
             local slot = button:GetID();
@@ -482,7 +532,9 @@ function Module:OnEnable()
 
             additionalFrame.lastGUID = UnitGUID(unit);
 
-            if (not additionalFrame.prevItemLink or itemLink ~= additionalFrame.prevItemLink) then
+            local gemsReady = AreLinkGemsReady(itemLink);
+
+            if (not additionalFrame.prevItemLink or itemLink ~= additionalFrame.prevItemLink or not additionalFrame.gemsReady) then
                 local itemiLvlText = "";
                 if (itemLink) then
                     local ilvl = GetDetailedItemLevelInfo(itemLink);
@@ -551,6 +603,9 @@ function Module:OnEnable()
                 end
 
                 additionalFrame.prevItemLink = itemLink;
+                -- stay dirty while gems are still loading so the next update rescans
+                -- instead of leaving the sockets blank until the item is re-equipped
+                additionalFrame.gemsReady = gemsReady;
             end
 
             local currentDurablity, maxDurability = GetInventoryItemDurability(slot);
@@ -739,7 +794,7 @@ function Module:OnEnable()
             for _, slot in ipairs(characterSlots) do
                 local button = _G[slot];
                 if (button) then
-                    UpdateAdditionalDisplay(button, "player");
+                    updateButton(button, "player");
                 end
             end
         end
@@ -760,6 +815,17 @@ function Module:OnEnable()
             if (unit == "player") then
                 addon:SOCKET_INFO_UPDATE()
             end
+        end
+
+        -- Gem data is streamed in from the server, so on a fresh login the socket
+        -- textures are usually still missing when the panel is first built. Rescan
+        -- as the data lands instead of waiting for the item to be re-equipped. This
+        -- event is noisy, so only react to the gems we actually asked for.
+        function addon:GET_ITEM_INFO_RECEIVED(itemID)
+            if (not itemID or not pendingGemIDs[itemID]) then return; end
+
+            pendingGemIDs[itemID] = nil;
+            addon:SOCKET_INFO_UPDATE()
         end
 
         -- cache list
@@ -800,6 +866,12 @@ function Module:OnEnable()
             for _, gemID in ipairs(gemsWeCareAbout) do
                 C_Item.RequestLoadItemDataByID(gemID);
             end
+
+            -- the static list above only covers one expansion, so ask for whatever
+            -- is actually socketed into the gear we are wearing right now
+            for slot = INVSLOT_FIRST_EQUIPPED, INVSLOT_LAST_EQUIPPED do
+                AreLinkGemsReady(GetInventoryItemLink("player", slot));
+            end
         end
 
         CharacterFrame:HookScript("OnUpdate", function()
@@ -820,6 +892,7 @@ function Module:OnEnable()
         eventListener:RegisterEvent("ADDON_LOADED");
         eventListener:RegisterEvent("SOCKET_INFO_UPDATE");
         eventListener:RegisterEvent("UNIT_INVENTORY_CHANGED");
+        eventListener:RegisterEvent("GET_ITEM_INFO_RECEIVED");
         eventListener:RegisterEvent("PLAYER_ENTERING_WORLD");
     end
 end

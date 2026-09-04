@@ -1,3 +1,6 @@
+-- 12.0 secret values; keep this callable on builds that do not expose it
+local canaccessvalue = canaccessvalue or function() return true end
+
 local Debuffs = SUI:NewModule("Buffs.Debuffs")
 
 function Debuffs:OnEnable()
@@ -58,13 +61,18 @@ function Debuffs:OnEnable()
         end
     end
 
-    -- Hook duration updates for all debuff frames
-    for _, auraFrame in pairs(DebuffFrame.auraFrames) do
-        if auraFrame.SetFormattedText then
-            hooksecurefunc(auraFrame, "UpdateDuration", function(self)
-                UpdateDuration(self, self.timeLeft)
-            end)
+    -- Aura buttons are created on demand, and the old guard here tested for a
+    -- FontString method on a Button, so this never hooked anything and the
+    -- formatting above never ran. Hook each frame as we come across it instead.
+    local function HookDuration(auraFrame)
+        if not auraFrame or auraFrame.SUIDurationHooked or not auraFrame.UpdateDuration then
+            return
         end
+
+        auraFrame.SUIDurationHooked = true
+        hooksecurefunc(auraFrame, "UpdateDuration", function(self, timeLeft)
+            UpdateDuration(self, timeLeft or self.timeLeft)
+        end)
     end
 
     -- DebuffType Colors for the Debuff Border
@@ -173,12 +181,17 @@ function Debuffs:OnEnable()
         for i = 1, #DebuffFrame.auraFrames do
             local aura = DebuffFrame.auraFrames[i]
             
+            HookDuration(aura)
+
             -- Duration styling
             if aura.Duration and aura.Duration.SetDrawLayer then
                 aura.Duration:ClearAllPoints()
                 aura.Duration:SetPoint("TOP", aura, "BOTTOM", 0, db.durationoffset or 2)
                 aura.Duration:SetDrawLayer("ARTWORK")
                 aura.Duration:SetFont(STANDARD_TEXT_FONT, db.textsize or 11, "OUTLINE")
+                -- Blizzard shows and hides this every tick, so fade it out rather
+                -- than hiding it or the countdown comes straight back.
+                aura.Duration:SetAlpha(db.durationtext == false and 0 or 1)
             end
 
             -- Count styling
@@ -207,8 +220,8 @@ function Debuffs:OnEnable()
 
     if theme ~= 'Blizzard' then
         local frame = CreateFrame("Frame")
-        frame:RegisterEvent("PLAYER_ENTERING_WORLD", self, "Update")
-        frame:RegisterUnitEvent("UNIT_AURA", self, "Update")
+        frame:RegisterEvent("PLAYER_ENTERING_WORLD")
+        frame:RegisterUnitEvent("UNIT_AURA", "player")
         frame:RegisterEvent("GROUP_ROSTER_UPDATE")
         frame:SetScript("OnEvent", function()
             Debuffs:Refresh()

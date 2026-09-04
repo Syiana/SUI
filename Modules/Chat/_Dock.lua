@@ -1,3 +1,6 @@
+-- 12.0 secret values; keep this callable on builds that do not expose it
+local canaccessvalue = canaccessvalue or function() return true end
+
 local SUIAddon = SUI
 local Style = SUIAddon:GetModule("Chat.Modern")
 

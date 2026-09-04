@@ -65,13 +65,18 @@ function Buffs:OnEnable()
         end
     end
 
-    -- Hook duration updates for all buff frames
-    for _, auraFrame in pairs(BuffFrame.auraFrames) do
-        if auraFrame.SetFormattedText then
-            hooksecurefunc(auraFrame, "UpdateDuration", function(self)
-                UpdateDuration(self, self.timeLeft)
-            end)
+    -- Aura buttons are created on demand, and the old guard here tested for a
+    -- FontString method on a Button, so this never hooked anything and the
+    -- formatting above never ran. Hook each frame as we come across it instead.
+    local function HookDuration(auraFrame)
+        if not auraFrame or auraFrame.SUIDurationHooked or not auraFrame.UpdateDuration then
+            return
         end
+
+        auraFrame.SUIDurationHooked = true
+        hooksecurefunc(auraFrame, "UpdateDuration", function(self, timeLeft)
+            UpdateDuration(self, timeLeft or self.timeLeft)
+        end)
     end
 
     local function ButtonDefault(button)
@@ -152,12 +157,17 @@ function Buffs:OnEnable()
         for i = 1, #BuffFrame.auraFrames do
             local aura = BuffFrame.auraFrames[i]
             
+            HookDuration(aura)
+
             -- Duration styling
             if aura.Duration and aura.Duration.SetDrawLayer then
                 aura.Duration:ClearAllPoints()
                 aura.Duration:SetPoint("TOP", aura, "BOTTOM", 0, db.durationoffset or 2)
                 aura.Duration:SetDrawLayer("ARTWORK")
                 aura.Duration:SetFont(STANDARD_TEXT_FONT, db.textsize or 11, "OUTLINE")
+                -- Blizzard shows and hides this every tick, so fade it out rather
+                -- than hiding it or the countdown comes straight back.
+                aura.Duration:SetAlpha(db.durationtext == false and 0 or 1)
             end
 
             -- Count styling

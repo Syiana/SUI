@@ -240,6 +240,31 @@ function Modules:OnEnable()
         end)
         Modules.tempWindowFontHooked = true
     end
+
+    if not Modules.fontEventFrame then
+        -- Blizzard reloads its chat window settings on these and puts its own stored
+        -- font size back on the frames, which is what made the size look reset after
+        -- a login or a /reload.
+        local eventFrame = CreateFrame("Frame")
+        eventFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
+        eventFrame:RegisterEvent("UPDATE_CHAT_WINDOWS")
+        eventFrame:RegisterEvent("UPDATE_FLOATING_CHAT_WINDOWS")
+        eventFrame:SetScript("OnEvent", function()
+            C_Timer.After(0, function()
+                if not Modules:IsEnabled() or not Modules.db then
+                    return
+                end
+
+                if Modules.db.style == "Default" then
+                    Modules:RestoreDefaultMessageFonts()
+                else
+                    Modules:UpdateSharedMessageFonts()
+                end
+            end)
+        end)
+
+        Modules.fontEventFrame = eventFrame
+    end
 end
 
 function Modules:OnDisable()
