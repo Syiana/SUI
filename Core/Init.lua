@@ -345,6 +345,11 @@ local defaults = {
                 x = 5,
                 y = 3
             },
+            queueicon = {
+                point = 'CENTER',
+                x = 0,
+                y = 0
+            },
         },
     }
 }
