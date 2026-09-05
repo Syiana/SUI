@@ -23,18 +23,40 @@ function Module:OnEnable()
     end)
 
     -- Queue Status Icon
-    local Minimap = SUI:GetModule("Maps.Minimap", true)
+    --
+    -- Blizzard reanchors and rescales this button from several places: its own
+    -- UpdatePosition, the minimap layout and Edit Mode. Moving the button itself
+    -- means fighting all of them over screen coordinates, and losing. So we never
+    -- move it. It sits pinned to the centre of a holder we own, and Edit Mode drags
+    -- the holder instead. The hooks below only ever restore that fixed relationship,
+    -- which is a fight we cannot lose because Blizzard has no opinion on the holder.
+    local queueHolder = CreateFrame("Frame", "SUIQueueStatusHolder", UIParent)
+    queueHolder:SetSize(QueueStatusButton:GetWidth(), QueueStatusButton:GetHeight())
+    queueHolder:SetPoint(db.queueicon.point, db.queueicon.x, db.queueicon.y)
 
-    local function applyQueueIconPosition()
-        if Minimap and Minimap.UpdateQueueIconPosition then
-            Minimap:UpdateQueueIconPosition()
+    QueueStatusButton:SetParent(queueHolder)
+    QueueStatusButton:ClearAllPoints()
+    QueueStatusButton:SetPoint("CENTER", queueHolder)
+
+    local repinning = false
+    hooksecurefunc(QueueStatusButton, "SetPoint", function()
+        if repinning then
             return
         end
 
-        QueueStatusButton:SetParent(UIParent)
+        repinning = true
         QueueStatusButton:ClearAllPoints()
-        QueueStatusButton:SetPoint(db.queueicon.point, UIParent, db.queueicon.point, db.queueicon.x, db.queueicon.y)
-    end
+        QueueStatusButton:SetPoint("CENTER", queueHolder)
+        repinning = false
+    end)
+
+    local queueScale = 0.8
+    hooksecurefunc(QueueStatusButton, "SetScale", function(self, scale)
+        if scale ~= queueScale then
+            self:SetScale(queueScale)
+        end
+    end)
+    QueueStatusButton:SetScale(queueScale)
 
     local function queueIconPos(frame, layoutName, point, x, y)
         db.queueicon.point = point
@@ -42,46 +64,25 @@ function Module:OnEnable()
         db.queueicon.y = y
     end
 
-    LEM:AddFrame(QueueStatusButton, queueIconPos, { point = 'CENTER', x = 0, y = 0 })
+    LEM:AddFrame(queueHolder, queueIconPos, { point = 'CENTER', x = 0, y = 0 })
 
     local inQueue
-    local restoreStrata, restoreLevel
 
     LEM:RegisterCallback('enter', function()
+        -- Show the button while editing so there is something to aim at, but only
+        -- put it back to hidden afterwards if it was not a live queue.
         inQueue = QueueStatusButton:IsVisible()
-
-        -- Lift the button (and the LibEditMode selection frame parented to it) above
-        -- the Edit Mode overlay so it can be seen and grabbed at all.
-        restoreStrata = QueueStatusButton:GetFrameStrata()
-        restoreLevel = QueueStatusButton:GetFrameLevel()
-
-        applyQueueIconPosition()
-        QueueStatusButton:SetFrameStrata("HIGH")
-        QueueStatusButton:SetFrameLevel(100)
         QueueStatusButton:Show()
     end)
 
     LEM:RegisterCallback('exit', function()
-        if restoreStrata then
-            QueueStatusButton:SetFrameStrata(restoreStrata)
-            restoreStrata = nil
-        end
-
-        if restoreLevel then
-            QueueStatusButton:SetFrameLevel(restoreLevel)
-            restoreLevel = nil
-        end
-
         if not inQueue then
             QueueStatusButton:Hide()
         end
-
-        -- By now LibEditMode has cleared the movable flag, so this is the point where
-        -- the saved position takes over again.
-        applyQueueIconPosition()
     end)
 
     LEM:RegisterCallback('layout', function(layoutName)
-        applyQueueIconPosition()
+        queueHolder:ClearAllPoints()
+        queueHolder:SetPoint(db.queueicon.point, db.queueicon.x, db.queueicon.y)
     end)
 end
