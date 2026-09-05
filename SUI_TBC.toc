@@ -1,0 +1,27 @@
+## Interface: 20506
+## Author: Syiana
+## Version: 2.0.0
+## Title: |cffea00ffSyiana|r|cff00a2ffUI|r
+## Notes: A sleek, modern and fully modular UI overhaul. |n|nVisit |cff00a2ffhttps://twitch.tv/syiana|r for more information and support.
+## SavedVariables: SUIDB
+## IconTexture: Interface\AddOns\SUI\Media\Icons\SUI
+## AddonCompartmentFunc: SUI_Options
+## X-Curse-Project-ID: 283939
+## X-Wago-ID: R4N29xGL
+## X-Flavor: TBC
+## Category: SUI
+
+## Libraries
+Libs\Load_Classic.xml
+
+## Core (addon object, compatibility layer, database, module system, theme)
+Core\Load.xml
+
+## Media (LibSharedMedia registrations)
+Media\Load.xml
+
+## Modules (each registers its own defaults and options)
+Modules\Load.xml
+
+## Config (options window, search, profiles, install)
+Config\Load.xml
