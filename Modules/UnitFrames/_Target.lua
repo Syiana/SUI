@@ -717,7 +717,11 @@ function Module:OnEnable()
                 }
             },
             initializeFrame = function(auraFrame)
-                InitializeUnitAuraButton(auraFrame, false, db.unitframes.buffs.size)
+                -- Every other group hands the button a border colour; without one the
+                -- gloss border stays uncoloured and reads as a black ring, which left
+                -- purgeable buffs looking exactly like ordinary ones. This group only
+                -- ever holds Magic auras, so give it the same blue as magic debuffs.
+                InitializeUnitAuraButton(auraFrame, false, db.unitframes.buffs.size, GetDebuffBorderColor("Magic"))
             end,
             layout = {
                 elementSpacing = 3,
