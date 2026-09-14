@@ -1,0 +1,9 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/">
+  <Script file="Defaults.lua"/>
+  <Script file="Blizzard.lua"/>
+  <Script file="Shared.lua"/>
+  <Script file="Retail.lua"/>
+  <Script file="Classic.lua"/>
+  <Script file="Addons.lua"/>
+  <Script file="Options.lua"/>
+</Ui>

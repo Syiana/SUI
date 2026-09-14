@@ -1,0 +1,9 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/">
+  <Script file="Defaults.lua"/>
+  <Script file="Player.lua"/>
+  <Script file="Units.lua"/>
+  <Script file="Icon.lua"/>
+  <Script file="Texture.lua"/>
+  <Script file="Timer.lua"/>
+  <Script file="Options.lua"/>
+</Ui>

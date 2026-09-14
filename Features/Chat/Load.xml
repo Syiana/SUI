@@ -1,0 +1,11 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/">
+  <Script file="Defaults.lua"/>
+  <Script file="Common.lua"/>
+  <!-- Extras before Modern: EditBoxTop must restore its anchors before Modern places the boxes. -->
+  <Script file="Extras.lua"/>
+  <Script file="Filters.lua"/>
+  <Script file="Copy.lua"/>
+  <Script file="FriendList.lua"/>
+  <Script file="Modern.lua"/>
+  <Script file="Options.lua"/>
+</Ui>

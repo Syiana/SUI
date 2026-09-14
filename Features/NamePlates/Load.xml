@@ -1,0 +1,15 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/">
+  <Script file="Defaults.lua"/>
+  <!-- Plates.lua first: its NAME_PLATE_UNIT_ADDED handler must run before the others. -->
+  <Script file="Plates.lua"/>
+  <Script file="Style.lua"/>
+  <Script file="Health.lua"/>
+  <Script file="Names.lua"/>
+  <Script file="Castbar.lua"/>
+  <Script file="Indicators.lua"/>
+  <Script file="Auras.lua"/>
+  <Script file="Totems.lua"/>
+  <Script file="PersonalBar.lua"/>
+  <Script file="CVars.lua"/>
+  <Script file="Options.lua"/>
+</Ui>

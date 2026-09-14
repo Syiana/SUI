@@ -1,0 +1,15 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/">
+  <Script file="Defaults.lua"/>
+  <Script file="Fonts.lua"/>
+  <Script file="Merchant.lua"/>
+  <Script file="Automation.lua"/>
+  <Script file="Quests.lua"/>
+  <Script file="Cosmetic.lua"/>
+  <Script file="AfkScreen.lua"/>
+  <Script file="Cursor.lua"/>
+  <Script file="Stats.lua"/>
+  <Script file="QueueIcon.lua"/>
+  <Script file="ItemLevel.lua"/>
+  <Script file="BagItemLevel.lua"/>
+  <Script file="Options.lua"/>
+</Ui>

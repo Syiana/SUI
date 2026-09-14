@@ -1,0 +1,12 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/">
+  <Script file="Defaults.lua"/>
+  <Script file="Buttons.lua"/>
+  <Script file="Text.lua"/>
+  <Script file="Range.lua"/>
+  <Script file="Flash.lua"/>
+  <Script file="Cooldown.lua"/>
+  <Script file="Style.lua"/>
+  <Script file="Mouseover.lua"/>
+  <Script file="Art.lua"/>
+  <Script file="Options.lua"/>
+</Ui>

@@ -1,0 +1,9 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/">
+  <Script file="Defaults.lua"/>
+  <Script file="Skin.lua"/>
+  <Script file="Style.lua"/>
+  <Script file="Behavior.lua"/>
+  <Script file="Info.lua"/>
+  <Script file="GroupFinder.lua"/>
+  <Script file="Options.lua"/>
+</Ui>

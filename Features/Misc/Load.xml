@@ -1,0 +1,10 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/">
+  <Script file="Defaults.lua"/>
+  <Script file="SafeQueue.lua"/>
+  <Script file="PvP.lua"/>
+  <Script file="Group.lua"/>
+  <Script file="Interface.lua"/>
+  <Script file="PlayerLinks.lua"/>
+  <Script file="CVarBrowser.lua"/>
+  <Script file="Options.lua"/>
+</Ui>
