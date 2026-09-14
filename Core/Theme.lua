@@ -20,8 +20,10 @@ local Theme = {
 }
 SUI.Theme = Theme
 
--- texture -> tint offset (weak keys: textures of released frames can go)
+-- texture -> tint offset (weak keys: textures of released frames can go).
+-- Theme-tinted and flat-grey textures are kept apart so both keep their value.
 local painted = setmetatable({}, { __mode = "k" })
+local paintedFlat = setmetatable({}, { __mode = "k" })
 
 SUI:RegisterDefaults("general", {
     theme = "Dark",
@@ -59,7 +61,11 @@ function Theme:Paint(texture, useTheme, sub)
         return
     end
     sub = sub or 0.15
-    painted[texture] = useTheme and sub or -1
+    if useTheme then
+        painted[texture], paintedFlat[texture] = sub, nil
+    else
+        paintedFlat[texture], painted[texture] = sub, nil
+    end
     if not self.enabled then
         return
     end
@@ -73,23 +79,27 @@ function Theme:Paint(texture, useTheme, sub)
     end
 end
 
+local function repaint(texture, enabled, r, g, b)
+    if texture.SetDesaturated then
+        texture:SetDesaturated(enabled)
+    end
+    texture:SetVertexColor(r, g, b)
+end
+
 function Theme:Repaint()
+    local enabled = self.enabled
     for texture, sub in next, painted do
-        local canDesaturate = texture.SetDesaturated ~= nil
-        if not self.enabled then
-            if canDesaturate then
-                texture:SetDesaturated(false)
-            end
-            texture:SetVertexColor(1, 1, 1)
+        if enabled then
+            repaint(texture, true, self:Color(sub))
         else
-            if canDesaturate then
-                texture:SetDesaturated(true)
-            end
-            if sub < 0 then
-                texture:SetVertexColor(0.15, 0.15, 0.15)
-            else
-                texture:SetVertexColor(self:Color(sub))
-            end
+            repaint(texture, false, 1, 1, 1)
+        end
+    end
+    for texture, sub in next, paintedFlat do
+        if enabled then
+            repaint(texture, true, sub, sub, sub)
+        else
+            repaint(texture, false, 1, 1, 1)
         end
     end
 end

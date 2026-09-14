@@ -105,7 +105,7 @@ end
 local pending = {} -- array of { addon, spec, useTheme, applied }
 
 local function applyEntry(entry)
-    if entry.applied or not SUI.Theme.enabled then
+    if entry.applied or not SUI.Theme.enabled or (entry.owner and not entry.owner.enabled) then
         return
     end
     entry.applied = true
@@ -117,8 +117,9 @@ local function applyEntry(entry)
 end
 
 -- addon: "SUI" (or nil) for frames that exist at login, else the load-on-demand add-on.
-function Skin:Register(addon, spec, useTheme)
-    local entry = { addon = addon, spec = spec, useTheme = useTheme }
+-- owner (optional): a feature; the skin is only applied while it is enabled.
+function Skin:Register(addon, spec, useTheme, owner)
+    local entry = { addon = addon, spec = spec, useTheme = useTheme, owner = owner }
     pending[#pending + 1] = entry
     if SUI.skinsReady then
         self:Activate(entry)
