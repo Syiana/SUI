@@ -79,6 +79,7 @@ G.strsplit = function(sep, str, limit)
     end
     return unpack(out)
 end
+string.trim, string.split, string.join = G.strtrim, function(s, sep, limit) return G.strsplit(sep, s, limit) end, nil
 G.strjoin = function(sep, ...) return table.concat({ ... }, sep) end
 G.tostringall = function(...) local t = { ... } for i = 1, select("#", ...) do t[i] = tostring(t[i]) end return unpack(t, 1, select("#", ...)) end
 G.CopyTable = function(t) local c = {} for k, v in pairs(t) do c[k] = type(v) == "table" and G.CopyTable(v) or v end return c end
