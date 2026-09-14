@@ -129,7 +129,7 @@ function Region:SetAlpha(a) self.__alpha = a end
 function Region:GetAlpha() return self.__alpha end
 function Region:GetEffectiveAlpha() return self.__alpha end
 function Region:SetText(t) self.__text = t end
-function Region:GetText() return self.__text end
+function Region:GetText() return self.__text ~= nil and tostring(self.__text) or "" end
 function Region:SetFormattedText(f, ...) self.__text = string.format(f, ...) end
 function Region:GetStringWidth() return #tostring(self.__text) * 6 end
 function Region:GetStringHeight() return 12 end
