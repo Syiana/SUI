@@ -4,7 +4,7 @@
     The options window. Feature folders register their tabs:
 
         SUI.Config:RegisterLayout("Actionbar", {
-            group = "interface",       -- sidebar group, see GROUPS below
+            group = "interface",       -- sidebar group (interface, units, social, system)
             order = 40,                -- position inside the group
             category = "actionbar",    -- keys below are relative to this category
             rows = function() return { ... } end,
@@ -36,17 +36,17 @@ local SUIConfig = LibStub("SUIConfig")
 local Config = { layouts = {} }
 SUI.Config = Config
 
-local WIDTH, HEIGHT = 700, 415
-local GROUPS = {
-    { id = "interface", title = "Interface" },
-    { id = "units", title = "Units" },
-    { id = "social", title = "Social & PvP" },
-    { id = "system", title = "System" },
-}
-local groupOrder = {}
-for i, g in ipairs(GROUPS) do
-    groupOrder[g.id] = i
-end
+-- Window geometry. Everything else is derived from these values, so the
+-- sidebar, content area and buttons grow with the window.
+local WIDTH, HEIGHT = 900, 580
+local MARGIN, TOP, GAP = 10, 35, 5
+local SIDEBAR = 190                  -- sidebar and bottom button width
+local TAB_HEIGHT, BUTTON_HEIGHT = 28, 28
+local SCROLLBAR = 19                 -- room the sidebar scrollbar takes
+local BOTTOM = MARGIN + 2 * BUTTON_HEIGHT + 6 + 8
+
+-- Sidebar order of the layout groups (no captions are shown).
+local groupOrder = { interface = 1, units = 2, social = 3, system = 4 }
 
 local window, tabs, searchBox, clearButton, reloadButton, scrollContent
 
@@ -255,19 +255,8 @@ local function tabList(query)
     if normalize(query) ~= "" then
         list[1] = tabEntry("Search", { title = "Search", hiddenButton = true, layout = searchLayout(query) })
     end
-    local lastGroup
     for _, spec in ipairs(Config.layouts) do
         if SUI:SupportsClient(spec.clients) then
-            if spec.group ~= lastGroup then
-                lastGroup = spec.group
-                local title = spec.group
-                for _, g in ipairs(GROUPS) do
-                    if g.id == spec.group then
-                        title = g.title
-                    end
-                end
-                list[#list + 1] = tabEntry("__group_" .. spec.group, { title = title, separator = true })
-            end
             local entry = tabCache[spec.name]
             local generator = entry and entry.generator
             if not generator then
@@ -287,7 +276,7 @@ end
 
 local function firstTab()
     for _, tab in ipairs(tabs.tabs) do
-        if not tab.separator and not tab.hiddenButton then
+        if not tab.hiddenButton then
             return tab.name
         end
     end
@@ -364,24 +353,25 @@ local function create()
     local version = SUIConfig:Label(window.titlePanel, SUI.version)
     SUIConfig:GlueLeft(version, window.titlePanel, 36, 0)
 
-    local logo = SUIConfig:Texture(window.titlePanel, 120, 35, SUI.Media.logo)
+    local logo = SUIConfig:Texture(window.titlePanel, 150, 44, SUI.Media.logo)
     SUIConfig:GlueAbove(logo, window, 0, -35)
 
     window.closeBtn:SetScript("OnClick", function()
         fade(false)
     end)
 
-    tabs = SUIConfig:TabPanel(window, nil, nil, tabList(), true, 141, 26)
-    SUIConfig:GlueAcross(tabs, window, 10, -35, -10, 10)
+    tabs = SUIConfig:TabPanel(window, nil, nil, tabList(), true, SIDEBAR - SCROLLBAR, TAB_HEIGHT)
+    SUIConfig:GlueAcross(tabs, window, MARGIN, -TOP, -MARGIN, MARGIN)
 
-    local scrollTabs = SUIConfig:ScrollFrame(window, 160, 300, tabs.buttonContainer)
-    SUIConfig:GlueTop(scrollTabs, window, 10, -35, "LEFT")
+    local scrollTabs = SUIConfig:ScrollFrame(window, SIDEBAR, HEIGHT - TOP - BOTTOM, tabs.buttonContainer)
+    SUIConfig:GlueTop(scrollTabs, window, MARGIN, -TOP, "LEFT")
 
-    scrollContent = SUIConfig:ScrollFrame(window, 515, 370, tabs.container)
-    SUIConfig:GlueTop(scrollContent, window, -10, -35, "RIGHT")
+    local contentWidth = WIDTH - 2 * MARGIN - SIDEBAR - GAP
+    scrollContent = SUIConfig:ScrollFrame(window, contentWidth, HEIGHT - TOP - MARGIN, tabs.container)
+    SUIConfig:GlueTop(scrollContent, window, -MARGIN, -TOP, "RIGHT")
 
     -- Search
-    searchBox = SUIConfig:SearchEditBox(window.titlePanel, 165, 20, "Search settings")
+    searchBox = SUIConfig:SearchEditBox(window.titlePanel, 200, 20, "Search settings")
     searchBox:SetPoint("RIGHT", window.closeBtn, "LEFT", -4, 0)
     searchBox:SetTextInsets(3, 22, 3, 3)
     searchBox.OnValueChanged = function(_, value)
@@ -400,11 +390,11 @@ local function create()
 
     -- Bottom buttons: settings apply live, reloading is only needed for a
     -- few options, so the button lights up when that is the case.
-    reloadButton = SUIConfig:Button(window, 160, 28, "Reload UI")
-    SUIConfig:GlueBottom(reloadButton, window, 10, 10, "LEFT")
+    reloadButton = SUIConfig:Button(window, SIDEBAR, BUTTON_HEIGHT, "Reload UI")
+    SUIConfig:GlueBottom(reloadButton, window, MARGIN, MARGIN, "LEFT")
     reloadButton:SetScript("OnClick", ReloadUI)
 
-    local edit = SUIConfig:Button(window, 160, 28, SUI.HasEditMode and "Edit Mode" or "Move Frames")
+    local edit = SUIConfig:Button(window, SIDEBAR, BUTTON_HEIGHT, SUI.HasEditMode and "Edit Mode" or "Move Frames")
     SUIConfig:GlueAbove(edit, reloadButton, 0, 6, "LEFT")
     edit:SetScript("OnClick", function()
         fade(false)
@@ -460,7 +450,7 @@ function Config:Open(name)
     if name then
         name = name:lower()
         for _, tab in ipairs(tabs.tabs) do
-            if not tab.separator and (tab.name:lower() == name or (tab.title or ""):lower() == name) then
+            if (tab.name:lower() == name or (tab.title or ""):lower() == name) then
                 tabs:SelectTab(tab.name)
                 break
             end

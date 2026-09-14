@@ -46,10 +46,6 @@ local TabPanelMethods = {
 					tab.button:Hide();
 				end
 
-				if tab.label then
-					tab.label:Hide();
-				end
-
 				if tab.frame then
 					tab.frame:Hide();
 				end
@@ -90,33 +86,7 @@ local TabPanelMethods = {
 			if tab.button then
 				tab.button:Hide();
 			end
-			if tab.label then
-				tab.label:Hide();
-			end
-
-			if tab.separator then
-				-- Group caption between tab buttons (not selectable).
-				local label = tab.label;
-				if not label then
-					label = self.SUIConfig:Header(self.buttonContainer, tab.title, 12);
-					tab.label = label;
-				end
-				label:SetText(tab.title);
-				label:ClearAllPoints();
-				label:SetWidth(self.buttonWidth - 6);
-				label:SetHeight(self.buttonHeight);
-				label:SetJustifyH('LEFT');
-				label:SetJustifyV('BOTTOM');
-				if not prevBtn then
-					label:SetPoint('TOPLEFT', self.buttonContainer, 'TOPLEFT', 6, 0);
-				else
-					label:SetPoint('TOP', prevBtn, 'BOTTOM', 0, -8);
-					label:SetPoint('LEFT', self.buttonContainer, 'LEFT', 6, 0);
-				end
-				label.tabSeparator = true;
-				label:Show();
-				prevBtn = label;
-			elseif not tab.hiddenButton then
+			if not tab.hiddenButton then
 				local btn = tab.button;
 				local btnContainer = self.buttonContainer;
 
@@ -143,9 +113,6 @@ local TabPanelMethods = {
 				if self.vertical then
 					if not prevBtn then
 						self.SUIConfig:GlueTop(btn, btnContainer, 0, 0, 'CENTER');
-					elseif prevBtn.tabSeparator then
-						btn:SetPoint('TOP', prevBtn, 'BOTTOM', 0, -2);
-						btn:SetPoint('LEFT', btnContainer, 'LEFT', 0, 0);
 					else
 						self.SUIConfig:GlueBelow(btn, prevBtn, 0, -1);
 					end
@@ -165,7 +132,6 @@ local TabPanelMethods = {
 
 	DrawFrames = function(self)
 		for _, tab in pairs(self.tabs) do
-		if not tab.separator then
 			if tab.frame and tab.builtLayout ~= tab.layout then
 				ResetTabFrame(tab.frame);
 				tab.frame:SetParent(nil);
@@ -190,13 +156,12 @@ local TabPanelMethods = {
 				tab.frame:SetScript('OnHide', tab.onHide);
 			end
 		end
-		end
 	end,
 
 	-- Throws away a built tab and builds it again (e.g. after options changed
 	-- which rows are visible). tab.generator restores a layout function.
 	RebuildTab = function(self, tab)
-		if not tab or tab.separator or not tab.frame then
+		if not tab or not tab.frame then
 			return
 		end
 		ResetTabFrame(tab.frame);
@@ -254,7 +219,7 @@ local TabPanelMethods = {
 		self:HideAllFrames();
 		local foundTab = self:GetTabByName(name);
 
-		if foundTab and not foundTab.separator and foundTab.name == name and foundTab.frame then
+		if foundTab and foundTab.name == name and foundTab.frame then
 			self:BuildTab(foundTab);
 			if foundTab.button then
 				foundTab.button:Disable();
@@ -320,11 +285,8 @@ function SUIConfig:TabPanel(parent, width, height, tabs, vertical, buttonWidth, 
 	end
 
 	tabFrame:Update();
-	for i = 1, #tabFrame.tabs do
-		if not tabFrame.tabs[i].separator then
-			tabFrame:SelectTab(tabFrame.tabs[i].name);
-			break
-		end
+	if #tabFrame.tabs > 0 then
+		tabFrame:SelectTab(tabFrame.tabs[1].name);
 	end
 
 	return tabFrame;
