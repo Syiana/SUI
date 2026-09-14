@@ -323,7 +323,17 @@ if isRetail then
     function LEM:GetActiveLayoutName() return "Modern" end
     function LEM:IsInEditMode() return false end
 end
-for _, name in ipairs({ "LibDBIcon-1.0", "LibCustomGlow-1.0", "LibNPCInfo", "LibDataBroker-1.1" }) do
+do
+    local icon = LibStub:NewLibrary("LibDBIcon-1.0", 1)
+    icon.objects = {}
+    function icon:GetButtonList() return {} end
+    function icon:GetMinimapButton() return nil end
+    function icon:Register() end
+    function icon:Hide() end
+    function icon:Show() end
+    function icon:RegisterCallback() end
+end
+for _, name in ipairs({ "LibCustomGlow-1.0", "LibNPCInfo", "LibDataBroker-1.1" }) do
     local lib = LibStub:NewLibrary(name, 1)
     setmetatable(lib, { __index = function(t, k) local v = function() return nil end; rawset(t, k, v); return v end })
 end

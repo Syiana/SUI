@@ -252,7 +252,8 @@ zurücksetzt, per Hook auf genau diese Methode nachziehen.
    prüfen.
 8. **Keine neuen Globals.** Ausnahmen nur, wo Blizzard einen Namen verlangt
    (`StaticPopupDialogs`, Keybinding-Header, `UISpecialFrames`), dann mit
-   Präfix `SUI`.
+   Präfix `SUI`. Einzige feste Ausnahme ohne Präfix: `GetMinimapShape` (Konvention,
+   die Minimap-Add-ons lesen). Neue Ausnahmen gehören in `.luacheckrc`.
 9. **Blizzard-Scripts nie ersetzen** (`SetScript` auf Blizzard-Frames ist
    verboten), nur `HookScript` / `hooksecurefunc`.
 

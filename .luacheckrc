@@ -14,5 +14,6 @@ globals = {
     "SUI", "SUI_Options", "SUIConfigWindow",
     "StaticPopupDialogs", "SlashCmdList", "UISpecialFrames",
     "BINDING_HEADER_SUI",
+    "GetMinimapShape", -- minimap convention read by LibDBIcon and other minimap add-ons
 }
 exclude_files = { "Libs/", "_legacy/" }
