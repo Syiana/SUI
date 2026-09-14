@@ -16,4 +16,4 @@ globals = {
     "BINDING_HEADER_SUI",
     "GetMinimapShape", -- minimap convention read by LibDBIcon and other minimap add-ons
 }
-exclude_files = { "Libs/", "_legacy/" }
+exclude_files = { "Libs/" }

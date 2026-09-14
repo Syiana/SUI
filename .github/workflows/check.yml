@@ -1,0 +1,27 @@
+name: Check
+
+on:
+  push:
+    branches: ['**']
+  pull_request:
+
+jobs:
+  lua:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install LuaJIT and luacheck
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y luajit luarocks
+          sudo luarocks install luacheck
+
+      - name: Syntax and luacheck
+        run: tools/check.sh
+
+      - name: Smoke test (all clients)
+        run: |
+          for client in Mainline Mists TBC Vanilla; do
+            luajit tools/smoke/run.lua "$client" --ui
+          done

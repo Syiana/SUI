@@ -1,7 +1,0 @@
-<Ui xmlns='http://www.blizzard.com/wow/ui/'>
-	<Script file = "_Buttons.lua"/>
-	<Script file = "_Flash.lua"/>
-	<Script file = "_Range.lua"/>
-	<Script file = "_Mouseover.lua"/>
-	<Script file = "_Hide.lua"/>
-</Ui>

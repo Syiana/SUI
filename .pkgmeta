@@ -21,5 +21,4 @@ ignore:
   - CHANGELOG.md
   - docs
   - tools
-  - _legacy
   - .luacheckrc

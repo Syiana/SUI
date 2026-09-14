@@ -69,7 +69,7 @@ nicht erneut registrieren. Die Tabs „Profiles“ (system, 900) und „FAQ“
 (system, 1000) gehören dem Kern.
 
 **Schlüssel aus SUI 1.x behalten**, wo das Feature schon existierte (siehe
-`_legacy/Core/Init.lua`). Wo ein Schlüssel umbenannt oder umstrukturiert wird,
+`git show origin/update_patch:Core/Init.lua`). Wo ein Schlüssel umbenannt oder umstrukturiert wird,
 gehört eine Migration dazu (Abschnitt 5).
 
 ## 4. Feature-API
@@ -276,7 +276,7 @@ zurücksetzt, per Hook auf genau diese Methode nachziehen.
   Instanzen „secret“ sein. Secrets nie vergleichen, rechnen, als Tabellenschlüssel
   nutzen oder mit `..` verketten. `FontString:SetText` und
   `StatusBar:SetValue` akzeptieren sie. Vorher `SUI.Compat.CanAccess(v)`.
-- Der 1.x-Code auf `update_patch` (in `_legacy/`) läuft auf 12.1. Seine
+- Der 1.x-Code auf `origin/update_patch` läuft auf 12.1. Seine
   Midnight-Workarounds sind die Referenz dafür, was funktioniert.
 - Verbotene Frames (`frame:IsForbidden()`, z.B. freundliche Nameplates in
   Instanzen) nicht anfassen.

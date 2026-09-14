@@ -7,7 +7,13 @@ fail=0
 for f in $(find $paths -name '*.lua'); do
     out=$(luajit -bl "$f" 2>&1 >/dev/null) || { echo "SYNTAX $out"; fail=1; }
 done
-LUACHECK=${LUACHECK:-$(command -v luacheck-jit || echo "$HOME/.luarocks-jit/bin/luacheck")}
+if [ -z "$LUACHECK" ]; then
+    if [ -x "$HOME/.luarocks-jit/bin/luacheck" ]; then
+        LUACHECK="$HOME/.luarocks-jit/bin/luacheck"
+    else
+        LUACHECK=luacheck
+    fi
+fi
 "$LUACHECK" $paths --codes --no-color -q || fail=1
 # Undefined lowercase globals are almost always typos of locals (WoW's API is
 # CamelCase). Known lowercase WoW/Lua globals are allowed.
