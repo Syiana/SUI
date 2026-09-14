@@ -14,8 +14,11 @@ externals:
   Libs/LibEditMode: https://github.com/p3lim-wow/LibEditMode.git
   Libs/LibCustomGlow-1.0: https://github.com/Stanzilla/LibCustomGlow.git
 
+manual-changelog: CHANGELOG.md
+
 ignore:
   - readme.md
+  - CHANGELOG.md
   - docs
   - tools
   - _legacy
