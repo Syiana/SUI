@@ -178,7 +178,14 @@ function SUI:ImportProfile(data, isV2)
         end
     end
     applyInto(profile, clean)
-    runMigrations(profile)
+    -- The imported data is already current: v2 exports come from a migrated
+    -- profile and 1.x data was migrated above. Mark everything as done so no
+    -- migration runs a second time on it.
+    local done = {}
+    for i = 1, #migrations do
+        done[migrations[i].name] = true
+    end
+    profile.migrations = done
     self:OnProfileChanged()
 end
 
