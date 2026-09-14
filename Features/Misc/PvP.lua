@@ -2,15 +2,14 @@
     SUI 2.0 - Features/Misc/PvP.lua
 
     Small PvP helpers: Tab Binder (TAB targets only players in PvP), arena
-    dampening below the arena timer, arena numbers on enemy nameplates,
-    /gg to surrender and buttons in the conquest frame that track the
-    season's rated achievements.
+    dampening below the arena timer, /gg to surrender and buttons in the
+    conquest frame that track the season's rated achievements.
 ]]
 
 local _, ns = ...
 local SUI = ns.SUI
 
-local next, strfind, select = next, string.find, select
+local next, select = next, select
 local CanAccess = SUI.Compat.CanAccess
 
 local function inArena()
@@ -151,54 +150,6 @@ function Dampening:Update()
     else
         self.text:Hide()
     end
-end
-
--- Arena nameplates ------------------------------------------------------------------
-local ArenaNameplate = SUI:NewFeature("Misc.ArenaNameplate", {
-    category = "misc",
-    toggle = "arenanameplate",
-    clients = { Mainline = true, Mists = true, TBC = true },
-})
-
-local ARENA_UNITS = { "arena1", "arena2", "arena3", "arena4", "arena5" }
-local arenaActive = false
-
-function ArenaNameplate:OnLoad()
-    if not CompactUnitFrame_UpdateName then
-        return
-    end
-    local UnitIsUnit = UnitIsUnit
-    self:Hook("CompactUnitFrame_UpdateName", function(frame)
-        if not arenaActive or frame:IsForbidden() then
-            return
-        end
-        local unit, name = frame.unit, frame.name
-        if not unit or not name or not CanAccess(unit) or strfind(unit, "nameplate", 1, true) ~= 1 then
-            return
-        end
-        for i = 1, #ARENA_UNITS do
-            local same = UnitIsUnit(unit, ARENA_UNITS[i])
-            if CanAccess(same) and same then
-                name:SetText(i)
-                name:SetTextColor(1, 1, 0)
-                return
-            end
-        end
-    end)
-end
-
-function ArenaNameplate:OnEnable()
-    self:RegisterEvent("PLAYER_ENTERING_WORLD", "Zone")
-    self:RegisterEvent("ZONE_CHANGED_NEW_AREA", "Zone")
-    self:Zone()
-end
-
-function ArenaNameplate:OnDisable()
-    arenaActive = false
-end
-
-function ArenaNameplate:Zone()
-    arenaActive = inArena()
 end
 
 -- Surrender -------------------------------------------------------------------------

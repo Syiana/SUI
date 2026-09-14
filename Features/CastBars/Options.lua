@@ -1,9 +1,10 @@
 --[[
     SUI 2.0 - Features/CastBars/Options.lua
 
-    The Castbars tab. Labels follow SUI 1.x; the timer (never shown in 1.x)
-    and the statusbar texture are new. Focus options are hidden on Vanilla,
-    which has no focus frame.
+    The Castbars tab. The icon and the target, focus and boss bars only use
+    SUI's look with the Custom style, so their rows are hidden while Default is
+    selected. Focus options are limited to clients with a focus frame; boss
+    options are hidden when the client has no boss castbars.
 ]]
 
 local _, ns = ...
@@ -17,43 +18,92 @@ local function textures()
     return list
 end
 
+local function notCustom()
+    return SUI:Get("castbars.style") ~= "Custom"
+end
+
+local function noBoss()
+    return Boss1TargetFrameSpellBar == nil
+end
+
+-- Hidden unless the style is Custom and `key` is on.
+local function off(key)
+    return function()
+        return notCustom() or not SUI:Get("castbars." .. key)
+    end
+end
+
+local function check(key, label, tooltip, order, extra)
+    local el = { key = key, type = "checkbox", label = label, tooltip = tooltip, column = 4, order = order }
+    for k, v in pairs(extra or {}) do
+        el[k] = v
+    end
+    return el
+end
+
+local function scale(key, tooltip, order, extra)
+    local el = { key = key, type = "slider", label = "Scale", tooltip = tooltip, min = 0.5, max = 3, step = 0.1, precision = 1, column = 4, order = order }
+    for k, v in pairs(extra or {}) do
+        el[k] = v
+    end
+    return el
+end
+
 SUI.Config:RegisterLayout("Castbars", {
-    order = 50,
+    group = "units",
+    order = 40,
     category = "castbars",
     rows = function()
-        local noBoss = function()
-            return Boss1TargetFrameSpellBar == nil
-        end
         return {
-            { header = { type = "header", label = "Castbars" } },
+            { header = { type = "header", label = "Style" } },
             {
                 style = {
-                    key = "style", type = "dropdown", label = "Style", column = 5, order = 1,
-                    tooltip = "Custom restyles the player, target, focus and boss castbars; Default keeps Blizzard's look",
+                    key = "style", type = "dropdown", label = "Style", column = 4, order = 1, rebuild = true,
+                    tooltip = "Custom restyles the player, target, focus and boss castbars; Default keeps Blizzard's look.",
                     options = { { value = "Default", text = "Default" }, { value = "Custom", text = "Custom" } },
                 },
-                texture = { key = "texture", type = "dropdown", label = "Texture", tooltip = "Statusbar texture of the castbars (Blizzard keeps the default)", options = textures(), column = 5, order = 2 },
+                texture = { key = "texture", type = "dropdown", label = "Texture", column = 4, order = 2, options = textures(),
+                            tooltip = "Statusbar texture of the castbars (Blizzard keeps the default)." },
             },
-            { header = { type = "header", label = "Settings" } },
+            { header = { type = "header", label = "Elements" } },
             {
-                casticons = { key = "icon", type = "checkbox", label = "Icons", tooltip = "Display spell icons on castbar", column = 4, order = 1 },
-                casttime = { key = "timer", type = "checkbox", label = "Timer", tooltip = "Display cast time on castbar", column = 4, order = 2 },
-                targetCastbar = { key = "targetCastbar", type = "checkbox", label = "Target Castbar", tooltip = "Custom Target Castbar", column = 4, order = 3 },
+                icon = check("icon", "Spell Icon", "Show spell icons on the castbars.", 1, { hidden = notCustom }),
+                timer = check("timer", "Cast Timer", "Show the remaining cast time next to the castbars.", 2),
+            },
+            { header = { type = "header", label = "Target", hidden = notCustom } },
+            {
+                targetCastbar = check("targetCastbar", "Custom Castbar", "Give the target castbar the Custom look; unchecked keeps Blizzard's.", 1,
+                                      { rebuild = true, hidden = notCustom }),
+                targetOnTop = check("targetOnTop", "On Top", "Show the target castbar above the target frame.", 2, { hidden = off("targetCastbar") }),
+                targetSize = scale("targetSize", "Scale of the target castbar.", 3, { hidden = off("targetCastbar") }),
+            },
+            { header = { type = "header", label = "Focus", clients = FOCUS, hidden = notCustom } },
+            {
+                focusCastbar = check("focusCastbar", "Custom Castbar", "Give the focus castbar the Custom look; unchecked keeps Blizzard's.", 1,
+                                     { clients = FOCUS, rebuild = true, hidden = notCustom }),
+                focusOnTop = check("focusOnTop", "On Top", "Show the focus castbar above the focus frame.", 2, { clients = FOCUS, hidden = off("focusCastbar") }),
+                focusSize = scale("focusSize", "Scale of the focus castbar.", 3, { clients = FOCUS, hidden = off("focusCastbar") }),
             },
             {
-                focusCastbar = { key = "focusCastbar", type = "checkbox", label = "Focus Castbar", tooltip = "Custom Focus Castbar", clients = FOCUS, column = 4, order = 1 },
-                bossCastbar = { key = "bossCastbar", type = "checkbox", label = "Boss Castbars", tooltip = "Give the boss frame castbars the Custom look (size, texture, icon, timer)", hidden = noBoss, column = 4, order = 2 },
+                header = {
+                    type = "header", label = "Boss",
+                    hidden = function()
+                        return notCustom() or noBoss()
+                    end,
+                },
             },
-            { header = { type = "header", label = "Castbar Scales" } },
             {
-                targetSize = { key = "targetSize", type = "slider", label = "Target", tooltip = "Scale of the target castbar", min = 0.5, max = 3, step = 0.1, precision = 1, column = 4, order = 1 },
-                focusSize = { key = "focusSize", type = "slider", label = "Focus Target", tooltip = "Scale of the focus castbar", min = 0.5, max = 3, step = 0.1, precision = 1, clients = FOCUS, column = 4, order = 2 },
-                bossSize = { key = "bossSize", type = "slider", label = "Boss", tooltip = "Scale of the boss castbars", min = 0.5, max = 3, step = 0.1, precision = 1, hidden = noBoss, column = 4, order = 3 },
-            },
-            { header = { type = "header", label = "Castbar On Top" } },
-            {
-                targetOnTop = { key = "targetOnTop", type = "checkbox", label = "Target", tooltip = "Display the Castbar above its Unitframe", column = 4, order = 1 },
-                focusOnTop = { key = "focusOnTop", type = "checkbox", label = "Focus", tooltip = "Display the Castbar above its Unitframe", clients = FOCUS, column = 4, order = 2 },
+                bossCastbar = check("bossCastbar", "Custom Castbars", "Give the boss frame castbars the Custom look (size, texture, icon, timer).", 1, {
+                    rebuild = true,
+                    hidden = function()
+                        return notCustom() or noBoss()
+                    end,
+                }),
+                bossSize = scale("bossSize", "Scale of the boss castbars.", 2, {
+                    hidden = function()
+                        return noBoss() or off("bossCastbar")()
+                    end,
+                }),
             },
         }
     end,

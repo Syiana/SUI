@@ -131,138 +131,191 @@ local function openEditor()
 end
 
 -- Layout ------------------------------------------------------------------------------
+-- Most of the look only applies with the Custom style; those rows are hidden
+-- while the Default style is selected, as are the options of a switch that is off.
 local ARENA = { Mainline = true, Mists = true, TBC = true }
 local RETAIL = { Mainline = true }
 local CLASSIC = { Classic = true }
+
+local function get(key)
+    return SUI:Get("nameplates." .. key)
+end
+
+local function notCustom()
+    return get("style") ~= "Custom"
+end
+
+-- Hidden while `key` is off (or, with custom = true, also while the style is Default).
+local function off(key, custom)
+    return function()
+        return (custom and notCustom()) or not get(key)
+    end
+end
 
 local function styleOptions()
     return { { value = "Default", text = "Default" }, { value = "Custom", text = "Custom" } }
 end
 
-local function check(key, label, tooltip, order, clients)
-    return { key = key, type = "checkbox", label = label, tooltip = tooltip, column = 4, order = order, clients = clients }
+local function extend(el, extra)
+    for k, v in pairs(extra or {}) do
+        el[k] = v
+    end
+    return el
 end
 
-local function slider(key, label, min, max, step, order, clients)
-    return { key = key, type = "slider", label = label, min = min, max = max, step = step, column = 4, order = order, clients = clients }
+local function check(key, label, tooltip, order, extra)
+    return extend({ key = key, type = "checkbox", label = label, tooltip = tooltip, column = 4, order = order }, extra)
 end
 
-local function color(key, label, order)
-    return { key = key, type = "color", label = label, column = 4, order = order }
+local function slider(key, label, min, max, step, order, tooltip, extra)
+    return extend({ key = key, type = "slider", label = label, min = min, max = max, step = step, column = 4, order = order, tooltip = tooltip }, extra)
 end
 
-local function header(label, clients)
-    return { header = { type = "header", label = label, clients = clients } }
+local function color(key, label, order, tooltip, hidden)
+    return { key = key, type = "color", label = label, column = 4, order = order, tooltip = tooltip, hidden = hidden }
 end
+
+local function header(label, extra)
+    return { header = extend({ type = "header", label = label }, extra) }
+end
+
+local CUSTOM = { hidden = notCustom }
 
 SUI.Config:RegisterLayout("Nameplates", {
+    group = "units",
     order = 30,
     category = "nameplates",
     rows = function()
         local textures = SUI.Media:Options("statusbar")
+        local pbOff = function()
+            return get("personalbar.style") ~= "Custom"
+        end
         return {
-            header("Nameplates"),
+            header("Style"),
             {
-                style = { key = "style", type = "dropdown", label = "Style", options = styleOptions(), column = 4, order = 1,
-                          tooltip = "Custom enables the SUI look (texture, texts, castbar, colours, size)" },
-                texture = { key = "texture", type = "dropdown", label = "Texture", options = textures, column = 4, order = 2 },
-                decimals = { key = "decimals", type = "dropdown", label = "Health Text Decimals", column = 4, order = 3,
+                style = { key = "style", type = "dropdown", label = "Style", options = styleOptions(), column = 4, order = 1, rebuild = true,
+                          tooltip = "Custom enables the SUI look: texture, size, health text, colors, names and castbar." },
+                texture = { key = "texture", type = "dropdown", label = "Texture", options = textures, column = 4, order = 2, hidden = notCustom,
+                            tooltip = "Health bar texture of the nameplates." },
+                height = slider("height", "Height", 1, 5, 0.1, 3, "Vertical scale of the nameplates.", CUSTOM),
+            },
+            {
+                width = slider("width", "Width", 1, 5, 0.1, 1, "Horizontal scale of the nameplates.", CUSTOM),
+            },
+            header("Health", CUSTOM),
+            {
+                healthtext = check("healthtext", "Health Text", "Show the health percentage on the nameplate.", 1, { rebuild = true, hidden = notCustom }),
+                colors = check("colors", "NPC Colors", "Color the health bars of the NPCs in the NPC color list.", 2, CUSTOM),
+                threat = check("threat", "Threat Colors", "Color health bars by threat depending on your group role (tank or damage/healer).", 3, CUSTOM),
+            },
+            {
+                decimals = { key = "decimals", type = "dropdown", label = "Health Text Decimals", column = 4, order = 1, hidden = off("healthtext", true),
+                             tooltip = "Decimal places of the health percentage.",
                              options = { { value = 0, text = "0 (e.g. 99%)" }, { value = 1, text = "1 (e.g. 99.9%)" }, { value = 2, text = "2 (e.g. 99.99%)" } } },
+                editor = { type = "button", text = "Edit NPC Colors", onClick = openEditor, column = 4, order = 2, hidden = notCustom },
             },
             {
-                height = slider("height", "Height", 1, 5, 0.1, 1),
-                width = slider("width", "Width", 1, 5, 0.1, 2),
-            },
-            header("Options"),
-            {
-                healthtext = check("healthtext", "Health Text", "Shows the health percentage in the nameplate", 1),
-                color = check("color", "Classcolor Playernames", "Show Playernames in their class color", 2),
-                server = check("server", "Hide Servername", "Hide servernames entirely on nameplates", 3),
+                npctypes = check("npctypes.enabled", "NPC Type Colors", "Color bosses, minibosses and casters.", 1, { rebuild = true, hidden = notCustom }),
+                instancesonly = check("npctypes.instancesonly", "Instances Only", "Only use NPC type colors in dungeons and raids.", 2,
+                                      { hidden = off("npctypes.enabled", true) }),
             },
             {
-                arenanumber = check("arenanumber", "Arena Nameplate", "Shows Arena number over Nameplate", 1, ARENA),
-                totemicons = check("totemicons", "Totem Icons", "Shows Totem icons on Nameplate", 2),
-                casttime = check("casttime", "Cast Time", "Show cast time below the cast icon", 3),
+                boss = color("npctypes.boss", "Boss", 1, "Health bar color of bosses.", off("npctypes.enabled", true)),
+                miniboss = color("npctypes.miniboss", "Miniboss", 2, "Health bar color of minibosses.", off("npctypes.enabled", true)),
+                caster = color("npctypes.caster", "Caster", 3, "Health bar color of casters.", off("npctypes.enabled", true)),
+            },
+            -- Arena numbers work with both styles, the rest needs Custom (and there is no arena on Vanilla).
+            header("Names", { clients = ARENA }),
+            header("Names", { clients = { Vanilla = true }, hidden = notCustom }),
+            {
+                color = check("color", "Class Color Names", "Show player names in their class color.", 1, CUSTOM),
+                server = check("server", "Hide Server Name", "Hide the server name of players from other realms.", 2, CUSTOM),
+                arenanumber = check("arenanumber", "Arena Numbers", "Show the arena number instead of the name on enemy arena players.", 3, { clients = ARENA }),
+            },
+            header("Castbar", CUSTOM),
+            {
+                casttime = check("casttime", "Cast Time", "Show the cast time below the cast icon.", 1, CUSTOM),
+                castcolors = check("castbar.colors", "Interrupt Colors", "Color castbars while your interrupt is on cooldown or the cast cannot be interrupted.", 2,
+                                   { rebuild = true, hidden = notCustom }),
             },
             {
-                focusHighlight = check("focusHighlight", "Focus Highlight", "Highlight Focus Target (different Texture)", 1),
-                debuffs = check("debuffs", "Hide Debuffs", "Hides your own debuffs above of the nameplates", 2),
-                stackingmode = check("stackingmode", "Smart Stacking Mode", "Enabled = Smart Stacking Mode / Disabled = Overlapping Nameplates", 3),
-            },
-            header("Castbar"),
-            {
-                castcolors = check("castbar.colors", "Interrupt Colors", "Color castbars while your interrupt is on cooldown or the cast cannot be interrupted", 1),
-                cooldown = color("castbar.cooldown", "Interrupt on Cooldown", 2),
-                uninterruptible = color("castbar.uninterruptible", "Not Interruptible", 3),
-            },
-            header("Mythic+ Options"),
-            {
-                colors = check("colors", "NPC Colors", "Enable/Disable NPC Colors for important NPCs", 1),
-                threat = check("threat", "Threat Colors", "Color health bars by threat depending on your group role (tank or damage/healer)", 2),
-                editor = { type = "button", text = "Change NPC Colors", onClick = openEditor, column = 4, order = 3 },
-            },
-            {
-                npctypes = check("npctypes.enabled", "NPC Type Colors", "Color bosses, minibosses and casters", 1),
-                instancesonly = check("npctypes.instancesonly", "Instances Only", "Only use NPC type colors in dungeons and raids", 2),
-            },
-            {
-                boss = color("npctypes.boss", "Boss", 1),
-                miniboss = color("npctypes.miniboss", "Miniboss", 2),
-                caster = color("npctypes.caster", "Caster", 3),
+                cooldown = color("castbar.cooldown", "Interrupt on Cooldown", 1, "Castbar color while your interrupt is on cooldown.", off("castbar.colors", true)),
+                uninterruptible = color("castbar.uninterruptible", "Not Interruptible", 2, "Castbar color of casts that cannot be interrupted.", off("castbar.colors", true)),
             },
             header("Icons"),
             {
-                classicons = check("classicons.enabled", "Class Icons", "Show class icons (arena: specialization icons) on player nameplates", 1),
-                pvponly = check("classicons.pvponly", "PvP Only", "Only show class icons in arenas and battlegrounds", 2),
-                classsize = slider("classicons.size", "Class Icon Size", 12, 40, 1, 3),
+                totemicons = check("totemicons", "Totem Icons", "Show totem icons with their duration above totem nameplates.", 1),
             },
             {
-                healer = check("healer.enabled", "Healer Marker", "Mark healers (group roles and arena specializations)", 1),
-                healersize = slider("healer.size", "Healer Marker Size", 12, 40, 1, 2),
+                classicons = check("classicons.enabled", "Class Icons", "Show class icons (arena: specialization icons) on player nameplates.", 1, { rebuild = true }),
+                pvponly = check("classicons.pvponly", "PvP Only", "Only show class icons in arenas and battlegrounds.", 2, { hidden = off("classicons.enabled") }),
+                classsize = slider("classicons.size", "Class Icon Size", 12, 40, 1, 3, "Size of the class icons.", { hidden = off("classicons.enabled") }),
             },
             {
-                target = check("target.enabled", "Target Indicator", "Show arrows next to your target's nameplate", 1),
-                targetcolor = color("target.color", "Arrow Color", 2),
-                targetsize = slider("target.size", "Arrow Size", 8, 32, 1, 3),
+                healer = check("healer.enabled", "Healer Marker", "Mark healers (group roles and arena specializations).", 1, { rebuild = true }),
+                healersize = slider("healer.size", "Healer Marker Size", 12, 40, 1, 2, "Size of the healer marker.", { hidden = off("healer.enabled") }),
             },
             {
-                raidmarker = check("raidmarker.enabled", "Raid Marker", "Change size and position of the raid marker", 1),
-                anchor = { key = "raidmarker.anchor", type = "dropdown", label = "Raid Marker Position", column = 4, order = 2,
+                target = check("target.enabled", "Target Indicator", "Show arrows next to your target's nameplate.", 1, { rebuild = true }),
+                targetcolor = color("target.color", "Arrow Color", 2, "Color of the target arrows.", off("target.enabled")),
+                targetsize = slider("target.size", "Arrow Size", 8, 32, 1, 3, "Size of the target arrows.", { hidden = off("target.enabled") }),
+            },
+            {
+                raidmarker = check("raidmarker.enabled", "Raid Marker", "Change the size and position of the raid marker.", 1, { rebuild = true }),
+                anchor = { key = "raidmarker.anchor", type = "dropdown", label = "Raid Marker Position", column = 4, order = 2, hidden = off("raidmarker.enabled"),
+                           tooltip = "Side of the health bar the raid marker sits on.",
                            options = { { value = "TOP", text = "Top" }, { value = "LEFT", text = "Left" }, { value = "RIGHT", text = "Right" } } },
-                markersize = slider("raidmarker.size", "Raid Marker Size", 12, 48, 1, 3),
+                markersize = slider("raidmarker.size", "Raid Marker Size", 12, 48, 1, 3, "Size of the raid marker.", { hidden = off("raidmarker.enabled") }),
             },
             {
-                markerx = slider("raidmarker.x", "Raid Marker X", -50, 50, 1, 1),
-                markery = slider("raidmarker.y", "Raid Marker Y", -50, 50, 1, 2),
+                markerx = slider("raidmarker.x", "Raid Marker X", -50, 50, 1, 1, "Horizontal offset of the raid marker.", { hidden = off("raidmarker.enabled") }),
+                markery = slider("raidmarker.y", "Raid Marker Y", -50, 50, 1, 2, "Vertical offset of the raid marker.", { hidden = off("raidmarker.enabled") }),
             },
-            header("Auras", RETAIL),
+            -- Important auras are retail only; Hide Debuffs needs Custom.
+            header("Auras", { clients = RETAIL }),
+            header("Auras", { clients = CLASSIC, hidden = notCustom }),
             {
-                auras = check("auras.enabled", "Important Auras", "Show crowd control and important buffs next to the health bar", 1, RETAIL),
-                cc = check("auras.cc", "Crowd Control", "Crowd control on the unit, left of the health bar", 2, RETAIL),
-                important = check("auras.important", "Important Buffs", "Important buffs of the unit, right of the health bar", 3, RETAIL),
+                auras = check("auras.enabled", "Important Auras", "Show crowd control and important buffs next to the health bar.", 1, { clients = RETAIL, rebuild = true }),
+                cc = check("auras.cc", "Crowd Control", "Show crowd control on the unit left of the health bar.", 2, { clients = RETAIL, hidden = off("auras.enabled") }),
+                important = check("auras.important", "Important Buffs", "Show important buffs of the unit right of the health bar.", 3,
+                                  { clients = RETAIL, hidden = off("auras.enabled") }),
             },
             {
-                aurasize = slider("auras.size", "Aura Size", 12, 40, 1, 1, RETAIL),
+                aurasize = slider("auras.size", "Aura Size", 12, 40, 1, 1, "Size of the crowd control and important buff icons.",
+                                  { clients = RETAIL, hidden = off("auras.enabled") }),
+            },
+            {
+                debuffs = check("debuffs", "Hide Debuffs", "Hide the debuffs above the nameplates.", 1, CUSTOM),
+            },
+            header("Behavior", CUSTOM),
+            {
+                focusHighlight = check("focusHighlight", "Focus Highlight", "Give your focus target's nameplate a different texture.", 1, CUSTOM),
+                stackingmode = check("stackingmode", "Smart Stacking", "Stack enemy nameplates instead of letting them overlap.", 2, CUSTOM),
             },
             header("CVars"),
             {
-                cvars = check("cvars.enabled", "Nameplate CVars", "Let SUI manage the settings below (applied after combat)", 1),
-                friendlynpcs = check("cvars.friendlynpcs", "Friendly NPCs", "Show nameplates of friendly NPCs", 2),
-                onlynames = check("cvars.onlynames", "Only Names (Friendly)", "Show only the name on friendly player nameplates", 3, RETAIL),
+                cvars = check("cvars.enabled", "Nameplate CVars", "Let SUI manage the nameplate settings below (applied after combat).", 1, { rebuild = true }),
+                friendlynpcs = check("cvars.friendlynpcs", "Friendly NPCs", "Show nameplates of friendly NPCs.", 2, { hidden = off("cvars.enabled") }),
+                onlynames = check("cvars.onlynames", "Only Names (Friendly)", "Show only the name on friendly player nameplates.", 3,
+                                  { clients = RETAIL, hidden = off("cvars.enabled") }),
+                maxdistance = slider("cvars.maxdistance", "Max Distance", 20, 41, 1, 3, "Distance up to which nameplates are shown.",
+                                     { clients = CLASSIC, hidden = off("cvars.enabled") }),
             },
             {
-                offscreen = check("cvars.offscreen", "Offscreen Nameplates", "Keep nameplates at the screen edge for units outside the view", 1, RETAIL),
-                maxdistance = slider("cvars.maxdistance", "Max Distance", 20, 41, 1, 1, CLASSIC),
+                offscreen = check("cvars.offscreen", "Offscreen Nameplates", "Keep nameplates at the screen edge for units outside the view.", 1,
+                                  { clients = RETAIL, hidden = off("cvars.enabled") }),
             },
             header("Personal Resource Bar"),
             {
-                pbstyle = { key = "personalbar.style", type = "dropdown", label = "Style", options = styleOptions(), column = 4, order = 1 },
-                pbtexture = { key = "personalbar.texture", type = "dropdown", label = "Texture", options = textures, column = 4, order = 2 },
+                pbstyle = { key = "personalbar.style", type = "dropdown", label = "Style", options = styleOptions(), column = 4, order = 1, rebuild = true,
+                            tooltip = "Custom resizes and retextures the personal resource bar; switching back needs a reload." },
+                pbtexture = { key = "personalbar.texture", type = "dropdown", label = "Texture", options = textures, column = 4, order = 2, hidden = pbOff,
+                              tooltip = "Texture of the personal resource bar." },
+                pbwidth = slider("personalbar.width", "Width", 50, 200, 1, 3, "Width of the personal resource bar.", { hidden = pbOff }),
             },
             {
-                pbwidth = slider("personalbar.width", "Personal Nameplate Width", 50, 200, 1, 1),
-                pbheight = slider("personalbar.height", "Personal Height", 1, 35, 0.1, 2),
-                pbmana = slider("personalbar.manaheight", "Mana Height", 1, 35, 0.1, 3),
+                pbheight = slider("personalbar.height", "Health Height", 1, 35, 0.1, 1, "Height of the health bar.", { hidden = pbOff }),
+                pbmana = slider("personalbar.manaheight", "Power Height", 1, 35, 0.1, 2, "Height of the power bar.", { hidden = pbOff }),
             },
         }
     end,

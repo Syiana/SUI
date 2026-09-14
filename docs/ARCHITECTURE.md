@@ -42,25 +42,31 @@ local SUI = ns.SUI
 
 ## 3. Kategorien, Tabs, Reihenfolge
 
-| Ordner | DB-Kategorie | Tab | order |
-|---|---|---|---|
-| General | `general` | General | 10 |
-| UnitFrames | `unitframes` | Unitframes | 20 |
-| RaidFrames | `raidframes` | Raidframes | 25 |
-| NamePlates | `nameplates` | Nameplates | 30 |
-| ActionBars | `actionbar` | Actionbar | 40 |
-| CastBars | `castbars` | Castbars | 50 |
-| Buffs | `buffs` | Buffs | 60 |
-| Tooltip | `tooltip` | Tooltip | 70 |
-| Maps | `maps` | Map | 80 |
-| Chat | `chat` | Chat | 90 |
-| Misc | `misc` | Misc | 100 |
-| Skins | `skins` | Skins | 110 |
+Tabs werden in der Seitenleiste in Gruppen sortiert (`group`), innerhalb der
+Gruppe nach `order`.
+
+| Ordner | DB-Kategorie | Tab (Gruppe, order) |
+|---|---|---|
+| General | `general` | General (interface, 10), Automation (interface, 15) |
+| ActionBars | `actionbar` | Actionbars (interface, 20) |
+| Buffs | `buffs` | Buffs (interface, 30) |
+| Tooltip | `tooltip` | Tooltip (interface, 40) |
+| Maps | `maps` | Map (interface, 50) |
+| Chat | `chat` | Chat (interface, 60) |
+| UnitFrames | `unitframes` | Unitframes (units, 10) |
+| RaidFrames | `raidframes` | Raidframes (units, 20) |
+| NamePlates | `nameplates` | Nameplates (units, 30) |
+| CastBars | `castbars` | Castbars (units, 40) |
+| Misc | `misc` | PvP (social, 10), Group (social, 20), Misc (system, 20) |
+| Skins | `skins` | Skins (system, 10) |
+
+Teilen sich mehrere Tabs eine Kategorie, hat nur einer den Reset-Button
+(`reset = false` bei den anderen).
 
 Der Kern belegt bereits: `general.theme`, `general.color`, `general.font`,
 `general.texture` (Core/Theme.lua) und die Kategorie `movers`. Diese Schlüssel
-nicht erneut registrieren. Die Tabs „Profiles“ (900) und „FAQ“ (1000) gehören
-dem Kern.
+nicht erneut registrieren. Die Tabs „Profiles“ (system, 900) und „FAQ“
+(system, 1000) gehören dem Kern.
 
 **Schlüssel aus SUI 1.x behalten**, wo das Feature schon existierte (siehe
 `_legacy/Core/Init.lua`). Wo ein Schlüssel umbenannt oder umstrukturiert wird,
@@ -163,7 +169,8 @@ end)
 
 ```lua
 SUI.Config:RegisterLayout("Actionbar", {
-    order = 40,
+    group = "interface",
+    order = 20,
     category = "actionbar",
     rows = function()
         return {
@@ -190,8 +197,14 @@ SUI.Config:RegisterLayout("Actionbar", {
   (`text`, `onClick`), `custom` (`createFunction(frame)`), `scroll`.
 - `column` ist ein 12er-Raster. Zeilen sind Tabellen, Reihenfolge per `order`.
 - `key` ist relativ zur `category`. Ohne `category` ist der Schlüssel absolut.
-- Zusatzfelder: `clients`, `hidden = function(info) end`, `reload = true`,
-  `onChange = function(self, value) end` (nur für Aktionen, die kein Feature abdeckt).
+- Zusatzfelder: `clients`, `hidden = function(info) end`, `rebuild = true`,
+  `reload = true`, `onChange = function(self, value) end` (nur für Aktionen, die
+  kein Feature abdeckt).
+- Abhängige Optionen: Zeilen ohne Wirkung im aktuellen Zustand per `hidden`
+  ausblenden (liest `SUI:Get(vollerPfad)`), die steuernde Option bekommt
+  `rebuild = true`. `hidden` nie für Client-Prüfungen verwenden, dafür `clients`.
+- Jede speichernde Option hat einen Tooltip mit einem Satz, was sie tut.
+  Labels sagen eindeutig, was „an“ bedeutet („Show …“ / „Hide …“).
 - **Kein `onChange`, um Features zu aktualisieren.** Das macht `SUI:Set` → `OnRefresh`.
 - Dropdowns mit Medien: `SUI.Media:Options("statusbar")`, `SUI.Media:Options("font")`,
   `SUI.Media:Options("sound")`.

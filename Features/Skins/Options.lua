@@ -16,33 +16,38 @@ local function missing(addon)
     end
 end
 
+local noAddons = function()
+    return not (IsAddOnLoaded("Details") or IsAddOnLoaded("Bartender4") or IsAddOnLoaded("ClassicUI"))
+end
+
 SUI.Config:RegisterLayout("Skins", {
-    order = 110,
+    group = "system",
+    order = 10,
     category = "skins",
     rows = function()
         return {
             { header = { type = "header", label = "Blizzard" } },
             {
                 blizzard = {
-                    key = "blizzard", type = "checkbox", label = "Blizzard Frames", column = 6, order = 1,
-                    tooltip = "Tint Blizzard windows, dialogs and the game menu with the theme color",
+                    key = "blizzard", type = "checkbox", label = "Blizzard Frames", column = 4, order = 1,
+                    tooltip = "Tint Blizzard windows, dialogs and the game menu with the theme color; turning it off needs a reload.",
                 },
             },
-            { addons = { type = "header", label = "AddOns" } },
+            { addons = { type = "header", label = "AddOns", hidden = noAddons } },
             {
                 details = {
                     key = "details", type = "checkbox", label = "Details!", column = 4, order = 1,
-                    tooltip = "Add the SUI skin to Details! (select it in the Details! skin options)",
+                    tooltip = "Add the SUI skin to Details! (select it in the Details! skin options); turning it off needs a reload.",
                     hidden = missing("Details"),
                 },
                 bartender = {
                     key = "bartender", type = "checkbox", label = "Bartender4", column = 4, order = 2,
-                    tooltip = "Tint Bartender4 art and status bars with the theme color",
+                    tooltip = "Tint Bartender4 art and status bars with the theme color; turning it off needs a reload.",
                     hidden = missing("Bartender4"),
                 },
                 classicui = {
                     key = "classicui", type = "checkbox", label = "ClassicUI", column = 4, order = 3,
-                    tooltip = "Tint ClassicUI action bar art with the theme color",
+                    tooltip = "Tint ClassicUI action bar art with the theme color; turning it off needs a reload.",
                     hidden = missing("ClassicUI"),
                 },
             },

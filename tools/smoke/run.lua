@@ -506,7 +506,7 @@ if DUMP then
                 for _, it in ipairs(items) do
                     local el = it.el
                     if el.type == "header" then
-                        out:write("  # " .. tostring(el.label) .. "\n")
+                        if SUI:SupportsClient(el.clients) then out:write("  # " .. tostring(el.label) .. "\n") end
                     elseif SUI:SupportsClient(el.clients) then
                         line[#line + 1] = ("%s[%s%s]"):format(tostring(el.label or el.text or it.k), el.type, el.column and (":" .. el.column) or "")
                     end

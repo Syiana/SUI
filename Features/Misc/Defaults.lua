@@ -16,7 +16,6 @@ SUI:RegisterDefaults("misc", {
     pulltimer = false,
     interrupt = false,
     dampening = true,
-    arenanameplate = false,
     surrender = false,
     losecontrol = false,
     menubutton = true,
@@ -32,3 +31,21 @@ SUI:RegisterDefaults("misc", {
 SUI:RegisterDefaults("misc", {
     tabbinder = {}, -- key -> action it was bound to before PvP
 }, "char")
+
+-- Misc.ArenaNameplate duplicated nameplates.arenanumber and was removed; an
+-- enabled 1.x/2.0 switch turns the nameplate option on.
+SUI:RegisterMigration("misc-arenanameplate-merge", function(profile)
+    local misc = rawget(profile, "misc")
+    if type(misc) ~= "table" then
+        return
+    end
+    if rawget(misc, "arenanameplate") == true then
+        local np = rawget(profile, "nameplates")
+        if type(np) ~= "table" then
+            np = {}
+            profile.nameplates = np
+        end
+        np.arenanumber = true
+    end
+    misc.arenanameplate = nil
+end)

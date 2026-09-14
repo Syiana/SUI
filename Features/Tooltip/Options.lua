@@ -1,7 +1,8 @@
 --[[
     SUI 2.0 - Features/Tooltip/Options.lua
 
-    The Tooltip tab. Labels follow SUI 1.x where the option existed.
+    The Tooltip tab. Health bar options belong to the Custom style and are
+    hidden while the Default style is selected.
 ]]
 
 local _, ns = ...
@@ -15,49 +16,50 @@ local function textures()
     return list
 end
 
+local function notCustom()
+    return SUI:Get("tooltip.style") ~= "Custom"
+end
+
+local function check(key, label, tooltip, order, clients)
+    return { key = key, type = "checkbox", label = label, tooltip = tooltip, column = 4, order = order, clients = clients }
+end
+
 SUI.Config:RegisterLayout("Tooltip", {
-    order = 70,
+    group = "interface",
+    order = 40,
     category = "tooltip",
     rows = function()
         return {
-            { header = { type = "header", label = "Tooltip" } },
+            { header = { type = "header", label = "Style" } },
             {
                 style = {
-                    key = "style", type = "dropdown", label = "Style", column = 4, order = 1,
-                    tooltip = "Custom colours names, guild, level and health bar and adds a target line",
+                    key = "style", type = "dropdown", label = "Style", column = 4, order = 1, rebuild = true,
+                    tooltip = "Custom colors names, guild, level and health bar and adds a target line; Default keeps Blizzard's tooltip.",
                     options = { { value = "Default", text = "Default" }, { value = "Custom", text = "Custom" } },
                 },
                 texture = {
                     key = "texture", type = "dropdown", label = "Health Bar Texture", column = 4, order = 2,
-                    tooltip = "Health bar texture of the Custom style", options = textures(),
+                    tooltip = "Texture of the tooltip health bar.", options = textures(), hidden = notCustom,
                 },
+            },
+            {
+                lifeontop = { key = "lifeontop", type = "checkbox", label = "Health Bar on Top", column = 4, order = 1, hidden = notCustom,
+                              tooltip = "Place the health bar at the top of the tooltip instead of the bottom." },
             },
             { header = { type = "header", label = "Behavior" } },
             {
-                mouseanchor = { key = "mouseanchor", type = "checkbox", label = "Mouse Anchor",
-                                tooltip = "Attach tooltip to mouse cursor", column = 4, order = 1 },
-                lifeontop = { key = "lifeontop", type = "checkbox", label = "Life on Top",
-                              tooltip = "Show HP bar in tooltip on top", column = 4, order = 2 },
-                hideincombat = { key = "hideincombat", type = "checkbox", label = "Hide in Combat",
-                                 tooltip = "Hide tooltips while in combat", column = 4, order = 3 },
+                mouseanchor = check("mouseanchor", "Anchor to Cursor", "Attach tooltips to the mouse cursor.", 1),
+                hideincombat = check("hideincombat", "Hide in Combat", "Hide tooltips while you are in combat.", 2),
             },
             { header = { type = "header", label = "Information" } },
             {
-                ids = { key = "ids", type = "checkbox", label = "IDs",
-                        tooltip = "Show spell, item and NPC IDs", column = 4, order = 1 },
-                itemlevel = { key = "itemlevel", type = "checkbox", label = "Item Level",
-                              tooltip = "Show the item level of players (inspects players out of combat)",
-                              clients = { Mainline = true, Mists = true }, column = 4, order = 2 },
-                mythicplus = { key = "mythicplus", type = "checkbox", label = "Mythic+ Rating",
-                               tooltip = "Show the Mythic+ rating of players", clients = RETAIL, column = 4, order = 3 },
+                ids = check("ids", "IDs", "Show spell, item and NPC IDs.", 1),
+                itemlevel = check("itemlevel", "Item Level", "Show the item level of players (inspects them out of combat).", 2, { Mainline = true, Mists = true }),
+                mythicplus = check("mythicplus", "Mythic+ Rating", "Show the Mythic+ rating of players.", 3, RETAIL),
             },
             {
-                pvprating = { key = "pvprating", type = "checkbox", label = "PvP Rating",
-                              tooltip = "Show arena and Solo Shuffle ratings of players (inspects players out of combat)",
-                              clients = RETAIL, column = 4, order = 1 },
-                lfgtooltips = { key = "lfgtooltips", type = "checkbox", label = "Group Finder",
-                                tooltip = "Show the leader's Mythic+ rating in group listings and let non-leaders hover applicants",
-                                clients = RETAIL, column = 4, order = 2 },
+                pvprating = check("pvprating", "PvP Rating", "Show arena and Solo Shuffle ratings of players (inspects them out of combat).", 1, RETAIL),
+                lfgtooltips = check("lfgtooltips", "Group Finder Info", "Show the leader's Mythic+ rating in group listings and let non-leaders hover applicants.", 2, RETAIL),
             },
         }
     end,
