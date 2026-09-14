@@ -13,7 +13,7 @@
 	<Script file="widgets\Window.lua"/>
 	<Script file="widgets\Button.lua"/>
 	<Script file="widgets\EditBox.lua"/>
-	<Script file="widgets\CheckBox.lua"/>
+	<Script file="widgets\Checkbox.lua"/>
 	<Script file="widgets\Dropdown.lua"/>
 	<Script file="widgets\Autocomplete.lua"/>
 	<Script file="widgets\Label.lua"/>
