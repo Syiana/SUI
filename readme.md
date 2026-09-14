@@ -10,6 +10,7 @@
 <p><span style="font-family: tahoma, arial, helvetica, sans-serif; font-size: 24px;">Quick Start</span></p>
 <ul>
 <li><span style="font-family: tahoma, arial, helvetica, sans-serif;">To open the configuration menu, type <span style="font-family: terminal, monaco, monospace;">/SUI</span>&nbsp;into your chat and hit enter&nbsp;</span></li>
+<li><span style="font-family: tahoma, arial, helvetica, sans-serif;">Supported clients: Retail, Mists of Pandaria Classic, Burning Crusade Classic and Classic Era</span></li>
 </ul>
 <p><span style="font-family: tahoma, arial, helvetica, sans-serif;">&nbsp;</span></p>
 <p><span style="font-family: tahoma, arial, helvetica, sans-serif; font-size: 24px;">Issues</span></p>
@@ -26,19 +27,31 @@
 <p>&nbsp;</p>
 <p><span lang="en" style="font-family: tahoma, arial, helvetica, sans-serif;" tabindex="0"><a href="https://www.paypal.com/donate/?return=https://www.curseforge.com/projects/283939&cn=Add+special+instructions+to+the+addon+author()&business=suiaddon%40gmail.com&bn=PP-DonationsBF:btn_donateCC_LG.gif:NonHosted&cancel_return=https://github.com/Syiana/SUI/&lc=US&item_name=SUI+(from+github.com)&cmd=_donations&rm=1&no_shipping=1&currency_code=EUR" target="_blank" rel="noopener noreferrer"><img src="https://i.imgur.com/Ugdh5p9.png" width="48" height="48" /></a><a href="https://discord.gg/GBdV2DBm6w" target="_blank" rel="noopener noreferrer"><img src="https://i.imgur.com/TMEOSOY.png" alt="" width="48" height="48" /></a><a href="https://www.twitch.tv/syiana" target="_blank" rel="noopener noreferrer"><img src="https://i.imgur.com/2x5x5wx.png" alt="" width="48" height="48" /></a></span></p>
 
+## Commands
+
+    /sui              open or close the options
+    /sui <tab>        open a tab, e.g. /sui chat
+    /sui unlock       move SUI frames (Edit Mode on Retail)
+    /sui install      show the welcome screen again
+    /sui reset        reset the current profile
+    /sui version      print the installed version
+
 ## Add Custom Fonts and Textures to SUI
 
-Open: `World of Warcraft/_retail_/Interface/AddOns/SUI/Media/`
+Open: `World of Warcraft/<client>/Interface/AddOns/SUI/Media/`
 
-Add your Texture file to: `Textures/`
-Add your Font file to `Fonts/`
-
-Edit File `Media\RegisterMediaLSM.lua`
+Add your texture file to `Textures/Status/` and your font file to `Fonts/`, then edit `Media/Media.lua`:
 
 **Adding Texture**
 
-    LSM:Register("statusbar",  "YourTextureName",  [[Interface\Addons\SUI\Media\Textures\Status\YourTextureName.blp]])
+    LSM:Register("statusbar", "YourTextureName", path .. [[Textures\Status\YourTextureName.tga]])
 
 **Adding Font**
 
-    LSM:Register("font",  "YourFontName",  [[Interface\Addons\SUI\Media\Textures\Fonts\YourFontName.blp]])
+    LSM:Register("font", "YourFontName", path .. [[Fonts\YourFontName.ttf]])
+
+## Development
+
+- Architecture and rules for contributors: `docs/ARCHITECTURE.md`
+- In-game test checklist: `docs/TESTING.md`
+- Local checks: `tools/check.sh` (LuaJIT + luacheck) and `luajit tools/smoke/run.lua <Mainline|Mists|TBC|Vanilla> [--ui|--dump]`
