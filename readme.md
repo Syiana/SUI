@@ -54,4 +54,5 @@ Add your texture file to `Textures/Status/` and your font file to `Fonts/`, then
 
 - Architecture and rules for contributors: `docs/ARCHITECTURE.md`
 - In-game test checklist: `docs/TESTING.md`
+- Libraries for local development: `tools/libs.sh` downloads everything listed in `.pkgmeta` into `Libs/` (needs git and svn, on macOS `brew install subversion`); `tools/libs.sh --update` refreshes them
 - Local checks: `tools/check.sh` (LuaJIT + luacheck) and `luajit tools/smoke/run.lua <Mainline|Mists|TBC|Vanilla> [--ui|--dump]`
