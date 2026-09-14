@@ -4,47 +4,61 @@ if not SUIConfig then
 	return
 end
 
-local module, version = 'Builder', 6;
+local module, version = 'Builder', 7;
 if not SUIConfig:UpgradeNeeded(module, version) then
 	return
 end
 
 local util = SUIConfig.Util;
 
+-- Dotted key access ("a.b.c"). Plain find: a pattern '.' would match any key.
 local function setDatabaseValue(db, key, value)
-	if key:find('.') then
-		local accessor = SUIConfig.Util.stringSplit('.', key);
-		local startPos = db;
-
-		for i, subKey in pairs(accessor) do
-			if i == #accessor then
-				startPos[subKey] = value;
-				return
-			end
-
-			startPos = startPos[subKey];
+	local start = 1;
+	while true do
+		local dot = key:find('.', start, true);
+		if not dot then
+			db[key:sub(start)] = value;
+			return
 		end
-	else
-		db[key] = value;
+		local subKey = key:sub(start, dot - 1);
+		if type(db[subKey]) ~= 'table' then
+			db[subKey] = {};
+		end
+		db = db[subKey];
+		start = dot + 1;
 	end
 end
 
 local function getDatabaseValue(db, key)
-	if key:find('.') then
-		local accessor = SUIConfig.Util.stringSplit('.', key);
-		local startPos = db;
-
-		for i, subKey in pairs(accessor) do
-			if i == #accessor then
-				return startPos[subKey];
-			end
-
-			startPos = startPos[subKey];
+	local start = 1;
+	while db ~= nil do
+		local dot = key:find('.', start, true);
+		if not dot then
+			return db[key:sub(start)];
 		end
-	else
-		return db[key];
+		db = db[key:sub(start, dot - 1)];
+		start = dot + 1;
 	end
 end
+
+SUIConfig.GetDatabaseValue = getDatabaseValue;
+SUIConfig.SetDatabaseValue = setDatabaseValue;
+
+-- An element is shown unless it is limited to other clients or hidden by a predicate.
+-- The host add-on may set SUIConfig.IsClientSupported(clients).
+local function isVisible(self, info)
+	if type(info) ~= 'table' then
+		return false
+	end
+	if info.clients and self.IsClientSupported and not self.IsClientSupported(info.clients) then
+		return false
+	end
+	if type(info.hidden) == 'function' then
+		return not info.hidden(info)
+	end
+	return not info.hidden
+end
+SUIConfig.IsElementVisible = isVisible;
 
 ---BuildElement
 --@param frame Frame
@@ -56,7 +70,11 @@ function SUIConfig:BuildElement(frame, row, info, dataKey, db)
 	local element;
 
 	local genericChangeEvent = function(el, value)
-		setDatabaseValue(el.dbReference, el.dataKey, value);
+		if el.accessor then
+			el.accessor.set(el.dataKey, value, info);
+		else
+			setDatabaseValue(el.dbReference, el.dataKey, value);
+		end
 		if el.onChange then
 			el:onChange(value);
 		end
@@ -198,7 +216,13 @@ function SUIConfig:BuildElement(frame, row, info, dataKey, db)
 	if info.onValueChanged then
 		element.OnValueChanged = info.onValueChanged;
 	elseif db then
-		local iVal = getDatabaseValue(db, dataKey);
+		local iVal;
+		if db.__accessor then
+			element.accessor = db.__accessor;
+			iVal = db.__accessor.get(dataKey, info);
+		else
+			iVal = getDatabaseValue(db, dataKey);
+		end
 
 		if info.type == 'checkbox' then
 			element:SetChecked(iVal)
@@ -238,9 +262,23 @@ end
 --@param info table
 --@param db table
 function SUIConfig:BuildRow(frame, info, db)
+	local anyVisible = false;
+	for _, element in pairs(info) do
+		if isVisible(self, element) then
+			anyVisible = true;
+			break
+		end
+	end
+	if not anyVisible then
+		return
+	end
+
 	local row = frame:AddRow();
 
 	for key, element in util.orderedPairs(info) do
+		if not isVisible(self, element) then
+			-- filtered for this client
+		else
 		local dataKey = element.key or key or nil;
 
 		local el = self:BuildElement(frame, row, element, dataKey, db);
@@ -251,6 +289,7 @@ function SUIConfig:BuildRow(frame, info, db)
 
 			frame.elements[key] = el;
 		end
+		end
 	end
 end
 
@@ -258,7 +297,11 @@ end
 --@param frame Frame
 --@param info table
 function SUIConfig:BuildWindow(frame, info)
+	-- info.get(key, element) / info.set(key, value, element) replace direct table writes.
 	local db = info.database or nil;
+	if info.get and info.set then
+		db = { __accessor = { get = info.get, set = info.set } };
+	end
 
 	assert(info.rows, 'Rows are required in order to build table');
 	local rows = info.rows;

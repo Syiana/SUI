@@ -1,3 +1,9 @@
-<Ui xmlns='http://www.blizzard.com/wow/ui/'>
-  <Include file='Init.lua'/>
+<Ui xmlns="http://www.blizzard.com/wow/ui/">
+  <Script file="Init.lua"/>
+  <Script file="Compat.lua"/>
+  <Script file="Events.lua"/>
+  <Script file="Features.lua"/>
+  <Script file="Database.lua"/>
+  <Script file="Theme.lua"/>
+  <Script file="Skin.lua"/>
 </Ui>

@@ -1,6 +1,7 @@
-<Ui xmlns='http://www.blizzard.com/wow/ui/'>
-  <Include file='Components\Load.xml'/>
-  <Include file='Layouts\Load.xml'/>
-  <Include file='_Install.lua'/>
-	<Include file='_Gui.lua'/>
+<Ui xmlns="http://www.blizzard.com/wow/ui/">
+  <Script file="Theme.lua"/>
+  <Script file="Config.lua"/>
+  <Script file="Install.lua"/>
+  <Script file="Profiles.lua"/>
+  <Script file="About.lua"/>
 </Ui>

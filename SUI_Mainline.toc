@@ -1,0 +1,18 @@
+## Interface: 120100
+## Author: Syiana
+## Version: 2.0.0
+## Title: |cffea00ffSyiana|r|cff00a2ffUI|r
+## Notes: A sleek and modern UI Addon. |n|nVisit |cff00a2ffhttps://twitch.tv/syiana|r for more information and support.
+## SavedVariables: SUIDB
+## IconTexture: Interface\AddOns\SUI\Media\Icons\SUI
+## AddonCompartmentFunc: SUI_Options
+## X-Curse-Project-ID: 283939
+## X-Wago-ID: R4N29xGL
+## Category: SUI
+
+Libs\Load.xml
+Core\Load.xml
+Media\Load.xml
+Core\Load_Late.xml
+Config\Load.xml
+Features\Load.xml

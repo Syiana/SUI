@@ -4,7 +4,7 @@ if not SUIConfig then
 	return
 end
 
-local module, version = 'Tab', 5;
+local module, version = 'Tab', 6;
 if not SUIConfig:UpgradeNeeded(module, version) then
 	return
 end
@@ -146,20 +146,33 @@ local TabPanelMethods = {
 
 			tab.frame:ClearAllPoints();
 			tab.frame:SetAllPoints();
+			tab.frame:Hide();
 
-			if tab.layout and (tab.builtLayout ~= tab.layout or not tab.frame.rows) then
-				self.SUIConfig:BuildWindow(tab.frame, tab.layout);
-				self.SUIConfig:EasyLayout(tab.frame, { padding = { top = 10, left = 5, right = 5, bottom = 1 } });
-				tab.builtLayout = tab.layout;
-
-				tab.frame:SetScript('OnShow', function(of)
-					of:DoLayout();
-				end);
+			-- Tabs are built lazily when first selected (see BuildTab).
+			if self.selectedTab == tab then
+				self:BuildTab(tab);
 			end
 
 			if tab.onHide then
 				tab.frame:SetScript('OnHide', tab.onHide);
 			end
+		end
+	end,
+
+	BuildTab = function(self, tab)
+		if tab.layout and (tab.builtLayout ~= tab.layout or not tab.frame.rows) then
+			local layout = tab.layout;
+			if type(layout) == 'function' then
+				layout = layout();
+				tab.layout = layout;
+			end
+			self.SUIConfig:BuildWindow(tab.frame, layout);
+			self.SUIConfig:EasyLayout(tab.frame, { padding = { top = 10, left = 5, right = 5, bottom = 1 } });
+			tab.builtLayout = layout;
+
+			tab.frame:SetScript('OnShow', function(of)
+				of:DoLayout();
+			end);
 		end
 	end,
 
@@ -189,7 +202,8 @@ local TabPanelMethods = {
 		self:HideAllFrames();
 		local foundTab = self:GetTabByName(name);
 
-		if foundTab.name == name and foundTab.frame then
+		if foundTab and foundTab.name == name and foundTab.frame then
+			self:BuildTab(foundTab);
 			if foundTab.button then
 				foundTab.button:Disable();
 			end

@@ -1,0 +1,5 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/">
+  <Script file="Movers.lua"/>
+  <Script file="Commands.lua"/>
+  <Script file="Version.lua"/>
+</Ui>
