@@ -125,6 +125,13 @@ G.GetNormalizedRealmName = function() return "Realm" end
 G.IsInGroup, G.IsInRaid, G.IsInGuild, G.IsInInstance = function() return false end, function() return false end, function() return false end, function() return false, "none" end
 G.GetNumGroupMembers = function() return 0 end
 G.GetMaxBattlefieldID = function() return 2 end
+-- Realistic "nothing there" answers for data APIs whose results get compared.
+G.GetInventoryItemLink = function() return nil end
+G.GetInventoryItemID = function() return nil end
+G.GetContainerNumSlots = function() return 0 end
+G.C_Container = { GetContainerNumSlots = function() return 0 end, GetContainerItemInfo = function() return nil end, GetContainerItemLink = function() return nil end, UseContainerItem = function() end }
+G.C_Map = { GetBestMapForUnit = function() return 1 end, GetPlayerMapPosition = function() return nil end, GetMapInfo = function() return nil end }
+G.NUM_TOTAL_EQUIPPED_BAG_SLOTS = 4
 G.GetNumSubgroupMembers = function() return 0 end
 G.GetNumBindings = function() return 0 end
 G.GetMoney = function() return 0 end
@@ -144,6 +151,8 @@ G.UIParent = W.CreateFrame("Frame", "UIParent")
 G.WorldFrame = W.CreateFrame("Frame", "WorldFrame")
 G.GameTooltip = W.CreateFrame("GameTooltip", "GameTooltip", G.UIParent)
 G.Minimap = W.CreateFrame("Minimap", "Minimap", G.UIParent)
+G.WorldMapFrame = W.CreateFrame("Frame", "WorldMapFrame", G.UIParent)
+G.WorldMapFrame.ScrollContainer = W.CreateFrame("ScrollFrame", nil, G.WorldMapFrame)
 G.ChatFrame1 = W.CreateFrame("ScrollingMessageFrame", "ChatFrame1", G.UIParent)
 G.DEFAULT_CHAT_FRAME = G.ChatFrame1
 for i = 1, 10 do W.CreateFrame("EditBox", "ChatFrame" .. i .. "EditBox", G.UIParent) end

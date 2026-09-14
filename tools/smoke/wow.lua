@@ -167,6 +167,7 @@ function Region:GetBackdropBorderColor() return 0, 0, 0, 1 end
 function Region:IsDragging() return false end
 function Region:GetMaxLetters() return 255 end
 function Region:GetCursorPosition() return 0 end
+function Region:GetNormalizedCursorPosition() return nil, nil end
 function Region:GetInlineHyperlinkAtCursor() return nil end
 function Region:GetUnit() return nil end
 function Region:GetItem() return nil end
