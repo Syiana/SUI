@@ -11,6 +11,7 @@
 if jit then jit.off() end
 local CLIENT = arg[1] or "Mainline"
 local BUILD_UI = arg[2] == "--ui"
+local DUMP = arg[2] == "--dump"
 package.path = "tools/smoke/?.lua;" .. package.path
 local W = require("wow")
 local mock = W.mock
@@ -490,11 +491,45 @@ step("export/import", function()
 end)
 runTimers()
 
+if DUMP then
+    -- Prints every tab with its sections and options (for menu reviews).
+    local out = io.stdout
+    for _, spec in ipairs(SUI.Config.layouts) do
+        if SUI:SupportsClient(spec.clients) then
+            out:write(("\n## %s (order %s, category %s)\n"):format(spec.title, tostring(spec.order), tostring(spec.category)))
+            local rows = type(spec.rows) == "function" and spec.rows() or spec.rows
+            for _, row in ipairs(rows or {}) do
+                local items = {}
+                for k, el in pairs(row) do items[#items + 1] = { k = k, el = el } end
+                table.sort(items, function(a, b) return (a.el.order or 0) < (b.el.order or 0) end)
+                local line = {}
+                for _, it in ipairs(items) do
+                    local el = it.el
+                    if el.type == "header" then
+                        out:write("  # " .. tostring(el.label) .. "\n")
+                    elseif SUI:SupportsClient(el.clients) then
+                        line[#line + 1] = ("%s[%s%s]"):format(tostring(el.label or el.text or it.k), el.type, el.column and (":" .. el.column) or "")
+                    end
+                end
+                if #line > 0 then out:write("    " .. table.concat(line, " | ") .. "\n") end
+            end
+        end
+    end
+    os.exit(0)
+end
+
 if BUILD_UI then
     step("config open", function() SUI.Config:Open() end)
     for _, spec in ipairs(SUI.Config.layouts) do
         step("config tab " .. spec.name, function() SUI.Config:Open(spec.name) end)
+        step("config rebuild " .. spec.name, function() SUI.Config:RebuildCurrent() end)
+        runTimers()
+        if spec.category and SUI:GetDefaults(spec.category) then
+            step("config reset " .. spec.name, function() SUI:ResetCategory(spec.category) end)
+        end
     end
+    step("config search", function() SUI.Config:RebuildTabs("font"); SUI.Config:RebuildTabs("") end)
+    runTimers()
 end
 
 -- Report ------------------------------------------------------------------------------

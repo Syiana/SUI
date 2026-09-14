@@ -189,6 +189,15 @@ function SUI:ImportProfile(data, isV2)
     self:OnProfileChanged()
 end
 
+-- Resets one category of the current profile to its defaults and applies it.
+function SUI:ResetCategory(category)
+    local values = defaults.profile[category]
+    if values == nil then
+        return
+    end
+    self:Set(category, type(values) == "table" and CopyTable(values) or values)
+end
+
 -- Lifecycle -------------------------------------------------------------------
 function SUI:OnInitialize()
     self.db = LibStub("AceDB-3.0"):New("SUIDB", defaults, true)

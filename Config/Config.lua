@@ -4,22 +4,28 @@
     The options window. Feature folders register their tabs:
 
         SUI.Config:RegisterLayout("Actionbar", {
-            order = 40,
-            category = "actionbar",   -- keys below are relative to this category
+            group = "interface",       -- sidebar group, see GROUPS below
+            order = 40,                -- position inside the group
+            category = "actionbar",    -- keys below are relative to this category
             rows = function() return { ... } end,
         })
 
-    Set bind = false for tabs whose widgets do not store settings.
+    Set bind = false for tabs whose widgets do not store settings, and
+    reset = false to hide the "reset this tab" button.
 
     Rows use the SUIConfig element format (type, key, label, column, order,
     options, min, max, step, tooltip). Extra fields understood by SUI:
         clients = { Mainline = true }  show only on these clients
-        hidden  = function(info) end   hide dynamically (evaluated on build)
+        hidden  = function(info) end   hide dynamically; re-evaluated whenever
+                                       an element with rebuild = true changes
+        rebuild = true                 rebuild the tab after changing (use on
+                                       options that other rows depend on)
         reload  = true                 ask for a reload after changing
-        onChange = function(value) end extra action after the setting was applied
+        onChange = function(self, value) end  extra action after applying
 
     Every change goes through SUI:Set, which applies it to the running
-    features immediately. The window is built the first time it is opened.
+    features immediately. The window is built the first time it is opened and
+    each tab is built the first time it is shown.
 ]]
 
 local _, ns = ...
@@ -31,19 +37,45 @@ local Config = { layouts = {} }
 SUI.Config = Config
 
 local WIDTH, HEIGHT = 700, 415
-local window, tabs, searchBox, clearButton, reloadButton
+local GROUPS = {
+    { id = "interface", title = "Interface" },
+    { id = "units", title = "Units" },
+    { id = "social", title = "Social & PvP" },
+    { id = "system", title = "System" },
+}
+local groupOrder = {}
+for i, g in ipairs(GROUPS) do
+    groupOrder[g.id] = i
+end
+
+local window, tabs, searchBox, clearButton, reloadButton, scrollContent
 
 -- Registry ----------------------------------------------------------------------
+local function sortLayouts(a, b)
+    local ga, gb = groupOrder[a.group] or 99, groupOrder[b.group] or 99
+    if ga ~= gb then
+        return ga < gb
+    end
+    return a.order < b.order
+end
+
 function Config:RegisterLayout(name, spec)
     spec.name = name
     spec.title = spec.title or name
     spec.order = spec.order or 500
+    spec.group = spec.group or "interface"
     self.layouts[#self.layouts + 1] = spec
-    table.sort(self.layouts, function(a, b)
-        return a.order < b.order
-    end)
+    table.sort(self.layouts, sortLayouts)
     if window then
-        self:RebuildTabs()
+        self:RebuildTabs(searchBox and searchBox:GetText())
+    end
+end
+
+function Config:GetLayout(name)
+    for _, spec in ipairs(self.layouts) do
+        if spec.name == name then
+            return spec
+        end
     end
 end
 
@@ -62,12 +94,72 @@ local function copyValue(value)
     return value
 end
 
+local function confirm(title, message, onConfirm)
+    SUIConfig:Confirm(title, message, {
+        ok = {
+            text = "Confirm",
+            onClick = function(self)
+                self:GetParent():Hide()
+                onConfirm()
+            end,
+        },
+        cancel = {
+            text = "Cancel",
+            onClick = function(self)
+                self:GetParent():Hide()
+            end,
+        },
+    })
+end
+
+-- Rebuilds the visible tab after the current widget callback has returned.
+local rebuildQueued = false
+local function queueRebuild()
+    if rebuildQueued then
+        return
+    end
+    rebuildQueued = true
+    C_Timer.After(0, function()
+        rebuildQueued = false
+        Config:RebuildCurrent()
+    end)
+end
+
+local function applySetting(path, value, info)
+    SUI:Set(path, copyValue(value))
+    if info and info.reload then
+        SUI:RequestReload(path)
+    end
+    if info and info.rebuild then
+        queueRebuild()
+    end
+end
+
 -- Turns a registered spec into a SUIConfig window description.
 local function buildLayout(spec)
-    local rows = type(spec.rows) == "function" and spec.rows() or spec.rows
+    local rows = type(spec.rows) == "function" and spec.rows() or spec.rows or {}
     if spec.bind == false then
         return { layoutConfig = { padding = { top = 15 } }, rows = rows }
     end
+
+    if spec.category and spec.reset ~= false and SUI:GetDefaults(spec.category) then
+        rows[#rows + 1] = { resetHeader = { type = "header", label = "Reset" } }
+        rows[#rows + 1] = {
+            resetTab = {
+                type = "button",
+                text = "Reset " .. spec.title,
+                column = 4,
+                order = 1,
+                onClick = function()
+                    confirm("Reset " .. spec.title, "Reset all " .. spec.title .. " settings of this profile to their defaults?", function()
+                        SUI:ResetCategory(spec.category)
+                        Config:RebuildCurrent()
+                    end)
+                end,
+            },
+        }
+    end
+
     return {
         layoutConfig = { padding = { top = 15 } },
         rows = rows,
@@ -75,10 +167,7 @@ local function buildLayout(spec)
             return SUI:Get(prefixed(spec, key))
         end,
         set = function(key, value, info)
-            SUI:Set(prefixed(spec, key), copyValue(value))
-            if info and info.reload then
-                SUI:RequestReload(key)
-            end
+            applySetting(prefixed(spec, key), value, info)
         end,
     }
 end
@@ -90,33 +179,36 @@ local function normalize(text)
     return ((text or ""):lower():gsub("^%s+", ""):gsub("%s+$", ""))
 end
 
-local function orderedPairs(t)
-    return SUIConfig.Util.orderedPairs(t)
-end
-
 local function searchLayout(query)
     local rows = {}
     local q = normalize(query)
     local found = 0
 
     for _, spec in ipairs(Config.layouts) do
-        local specRows = type(spec.rows) == "function" and spec.rows() or spec.rows
-        for _, row in ipairs(specRows or {}) do
-            for rowKey, element in orderedPairs(row) do
-                if SEARCHABLE[element.type] and element.label and SUIConfig.IsElementVisible(SUIConfig, element) then
-                    local label = normalize(element.label)
-                    local tip = normalize(element.tooltip)
-                    if label:find(q, 1, true) or (tip ~= "" and tip:find(q, 1, true)) then
-                        found = found + 1
-                        rows[#rows + 1] = { ["category" .. found] = { type = "label", label = "|cff00a2ff" .. spec.title .. "|r" } }
-                        local copy = {}
-                        for k, v in pairs(element) do
-                            copy[k] = v
+        if SUI:SupportsClient(spec.clients) and spec.bind ~= false then
+            local specRows = type(spec.rows) == "function" and spec.rows() or spec.rows
+            local section
+            for _, row in ipairs(specRows or {}) do
+                for rowKey, element in SUIConfig.Util.orderedPairs(row) do
+                    if element.type == "header" then
+                        section = element.label
+                    elseif SEARCHABLE[element.type] and element.label and SUIConfig.IsElementVisible(SUIConfig, element) then
+                        local label = normalize(element.label)
+                        local tip = normalize(element.tooltip)
+                        if label:find(q, 1, true) or (tip ~= "" and tip:find(q, 1, true)) then
+                            found = found + 1
+                            local where = "|cff00a2ff" .. spec.title .. "|r" .. (section and (" > " .. section) or "")
+                            rows[#rows + 1] = { ["where" .. found] = { type = "label", label = where } }
+                            local copy = {}
+                            for k, v in pairs(element) do
+                                copy[k] = v
+                            end
+                            copy.key = prefixed(spec, element.key or rowKey)
+                            copy.rebuild = nil
+                            copy.column = 12
+                            copy.order = 1
+                            rows[#rows + 1] = { ["result" .. found] = copy }
                         end
-                        copy.key = prefixed(spec, element.key or rowKey)
-                        copy.column = 12
-                        copy.order = 1
-                        rows[#rows + 1] = { ["result" .. found] = copy }
                     end
                 end
             end
@@ -134,16 +226,118 @@ local function searchLayout(query)
             return SUI:Get(key)
         end,
         set = function(key, value, info)
-            SUI:Set(key, copyValue(value))
-            if info and info.reload then
-                SUI:RequestReload(key)
-            end
-            -- Tabs showing the same option are rebuilt on next open.
-            for _, tab in ipairs(tabs.tabs) do
-                tab.builtLayout = nil
-            end
+            applySetting(key, value, info)
+            -- Tabs showing the same option are rebuilt when opened next.
+            Config:MarkTabsDirty()
         end,
     }
+end
+
+-- Tabs ------------------------------------------------------------------------------
+-- Tab entries are cached by name: SUIConfig keeps a frame per entry, so new
+-- tables on every rebuild would leave the old frames behind.
+local tabCache = {}
+
+local function tabEntry(name, fields)
+    local entry = tabCache[name]
+    if not entry then
+        entry = { name = name }
+        tabCache[name] = entry
+    end
+    for k, v in pairs(fields) do
+        entry[k] = v
+    end
+    return entry
+end
+
+local function tabList(query)
+    local list = {}
+    if normalize(query) ~= "" then
+        list[1] = tabEntry("Search", { title = "Search", hiddenButton = true, layout = searchLayout(query) })
+    end
+    local lastGroup
+    for _, spec in ipairs(Config.layouts) do
+        if SUI:SupportsClient(spec.clients) then
+            if spec.group ~= lastGroup then
+                lastGroup = spec.group
+                local title = spec.group
+                for _, g in ipairs(GROUPS) do
+                    if g.id == spec.group then
+                        title = g.title
+                    end
+                end
+                list[#list + 1] = tabEntry("__group_" .. spec.group, { title = title, separator = true })
+            end
+            local entry = tabCache[spec.name]
+            local generator = entry and entry.generator
+            if not generator then
+                generator = function()
+                    return buildLayout(spec)
+                end
+            end
+            entry = tabEntry(spec.name, { title = spec.title, generator = generator })
+            if not entry.layout then
+                entry.layout = generator
+            end
+            list[#list + 1] = entry
+        end
+    end
+    return list
+end
+
+local function firstTab()
+    for _, tab in ipairs(tabs.tabs) do
+        if not tab.separator and not tab.hiddenButton then
+            return tab.name
+        end
+    end
+end
+
+function Config:MarkTabsDirty()
+    for _, tab in pairs(tabCache) do
+        if tab.generator and tab ~= tabs:GetSelectedTab() then
+            tab.layout = tab.generator
+        end
+    end
+end
+
+function Config:RebuildTabs(query)
+    local selected = tabs:GetSelectedTab()
+    tabs:Update(tabList(query))
+    if normalize(query) ~= "" then
+        tabs:SelectTab("Search")
+    elseif selected and selected.name ~= "Search" and tabs:GetTabByName(selected.name) then
+        tabs:SelectTab(selected.name)
+    else
+        local name = firstTab()
+        if name then
+            tabs:SelectTab(name)
+        end
+    end
+end
+
+-- Rebuilds the visible tab and keeps the scroll position.
+function Config:RebuildCurrent()
+    if not tabs then
+        return
+    end
+    local tab = tabs:GetSelectedTab()
+    if not tab then
+        return
+    end
+    local scroll = tonumber(scrollContent and scrollContent.scrollBar and scrollContent.scrollBar:GetValue()) or 0
+    if tab.name == "Search" then
+        self:RebuildTabs(searchBox:GetText())
+    else
+        self:MarkTabsDirty()
+        tabs:RebuildTab(tab)
+    end
+    C_Timer.After(0, function()
+        if scrollContent and scrollContent.scrollBar then
+            local _, maxValue = scrollContent.scrollBar:GetMinMaxValues()
+            scrollContent.scrollBar:SetValue(math.min(scroll, tonumber(maxValue) or 0))
+        end
+    end)
 end
 
 -- Window --------------------------------------------------------------------------
@@ -155,37 +349,6 @@ local function fade(visible)
             window:SetShown(visible)
         end,
     })
-end
-
-local function tabList(query)
-    local list = {}
-    if normalize(query) ~= "" then
-        list[1] = { name = "Search", title = "Search", hiddenButton = true, layout = searchLayout(query) }
-    end
-    for _, spec in ipairs(Config.layouts) do
-        if SUI:SupportsClient(spec.clients) then
-            list[#list + 1] = {
-                name = spec.name,
-                title = spec.title,
-                layout = function()
-                    return buildLayout(spec)
-                end,
-            }
-        end
-    end
-    return list
-end
-
-function Config:RebuildTabs(query)
-    local selected = tabs:GetSelectedTab()
-    tabs:Update(tabList(query))
-    if normalize(query) ~= "" then
-        tabs:SelectTab("Search")
-    elseif selected and selected.name ~= "Search" and tabs:GetTabByName(selected.name) then
-        tabs:SelectTab(selected.name)
-    elseif tabs.tabs[1] then
-        tabs:SelectTab(tabs.tabs[1].name)
-    end
 end
 
 local function create()
@@ -214,7 +377,7 @@ local function create()
     local scrollTabs = SUIConfig:ScrollFrame(window, 160, 300, tabs.buttonContainer)
     SUIConfig:GlueTop(scrollTabs, window, 10, -35, "LEFT")
 
-    local scrollContent = SUIConfig:ScrollFrame(window, 515, 370, tabs.container)
+    scrollContent = SUIConfig:ScrollFrame(window, 515, 370, tabs.container)
     SUIConfig:GlueTop(scrollContent, window, -10, -35, "RIGHT")
 
     -- Search
@@ -270,10 +433,7 @@ end)
 
 SUI.callbacks.RegisterCallback(Config, "ProfileChanged", function()
     if tabs then
-        for _, tab in ipairs(tabs.tabs) do
-            tab.builtLayout = nil
-        end
-        Config:RebuildTabs(searchBox and searchBox:GetText())
+        Config:RebuildCurrent()
     end
 end)
 
@@ -292,7 +452,7 @@ function Config:Toggle()
     fade(not window:IsShown())
 end
 
--- Opens a tab by (case insensitive) name.
+-- Opens a tab by (case insensitive) name or title.
 function Config:Open(name)
     if not window then
         create()
@@ -300,7 +460,7 @@ function Config:Open(name)
     if name then
         name = name:lower()
         for _, tab in ipairs(tabs.tabs) do
-            if tab.name:lower() == name then
+            if not tab.separator and (tab.name:lower() == name or (tab.title or ""):lower() == name) then
                 tabs:SelectTab(tab.name)
                 break
             end

@@ -93,6 +93,7 @@ local newName = ""
 SUI.Config:RegisterLayout("Profiles", {
     order = 900,
     bind = false,
+    group = "system",
     rows = function()
         return {
             { header = { type = "header", label = "Current Profile" } },

@@ -177,6 +177,7 @@ SUI.Config:RegisterLayout("About", {
     title = "FAQ",
     order = 1000,
     bind = false,
+    group = "system",
     rows = function()
         return {
             { header = { type = "header", label = "Credits" } },
