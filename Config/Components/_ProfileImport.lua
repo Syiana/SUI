@@ -59,7 +59,7 @@ local function buildProfileImport()
     fadeInfo.finishedFunc = function()
         window:Show()
     end
-    UIFrameFade(window, fadeInfo)
+    SUI:FadeFrame(window, fadeInfo)
 
     -- Create EditBox
     local editBox = SUIConfig:MultiLineBox(window, 380, 250, '< Paste Import String here >')
@@ -84,7 +84,7 @@ local function buildProfileImport()
         fadeInfo.finishedFunc = function()
             window:Hide();
         end
-        UIFrameFade(window, fadeInfo)
+        SUI:FadeFrame(window, fadeInfo)
     end)
 
     -- Initiate Variable
@@ -121,7 +121,7 @@ local function buildProfileImport()
                 fadeInfo.finishedFunc = function()
                     window:Hide();
                 end
-                UIFrameFade(window, fadeInfo)
+                SUI:FadeFrame(window, fadeInfo)
 
                 -- Display Confirm Window
                 local buttons = {

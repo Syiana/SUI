@@ -28,7 +28,7 @@ function SUIConfig:Window(parent, width, height, title)
 		fadeInfo.finishedFunc = function()
 			self:GetParent():Hide()
 		end
-		UIFrameFade(self:GetParent(), fadeInfo)
+		SUI:FadeFrame(self:GetParent(), fadeInfo)
 	end);
 
 	frame.closeBtn = closeBtn;

@@ -50,6 +50,7 @@ function Module:OnEnable()
                 back:SetBackdrop(backdrop)
                 back:SetBackdropBorderColor(unpack(SUI:Color(0.25)))
                 back:SetAlpha(0.9)
+                SUI:ProtectBackdrop(back)
                 b.bg = back
                 b.styled = true
             end

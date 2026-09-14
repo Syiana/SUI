@@ -517,6 +517,7 @@ function Module:OnEnable()
             back:SetBackdropBorderColor(unpack(SUI:Color(0.25)))
         end
         back:SetAlpha(0.9)
+        SUI:ProtectBackdrop(back)
         icon.bg = back
         icon.styled = true
     end

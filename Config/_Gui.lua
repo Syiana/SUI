@@ -2,6 +2,7 @@ local Gui = SUI:NewModule("Config.Gui")
 
 local General = SUI:GetModule("Config.Layout.General")
 local Unitframes = SUI:GetModule("Config.Layout.Unitframes")
+local Raidframes = SUI:GetModule("Config.Layout.Raidframes")
 local Actionbar = SUI:GetModule("Config.Layout.Actionbar")
 local Castbars = SUI:GetModule("Config.Layout.Castbars")
 local Map = SUI:GetModule("Config.Layout.Map")
@@ -133,7 +134,7 @@ function Gui:OnEnable()
             end
         }
 
-        UIFrameFade(config, fadeInfo)
+        SUI:FadeFrame(config, fadeInfo)
         if toggleMenu and GameMenuFrame and GameMenuFrame:IsShown() then
             -- ToggleGameMenu() routes through the protected SpellStopCasting(), which taints us.
             HideUIPanel(GameMenuFrame)
@@ -172,6 +173,7 @@ function Gui:OnEnable()
     local layoutModules = {
         { title = 'General', module = General },
         { title = 'Unitframes', module = Unitframes },
+        { title = 'Raidframes', module = Raidframes },
         { title = 'Actionbar', module = Actionbar },
         { title = 'Castbars', module = Castbars },
         { title = 'Tooltip', module = Tooltip },

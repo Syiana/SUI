@@ -8,6 +8,7 @@
   <Include file='_Map.lua'/>
   <Include file='_Misc.lua'/>
   <Include file='_Profiles.lua'/>
+  <Include file='_Raidframes.lua'/>
   <Include file='_Tooltip.lua'/>
   <Include file='_Unitframes.lua'/>
 </Ui>

@@ -16,7 +16,7 @@ function Module:OnEnable()
         local MoveViewRightStop = MoveViewRightStop
         local PartyFrame = PartyFrame
         local PVPReadyDialog = PVPReadyDialog
-        local UIFrameFadeOut = UIFrameFadeOut
+        local SUI = SUI
         local UIParent = UIParent
         local UnitIsAFK = UnitIsAFK
         local UnitIsDead = UnitIsDead
@@ -223,7 +223,7 @@ function Module:OnEnable()
         end)
 
         AFKPanel:SetScript("OnHide", function(self)
-            UIFrameFadeOut(UIParent, 0.5, 0, 1)
+            SUI:FadeOut(UIParent, 0.5, 0, 1)
             PartyFrame:Show()
             CompactRaidFrameContainer:Show()
         end)

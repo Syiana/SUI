@@ -205,6 +205,31 @@ local defaults = {
             partyscale = 1,
             height = 75,
             width = 100,
+            auras = {
+                enabled = true,
+                tooltips = true,
+                buffs = {
+                    mode = 'mine',
+                    filter = 'raid',
+                    size = 33,
+                    max = 6,
+                    perrow = 3,
+                    point = 'BOTTOMRIGHT'
+                },
+                debuffs = {
+                    mode = 'all',
+                    size = 55,
+                    max = 3,
+                    lead = true
+                },
+                defensives = {
+                    mode = 'big',
+                    size = 60,
+                    point = 'CENTER',
+                    x = 0,
+                    y = 0
+                }
+            }
         },
         actionbar = {
             buttons = {

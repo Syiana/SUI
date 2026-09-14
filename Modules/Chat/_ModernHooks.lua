@@ -9,6 +9,7 @@ local ipairs = _G.ipairs
 local next = _G.next
 local pcall = _G.pcall
 local t_insert = _G.table.insert
+local UIFrameFadeRemoveFrame = _G.UIFrameFadeRemoveFrame
 
 local DOCK_FADE_IN_DURATION = 0.2
 local DOCK_FADE_OUT_DURATION = 1.0
@@ -26,6 +27,7 @@ local startFadeDriver
 local stopFadeDriver
 local enableTemporaryFrames
 local enableStaticFrames
+local suppressNativeFades
 
 local function frameName(frame)
     return frame and frame:GetName()
@@ -376,6 +378,34 @@ function refreshFonts()
     Style:RefreshEditBoxFonts()
 end
 
+-- SUI drives the alpha of the dock tabs and button frames itself, but Blizzard's
+-- FCF_OnUpdate keeps fading those same objects through the shared FADEFRAMES list.
+-- Since we were the last to write their alpha, Blizzard reads it back as a secret
+-- value, and its fade loop -- tainted by us through that very list -- is not
+-- allowed to do arithmetic on one (FrameUtil.lua "attempt to perform arithmetic on
+-- field 'startAlpha'"). Take the objects we own back out of the list as soon as
+-- Blizzard adds them. UIFrameFadeRemoveFrame securecalls the delete, so this does
+-- not spread our taint into FADEFRAMES.
+local function releaseNativeFades(chatFrame)
+    if not chatFrame then
+        return
+    end
+
+    local tab = tabForFrame(chatFrame)
+    if tab then
+        UIFrameFadeRemoveFrame(tab)
+    end
+
+    if chatFrame.buttonFrame then
+        UIFrameFadeRemoveFrame(chatFrame.buttonFrame)
+    end
+end
+
+function suppressNativeFades()
+    Style:SecureHook("FCF_FadeInChatFrame", releaseNativeFades)
+    Style:SecureHook("FCF_FadeOutChatFrame", releaseNativeFades)
+end
+
 function enableTemporaryFrames()
     Style:SecureHook("FCF_SetTemporaryWindowType", function(frame)
         Style:RegisterManagedChatFrame(frame, true)
@@ -471,6 +501,8 @@ function Style:OnEnable()
         Style:HandleChatTab(tab)
         lockTabRefresh = false
     end)
+
+    suppressNativeFades()
 
     Style:EnableDispatcher()
     Style:EnableDragHook()

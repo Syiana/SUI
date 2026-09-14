@@ -54,7 +54,7 @@ function Module:OnEnable()
                 Install:Hide()
                 SUI:Config()
             end
-            UIFrameFade(Install, fadeInfo);
+            SUI:FadeFrame(Install, fadeInfo);
         end)
     end
 end

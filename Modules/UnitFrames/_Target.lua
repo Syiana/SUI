@@ -144,6 +144,7 @@ function Module:OnEnable()
                     back:SetFrameLevel(aura:GetFrameLevel() - 1)
                     back:SetBackdrop(backdrop)
                     back:SetBackdropBorderColor(unpack(SUI:Color(0.25, 0.9)))
+                    SUI:ProtectBackdrop(back)
                     aura.bg = back
                 end
             end

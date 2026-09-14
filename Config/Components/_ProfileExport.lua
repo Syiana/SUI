@@ -29,7 +29,7 @@ local function buildProfileExport()
     fadeInfo.finishedFunc = function()
         window:Show()
     end
-    UIFrameFade(window, fadeInfo)
+    SUI:FadeFrame(window, fadeInfo)
 
     local editBox = SUIConfig:MultiLineBox(window, 380, 250, ProfileExport:exportProfile(SUI.db), true)
     SUIConfig:GlueTop(editBox, window, 0, -40)
@@ -49,7 +49,7 @@ local function buildProfileExport()
         fadeInfo.finishedFunc = function()
             window:Hide();
         end
-        UIFrameFade(window, fadeInfo)
+        SUI:FadeFrame(window, fadeInfo)
     end)
 end
 
