@@ -110,7 +110,7 @@ Kern-Hilfen:
 | `SUI:OnAddonLoaded("Blizzard_X", fn)` | Sofort oder sobald das Add-on lädt |
 | `SUI:RequestReload(reason)` | Reload-Hinweis im Options-Fenster |
 | `SUI:SupportsClient(clients)` | |
-| `SUI.IsRetail`, `SUI.IsClassic`, `SUI.IsMists`, `SUI.IsTBC`, `SUI.IsVanilla`, `SUI.Client`, `SUI.HasEditMode` | Einmal gesetzte Flags |
+| `SUI.IsRetail`, `SUI.IsClassic`, `SUI.IsMists`, `SUI.IsTBC`, `SUI.IsVanilla`, `SUI.Client`, `SUI.HasEditMode` | Einmal gesetzte Flags. `HasEditMode` = SUI-Mover laufen über LibEditMode (nur Retail); Classic hat zwar ein `EditModeManagerFrame`, SUI nutzt dort eigene Griffe. |
 | `SUI.callbacks.RegisterCallback(owner, "SettingChanged"/"ThemeChanged"/"ProfileChanged"/"Ready", fn)` | Querschnitt-Ereignisse. `fn(eventName, ...)`. Ein `owner` hält pro Ereignis nur einen Handler, also pro Listener eine eigene Owner-Tabelle (z.B. das Feature). |
 | `SUI:Print(...)`, `SUI:Debug(...)` | Ausgabe |
 
@@ -208,12 +208,12 @@ SUI.Config:RegisterLayout("Actionbar", {
 - API-Unterschiede, die mehrere Kategorien brauchen, stehen in `SUI.Compat`
   (`Core/Compat.lua`): `CanAccess`, `IsSecret`, `IsAddOnLoaded`, `LoadAddOn`,
   `GetAddOnMetadata`, `GetSpellInfo` (→ name, icon, id), `GetSpellTexture`,
-  `GetItemInfo`, `GetItemQualityColor`, `GetDetailedItemLevelInfo`,
+  `GetItemInfo`, `GetItemInfoInstant`, `GetItemQualityColor`, `GetDetailedItemLevelInfo`,
   `GetContainerNumSlots`, `GetContainerItemLink`, `GetContainerItem` (→ quality,
   link, noValue, count), `UseContainerItem`, `GetClassColor` (→ r, g, b),
   `ForEachAura(unit, filter, fn)`, `IsActionInRange`, `IsUsableAction`, `HasAction`,
   `HasRangeEvents`, `GetMouseFocus`, `GetSpecialization`, `OnTooltipUnit(fn)`,
-  `OnTooltipItem(fn)`, `OnTooltipSpell(fn)`, `SetCVar`, `GetCVar`, `GetCVarBool`,
+  `OnTooltipItem(fn)`, `OnTooltipSpell(fn)`, `SetCVar`, `GetCVar`, `GetCVarBool`, `GetCVarDefault`,
   `IsRestrictedContext`.
 - Unterschiede, die nur eine Kategorie betrifft, bleiben lokal in deren Ordner
   (z.B. `Features/UnitFrames/Compat.lua`). `Core/Compat.lua` wird von Feature-

@@ -54,8 +54,10 @@ else
     SUI.IsMists = true
 end
 
--- Retail since 10.0 has Edit Mode, the classic clients do not.
-SUI.HasEditMode = EditModeManagerFrame ~= nil
+-- True when SUI's movers integrate with Blizzard Edit Mode through LibEditMode
+-- (retail). The classic clients ship an EditModeManagerFrame too, but SUI uses
+-- its own drag handles there, so this is not a plain frame check.
+SUI.HasEditMode = SUI.IsRetail and LibStub("LibEditMode", true) ~= nil
 
 -- True when a feature spec's client list includes the running client.
 -- `clients` may be nil (all), a string ("Mainline") or a set { Mainline = true }.

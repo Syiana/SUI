@@ -62,6 +62,7 @@ Compat.GetSpellTexture = C_Spell and C_Spell.GetSpellTexture or GetSpellTexture
 Compat.GetItemInfo = C_Item and C_Item.GetItemInfo or GetItemInfo
 Compat.GetItemQualityColor = C_Item and C_Item.GetItemQualityColor or GetItemQualityColor
 Compat.GetDetailedItemLevelInfo = C_Item and C_Item.GetDetailedItemLevelInfo or GetDetailedItemLevelInfo
+Compat.GetItemInfoInstant = C_Item and C_Item.GetItemInfoInstant or GetItemInfoInstant
 
 -- Containers: C_Container exists on every supported client, but keep the
 -- aliases here so features do not have to know.
@@ -193,6 +194,7 @@ end
 Compat.SetCVar = C_CVar and C_CVar.SetCVar or SetCVar
 Compat.GetCVar = C_CVar and C_CVar.GetCVar or GetCVar
 Compat.GetCVarBool = C_CVar and C_CVar.GetCVarBool or GetCVarBool
+Compat.GetCVarDefault = C_CVar and C_CVar.GetCVarDefault or GetCVarDefault
 Compat.IsRestrictedContext = function()
     -- Chat messaging and some unit APIs are locked in Midnight encounters.
     return C_ChatInfo and C_ChatInfo.InChatMessagingLockdown and C_ChatInfo.InChatMessagingLockdown() or false
