@@ -111,7 +111,7 @@ Kern-Hilfen:
 | `SUI:RequestReload(reason)` | Reload-Hinweis im Options-Fenster |
 | `SUI:SupportsClient(clients)` | |
 | `SUI.IsRetail`, `SUI.IsClassic`, `SUI.IsMists`, `SUI.IsTBC`, `SUI.IsVanilla`, `SUI.Client`, `SUI.HasEditMode` | Einmal gesetzte Flags |
-| `SUI.callbacks.RegisterCallback(owner, "SettingChanged"/"ThemeChanged"/"ProfileChanged"/"Ready", fn)` | Querschnitt-Ereignisse |
+| `SUI.callbacks.RegisterCallback(owner, "SettingChanged"/"ThemeChanged"/"ProfileChanged"/"Ready", fn)` | Querschnitt-Ereignisse. `fn(eventName, ...)`. Ein `owner` hält pro Ereignis nur einen Handler, also pro Listener eine eigene Owner-Tabelle (z.B. das Feature). |
 | `SUI:Print(...)`, `SUI:Debug(...)` | Ausgabe |
 
 Beispiel:

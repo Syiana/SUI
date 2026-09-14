@@ -17,6 +17,12 @@ SUI.version = C_AddOns and C_AddOns.GetAddOnMetadata(addonName, "Version") or Ge
 SUI.mediaPath = [[Interface\AddOns\]] .. addonName .. [[\Media\]]
 SUI.brand = "|cffea00ffS|r|cff00a2ffUI|r"
 SUI.callbacks = LibStub("CallbackHandler-1.0"):New(SUI)
+-- CallbackHandler puts Register/Unregister on the target (SUI). Mirror them on
+-- the registry so SUI.callbacks.RegisterCallback(owner, event, fn) works too.
+-- One owner holds one handler per event: use a distinct owner table per listener.
+SUI.callbacks.RegisterCallback = SUI.RegisterCallback
+SUI.callbacks.UnregisterCallback = SUI.UnregisterCallback
+SUI.callbacks.UnregisterAllCallbacks = SUI.UnregisterAllCallbacks
 
 -- Client detection --------------------------------------------------------
 -- WOW_PROJECT_* constants do not exist on every client, so compare against
