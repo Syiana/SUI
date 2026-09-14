@@ -28,7 +28,12 @@ function SUIConfig:Window(parent, width, height, title)
 		fadeInfo.finishedFunc = function()
 			self:GetParent():Hide()
 		end
-		UIFrameFade(self:GetParent(), fadeInfo)
+		-- UIFrameFade taints Blizzard's shared fade manager (12.x); use SUI's own when present.
+		if SUI and SUI.FadeFrame then
+			SUI:FadeFrame(self:GetParent(), fadeInfo)
+		else
+			self:GetParent():Hide()
+		end
 	end);
 
 	frame.closeBtn = closeBtn;

@@ -2,6 +2,8 @@
   <Script file="Init.lua"/>
   <Script file="Compat.lua"/>
   <Script file="Events.lua"/>
+  <Script file="Fade.lua"/>
+  <Script file="Backdrop.lua"/>
   <Script file="Features.lua"/>
   <Script file="Database.lua"/>
   <Script file="Theme.lua"/>

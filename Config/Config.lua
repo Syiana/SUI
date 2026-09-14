@@ -331,7 +331,7 @@ end
 
 -- Window --------------------------------------------------------------------------
 local function fade(visible)
-    UIFrameFade(window, {
+    SUI:FadeFrame(window, {
         mode = visible and "IN" or "OUT",
         timeToFade = 0.2,
         finishedFunc = function()

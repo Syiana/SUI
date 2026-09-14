@@ -41,7 +41,7 @@ local function create()
     start:SetText("Start")
     start:SetScript("OnClick", function()
         SUI.db.global.installed = true
-        UIFrameFade(screen, {
+        SUI:FadeFrame(screen, {
             mode = "OUT",
             timeToFade = 0.4,
             finishedFunc = function()

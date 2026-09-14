@@ -284,6 +284,16 @@ zurücksetzt, per Hook auf genau diese Methode nachziehen.
 - Keine Add-on-Nachrichten, wenn `SUI.Compat.IsRestrictedContext()` wahr ist.
 - `ToggleGameMenu()` und ähnliche Aufrufe aus Add-on-Code tainten; siehe 1.x
   Config (`HideUIPanel(GameMenuFrame)`).
+- **Nie `UIFrameFade`, `UIFrameFadeIn/Out` aufrufen.** Das taintet Blizzards
+  gemeinsamen Fade-Manager (danach brechen z.B. Chat-Tab-Fades an Secret Values).
+  Stattdessen `SUI:FadeFrame(frame, info)`, `SUI:FadeIn/FadeOut`, `SUI:StopFading`.
+- **Jedes `BackdropTemplate`-Frame an einem Blizzard-Frame** (Icons von Castbars,
+  Auren, Nameplates, Raidframes) direkt nach `SetBackdrop` mit
+  `SUI:ProtectBackdrop(frame)` schützen. Sonst rechnet Blizzards OnSizeChanged mit
+  geheimen Größen und wirft bei jedem Cast einen Fehler.
+- Frames, deren Alpha SUI selbst steuert, aus Blizzards `FADEFRAMES` nehmen
+  (`UIFrameFadeRemoveFrame` nach `FCF_FadeIn/OutChatFrame`), sonst liest Blizzards
+  Fade-Schleife einen Secret-Alpha-Wert.
 
 ## 11. Stil
 
