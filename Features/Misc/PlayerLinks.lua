@@ -4,8 +4,9 @@
     Adds Raider.io, WarcraftLogs and Check-PvP links for players to unit
     right-click menus. Retail (and every client with the Menu API) extends
     the menus directly; the old UnitPopup dropdown gets a small panel next to
-    it instead, because adding entries to that dropdown taints it. A click
-    opens a popup with the link ready to copy.
+    it instead, because adding entries to that dropdown taints it. A second
+    feature adds the same links to the retail group finder menus (search
+    results and applicants). A click opens a popup with the link to copy.
 ]]
 
 local _, ns = ...
@@ -140,6 +141,47 @@ local function onBattleNetMenu(_, root, context)
     local name, realm = resolve(game.characterName, game.realmName)
     if name then
         addToMenu(root, name, realm, REGIONS[game.regionID] or playerRegion())
+    end
+end
+
+-- Group finder menus (retail) ---------------------------------------------------------------
+local PlayerLinksLFG = SUI:NewFeature("Misc.PlayerLinksLFG", {
+    category = "misc",
+    toggle = "playerlinkslfg",
+    clients = { Mainline = true },
+})
+
+-- Search entries carry resultID; applicant member rows carry memberIdx and
+-- their parent the applicantID.
+local function groupFinderName(owner)
+    if not owner or not C_LFGList then
+        return
+    end
+    if owner.resultID then
+        local info = C_LFGList.GetSearchResultInfo(owner.resultID)
+        return info and info.leaderName
+    end
+    local parent = owner.GetParent and owner:GetParent()
+    local applicantID = owner.applicantID or (parent and parent.applicantID)
+    if applicantID and owner.memberIdx then
+        return (C_LFGList.GetApplicantMemberInfo(applicantID, owner.memberIdx))
+    end
+end
+
+local function onGroupFinderMenu(owner, root)
+    if not PlayerLinksLFG.enabled then
+        return
+    end
+    local name, realm = resolve(groupFinderName(owner))
+    if name then
+        addToMenu(root, name, realm, playerRegion())
+    end
+end
+
+function PlayerLinksLFG:OnLoad()
+    if Menu and Menu.ModifyMenu then
+        Menu.ModifyMenu("MENU_LFG_FRAME_SEARCH_ENTRY", onGroupFinderMenu)
+        Menu.ModifyMenu("MENU_LFG_FRAME_MEMBER_APPLY", onGroupFinderMenu)
     end
 end
 

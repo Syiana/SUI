@@ -40,8 +40,20 @@ SUI:RegisterDefaults("raidframes", {
         defensives = false,
         important = false,
         size = 20,
+        -- filter: buffs "All" | "Mine" | "Defensives" (retail); debuffs "All" | "Dispellable" | "Boss"
+        buffs = {
+            enabled = false, size = 14, max = 3, perRow = 3, anchor = "BOTTOMRIGHT", x = -3, y = 3,
+            grow = "LEFT", spacing = 1, duration = true, count = true, filter = "All",
+        },
+        debuffs = {
+            enabled = false, size = 16, max = 3, perRow = 3, anchor = "BOTTOMLEFT", x = 3, y = 3,
+            grow = "RIGHT", spacing = 1, duration = true, count = true, filter = "All",
+        },
     },
 })
+
+-- Retail: Blizzard's own raid aura CVars as they were before SUI hid them.
+SUI:RegisterDefaults("raidframes", { savedCVars = {} }, "char")
 
 -- 1.x stored LibSharedMedia paths spelled "Interface\Addons\..." and used
 -- "Interface\Default" for Blizzard's texture. Re-running is harmless.

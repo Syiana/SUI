@@ -4,6 +4,7 @@
   <Script file="Text.lua"/>
   <Script file="Range.lua"/>
   <Script file="Flash.lua"/>
+  <Script file="ProcGlow.lua"/>
   <Script file="Cooldown.lua"/>
   <Script file="Style.lua"/>
   <Script file="Mouseover.lua"/>

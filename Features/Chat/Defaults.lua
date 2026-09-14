@@ -21,9 +21,12 @@ SUI:RegisterDefaults("chat", {
     roleicons = true,
     whisperalert = false,
     whispersound = SUI.mediaPath .. [[Sounds\whisper.ogg]],
+    shortchannels = false,
     settings = {
         tooltips = true,
         smooth = true,
+        pixelscroll = false,
+        scrollspeed = 3,
         fade = { enabled = true, out_delay = 60 },
         buttons = { up_and_down = false },
         chat = { alpha = 0.4, font = { name = "Default", size = 12, shadow = true, outline = false } },

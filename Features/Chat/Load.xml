@@ -7,5 +7,7 @@
   <Script file="Copy.lua"/>
   <Script file="FriendList.lua"/>
   <Script file="Modern.lua"/>
+  <Script file="ShortChannels.lua"/>
+  <Script file="PixelScroll.lua"/>
   <Script file="Options.lua"/>
 </Ui>

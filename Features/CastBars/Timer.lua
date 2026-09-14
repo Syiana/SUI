@@ -41,7 +41,7 @@ local function onUpdate(bar, elapsed)
     elapsedOf[bar] = 0
 
     local casting, channeling = bar.casting, bar.channeling
-    if not casting and not channeling then
+    if (not casting and not channeling) or not CB.Active(bar, F.db) then
         return clear(bar)
     end
     local value = bar:GetValue()

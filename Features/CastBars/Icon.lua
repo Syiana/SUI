@@ -26,6 +26,7 @@ local icons = {}   -- array of { icon, border, player }
 local want = {}    -- icon -> true (force shown) | false (force hidden) | nil
 local borderOf = {}
 local themed = false
+local inactive = {} -- icon -> true for boss bars while boss cast bars are off
 
 local function sync(icon)
     local w = want[icon]
@@ -36,7 +37,7 @@ local function sync(icon)
     end
     local border = borderOf[icon]
     if border then
-        border:SetShown(themed and icon:IsShown())
+        border:SetShown(themed and not inactive[icon] and icon:IsShown())
     end
 end
 
@@ -58,7 +59,7 @@ function F:OnLoad()
             border:Hide()
             SUI.Theme:Paint(border, true, 0.25)
             borderOf[icon] = border
-            icons[#icons + 1] = { icon = icon, player = players[bar] }
+            icons[#icons + 1] = { icon = icon, bar = bar, player = players[bar] }
             self:Hook(icon, "Show", sync)
             self:Hook(icon, "Hide", sync)
             self:Hook(icon, "SetShown", sync)
@@ -78,7 +79,11 @@ function F:Apply()
     for i = 1, #icons do
         local entry = icons[i]
         local icon = entry.icon
-        if entry.player then
+        inactive[icon] = not CB.Active(entry.bar, self.db) or nil
+        if inactive[icon] then
+            want[icon] = nil
+            icon:SetTexCoord(0, 1, 0, 1)
+        elseif entry.player then
             want[icon] = showIcons or nil
             if showIcons then
                 icon:SetSize(20, 20)
@@ -90,7 +95,9 @@ function F:Apply()
                 want[icon] = false
             end
         end
-        icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+        if not inactive[icon] then
+            icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+        end
         sync(icon)
     end
 end

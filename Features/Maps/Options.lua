@@ -56,6 +56,30 @@ SUI.Config:RegisterLayout("Map", {
                 expansionbutton = { key = "expansionbutton", type = "checkbox", label = "Expansion Button Mouseover",
                                     tooltip = "Show Expansion Button on mouseover", clients = RETAIL, column = 4, order = 3 },
             },
+            { header = { type = "header", label = "Minimap Buttons" } },
+            {
+                enabled = { key = "buttonbar.enabled", type = "checkbox", label = "Collect Buttons",
+                            tooltip = "Move add-on minimap buttons into a bar", column = 4, order = 1 },
+                mode = { key = "buttonbar.mode", type = "dropdown", label = "Show Bar", column = 4, order = 2,
+                         options = {
+                             { value = "drawer", text = "Drawer Button" },
+                             { value = "always", text = "Always" },
+                             { value = "mouseover", text = "Minimap Mouseover" },
+                         } },
+                grow = { key = "buttonbar.grow", type = "dropdown", label = "Grow Direction", column = 4, order = 3,
+                         options = {
+                             { value = "RIGHT", text = "Right" }, { value = "LEFT", text = "Left" },
+                             { value = "DOWN", text = "Down" }, { value = "UP", text = "Up" },
+                         } },
+            },
+            {
+                perrow = { key = "buttonbar.perrow", type = "slider", label = "Buttons per Row",
+                           min = 1, max = 12, step = 1, column = 4, order = 1 },
+                size = { key = "buttonbar.size", type = "slider", label = "Button Size",
+                         min = 16, max = 48, step = 1, column = 4, order = 2 },
+                spacing = { key = "buttonbar.spacing", type = "slider", label = "Spacing",
+                            min = 0, max = 10, step = 1, column = 4, order = 3 },
+            },
         }
     end,
 })

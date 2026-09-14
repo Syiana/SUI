@@ -162,9 +162,12 @@ function Expansion:OnDisable()
 end
 
 -- Add-on buttons on mouseover (LibDBIcon) -----------------------------------------------------
+-- Off while Maps.ButtonBar collects the buttons into its own bar.
 local Buttons = SUI:NewFeature("Maps.AddonButtons", {
     category = "maps",
-    toggle = "buttons",
+    toggle = function(db)
+        return db.buttons and not db.buttonbar.enabled
+    end,
     conflicts = SEXYMAP,
 })
 

@@ -49,6 +49,11 @@ SUI.Config:RegisterLayout("Misc", {
                     tooltip = "Show group listings that declined you as available again",
                     clients = { Mainline = true }, column = 4, order = 3 },
             },
+            {
+                playerlinkslfg = { key = "playerlinkslfg", type = "checkbox", label = "Group Finder Links",
+                    tooltip = "Add Raider.io, WarcraftLogs and Check-PvP links to group finder search results and applicants. Changing Blizzard's group finder menus may cause taint errors on \"Sign Up\"",
+                    clients = { Mainline = true }, column = 4, order = 1 },
+            },
             { header = { type = "header", label = "PvP" } },
             {
                 safequeue = { key = "safequeue", type = "checkbox", label = "Safe Queue",

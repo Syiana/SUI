@@ -20,6 +20,8 @@ SUI:RegisterDefaults("castbars", {
     targetOnTop = false,
     focusOnTop = false,
     texture = "Disabled",   -- statusbar texture path, "Disabled" = Blizzard (new in 2.0)
+    bossCastbar = false,    -- boss1-5 cast bars in the Custom look (new in 2.0)
+    bossSize = 1,
 })
 
 local CB = {}
@@ -38,7 +40,21 @@ function CB.PlayerBars()
     return list
 end
 
--- Every bar SUI touches: player bars, then target and focus.
+-- Boss cast bars that exist on this client (boss1-5).
+CB.boss = {} -- bar -> true, filled by CB.BossBars
+function CB.BossBars()
+    local list = {}
+    for i = 1, 5 do
+        local bar = _G["Boss" .. i .. "TargetFrameSpellBar"]
+        if bar then
+            list[#list + 1] = bar
+            CB.boss[bar] = true
+        end
+    end
+    return list
+end
+
+-- Every bar SUI touches: player bars, target, focus and boss bars.
 function CB.AllBars()
     local list = CB.PlayerBars()
     if TargetFrameSpellBar then
@@ -47,5 +63,14 @@ function CB.AllBars()
     if FocusFrameSpellBar then
         list[#list + 1] = FocusFrameSpellBar
     end
+    local boss = CB.BossBars()
+    for i = 1, #boss do
+        list[#list + 1] = boss[i]
+    end
     return list
+end
+
+-- Boss bars only get the shared look (icon, texture, timer) while enabled.
+function CB.Active(bar, db)
+    return not CB.boss[bar] or db.bossCastbar == true
 end

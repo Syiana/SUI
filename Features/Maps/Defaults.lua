@@ -1,8 +1,9 @@
 --[[
     SUI 2.0 - Features/Maps/Defaults.lua
 
-    Settings of the Map tab. Keys are the SUI 1.x keys; zonetext, fade and
-    minimapcoords are new in 2.0. "Show ..." keys hide the element when false.
+    Settings of the Map tab. Keys are the SUI 1.x keys; zonetext, fade,
+    minimapcoords and buttonbar are new in 2.0. "Show ..." keys hide the
+    element when false.
 ]]
 
 local _, ns = ...
@@ -25,6 +26,14 @@ SUI:RegisterDefaults("maps", {
     zonetext = true,
     fade = false,          -- fade the minimap while the mouse is elsewhere
     minimapcoords = false, -- player coordinates on the minimap
+    buttonbar = {          -- collect add-on minimap buttons into a bar
+        enabled = false,
+        mode = "drawer",   -- "drawer" | "always" | "mouseover"
+        perrow = 6,
+        size = 28,
+        spacing = 2,
+        grow = "RIGHT",    -- "RIGHT" | "LEFT" | "DOWN" | "UP"
+    },
 })
 
 -- SUI 9.x/10.x stored opacity = false and a "Legion" garrison button style.

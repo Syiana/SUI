@@ -4,5 +4,6 @@
   <Script file="Container.lua"/>
   <Script file="Unit.lua"/>
   <Script file="Auras.lua"/>
+  <Script file="AurasClassic.lua"/>
   <Script file="Options.lua"/>
 </Ui>

@@ -25,7 +25,7 @@ local TYPE_B = { standard = 0, channel = 0, uninterruptable = 0.7, interrupted =
 local applying = false
 
 local function apply(bar)
-    if applying then
+    if applying or not CB.Active(bar, F.db) then
         return
     end
     applying = true
@@ -51,7 +51,7 @@ function F:OnEnable()
 end
 
 function F:OnRefresh(key)
-    if key == "texture" then
+    if key == "texture" or key == "bossCastbar" then
         self:OnEnable()
     end
 end

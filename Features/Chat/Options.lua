@@ -52,6 +52,13 @@ SUI.Config:RegisterLayout("Chat", {
                 whispersound = { key = "whispersound", type = "dropdown", label = "Whisper Sound File", column = 4, order = 2,
                                  options = SUI.Media:Options("sound") },
             },
+            {
+                shortchannels = checkbox("shortchannels", "Short Channel Names",
+                    "Shorten channel and whisper tags ([1. General] -> [1], [Guild] -> [G]).|n|cffff5555Can cause taint on Retail 12.x.|r", 1),
+                pixelscroll = checkbox("settings.pixelscroll", "Pixel Scrolling",
+                    "Smooth mouse wheel scrolling in chat frames.|n|cffff5555Can cause taint on Retail 12.x.|r", 2),
+                scrollspeed = slider("settings.scrollspeed", "Scroll Speed", 1, 10, 1, 3),
+            },
             { header = { type = "header", label = "Modern Chat" } },
             {
                 editposition = { key = "settings.edit.position", type = "dropdown", label = "Input Position", column = 4, order = 1,

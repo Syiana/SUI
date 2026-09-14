@@ -26,6 +26,7 @@ SUI:RegisterDefaults("misc", {
     lfgdeclined = false,
     achievements = false,
     playerlinks = true,
+    playerlinkslfg = false,
 })
 
 SUI:RegisterDefaults("misc", {

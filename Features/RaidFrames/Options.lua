@@ -14,11 +14,62 @@ local function withBlizzard(options, value)
     return options
 end
 
+local POINTS = {
+    { value = "TOPLEFT", text = "Top Left" }, { value = "TOP", text = "Top" }, { value = "TOPRIGHT", text = "Top Right" },
+    { value = "LEFT", text = "Left" }, { value = "CENTER", text = "Center" }, { value = "RIGHT", text = "Right" },
+    { value = "BOTTOMLEFT", text = "Bottom Left" }, { value = "BOTTOM", text = "Bottom" },
+    { value = "BOTTOMRIGHT", text = "Bottom Right" },
+}
+local GROW = {
+    { value = "LEFT", text = "Left" }, { value = "RIGHT", text = "Right" },
+    { value = "UP", text = "Up" }, { value = "DOWN", text = "Down" },
+}
+
+-- Appends the option rows of one aura group ("buffs" or "debuffs").
+local function auraRows(rows, key, title, filters)
+    local p = "auras." .. key .. "."
+    local function id(name)
+        return key .. name
+    end
+    rows[#rows + 1] = { [id("Header")] = { type = "header", label = title } }
+    rows[#rows + 1] = {
+        [id("Enabled")] = { key = p .. "enabled", type = "checkbox", label = "Show " .. title, column = 4, order = 1,
+                            tooltip = "Show " .. title:lower() .. " on raid frames with SUI's layout" },
+        [id("Filter")] = { key = p .. "filter", type = "dropdown", label = "Filter", column = 4, order = 2,
+                           options = filters },
+        [id("Size")] = { key = p .. "size", type = "slider", label = "Size", min = 8, max = 40, step = 1,
+                         column = 4, order = 3 },
+    }
+    rows[#rows + 1] = {
+        [id("Max")] = { key = p .. "max", type = "slider", label = "Max Count", min = 1, max = 10, step = 1,
+                        column = 4, order = 1 },
+        [id("PerRow")] = { key = p .. "perRow", type = "slider", label = "Per Row", min = 1, max = 10, step = 1,
+                           column = 4, order = 2 },
+        [id("Spacing")] = { key = p .. "spacing", type = "slider", label = "Spacing", min = 0, max = 10, step = 1,
+                            clients = { Classic = true }, column = 4, order = 3 },
+    }
+    rows[#rows + 1] = {
+        [id("Anchor")] = { key = p .. "anchor", type = "dropdown", label = "Anchor Point", options = POINTS,
+                           column = 4, order = 1 },
+        [id("X")] = { key = p .. "x", type = "slider", label = "X Offset", min = -50, max = 50, step = 1,
+                      column = 4, order = 2 },
+        [id("Y")] = { key = p .. "y", type = "slider", label = "Y Offset", min = -50, max = 50, step = 1,
+                      column = 4, order = 3 },
+    }
+    rows[#rows + 1] = {
+        [id("Grow")] = { key = p .. "grow", type = "dropdown", label = "Grow Direction", options = GROW,
+                         column = 4, order = 1 },
+        [id("Duration")] = { key = p .. "duration", type = "checkbox", label = "Show Duration", column = 4, order = 2,
+                             tooltip = "Show the cooldown swipe" },
+        [id("Count")] = { key = p .. "count", type = "checkbox", label = "Show Stack Count", column = 4, order = 3 },
+    }
+end
+
 SUI.Config:RegisterLayout("Raidframes", {
     order = 25,
     category = "raidframes",
     rows = function()
-        return {
+        local rows = {
             { header = { type = "header", label = "Raid and Party" } },
             {
                 texture = { key = "texture", type = "dropdown", label = "Texture", column = 4, order = 1,
@@ -119,5 +170,16 @@ SUI.Config:RegisterLayout("Raidframes", {
                              min = 10, max = 40, step = 1, clients = { Mainline = true }, column = 4, order = 1 },
             },
         }
+        local buffFilters = { { value = "All", text = "All" }, { value = "Mine", text = "Mine" } }
+        if SUI.IsRetail then
+            buffFilters[3] = { value = "Defensives", text = "Defensives" }
+        end
+        auraRows(rows, "buffs", "Buffs", buffFilters)
+        auraRows(rows, "debuffs", "Debuffs", {
+            { value = "All", text = "All" },
+            { value = "Dispellable", text = "Dispellable by Me" },
+            { value = "Boss", text = "Boss and Important" },
+        })
+        return rows
     end,
 })

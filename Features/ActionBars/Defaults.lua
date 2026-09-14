@@ -16,6 +16,10 @@ SUI:RegisterDefaults("actionbar", {
         flash = false,      -- flash animation on key press
         size = 12,          -- button text size
         desaturate = false, -- grey out icons while on cooldown (new in 2.0)
+        procglow = "Blizzard",  -- "Blizzard" | "Custom" | "Hide" (new in 2.0)
+        procglowstyle = "Pixel", -- "Pixel" | "Autocast" | "Button"
+        procglowtheme = true,   -- custom glow uses the theme/class colour
+        procglowcolor = { r = 0.95, g = 0.95, b = 0.32, a = 1 },
     },
     menu = {
         micromenu = "show", -- "show" | "mouse_over" | "hide"
