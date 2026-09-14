@@ -14,7 +14,7 @@ local function mock(name)
 end
 W.mock = mock
 MockMT.__index = function(t, k)
-    if k == "__mockname" then return nil end
+    if k == "__mockname" or k == nil then return nil end
     local v = mock(rawget(t, "__mockname") .. "." .. tostring(k))
     rawset(t, k, v)
     return v

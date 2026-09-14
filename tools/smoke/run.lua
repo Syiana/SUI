@@ -7,6 +7,8 @@
     events and reports Lua errors plus option keys without defaults.
 ]]
 
+-- Hooks do not fire inside JIT-compiled traces; the loop guard needs the interpreter.
+if jit then jit.off() end
 local CLIENT = arg[1] or "Mainline"
 local BUILD_UI = arg[2] == "--ui"
 package.path = "tools/smoke/?.lua;" .. package.path
@@ -35,6 +37,9 @@ end
 setmetatable(G, {
     __index = function(_, k)
         if absent[k] then return nil end
+        -- Numbered frame names (ChatFrame11, CompactRaidFrame3) are nil unless
+        -- created, so "loop until nil" code terminates.
+        if type(k) == "string" and k:match("%d$") then return nil end
         if type(k) == "string" and k:match("^[A-Z]") then
             local v = mock(k)
             rawset(G, k, v)
@@ -118,6 +123,9 @@ G.GetRealmName = function() return "Realm" end
 G.GetNormalizedRealmName = function() return "Realm" end
 G.IsInGroup, G.IsInRaid, G.IsInGuild, G.IsInInstance = function() return false end, function() return false end, function() return false end, function() return false, "none" end
 G.GetNumGroupMembers = function() return 0 end
+G.GetMaxBattlefieldID = function() return 2 end
+G.GetNumSubgroupMembers = function() return 0 end
+G.GetNumBindings = function() return 0 end
 G.GetMoney = function() return 0 end
 G.ReloadUI = function() W.reloaded = true end
 G.StaticPopupDialogs, G.UISpecialFrames, G.SlashCmdList, G.hash_SlashCmdList = {}, {}, {}, {}
@@ -243,6 +251,7 @@ mixins["AceSerializer-3.0"] = function(obj)
 end
 mixins["AceConsole-3.0"] = function(obj)
     function obj:RegisterChatCommand(cmd, fn) G.SlashCmdList[cmd] = fn end
+    function obj:UnregisterChatCommand(cmd) G.SlashCmdList[cmd] = nil end
     function obj:Print() end
 end
 function AceAddon:NewAddon(name, ...)
@@ -365,7 +374,13 @@ assert(SUI, "SUI namespace missing after load")
 
 -- Lifecycle ------------------------------------------------------------------------------
 local function step(name, fn)
+    local count = 0
+    debug.sethook(function()
+        count = count + 1
+        if count > 2000 then debug.sethook(); error("possible infinite loop (instruction limit)") end
+    end, "", 100000)
     local ok, err = xpcall(fn, debug.traceback)
+    debug.sethook()
     if not ok then W.report(name, err) end
 end
 
