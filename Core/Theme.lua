@@ -75,17 +75,21 @@ end
 
 function Theme:Repaint()
     for texture, sub in next, painted do
+        local canDesaturate = texture.SetDesaturated ~= nil
         if not self.enabled then
-            if texture.SetDesaturated then
+            if canDesaturate then
                 texture:SetDesaturated(false)
             end
             texture:SetVertexColor(1, 1, 1)
-        elseif sub < 0 then
-            texture:SetDesaturated(true)
-            texture:SetVertexColor(0.15, 0.15, 0.15)
         else
-            texture:SetDesaturated(true)
-            texture:SetVertexColor(self:Color(sub))
+            if canDesaturate then
+                texture:SetDesaturated(true)
+            end
+            if sub < 0 then
+                texture:SetVertexColor(0.15, 0.15, 0.15)
+            else
+                texture:SetVertexColor(self:Color(sub))
+            end
         end
     end
 end
