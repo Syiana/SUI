@@ -9,6 +9,7 @@
     /sui version      print the installed version
     /sui debug        toggle debug output
     /rl               reload the interface (only if no other add-on owns it)
+    /fs               frame stack tooltip (only if no other add-on owns it)
 ]]
 
 local _, ns = ...
@@ -61,6 +62,35 @@ SUI:RegisterChatCommand("sui", handle)
 if not (hash_SlashCmdList and hash_SlashCmdList["/RL"]) then
     SUI:RegisterChatCommand("rl", function()
         ReloadUI()
+    end)
+end
+
+-- Frame stack tooltip, like 1.x.
+if not (hash_SlashCmdList and hash_SlashCmdList["/FS"]) then
+    SUI:RegisterChatCommand("fs", function(msg)
+        if not FrameStackTooltip_Toggle then
+            local load = UIParentLoadAddOn or SUI.Compat.LoadAddOn
+            load("Blizzard_DebugTools")
+        end
+        if not FrameStackTooltip_Toggle then
+            return
+        end
+        local pattern = "^%s*(%S+)(.*)$"
+        local hidden, regions, anchors
+        hidden, msg = string.match(msg or "", pattern)
+        regions, msg = string.match(msg or "", pattern)
+        anchors = string.match(msg or "", pattern)
+        local function flag(arg, default)
+            if StringToBoolean then
+                return StringToBoolean(arg or "", default)
+            end
+            return default
+        end
+        FrameStackTooltip_Toggle(
+            flag(hidden, FrameStackTooltip_IsShowHiddenEnabled and FrameStackTooltip_IsShowHiddenEnabled()),
+            flag(regions, FrameStackTooltip_IsShowRegionsEnabled and FrameStackTooltip_IsShowRegionsEnabled()),
+            flag(anchors, FrameStackTooltip_IsShowAnchorsEnabled and FrameStackTooltip_IsShowAnchorsEnabled())
+        )
     end)
 end
 
