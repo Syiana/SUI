@@ -54,9 +54,26 @@ function Scale:Apply()
     SUI:RunAfterCombat(scaleNow)
 end
 
+-- Blizzard re-applies its raid container layout; 1.x re-scales shortly after.
+local function scaleOutOfCombat()
+    SUI:RunAfterCombat(scaleNow)
+end
+
+local function applySoon()
+    Scale:After(0.1, scaleOutOfCombat)
+end
+
+function Scale:OnLoad()
+    local container = _G.CompactRaidFrameContainer
+    if container and container.ApplyToFrames then
+        self:Hook(container, "ApplyToFrames", applySoon)
+    end
+end
+
 function Scale:OnEnable()
     self:RegisterEvent("PLAYER_ENTERING_WORLD", "Apply")
     self:RegisterEvent("GROUP_ROSTER_UPDATE", "Apply")
+    self:RegisterEvent("UI_SCALE_CHANGED", "Apply")
     self:Apply()
 end
 

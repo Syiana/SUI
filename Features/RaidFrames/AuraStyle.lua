@@ -32,15 +32,16 @@ RF.DEBUFF_B = { none = 0, Magic = 1, Curse = 1, Disease = 0, Poison = 0 }
 
 local styled = setmetatable({}, { __mode = "k" }) -- button -> true
 
+-- Without a theme ("Blizzard") the 1.x fallback: grey border, black shadow.
 local function applyTheme(button)
     local theme = SUI.Theme
-    local shown = theme.enabled
-    button.suiBorder:SetShown(shown)
-    button.suiShadow:SetShown(shown)
-    if shown then
+    if theme.enabled then
         button.suiBorder:SetVertexColor(theme:Color(0.15))
         local r, g, b = theme:Color(0.25)
         button.suiShadow:SetBackdropBorderColor(r, g, b, 0.9)
+    else
+        button.suiBorder:SetVertexColor(0.15, 0.15, 0.15)
+        button.suiShadow:SetBackdropBorderColor(0, 0, 0, 0.9)
     end
 end
 

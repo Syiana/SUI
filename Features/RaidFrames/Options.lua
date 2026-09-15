@@ -157,7 +157,7 @@ SUI.Config:RegisterLayout("Raidframes", {
             {
                 texture = { key = "texture", type = "dropdown", label = "Texture", column = 4, order = 1,
                             tooltip = "Health bar texture of party and raid frames.",
-                            options = withBlizzard(SUI.Media:Options("statusbar"), "Disabled") },
+                            options = SUI.Media:Options("statusbar") }, -- "Default" = Blizzard
                 colors = { key = "colors", type = "dropdown", label = "Health Color", column = 4, order = 2,
                            tooltip = "Color of the health bars.",
                            options = {
@@ -188,7 +188,7 @@ SUI.Config:RegisterLayout("Raidframes", {
             },
             { header = { type = "header", label = "Scale & Size" } },
             {
-                partyscale = { key = "partyscale", type = "slider", label = "Party Frame Scale", min = 0.5, max = 1.5, step = 0.1, column = 4, order = 1,
+                partyscale = { key = "partyscale", type = "slider", label = "Party Frame Scale", min = 0.25, max = 2.25, step = 0.01, column = 4, order = 1,
                                tooltip = "Scale of the party frames." },
                 raidscale = { key = "raidscale", type = "slider", label = "Raid Frame Scale", min = 0.5, max = 1.5, step = 0.1, column = 4, order = 2,
                               tooltip = "Scale of the raid frames." },

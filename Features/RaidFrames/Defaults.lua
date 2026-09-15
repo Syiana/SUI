@@ -11,7 +11,7 @@ local _, ns = ...
 local SUI = ns.SUI
 
 SUI:RegisterDefaults("raidframes", {
-    texture = SUI.Media.textures .. [[Status\Flat.blp]], -- path or "Disabled" (Blizzard)
+    texture = SUI.Media.textures .. [[Status\Flat.blp]], -- path or SUI.Media.BLIZZARD_STATUSBAR
     alwaysontop = false,
     size = false, -- custom party frame size
     width = 100,
@@ -68,16 +68,12 @@ SUI:RegisterDefaults("raidframes", {
 -- under its 1.x name so an upgraded character still gets them back).
 SUI:RegisterDefaults("raidauracvars", {}, "char")
 
--- 1.x stored LibSharedMedia paths spelled "Interface\Addons\..." and used
--- "Interface\Default" for Blizzard's texture. Re-running is harmless.
+-- 1.x stored LibSharedMedia paths spelled "Interface\Addons\...".
+-- "Interface\Default" (Blizzard's texture) is the 2.0 value too.
 SUI:RegisterMigration("raidframes-1x-texture-path", function(profile)
     local raid = rawget(profile, "raidframes")
     local texture = type(raid) == "table" and rawget(raid, "texture")
     if type(texture) ~= "string" then
-        return
-    end
-    if texture == [[Interface\Default]] then
-        raid.texture = "Disabled"
         return
     end
     local prefix = [[interface\addons\sui\media\]]
@@ -137,5 +133,35 @@ SUI:RegisterMigration("raidframes-auras-structure", function(profile)
         if rawget(debuffs, "point") == nil then
             debuffs.point, debuffs.grow = "BOTTOMRIGHT", "LEFT"
         end
+    end
+end)
+
+-- 2.0 previews stored "Disabled" for Blizzard's bar texture; the core's
+-- "Default" statusbar entry now stands for it (1.x value).
+SUI:RegisterMigration("raidframes-texture-blizzard", function(profile)
+    local raid = rawget(profile, "raidframes")
+    if type(raid) == "table" and rawget(raid, "texture") == "Disabled" then
+        raid.texture = SUI.Media.BLIZZARD_STATUSBAR
+    end
+end)
+
+-- 1.x scaled both PartyFrame and CompactPartyFrame, which is PartyFrame's
+-- child on retail, so players saw partyscale squared. 2.0 applies the scale
+-- once; squaring the stored value keeps what they saw.
+SUI:RegisterMigration("raidframes-1x-partyscale-square", function(profile)
+    local raid = rawget(profile, "raidframes")
+    local scale = type(raid) == "table" and rawget(raid, "partyscale")
+    if type(scale) ~= "number" or scale == 1 then
+        return
+    end
+    local party, compact = _G.PartyFrame, _G.CompactPartyFrame
+    local nested
+    if party and compact then
+        nested = compact:GetParent() == party
+    else
+        nested = SUI.IsRetail
+    end
+    if nested then
+        raid.partyscale = math.floor(scale * scale * 100 + 0.5) / 100
     end
 end)

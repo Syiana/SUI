@@ -15,9 +15,10 @@ local _G, type, strfind = _G, type, string.find
 local RF = {}
 ns.RaidFrames = RF
 
-RF.RAID, RF.PARTY, RF.PET = 1, 2, 3
+RF.RAID, RF.PARTY, RF.PET, RF.ARENA = 1, 2, 3, 4
+local ARENA = RF.ARENA
 
--- frame -> RF.RAID | RF.PARTY | RF.PET | false (weak: released frames may go)
+-- frame -> RF.RAID | RF.PARTY | RF.PET | RF.ARENA | false (weak: released frames may go)
 local kinds = setmetatable({}, { __mode = "k" })
 RF.kind = kinds
 
@@ -36,6 +37,8 @@ local function classify(frame)
             kind = RF.PARTY
         elseif strfind(name, "^CompactRaid") then
             kind = RF.RAID
+        elseif strfind(name, "^CompactArenaFrame") then
+            kind = ARENA
         else
             kind = false
         end
@@ -46,28 +49,34 @@ end
 RF.Classify = classify
 
 -- Subscriptions -----------------------------------------------------------------
--- hook name -> { owners = {feature...}, fns = {fn...} }; fn(feature, frame)
+-- hook name -> { owners = {feature...}, fns = {fn...}, arena = {bool...} };
+-- fn(feature, frame). Arena frames only reach subscribers that ask for them
+-- (1.x styled every "Compact" frame's bars, nothing else).
 local hooks = {}
 
-function RF.On(hookName, feature, fn)
+function RF.On(hookName, feature, fn, withArena)
     local entry = hooks[hookName]
     if not entry then
-        entry = { owners = {}, fns = {} }
+        entry = { owners = {}, fns = {}, arena = {} }
         hooks[hookName] = entry
     end
-    entry.owners[#entry.owners + 1] = feature
-    entry.fns[#entry.fns + 1] = fn
+    local n = #entry.owners + 1
+    entry.owners[n], entry.fns[n], entry.arena[n] = feature, fn, withArena == true
 end
 
 local function dispatcher(entry)
-    local owners, fns = entry.owners, entry.fns
+    local owners, fns, arena = entry.owners, entry.fns, entry.arena
     return function(frame)
-        if not frame or not classify(frame) then
+        if not frame then
+            return
+        end
+        local kind = classify(frame)
+        if not kind then
             return
         end
         for i = 1, #owners do
             local owner = owners[i]
-            if owner.enabled then
+            if owner.enabled and (kind ~= ARENA or arena[i]) then
                 fns[i](owner, frame)
             end
         end
@@ -86,13 +95,17 @@ end
 
 -- Calls fn(owner, frame) for every existing raid and party frame. Not a hot
 -- path: used when a setting changes or a feature is switched.
-local function visit(frame, fn, owner)
-    if frame and classify(frame) then
-        fn(owner, frame)
+local function visit(frame, fn, owner, withArena)
+    if frame then
+        local kind = classify(frame)
+        if kind and (kind ~= ARENA or withArena) then
+            fn(owner, frame)
+        end
     end
 end
 
-function RF.ForEachFrame(fn, owner)
+-- withArena: also visit CompactArenaFrame members.
+function RF.ForEachFrame(fn, owner, withArena)
     for i = 1, 100 do -- raid members, pets and target frames are numbered in creation order
         local frame = _G["CompactRaidFrame" .. i]
         if not frame then
@@ -108,6 +121,9 @@ function RF.ForEachFrame(fn, owner)
     for member = 1, 5 do
         visit(_G["CompactPartyFrameMember" .. member], fn, owner)
         visit(_G["CompactPartyFramePet" .. member], fn, owner)
+        if withArena then
+            visit(_G["CompactArenaFrameMember" .. member], fn, owner, true)
+        end
     end
 end
 

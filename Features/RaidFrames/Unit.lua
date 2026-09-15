@@ -21,18 +21,21 @@ local function weak()
 end
 
 -- Bar texture (1.x) ------------------------------------------------------------------
+local BLIZZARD_STATUSBAR = SUI.Media.BLIZZARD_STATUSBAR
+
 local Texture = SUI:NewFeature("RaidFrames.Texture", {
     category = "raidframes",
-    toggle = "texture", -- "Disabled" = Blizzard texture
+    toggle = function(db)
+        return db.texture ~= BLIZZARD_STATUSBAR
+    end,
 })
 
 local textured = weak() -- frame -> texture path applied
 
 local BLIZZARD_HEALTH = [[Interface\RaidFrame\Raid-Bar-Hp-Fill]]
 local BLIZZARD_POWER = [[Interface\RaidFrame\Raid-Bar-Resource-Fill]]
-local BORDERS = { "horizTopBorder", "horizBottomBorder", "vertLeftBorder", "vertRightBorder" }
 
-local function setBarTextures(frame, health, power, showBorders)
+local function setBarTextures(frame, health, power)
     frame.healthBar:SetStatusBarTexture(health)
     frame.healthBar:GetStatusBarTexture():SetDrawLayer("BORDER")
     if frame.powerBar then
@@ -45,19 +48,13 @@ local function setBarTextures(frame, health, power, showBorders)
     if frame.otherHealPrediction and frame.otherHealPrediction.SetTexture then
         frame.otherHealPrediction:SetTexture(health)
     end
-    for i = 1, #BORDERS do
-        local border = frame[BORDERS[i]]
-        if border then
-            border:SetShown(showBorders)
-        end
-    end
 end
 
 function Texture:Apply(frame)
     local texture = self.db.texture
     if textured[frame] ~= texture and frame.healthBar then
         textured[frame] = texture
-        setBarTextures(frame, texture, texture, false)
+        setBarTextures(frame, texture, texture)
     end
 end
 
@@ -67,22 +64,20 @@ function Texture:Setup(frame)
     self:Apply(frame)
 end
 
-RF.On("DefaultCompactUnitFrameSetup", Texture, Texture.Setup)
-RF.On("DefaultCompactMiniFrameSetup", Texture, Texture.Setup)
-RF.On("CompactUnitFrame_UpdateAll", Texture, Texture.Apply)
+-- Arena frames too, like 1.x ("^Compact").
+RF.On("DefaultCompactUnitFrameSetup", Texture, Texture.Setup, true)
+RF.On("DefaultCompactMiniFrameSetup", Texture, Texture.Setup, true)
+RF.On("CompactUnitFrame_UpdateAll", Texture, Texture.Apply, true)
 
 local function restoreTexture(_, frame)
     if frame.healthBar then
-        setBarTextures(frame, BLIZZARD_HEALTH, BLIZZARD_POWER, true)
+        setBarTextures(frame, BLIZZARD_HEALTH, BLIZZARD_POWER)
     end
 end
 
 function Texture:OnEnable()
-    if _G.CompactPartyFrameTitle then
-        _G.CompactPartyFrameTitle:SetAlpha(0)
-    end
     wipe(textured)
-    RF.ForEachFrame(self.Apply, self)
+    RF.ForEachFrame(self.Apply, self, true)
 end
 
 function Texture:OnRefresh(key)
@@ -92,12 +87,56 @@ function Texture:OnRefresh(key)
 end
 
 function Texture:OnDisable()
-    if _G.CompactPartyFrameTitle then
-        _G.CompactPartyFrameTitle:SetAlpha(1)
-    end
     wipe(textured)
-    RF.ForEachFrame(restoreTexture)
+    RF.ForEachFrame(restoreTexture, nil, true)
 end
+
+-- Frame look (1.x, always on) ----------------------------------------------------------
+-- Unit frame borders and the party title are hidden; under a theme the
+-- party divider is a dark grey line.
+local Look = SUI:NewFeature("RaidFrames.Look", { category = "raidframes" })
+
+local BORDERS = { "horizTopBorder", "horizBottomBorder", "vertLeftBorder", "vertRightBorder" }
+local looked = weak() -- frame -> theme state applied
+
+function Look:Apply(frame)
+    local themed = SUI.Theme.enabled
+    if looked[frame] == themed then
+        return
+    end
+    looked[frame] = themed
+    for i = 1, #BORDERS do
+        local border = frame[BORDERS[i]]
+        if border then
+            border:Hide()
+        end
+    end
+    local kind = RF.kind[frame]
+    if frame.horizDivider and (kind == RF.PARTY or kind == RF.PET) then
+        if themed then
+            frame.horizDivider:SetVertexColor(0.3, 0.3, 0.3)
+        else
+            frame.horizDivider:SetVertexColor(1, 1, 1)
+        end
+    end
+end
+
+function Look:Setup(frame)
+    looked[frame] = nil
+    self:Apply(frame)
+end
+
+RF.On("DefaultCompactUnitFrameSetup", Look, Look.Setup, true)
+RF.On("CompactUnitFrame_UpdateAll", Look, Look.Apply, true)
+
+function Look:OnEnable()
+    if _G.CompactPartyFrameTitle then
+        _G.CompactPartyFrameTitle:SetAlpha(0)
+    end
+    RF.ForEachFrame(self.Apply, self, true)
+end
+
+Look.OnThemeChanged = Look.OnEnable
 
 -- Health bar colours -------------------------------------------------------------------
 local Colors = SUI:NewFeature("RaidFrames.Colors", {
@@ -389,23 +428,4 @@ function Mouseover:OnDisable()
     for _, hl in pairs(highlights) do
         hl:Hide()
     end
-end
-
--- Themed background -------------------------------------------------------------------------
--- Theme:Paint remembers the texture and repaints it on theme changes.
-local Background = SUI:NewFeature("RaidFrames.Background", { category = "raidframes" })
-
-local painted = weak()
-
-function Background:Apply(frame)
-    if not painted[frame] and frame.background then
-        painted[frame] = true
-        SUI.Theme:Paint(frame.background, true)
-    end
-end
-
-RF.On("CompactUnitFrame_UpdateAll", Background, Background.Apply)
-
-function Background:OnEnable()
-    RF.ForEachFrame(self.Apply, self)
 end

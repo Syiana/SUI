@@ -171,8 +171,14 @@ local HandBack = SUI:NewFeature("RaidFrames.AuraHandBack", {
     clients = MAINLINE,
 })
 
-function HandBack:OnEnable()
+-- 1.x re-checks on every loading screen; only ledger entries are handed back.
+function HandBack:HandBack()
     requestBlizzardAuras(true)
+end
+
+function HandBack:OnEnable()
+    self:RegisterEvent("PLAYER_ENTERING_WORLD", "HandBack")
+    self:HandBack()
 end
 
 -- SUI rows ---------------------------------------------------------------------------------
@@ -182,11 +188,10 @@ local Auras = SUI:NewFeature("RaidFrames.Auras", {
     clients = MAINLINE,
 })
 
--- Buttons are built once at a base size; the container scale turns that
--- into the share of the frame height the settings ask for.
-local BASE = 20
+-- As in 1.x, buttons are built at the real pixel size the frame has when
+-- its rows are made (container scale 1, so borders, shadow, count text and
+-- gaps keep their pixel sizes); only a later size change scales a row.
 local LEAD_SCALE = 1.3 -- boss and role debuffs lead the row larger
-local LEAD_BASE = floor(BASE * LEAD_SCALE + 0.5)
 local GAP = 2
 local MAX_BUFFS, MAX_DEBUFFS, MAX_LEAD, MAX_DEFENSIVES = 6, 6, 2, 3
 local COUNTDOWN_MIN_SIZE = 18 -- countdown numbers only where they are legible
@@ -302,32 +307,43 @@ local function newRow(frame, level)
     return container
 end
 
+local function percent(height, value)
+    return max(floor(height * value / 100 + 0.5), 6)
+end
+
 -- Built once per frame; the initializers are the only per-frame closures.
-local function build(frame)
+local function build(frame, height)
+    local db = SUI.db.profile.raidframes.auras
+    local buffPx, debuffPx, defensivePx =
+        percent(height, db.buffs.size), percent(height, db.debuffs.size), percent(height, db.defensives.size)
+    local leadPx = floor(debuffPx * LEAD_SCALE + 0.5)
+
     local data = {}
     local buffs, debuffs, defensives = newRow(frame, 4), newRow(frame, 6), newRow(frame, 8)
     data.buffs, data.debuffs, data.defensives = buffs, debuffs, defensives
+    buffs.suiBasePx, debuffs.suiBasePx, defensives.suiBasePx = buffPx, debuffPx, defensivePx
+    debuffs.suiLeadPx = leadPx
 
     buffs:AddAuraGroup("Buffs", buffFilter, {
         maxFrameCount = MAX_BUFFS, candidateFilters = FRIENDLY, layout = LAYOUT,
         initializeFrame = function(auraFrame)
-            styleButton(auraFrame, buffs, "buffs", BASE, false)
+            styleButton(auraFrame, buffs, "buffs", buffPx, false)
         end,
     })
     debuffs:AddAuraGroup("DebuffsLead", debuffFilter, {
         maxFrameCount = MAX_LEAD, candidateFilters = LEAD_ONLY, layout = LAYOUT,
         initializeFrame = function(auraFrame)
-            styleButton(auraFrame, debuffs, "debuffs", LEAD_BASE, true)
+            styleButton(auraFrame, debuffs, "debuffs", leadPx, true)
         end,
     })
     debuffs:AddAuraGroup("Debuffs", debuffFilter, {
         maxFrameCount = MAX_DEBUFFS, candidateFilters = NOT_LEAD, layout = LAYOUT,
         initializeFrame = function(auraFrame)
-            styleButton(auraFrame, debuffs, "debuffs", BASE, true)
+            styleButton(auraFrame, debuffs, "debuffs", debuffPx, true)
         end,
     })
     local initDefensive = function(auraFrame)
-        styleButton(auraFrame, defensives, "defensives", BASE, false)
+        styleButton(auraFrame, defensives, "defensives", defensivePx, false)
     end
     defensives:AddAuraGroup("Defensives", "HELPFUL|BIG_DEFENSIVE", {
         maxFrameCount = MAX_DEFENSIVES, candidateFilters = FRIENDLY, layout = LAYOUT, initializeFrame = initDefensive,
@@ -348,17 +364,13 @@ local function refreshButtons(container)
 end
 
 local function setScale(container, px)
-    local scale = px / BASE
+    local scale = px / container.suiBasePx
     if container.suiScale ~= scale then
         container.suiScale = scale
         container:SetScale(scale)
         refreshButtons(container)
     end
     return scale
-end
-
-local function percent(height, value)
-    return max(floor(height * value / 100 + 0.5), 6)
 end
 
 local function placeRow(frame, container, settings, scale)
@@ -385,18 +397,18 @@ local function apply(frame, data, height)
     local buffs, debuffs, defensives = data.buffs, data.debuffs, data.defensives
     buffs:SetAuraGroupFilterString("Buffs", buffFilter)
     buffs:SetAuraGroupMaxFrameCount("Buffs", buffCount)
-    buffs:SetFlowLayoutMaximumLineSize(min(max(b.perrow, 1), MAX_BUFFS) * (BASE + GAP))
+    buffs:SetFlowLayoutMaximumLineSize(min(max(b.perrow, 1), MAX_BUFFS) * (buffs.suiBasePx + GAP))
 
     debuffs:SetAuraGroupFilterString("DebuffsLead", debuffFilter)
     debuffs:SetAuraGroupFilterString("Debuffs", debuffFilter)
     debuffs:SetAuraGroupMaxFrameCount("DebuffsLead", leadCount)
     debuffs:SetAuraGroupMaxFrameCount("Debuffs", debuffCount)
     -- Measured in lead icons, the wider ones.
-    debuffs:SetFlowLayoutMaximumLineSize(max(d.perrow, 1) * (LEAD_BASE + GAP))
+    debuffs:SetFlowLayoutMaximumLineSize(max(d.perrow, 1) * (debuffs.suiLeadPx + GAP))
 
     defensives:SetAuraGroupMaxFrameCount("Defensives", bigCount)
     defensives:SetAuraGroupMaxFrameCount("DefensivesExternal", externalCount)
-    defensives:SetFlowLayoutMaximumLineSize(MAX_DEFENSIVES * (BASE + GAP))
+    defensives:SetFlowLayoutMaximumLineSize(MAX_DEFENSIVES * (defensives.suiBasePx + GAP))
 
     placeRow(frame, buffs, b, setScale(buffs, percent(height, b.size)))
     placeRow(frame, debuffs, d, setScale(debuffs, percent(height, d.size)))
@@ -430,13 +442,12 @@ function Auras:Update(frame)
         hide(data)
         return
     end
-    if not data then
-        data = build(frame)
-    end
-
     local height = frame:GetHeight()
     if not height or not CanAccess(height) or height < 1 then
         height = FALLBACK_HEIGHT
+    end
+    if not data then
+        data = build(frame, height)
     end
     local powerBar = frame.powerBar
     local power = powerBar ~= nil and powerBar:IsShown()
