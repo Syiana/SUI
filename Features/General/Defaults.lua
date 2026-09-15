@@ -18,7 +18,7 @@ SUI:RegisterDefaults("general", {
         stackbuy = true,
         invite = false,
         release = false,
-        resurrect = false,
+        resurrect = true, -- 1.x always accepted
         cinematic = false,
         rolecheck = false,
         quests = false,
@@ -45,6 +45,15 @@ SUI:RegisterMigration("general-1x-repair", function(profile)
     local automation = type(general) == "table" and rawget(general, "automation")
     if type(automation) == "table" and automation.repair == "Default" then
         automation.repair = "Disabled"
+    end
+end)
+
+-- 1.x ignored automation.resurrect and always accepted resurrections.
+SUI:RegisterMigration("general-1x-resurrect", function(profile)
+    local general = rawget(profile, "general")
+    local automation = type(general) == "table" and rawget(general, "automation")
+    if type(automation) == "table" then
+        automation.resurrect = true
     end
 end)
 

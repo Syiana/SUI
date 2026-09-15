@@ -2,7 +2,7 @@
     SUI 2.0 - Features/General/Stats.lua
 
     A small movable text with FPS, latency and movement speed. It refreshes
-    on a timer (faster only while speed is shown) and never uses OnUpdate.
+    on a 0.2s timer like 1.x and never uses OnUpdate.
     The position is stored by SUI.Movers under the 1.x key "statsframe".
 ]]
 
@@ -35,7 +35,7 @@ local function speedPercent()
     if not Compat.CanAccess(speed) then
         return 0
     end
-    return floor(speed / (BASE_MOVEMENT_SPEED or RUN_SPEED) * 100 + 0.5)
+    return floor(speed / (BASE_MOVEMENT_SPEED or RUN_SPEED) * 100)
 end
 
 function F:OnLoad()
@@ -56,7 +56,7 @@ function F:OnLoad()
         local display = self.db.display
         local a, b, c, n = 0, 0, 0, 0
         if display.fps then
-            a, n = floor(GetFramerate() + 0.5), 1
+            a, n = floor(GetFramerate()), 1
         end
         if display.ms then
             local ms = select(4, GetNetStats())
@@ -95,11 +95,11 @@ function F:Layout()
         n = n + 1
         parts[n] = "|cffffffff%d%%|r " .. color .. "speed|r"
     end
-    self.pattern = table.concat(parts, "  ")
+    self.pattern = table.concat(parts, " ")
     self.frame.text:SetFont(self.db.font, FONT_SIZE, "THINOUTLINE")
 
     self:CancelTimers()
-    self:NewTicker(display.movementSpeed and 0.25 or 1, self.update)
+    self:NewTicker(0.2, self.update) -- 1.x refresh rate
     self.update()
 end
 

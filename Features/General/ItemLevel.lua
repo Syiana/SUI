@@ -28,7 +28,8 @@ local HEAD, NECK, SHOULDER, CHEST, WAIST, LEGS, FEET, WRIST, HAND = 1, 2, 3, 5, 
 local FINGER1, FINGER2, TRINKET1, TRINKET2, BACK, MAINHAND, OFFHAND, RANGED = 11, 12, 13, 14, 15, 16, 17, 18
 
 local NUM_SOCKETS = 4
-local MAX_ENCHANT_LENGTH = 18
+local MAX_ENCHANT_LENGTH = 18 -- +12 for a colour code, like 1.x
+local DURABILITY_TEXTURE = [[Interface\TARGETINGFRAME\UI-StatusBar]]
 
 local layout      -- slot id -> "left" | "right" | "center"
 local enchantable -- expansion -> { [slot] = true }
@@ -156,14 +157,11 @@ end
 
 -- Display frames -------------------------------------------------------------------
 local function createDisplay(button)
-    local font = SUI.db.profile.general.font
     local display = CreateFrame("Frame", nil, button:GetParent())
     display:SetFrameLevel(button:GetFrameLevel() + 1)
 
-    display.ilvl = display:CreateFontString(nil, "OVERLAY")
-    display.ilvl:SetFont(font, 12, "OUTLINE")
-    display.enchant = display:CreateFontString(nil, "OVERLAY")
-    display.enchant:SetFont(font, 10, "OUTLINE")
+    display.ilvl = display:CreateFontString(nil, "OVERLAY", "GameFontHighlightOutline")
+    display.enchant = display:CreateFontString(nil, "OVERLAY", "GameFontHighlightOutline")
     display.enchant:SetTextColor(0, 1, 0)
 
     display.sockets = {}
@@ -176,7 +174,12 @@ local function createDisplay(button)
 
     local bar = CreateFrame("StatusBar", nil, display)
     bar:SetMinMaxValues(0, 1)
-    bar:SetStatusBarTexture(SUI.Media.blank)
+    bar:SetStatusBarTexture(DURABILITY_TEXTURE)
+    local barTexture = bar:GetStatusBarTexture()
+    if barTexture then
+        barTexture:SetHorizTile(false)
+        barTexture:SetVertTile(false)
+    end
     bar:Hide()
     display.durability = bar
 
@@ -198,7 +201,7 @@ local function createDisplay(button)
         display.ilvl:SetPoint("BOTTOMLEFT", display, "BOTTOMLEFT", 10, 2)
         display.enchant:SetPoint("TOPLEFT", display, "TOPLEFT", 10, -7)
         chain(display.ilvl, "LEFT", "RIGHT", 1)
-        bar:SetWidth(2)
+        bar:SetWidth(2.3)
         bar:SetOrientation("VERTICAL")
         bar:SetPoint("TOPLEFT", button, "TOPLEFT", -6, 0)
         bar:SetPoint("BOTTOMLEFT", button, "BOTTOMLEFT", -6, 0)
@@ -209,7 +212,7 @@ local function createDisplay(button)
         display.ilvl:SetPoint("BOTTOMRIGHT", display, "BOTTOMRIGHT", -10, 2)
         display.enchant:SetPoint("TOPRIGHT", display, "TOPRIGHT", -10, -7)
         chain(display.ilvl, "RIGHT", "LEFT", -1)
-        bar:SetWidth(2)
+        bar:SetWidth(1.2)
         bar:SetOrientation("VERTICAL")
         bar:SetPoint("TOPRIGHT", button, "TOPRIGHT", 4, 0)
         bar:SetPoint("BOTTOMRIGHT", button, "BOTTOMRIGHT", 4, 0)
@@ -218,8 +221,8 @@ local function createDisplay(button)
         display.ilvl:SetPoint("BOTTOM", button, "TOP", 0, 7)
         bar:SetHeight(2)
         bar:SetOrientation("HORIZONTAL")
-        bar:SetPoint("TOPLEFT", button, "BOTTOMLEFT", 0, -1)
-        bar:SetPoint("TOPRIGHT", button, "BOTTOMRIGHT", 0, -1)
+        bar:SetPoint("BOTTOMLEFT", button, "BOTTOMLEFT", 0, -2)
+        bar:SetPoint("BOTTOMRIGHT", button, "BOTTOMRIGHT", 0, -2)
         if slot == MAINHAND then
             display.enchant:SetPoint("BOTTOMRIGHT", button, "BOTTOMLEFT", -5, 0)
             chain(display.ilvl, "RIGHT", "LEFT", -1)
@@ -279,9 +282,7 @@ local function updateButton(button, unit)
 
         local expansion = GetExpansionForLevel and GetExpansionForLevel(UnitLevel(unit))
         if enchant then
-            if #enchant > MAX_ENCHANT_LENGTH and not strfind(enchant, "|c", 1, true) then
-                enchant = strsub(enchant, 1, MAX_ENCHANT_LENGTH)
-            end
+            enchant = strsub(enchant, 1, strfind(enchant, "|c", 1, true) and MAX_ENCHANT_LENGTH + 12 or MAX_ENCHANT_LENGTH)
             if atlas then
                 local icon = "|A:" .. atlas .. ":12:12|a"
                 enchant = slot == OFFHAND and (icon .. enchant) or (enchant .. icon)
@@ -350,9 +351,10 @@ local function updateInspectLevel()
     end
     local label = F.inspectLevel
     if not label then
-        label = parent:CreateFontString(nil, "OVERLAY")
-        label:SetFont(SUI.db.profile.general.font, 17, "OUTLINE")
-        label:SetPoint("TOPRIGHT", parent, "TOPRIGHT", -8, -30)
+        -- 1.x: centred in an 80x47 box below the top right corner
+        label = parent:CreateFontString(nil, "OVERLAY", _G.GameFontHighlightOutline22 and "GameFontHighlightOutline22" or "GameFontHighlightOutline")
+        label:SetPoint("TOPRIGHT", parent, "TOPRIGHT", 0, -20)
+        label:SetPoint("BOTTOMLEFT", parent, "TOPRIGHT", -80, -67)
         F.inspectLevel = label
     end
     local level = inspectAverage(unit)
@@ -360,7 +362,7 @@ local function updateInspectLevel()
         return
     end
     -- 1.x colour steps (retail item levels)
-    local r, g, b = 1, 1, 1
+    local r, g, b = 0.98, 0.98, 0.98
     if SUI.IsRetail then
         if level >= 483 then
             r, g, b = 1, 0.5, 0
@@ -373,8 +375,81 @@ local function updateInspectLevel()
         end
     end
     label:SetTextColor(r, g, b)
-    label:SetFormattedText(level == floor(level) and "%d" or "%.1f", level)
+    label:SetFormattedText("%d", floor(level))
     label:Show()
+end
+
+-- Inspect talents button ------------------------------------------------------------------
+-- 1.x restyled it as a tab next to InspectFrameTab3. Blizzard's button
+-- template repaints its textures on show, press and enable; instead of
+-- removing those scripts the art is re-applied after them.
+local TAB_ART = { Left = "uiframe-tab-left", Right = "uiframe-tab-right", Middle = "_uiframe-tab-center" }
+
+local function paintTab(button)
+    local left, right, middle = button.Left, button.Right, button.Middle
+    for key, atlas in next, TAB_ART do
+        local texture = button[key]
+        texture:SetTexture(nil)
+        texture:SetTexCoord(0, 1, 0, 1)
+        texture:ClearAllPoints()
+        texture:SetAtlas(atlas, true)
+        texture:SetHeight(36)
+    end
+    left:SetPoint("TOPLEFT")
+    right:SetPoint("TOPRIGHT", 6, 0)
+    middle:SetPoint("LEFT", left, "RIGHT")
+    middle:SetPoint("RIGHT", right, "LEFT")
+    if button.Text then
+        button.Text:ClearAllPoints()
+        button.Text:SetPoint("CENTER", 0, 2)
+        button.Text:SetHeight(10)
+    end
+    button:ClearAllPoints()
+    button:SetPoint("LEFT", InspectFrameTab3, "RIGHT", 3, 0)
+end
+
+local function styleTalentsButton()
+    local button = InspectPaperDollItemsFrame and InspectPaperDollItemsFrame.InspectTalents
+    if F.talentsStyled or not button or not InspectFrameTab3 or not (button.Left and button.Right and button.Middle) then
+        return
+    end
+    F.talentsStyled = true
+    button:SetSize(72, 32)
+
+    local highlights = {}
+    for key, atlas in next, TAB_ART do
+        local texture = button:CreateTexture()
+        texture:SetAtlas(atlas, true)
+        texture:SetAlpha(0.4)
+        texture:SetBlendMode("ADD")
+        texture:Hide()
+        highlights[key] = texture
+    end
+    highlights.Left:SetPoint("TOPLEFT")
+    highlights.Right:SetPoint("TOPRIGHT", 6, 0)
+    highlights.Middle:SetPoint("LEFT", button.Left, "RIGHT")
+    highlights.Middle:SetPoint("RIGHT", button.Right, "LEFT")
+
+    button:SetNormalFontObject(GameFontNormalSmall)
+    button:SetHighlightFontObject(GameFontHighlightSmall)
+    if button.ClearHighlightTexture then
+        button:ClearHighlightTexture()
+    end
+    paintTab(button)
+
+    button:HookScript("OnEnter", function()
+        for _, texture in next, highlights do
+            texture:Show()
+        end
+    end)
+    button:HookScript("OnLeave", function()
+        for _, texture in next, highlights do
+            texture:Hide()
+        end
+    end)
+    for _, script in next, { "OnMouseDown", "OnMouseUp", "OnShow", "OnEnable", "OnDisable" } do
+        button:HookScript(script, paintTab)
+    end
 end
 
 -- Feature -------------------------------------------------------------------------------
@@ -461,6 +536,9 @@ function F:OnLoad()
 
     -- Hooks installed after OnLoad cannot use F:Hook; gate them the same way.
     SUI:OnAddonLoaded("Blizzard_InspectUI", function()
+        if F.enabled then
+            styleTalentsButton()
+        end
         if InspectPaperDollItemSlotButton_Update then
             hooksecurefunc("InspectPaperDollItemSlotButton_Update", function(button)
                 if F.enabled then
@@ -496,19 +574,8 @@ function F:OnEnable()
         end
     end
     refreshCharacter()
-end
-
-function F:OnRefresh(key)
-    if key ~= "font" then
-        return
-    end
-    local font = self.db.font
-    for _, display in next, displays do
-        display.ilvl:SetFont(font, 12, "OUTLINE")
-        display.enchant:SetFont(font, 10, "OUTLINE")
-    end
-    if self.inspectLevel then
-        self.inspectLevel:SetFont(font, 17, "OUTLINE")
+    if Compat.IsAddOnLoaded("Blizzard_InspectUI") then
+        styleTalentsButton()
     end
 end
 

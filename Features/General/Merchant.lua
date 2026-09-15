@@ -9,6 +9,7 @@ local _, ns = ...
 local SUI = ns.SUI
 
 local Compat = SUI.Compat
+local _G = _G
 local floor, format = math.floor, string.format
 
 -- Sell greys ------------------------------------------------------------------
@@ -58,17 +59,17 @@ function Repair:Repair()
         if available < 0 or available > bank then
             available = bank
         end
-        if available >= cost then
+        if available > cost then
             RepairAllItems(true)
-            SUI:Print(format("Repair cost covered by guild bank: %.1fg", cost / 10000))
+            print(format("|cfff07100Repair cost covered by G-Bank: %.1fg|r", cost * 0.0001))
             return
         end
     end
-    if GetMoney() >= cost then
+    if GetMoney() > cost then
         RepairAllItems()
-        SUI:Print(format("Repair cost: %.1fg", cost / 10000))
+        print(format("|cffead000Repair cost: %.1fg|r", cost * 0.0001))
     else
-        SUI:Print("Not enough gold to cover the repair cost.")
+        print("Not enough gold to cover the repair cost.")
     end
 end
 
@@ -77,6 +78,23 @@ local StackBuy = SUI:NewFeature("General.StackBuy", {
     category = "general",
     toggle = "automation.stackbuy",
 })
+
+-- 1.x coloured the "<Alt-click to buy a stack>" hint green.
+local stackHint
+
+function StackBuy:OnEnable()
+    if not stackHint and type(ITEM_VENDOR_STACK_BUY) == "string" then
+        stackHint = ITEM_VENDOR_STACK_BUY
+        _G.ITEM_VENDOR_STACK_BUY = "|cffa9ff00" .. stackHint .. "|r"
+    end
+end
+
+function StackBuy:OnDisable()
+    if stackHint then
+        _G.ITEM_VENDOR_STACK_BUY = stackHint
+        stackHint = nil
+    end
+end
 
 local function merchantStackCount(index)
     if C_MerchantFrame and C_MerchantFrame.GetItemInfo then

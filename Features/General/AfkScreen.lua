@@ -3,7 +3,8 @@
 
     While the player is flagged AFK the UI fades out, the camera slowly spins
     and a panel shows the character model, name, guild, date and clock. Any
-    popup, ready check, queue invite, combat or death brings the UI back.
+    popup, ready check, queue invite, combat or death brings the UI back
+    (fading in over 0.5s like 1.x); after a loading screen it is re-checked.
 ]]
 
 local _, ns = ...
@@ -19,23 +20,21 @@ local F = SUI:NewFeature("General.AfkScreen", {
 
 local texts = {}
 
-local function text(parent, size, point, x, y)
+local function text(parent, size, point, x, y, relative)
     local fs = parent:CreateFontString(nil, "OVERLAY")
     texts[#texts + 1] = fs
     fs:SetFont(SUI.db.profile.general.font, size, "OUTLINE")
-    fs:SetPoint(point, parent, point, x, y)
+    fs:SetPoint(point, parent, relative or point, x, y)
     return fs
 end
 
+-- Plain frames without background, like 1.x (its template call was a no-op).
 local function panel(anchor, height)
     local frame = CreateFrame("Frame")
     frame:SetFrameStrata("FULLSCREEN")
     frame:SetPoint(anchor .. "LEFT", UIParent, anchor .. "LEFT", -2, anchor == "TOP" and 2 or -2)
     frame:SetPoint(anchor .. "RIGHT", UIParent, anchor .. "RIGHT", 2, anchor == "TOP" and 2 or -2)
     frame:SetHeight(height)
-    local bg = frame:CreateTexture(nil, "BACKGROUND")
-    bg:SetAllPoints()
-    bg:SetColorTexture(0.05, 0.05, 0.05, 0.7)
     frame:Hide()
     return frame
 end
@@ -50,8 +49,8 @@ function F:OnLoad()
     top.name = text(top, 26, "LEFT", 25, 19)
     top.guild = text(top, 15, "LEFT", 25, -3)
     top.info = text(top, 15, "LEFT", 25, -20)
-    top.date = text(top, 15, "RIGHT", -25, 12)
-    top.clock = text(top, 20, "RIGHT", -25, -12)
+    top.date = text(top, 15, "BOTTOMLEFT", -100, 44, "BOTTOMRIGHT")
+    top.clock = text(top, 20, "BOTTOMLEFT", -100, 20, "BOTTOMRIGHT")
 
     bottom.logo = text(bottom, 110, "CENTER", 0, 15)
     bottom.logo:SetText(SUI.brand)
@@ -86,6 +85,7 @@ function F:OnEnable()
     self:RegisterEvent("PLAYER_REGEN_DISABLED", "HideScreen")
     self:RegisterEvent("PLAYER_LEAVING_WORLD", "HideScreen")
     self:RegisterEvent("READY_CHECK", "HideScreen")
+    self:RegisterEvent("PLAYER_ENTERING_WORLD", "Update")
     self:Update()
 end
 
@@ -128,15 +128,19 @@ function F:ShowScreen()
     self.active = true
 
     local top = self.top
-    local className, class = UnitClass("player")
+    local _, class = UnitClass("player")
     local r, g, b = Compat.GetClassColor(class)
     top.afk:SetTextColor(r, g, b)
     top.name:SetTextColor(r, g, b)
     top.name:SetText(UnitName("player"))
-    top.guild:SetText(IsInGuild() and GetGuildInfo("player") and ("|cff0394ff" .. GetGuildInfo("player") .. "|r") or "")
-    top.info:SetText(format("%s %d %s %s", LEVEL or "Level", UnitLevel("player"), UnitRace("player") or "", className or ""))
+    -- 1.x: "Level N Faction CLASSTOKEN", moved up into the guild line without a guild
+    local guild = IsInGuild() and GetGuildInfo("player")
+    top.guild:SetText(guild and ("|cff0394ff" .. guild .. "|r") or "")
+    top.info:ClearAllPoints()
+    top.info:SetPoint("LEFT", top, "LEFT", 25, guild and -20 or -3)
+    top.info:SetText((LEVEL or "Level") .. " " .. UnitLevel("player") .. " " .. (UnitFactionGroup("player") or "") .. " " .. (class or ""))
     self.updateClock()
-    self:NewTicker(1, self.updateClock)
+    self:NewTicker(0.5, self.updateClock)
 
     self.model:SetUnit("player")
     self.model:SetRotation(math.rad(-15))
@@ -146,6 +150,7 @@ function F:ShowScreen()
     if self.minimapHidden then
         Minimap:Hide()
     end
+    SUI:StopFading(UIParent)
     UIParent:SetAlpha(0)
     top:Show()
     self.bottom:Show()
@@ -161,7 +166,7 @@ function F:HideScreen()
     MoveViewRightStop()
     self.top:Hide()
     self.bottom:Hide()
-    UIParent:SetAlpha(1)
+    SUI:FadeIn(UIParent, 0.5, 0, 1)
     if self.minimapHidden then
         Minimap:Show()
         self.minimapHidden = nil

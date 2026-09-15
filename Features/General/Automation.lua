@@ -135,10 +135,30 @@ local Cinematic = SUI:NewFeature("General.Cinematic", {
     toggle = "automation.cinematic",
 })
 
-local function stopMovie()
-    local frame = MovieFrame
-    if frame and frame:IsShown() and frame.StopMovie then
+-- Stops a movie that just started; if the frame is still up, tell the
+-- client the movie finished (what 1.x did instead of playing it).
+local function stopMovie(frame)
+    frame = frame or MovieFrame
+    if not frame or not frame:IsShown() then
+        return
+    end
+    if frame.StopMovie then
         frame:StopMovie()
+    end
+    if frame:IsShown() and GameMovieFinished then
+        GameMovieFinished()
+    end
+end
+
+function Cinematic:OnLoad()
+    -- Same frame as Blizzard's PlayMovie, so no video frame is drawn.
+    if MovieFrame_PlayMovie then
+        self.movieHooked = true
+        self:Hook("MovieFrame_PlayMovie", function(frame)
+            if not IsControlKeyDown() then
+                stopMovie(frame)
+            end
+        end)
     end
 end
 
@@ -148,7 +168,7 @@ function Cinematic:OnEnable()
             CinematicFrame_CancelCinematic()
         end
     end)
-    if C_EventUtils and C_EventUtils.IsEventValid and C_EventUtils.IsEventValid("PLAY_MOVIE") then
+    if not self.movieHooked and C_EventUtils and C_EventUtils.IsEventValid and C_EventUtils.IsEventValid("PLAY_MOVIE") then
         self:RegisterEvent("PLAY_MOVIE", function(feature)
             if not IsControlKeyDown() then
                 feature:After(0, stopMovie)

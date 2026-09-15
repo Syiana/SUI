@@ -5,6 +5,9 @@
     string inheriting them follows live. The original font of each object is
     remembered on first change and restored when the Blizzard font is picked
     again. Missing objects are skipped, so one list serves every client.
+    Like 1.x the global font paths (STANDARD_TEXT_FONT, DAMAGE_TEXT_FONT, ...)
+    are replaced as early as SUI's saved variables allow; the client reads
+    damage text and world name fonts only on login, so those need a reload.
 ]]
 
 local _, ns = ...
@@ -62,6 +65,33 @@ local FORCED = {
 
 local original = {} -- font object -> { path, size, flags }
 
+-- Global font paths and Blizzard's values, captured before SUI touches them.
+local GLOBALS = { "STANDARD_TEXT_FONT", "UNIT_NAME_FONT", "DAMAGE_TEXT_FONT", "NAMEPLATE_FONT", "NAMEPLATE_SPELLCAST_FONT", "UNIT_NAME_FONT_ROMAN" }
+local blizzardGlobals = {}
+for i = 1, #GLOBALS do
+    blizzardGlobals[GLOBALS[i]] = _G[GLOBALS[i]]
+end
+
+local function setGlobals(font)
+    for i = 1, #GLOBALS do
+        local name = GLOBALS[i]
+        local value = font or blizzardGlobals[name]
+        if value ~= nil and _G[name] ~= value then
+            _G[name] = value
+        end
+    end
+end
+
+-- Earliest point with saved variables: right after SUI's own OnInitialize
+-- (ADDON_LOADED), before the world and its fonts load. IsAddOnLoaded already
+-- reports SUI as loading while its files run, so OnAddonLoaded cannot be used.
+hooksecurefunc(SUI, "OnInitialize", function()
+    local font = SUI.db and SUI.db.profile.general.font
+    if font and font ~= BLIZZARD_FONT then
+        setGlobals(font)
+    end
+end)
+
 function F:OnEnable()
     self:Apply()
 end
@@ -74,6 +104,7 @@ end
 
 function F:Apply()
     local font = self.db.font
+    setGlobals(font)
     for i = 1, #OBJECTS do
         local name = OBJECTS[i]
         local object = _G[name]
@@ -91,6 +122,7 @@ function F:Apply()
 end
 
 function F:OnDisable()
+    setGlobals(nil)
     for object, saved in next, original do
         if saved[1] then
             object:SetFont(saved[1], saved[2], saved[3])
