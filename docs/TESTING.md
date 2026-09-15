@@ -106,3 +106,19 @@ Bau nicht verifiziert werden konnten. Abhaken pro Client: **R** = Retail,
 - [ ] Geschützte Regionen auf Classic (`FriendsFrame#19`, `MacroFrame#18`, `SpellBookFrame#1/#3`, `BankFrame#15`) zeigen Portrait/Pergament – M T V
 - [ ] Skyriding-Widget `UIWidgetPowerBarContainerFrame:ProcessWidget` – R
 - [ ] Details-Skin inkl. Augmentation-Leiste, Bartender-Statusleisten – R M T V
+
+## 10. Nach dem 1.x-Abgleich (neu prüfen)
+
+- [ ] Keine Taint-Fehler `Backdrop.lua … secret number` bei Casts (Castbar-, Target-Aura-, Nameplate-, Raid-Aura-Icons mit Schatten) – R
+- [ ] Keine Taint-Fehler `FrameUtil.lua … startAlpha` bei Chat-Tab-Fades – R
+- [ ] Options-, Install-, Import/Export-Fenster blenden mit SUI-Fade, Escape während des Einblendens bleibt geschlossen – R M T V
+- [ ] Buffs: Schatten hinter jedem Icon, Dark-Theme dunkler Gloss-Rahmen, andere Themes eingefärbt – R M T V
+- [ ] Target/Focus-Auren: eigene SUI-Container (`CustomAuraContainerTemplate`), Blizzards Container bleibt leer ohne Flackern; Castbar sitzt unter den Auren – R
+- [ ] Raid-Auren: Buffs/Debuffs/Defensives wie 1.x, Haupt-Debuff ×1.3, Aura-CVars werden beim Ausschalten zurückgegeben – R
+- [ ] Party-Skalierung aus 1.x-Profil sieht gleich aus (Migration quadriert den Wert) – R
+- [ ] Chat: Seitenbuttons wie 1.x gestapelt, inaktive Tabs 50 %, URL-Klick füllt die Eingabe – R
+- [ ] Tooltip: Zeilenfarben, NPC-Titel lila, Rahmen gewöhnlicher Items dunkler – R
+- [ ] Schrift-Globals (`STANDARD_TEXT_FONT` usw.) ohne „blocked action“-Fehler – R
+- [ ] Update-Hinweis erscheint nicht wegen 1.x-Spielern (12.1.x) in Gruppe/Gilde – R
+- [ ] Dampening-Anzeige in der Arena (Mists: Fallback ohne Widget-Vorlage) – R M
+- [ ] Bags: Farben ohne Entsättigung, untere Ecken schwarz 78 % – R
