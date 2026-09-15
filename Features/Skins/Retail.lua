@@ -12,43 +12,51 @@ local SUI = ns.SUI
 
 local _G, type = _G, type
 
--- Bag item slots come from a pool; their border is re-set on Update.
+-- Bags keep Blizzard's colours underneath (tinted, not desaturated, as in 1.x).
+-- Item slots come from a pool; their border is re-set on Update.
 local function skinBags(Skin, S, feature)
+    local shade = { 0, 0, 0, 0.78 }
     local function slots(container)
         local pool = container.itemButtonPool
         if pool and type(pool.EnumerateActive) == "function" then
             for button in pool:EnumerateActive() do
-                Skin:Texture(button.NormalTexture, true)
+                S.Tint(button.NormalTexture, 0.15)
             end
+        end
+    end
+    local function border(frame)
+        local b = frame and frame.Border
+        if b then
+            S.Tint(b.Left, 0.1)
+            S.Tint(b.Middle, 0.1)
+            S.Tint(b.Right, 0.1)
         end
     end
     local function container(frame)
         if not frame then
             return
         end
-        Skin:Frame(frame.NineSlice, true)
+        S.TintFrame(frame.NineSlice, 0.1)
         local bg = frame.Bg
         if bg then
-            Skin:Texture(bg.TopSection, true)
-            Skin:Texture(bg.BottomEdge, true)
-            Skin:Texture(bg.BottomLeft, false)
-            Skin:Texture(bg.BottomRight, false)
+            S.Tint(bg.TopSection, 0.1)
+            S.Tint(bg.BottomEdge, 0.1)
+            S.Tint(bg.BottomLeft, shade)
+            S.Tint(bg.BottomRight, shade)
         end
-        if frame.MoneyFrame then
-            Skin:Frame(frame.MoneyFrame.Border, true)
-        end
+        border(frame.MoneyFrame)
         S.Hook(feature, frame, "Update", slots)
     end
     for i = 1, 13 do
         container(_G["ContainerFrame" .. i])
     end
     container(ContainerFrameCombinedBags)
-    local money = ContainerFrame1MoneyFrame
-    Skin:Frame(money and money.Border, true)
-    Skin:Frame(BackpackTokenFrame and BackpackTokenFrame.Border, true)
+    border(ContainerFrame1MoneyFrame)
+    border(BackpackTokenFrame)
 end
 
--- Skyriding vigor: Blizzard recolours the art itself, so repaint right after it does.
+-- Skyriding vigor: Blizzard recolours and re-saturates the art itself, so
+-- repaint right after either call (1.x replaced both methods instead).
 local function skinVigor(Skin, S, feature)
     local container = UIWidgetPowerBarContainerFrame
     if not container then
@@ -68,6 +76,7 @@ local function skinVigor(Skin, S, feature)
             if not hooked[texture] then
                 hooked[texture] = true
                 S.Hook(feature, texture, "SetVertexColor", repaint)
+                S.Hook(feature, texture, "SetDesaturated", repaint)
             end
         end
     end
@@ -93,8 +102,8 @@ local function skinDamageMeter(Skin, S, feature)
         if not frame or (frame.IsForbidden and frame:IsForbidden()) then
             return
         end
+        -- 1.x passed these to SUI:Skin as a plain table, which tinted nothing
         local bar = frame.StatusBar or frame
-        Skin:Texture(bar.BackgroundEdge, true)
         if bar.BackgroundEdge then
             bar.BackgroundEdge:Show()
         end
@@ -159,7 +168,7 @@ local groups = {
         end,
     },
     {
-        grey = {
+        grey = { -- 1.x: plain SetVertexColor(0.15)
             "MerchantRepairItemButton#1", "MerchantRepairAllButton#1",
             "MerchantGuildBankRepairButton#1", "MerchantSellAllJunkButton#1",
         },
@@ -177,6 +186,7 @@ local groups = {
     {
         addon = "Blizzard_AchievementUI",
         hide = { "AchievementFrame.Header.PointBorder" },
+        white = { "AchievementFrame.Header" },
         "AchievementFrame", "AchievementFrame.Searchbox", "AchievementFrameSummary",
         "AchievementFrameTab1", "AchievementFrameTab2", "AchievementFrameTab3",
     },
@@ -199,6 +209,7 @@ local groups = {
     {
         addon = "Blizzard_Collections",
         protect = { "MountJournal.BottomLeftInset.SlotButton#2" },
+        white = { "MountJournal.BottomLeftInset.SlotButton#2" },
         "MountJournal.BottomLeftInset", "MountJournal.BottomLeftInset.NineSlice", "MountJournal.BottomLeftInset.SlotButton",
         "WardrobeCollectionFrame", "WardrobeCollectionFrame.ItemsCollectionFrame",
         "WardrobeCollectionFrame.ItemsCollectionFrame.NineSlice", "WardrobeCollectionFrame.SetsCollectionFrame",

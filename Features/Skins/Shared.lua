@@ -27,7 +27,7 @@ local groups = {
             S.HookScript(feature, TimerTracker, "OnEvent", function(tracker)
                 local list = tracker.timerList
                 for i = 1, list and #list or 0 do
-                    Skin:Texture(_G["TimerTrackerTimer" .. i .. "StatusBarBorder"], true)
+                    S.Tint(_G["TimerTrackerTimer" .. i .. "StatusBarBorder"], 0.15)
                 end
             end)
         end,
@@ -126,7 +126,8 @@ local groups = {
     {
         addon = "Blizzard_TimeManager",
         "TimeManagerFrame", "TimeManagerFrame.NineSlice", "TimeManagerFrameInset", "TimeManagerFrameInset.NineSlice",
-        "StopwatchFrame", "StopwatchFrameBackgroundLeft",
+        "StopwatchFrameBackgroundLeft",
+        tint = { "StopwatchFrame" },
     },
     {
         addon = "Blizzard_MacroUI",

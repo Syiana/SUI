@@ -22,11 +22,12 @@ local function tintSkin(id, addon, key, paths)
         end,
         reload = true,
     })
-    paths.addon = addon
+    -- 1.x coloured these with a plain SetVertexColor (no desaturation)
+    local group = { addon = addon, tint = paths }
     function F:OnEnable()
         if not self.registered then
             self.registered = true
-            S.Register(self, { paths })
+            S.Register(self, { group })
         end
     end
 end
