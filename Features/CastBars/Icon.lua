@@ -2,8 +2,8 @@
     SUI 2.0 - Features/CastBars/Icon.lua
 
     Spell icons on cast bars in the "Custom" style. With icons on, the player
-    bar shows its (normally hidden) icon; with icons off, target and focus bars
-    hide theirs. Blizzard toggles icon visibility per cast, so the icon's own
+    bar shows its (normally hidden) icon; with icons off, target, focus and boss bars
+    hide theirs while that unit's custom castbar is on (as in SUI 1.x). Blizzard toggles icon visibility per cast, so the icon's own
     Show/Hide/SetShown methods are hooked. With a tinting theme every visible
     icon gets the SUI 1.x frame: a gloss edge and an outer shadow in the
     theme colour.
@@ -80,7 +80,15 @@ function F:OnLoad()
             shadow:Hide()
 
             glossOf[icon], shadowOf[icon] = gloss, shadow
-            icons[#icons + 1] = { icon = icon, bar = bar, player = players[bar] }
+            local unitKey
+            if bar == TargetFrameSpellBar then
+                unitKey = "targetCastbar"
+            elseif bar == FocusFrameSpellBar then
+                unitKey = "focusCastbar"
+            elseif CB.boss[bar] then
+                unitKey = "bossCastbar"
+            end
+            icons[#icons + 1] = { icon = icon, bar = bar, player = players[bar], unitKey = unitKey }
             self:Hook(icon, "Show", sync)
             self:Hook(icon, "Hide", sync)
             self:Hook(icon, "SetShown", sync)
@@ -110,12 +118,10 @@ function F:Apply()
             if showIcons then
                 icon:SetSize(20, 20)
             end
+        elseif not showIcons and entry.unitKey and self.db[entry.unitKey] then
+            want[icon] = false
         else
-            if showIcons then
-                want[icon] = nil
-            else
-                want[icon] = false
-            end
+            want[icon] = nil
         end
         if not inactive[icon] then
             icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)

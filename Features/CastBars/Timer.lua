@@ -74,10 +74,10 @@ function F:OnLoad()
         local bar = bars[i]
         local text = bar:CreateFontString(nil, "OVERLAY")
         if players[bar] then
-            text:SetFont(STANDARD_TEXT_FONT, 14, "OUTLINE")
+            text:SetFont(STANDARD_TEXT_FONT, 14, "THINOUTLINE")
             text:SetPoint("LEFT", bar, "RIGHT", 5, 0)
         else
-            text:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
+            text:SetFont(STANDARD_TEXT_FONT, 11, "THINOUTLINE")
             text:SetPoint("LEFT", bar, "RIGHT", 4, 0)
         end
         text:Hide()
