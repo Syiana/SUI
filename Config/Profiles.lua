@@ -50,7 +50,7 @@ local function textWindow(title, text, readOnly)
     box.editBox:SetFocus()
     box.editBox:HighlightText()
     window.box = box
-    window:Show()
+    SUI:FadeFrame(window, { mode = "IN", timeToFade = 0.2 })
     return window
 end
 
@@ -59,7 +59,7 @@ local function showExport()
     local close = SUIConfig:Button(window, 65, 20, "Close")
     SUIConfig:GlueBelow(close, window, 0, 30)
     close:SetScript("OnClick", function()
-        window:Hide()
+        SUI:FadeFrame(window, { mode = "OUT", timeToFade = 0.2, finishedFunc = function() window:Hide() end })
     end)
 end
 
@@ -70,7 +70,7 @@ local function showImport()
     local close = SUIConfig:Button(window, 65, 20, "Close")
     SUIConfig:GlueBelow(close, window, 35, 30)
     close:SetScript("OnClick", function()
-        window:Hide()
+        SUI:FadeFrame(window, { mode = "OUT", timeToFade = 0.2, finishedFunc = function() window:Hide() end })
     end)
     import:SetScript("OnClick", function()
         local data, isV2 = SUI:DecodeProfile(window.box:GetValue())

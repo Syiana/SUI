@@ -29,7 +29,7 @@ local ruRU = LSM.LOCALE_BIT_ruRU or 0
 LSM:Register("font", "Default", STANDARD_TEXT_FONT, bit.bor(western, ruRU))
 LSM:Register("font", "SUI", path .. [[Fonts\Prototype.ttf]])
 LSM:Register("font", "Arial Bold", path .. [[Fonts\Arial_Bold.ttf]])
-LSM:Register("font", "Doris P Bold", path .. [[Fonts\DorisPBold.TTF]])
+LSM:Register("font", "Doris P Bold", path .. [[Fonts\DorisPBold.ttf]])
 LSM:Register("font", "Exo 2 Bold", path .. [[Fonts\Exo2Bold.ttf]])
 LSM:Register("font", "Expressway", path .. [[Fonts\Expressway.ttf]])
 LSM:Register("font", "Gotham Narrow Black", path .. [[Fonts\GothamNarrow-Black.ttf]])
@@ -37,6 +37,9 @@ LSM:Register("font", "Inter Bold", path .. [[Fonts\InterBold.ttf]])
 LSM:Register("font", "MagistralTT Bold", path .. [[Fonts\MagistralTTBold.ttf]])
 LSM:Register("font", "Myriad Web Bold", path .. [[Fonts\MyriadWebBold.ttf]])
 
+-- "Default" means Blizzard's own bar texture; features skip retexturing for it.
+LSM:Register("statusbar", "Default", [[Interface\Default]])
+Media.BLIZZARD_STATUSBAR = [[Interface\Default]]
 LSM:Register("statusbar", "Flat", path .. [[Textures\Status\Flat.blp]])
 LSM:Register("statusbar", "Melli", path .. [[Textures\Status\Melli.tga]])
 LSM:Register("statusbar", "Melli 6px", path .. [[Textures\Status\Melli6px.tga]])

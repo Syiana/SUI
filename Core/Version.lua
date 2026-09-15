@@ -43,7 +43,10 @@ function SUI:SendVersion(channel)
 end
 
 function SUI:OnVersionReceived(_, version)
-    if announced or toNumber(version) <= toNumber(self.version) then
+    -- SUI 1.x numbers its versions after the game patch (12.1.3); those are
+    -- not newer than 2.x.
+    local major = tonumber(type(version) == "string" and version:match("^(%d+)%."))
+    if announced or not major or major >= 10 or toNumber(version) <= toNumber(self.version) then
         return
     end
     announced = true
@@ -55,9 +58,19 @@ SUI.callbacks.RegisterCallback(SUI, "Ready", function()
     local global = SUI.db.global
     if global.newVersion and toNumber(global.newVersion) <= toNumber(SUI.version) then
         global.newVersion = false
+    elseif global.newVersion then
+        SUI:Print("Version " .. global.newVersion .. " is available. Updating is recommended.")
     end
 
     SUI:RegisterComm(PREFIX, "OnVersionReceived")
+    SUI:RegisterEvent("ZONE_CHANGED_NEW_AREA", function()
+        SUI:Throttle("version-zone", 60, function()
+            SUI:SendVersion(groupChannel())
+            if IsInGuild() then
+                SUI:SendVersion("GUILD")
+            end
+        end)
+    end)
     SUI:RegisterEvent("GROUP_ROSTER_UPDATE", function()
         SUI:Throttle("version-group", 10, function()
             SUI:SendVersion(groupChannel())

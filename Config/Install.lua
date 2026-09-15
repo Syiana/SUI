@@ -25,20 +25,34 @@ local function create()
     title:SetPoint("CENTER", 0, 30)
     title:SetText("Welcome to " .. SUI.brand)
 
-    local subtitle = screen:CreateFontString(nil, "ARTWORK", "QuestMapRewardsFont")
-    subtitle:SetScale(1.4)
-    subtitle:SetPoint("CENTER", 0, 90)
-    subtitle:SetText("The Dark Side of World of Warcraft")
+    -- Unscaled holders keep the scaled texts where 1.x placed them.
+    local subtitle = CreateFrame("Frame", nil, screen)
+    subtitle:SetSize(250, 50)
+    subtitle:SetPoint("CENTER", screen, 0, 90)
+    subtitle.text = subtitle:CreateFontString(nil, "ARTWORK", "QuestMapRewardsFont")
+    subtitle.text:SetPoint("CENTER", 0, 0)
+    subtitle.text:SetText("The Dark Side of World of Warcraft")
+    subtitle.text:SetScale(1.4)
 
-    local author = screen:CreateFontString(nil, "ARTWORK", "QuestMapRewardsFont")
-    author:SetScale(0.9)
-    author:SetPoint("CENTER", 0, 60)
-    author:SetText("created by |cff00a2ffSyiana|r")
+    local author = CreateFrame("Frame", nil, screen)
+    author:SetSize(250, 50)
+    author:SetPoint("CENTER", subtitle, 0, -15)
+    author.text = author:CreateFontString(nil, "ARTWORK", "QuestMapRewardsFont")
+    author.text:SetPoint("CENTER", 0, 0)
+    author.text:SetText("created by |cff00a2ffSyiana|r")
+    author.text:SetScale(0.9)
 
     local start = CreateFrame("Button", nil, screen, "UIPanelButtonTemplate")
     start:SetPoint("CENTER", 0, 25)
     start:SetSize(100, 25)
     start:SetText("Start")
+    for _, getter in ipairs({ "SetNormalTexture", "SetHighlightTexture" }) do
+        start[getter](start, [[Interface\Common\bluemenu-main]])
+    end
+    for _, texture in ipairs({ start:GetNormalTexture(), start:GetHighlightTexture() }) do
+        texture:SetTexCoord(0.00390625, 0.87890625, 0.75195313, 0.83007813)
+        texture:SetVertexColor(0.265, 0.320, 0.410, 1)
+    end
     start:SetScript("OnClick", function()
         SUI.db.global.installed = true
         SUI:FadeFrame(screen, {

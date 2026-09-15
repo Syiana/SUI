@@ -331,6 +331,9 @@ end
 
 -- Window --------------------------------------------------------------------------
 local function fade(visible)
+    if not visible and searchBox and searchBox:GetText() ~= "" then
+        searchBox:SetText("")
+    end
     SUI:FadeFrame(window, {
         mode = visible and "IN" or "OUT",
         timeToFade = 0.2,
@@ -349,6 +352,10 @@ local function create()
     window:Hide()
     _G.SUIConfigWindow = window -- UISpecialFrames needs a global name for Escape to close it
     tinsert(UISpecialFrames, "SUIConfigWindow")
+    -- Escape during a fade-in must not be undone when the fade finishes.
+    window:HookScript("OnHide", function()
+        SUI:StopFading(window)
+    end)
 
     local version = SUIConfig:Label(window.titlePanel, SUI.version)
     SUIConfig:GlueLeft(version, window.titlePanel, 36, 0)
@@ -429,13 +436,6 @@ end)
 
 -- Public API ------------------------------------------------------------------------
 function Config:Toggle()
-    if InCombatLockdown() then
-        SUI:Print("The options open after combat.")
-        SUI:RunAfterCombat(function()
-            Config:Toggle()
-        end)
-        return
-    end
     if not window then
         create()
     end
