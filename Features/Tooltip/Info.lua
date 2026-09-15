@@ -29,7 +29,13 @@ local function playerUnit(tooltip)
 end
 
 -- Ids ---------------------------------------------------------------------------------
-local Ids = SUI:NewFeature("Tooltip.Ids", { category = "tooltip", toggle = "ids" })
+-- ids: spell and macro ids (1.x); itemids: item and NPC ids (new in 2.0).
+local Ids = SUI:NewFeature("Tooltip.Ids", {
+    category = "tooltip",
+    toggle = function(db)
+        return db.ids or db.itemids
+    end,
+})
 
 local ID_LABEL = "|cff0099ffID|r"
 local GetItemInfoInstant
@@ -52,7 +58,7 @@ local function addId(tooltip, id)
 end
 
 local function onSpell(tooltip, data)
-    if not Ids.enabled or tooltip:IsForbidden() then
+    if not Ids.enabled or not Ids.db.ids or tooltip:IsForbidden() then
         return
     end
     local id = data and data.id
@@ -64,7 +70,7 @@ local function onSpell(tooltip, data)
 end
 
 local function onItem(tooltip, data)
-    if not Ids.enabled or tooltip:IsForbidden() then
+    if not Ids.enabled or not Ids.db.itemids or tooltip:IsForbidden() then
         return
     end
     local id = data and data.id
@@ -78,7 +84,7 @@ local function onItem(tooltip, data)
 end
 
 local function onUnit(tooltip, data)
-    if not Ids.enabled or tooltip ~= GameTooltip then
+    if not Ids.enabled or not Ids.db.itemids or tooltip ~= GameTooltip then
         return
     end
     local guid = data and data.guid
@@ -97,7 +103,7 @@ end
 
 -- Retail macro tooltips: the second line holds the spell name.
 local function onMacro(tooltip, data)
-    if not Ids.enabled or tooltip:IsForbidden() then
+    if not Ids.enabled or not Ids.db.ids or tooltip:IsForbidden() then
         return
     end
     local lines = data and data.lines

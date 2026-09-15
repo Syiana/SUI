@@ -33,7 +33,7 @@ local TEXT_R, TEXT_G, TEXT_B = 0.4, 0.4, 0.4
 local GUILD_R, GUILD_G, GUILD_B = 0.8, 0, 0.6
 local DEAD_R, DEAD_G, DEAD_B = 0.5, 0.5, 0.5
 local BOSS_R, BOSS_G, BOSS_B = 1, 0, 0
-local TARGET_LABEL = "|cffff8080Target|r"
+local TARGET_LABEL = "|cffff7f7fTarget|r"
 local YOU = "|cffff0000<YOU>|r"
 local AFK = " |cff00ffff<AFK>|r"
 local TAGS = {
@@ -93,12 +93,6 @@ local function colorLevelLine(unit, index)
     if not line or not CanAccess(level) then
         return
     end
-    for i = 2, index - 1 do
-        local l = left(i)
-        if l then
-            l:SetTextColor(TEXT_R, TEXT_G, TEXT_B)
-        end
-    end
     local c = GetCreatureDifficultyColor(level > 0 and level or 999)
     line:SetTextColor(c.r, c.g, c.b)
 end
@@ -142,6 +136,14 @@ local function onUnit(tooltip)
     local line1 = left(1)
     local tag
 
+    -- 1.x greys every line but the fourth first; guild and level are recoloured below.
+    for i = 2, tooltip:NumLines() do
+        local line = left(i)
+        if line and i ~= 4 then
+            line:SetTextColor(TEXT_R, TEXT_G, TEXT_B)
+        end
+    end
+
     if isPlayer then
         local _, class = UnitClass(unit)
         if class and CanAccess(class) then
@@ -176,6 +178,7 @@ local function onUnit(tooltip)
         else
             local text3 = readText(left(3))
             if text3 and strmatch(text3, "%a%s%d") then
+                left(2):SetTextColor(GUILD_R, GUILD_G, GUILD_B) -- NPC title line
                 colorLevelLine(unit, 3)
             end
         end
@@ -245,7 +248,18 @@ function F:OnLoad()
     SUI.Compat.OnTooltipUnit(onUnit)
 end
 
+-- 1.x shrank the legacy dropdown menus with the Custom style.
+local function scaleMenus(scale)
+    for i = 1, 2 do
+        local menu = _G["DropDownList" .. i .. "MenuBackdrop"]
+        if menu then
+            menu:SetScale(scale)
+        end
+    end
+end
+
 function F:OnEnable()
+    scaleMenus(0.95)
     barBg:Show()
     layoutBar(self.db)
 end
@@ -257,6 +271,7 @@ function F:OnRefresh(key)
 end
 
 function F:OnDisable()
+    scaleMenus(1)
     barR = nil
     barBg:Hide()
     bar:SetStatusBarTexture(BLIZZARD_TEXTURE)

@@ -53,13 +53,14 @@ SUI.Config:RegisterLayout("Tooltip", {
             },
             { header = { type = "header", label = "Information" } },
             {
-                ids = check("ids", "IDs", "Show spell, item and NPC IDs.", 1),
-                itemlevel = check("itemlevel", "Item Level", "Show the item level of players (inspects them out of combat).", 2, { Mainline = true, Mists = true }),
-                mythicplus = check("mythicplus", "Mythic+ Rating", "Show the Mythic+ rating of players.", 3, RETAIL),
+                ids = check("ids", "Spell IDs", "Show spell and macro spell IDs.", 1),
+                itemids = check("itemids", "Item and NPC IDs", "Show item and NPC IDs.", 2),
+                itemlevel = check("itemlevel", "Item Level", "Show the item level of players (inspects them out of combat).", 3, { Mainline = true, Mists = true }),
             },
             {
-                pvprating = check("pvprating", "PvP Rating", "Show arena and Solo Shuffle ratings of players (inspects them out of combat).", 1, RETAIL),
-                lfgtooltips = check("lfgtooltips", "Group Finder Info", "Show the leader's Mythic+ rating in group listings and let non-leaders hover applicants.", 2, RETAIL),
+                mythicplus = check("mythicplus", "Mythic+ Rating", "Show the Mythic+ rating of players.", 1, RETAIL),
+                pvprating = check("pvprating", "PvP Rating", "Show arena and Solo Shuffle ratings of players (inspects them out of combat).", 2, RETAIL),
+                lfgtooltips = check("lfgtooltips", "Group Finder Info", "Show the leader's Mythic+ rating in group listings and let non-leaders hover applicants.", 3, RETAIL),
             },
         }
     end,

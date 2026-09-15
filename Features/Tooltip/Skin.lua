@@ -2,9 +2,11 @@
     SUI 2.0 - Features/Tooltip/Skin.lua
 
     Dark backdrop and theme-tinted border for Blizzard tooltips, with the
-    border of item tooltips in the item's quality colour. Blizzard resets the
-    backdrop whenever a tooltip is re-styled or shown, so the colours are
-    re-applied from those two hooks. Nothing happens with the Blizzard theme.
+    border of item and macro tooltips in the item's quality colour. Blizzard
+    resets the backdrop whenever a tooltip is re-styled or shown, so the
+    colours are re-applied from those hooks and, like 1.x, once more one frame
+    after aura, spell and unit tooltips are filled. Nothing happens with the
+    Blizzard theme.
 ]]
 
 local _, ns = ...
@@ -13,7 +15,6 @@ local SUI = ns.SUI
 local next, _G = next, _G
 local CanAccess = SUI.Compat.CanAccess
 local GetItemInfo = SUI.Compat.GetItemInfo
-local GetItemQualityColor = SUI.Compat.GetItemQualityColor
 
 local F = SUI:NewFeature("Tooltip.Skin", { category = "tooltip" })
 
@@ -23,20 +24,29 @@ local TOOLTIPS = {
     "WorldMapTooltip", "WorldMapCompareTooltip1", "WorldMapCompareTooltip2",
 }
 
+local AURA_METHODS = { "SetUnitAura", "SetUnitBuff", "SetUnitDebuff" }
+
 local BG_R, BG_G, BG_B, BG_A = 0.015, 0.015, 0.015, 0.97
-local borderR, borderG, borderB = 0.1, 0.1, 0.1
-local BORDER_A = 0.9
+local QUALITY_A = 0.9
+local borderR, borderG, borderB, borderA = 0.1, 0.1, 0.1, 0.9
+local plainR, plainG, plainB = 0.15, 0.15, 0.15 -- border of common/poor items
 
 local backgrounds = setmetatable({}, { __mode = "k" }) -- tooltip -> solid texture
-local quality = setmetatable({}, { __mode = "k" })     -- tooltip -> item quality (only hooked tooltips)
+local itemBorder = setmetatable({}, { __mode = "k" })  -- tooltip -> colour table, or true for common items
 local clearable = setmetatable({}, { __mode = "k" })   -- tooltips whose OnTooltipCleared is hooked
+local pending = setmetatable({}, { __mode = "k" })     -- tooltips to re-style next frame
+local flushQueued = false
+local apply
 
+-- 1.x: Dark uses a fixed grey border at 0.9 alpha, other themes the theme colour at full alpha.
 local function updateBorderColor()
     if SUI.Theme.name == "Dark" then
-        borderR, borderG, borderB = 0.1, 0.1, 0.1
+        borderR, borderG, borderB, borderA = 0.1, 0.1, 0.1, 0.9
     else
         borderR, borderG, borderB = SUI.Theme:Color(0.35)
+        borderA = 1
     end
+    plainR, plainG, plainB = SUI.Theme:Color(0.15)
 end
 
 local function setBorder(tooltip, r, g, b, a)
@@ -49,12 +59,12 @@ local function setBorder(tooltip, r, g, b, a)
 end
 
 -- Hook target for SharedTooltip_SetBackdropStyle(tooltip, style, embedded) and OnShow.
-local function apply(tooltip, _, embedded)
+function apply(tooltip, _, embedded)
     if not SUI.Theme.enabled or tooltip:IsForbidden() then
         return
     end
     local bg = backgrounds[tooltip]
-    if embedded then
+    if embedded or tooltip.IsEmbedded then
         if bg then
             bg:Hide()
         end
@@ -75,17 +85,52 @@ local function apply(tooltip, _, embedded)
     elseif tooltip.SetBackdropColor then
         tooltip:SetBackdropColor(BG_R, BG_G, BG_B, BG_A)
     end
-    local q = quality[tooltip]
-    if q then
-        local r, g, b = GetItemQualityColor(q)
-        setBorder(tooltip, r, g, b, BORDER_A)
+    local color = itemBorder[tooltip]
+    if color == true then
+        setBorder(tooltip, plainR, plainG, plainB, 1)
+    elseif color then
+        setBorder(tooltip, color.r, color.g, color.b, QUALITY_A)
     else
-        setBorder(tooltip, borderR, borderG, borderB, BORDER_A)
+        setBorder(tooltip, borderR, borderG, borderB, borderA)
+    end
+end
+
+local function flush()
+    flushQueued = false
+    for tooltip in next, pending do
+        pending[tooltip] = nil
+        if F.enabled then
+            apply(tooltip)
+        end
+    end
+end
+
+-- Blizzard re-styles some tooltips after the fill; style them again next frame.
+local function applyLater(tooltip)
+    if not F.enabled or tooltip:IsForbidden() then
+        return
+    end
+    apply(tooltip)
+    pending[tooltip] = true
+    if not flushQueued then
+        flushQueued = true
+        C_Timer.After(0, flush)
     end
 end
 
 local function onCleared(tooltip)
-    quality[tooltip] = nil
+    itemBorder[tooltip] = nil
+end
+
+local function setItemBorder(tooltip, color)
+    if clearable[tooltip] then
+        itemBorder[tooltip] = color
+    end
+    if color == true then
+        setBorder(tooltip, plainR, plainG, plainB, 1)
+    else
+        setBorder(tooltip, color.r, color.g, color.b, QUALITY_A)
+    end
 end
 
 local function onItem(tooltip, data)
@@ -101,12 +146,25 @@ local function onItem(tooltip, data)
         return
     end
     local _, _, q = GetItemInfo(link)
-    if q and q >= 2 then
-        if clearable[tooltip] then
-            quality[tooltip] = q
-        end
-        local r, g, b = GetItemQualityColor(q)
-        setBorder(tooltip, r, g, b, BORDER_A)
+    local color = q and q >= 2 and ITEM_QUALITY_COLORS and ITEM_QUALITY_COLORS[q]
+    setItemBorder(tooltip, color or true)
+end
+
+-- Retail macro tooltips for items: 1.x took the border from the item name colour.
+local function onMacro(tooltip, data)
+    if not F.enabled or not SUI.Theme.enabled or tooltip:IsForbidden() then
+        return
+    end
+    applyLater(tooltip)
+    local lines = data and data.lines
+    local line = lines and lines[2]
+    local name, color = line and line.leftText, line and line.leftColor
+    if not name or not color or not CanAccess(name) or not CanAccess(color.r) then
+        return
+    end
+    local _, link = GetItemInfo(name)
+    if link then
+        setItemBorder(tooltip, color)
     end
 end
 
@@ -124,7 +182,7 @@ local function styleAuraContainer()
             insets = { left = 3, right = 3, top = 3, bottom = 3 },
         },
         centerColor = CreateColor(BG_R, BG_G, BG_B, BG_A),
-        borderColor = CreateColor(borderR, borderG, borderB, BORDER_A),
+        borderColor = CreateColor(borderR, borderG, borderB, borderA),
     })
 end
 
@@ -154,7 +212,23 @@ function F:OnLoad()
             clearable[tooltip] = true
         end
     end
+    for _, method in next, AURA_METHODS do
+        if GameTooltip[method] then
+            self:Hook(GameTooltip, method, applyLater)
+        end
+    end
     SUI.Compat.OnTooltipItem(onItem)
+    SUI.Compat.OnTooltipSpell(applyLater)
+    SUI.Compat.OnTooltipUnit(applyLater)
+    local processor, types = _G.TooltipDataProcessor, Enum and Enum.TooltipDataType
+    if processor and types then
+        if types.UnitAura then
+            processor.AddTooltipPostCall(types.UnitAura, applyLater)
+        end
+        if types.Macro then
+            processor.AddTooltipPostCall(types.Macro, onMacro)
+        end
+    end
 end
 
 function F:OnEnable()

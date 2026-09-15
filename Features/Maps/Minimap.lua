@@ -134,11 +134,20 @@ function Expansion:OnLoad()
         return
     end
     self.button = button
+    local feature = self
+    -- 1.x hid the button 0.1s after the mouse left, so moving across it does not flicker.
+    local function hideIfLeft()
+        if not feature.hovered then
+            button:SetAlpha(0)
+        end
+    end
     self:HookScript(button, "OnEnter", function(b)
+        feature.hovered = true
         b:SetAlpha(1)
     end)
-    self:HookScript(button, "OnLeave", function(b)
-        b:SetAlpha(0)
+    self:HookScript(button, "OnLeave", function()
+        feature.hovered = false
+        feature:After(0.1, hideIfLeft)
     end)
 end
 

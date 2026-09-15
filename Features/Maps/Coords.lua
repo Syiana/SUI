@@ -4,7 +4,8 @@
     Player and cursor coordinates on the world map, and player coordinates on
     the minimap. The world map updates ten times a second only while it is
     open; the minimap only while the player moves or is on a taxi. Positions
-    are unavailable (or secret) in instances; the text then shows a dash.
+    are unavailable (or secret) in instances. The world map text follows 1.x:
+    "Name: x,y" and "Mouse: x,y", left-justified above the map's bottom edge.
 ]]
 
 local _, ns = ...
@@ -21,10 +22,14 @@ local function playerPosition()
         return nil
     end
     local x, y = position:GetXY()
-    if not (x and y) or not CanAccess(x) or not CanAccess(y) or (x == 0 and y == 0) then
+    if not (x and y) or not CanAccess(x) or not CanAccess(y) then
         return nil
     end
-    return floor(x * 100 + 0.5), floor(y * 100 + 0.5)
+    x, y = floor(100 * x), floor(100 * y)
+    if x == 0 or y == 0 then
+        return nil
+    end
+    return x, y
 end
 
 -- World map -------------------------------------------------------------------------------
@@ -36,15 +41,21 @@ local playerLabel
 local function updateWorldMap()
     local x, y = playerPosition()
     if x then
-        playerText:SetFormattedText("%s: %d, %d", playerLabel, x, y)
+        playerText:SetFormattedText("%s: %d,%d", playerLabel, x, y)
     else
-        playerText:SetFormattedText("%s: -", playerLabel)
+        playerText:SetFormattedText("%s: ", playerLabel)
     end
+    -- Cursor position relative to the visible map area, like 1.x.
     local container = WorldMapFrame.ScrollContainer
-    if container and container:IsMouseOver() and container.GetNormalizedCursorPosition then
-        local cx, cy = container:GetNormalizedCursorPosition()
-        if cx and cx >= 0 and cy >= 0 and cx <= 1 and cy <= 1 then
-            mouseText:SetFormattedText("Mouse: %d, %d", floor(cx * 100 + 0.5), floor(cy * 100 + 0.5))
+    local centerX, centerY = container:GetCenter()
+    if centerX then
+        local scale = container:GetEffectiveScale()
+        local width, height = container:GetWidth(), container:GetHeight()
+        local cursorX, cursorY = GetCursorPosition()
+        local mx = (cursorX / scale - (centerX - width / 2)) / width
+        local my = (centerY + height / 2 - cursorY / scale) / height
+        if mx >= 0 and my >= 0 and mx <= 1 and my <= 1 then
+            mouseText:SetFormattedText("Mouse: %d,%d", floor(100 * mx), floor(100 * my))
             return
         end
     end
@@ -65,14 +76,20 @@ function WorldCoords:OnLoad()
         if not map or holder then
             return
         end
-        local anchor = map.ScrollContainer or map
+        if not map.ScrollContainer then
+            return
+        end
+        local anchor, border = map.ScrollContainer, map.BorderFrame or map
         holder = CreateFrame("Frame", nil, map)
         holder:SetAllPoints(anchor)
-        holder:SetFrameLevel((map.BorderFrame or map):GetFrameLevel() + 2)
-        playerText = holder:CreateFontString(nil, "OVERLAY", "GameFontNormal")
-        playerText:SetPoint("BOTTOM", anchor, "BOTTOM", 0, 20)
-        mouseText = holder:CreateFontString(nil, "OVERLAY", "GameFontNormal")
-        mouseText:SetPoint("BOTTOM", playerText, "TOP", 0, 5)
+        holder:SetFrameStrata(border:GetFrameStrata())
+        holder:SetFrameLevel(border:GetFrameLevel() + 2)
+        playerText = holder:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+        playerText:SetPoint("BOTTOM", anchor, "BOTTOM", 5, 20)
+        playerText:SetJustifyH("LEFT")
+        mouseText = holder:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+        mouseText:SetJustifyH("LEFT")
+        mouseText:SetPoint("BOTTOMLEFT", playerText, "TOPLEFT", 0, 5)
         holder:SetShown(WorldCoords.enabled)
         map:HookScript("OnShow", startWorldMap)
         map:HookScript("OnHide", function()
@@ -107,7 +124,7 @@ local minimapText
 local function updateMinimap()
     local x, y = playerPosition()
     if x then
-        minimapText:SetFormattedText("%d, %d", x, y)
+        minimapText:SetFormattedText("%d,%d", x, y)
     else
         minimapText:SetText("-")
     end

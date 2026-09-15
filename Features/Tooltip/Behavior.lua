@@ -4,8 +4,9 @@
     Where the default tooltip appears and when it is hidden. Retail places
     the tooltip through Edit Mode; the classic clients get an SUI mover for
     it instead. "Mouse Anchor" attaches it to the cursor on every client.
-    "Hide in Combat" hides GameTooltip while in combat (1.x replaced its
-    OnShow script; this only hooks it).
+    "Hide in Combat" stops GameTooltip from showing while in combat; a
+    tooltip that is already open stays (1.x replaced its OnShow script; this
+    only hooks it).
 ]]
 
 local _, ns = ...
@@ -56,12 +57,4 @@ end
 
 function Combat:OnLoad()
     self:HookScript(GameTooltip, "OnShow", hideInCombat)
-end
-
-function Combat:OnEnable()
-    self:RegisterEvent("PLAYER_REGEN_DISABLED", "HideTooltip")
-end
-
-function Combat:HideTooltip()
-    GameTooltip:Hide()
 end
