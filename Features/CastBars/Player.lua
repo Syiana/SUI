@@ -44,12 +44,8 @@ local function style(bar)
             text:ClearAllPoints()
             text:SetPoint("TOP", bar, "TOP", 0, -1)
         end
-        SUI.Skin:Texture(bar.Background, true)
-    else
-        -- Classic art keeps its size; the border carries the theme.
-        local name = bar:GetName()
-        SUI.Skin:Texture(bar.Border or (name and _G[name .. "Border"]), true)
     end
+    CB.TintBar(bar)
     if text then
         text:SetFont(STANDARD_TEXT_FONT, 12, "OUTLINE")
     end
@@ -78,5 +74,11 @@ end
 function F:OnEnable()
     for i = 1, #self.bars do
         style(self.bars[i])
+    end
+end
+
+function F:OnThemeChanged()
+    for i = 1, #self.bars do
+        CB.TintBar(self.bars[i])
     end
 end

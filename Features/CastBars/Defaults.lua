@@ -70,6 +70,26 @@ function CB.AllBars()
     return list
 end
 
+-- SUI 1.x tint: plain vertex colour (theme colour darkened by 0.15), no
+-- desaturation. With the Blizzard theme the original colour is restored.
+function CB.Tint(texture)
+    if not texture then
+        return
+    end
+    if SUI.Theme.enabled then
+        texture:SetVertexColor(SUI.Theme:Color(0.15))
+    else
+        texture:SetVertexColor(1, 1, 1)
+    end
+end
+
+-- Border and background of a cast bar (classic names the border <Name>Border).
+function CB.TintBar(bar)
+    CB.Tint(bar.Background)
+    local name = bar:GetName()
+    CB.Tint(bar.Border or (name and _G[name .. "Border"]))
+end
+
 -- Boss bars only get the shared look (icon, texture, timer) while enabled.
 function CB.Active(bar, db)
     return not CB.boss[bar] or db.bossCastbar == true

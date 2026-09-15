@@ -4,8 +4,9 @@
     Spell icons on cast bars in the "Custom" style. With icons on, the player
     bar shows its (normally hidden) icon; with icons off, target and focus bars
     hide theirs. Blizzard toggles icon visibility per cast, so the icon's own
-    Show/Hide/SetShown methods are hooked. A theme-tinted border frames every
-    visible icon.
+    Show/Hide/SetShown methods are hooked. With a tinting theme every visible
+    icon gets the SUI 1.x frame: a gloss edge and an outer shadow in the
+    theme colour.
 ]]
 
 local _, ns = ...
@@ -20,11 +21,17 @@ local F = SUI:NewFeature("CastBars.Icon", {
     watch = { "general" },
 })
 
-local BORDER = [[Interface\AddOns\SUI\Media\Textures\Core\gloss.tga]]
+local GLOSS = [[Interface\AddOns\SUI\Media\Textures\Core\gloss]]
+local SHADOW = {
+    edgeFile = [[Interface\AddOns\SUI\Media\Textures\Core\outer_shadow]],
+    edgeSize = 4,
+    insets = { left = 4, right = 4, top = 4, bottom = 4 },
+}
 
-local icons = {}   -- array of { icon, border, player }
+local icons = {}   -- array of { icon, bar, player }
 local want = {}    -- icon -> true (force shown) | false (force hidden) | nil
-local borderOf = {}
+local glossOf = {}  -- icon -> frame holding the gloss edge
+local shadowOf = {} -- icon -> BackdropTemplate frame with the outer shadow
 local themed = false
 local inactive = {} -- icon -> true for boss bars while boss cast bars are off
 
@@ -35,9 +42,11 @@ local function sync(icon)
     elseif w == false and icon:IsShown() then
         icon:Hide()
     end
-    local border = borderOf[icon]
-    if border then
-        border:SetShown(themed and not inactive[icon] and icon:IsShown())
+    local gloss = glossOf[icon]
+    if gloss then
+        local show = themed and not inactive[icon] and icon:IsShown()
+        gloss:SetShown(show)
+        shadowOf[icon]:SetShown(show)
     end
 end
 
@@ -52,13 +61,25 @@ function F:OnLoad()
         local bar = bars[i]
         local icon = bar.Icon
         if icon then
-            local border = bar:CreateTexture(nil, "BACKGROUND", nil, -7)
-            border:SetTexture(BORDER)
-            border:SetPoint("TOPLEFT", icon, "TOPLEFT", -1, 1)
-            border:SetPoint("BOTTOMRIGHT", icon, "BOTTOMRIGHT", 1, -1)
-            border:Hide()
-            SUI.Theme:Paint(border, true, 0.25)
-            borderOf[icon] = border
+            -- SUI 1.x icon frame (Modules/CastBars/_Icon.lua).
+            local gloss = CreateFrame("Frame", nil, bar)
+            local edge = gloss:CreateTexture(nil, "BACKGROUND", nil, -7)
+            edge:SetTexture(GLOSS)
+            edge:SetTexCoord(0, 1, 0, 1)
+            edge:SetPoint("TOPLEFT", icon, "TOPLEFT", -1, 1)
+            edge:SetPoint("BOTTOMRIGHT", icon, "BOTTOMRIGHT", 1, -1)
+            gloss:Hide()
+
+            local shadow = CreateFrame("Frame", nil, bar, "BackdropTemplate")
+            shadow:SetPoint("TOPLEFT", icon, "TOPLEFT", -4, 4)
+            shadow:SetPoint("BOTTOMRIGHT", icon, "BOTTOMRIGHT", 4, -4)
+            shadow:SetFrameLevel(math.max(gloss:GetFrameLevel() - 1, 0))
+            shadow:SetBackdrop(SHADOW)
+            SUI:ProtectBackdrop(shadow)
+            shadow:SetAlpha(0.9)
+            shadow:Hide()
+
+            glossOf[icon], shadowOf[icon] = gloss, shadow
             icons[#icons + 1] = { icon = icon, bar = bar, player = players[bar] }
             self:Hook(icon, "Show", sync)
             self:Hook(icon, "Hide", sync)
@@ -76,6 +97,7 @@ end
 function F:Apply()
     local showIcons = self.db.icon
     themed = SUI.db.profile.general.theme ~= "Blizzard"
+    local r, g, b = SUI.Theme:Color(0.25)
     for i = 1, #icons do
         local entry = icons[i]
         local icon = entry.icon
@@ -98,6 +120,7 @@ function F:Apply()
         if not inactive[icon] then
             icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
         end
+        shadowOf[icon]:SetBackdropBorderColor(r, g, b)
         sync(icon)
     end
 end
@@ -122,7 +145,8 @@ function F:OnDisable()
         local forced = want[icon]
         want[icon] = nil
         icon:SetTexCoord(0, 1, 0, 1)
-        borderOf[icon]:Hide()
+        glossOf[icon]:Hide()
+        shadowOf[icon]:Hide()
         if forced == true then
             icon:Hide()
         elseif forced == false then

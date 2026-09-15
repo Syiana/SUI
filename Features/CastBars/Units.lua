@@ -32,13 +32,11 @@ local function styleBar(bar, scale)
             bar.Text:ClearAllPoints()
             bar.Text:SetPoint("TOP", bar, "TOP", 0, 2.5)
         end
-        SUI.Skin:Texture(bar.Background, true)
     end
     if bar.Text then
         bar.Text:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
     end
-    local name = bar:GetName()
-    SUI.Skin:Texture(bar.Border or (name and _G[name .. "Border"]), true)
+    CB.TintBar(bar)
 end
 
 -- spec: id, enabledKey, sizeKey, topKey (optional), clients, bars() -> array of { bar, unitFrame }
@@ -111,6 +109,12 @@ local function unitCastbars(spec)
 
     function F:OnEnable()
         SUI:RunAfterCombat(styleAll)
+    end
+
+    function F:OnThemeChanged()
+        for i = 1, #bars do
+            CB.TintBar(bars[i])
+        end
     end
 
     function F:OnRefresh(key)
