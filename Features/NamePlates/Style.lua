@@ -23,11 +23,19 @@ local T = SUI:NewFeature("NamePlates.Texture", {
 })
 
 local FOCUS = SUI.Media.textures .. [[Nameplates\focusTexture]]
-local texture, useFocus, focusFrame
+local BLIZZARD = SUI.Media.BLIZZARD_STATUSBAR
+local texture, useFocus, focusFrame -- texture nil = keep Blizzard's (1.x "Default")
 local barState = {} -- health bar -> plate state (hook installed)
+local original = {} -- health bar -> Blizzard texture replaced by the focus texture
 local applying = false
 
 local onSetTexture
+
+local function setTexture(bar, path)
+    applying = true
+    bar:SetStatusBarTexture(path)
+    applying = false
+end
 
 local function apply(st)
     local bar = st.healthBar
@@ -38,9 +46,22 @@ local function apply(st)
         barState[bar] = st
         hooksecurefunc(bar, "SetStatusBarTexture", onSetTexture)
     end
-    applying = true
-    bar:SetStatusBarTexture((useFocus and st.frame == focusFrame) and FOCUS or texture)
-    applying = false
+    local wanted = (useFocus and st.frame == focusFrame) and FOCUS or texture
+    if not wanted then
+        if original[bar] then
+            setTexture(bar, original[bar])
+            original[bar] = nil
+        end
+        return
+    end
+    if not texture and not original[bar] then
+        local fill = bar:GetStatusBarTexture()
+        original[bar] = fill and (fill.GetAtlas and fill:GetAtlas() or fill:GetTexture())
+    end
+    setTexture(bar, wanted)
+    if not texture then
+        return
+    end
     local frame = st.frame
     if frame.myHealPrediction then
         frame.myHealPrediction:SetTexture(texture)
@@ -80,7 +101,11 @@ end
 
 function T:Settings()
     local tex = self.db.texture
-    texture = (tex and tex ~= [[Interface\Default]]) and tex or SUI.Media.statusbar
+    local old = texture
+    texture = (tex and tex ~= BLIZZARD) and tex or nil
+    if old and not texture then
+        SUI:RequestReload("nameplates.texture") -- Blizzard's texture comes back on reload
+    end
     useFocus = self.db.focusHighlight
 end
 

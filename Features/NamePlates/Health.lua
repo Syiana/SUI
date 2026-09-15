@@ -14,6 +14,7 @@ local NP = ns.NamePlates
 local next, wipe, tonumber = next, wipe, tonumber
 local UnitHealth, UnitHealthMax, UnitHealthPercent = UnitHealth, UnitHealthMax, UnitHealthPercent
 local UnitThreatSituation, UnitIsTapDenied, UnitGroupRolesAssigned = UnitThreatSituation, UnitIsTapDenied, UnitGroupRolesAssigned
+local UnitPlayerControlled, FACTION_BAR_COLORS = UnitPlayerControlled, FACTION_BAR_COLORS
 local UnitClassification, UnitPowerMax = UnitClassification, UnitPowerMax
 local UnitLevel = UnitEffectiveLevel or UnitLevel
 local CanAccess = SUI.Compat.CanAccess
@@ -160,16 +161,29 @@ local function colorize(st)
         end
     end
 
-    local tapped = UnitIsTapDenied(unit)
-    if CanAccess(tapped) and tapped then
+    -- 1.x: tapped grey; hostile (2) or unknown reaction: NPC colour or SUI red;
+    -- other reactions: the faction colour.
+    local tapped, controlled = UnitIsTapDenied(unit), UnitPlayerControlled(unit)
+    local reaction = st.reaction
+    if CanAccess(tapped) and tapped and CanAccess(controlled) and not controlled then
         bar:SetStatusBarColor(0.5, 0.5, 0.5)
-    elseif c then
-        bar:SetStatusBarColor(c.r, c.g, c.b)
+    elseif reaction == nil or reaction == 2 then
+        if c then
+            bar:SetStatusBarColor(c.r, c.g, c.b)
+        elseif st.npcType then
+            local t = st.npcType
+            bar:SetStatusBarColor(typeR[t], typeG[t], typeB[t])
+        elseif useNpc then
+            bar:SetStatusBarColor(1, 0, 0.3)
+        end
     elseif st.npcType then
         local t = st.npcType
         bar:SetStatusBarColor(typeR[t], typeG[t], typeB[t])
-    elseif useNpc and st.reaction and st.reaction <= 3 then
-        bar:SetStatusBarColor(1, 0, 0.3)
+    elseif useNpc then
+        local faction = FACTION_BAR_COLORS and FACTION_BAR_COLORS[reaction]
+        if faction then
+            bar:SetStatusBarColor(faction.r, faction.g, faction.b)
+        end
     end
 end
 
@@ -213,6 +227,7 @@ function C:OnEnable()
     self:RegisterEvent("PLAYER_ENTERING_WORLD", "UpdateRole")
     if SUI.IsRetail or SUI.IsMists then
         self:RegisterEvent("PLAYER_ROLES_ASSIGNED", "UpdateRole")
+        self:RegisterEvent("PLAYER_SPECIALIZATION_CHANGED", "UpdateRole")
     end
     self:ApplyAll()
 end

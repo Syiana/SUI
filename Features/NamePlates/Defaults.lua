@@ -31,7 +31,7 @@ SUI:RegisterDefaults("nameplates", {
     server = true,
     color = true,
     arenanumber = true,
-    totemicons = true,
+    totemicons = false, -- 1.x never loaded totem icons
     casttime = true,
     debuffs = false,
     focusHighlight = false,
@@ -47,7 +47,7 @@ SUI:RegisterDefaults("nameplates", {
         caster = { r = 0, g = 0.46, b = 0.74, a = 1 },
     },
     castbar = {
-        colors = true,
+        colors = false,
         cooldown = { r = 0.85, g = 0.15, b = 0.15, a = 1 },
         uninterruptible = { r = 0.6, g = 0.6, b = 0.6, a = 1 },
     },
@@ -175,4 +175,17 @@ SUI:RegisterMigration("nameplates-1x-personalbar", function(profile)
         target[k] = v
     end
     uf.personalbar = nil
+end)
+
+-- Totem icons and castbar interrupt colours are new visuals: 1.x never showed
+-- them, so profiles from 1.x start with them off.
+SUI:RegisterMigration("nameplates-1x-unused-visuals", function(profile)
+    local np = nameplatesOf(profile)
+    np.totemicons = false
+    local castbar = rawget(np, "castbar")
+    if type(castbar) ~= "table" then
+        castbar = {}
+        np.castbar = castbar
+    end
+    castbar.colors = false
 end)

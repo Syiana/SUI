@@ -53,7 +53,7 @@ local function apply(st)
     end
     if showArena and st.arena then
         name:SetText(st.arena)
-        name:SetVertexColor(1, 1, 0)
+        name:SetTextColor(1, 1, 0)
         return
     end
     if not st.isPlayer then

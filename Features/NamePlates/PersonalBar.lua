@@ -130,25 +130,44 @@ end
 
 function apply()
     local cfg = F.db.personalbar
+    local np = F.db
+    -- 1.x "Default" texture keeps Blizzard's fill; sizes and colours still apply.
+    local texture = cfg.texture ~= SUI.Media.BLIZZARD_STATUSBAR and cfg.texture or nil
+    -- 1.x painted the stagger bar with the nameplate texture in the Custom style.
+    local extraTexture = texture
+    if NP.isCustom(np) then
+        extraTexture = np.texture ~= SUI.Media.BLIZZARD_STATUSBAR and np.texture or nil
+    end
     local health, container, power, extra = getBars()
+    local display, playerResource = PersonalResourceDisplayFrame, NamePlatePlayerResourceFrame
     wipe(current)
+    hookBar(display, false)
+    hookBar(playerResource, false)
     hookBar(container, false)
     hookBar(health, true, true)
     hookBar(power, true)
     hookBar(extra, true)
     applying = true
+    size(display, cfg.width)
+    size(playerResource, cfg.width)
     size(container, cfg.width, cfg.height)
-    if container and container ~= health then
-        fill(container, cfg.texture)
+    if texture and container and container ~= health then
+        fill(container, texture)
     end
     if health then
-        fill(health, cfg.texture)
+        if texture then
+            fill(health, texture)
+        end
         size(health, cfg.width, cfg.height)
         health:SetStatusBarColor(classR, classG, classB)
     end
     if power then
-        fill(power, cfg.texture)
+        if texture then
+            fill(power, texture)
+        end
         size(power, cfg.width, cfg.manaheight)
+        size(power.Texture, cfg.width)
+        size(power.background, cfg.width)
         local c = PowerBarColor and (PowerBarColor[select(2, UnitPowerType("player"))] or PowerBarColor.MANA)
         if c and c.r then
             power:SetStatusBarColor(c.r, c.g, c.b)
@@ -165,7 +184,9 @@ function apply()
         end
     end
     if extra then
-        fill(extra, cfg.texture)
+        if extraTexture then
+            fill(extra, extraTexture)
+        end
         size(extra, cfg.width)
     end
     applying = false
