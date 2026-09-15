@@ -27,6 +27,12 @@ local PLAYER_ACTION = {
     TARGETPREVIOUSENEMY = "TARGETPREVIOUSENEMYPLAYER",
 }
 
+-- 1.x fallback when nothing is bound to enemy targeting at all.
+local DEFAULT_KEY = {
+    TARGETNEARESTENEMY = "TAB",
+    TARGETPREVIOUSENEMY = "SHIFT-TAB",
+}
+
 local function take(moved, action, key)
     if key and SetBinding(key, PLAYER_ACTION[action]) then
         moved[key] = action
@@ -35,14 +41,18 @@ local function take(moved, action, key)
     return false
 end
 
--- Moves the enemy target keys to the player-only actions (pvp) or gives
--- back exactly the keys moved before, unless the user rebound them since.
+-- In PvP the enemy target keys move to the player-only actions (TAB /
+-- SHIFT-TAB when nothing is bound). Outside PvP the keys moved before go
+-- back, and like 1.x the target key is forced to the normal action.
 local function applyBindings(pvp)
     local moved = SUI.db.char.misc.tabbinder
     local changed = false
     if pvp then
-        for action in next, PLAYER_ACTION do
+        for action, playerAction in next, PLAYER_ACTION do
             local key1, key2 = GetBindingKey(action)
+            if not key1 and not GetBindingKey(playerAction) then
+                key1 = DEFAULT_KEY[action]
+            end
             changed = take(moved, action, key1) or changed
             changed = take(moved, action, key2) or changed
         end
@@ -53,6 +63,12 @@ local function applyBindings(pvp)
                 changed = true
             end
             moved[key] = nil
+        end
+        for action, playerAction in next, PLAYER_ACTION do
+            local key = GetBindingKey(playerAction) or GetBindingKey(action) or DEFAULT_KEY[action]
+            if GetBindingAction(key) ~= action and SetBinding(key, action) then
+                changed = true
+            end
         end
     end
     if changed then
@@ -106,15 +122,33 @@ function Dampening:OnLoad()
     self.getPercent = C_Commentator and C_Commentator.GetDampeningPercent
     self.format = (SUI.Compat.GetSpellInfo(110310) or "Dampening") .. ": %d%%"
 
-    local anchor = UIWidgetTopCenterContainerFrame
-    local text = UIParent:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
-    if anchor then
-        text:SetPoint("TOP", anchor, "BOTTOM", 0, -2)
-    else
-        text:SetPoint("TOP", UIParent, "TOP", 0, -80)
+    -- 1.x look: a widget-style line right below the arena timer.
+    local container = UIWidgetTopCenterContainerFrame
+    -- The widget template gives the 1.x look; clients without it get a plain line.
+    local hasTemplate = not C_XMLUtil or not C_XMLUtil.GetTemplateInfo or C_XMLUtil.GetTemplateInfo("UIWidgetTemplateIconAndText") ~= nil
+    local ok, frame = pcall(CreateFrame, "Frame", nil, UIParent, hasTemplate and "UIWidgetTemplateIconAndText" or nil)
+    if not ok then
+        frame = CreateFrame("Frame", nil, UIParent)
     end
-    text:Hide()
-    self.text = text
+    if not frame.Text then
+        frame:SetHeight(20)
+        frame.Text = frame:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
+    end
+    local setID = C_UIWidgetManager and C_UIWidgetManager.GetTopCenterWidgetSetID and C_UIWidgetManager.GetTopCenterWidgetSetID()
+    local setInfo = setID and C_UIWidgetManager.GetWidgetSetInfo(setID)
+    if container and container.verticalAnchorPoint then
+        frame:SetPoint(container.verticalAnchorPoint, container, container.verticalRelativePoint, 0, setInfo and setInfo.verticalPadding or 0)
+    elseif container then
+        frame:SetPoint("TOP", container, "BOTTOM", 0, -2)
+    else
+        frame:SetPoint("TOP", UIParent, "TOP", 0, -80)
+    end
+    frame:SetWidth(200)
+    frame.Text:SetParent(frame)
+    frame.Text:SetAllPoints()
+    frame.Text:SetJustifyH("CENTER")
+    frame:Hide()
+    self.frame = frame
 end
 
 function Dampening:OnEnable()
@@ -126,7 +160,7 @@ function Dampening:OnEnable()
 end
 
 function Dampening:OnDisable()
-    self.text:Hide()
+    self.frame:Hide()
 end
 
 function Dampening:Zone()
@@ -135,7 +169,7 @@ function Dampening:Zone()
         self:Update()
     else
         self:UnregisterUnitEvent("UNIT_AURA")
-        self.text:Hide()
+        self.frame:Hide()
     end
 end
 
@@ -144,11 +178,11 @@ function Dampening:Update()
     if percent and CanAccess(percent) and percent > 0 then
         if percent ~= self.value then
             self.value = percent
-            self.text:SetFormattedText(self.format, percent)
+            self.frame.Text:SetFormattedText(self.format, percent)
         end
-        self.text:Show()
+        self.frame:Show()
     else
-        self.text:Hide()
+        self.frame:Hide()
     end
 end
 

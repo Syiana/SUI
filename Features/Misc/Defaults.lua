@@ -3,7 +3,7 @@
 
     Defaults for the Misc tab. The 1.x keys keep their names; misc.repbar
     belongs to ActionBars now. Tab Binder remembers per character which keys
-    it moved, so it only ever gives back what it took.
+    it moved, so leaving PvP restores those keys first.
 ]]
 
 local _, ns = ...

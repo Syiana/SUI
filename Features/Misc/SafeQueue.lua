@@ -13,6 +13,10 @@ local SUI = ns.SUI
 
 local format = string.format
 
+local function chatPrint(message)
+    DEFAULT_CHAT_FRAME:AddMessage("|cff33ff99SafeQueue|r: " .. message)
+end
+
 local F = SUI:NewFeature("Misc.SafeQueue", {
     category = "misc",
     toggle = "safequeue",
@@ -20,7 +24,7 @@ local F = SUI:NewFeature("Misc.SafeQueue", {
 
 local function expiresText(secs)
     local color = secs > 20 and "20ff20" or secs > 10 and "ffff00" or "ff0000"
-    return format("Queue expires in |cff%s%s|r", color, SecondsToTime(secs))
+    return format("SafeQueue expires in |cff%s%s|r", color, SecondsToTime(secs))
 end
 
 function F:OnLoad()
@@ -89,7 +93,7 @@ function F:Scan()
         elseif status == "confirm" then
             if queued[i] then
                 local secs = GetTime() - queued[i]
-                SUI:Print(secs < 1 and "Queue popped instantly!" or ("Queue popped after " .. SecondsToTime(secs)))
+                chatPrint(secs < 1 and "Queue popped instantly!" or ("Queue popped after " .. SecondsToTime(secs)))
                 queued[i] = nil
             end
             confirm = confirm or i

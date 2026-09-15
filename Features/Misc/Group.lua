@@ -40,7 +40,7 @@ local function announce(destName, spellID)
     end
     lastAnnounce = now
     local send = C_ChatInfo and C_ChatInfo.SendChatMessage or SendChatMessage
-    send("Interrupted " .. destName .. ": " .. link, channel)
+    send("INTERRUPTED " .. destName .. ": " .. link, channel)
 end
 
 local Interrupt = SUI:NewFeature("Misc.Interrupt", {

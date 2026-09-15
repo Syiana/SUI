@@ -32,10 +32,8 @@ function MenuButton:OnLoad()
     end
     if menu.InitButtons then
         self:Hook(menu, "InitButtons", function(frame)
-            if not InCombatLockdown() then
-                frame:AddSection()
-                frame:AddButton(SUI.brand, openOptions)
-            end
+            frame:AddSection()
+            frame:AddButton(SUI.brand, openOptions)
         end)
     else
         -- Old menu layout: hang the button below the frame instead of
