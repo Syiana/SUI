@@ -174,6 +174,55 @@ local function isEnabled(which, db)
     return mode == "all" or mode == "normal"
 end
 
+-- Cast bar below the SUI auras (1.x). Skipped while SUI's cast bar for the
+-- unit is off or placed on top. When the auras sit above the frame, a bar
+-- still anchored to them goes back under the frame.
+local function anchorSpellbar(frame)
+    local set = sets[frame]
+    local spellbar = set and set.spellbar
+    if not spellbar or spellbar:IsForbidden() then
+        return
+    end
+    local castbars = SUI.db.profile.castbars
+    local isTarget = frame == _G.TargetFrame
+    if type(castbars) == "table" then
+        local enabled = isTarget and castbars.targetCastbar or (not isTarget and castbars.focusCastbar)
+        local onTop = isTarget and castbars.targetOnTop or (not isTarget and castbars.focusOnTop)
+        if not enabled or onTop then
+            return
+        end
+    end
+    local anchor = set.last or set.buffs
+    local _, relativeTo = spellbar:GetPoint(1)
+    set.moving = true
+    if frame.buffsOnTop == true then
+        if relativeTo == anchor then
+            local x = frame.smallSize and 38 or 43
+            local y = frame.smallSize and 3 or 5
+            if frame.haveToT then
+                y = frame.smallSize and -48 or -46
+            end
+            spellbar:ClearAllPoints()
+            spellbar:SetPoint("TOPLEFT", frame, "BOTTOMLEFT", x, y)
+        end
+    elseif relativeTo ~= anchor then
+        spellbar:ClearAllPoints()
+        spellbar:SetPoint("TOPLEFT", anchor, "BOTTOMLEFT", 18, -2)
+    end
+    set.moving = nil
+end
+
+-- BetterBlizzFrames can take over the target auras; SUI steps aside then.
+local function betterBlizzOwns(unit)
+    local bbf = _G.BBF
+    local hosts = type(bbf) == "table" and bbf.auraHosts
+    local host = type(hosts) == "table" and hosts[unit]
+    if type(host) ~= "table" then
+        return false
+    end
+    return host.spacer or host.blockTop or host.blockBottom or host.filtered
+end
+
 -- Stacks the enabled containers below (or above) the frame art, like 1.x.
 local function reflow(frame, set)
     local db = Retail.db
@@ -209,14 +258,7 @@ local function reflow(frame, set)
     end
     set.last = previous or set.buffs
 
-    -- Cast bar below the auras unless SUI's cast bar settings put it on top.
-    local spellbar = frame.spellbar
-    local castbars = SUI.db.profile.castbars
-    local onTop = castbars and ((frame == _G.TargetFrame and castbars.targetOnTop) or (frame == _G.FocusFrame and castbars.focusOnTop))
-    if spellbar and not mirror and not onTop and not spellbar:IsForbidden() then
-        spellbar:ClearAllPoints()
-        spellbar:SetPoint("TOPLEFT", set.last, "BOTTOMLEFT", 18, -2)
-    end
+    anchorSpellbar(frame)
 end
 
 local function updateFilters(set, db)
@@ -239,10 +281,11 @@ local function update(frame)
         return
     end
     local db = Retail.db
+    local yield = betterBlizzOwns(set.unit)
     updateFilters(set, db)
     for i = 1, #ORDER do
         local container = set[ORDER[i]]
-        local enabled = isEnabled(ORDER[i], db)
+        local enabled = not yield and isEnabled(ORDER[i], db)
         container:SetEnabled(enabled)
         container:SetShown(enabled)
         if enabled then
@@ -250,7 +293,19 @@ local function update(frame)
             container:UpdateAllAuras()
         end
     end
-    reflow(frame, set)
+    if not yield then
+        reflow(frame, set)
+    end
+end
+
+-- Classic style: its art frame is HIGH strata, so the auras go above it (1.x).
+function UF.RaiseAuras(frame)
+    local set = sets[frame]
+    if set then
+        for i = 1, #ORDER do
+            set[ORDER[i]]:SetFrameStrata("FULLSCREEN")
+        end
+    end
 end
 
 -- Blizzard's own target auras stay empty while SUI draws them.
@@ -267,12 +322,43 @@ local function silenceBlizzard(frame)
 end
 
 -- 1.x moved target-of-target out of the way of the aura rows.
+local totQueued
 local function placeTargetOfTarget()
+    totQueued = nil
     for _, name in next, { "TargetFrame", "FocusFrame" } do
         local frame, tot = _G[name], _G[name .. "ToT"]
         if frame and tot and not tot:IsForbidden() then
             tot:ClearAllPoints()
             tot:SetPoint("RIGHT", frame, "RIGHT", 45, -55)
+        end
+    end
+end
+
+local function queueTargetOfTarget()
+    if not totQueued then
+        totQueued = true
+        SUI:RunAfterCombat(placeTargetOfTarget)
+    end
+end
+
+local function refreshAll()
+    if Retail.enabled then
+        for frame in next, sets do
+            update(frame)
+        end
+    end
+end
+
+local bbfHooked
+local function hookBetterBlizz()
+    local bbf = _G.BBF
+    if bbfHooked or type(bbf) ~= "table" then
+        return
+    end
+    for _, method in next, { "HookPlayerAndTargetAuras", "RestyleAuraButtons" } do
+        if type(bbf[method]) == "function" then
+            hooksecurefunc(bbf, method, refreshAll)
+            bbfHooked = true
         end
     end
 end
@@ -284,20 +370,25 @@ function Retail:OnLoad()
     for unit, name in next, { target = "TargetFrame", focus = "FocusFrame" } do
         local frame = _G[name]
         if frame and frame.GetAuraContainer then
-            createSet(frame, unit)
+            local set = createSet(frame, unit)
             if frame.ConfigureAuraContainer then
                 self:Hook(frame, "ConfigureAuraContainer", silenceBlizzard)
             end
+            local spellbar = _G[name .. "SpellBar"]
+            if spellbar then
+                set.spellbar = spellbar
+                self:Hook(spellbar, "SetPoint", function()
+                    if not set.moving then
+                        anchorSpellbar(frame)
+                    end
+                end)
+            end
         end
     end
-end
-
-function Retail:Target()
-    update(_G.TargetFrame)
-end
-
-function Retail:Focus()
-    update(_G.FocusFrame)
+    SUI:OnAddonLoaded("BetterBlizzFrames", function()
+        hookBetterBlizz()
+        refreshAll()
+    end)
 end
 
 function Retail:Apply()
@@ -310,14 +401,25 @@ function Retail:Apply()
     end
 end
 
+function Retail:Target()
+    update(_G.TargetFrame)
+    queueTargetOfTarget()
+end
+
+function Retail:Focus()
+    update(_G.FocusFrame)
+    queueTargetOfTarget()
+end
+
 function Retail:OnEnable()
     self:RegisterEvent("PLAYER_TARGET_CHANGED", "Target")
     self:RegisterEvent("PLAYER_FOCUS_CHANGED", "Focus")
+    self:RegisterEvent("PLAYER_REGEN_ENABLED", queueTargetOfTarget)
     self:RegisterEvent("PLAYER_ENTERING_WORLD", function()
-        SUI:RunAfterCombat(placeTargetOfTarget)
+        queueTargetOfTarget()
         Retail:Apply()
     end)
-    SUI:RunAfterCombat(placeTargetOfTarget)
+    queueTargetOfTarget()
     self:Apply()
 end
 

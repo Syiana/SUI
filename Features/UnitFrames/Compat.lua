@@ -176,14 +176,17 @@ function UF.UnitColor(unit)
     return nil
 end
 
--- Theme tint for unit frame art; without a tinting theme the art is reset.
-function UF.Paint(texture)
+-- Theme tint for unit frame art (theme colour -0.15, as 1.x). 1.x only
+-- desaturated a few textures (pet frame, alternate mana borders, runes,
+-- paladin background); the rest is tinted over its own colours. Without a
+-- tinting theme the art is reset.
+function UF.Paint(texture, desaturate)
     if not texture then
         return
     end
     local Theme = SUI.Theme
     if Theme.enabled then
-        texture:SetDesaturated(true)
+        texture:SetDesaturated(desaturate == true)
         texture:SetVertexColor(Theme:Color(0.15))
     else
         texture:SetDesaturated(false)
@@ -191,3 +194,7 @@ function UF.Paint(texture)
     end
 end
 
+-- True when the statusbar texture is Blizzard's own ("Default").
+function UF.BlizzardTexture()
+    return SUI.db.profile.general.texture == (SUI.Media.BLIZZARD_STATUSBAR or [[Interface\Default]])
+end

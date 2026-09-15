@@ -1,8 +1,10 @@
 --[[ SUI 2.0 - Features/UnitFrames/Textures.lua
     Statusbar texture (general.texture) on the health and power bars of the
-    player, pet, target, focus, target-of-target and boss frames. The texture
-    is set once and only re-applied where Blizzard swaps the bar art: power
-    type changes, classification changes and vehicle art.
+    player, pet, target, focus, target-of-target and boss frames, and on the
+    power bars of every other unit frame (party, arena). The texture is set
+    once and only re-applied where Blizzard swaps the bar art: power type
+    changes, classification changes and vehicle art. "Default" keeps
+    Blizzard's bars; the Classic style keeps them too except on boss frames.
 ]]
 
 local _, ns = ...
@@ -14,8 +16,8 @@ local CanAccess = SUI.Compat.CanAccess
 
 local F = SUI:NewFeature("UnitFrames.Texture", {
     category = "unitframes",
-    toggle = function(db)
-        return db.style ~= "Classic"
+    toggle = function()
+        return not UF.BlizzardTexture()
     end,
     watch = { "general" },
     reload = true, -- Blizzard's bar atlases cannot be restored cleanly
@@ -50,7 +52,18 @@ local function colorPower(bar)
     end
 end
 
+local function classic()
+    return F.db.style == "Classic"
+end
+
+local function isBoss(frame)
+    return frame.isBossFrame or (frame.GetName and (frame:GetName() or ""):find("^Boss%d"))
+end
+
 local function styleFrame(frame)
+    if classic() and not isBoss(frame) then
+        return
+    end
     if frame.healthbar then
         styleBar(frame.healthbar)
         if frame.healthbar.AnimatedLossBar then
@@ -77,7 +90,8 @@ function F:OnLoad()
 
     if UnitFrameManaBar_UpdateType then
         self:Hook("UnitFrameManaBar_UpdateType", function(bar)
-            if managed[bar] then
+            -- 1.x: all unit frame power bars, none while the Classic style is on.
+            if (managed[bar] or bar.unitFrame) and not classic() then
                 styleBar(bar)
                 colorPower(bar)
             end
@@ -104,7 +118,7 @@ function F:Apply()
         styleFrame(frames[i])
     end
     local alternate = _G.AlternatePowerBar or _G.PlayerFrameAlternateManaBar
-    if alternate and alternate.SetStatusBarTexture then
+    if alternate and alternate.SetStatusBarTexture and not classic() then
         styleBar(alternate)
         colorPower(alternate)
     end
@@ -115,7 +129,7 @@ function F:OnEnable()
 end
 
 function F:OnRefresh(key)
-    if key == "texture" then
+    if key == "texture" or key == "style" then
         self:Apply()
     end
 end

@@ -1,54 +1,74 @@
 --[[ SUI 2.0 - Features/UnitFrames/Colors.lua
-    Health bar colours and frame tinting. Class colour paints health bars
-    whenever Blizzard resets them (UnitFrameHealthBar_Update). The tint paints
-    the frame art once and repaints only the textures Blizzard swaps: the
-    target border on classification changes, the player art on vehicle
-    changes, totem borders and class resource points when they are created.
+    Health bar colours and frame tinting. Health bars of every Blizzard unit
+    frame (player, target, party, arena, boss ...) get class/reaction colours,
+    or SUI green on a custom texture. The colour is worked out when Blizzard
+    resets a bar for its unit and re-applied from a cache when a value
+    change paints the bar green again. The tint paints the frame art once
+    and repaints only what Blizzard swaps: target art on classification
+    changes, player art on vehicle changes, reputation bars on faction
+    changes, totem borders and class resource points when they appear.
 ]]
 
 local _, ns = ...
 local SUI = ns.SUI
 local UF = ns.UnitFrames
 
-local _G, UnitClassification = _G, UnitClassification
+local _G, select, UnitClassification = _G, select, UnitClassification
 local CanAccess = SUI.Compat.CanAccess
 
--- Class colour ------------------------------------------------------------------------
+-- Health colour ------------------------------------------------------------------------
 local ClassColor = SUI:NewFeature("UnitFrames.ClassColor", {
     category = "unitframes",
-    toggle = "classcolor",
+    toggle = function(db)
+        return db.classcolor or not UF.BlizzardTexture()
+    end,
+    watch = { "general" },
 })
 
-local healthBars = {} -- bar -> true
+-- Last colour per bar, so HealthBar_OnValueChanged costs one SetStatusBarColor.
+local barR = setmetatable({}, { __mode = "k" })
+local barG = setmetatable({}, { __mode = "k" })
+local barB = setmetatable({}, { __mode = "k" })
 
 local function colorBar(bar, unit)
-    local r, g, b = UF.UnitColor(unit)
-    if r then
+    local r, g, b
+    if ClassColor.db.classcolor then
+        r, g, b = UF.UnitColor(unit)
+        if not r then
+            return
+        end
         local region = bar:GetStatusBarTexture()
         if region then
             region:SetDesaturated(true)
         end
-        bar:SetStatusBarColor(r, g, b)
+    else
+        r, g, b = 0, 0.7, 0
     end
+    barR[bar], barG[bar], barB[bar] = r, g, b
+    bar:SetStatusBarColor(r, g, b)
 end
 
 function ClassColor:OnLoad()
-    local frames = UF.Frames()
-    for i = 1, #frames do
-        if frames[i].healthbar then
-            healthBars[frames[i].healthbar] = true
-        end
-    end
     self:Hook("UnitFrameHealthBar_Update", function(bar, unit)
-        if healthBars[bar] then
+        if bar and unit and bar.unit == unit then
             colorBar(bar, unit)
         end
     end)
+    if HealthBar_OnValueChanged then
+        self:Hook("HealthBar_OnValueChanged", function(bar)
+            local r = barR[bar]
+            if r then
+                bar:SetStatusBarColor(r, barG[bar], barB[bar])
+            end
+        end)
+    end
 end
 
 function ClassColor:Update(_, unit)
-    for bar in next, healthBars do
-        if not unit or bar.unit == unit then
+    local frames = UF.Frames()
+    for i = 1, #frames do
+        local bar = frames[i].healthbar
+        if bar and bar.unit and (not unit or bar.unit == unit) then
             colorBar(bar, bar.unit)
         end
     end
@@ -59,18 +79,27 @@ function ClassColor:OnEnable()
     self:Update()
 end
 
+function ClassColor:OnRefresh(key)
+    if key == "classcolor" or key == "texture" then
+        self:Update()
+    end
+end
+
 function ClassColor:OnDisable()
-    for bar in next, healthBars do
+    for bar in next, barR do
         local region = bar:GetStatusBarTexture()
         if region then
             region:SetDesaturated(false)
         end
         bar:SetStatusBarColor(0, 1, 0)
     end
+    wipe(barR)
+    wipe(barG)
+    wipe(barB)
 end
 
 -- Reputation bar ----------------------------------------------------------------------
--- factioncolor = false hides the coloured name background of target-like frames.
+-- factioncolor = false keeps the name background of target-like frames hidden.
 local Reputation = SUI:NewFeature("UnitFrames.Reputation", {
     category = "unitframes",
     toggle = function(db)
@@ -101,36 +130,60 @@ local Tint = SUI:NewFeature("UnitFrames.Tint", {
     category = "unitframes",
 })
 
+-- path -> desaturate (1.x tinted most art over its own colours)
 local ART = {
     -- retail
+    ["PlayerFrame.PlayerFrameContainer.FrameTexture"] = false,
+    ["PlayerFrame.PlayerFrameContainer.AlternatePowerFrameTexture"] = false,
+    ["PlayerFrame.PlayerFrameContainer.VehicleFrameTexture"] = false,
+    ["PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual.PlayerPortraitCornerIcon"] = false,
+    ["TargetFrameToT.FrameTexture"] = false,
+    ["FocusFrameToT.FrameTexture"] = false,
+    -- classic
+    ["PlayerFrameTexture"] = false,
+    ["PlayerFrameVehicleTexture"] = false,
+    ["TargetFrameToTTextureFrameTexture"] = false,
+    ["FocusFrameToTTextureFrameTexture"] = false,
+    -- both
+    ["PetFrameTexture"] = true,
+    ["PlayerFrameAlternateManaBarBorder"] = true,
+    ["PlayerFrameAlternateManaBarLeftBorder"] = true,
+    ["PlayerFrameAlternateManaBarRightBorder"] = true,
+}
+local PLAYER_ART = {
     "PlayerFrame.PlayerFrameContainer.FrameTexture",
     "PlayerFrame.PlayerFrameContainer.AlternatePowerFrameTexture",
     "PlayerFrame.PlayerFrameContainer.VehicleFrameTexture",
     "PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual.PlayerPortraitCornerIcon",
-    "TargetFrameToT.FrameTexture",
-    "FocusFrameToT.FrameTexture",
-    -- classic
     "PlayerFrameTexture",
-    "PlayerFrameVehicleTexture",
-    "TargetFrameToTTextureFrameTexture",
-    "FocusFrameToTTextureFrameTexture",
-    -- both
-    "PetFrameTexture",
-    "PlayerFrameAlternateManaBarBorder",
-    "PlayerFrameAlternateManaBarLeftBorder",
-    "PlayerFrameAlternateManaBarRightBorder",
 }
 -- Frames whose texture regions are tinted as a whole (classic).
 local ART_FRAMES = { "PlayerFrameAlternateManaBar", "PlayerFrameGroupIndicator" }
 -- Named regions of class resource points (retail).
-local POINT_REGIONS = { "BGActive", "BGInactive", "BGShadow", "ArcaneBG", "ArcaneBGShadow", "Background", "BG_Active", "BG_Inactive", "BG_Shadow", "Chi_BG", "Chi_BG_Active" }
+local POINT_REGIONS = {
+    "BGActive", "BGInactive", "BGShadow", "ChargedFrameActive", "ArcaneBG", "ArcaneBGShadow", "Background",
+    "BG_Active", "BG_Inactive", "BG_Shadow", "Chi_BG", "Chi_BG_Active",
+}
+-- Nameplate / personal resource copies of the class bars (painted with the player bar).
+local NAMEPLATE_BARS = {
+    "ClassNameplateBarRogueFrame", "ClassNameplateBarMageFrame", "ClassNameplateBarWarlockFrame",
+    "ClassNameplateBarFeralDruidFrame", "ClassNameplateBarWindwalkerMonkFrame", "ClassNameplateBarDracthyrFrame",
+    "ClassNameplateBarPaladinFrame", "DeathKnightResourceOverlayFrame", "prdClassFrame",
+}
 
-local painted = setmetatable({}, { __mode = "k" }) -- texture -> true
+local painted = setmetatable({}, { __mode = "k" }) -- texture -> desaturate
 
-local function paint(texture)
+local function paint(texture, desaturate)
     if texture then
-        painted[texture] = true
-        UF.Paint(texture)
+        painted[texture] = desaturate == true
+        UF.Paint(texture, desaturate)
+    end
+end
+
+-- Class bar textures keep their tint once painted; only new ones are painted.
+local function paintOnce(texture, desaturate)
+    if texture and painted[texture] == nil then
+        paint(texture, desaturate)
     end
 end
 
@@ -140,55 +193,81 @@ local function isElite(frame)
     return CanAccess(class) and (class == "elite" or class == "rare" or class == "rareelite" or class == "worldboss")
 end
 
-local function paintTarget(frame)
-    local elite = UF.EliteTexture(frame)
-    local keepElite = Tint.db.elitecolor
-    if elite then
-        if keepElite then
-            painted[elite] = nil
-            elite:SetDesaturated(false)
-            elite:SetVertexColor(1, 1, 1)
-        else
-            paint(elite)
-        end
-        paint(UF.Border(frame))
-    else
-        -- Classic: the dragon is part of the border texture itself.
-        local border = UF.Border(frame)
-        if border and keepElite and isElite(frame) then
-            border:SetDesaturated(false)
-            border:SetVertexColor(1, 1, 1)
-        else
-            paint(border)
-        end
+-- Retail reputation bars carry the theme (1.x); classic keeps its reaction colours.
+-- Not kept in the paint registry: without a theme Blizzard's faction colour stays.
+local function paintReputation(frame)
+    local bar = frame.TargetFrameContent and SUI.Theme.enabled and UF.Reputation(frame)
+    if bar then
+        bar:SetVertexColor(SUI.Theme:Color(0.15))
     end
 end
 
-local function paintPoint(point)
+local function paintTarget(frame)
+    local border = UF.Border(frame)
+    -- Retail keeps the elite dragon in its own texture, which 1.x never tinted.
+    -- Classic draws it into the border, so the option decides there.
+    if not UF.EliteTexture(frame) and border and Tint.db.elitecolor and isElite(frame) then
+        painted[border] = nil
+        border:SetDesaturated(false)
+        border:SetVertexColor(1, 1, 1)
+    else
+        paint(border)
+    end
+    paintReputation(frame)
+end
+
+local function paintPoint(point, desaturate)
     for i = 1, #POINT_REGIONS do
-        paint(point[POINT_REGIONS[i]])
+        paintOnce(point[POINT_REGIONS[i]], desaturate)
     end
     local essence = point.EssenceFillDone
     if essence then
-        paint(essence.CircBG)
-        paint(essence.CircBGActive)
+        paintOnce(essence.CircBG)
+        paintOnce(essence.CircBGActive)
     end
 end
 
-local function paintClassBar(bar)
+local function paintBarFrame(bar)
     local points = bar.classResourceButtonTable
     if points then
         for i = 1, #points do
             paintPoint(points[i])
         end
     end
+    local pool = bar.classResourceButtonPool
+    if pool and type(pool.EnumerateActive) == "function" then
+        for point in pool:EnumerateActive() do
+            paintPoint(point)
+        end
+    end
     for i = 1, 6 do
         local rune = bar["Rune" .. i]
         if rune then
-            paintPoint(rune)
+            paintPoint(rune, true)
         end
     end
-    paint(bar.Background)
+    if not points and not pool then
+        -- Personal resource display: points are plain children.
+        for i = 1, select("#", bar:GetChildren()) do
+            paintPoint((select(i, bar:GetChildren())))
+        end
+    end
+    if bar.Background then
+        paintOnce(bar.Background, true)
+    end
+    if bar.ActiveTexture then
+        bar.ActiveTexture:SetAlpha(SUI.Theme.enabled and 0 or 1)
+    end
+end
+
+local function paintClassBar(bar)
+    paintBarFrame(bar)
+    for i = 1, #NAMEPLATE_BARS do
+        local other = _G[NAMEPLATE_BARS[i]]
+        if other and other ~= bar and not other:IsForbidden() then
+            paintBarFrame(other)
+        end
+    end
 end
 
 local function paintTotems(totemFrame)
@@ -201,17 +280,21 @@ local function paintTotems(totemFrame)
 end
 
 local function paintPlayer()
-    for i = 1, 4 do
-        paint(UF.Resolve(ART[i]))
+    for i = 1, #PLAYER_ART do
+        local path = PLAYER_ART[i]
+        paint(UF.Resolve(path), ART[path])
     end
-    paint(_G.PlayerFrameTexture)
 end
 
 function Tint:OnLoad()
     local targets = UF.TargetFrames()
     for i = 1, #targets do
-        if targets[i].CheckClassification then
-            self:Hook(targets[i], "CheckClassification", paintTarget)
+        local frame = targets[i]
+        if frame.CheckClassification then
+            self:Hook(frame, "CheckClassification", paintTarget)
+        end
+        if frame.CheckFaction then
+            self:Hook(frame, "CheckFaction", paintReputation)
         end
     end
     if PlayerFrame_ToPlayerArt then
@@ -236,8 +319,8 @@ function Tint:OnLoad()
 end
 
 function Tint:Apply()
-    for i = 1, #ART do
-        paint(UF.Resolve(ART[i]))
+    for path, desaturate in next, ART do
+        paint(UF.Resolve(path), desaturate)
     end
     for i = 1, #ART_FRAMES do
         local frame = _G[ART_FRAMES[i]]
@@ -245,7 +328,7 @@ function Tint:Apply()
             for j = 1, select("#", frame:GetRegions()) do
                 local region = select(j, frame:GetRegions())
                 if region:GetObjectType() == "Texture" then
-                    paint(region)
+                    paint(region, true)
                 end
             end
         end
@@ -253,6 +336,14 @@ function Tint:Apply()
     local targets = UF.TargetFrames()
     for i = 1, #targets do
         paintTarget(targets[i])
+    end
+    -- 1.x hid the target and focus reputation bars once at login.
+    for _, name in next, { "TargetFrame", "FocusFrame" } do
+        local frame = _G[name]
+        local bar = frame and frame.TargetFrameContent and UF.Reputation(frame)
+        if bar then
+            bar:Hide()
+        end
     end
     local bars = UF.ClassBars()
     for i = 1, #bars do
@@ -268,8 +359,18 @@ function Tint:OnEnable()
 end
 
 function Tint:OnThemeChanged()
-    for texture in next, painted do
-        UF.Paint(texture)
+    for texture, desaturate in next, painted do
+        UF.Paint(texture, desaturate)
+    end
+    local targets = UF.TargetFrames()
+    for i = 1, #targets do
+        paintReputation(targets[i])
+    end
+    local bars = UF.ClassBars()
+    for i = 1, #bars do
+        if bars[i].ActiveTexture then
+            bars[i].ActiveTexture:SetAlpha(SUI.Theme.enabled and 0 or 1)
+        end
     end
 end
 

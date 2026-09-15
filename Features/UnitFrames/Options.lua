@@ -8,6 +8,7 @@ local _, ns = ...
 local SUI = ns.SUI
 
 local RETAIL = { Mainline = true }
+local CLASSIC = { Classic = true }
 
 local function checkbox(key, label, tooltip, order, clients)
     return { key = "unitframes." .. key, type = "checkbox", label = label, tooltip = tooltip, column = 4, order = order, clients = clients }
@@ -80,7 +81,7 @@ SUI.Config:RegisterLayout("Unitframes", {
             {
                 class = checkbox("classcolor", "Class Colored Health", "Color health bars of players by class.", 1),
                 faction = checkbox("factioncolor", "Reputation Color", "Show the reputation colored name background on target frames.", 2),
-                elite = checkbox("elitecolor", "Keep Elite Color", "Keep the golden elite and rare dragon untinted by the theme.", 3),
+                elite = checkbox("elitecolor", "Keep Elite Color", "Keep the golden elite and rare dragon untinted by the theme.", 3, CLASSIC),
             },
             { header = { type = "header", label = "Elements" } },
             {

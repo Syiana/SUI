@@ -36,7 +36,7 @@ local function section(kind, title)
                 tooltip = "Show the remaining time below your " .. noun .. ".",
             },
             collapse = kind == "buff" and {
-                key = "buff.collapse", type = "checkbox", label = "Collapse Button", column = 4, order = 2, hidden = styleOff,
+                key = "buff.collapse", type = "checkbox", label = "Collapse Button", column = 4, order = 2,
                 tooltip = "Show Blizzard's collapse button next to your buffs.",
             } or nil,
             textsize = slider(kind .. ".textsize", "Text Size", 8, 16, 3, "Font size of the duration and stack count texts.", styleOff),

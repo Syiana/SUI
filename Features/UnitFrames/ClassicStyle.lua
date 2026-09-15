@@ -9,7 +9,8 @@
 local _, ns = ...
 local SUI = ns.SUI
 
-local _G = _G
+local _G, next, InCombatLockdown = _G, next, InCombatLockdown
+local UF = ns.UnitFrames
 
 local F = SUI:NewFeature("UnitFrames.ClassicStyle", {
     category = "unitframes",
@@ -31,7 +32,7 @@ local function tint(texture)
     if SUI.Theme.enabled then
         texture:SetVertexColor(SUI.Theme:Color(0.1))
     else
-        texture:SetVertexColor(1, 1, 1)
+        texture:SetVertexColor(0.2, 0.2, 0.2) -- 1.x fallback without a theme colour
     end
 end
 
@@ -66,7 +67,7 @@ local function overlay(frame)
     if not art then
         art = CreateFrame("Frame", nil, frame)
         art:SetAllPoints(frame)
-        art:SetFrameLevel(frame:GetFrameLevel() + 5)
+        art:SetFrameStrata("HIGH")
         art.texture = art:CreateTexture(nil, "BORDER")
         art.backdrop = frame:CreateTexture(nil, "BACKGROUND")
         art.backdrop:SetColorTexture(0, 0, 0, 0.45)
@@ -191,7 +192,7 @@ local function styleTarget(frame)
         tot.FrameTexture:SetTexCoord(0.015625, 0.7265625, 0, 0.703125)
         tot.FrameTexture:SetSize(93, 45)
         move(tot.FrameTexture, "TOPLEFT", tot, "TOPLEFT", 0, 0)
-        tint(tot.FrameTexture)
+        -- The colour stays with UnitFrames.Tint (theme -0.15), as in 1.x.
         tot.Portrait:SetSize(37, 37)
         move(tot.Portrait, "TOPLEFT", tot, "TOPLEFT", 4, -5)
         tot.HealthBar:SetSize(47, 7)
@@ -284,6 +285,9 @@ local function stylePlayer()
     if context.GroupIndicator then
         reparent(context.GroupIndicator, art)
         move(context.GroupIndicator, "BOTTOMRIGHT", frame, "TOPRIGHT", -21, -33.5)
+        if _G.PlayerFrameGroupIndicatorText and context.GroupIndicator.GroupIndicatorLeft then
+            move(_G.PlayerFrameGroupIndicatorText, "LEFT", context.GroupIndicator.GroupIndicatorLeft, "LEFT", 20, 2.5)
+        end
     end
     if main.StatusTexture then
         main.StatusTexture:SetSize(191, 77)
@@ -294,39 +298,82 @@ local function stylePlayer()
     end
 
     local pet = _G.PetFrame
-    if pet then
+    if pet and not InCombatLockdown() then
         pet:SetSize(128, 53)
         move(_G.PetPortrait, "TOPLEFT", pet, "TOPLEFT", 7, -6)
         local petArt = _G.PetFrameTexture
         if petArt then
             petArt:SetSize(128, 64)
-            petArt:SetTexture(SMALL_ART)
-            tint(petArt)
+            petArt:SetTexture(SMALL_ART) -- colour stays with UnitFrames.Tint
+        end
+    end
+end
+
+local function styleAll()
+    stylePlayer()
+    for _, name in next, { "TargetFrame", "FocusFrame" } do
+        local frame = _G[name]
+        if frame then
+            styleTarget(frame)
+            if UF.RaiseAuras then
+                UF.RaiseAuras(frame)
+            end
+        end
+    end
+end
+
+-- Blizzard finishes its layout after these calls, so restyling waits one
+-- frame (1.x); repeated calls within that frame collapse into one.
+local queued = {}
+local function runQueued()
+    if queued.player then
+        queued.player = nil
+        stylePlayer()
+    end
+    for _, name in next, { "TargetFrame", "FocusFrame" } do
+        if queued[name] then
+            queued[name] = nil
+            styleTarget(_G[name])
+        end
+    end
+end
+
+local function queue(key)
+    if not next(queued) then
+        F:After(0, runQueued)
+    end
+    queued[key] = true
+end
+
+local function placeTargetOfTargetStrata()
+    for _, name in next, { "TargetFrameToT", "FocusFrameToT" } do
+        local tot = _G[name]
+        if tot and not tot:IsForbidden() then
+            tot:SetFrameStrata("DIALOG")
         end
     end
 end
 
 function F:OnLoad()
     if PlayerFrame_ToPlayerArt then
-        self:Hook("PlayerFrame_ToPlayerArt", stylePlayer)
+        self:Hook("PlayerFrame_ToPlayerArt", function()
+            queue("player")
+        end)
     end
     for _, name in next, { "TargetFrame", "FocusFrame" } do
         local frame = _G[name]
         if frame and frame.CheckClassification then
-            self:Hook(frame, "CheckClassification", styleTarget)
+            self:Hook(frame, "CheckClassification", function()
+                queue(name)
+            end)
         end
     end
 end
 
 function F:OnEnable()
-    SUI:RunAfterCombat(function()
-        stylePlayer()
-        for _, name in next, { "TargetFrame", "FocusFrame" } do
-            if _G[name] then
-                styleTarget(_G[name])
-            end
-        end
-    end)
+    SUI:RunAfterCombat(styleAll)
+    SUI:RunAfterCombat(placeTargetOfTargetStrata)
+    self:After(0, styleAll)
 end
 
 function F:OnThemeChanged()

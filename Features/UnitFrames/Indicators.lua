@@ -88,7 +88,8 @@ function CombatIcon:OnLoad()
     for unit, name in next, { target = "TargetFrame", focus = "FocusFrame" } do
         local frame = _G[name]
         if frame then
-            local holder = CreateFrame("Frame", nil, frame)
+            -- 1.x: not a child of the target frame, so it keeps its own scale and level.
+            local holder = CreateFrame("Frame", nil, UIParent)
             holder:SetSize(25, 25)
             holder:SetPoint("CENTER", frame, "RIGHT", 10, 0)
             local icon = holder:CreateTexture(nil, "BORDER")
@@ -175,7 +176,10 @@ local function restingFeature(id, clients, paths)
     local F = SUI:NewFeature(id, {
         category = "unitframes",
         clients = clients,
-        toggle = "hideresting",
+        -- The Classic style brings back the old resting glow (1.x).
+        toggle = function(db)
+            return db.hideresting and db.style ~= "Classic"
+        end,
     })
 
     local function update()

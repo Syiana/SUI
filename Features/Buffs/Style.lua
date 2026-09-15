@@ -86,7 +86,7 @@ local function paint(button)
 end
 
 local function formatDuration(button, timeLeft)
-    if not timeLeft or not CanAccess(timeLeft) or not button.Duration:IsShown() then
+    if not SUI.Theme.enabled or not timeLeft or not CanAccess(timeLeft) or not button.Duration:IsShown() then
         return
     end
     local duration = button.Duration
@@ -100,6 +100,8 @@ local function formatDuration(button, timeLeft)
         duration:SetFormattedText("%ds", timeLeft)
     end
 end
+
+local textsApplied -- SUI fonts are on the buttons; Blizzard's come back only with a reload
 
 local function setDurationFont(button)
     local db = settings(button)
@@ -170,12 +172,12 @@ function F:InitButton(button, kind)
     -- clients, from the button's OnUpdate.
     local duration = button.Duration
     self:Hook(duration, "SetFontObject", function()
-        if not button.suiBusy then
+        if not button.suiBusy and SUI.Theme.enabled then
             setDurationFont(button)
         end
     end)
     self:Hook(duration, "SetPoint", function()
-        if not button.suiBusy then
+        if not button.suiBusy and SUI.Theme.enabled then
             setDurationPoint(button)
         end
     end)
@@ -196,15 +198,14 @@ function F:OnLoad()
     end
 end
 
+-- 1.x styled nothing, texts included, under the Blizzard theme.
 function F:Apply()
+    if not SUI.Theme.enabled then
+        return
+    end
+    textsApplied = true
     for button in next, buttons do
         applyButton(button)
-    end
-    local collapse = _G.BuffFrame and _G.BuffFrame.CollapseAndExpandButton
-    if collapse then
-        local show = self.db.buff.collapse
-        collapse:SetAlpha(show and 1 or 0)
-        collapse:EnableMouse(show)
     end
 end
 
@@ -215,4 +216,39 @@ function F:OnThemeChanged()
     for button in next, buttons do
         paint(button)
     end
+    if SUI.Theme.enabled then
+        self:Apply()
+    elseif textsApplied then
+        for button in next, buttons do
+            button.Duration:SetAlpha(1)
+        end
+        SUI:RequestReload("Buffs.Style")
+    end
+end
+
+-- Collapse button ---------------------------------------------------------------------------
+-- Hidden unless buff.collapse is on, whatever the theme (1.x). Blizzard shows
+-- and hides the button itself, so only its alpha and mouse are taken.
+local Collapse = SUI:NewFeature("Buffs.Collapse", {
+    category = "buffs",
+    toggle = function(db)
+        return not db.buff.collapse
+    end,
+    conflicts = { "BlizzBuffsFacade" },
+})
+
+local function setCollapseShown(shown)
+    local button = _G.BuffFrame and _G.BuffFrame.CollapseAndExpandButton
+    if button then
+        button:SetAlpha(shown and 1 or 0)
+        button:EnableMouse(shown)
+    end
+end
+
+function Collapse:OnEnable()
+    setCollapseShown(false)
+end
+
+function Collapse:OnDisable()
+    setCollapseShown(true)
 end
