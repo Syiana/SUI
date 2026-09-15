@@ -1,28 +1,59 @@
 --[[
     SUI 2.0 - Features/RaidFrames/AurasClassic.lua
 
-    Classic clients: buffs and debuffs on raid frames reuse Blizzard's aura
-    buttons (frame.buffFrames / frame.debuffFrames). Layout (size, anchor,
-    growth, rows, spacing) is applied when Blizzard's frame setup runs or an
-    option changes; after each Blizzard aura update the buttons are refilled
-    with SUI's filter and count. No tables or closures on the update path.
+    Classic clients: the SUI aura rows reuse Blizzard's aura buttons
+    (frame.buffFrames / frame.debuffFrames), restyled with the SUI look.
+    Same settings as retail where the client can answer them: buff mode and
+    raid filter, debuff mode, boss debuffs leading the row x1.3, sizes as a
+    share of the frame height, countdown only on icons of 18px and more.
+    Layout runs on Blizzard's frame setup, a size change or an option change;
+    after each Blizzard aura update the buttons are refilled (no tables or
+    closures on that path).
 ]]
 
 local _, ns = ...
 local SUI = ns.SUI
 local RF = ns.RaidFrames
 
-local _G, floor, strfind, CreateFrame = _G, math.floor, string.find, CreateFrame
+local _G, pairs, max, min, floor = _G, pairs, math.max, math.min, math.floor
+local CreateFrame = CreateFrame
 
-local CLASSIC = { Classic = true }
+local LEAD_SCALE = 1.3
+local MAX_BUFFS, MAX_DEBUFFS, MAX_LEAD = 6, 6, 2
+local COUNTDOWN_MIN_SIZE = 18
+local FALLBACK_HEIGHT = 36
+local ANY, BOSS, NOT_BOSS = 0, 1, 2
+local CORNERS = {
+    [1] = { [1] = "BOTTOMLEFT", [-1] = "BOTTOMRIGHT" },
+    [-1] = { [1] = "TOPLEFT", [-1] = "TOPRIGHT" },
+}
+local R, G, B = RF.DEBUFF_R, RF.DEBUFF_G, RF.DEBUFF_B
+
+local F = SUI:NewFeature("RaidFrames.AurasClassic", {
+    category = "raidframes",
+    toggle = "auras.enabled",
+    clients = { Classic = true },
+    reload = true, -- Blizzard's anchors and look come back with its next frame setup
+})
 
 -- Resolved in OnLoad (client APIs are not touched at file load).
-local UnitAura, setCooldown, clearCooldown, debuffColors
+local UnitAura, setCooldown, clearCooldown
+local canCreateBuffs, canCreateDebuffs = false, false
 
-local function resolveApi()
-    if UnitAura then
-        return
-    end
+-- Settings resolved on enable/refresh; read on the update path.
+local buffFilter, debuffFilter = "HELPFUL", "HARMFUL"
+local buffMax, debuffMax, leadMax, tooltips = 0, 0, 0, true
+local revision = 1
+
+local state = setmetatable({}, { __mode = "k" })      -- frame -> layout state (one table per frame)
+local typeBorders = setmetatable({}, { __mode = "k" }) -- button -> SUI type border | false
+local original = setmetatable({}, { __mode = "k" })    -- button array -> Blizzard's button count
+
+local function templateExists(name)
+    return not C_XMLUtil or not C_XMLUtil.GetTemplateInfo or C_XMLUtil.GetTemplateInfo(name) ~= nil
+end
+
+function F:OnLoad()
     UnitAura = _G.UnitAura
     if not UnitAura then
         local getAura = C_UnitAuras.GetAuraDataByIndex
@@ -38,89 +69,161 @@ local function resolveApi()
     clearCooldown = CooldownFrame_Clear or function(cooldown)
         cooldown:Hide()
     end
-    debuffColors = DebuffTypeColor
+    canCreateBuffs = templateExists("CompactBuffTemplate")
+    canCreateDebuffs = templateExists("CompactDebuffTemplate")
 end
 
--- Layout ---------------------------------------------------------------------------------
--- Buttons are anchored straight to the unit frame: the corner opposite the
--- growth sits on the chosen anchor, shifted by column/row.
-local original = setmetatable({}, { __mode = "k" }) -- button array -> Blizzard's button count
-
-local function layout(frame, buttons, db, template)
-    local count = #buttons
-    if original[buttons] == nil then
-        original[buttons] = count
+local function resolve(db)
+    local a = db.auras
+    local b, d = a.buffs, a.debuffs
+    -- "HELPFUL|RAID" is the classic raid pick; "important" has no classic flag.
+    local raid = b.filter ~= "all"
+    if b.mode == "mine" then
+        buffFilter = raid and "HELPFUL|PLAYER|RAID" or "HELPFUL|PLAYER"
+    else
+        buffFilter = raid and "HELPFUL|RAID" or "HELPFUL"
     end
-    if template and count > 0 then
-        for i = count + 1, db.max do
+    debuffFilter = d.mode == "dispellable" and "HARMFUL|RAID" or "HARMFUL"
+    buffMax = b.mode == "hide" and 0 or min(max(b.max, 1), MAX_BUFFS)
+    debuffMax = d.mode == "hide" and 0 or min(max(d.max, 1), MAX_DEBUFFS)
+    leadMax = (d.mode == "hide" or not d.lead) and 0 or MAX_LEAD
+    tooltips = a.tooltips
+end
+
+-- Buttons ---------------------------------------------------------------------------------
+local function style(button, isDebuff)
+    if typeBorders[button] ~= nil or not button.icon then
+        return
+    end
+    local overlay = CreateFrame("Frame", nil, button)
+    overlay:SetAllPoints(button)
+    overlay:SetFrameLevel((button.cooldown and button.cooldown:GetFrameLevel() or button:GetFrameLevel()) + 1)
+    if button.count then
+        button.count:SetParent(overlay)
+    end
+    local typeBorder = RF.StyleAura(button, button.icon, overlay, isDebuff)
+    if isDebuff and button.border then
+        button.border:SetAlpha(0) -- SUI's type border replaces Blizzard's
+    end
+    typeBorders[button] = typeBorder or false
+end
+
+local function ensure(frame, buttons, count, template)
+    if original[buttons] == nil then
+        original[buttons] = #buttons
+    end
+    if template and #buttons > 0 then
+        for i = #buttons + 1, count do
             local button = CreateFrame("Button", nil, frame, template)
             button:Hide()
             buttons[i] = button
         end
     end
+end
 
-    local grow, anchor = db.grow, db.anchor
-    local horizontal = grow == "LEFT" or grow == "RIGHT"
-    local hs, vs
-    if horizontal then
-        hs = grow == "RIGHT" and 1 or -1
-        vs = strfind(anchor, "BOTTOM") and 1 or -1
-    else
-        vs = grow == "UP" and 1 or -1
-        hs = strfind(anchor, "RIGHT") and -1 or 1
-    end
-    local corner = (vs > 0 and "BOTTOM" or "TOP") .. (hs > 0 and "LEFT" or "RIGHT")
-    local size, step, perRow = db.size, db.size + db.spacing, db.perRow
+-- Anchors every button straight to the frame: slots grow away from the
+-- anchor, the first `lead` slots use the larger size.
+local function place(frame, buttons, settings, px, leadPx, lead, isDebuff)
+    local point = settings.point
+    local reference, relative, bx, by = RF.AuraAnchor(frame, point)
+    local horizontal, hs, vs = RF.AuraGrowth(point, settings.grow)
+    local corner = CORNERS[vs][hs]
+    local perRow, spacing = max(settings.perrow, 1), settings.spacing
+    local x, y = bx + settings.x, by + settings.y
+    local rowStep = (lead > 0 and leadPx or px) + spacing
+    local along, row = 0, 0
+    local duration, count = settings.duration and 1 or 0, settings.count and 1 or 0
 
     for i = 1, #buttons do
         local button = buttons[i]
-        local col, row = (i - 1) % perRow, floor((i - 1) / perRow)
-        local dx, dy
-        if horizontal then
-            dx, dy = col * step * hs, row * step * vs
-        else
-            dx, dy = row * step * hs, col * step * vs
+        style(button, isDebuff)
+        local size = i <= lead and leadPx or px
+        if i > 1 and (i - 1) % perRow == 0 then
+            row, along = row + 1, 0
         end
         button:ClearAllPoints()
-        button:SetPoint(corner, frame, anchor, db.x + dx, db.y + dy)
+        if horizontal then
+            button:SetPoint(corner, reference, relative, x + along * hs, y + row * rowStep * vs)
+        else
+            button:SetPoint(corner, reference, relative, x + row * rowStep * hs, y + along * vs)
+        end
         button:SetSize(size, size)
+        along = along + size + spacing
         if button.cooldown then
-            button.cooldown:SetAlpha(db.duration and 1 or 0)
+            button.cooldown:SetHideCountdownNumbers(size < COUNTDOWN_MIN_SIZE)
+            button.cooldown:SetAlpha(duration)
         end
         if button.count then
-            button.count:SetAlpha(db.count and 1 or 0)
+            button.count:SetAlpha(count)
         end
-        if i > db.max then
-            button:Hide()
-        end
+        button:EnableMouse(tooltips)
     end
 end
 
--- Hands extra buttons back (Blizzard does not know them) on disable.
-local function hideExtra(buttons)
-    local keep = original[buttons]
-    if keep then
-        for i = keep + 1, #buttons do
-            buttons[i]:Hide()
-        end
-    end
+local function percent(height, value)
+    return max(floor(height * value / 100 + 0.5), 6)
 end
 
--- Refill -------------------------------------------------------------------------------------
--- Runs after every Blizzard aura update of a raid frame (hot path).
-local function fill(buttons, unit, filter, max, bossOnly, size, isDebuff)
-    local shown, index = 0, 1
-    while shown < max do
+function F:Layout(frame)
+    local height = frame:GetHeight()
+    if not height or height < 1 then
+        height = FALLBACK_HEIGHT
+    end
+    local powerBar = frame.powerBar
+    local power = powerBar ~= nil and powerBar:IsShown()
+    local st = state[frame]
+    if not st then
+        st = {}
+        state[frame] = st
+    elseif st.height == height and st.power == power and st.revision == revision then
+        return
+    end
+    st.height, st.power, st.revision = height, power, revision
+
+    local db = self.db.auras
+    local buttons = frame.buffFrames
+    if buttons then
+        st.bpx = percent(height, db.buffs.size)
+        ensure(frame, buttons, buffMax, canCreateBuffs and "CompactBuffTemplate")
+        place(frame, buttons, db.buffs, st.bpx, st.bpx, 0, false)
+    end
+    buttons = frame.debuffFrames
+    if buttons then
+        st.dpx = percent(height, db.debuffs.size)
+        st.lpx = floor(st.dpx * LEAD_SCALE + 0.5)
+        st.lead = 0
+        ensure(frame, buttons, debuffMax + leadMax, canCreateDebuffs and "CompactDebuffTemplate")
+        place(frame, buttons, db.debuffs, st.dpx, st.lpx, 0, true)
+    end
+    -- Blizzard's aura update ran before this layout on a first setup.
+    self:Update(frame)
+end
+
+-- Setup resets size and anchors: always lay out again.
+function F:Setup(frame)
+    local st = state[frame]
+    if st then
+        st.revision = nil
+    end
+    self:Layout(frame)
+end
+
+-- Refill ---------------------------------------------------------------------------------------
+-- Fills slots first..last with auras of `filter` (bossMode ANY/BOSS/NOT_BOSS);
+-- returns the last slot used. Hot path.
+local function fillRange(buttons, first, last, unit, filter, bossMode, size, isDebuff)
+    local slot, index = first - 1, 1
+    while slot < last do
         local name, icon, count, debuffType, duration, expiration, _, _, _, _, _, isBoss = UnitAura(unit, index, filter)
         if not name then
             break
         end
-        if not bossOnly or isBoss then
-            shown = shown + 1
-            local button = buttons[shown]
+        if bossMode == ANY or (bossMode == BOSS) == (isBoss and true or false) then
+            local button = buttons[slot + 1]
             if not button then
                 break
             end
+            slot = slot + 1
             button:SetID(index)
             button.filter = filter
             button.icon:SetTexture(icon)
@@ -135,95 +238,80 @@ local function fill(buttons, unit, filter, max, bossOnly, size, isDebuff)
             else
                 clearCooldown(button.cooldown)
             end
+            -- Blizzard enlarges boss debuffs on its own update.
+            if button:GetWidth() ~= size then
+                button:SetSize(size, size)
+            end
             if isDebuff then
-                -- Blizzard enlarges boss debuffs on its own update.
-                if button:GetWidth() ~= size then
-                    button:SetSize(size, size)
-                end
-                if button.border then
-                    local color = debuffColors[debuffType or "none"] or debuffColors.none
-                    button.border:SetVertexColor(color.r, color.g, color.b)
+                local typeBorder = typeBorders[button]
+                if typeBorder then
+                    if R[debuffType or "none"] == nil then
+                        debuffType = "none"
+                    end
+                    local t = debuffType or "none"
+                    typeBorder:SetVertexColor(R[t], G[t], B[t], 1)
                 end
             end
             button:Show()
         end
         index = index + 1
     end
-    for i = shown + 1, #buttons do
+    return slot
+end
+
+local function hideFrom(buttons, first)
+    for i = first, #buttons do
         buttons[i]:Hide()
     end
 end
 
--- Features ------------------------------------------------------------------------------------
-local BUFF_FILTERS = { All = "HELPFUL", Mine = "HELPFUL|PLAYER" }
-local DEBUFF_FILTERS = { All = "HARMFUL", Dispellable = "HARMFUL|RAID", Boss = "HARMFUL" }
-
-local function define(id, key, field, template, filters, isDebuff)
-    local F = SUI:NewFeature(id, {
-        category = "raidframes",
-        toggle = "auras." .. key .. ".enabled",
-        clients = CLASSIC,
-        reload = true, -- Blizzard's anchors come back with its next frame setup
-    })
-
-    -- Scalars read on the update path, refreshed with the settings.
-    local filter, max, bossOnly, size = "HELPFUL", 3, false, 16
-    local canCreate = false
-
-    function F:OnLoad()
-        resolveApi()
-        canCreate = not C_XMLUtil or not C_XMLUtil.GetTemplateInfo or C_XMLUtil.GetTemplateInfo(template) ~= nil
+function F:Update(frame)
+    local st = state[frame]
+    local unit = frame.displayedUnit or frame.unit
+    if not st or not unit then
+        return
     end
-
-    function F:Layout(frame)
-        local buttons = frame[field]
-        if buttons then
-            layout(frame, buttons, self.db.auras[key], canCreate and template)
+    local buttons = frame.buffFrames
+    if buttons and st.bpx then
+        hideFrom(buttons, fillRange(buttons, 1, buffMax, unit, buffFilter, ANY, st.bpx, false) + 1)
+    end
+    buttons = frame.debuffFrames
+    if buttons and st.dpx then
+        local lead = 0
+        if leadMax > 0 then
+            lead = fillRange(buttons, 1, leadMax, unit, debuffFilter, BOSS, st.lpx, true)
         end
-    end
-
-    function F:Update(frame)
-        local buttons = frame[field]
-        local unit = frame.displayedUnit or frame.unit
-        if buttons and unit then
-            fill(buttons, unit, filter, max, bossOnly, size, isDebuff)
+        if lead ~= st.lead then
+            st.lead = lead
+            place(frame, buttons, self.db.auras.debuffs, st.dpx, st.lpx, lead, true)
         end
+        local last = fillRange(buttons, lead + 1, lead + debuffMax, unit, debuffFilter,
+            leadMax > 0 and NOT_BOSS or ANY, st.dpx, true)
+        hideFrom(buttons, last + 1)
     end
-
-    RF.On("DefaultCompactUnitFrameSetup", F, F.Layout)
-    RF.On("CompactUnitFrame_UpdateAuras", F, F.Update)
-
-    local function layoutAndFill(self, frame)
-        self:Layout(frame)
-        self:Update(frame)
-    end
-
-    function F:OnEnable()
-        local db = self.db.auras[key]
-        filter = filters[db.filter] or filters.All
-        bossOnly = db.filter == "Boss"
-        max, size = db.max, db.size
-        RF.ForEachFrame(layoutAndFill, self)
-    end
-
-    function F:OnRefresh(changed)
-        if not changed or strfind(changed, "^auras%." .. key) then
-            self:OnEnable()
-        end
-    end
-
-    local function restore(_, frame)
-        if frame[field] then
-            hideExtra(frame[field])
-        end
-    end
-
-    function F:OnDisable()
-        RF.ForEachFrame(restore)
-    end
-
-    return F
 end
 
-define("RaidFrames.BuffsClassic", "buffs", "buffFrames", "CompactBuffTemplate", BUFF_FILTERS, false)
-define("RaidFrames.DebuffsClassic", "debuffs", "debuffFrames", "CompactDebuffTemplate", DEBUFF_FILTERS, true)
+RF.On("DefaultCompactUnitFrameSetup", F, F.Setup)
+RF.On("CompactUnitFrame_UpdateAll", F, F.Layout) -- catches size changes (party size option)
+RF.On("CompactUnitFrame_UpdateAuras", F, F.Update)
+
+function F:OnEnable()
+    resolve(self.db)
+    revision = revision + 1
+    RF.ForEachFrame(self.Layout, self)
+end
+
+function F:OnRefresh(key)
+    if not key or key:find("^auras%.") then
+        self:OnEnable()
+    end
+end
+
+-- Extra buttons are SUI's; Blizzard never shows or hides them.
+function F:OnDisable()
+    for buttons, keep in pairs(original) do
+        for i = keep + 1, #buttons do
+            buttons[i]:Hide()
+        end
+    end
+end

@@ -24,51 +24,113 @@ local GROW = {
     { value = "LEFT", text = "Left" }, { value = "RIGHT", text = "Right" },
     { value = "UP", text = "Up" }, { value = "DOWN", text = "Down" },
 }
+local RETAIL, CLASSIC = { Mainline = true }, { Classic = true }
 
 local function get(key)
     return SUI:Get("raidframes." .. key)
 end
 
--- Appends the option rows of one aura group ("buffs" or "debuffs").
-local function auraRows(rows, key, title, filters)
-    local p = "auras." .. key .. "."
-    local noun = title:lower()
-    local function off()
-        return not get(p .. "enabled")
-    end
+-- Rows shared by buffs and debuffs: layout, placement and display switches.
+local function rowOptions(rows, side, noun, hidden, sizeMin, sizeMax, perRowMax)
+    local p = "auras." .. side .. "."
     local function id(name)
-        return key .. name
+        return side .. name
     end
     local function slider(name, label, min, max, order, tooltip, clients)
         return { key = p .. name, type = "slider", label = label, min = min, max = max, step = 1, column = 4, order = order,
-                 tooltip = tooltip, clients = clients, hidden = off }
+                 tooltip = tooltip, clients = clients, hidden = hidden }
     end
-    rows[#rows + 1] = { [id("Header")] = { type = "header", label = title } }
+    local title = noun:sub(1, 1):upper() .. noun:sub(2)
     rows[#rows + 1] = {
-        [id("Enabled")] = { key = p .. "enabled", type = "checkbox", label = "Show " .. title, column = 4, order = 1, rebuild = true,
-                            tooltip = "Show " .. noun .. " on raid frames with SUI's layout." },
-        [id("Filter")] = { key = p .. "filter", type = "dropdown", label = "Filter", column = 4, order = 2, options = filters, hidden = off,
-                           tooltip = "Which " .. noun .. " are shown." },
-        [id("Size")] = slider("size", "Size", 8, 40, 3, "Size of the " .. noun .. " icons."),
+        [id("Size")] = slider("size", title .. " Size", sizeMin, sizeMax, 1, "Icon size as a share of the frame height."),
+        [id("Max")] = slider("max", "Max " .. title, 1, 6, 2, "Most " .. noun .. " shown per frame."),
+        [id("PerRow")] = slider("perrow", title .. " Per Row", 1, perRowMax, 3, "Icons per row before a new row starts."),
     }
     rows[#rows + 1] = {
-        [id("Max")] = slider("max", "Max Count", 1, 10, 1, "Most " .. noun .. " shown per frame."),
-        [id("PerRow")] = slider("perRow", "Per Row", 1, 10, 2, "Number of " .. noun .. " per row."),
-        [id("Grow")] = { key = p .. "grow", type = "dropdown", label = "Grow Direction", options = GROW, column = 4, order = 3, hidden = off,
-                         tooltip = "Direction in which further " .. noun .. " are added." },
+        [id("Point")] = { key = p .. "point", type = "dropdown", label = title .. " Anchor", options = POINTS, column = 4, order = 1,
+                          hidden = hidden, tooltip = "Point of the frame the " .. noun .. " start from; bottom rows sit above a shown power bar." },
+        [id("X")] = slider("x", "X Offset", -50, 50, 2, "Horizontal offset from the anchor."),
+        [id("Y")] = slider("y", "Y Offset", -50, 50, 3, "Vertical offset from the anchor."),
     }
     rows[#rows + 1] = {
-        [id("Anchor")] = { key = p .. "anchor", type = "dropdown", label = "Anchor Point", options = POINTS, column = 4, order = 1, hidden = off,
-                           tooltip = "Corner of the raid frame the " .. noun .. " start from." },
-        [id("X")] = slider("x", "X Offset", -50, 50, 2, "Horizontal offset from the anchor point."),
-        [id("Y")] = slider("y", "Y Offset", -50, 50, 3, "Vertical offset from the anchor point."),
-    }
-    rows[#rows + 1] = {
-        [id("Duration")] = { key = p .. "duration", type = "checkbox", label = "Cooldown Swipe", column = 4, order = 1, hidden = off,
+        [id("Grow")] = { key = p .. "grow", type = "dropdown", label = "Grow Direction", options = GROW, column = 4, order = 1,
+                         hidden = hidden, tooltip = "Direction further " .. noun .. " are added in." },
+        [id("Duration")] = { key = p .. "duration", type = "checkbox", label = "Cooldown Swipe", column = 4, order = 2, hidden = hidden,
                              tooltip = "Show the remaining duration as a cooldown swipe." },
-        [id("Count")] = { key = p .. "count", type = "checkbox", label = "Stack Count", column = 4, order = 2, hidden = off,
+        [id("Count")] = { key = p .. "count", type = "checkbox", label = "Stack Count", column = 4, order = 3, hidden = hidden,
                           tooltip = "Show the stack count on the icons." },
-        [id("Spacing")] = slider("spacing", "Spacing", 0, 10, 3, "Space between the icons.", { Classic = true }),
+    }
+    rows[#rows + 1] = {
+        [id("Spacing")] = slider("spacing", "Spacing", 0, 10, 1, "Space between the icons.", CLASSIC),
+    }
+end
+
+local function auraRows(rows)
+    local function aurasOff()
+        return not get("auras.enabled")
+    end
+    local function buffsOff()
+        return aurasOff() or get("auras.buffs.mode") == "hide"
+    end
+    local function debuffsOff()
+        return aurasOff() or get("auras.debuffs.mode") == "hide"
+    end
+    local function defensivesOff()
+        return aurasOff() or get("auras.defensives.mode") == "hide"
+    end
+
+    rows[#rows + 1] = { aurasHeader = { type = "header", label = "Auras" } }
+    rows[#rows + 1] = {
+        aurasEnabled = { key = "auras.enabled", type = "checkbox", label = "SUI Auras", column = 4, order = 1, rebuild = true,
+                         tooltip = "Draw buffs, debuffs and defensives on party and raid frames with SUI's look. Turning this off hands the rows back to Blizzard." },
+        auraTooltips = { key = "auras.tooltips", type = "checkbox", label = "Aura Tooltips", column = 4, order = 2, hidden = aurasOff,
+                         tooltip = "Show a tooltip when you hover one of the icons." },
+        dispel = { key = "auras.dispel", type = "checkbox", label = "Dispel Highlight", column = 4, order = 3, clients = RETAIL,
+                   tooltip = "Border the whole frame in the debuff color while it carries a dispellable debuff." },
+    }
+
+    local buffFilters = { { value = "raid", text = "Raid Buffs" } }
+    if SUI.IsRetail then
+        buffFilters[#buffFilters + 1] = { value = "important", text = "Important Only" }
+    end
+    buffFilters[#buffFilters + 1] = { value = "all", text = "Everything" }
+    rows[#rows + 1] = { buffsHeader = { type = "header", label = "Buffs", hidden = aurasOff } }
+    rows[#rows + 1] = {
+        buffMode = { key = "auras.buffs.mode", type = "dropdown", label = "Buffs", column = 4, order = 1, rebuild = true, hidden = aurasOff,
+                     tooltip = "Show only your own buffs, all buffs, or none.",
+                     options = { { value = "mine", text = "Show Own" }, { value = "all", text = "Show All" }, { value = "hide", text = "Hide" } } },
+        buffFilter = { key = "auras.buffs.filter", type = "dropdown", label = "Buff Filter", column = 4, order = 2, hidden = buffsOff,
+                       options = buffFilters,
+                       tooltip = "Which buffs are worth a slot. Raid Buffs is the selection Blizzard's raid frames draw." },
+    }
+    rowOptions(rows, "buffs", "buffs", buffsOff, 15, 60, 6)
+
+    rows[#rows + 1] = { debuffsHeader = { type = "header", label = "Debuffs", hidden = aurasOff } }
+    rows[#rows + 1] = {
+        debuffMode = { key = "auras.debuffs.mode", type = "dropdown", label = "Debuffs", column = 4, order = 1, rebuild = true, hidden = aurasOff,
+                       tooltip = "Show all debuffs, only dispellable ones, or none.",
+                       options = { { value = "all", text = "Show All" }, { value = "dispellable", text = "Show Dispellable" }, { value = "hide", text = "Hide" } } },
+        debuffLead = { key = "auras.debuffs.lead", type = "checkbox", label = "Enlarge Boss Debuffs", column = 4, order = 2, hidden = debuffsOff,
+                       tooltip = "Draw boss and role debuffs larger, at the front of the row." },
+    }
+    rowOptions(rows, "debuffs", "debuffs", debuffsOff, 20, 80, 8)
+
+    rows[#rows + 1] = { defensivesHeader = { type = "header", label = "Defensives", clients = RETAIL, hidden = aurasOff } }
+    rows[#rows + 1] = {
+        defensiveMode = { key = "auras.defensives.mode", type = "dropdown", label = "Defensives", column = 4, order = 1, rebuild = true,
+                          clients = RETAIL, hidden = aurasOff, tooltip = "Show major defensive cooldowns, also externals, or none.",
+                          options = { { value = "big", text = "Major Only" }, { value = "all", text = "Major and External" }, { value = "hide", text = "Hide" } } },
+        defensivePoint = { key = "auras.defensives.point", type = "dropdown", label = "Position", column = 4, order = 2, clients = RETAIL,
+                           hidden = defensivesOff, tooltip = "Where on the frame the defensive icons sit.",
+                           options = { { value = "CENTER", text = "Center" }, { value = "LEFT", text = "Left" }, { value = "RIGHT", text = "Right" } } },
+        defensiveSize = { key = "auras.defensives.size", type = "slider", label = "Defensive Size", min = 20, max = 100, step = 1, column = 4, order = 3,
+                          clients = RETAIL, hidden = defensivesOff, tooltip = "Icon size as a share of the frame height." },
+    }
+    rows[#rows + 1] = {
+        defensiveX = { key = "auras.defensives.x", type = "slider", label = "X Offset", min = -50, max = 50, step = 1, column = 4, order = 1,
+                       clients = RETAIL, hidden = defensivesOff, tooltip = "Horizontal offset from the position." },
+        defensiveY = { key = "auras.defensives.y", type = "slider", label = "Y Offset", min = -50, max = 50, step = 1, column = 4, order = 2,
+                       clients = RETAIL, hidden = defensivesOff, tooltip = "Vertical offset from the position." },
     }
 end
 
@@ -89,9 +151,6 @@ SUI.Config:RegisterLayout("Raidframes", {
         end
         local function healthHidden()
             return get("health.hide")
-        end
-        local function defensivesOff()
-            return not get("auras.defensives")
         end
         local rows = {
             { header = { type = "header", label = "General" } },
@@ -182,31 +241,8 @@ SUI.Config:RegisterLayout("Raidframes", {
                 healthSize = { key = "health.size", type = "slider", label = "Health Text Size", min = 6, max = 24, step = 1, column = 4, order = 1, hidden = healthHidden,
                                tooltip = "Font size of the health text." },
             },
-            { aurasHeader = { type = "header", label = "Aura Highlights", clients = { Mainline = true } } },
-            {
-                dispel = { key = "auras.dispel", type = "checkbox", label = "Dispel Highlight", clients = { Mainline = true }, column = 4, order = 1,
-                           tooltip = "Border a frame in the debuff color when you can dispel it." },
-                defensives = { key = "auras.defensives", type = "checkbox", label = "Defensive Cooldowns", clients = { Mainline = true }, column = 4, order = 2,
-                               rebuild = true,
-                               tooltip = "Show big defensive and external cooldowns in the center of the frame; turn off Blizzard's own center defensive to avoid duplicates." },
-                important = { key = "auras.important", type = "checkbox", label = "Important Buffs", clients = { Mainline = true }, column = 4, order = 3,
-                              hidden = defensivesOff, tooltip = "Also show important buffs next to the defensive cooldowns." },
-            },
-            {
-                auraSize = { key = "auras.size", type = "slider", label = "Defensive Icon Size", min = 10, max = 40, step = 1, clients = { Mainline = true },
-                             column = 4, order = 1, hidden = defensivesOff, tooltip = "Size of the defensive cooldown icons." },
-            },
         }
-        local buffFilters = { { value = "All", text = "All" }, { value = "Mine", text = "Mine" } }
-        if SUI.IsRetail then
-            buffFilters[3] = { value = "Defensives", text = "Defensives" }
-        end
-        auraRows(rows, "buffs", "Buffs", buffFilters)
-        auraRows(rows, "debuffs", "Debuffs", {
-            { value = "All", text = "All" },
-            { value = "Dispellable", text = "Dispellable by Me" },
-            { value = "Boss", text = "Boss and Important" },
-        })
+        auraRows(rows)
         return rows
     end,
 })

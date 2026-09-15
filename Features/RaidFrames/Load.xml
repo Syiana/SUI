@@ -3,6 +3,7 @@
   <Script file="Core.lua"/>
   <Script file="Container.lua"/>
   <Script file="Unit.lua"/>
+  <Script file="AuraStyle.lua"/>
   <Script file="Auras.lua"/>
   <Script file="AurasClassic.lua"/>
   <Script file="Options.lua"/>

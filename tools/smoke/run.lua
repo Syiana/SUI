@@ -12,6 +12,7 @@ if jit then jit.off() end
 local CLIENT = arg[1] or "Mainline"
 local BUILD_UI = arg[2] == "--ui"
 local DUMP = arg[2] == "--dump"
+local KEYS = arg[2] == "--keys"
 package.path = "tools/smoke/?.lua;" .. package.path
 local W = require("wow")
 local mock = W.mock
@@ -490,6 +491,25 @@ step("export/import", function()
     SUI:ImportProfile(data, v2)
 end)
 runTimers()
+
+if KEYS then
+    -- Prints every default profile key path (for 1.x parity checks).
+    local out = {}
+    local function walk(tbl, prefix)
+        if tbl[1] ~= nil then out[#out + 1] = prefix return end
+        for k, v in pairs(tbl) do
+            local p = prefix == "" and tostring(k) or (prefix .. "." .. tostring(k))
+            if type(v) == "table" and next(v) ~= nil then walk(v, p) else out[#out + 1] = p end
+        end
+    end
+    for category in pairs(SUI.db.profile) do
+        local d = SUI:GetDefaults(category)
+        if type(d) == "table" then walk(d, category) elseif d ~= nil then out[#out + 1] = category end
+    end
+    table.sort(out)
+    io.stdout:write(table.concat(out, "\n"), "\n")
+    os.exit(0)
+end
 
 if DUMP then
     -- Prints every tab with its sections and options (for menu reviews).
