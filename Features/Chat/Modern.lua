@@ -6,8 +6,9 @@
     configurable fonts and message fading. Tabs and buttons fade out after a
     delay when the mouse leaves; enter/leave hooks drive it and the update
     loop stops as soon as nothing animates. Blizzard's own tab and button
-    frame fades are released for styled frames (12.x secret alpha taint). Blizzard's chat art cannot be put
-    back live, so switching back to Default asks for a reload.
+    frame fades are released for styled frames (12.x secret alpha taint).
+    Blizzard's chat art cannot be put back live, so switching back to
+    Default asks for a reload.
 ]]
 
 local _, ns = ...
@@ -29,7 +30,7 @@ local F = SUI:NewFeature("Chat.Modern", {
 local TEX = SUI.mediaPath .. [[Textures\Chat\]]
 local FADE_IN, FADE_OUT, FADE_DELAY = 0.2, 1, 3.5
 local INACTIVE_TAB_ALPHA = 0.5
-local HOLD_DELAY, HOLD_REPEAT = 0.3, 0.05
+local HOLD_DELAY, HOLD_REPEAT = 0.3, 0.3
 
 local BACKDROP = {
     bgFile = [[Interface\ChatFrame\ChatFrameBackground]],
@@ -41,13 +42,10 @@ local BACKDROP = {
 local ICON_MINIMIZE = { 0.25, 0.5, 0, 0.5 }
 local ICON_MAXIMIZE = { 0.5, 0.75, 0, 0.5 }
 local ICON_OVERFLOW = { 0, 0.25, 0, 0.5 }
-local SIDE_BUTTONS = {
-    QuickJoinToastButton = { 0.5, 0.75, 0.5, 1 },
-    FriendsMicroButton = { 0.5, 0.75, 0.5, 1 },
-    ChatFrameChannelButton = { 0, 0.25, 0.5, 1 },
-    ChatFrameMenuButton = { 0.75, 1, 0, 0.5 },
-    TextToSpeechButton = { 0.25, 0.5, 0.5, 1 },
-}
+local ICON_FRIENDS = { 0.5, 0.75, 0.5, 1 }
+local ICON_CHANNEL = { 0, 0.25, 0.5, 1 }
+local ICON_MENU = { 0.75, 1, 0, 0.5 }
+local ICON_TTS = { 0.25, 0.5, 0.5, 1 }
 local SCROLL_BOTTOM = { 0, 52 / 128, 0, 52 / 128 }
 local SCROLL_DOWN = { 0, 52 / 128, 52 / 128, 104 / 128 }
 local SCROLL_UP = { 52 / 128, 104 / 128, 52 / 128, 104 / 128 }
@@ -55,7 +53,6 @@ local SCROLL_UP = { 52 / 128, 104 / 128, 52 / 128, 104 / 128 }
 local TAB_ART = { "Left", "Middle", "Right", "leftTexture", "middleTexture", "rightTexture" }
 local EDIT_ART = { "Left", "Mid", "Right", "FocusLeft", "FocusMid", "FocusRight" }
 local EDIT_TEXT = { "header", "headerSuffix", "prompt", "NewcomerHint" }
-local BUTTON_ART = { "Icon", "FriendsButton", "QueueButton", "FlashingLayer", "Background" }
 local SCROLL_ART = { "ButtonFrameUpButton", "ButtonFrameDownButton", "ButtonFrameBottomButton" }
 
 local hiddenParent, defaultFont
@@ -81,6 +78,9 @@ local function addBackdrop(parent, kind, x, y)
     backdrop:SetPoint("TOPLEFT", x, -y)
     backdrop:SetPoint("BOTTOMRIGHT", -x, y)
     backdrop:SetBackdrop(BACKDROP)
+    backdrop.Center:ClearAllPoints()
+    backdrop.Center:SetPoint("TOPLEFT", backdrop.TopLeftCorner, "BOTTOMRIGHT")
+    backdrop.Center:SetPoint("BOTTOMRIGHT", backdrop.BottomRightCorner, "TOPLEFT")
     SUI:ProtectBackdrop(backdrop)
     local alpha = settings()[kind].alpha
     backdrop:SetBackdropColor(0, 0, 0, alpha)
@@ -109,6 +109,14 @@ end
 local function clearTexture(texture)
     if texture then
         texture:SetTexture(nil)
+    end
+end
+
+local function hideTexture(texture)
+    if texture then
+        texture:SetTexture(nil)
+        texture:SetAlpha(0)
+        texture:Hide()
     end
 end
 
@@ -153,7 +161,8 @@ local function accent(left, middle, right, anchor)
     middle:SetVertexColor(r, g, b)
 end
 
-local function placeIcon(texture, coords, left, top, right, bottom)
+local function placeIcon(texture, coords, left, top, right, bottom, alpha)
+    texture:SetAlpha(alpha)
     texture:SetTexCoord(coords[1], coords[2], coords[3], coords[4])
     texture:ClearAllPoints()
     texture:SetPoint("TOPLEFT", left, -top)
@@ -161,14 +170,18 @@ local function placeIcon(texture, coords, left, top, right, bottom)
     texture:SetVertexColor(classR, classG, classB)
 end
 
-local function setIcon(button, file, coords, inset)
+local function setIcon(button, file, coords, inset, alpha)
+    alpha = alpha or 1
+    if button.SetFlattensRenderLayers then
+        button:SetFlattensRenderLayers(true)
+    end
     button:SetNormalTexture(file)
     button:SetPushedTexture(file)
     if button.ClearHighlightTexture then
         button:ClearHighlightTexture()
     end
-    placeIcon(button:GetNormalTexture(), coords, inset, inset, inset, inset)
-    placeIcon(button:GetPushedTexture(), coords, inset + 1, inset + 1, inset - 1, inset - 1)
+    placeIcon(button:GetNormalTexture(), coords, inset, inset, inset, inset, alpha)
+    placeIcon(button:GetPushedTexture(), coords, inset + 1, inset + 1, inset - 1, inset - 1, alpha)
     accent(button:CreateTexture(nil, "HIGHLIGHT"), button:CreateTexture(nil, "HIGHLIGHT"), button:CreateTexture(nil, "HIGHLIGHT"), button)
 end
 
@@ -194,12 +207,8 @@ local function setTabAlpha(frame, tab, alpha)
 end
 
 local function setDockAlpha(alpha)
-    -- Chat.QuickJoin owns that button's alpha while it is on.
-    local quickJoin = F.db.quickjoin and QuickJoinToastButton
     for frame in next, fadeFrames do
-        if frame ~= quickJoin then
-            frame:SetAlpha(alpha)
-        end
+        frame:SetAlpha(alpha)
     end
     for frame, tab in next, tabs do
         setTabAlpha(frame, tab, alpha)
@@ -212,10 +221,35 @@ local function refreshTabAlpha()
     end
 end
 
-local function updateBottomButton(frame)
+local function hideFaded(button)
+    button.fadingOut = nil
+    button:Hide()
+end
+
+-- Shows or hides the jump-to-bottom button, faded like 1.x unless instant.
+local function setBottomShown(button, show, instant, duration)
+    if instant then
+        SUI:StopFading(button)
+        button.fadingOut = nil
+        button:SetAlpha(1)
+        button:SetShown(show)
+    elseif show then
+        if button:IsShown() and not button.fadingOut then
+            return
+        end
+        button.fadingOut = nil
+        SUI:FadeFrame(button, { mode = "IN", timeToFade = 0.2, startAlpha = 0, endAlpha = 1 })
+    elseif button:IsShown() and not button.fadingOut then
+        button.fadingOut = true
+        SUI:FadeFrame(button, { mode = "OUT", timeToFade = duration or 0.2, startAlpha = 1, endAlpha = 0,
+                                finishedFunc = hideFaded, finishedArg1 = button })
+    end
+end
+
+local function updateBottomButton(frame, instant)
     local set = scrollButtons[frame]
     if set then
-        set.bottom:SetShown(not frame:AtBottom())
+        setBottomShown(set.bottom, not frame:AtBottom(), instant)
     end
 end
 
@@ -249,9 +283,8 @@ local function tick(elapsed)
     for frame in next, smoothJobs do
         local offset = frame:GetScrollOffset()
         if offset <= 1 then
-            frame:ScrollToBottom()
             smoothJobs[frame] = nil
-            updateBottomButton(frame)
+            frame:ScrollToBottom()
         else
             frame:SetScrollOffset(floor(offset * 0.6))
             busy = true
@@ -317,6 +350,26 @@ local function watchHover(frame)
     end
 end
 
+-- The dock strip and button frames take no mouse input, so hovering their
+-- empty space would not reveal the tabs (1.x polled IsMouseOver for that).
+-- A motion-only overlay reports enter/leave and lets clicks through.
+local function watchArea(frame)
+    if not frame or hoverHooked[frame] then
+        return
+    end
+    hoverHooked[frame] = true
+    local overlay = CreateFrame("Frame", nil, frame)
+    if not overlay.SetMouseMotionEnabled then
+        return
+    end
+    overlay:SetAllPoints(frame)
+    overlay:SetFrameLevel(frame:GetFrameLevel())
+    overlay:SetMouseMotionEnabled(true)
+    overlay:SetMouseClickEnabled(false)
+    overlay:SetScript("OnEnter", enterHook)
+    overlay:SetScript("OnLeave", leaveHook)
+end
+
 -- Blizzard's FCF_OnUpdate fades every chat tab and button frame through the
 -- shared FADEFRAMES list and does arithmetic on the alpha it reads back. On
 -- 12.x that alpha is secret for objects SUI styles, so Blizzard's fade errors
@@ -353,18 +406,17 @@ end
 
 local function scrollToBottom(button)
     local frame = button.chatFrame
+    setBottomShown(button, false, false, 0.1)
     if settings().smooth then
         smoothJobs[frame] = true
         wake()
     else
         frame:ScrollToBottom()
     end
-    button:Hide()
 end
 
 local function wheelHook(frame)
-    if F.enabled then
-        smoothJobs[frame] = nil
+    if F.enabled and not smoothJobs[frame] then
         updateBottomButton(frame)
     end
 end
@@ -376,7 +428,7 @@ local function scrollButton(frame, coords, direction)
     button:SetSize(24, 24)
     button:SetFrameLevel(frame:GetFrameLevel() + 10)
     addBackdrop(button, "dock")
-    setIcon(button, TEX .. "scroll-buttons", coords, 3)
+    setIcon(button, TEX .. "scroll-buttons", coords, 3, 0.8)
     if direction ~= 0 then
         button:SetScript("OnMouseDown", holdStart)
         button:SetScript("OnMouseUp", holdStop)
@@ -387,21 +439,140 @@ local function scrollButton(frame, coords, direction)
     return button
 end
 
+local function clampIcon(texture, owner)
+    if texture then
+        texture:ClearAllPoints()
+        texture:SetPoint("TOPLEFT", owner, "TOPLEFT", 3, -3)
+        texture:SetPoint("BOTTOMRIGHT", owner, "BOTTOMRIGHT", -3, 3)
+    end
+end
+
 local function skinButton(button, coords)
     if not button or skinned[button] then
-        return
+        return false
     end
     skinned[button] = true
     addBackdrop(button, "dock")
     button:SetSize(20, 20)
     setIcon(button, TEX .. "icons", coords, 1)
-    for i = 1, #BUTTON_ART do
-        local region = button[BUTTON_ART[i]]
-        if region then
-            region:SetAlpha(0)
+    button.highlightAtlas = nil
+    clampIcon(button.Icon, button)
+    clampIcon(button.IconTexture, button)
+    watchHover(button)
+    return true
+end
+
+-- Side buttons (1.x layout) ----------------------------------------------------------------
+local function removeAlertSubsystem(anchor)
+    local list = ChatAlertFrame and ChatAlertFrame.alertFrameSubSystems
+    for i = list and #list or 0, 1, -1 do
+        if list[i].anchorFrame == anchor then
+            tremove(list, i)
         end
     end
-    watchHover(button)
+end
+
+local function friendCountText(button)
+    local count = button.FriendCount
+    local value = count and tonumber(count:GetText())
+    if count and (not value or value > 99) then
+        count:SetText("++")
+    end
+end
+
+local function toastSetPoint(toast, _, relativeTo)
+    if guard or not F.enabled or relativeTo ~= QuickJoinToastButton then
+        return
+    end
+    guard = true
+    toast:ClearAllPoints()
+    toast:SetPoint("BOTTOMLEFT", ChatAlertFrame, "BOTTOMRIGHT", 2, 0)
+    guard = false
+end
+
+-- QuickJoin (or the classic friends button), channel, menu and text to speech
+-- buttons stacked in ChatFrame1's button frame, 1px apart.
+local function styleSideButtons()
+    local holder = ChatFrame1 and ChatFrame1.buttonFrame
+    if not holder then
+        return
+    end
+    local previous
+
+    local quickJoin = QuickJoinToastButton or FriendsMicroButton
+    if skinButton(quickJoin, ICON_FRIENDS) then
+        removeAlertSubsystem(quickJoin)
+        quickJoin:SetParent(holder)
+        quickJoin:ClearAllPoints()
+        quickJoin:SetPoint("TOPRIGHT", holder, "TOPRIGHT", 2, 0)
+        if quickJoin == QuickJoinToastButton then
+            quickJoin:SetSize(20, 30)
+            local normal, pushed = quickJoin:GetNormalTexture(), quickJoin:GetPushedTexture()
+            normal:ClearAllPoints()
+            normal:SetPoint("TOPLEFT", quickJoin, "TOPLEFT", 1, -1)
+            normal:SetPoint("BOTTOMRIGHT", quickJoin, "TOPLEFT", 19, -19)
+            pushed:ClearAllPoints()
+            pushed:SetPoint("TOPLEFT", quickJoin, "TOPLEFT", 2, -2)
+            pushed:SetPoint("BOTTOMRIGHT", quickJoin, "TOPLEFT", 20, -20)
+            hideTexture(quickJoin.FriendsButton)
+            hideTexture(quickJoin.QueueButton)
+            hideTexture(quickJoin.FlashingLayer)
+            for _, toast in next, { quickJoin.Toast, quickJoin.Toast2 } do
+                toast:ClearAllPoints()
+                toast:SetPoint("TOPLEFT", ChatAlertFrame, "BOTTOMLEFT", 0, -2)
+            end
+            ChatAlertFrame:ClearAllPoints()
+            ChatAlertFrame:SetPoint("BOTTOMLEFT", holder, "TOPRIGHT", -18, 56)
+        end
+        local count = quickJoin.FriendCount or FriendsMicroButtonCount
+        if count then
+            count:ClearAllPoints()
+            count:SetPoint("BOTTOMLEFT", quickJoin, "BOTTOMLEFT", -1.5, 4)
+            count:SetPoint("BOTTOMRIGHT", quickJoin, "BOTTOMRIGHT", 2.5, 4)
+            count:SetTextColor(classR, classG, classB)
+        end
+        if quickJoin.QueueCount then
+            quickJoin.QueueCount:SetTextColor(classR, classG, classB)
+        end
+    end
+    previous = quickJoin
+
+    local channel = ChatFrameChannelButton
+    if skinButton(channel, ICON_CHANNEL) then
+        hideTexture(channel.Icon)
+        if channel.Flash then
+            channel.Flash:ClearAllPoints()
+            channel.Flash:SetPoint("TOPLEFT", -3, 3)
+            channel.Flash:SetPoint("BOTTOMRIGHT", 3, -3)
+        end
+    end
+    local menu = ChatFrameMenuButton
+    skinButton(menu, ICON_MENU)
+    local tts = TextToSpeechButton
+    local ttsFrame = tts and tts:GetParent()
+    if skinButton(tts, ICON_TTS) then
+        removeAlertSubsystem(ttsFrame)
+        hideTexture(tts.Icon)
+        hideTexture(tts.Background)
+        tts:ClearAllPoints()
+        tts:SetPoint("TOPLEFT", ttsFrame, "TOPLEFT", 0, 0)
+        ttsFrame:SetSize(20, 20)
+    end
+
+    for _, button in next, { channel, menu, ttsFrame } do
+        if button then
+            if button:GetParent() ~= holder then
+                button:SetParent(holder)
+            end
+            button:ClearAllPoints()
+            if previous then
+                button:SetPoint("TOPRIGHT", previous, "BOTTOMRIGHT", 0, -1)
+            else
+                button:SetPoint("TOPRIGHT", holder, "TOPRIGHT", 2, 0)
+            end
+            previous = button
+        end
+    end
 end
 
 -- Tabs, dock and buttons -------------------------------------------------------------------
@@ -444,42 +615,81 @@ local function reanchor(region)
     end
 end
 
-local function styleTab(tab, minimized)
-    if not tab or skinned[tab] then
-        return
-    end
-    skinned[tab] = true
+-- Look that FCFTab_UpdateColors can undo; re-applied from that hook.
+local function applyTabLook(tab)
     for i = 1, #TAB_ART do
         clearTexture(tab[TAB_ART[i]])
     end
     tab:SetHeight(20)
-    accent(tab.HighlightLeft or tab.leftHighlightTexture, tab.HighlightMiddle or tab.middleHighlightTexture,
-        tab.HighlightRight or tab.rightHighlightTexture, tab)
-    addBackdrop(tab, "dock")
-    if minimized then
-        local name = tab:GetName()
-        local maximize = name and _G[name .. "MaximizeButton"]
-        skinButton(maximize, ICON_MAXIMIZE)
-        return
-    end
-    accent(tab.ActiveLeft or tab.leftSelectedTexture, tab.ActiveMiddle or tab.middleSelectedTexture,
-        tab.ActiveRight or tab.rightSelectedTexture, tab)
     if tab.glow then
         tab.glow:ClearAllPoints()
         tab.glow:SetPoint("BOTTOMLEFT", 8, 2)
         tab.glow:SetPoint("BOTTOMRIGHT", -8, 2)
     end
-    watchHover(tab)
-    hooksecurefunc(tab, "SetPoint", tabSetPoint)
-    reanchor(tab)
+    accent(tab.ActiveLeft or tab.leftSelectedTexture, tab.ActiveMiddle or tab.middleSelectedTexture,
+        tab.ActiveRight or tab.rightSelectedTexture, tab)
+    accent(tab.HighlightLeft or tab.leftHighlightTexture, tab.HighlightMiddle or tab.middleHighlightTexture,
+        tab.HighlightRight or tab.rightHighlightTexture, tab)
     local text = tab.Text
+    if tab.conversationIcon and text then
+        tab.conversationIcon:SetPoint("RIGHT", text, "LEFT", 0, 0)
+    end
+    reanchor(tab)
     if text then
-        hooksecurefunc(text, "SetPoint", tabTextSetPoint)
-        hooksecurefunc(text, "SetTextColor", tabTextSetColor)
-        reanchor(text)
         if not tab.selectedColorTable then
             text:SetTextColor(classR, classG, classB)
         end
+        reanchor(text)
+    end
+end
+
+local function styleTab(tab)
+    if not tab or skinned[tab] then
+        return
+    end
+    skinned[tab] = true
+    addBackdrop(tab, "dock")
+    watchHover(tab)
+    hooksecurefunc(tab, "SetPoint", tabSetPoint)
+    if tab.Text then
+        hooksecurefunc(tab.Text, "SetPoint", tabTextSetPoint)
+        hooksecurefunc(tab.Text, "SetTextColor", tabTextSetColor)
+    end
+    applyTabLook(tab)
+end
+
+local function styleMinimizedTab(tab)
+    if not tab or skinned[tab] then
+        return
+    end
+    skinned[tab] = true
+    addBackdrop(tab, "dock")
+    for i = 1, #TAB_ART do
+        clearTexture(tab[TAB_ART[i]])
+    end
+    tab:SetHeight(20)
+    if tab.glow then
+        tab.glow:ClearAllPoints()
+        tab.glow:SetPoint("BOTTOMLEFT", 8, 2)
+        tab.glow:SetPoint("BOTTOMRIGHT", -24, 2)
+    end
+    accent(tab.HighlightLeft or tab.leftHighlightTexture, tab.HighlightMiddle or tab.middleHighlightTexture,
+        tab.HighlightRight or tab.rightHighlightTexture, tab)
+    local text = tab.Text
+    if text then
+        hooksecurefunc(text, "SetTextColor", tabTextSetColor)
+        if not tab.selectedColorTable then
+            text:SetTextColor(classR, classG, classB)
+        end
+        if tab.conversationIcon then
+            tab.conversationIcon:SetPoint("RIGHT", text, "LEFT", 0, 0)
+        end
+    end
+    local name = tab:GetName()
+    local maximize = name and _G[name .. "MaximizeButton"]
+    if skinButton(maximize, ICON_MAXIMIZE) then
+        maximize:ClearAllPoints()
+        maximize:SetPoint("BOTTOMLEFT", tab, "BOTTOMRIGHT", 1, 0)
     end
 end
 
@@ -490,6 +700,7 @@ local function styleDock()
     end
     skinned[dock] = true
     fadeFrames[dock] = true
+    watchArea(dock)
     dock:SetHeight(20)
     local scroll = dock.scrollFrame
     if scroll then
@@ -538,12 +749,21 @@ local function setFont(object, path, size, flags, shadow)
     end
 end
 
+local writingSize = false
+
 local function applyFonts()
     local s = settings()
     local font = s.chat.font
     local path, flags = Chat.ResolveFont(font.name, defaultFont), font.outline and "OUTLINE" or ""
     for frame in next, styled do
-        setFont(frame, path, font.size, flags, font.shadow)
+        -- Store SUI's size as Blizzard's window font size, so its menu and
+        -- login code agree with it (1.x did the same).
+        local _, blizzardSize = GetChatWindowInfo(frame:GetID())
+        if FCF_SetChatWindowFontSize and blizzardSize ~= font.size then
+            writingSize = true
+            FCF_SetChatWindowFontSize(nil, frame, font.size)
+            writingSize = false
+        end
         local pool = frame.fontStringPool
         if pool then
             for line in pool:EnumerateActive() do
@@ -590,7 +810,7 @@ function F:Apply()
         frame:SetTimeVisible(s.fade.out_delay)
         set.up:SetShown(showButtons)
         set.down:SetShown(showButtons)
-        updateBottomButton(frame)
+        updateBottomButton(frame, true)
     end
     if not s.dock.fade.enabled then
         dockTarget, dockAlpha = 1, 1
@@ -613,6 +833,7 @@ function F:StyleFrame(frame)
     hide(frame.ScrollBar)
     hide(frame.ScrollToBottomButton)
     hide(frame.ScrollToTopButton)
+    hide(frame.ResizeButton)
     for i = 1, #SCROLL_ART do
         hide(_G[name .. SCROLL_ART[i]])
     end
@@ -621,7 +842,8 @@ function F:StyleFrame(frame)
     styleEditBox(frame)
     tabs[frame] = tab
     if buttonFrame then
-        fadeFrames[buttonFrame] = true -- holds the minimize button
+        fadeFrames[buttonFrame] = true -- holds the minimize and side buttons
+        watchArea(buttonFrame)
     end
 
     local minimize = _G[name .. "ButtonFrameMinimizeButton"] or (buttonFrame and buttonFrame.minimizeButton)
@@ -634,13 +856,13 @@ function F:StyleFrame(frame)
     local bottom = scrollButton(frame, SCROLL_BOTTOM, 0)
     bottom:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -4, 4)
     bottom:SetScript("OnClick", scrollToBottom)
-    bottom:Hide()
     local down = scrollButton(frame, SCROLL_DOWN, -1)
     down:SetPoint("BOTTOMRIGHT", bottom, "TOPRIGHT", 0, 4)
     local up = scrollButton(frame, SCROLL_UP, 1)
     up:SetPoint("BOTTOMRIGHT", down, "TOPRIGHT", 0, 4)
     scrollButtons[frame] = { up = up, down = down, bottom = bottom }
 
+    setBottomShown(bottom, false, true)
     frame:HookScript("OnMouseWheel", wheelHook)
     if frame.ScrollToBottom then
         hooksecurefunc(frame, "ScrollToBottom", wheelHook)
@@ -668,14 +890,15 @@ function F:OnLoad()
     -- Blizzard re-applies its per-window font size on login and from the tab menu.
     if FCF_SetChatWindowFontSize then
         self:Hook("FCF_SetChatWindowFontSize", function(_, frame)
-            if styled[frame] then
+            frame = frame or (FCF_GetCurrentChatFrame and FCF_GetCurrentChatFrame())
+            if not writingSize and styled[frame] then
                 applyFonts()
             end
         end)
     end
     if FCF_MinimizeFrame then
         self:Hook("FCF_MinimizeFrame", function(frame)
-            styleTab(frame.minFrame, true)
+            styleMinimizedTab(frame.minFrame)
         end)
     end
     -- A flashing tab (new whisper) keeps the dock visible.
@@ -703,6 +926,35 @@ function F:OnLoad()
             end
         end)
     end
+    if FCFTab_UpdateColors then
+        local refreshing = false
+        self:Hook("FCFTab_UpdateColors", function(tab)
+            if skinned[tab] and not refreshing then
+                refreshing = true
+                applyTabLook(tab)
+                refreshing = false
+            end
+        end)
+    end
+    local quickJoin = QuickJoinToastButton
+    if quickJoin then
+        if quickJoin.UpdateDisplayedFriendCount then
+            self:Hook(quickJoin, "UpdateDisplayedFriendCount", friendCountText)
+        end
+        if quickJoin.FriendToToastAnim then
+            self:HookScript(quickJoin.FriendToToastAnim, "OnPlay", function()
+                quickJoin.FriendCount:SetAlpha(0)
+            end)
+        end
+        if quickJoin.ToastToFriendAnim then
+            self:HookScript(quickJoin.ToastToFriendAnim, "OnFinished", function()
+                quickJoin.FriendCount:SetAlpha(1)
+            end)
+        end
+        for _, toast in next, { quickJoin.Toast, quickJoin.Toast2 } do
+            self:Hook(toast, "SetPoint", toastSetPoint)
+        end
+    end
     -- Selecting a tab changes which one is dimmed; Blizzard also writes tab alpha there.
     for _, fn in next, { "FCFDock_SelectWindow", "FCFTab_UpdateAlpha" } do
         if _G[fn] then
@@ -713,14 +965,8 @@ end
 
 function F:OnEnable()
     styleDock()
-    for buttonName, coords in next, SIDE_BUTTONS do
-        local button = _G[buttonName]
-        if button then
-            skinButton(button, coords)
-            fadeFrames[button] = true
-        end
-    end
     Chat.EachFrame(self.StyleFrame, self)
+    styleSideButtons()
     self:RegisterEvent("UPDATE_CHAT_WINDOWS", applyFonts)
     self:RegisterEvent("UPDATE_FLOATING_CHAT_WINDOWS", applyFonts)
     self:Apply()

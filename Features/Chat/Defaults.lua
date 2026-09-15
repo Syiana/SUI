@@ -12,19 +12,19 @@ local SUI = ns.SUI
 
 SUI:RegisterDefaults("chat", {
     style = "Modern",
-    top = true,
+    top = false,        -- 1.x: Custom style only
     link = true,
     copy = true,
     friendlist = true,
-    quickjoin = true,
-    looticons = true,
-    roleicons = true,
+    quickjoin = false,  -- 1.x: Custom style only
+    looticons = false,  -- 1.x: Custom style only
+    roleicons = false,  -- 1.x: removed in 10.1.5
     whisperalert = false,
     whispersound = SUI.mediaPath .. [[Sounds\whisper.ogg]],
     shortchannels = false,
     settings = {
         tooltips = true,
-        smooth = true,
+        smooth = false,     -- 1.x stored it but always jumped
         pixelscroll = false,
         scrollspeed = 3,
         fade = { enabled = true, out_delay = 60 },
@@ -34,6 +34,17 @@ SUI:RegisterDefaults("chat", {
         edit = { alpha = 0.8, position = "top", offset = 32, font = { name = "Default", size = 12, shadow = true, outline = true } },
     },
 })
+
+-- These options only did something in 1.x's dropped Custom style (role icons
+-- in none), so a 1.x profile never saw them on Modern/Default. AceDB did not
+-- store the old "true" defaults; force the stored value to the new default
+-- (off).
+SUI:RegisterMigration("chat-1x-custom-only-options", function(profile)
+    local chat = rawget(profile, "chat")
+    if type(chat) == "table" then
+        chat.quickjoin, chat.looticons, chat.roleicons, chat.top = false, false, false, false
+    end
+end)
 
 SUI:RegisterMigration("chat-1x-style", function(profile)
     local chat = rawget(profile, "chat")

@@ -3,8 +3,7 @@
 
     Helpers shared by the chat features (ns.Chat): message event filters
     across the 12.x ChatFrameUtil rename, iterating chat frames including
-    temporary whisper windows, font lookup and the copy window used by the
-    copy button and clickable links.
+    temporary whisper windows, and font lookup.
 ]]
 
 local _, ns = ...
@@ -78,75 +77,4 @@ function Chat.ResolveFont(name, fallback)
         return name
     end
     return SUI.Media:Fetch("font", name) or fallback
-end
-
--- Copy window ---------------------------------------------------------------------------
-local window
-
-local function scrollToEnd()
-    window.scroll:SetVerticalScroll(window.scroll:GetVerticalScrollRange())
-end
-
-local function createWindow()
-    window = CreateFrame("Frame", nil, UIParent, "BackdropTemplate")
-    window:SetSize(560, 320)
-    window:SetPoint("CENTER")
-    window:SetFrameStrata("DIALOG")
-    window:SetBackdrop({
-        bgFile = [[Interface\DialogFrame\UI-DialogBox-Background]],
-        tile = true, tileSize = 16, edgeSize = 16,
-        insets = { left = 3, right = 3, top = 3, bottom = 3 },
-    })
-    window:SetBackdropColor(0, 0, 0)
-    window:EnableMouse(true)
-    window:SetMovable(true)
-    window:RegisterForDrag("LeftButton")
-    window:SetScript("OnDragStart", window.StartMoving)
-    window:SetScript("OnDragStop", window.StopMovingOrSizing)
-    window:Hide()
-
-    window.title = window:CreateFontString(nil, "OVERLAY", "GameFontNormal")
-    window.title:SetPoint("TOPLEFT", 10, -9)
-
-    local close = CreateFrame("Button", nil, window, "UIPanelCloseButton")
-    close:SetPoint("TOPRIGHT", 0, -1)
-
-    window.scroll = CreateFrame("ScrollFrame", nil, window, "UIPanelScrollFrameTemplate")
-    window.scroll:SetPoint("TOPLEFT", 10, -30)
-    window.scroll:SetPoint("BOTTOMRIGHT", -30, 10)
-
-    local box = CreateFrame("EditBox", nil, window.scroll)
-    box:SetMultiLine(true)
-    box:SetAutoFocus(false)
-    box:SetFontObject(ChatFontNormal)
-    box:SetWidth(515)
-    box:SetScript("OnEscapePressed", function()
-        window:Hide()
-    end)
-    window.scroll:SetScrollChild(box)
-    window.box = box
-end
-
--- Shows text ready to copy. toEnd scrolls to the newest line.
-function Chat.ShowCopy(title, text, toEnd)
-    if not window then
-        createWindow()
-    end
-    window.title:SetText(title)
-    window.box:SetMaxLetters(0)
-    window.box:SetText(text)
-    window:Show()
-    window.box:SetFocus()
-    window.box:HighlightText()
-    if toEnd then
-        C_Timer.After(0, scrollToEnd)
-    else
-        window.scroll:SetVerticalScroll(0)
-    end
-end
-
-function Chat.HideCopy()
-    if window then
-        window:Hide()
-    end
 end

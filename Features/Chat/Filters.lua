@@ -18,7 +18,7 @@ local CanAccess = SUI.Compat.CanAccess
 -- Clickable URLs ---------------------------------------------------------------------------
 -- Links use the garrmission type: every client ignores unknown garrmission
 -- data silently, so a plain SetItemRef post-hook can handle the click without
--- replacing ItemRefTooltip methods.
+-- replacing ItemRefTooltip methods. The click fills the chat input like 1.x.
 local Links = SUI:NewFeature("Chat.Links", {
     category = "chat",
     toggle = "link",
@@ -59,7 +59,16 @@ function Links:OnLoad()
     end
     self:Hook("SetItemRef", function(link)
         if CanAccess(link) and type(link) == "string" and strsub(link, 1, #LINK_PREFIX) == LINK_PREFIX then
-            Chat.ShowCopy("Link", strsub(link, #LINK_PREFIX + 1))
+            -- Like 1.x: put the URL into the chat input, highlighted for copying.
+            local util = ChatFrameUtil
+            local choose = util and util.ChooseBoxForSend or ChatEdit_ChooseBoxForSend
+            local activate = util and util.ActivateChat or ChatEdit_ActivateChat
+            local box = choose and choose()
+            if box then
+                activate(box)
+                box:SetText(strsub(link, #LINK_PREFIX + 1))
+                box:HighlightText()
+            end
         end
     end)
 end

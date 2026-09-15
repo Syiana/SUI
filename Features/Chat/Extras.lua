@@ -2,7 +2,7 @@
     SUI 2.0 - Features/Chat/Extras.lua
 
     Small chat features: hyperlink tooltips on mouseover, the input box above
-    the chat for the Blizzard style, a whisper sound, the retail quick join
+    the chat for the Blizzard style (1.x: Custom style only, off by default), a whisper sound, the retail quick join
     button shown only on mouseover, and theme tinting of the chat edit boxes,
     channel and chat settings windows.
 ]]
@@ -11,35 +11,33 @@ local _, ns = ...
 local SUI = ns.SUI
 local Chat = ns.Chat
 
-local _G, next, strmatch = _G, next, string.match
+local _G, next, pcall, strfind = _G, next, pcall, string.find
 local CanAccess = SUI.Compat.CanAccess
 
--- Hyperlink tooltips -------------------------------------------------------------------
+-- Hyperlink tooltips (Modern style, as in 1.x) -------------------------------------------
 local Tooltips = SUI:NewFeature("Chat.Tooltips", {
     category = "chat",
-    toggle = "settings.tooltips",
+    toggle = function(db)
+        return db.settings.tooltips and db.style == "Modern"
+    end,
 })
 
--- Link types GameTooltip:SetHyperlink understands; anything else would error.
-local TOOLTIP_LINKS = {
-    item = true, spell = true, enchant = true, achievement = true, quest = true,
-    currency = true, talent = true, glyph = true, instancelock = true, unit = true,
-    keystone = true, mount = true, azessence = true, conduit = true, mawpower = true,
-    transmogappearance = true, transmogillusion = true,
-}
 local hookedFrames = {}
 local ownsTooltip = false
 
+-- 1.x skipped item links and let SetHyperlink reject types it cannot show.
+-- Hover only, so the pcall is not on a hot path.
 local function linkEnter(frame, link)
-    if not Tooltips.enabled or not CanAccess(link) then
+    if not Tooltips.enabled or not CanAccess(link) or type(link) ~= "string"
+        or strfind(link, "^item:") or strfind(link, "^garrmission:SUIurl:") then
         return
     end
-    local kind = strmatch(link, "^(%a+):")
-    if kind and TOOLTIP_LINKS[kind] then
-        GameTooltip:SetOwner(frame, "ANCHOR_CURSOR")
-        GameTooltip:SetHyperlink(link)
+    GameTooltip:SetOwner(frame, "ANCHOR_CURSOR")
+    if pcall(GameTooltip.SetHyperlink, GameTooltip, link) then
         GameTooltip:Show()
         ownsTooltip = true
+    else
+        GameTooltip:Hide()
     end
 end
 
