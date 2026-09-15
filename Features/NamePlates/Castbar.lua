@@ -22,8 +22,6 @@ local F = SUI:NewFeature("NamePlates.Castbar", {
     reload = true, -- icon anchors are only restored by Blizzard on a new layout
 })
 
-local BORDER = SUI.Media.textures .. [[Core\gloss]]
-
 -- Interrupts per class (retail and classic ids; the first known one is used).
 local KICKS = {
     WARRIOR = { 6552, 72 },
@@ -97,18 +95,17 @@ local function readyByInfo(spell)
     return not info or not CanAccess(info.duration) or info.duration <= 1.5
 end
 
-local function colorCast(bar, st)
-    local unit = st.unit
-    local channel = false
+-- Returns casting, channel, notInterruptible (the last may be secret).
+local function castInfo(unit)
     local name, _, _, _, _, _, _, notInterruptible = UnitCastingInfo(unit)
-    if not exists(name) then
-        name, _, _, _, _, _, notInterruptible = UnitChannelInfo(unit)
-        if not exists(name) then
-            active[bar] = nil
-            return
-        end
-        channel = true
+    if exists(name) then
+        return true, false, notInterruptible
     end
+    name, _, _, _, _, _, notInterruptible = UnitChannelInfo(unit)
+    return exists(name), true, notInterruptible
+end
+
+local function colorCast(bar, st, channel, notInterruptible)
     active[bar] = st
     local r, g, b = castR, castG, castB
     if channel then
@@ -167,8 +164,15 @@ local function onCastEvent(bar, event)
     if ANCHOR_EVENTS[event] then
         anchorIcon(bar)
     end
-    if useColors and COLOR_EVENTS[event] then
-        colorCast(bar, st)
+    if COLOR_EVENTS[event] then
+        local casting, channel, notInterruptible = castInfo(st.unit)
+        if casting then
+            -- 1.x: the icon gives way to Blizzard's shield on uninterruptible casts.
+            NP.SetIconHidden(bar.Icon, notInterruptible)
+            if useColors then
+                colorCast(bar, st, channel, notInterruptible)
+            end
+        end
     end
 end
 
@@ -201,12 +205,7 @@ local function setup(st)
     end
     local icon = bar.Icon
     if icon then
-        icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
-        local border = bar:CreateTexture(nil, "BACKGROUND", nil, -7)
-        border:SetTexture(BORDER)
-        border:SetPoint("TOPLEFT", icon, "TOPLEFT", -1, 1)
-        border:SetPoint("BOTTOMRIGHT", icon, "BOTTOMRIGHT", 1, -1)
-        SUI.Theme:Paint(border, true, 0.25)
+        NP.SkinIcon(icon, bar)
     end
     local timer = bar:CreateFontString(nil, "OVERLAY")
     timer:SetFont(STANDARD_TEXT_FONT, 8, "THINOUTLINE")
@@ -294,8 +293,12 @@ end
 
 function F:Cooldowns()
     for bar, st in next, active do
+        local casting, channel, notInterruptible = false, false, nil
         if st.unit and bar:IsShown() then
-            colorCast(bar, st)
+            casting, channel, notInterruptible = castInfo(st.unit)
+        end
+        if casting then
+            colorCast(bar, st, channel, notInterruptible)
         else
             active[bar] = nil
         end

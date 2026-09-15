@@ -12,7 +12,7 @@ local _, ns = ...
 local SUI = ns.SUI
 local NP = ns.NamePlates
 
-local next, tonumber, strsplit = next, tonumber, strsplit
+local next, tonumber, strsplit, max = next, tonumber, strsplit, math.max
 local UnitGUID, UnitIsPlayer, UnitClass, UnitCanAttack, UnitReaction, UnitIsUnit =
     UnitGUID, UnitIsPlayer, UnitClass, UnitCanAttack, UnitReaction, UnitIsUnit
 local UnitNameplateShowsWidgetsOnly = UnitNameplateShowsWidgetsOnly
@@ -89,6 +89,68 @@ local function read(st, unit)
     readArena(st)
 end
 
+-- 1.x icon look ---------------------------------------------------------------------
+-- Gloss border plus a theme coloured outer shadow. Icons are styled once and
+-- kept (plates and aura frames are pooled); shadows repaint on theme changes.
+local SHADOW = {
+    edgeFile = SUI.Media.textures .. [[Core\outer_shadow]],
+    tile = false,
+    tileSize = 32,
+    edgeSize = 4,
+    insets = { left = 4, right = 4, top = 4, bottom = 4 },
+}
+local GLOSS = SUI.Media.textures .. [[Core\gloss]]
+local shadows = {} -- icon -> backdrop frame
+
+local function paintShadow(back)
+    if SUI.Theme.enabled then
+        back:SetBackdropBorderColor(SUI.Theme:Color(0.25))
+    else
+        back:SetBackdropBorderColor(1, 1, 1)
+    end
+end
+
+function NP.SkinIcon(icon, parent)
+    if not icon or shadows[icon] then
+        return
+    end
+    icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+    local holder = CreateFrame("Frame", nil, parent)
+    local border = holder:CreateTexture(nil, "BACKGROUND", nil, -7)
+    border:SetTexture(GLOSS)
+    border:SetPoint("TOPLEFT", icon, "TOPLEFT", -1, 1)
+    border:SetPoint("BOTTOMRIGHT", icon, "BOTTOMRIGHT", 1, -1)
+    local back = CreateFrame("Frame", nil, parent, "BackdropTemplate")
+    back:SetPoint("TOPLEFT", icon, "TOPLEFT", -4, 4)
+    back:SetPoint("BOTTOMRIGHT", icon, "BOTTOMRIGHT", 4, -4)
+    back:SetFrameLevel(max(holder:GetFrameLevel() - 1, 0))
+    back:SetBackdrop(SHADOW)
+    SUI:ProtectBackdrop(back)
+    paintShadow(back)
+    back:SetAlpha(0.9)
+    back.border = border
+    shadows[icon] = back
+end
+
+-- Hides or shows a skinned icon with its border and shadow; `hidden` may be a secret.
+function NP.SetIconHidden(icon, hidden)
+    local back = shadows[icon]
+    if not back then
+        return
+    end
+    if SUI.Compat.IsSecret(hidden) then
+        if icon.SetAlphaFromBoolean then
+            icon:SetAlphaFromBoolean(hidden, 0, 1)
+            back.border:SetAlphaFromBoolean(hidden, 0, 1)
+            back:SetAlphaFromBoolean(hidden, 0, 0.9)
+        end
+        return
+    end
+    icon:SetAlpha(hidden and 0 or 1)
+    back.border:SetAlpha(hidden and 0 or 1)
+    back:SetAlpha(hidden and 0 or 0.9)
+end
+
 local F = SUI:NewFeature("NamePlates.Plates", {
     category = "nameplates",
     conflicts = NP.conflicts,
@@ -134,6 +196,12 @@ function F:Added(_, unit)
     end
     byUnit[unit] = frame
     read(st, unit)
+end
+
+function F:OnThemeChanged()
+    for _, back in next, shadows do
+        paintShadow(back)
+    end
 end
 
 function F:Removed(_, unit)

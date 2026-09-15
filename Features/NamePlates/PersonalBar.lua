@@ -104,6 +104,30 @@ local function size(frame, width, height)
     end
 end
 
+-- 1.x: SUI texture on the bar (fill drawn on BORDER) and on its prediction overlays.
+local PREDICTIONS = { "myHealPrediction", "otherHealPrediction", "totalAbsorb", "myHealAbsorb",
+    "overAbsorbGlow", "overHealAbsorbGlow", "ManaCostPredictionBar", "ManaCostPredictionBarOverlay" }
+
+local function fill(bar, texture)
+    if bar.SetStatusBarTexture then
+        bar:SetStatusBarTexture(texture)
+        local fillTexture = bar:GetStatusBarTexture()
+        if fillTexture then
+            fillTexture:SetDrawLayer("BORDER")
+        end
+    end
+    for i = 1, #PREDICTIONS do
+        local overlay = bar[PREDICTIONS[i]]
+        if overlay then
+            if overlay.SetStatusBarTexture then
+                overlay:SetStatusBarTexture(texture)
+            elseif overlay.SetTexture then
+                overlay:SetTexture(texture)
+            end
+        end
+    end
+end
+
 function apply()
     local cfg = F.db.personalbar
     local health, container, power, extra = getBars()
@@ -114,21 +138,34 @@ function apply()
     hookBar(extra, true)
     applying = true
     size(container, cfg.width, cfg.height)
+    if container and container ~= health then
+        fill(container, cfg.texture)
+    end
     if health then
-        health:SetStatusBarTexture(cfg.texture)
+        fill(health, cfg.texture)
         size(health, cfg.width, cfg.height)
         health:SetStatusBarColor(classR, classG, classB)
     end
     if power then
-        power:SetStatusBarTexture(cfg.texture)
+        fill(power, cfg.texture)
         size(power, cfg.width, cfg.manaheight)
-        local c = PowerBarColor and PowerBarColor[select(2, UnitPowerType("player"))]
+        local c = PowerBarColor and (PowerBarColor[select(2, UnitPowerType("player"))] or PowerBarColor.MANA)
         if c and c.r then
             power:SetStatusBarColor(c.r, c.g, c.b)
+            if power.Texture and power.Texture.SetVertexColor then
+                power.Texture:SetVertexColor(c.r, c.g, c.b)
+            end
+        end
+        -- 1.x hid the full-power flash and the power change feedback.
+        if power.FullPowerFrame then
+            power.FullPowerFrame:SetAlpha(0)
+        end
+        if power.FeedbackFrame then
+            power.FeedbackFrame:SetAlpha(0)
         end
     end
     if extra then
-        extra:SetStatusBarTexture(cfg.texture)
+        fill(extra, cfg.texture)
         size(extra, cfg.width)
     end
     applying = false

@@ -44,9 +44,14 @@ local function apply(st)
     local frame = st.frame
     if frame.myHealPrediction then
         frame.myHealPrediction:SetTexture(texture)
+        frame.myHealPrediction:SetVertexColor(16 / 510, 424 / 510, 400 / 510)
     end
     if frame.otherHealPrediction then
         frame.otherHealPrediction:SetTexture(texture)
+        frame.otherHealPrediction:SetVertexColor(0, 325 / 510, 292 / 510)
+    end
+    if frame.totalAbsorb then
+        frame.totalAbsorb:SetTexture(texture)
     end
 end
 
