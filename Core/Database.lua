@@ -91,6 +91,22 @@ SUI:RegisterMigration("core-1x-state", function(profile, db)
     profile.new_version = nil
 end)
 
+-- SUI 1.x wrote media paths as "Interface\Addons\SUI\...". WoW loads either
+-- spelling, but dropdowns and comparisons match exact strings, so normalise
+-- every stored SUI media path to the spelling LibSharedMedia registers.
+SUI:RegisterMigration("core-media-path-case", function(profile)
+    local function walk(t)
+        for key, value in pairs(t) do
+            if type(value) == "table" then
+                walk(value)
+            elseif type(value) == "string" and value:sub(1, 20):lower() == "interface\\addons\\sui" and value:sub(11, 16) ~= "AddOns" then
+                t[key] = "Interface\\AddOns" .. value:sub(17)
+            end
+        end
+    end
+    walk(profile)
+end)
+
 -- Import / export ---------------------------------------------------------------
 -- Copies only keys that exist in the defaults and have the same type. Tables
 -- without a defaults counterpart (lists, user data) are copied as a whole.
