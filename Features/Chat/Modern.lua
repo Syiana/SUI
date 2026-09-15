@@ -5,7 +5,8 @@
     buttons, a slim tab dock, class coloured icons, SUI scroll buttons,
     configurable fonts and message fading. Tabs and buttons fade out after a
     delay when the mouse leaves; enter/leave hooks drive it and the update
-    loop stops as soon as nothing animates. Blizzard's chat art cannot be put
+    loop stops as soon as nothing animates. Blizzard's own tab and button
+    frame fades are released for styled frames (12.x secret alpha taint). Blizzard's chat art cannot be put
     back live, so switching back to Default asks for a reload.
 ]]
 
@@ -27,6 +28,7 @@ local F = SUI:NewFeature("Chat.Modern", {
 
 local TEX = SUI.mediaPath .. [[Textures\Chat\]]
 local FADE_IN, FADE_OUT, FADE_DELAY = 0.2, 1, 3.5
+local INACTIVE_TAB_ALPHA = 0.5
 local HOLD_DELAY, HOLD_REPEAT = 0.3, 0.05
 
 local BACKDROP = {
@@ -63,6 +65,7 @@ local editBoxes = {}     -- edit box -> chat frame
 local backdrops = { chat = {}, edit = {}, dock = {} }
 local scrollButtons = {} -- chat frame -> { up, down, bottom }
 local skinned = {}       -- tabs, buttons, dock -> true
+local tabs = {}          -- styled chat frame -> its tab (alpha owned by SUI, see setDockAlpha)
 local fadeFrames = {}    -- frames that follow the dock alpha
 local guard = false      -- true while SUI re-anchors from inside its own hooks
 
@@ -78,6 +81,7 @@ local function addBackdrop(parent, kind, x, y)
     backdrop:SetPoint("TOPLEFT", x, -y)
     backdrop:SetPoint("BOTTOMRIGHT", -x, y)
     backdrop:SetBackdrop(BACKDROP)
+    SUI:ProtectBackdrop(backdrop)
     local alpha = settings()[kind].alpha
     backdrop:SetBackdropColor(0, 0, 0, alpha)
     backdrop:SetBackdropBorderColor(0, 0, 0, alpha)
@@ -174,6 +178,21 @@ local hovered, running = false, false
 local smoothJobs = {} -- chat frame -> true while easing to the bottom
 local holdButton, holdTime = nil, 0
 
+-- Tab alpha as in 1.x: with tab fading on, the selected tab is opaque and
+-- the others dimmed; flashing tabs never fade out. Without fading all are opaque.
+local function setTabAlpha(frame, tab, alpha)
+    if not (F.enabled and settings().dock.fade.enabled) then
+        tab:SetAlpha(1)
+        return
+    end
+    local base = frame == SELECTED_DOCK_FRAME and 1 or INACTIVE_TAB_ALPHA
+    if tab.alerting or (tab.glow and tab.glow:IsShown()) then
+        tab:SetAlpha(base)
+    else
+        tab:SetAlpha(base * alpha)
+    end
+end
+
 local function setDockAlpha(alpha)
     -- Chat.QuickJoin owns that button's alpha while it is on.
     local quickJoin = F.db.quickjoin and QuickJoinToastButton
@@ -181,6 +200,15 @@ local function setDockAlpha(alpha)
         if frame ~= quickJoin then
             frame:SetAlpha(alpha)
         end
+    end
+    for frame, tab in next, tabs do
+        setTabAlpha(frame, tab, alpha)
+    end
+end
+
+local function refreshTabAlpha()
+    if F.enabled then
+        setDockAlpha(dockAlpha)
     end
 end
 
@@ -286,6 +314,29 @@ local function watchHover(frame)
         hoverHooked[frame] = true
         frame:HookScript("OnEnter", enterHook)
         frame:HookScript("OnLeave", leaveHook)
+    end
+end
+
+-- Blizzard's FCF_OnUpdate fades every chat tab and button frame through the
+-- shared FADEFRAMES list and does arithmetic on the alpha it reads back. On
+-- 12.x that alpha is secret for objects SUI styles, so Blizzard's fade errors
+-- (FrameUtil.lua "startAlpha"). Take the tab and button frame of styled chat
+-- frames back out of that list right after Blizzard adds them and set SUI's
+-- own alpha instead (setDockAlpha). UIFrameFadeRemoveFrame
+-- securecalls the removal, so no taint spreads into FADEFRAMES. (1.x e17487c)
+local function releaseNativeFades(frame)
+    if not styled[frame] then
+        return
+    end
+    local tab = tabs[frame]
+    if tab then
+        UIFrameFadeRemoveFrame(tab)
+        setTabAlpha(frame, tab, dockAlpha)
+    end
+    local buttonFrame = frame.buttonFrame
+    if buttonFrame then
+        UIFrameFadeRemoveFrame(buttonFrame)
+        buttonFrame:SetAlpha(dockAlpha)
     end
 end
 
@@ -543,8 +594,8 @@ function F:Apply()
     end
     if not s.dock.fade.enabled then
         dockTarget, dockAlpha = 1, 1
-        setDockAlpha(1)
     end
+    setDockAlpha(dockAlpha)
 end
 
 -- Chat frames ----------------------------------------------------------------------------------
@@ -568,13 +619,16 @@ function F:StyleFrame(frame)
     addBackdrop(frame, "chat", -4, -4)
     styleTab(tab)
     styleEditBox(frame)
+    tabs[frame] = tab
+    if buttonFrame then
+        fadeFrames[buttonFrame] = true -- holds the minimize button
+    end
 
     local minimize = _G[name .. "ButtonFrameMinimizeButton"] or (buttonFrame and buttonFrame.minimizeButton)
     if minimize and tab then
         skinButton(minimize, ICON_MINIMIZE)
         minimize:ClearAllPoints()
         minimize:SetPoint("BOTTOMLEFT", tab, "BOTTOMRIGHT", 1, 0)
-        fadeFrames[minimize] = true
     end
 
     local bottom = scrollButton(frame, SCROLL_BOTTOM, 0)
@@ -592,6 +646,9 @@ function F:StyleFrame(frame)
         hooksecurefunc(frame, "ScrollToBottom", wheelHook)
     end
     watchHover(frame)
+    if UIFrameFadeRemoveFrame then
+        releaseNativeFades(frame)
+    end
 end
 
 function F:AddFrame(frame)
@@ -622,6 +679,14 @@ function F:OnLoad()
         end)
     end
     -- A flashing tab (new whisper) keeps the dock visible.
+    if UIFrameFadeRemoveFrame then
+        if FCF_FadeInChatFrame then
+            self:Hook("FCF_FadeInChatFrame", releaseNativeFades)
+        end
+        if FCF_FadeOutChatFrame then
+            self:Hook("FCF_FadeOutChatFrame", releaseNativeFades)
+        end
+    end
     if FCF_StartAlertFlash then
         self:Hook("FCF_StartAlertFlash", function()
             if settings().dock.fade.enabled then
@@ -632,10 +697,17 @@ function F:OnLoad()
     end
     if FCF_StopAlertFlash then
         self:Hook("FCF_StopAlertFlash", function()
+            refreshTabAlpha()
             if not hovered then
                 conceal()
             end
         end)
+    end
+    -- Selecting a tab changes which one is dimmed; Blizzard also writes tab alpha there.
+    for _, fn in next, { "FCFDock_SelectWindow", "FCFTab_UpdateAlpha" } do
+        if _G[fn] then
+            self:Hook(fn, refreshTabAlpha)
+        end
     end
 end
 
