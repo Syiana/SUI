@@ -1,6 +1,7 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/">
   <Script file="Defaults.lua"/>
   <Script file="Compat.lua"/>
+  <Script file="AuraStyle.lua"/>
   <Script file="Textures.lua"/>
   <Script file="Colors.lua"/>
   <Script file="Indicators.lua"/>

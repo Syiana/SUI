@@ -1,14 +1,13 @@
 --[[ SUI 2.0 - Features/UnitFrames/Options.lua
     The Unitframes tab. Keys are absolute because the statusbar texture is the
     shared general.texture; everything else lives in unitframes. Target aura
-    sizes are hidden while their aura type is hidden.
+    settings are hidden while their aura type is hidden.
 ]]
 
 local _, ns = ...
 local SUI = ns.SUI
 
 local RETAIL = { Mainline = true }
-local CLASSIC = { Classic = true }
 
 local function checkbox(key, label, tooltip, order, clients)
     return { key = "unitframes." .. key, type = "checkbox", label = label, tooltip = tooltip, column = 4, order = order, clients = clients }
@@ -25,10 +24,6 @@ end
 
 local function debuffsHidden()
     return SUI:Get("unitframes.debuffs.mode") == "hide"
-end
-
-local function allHidden()
-    return buffsHidden() and debuffsHidden()
 end
 
 local BUFF_MODES = {
@@ -109,27 +104,23 @@ SUI.Config:RegisterLayout("Unitframes", {
             { header = { type = "header", label = "Target Auras" } },
             {
                 buffmode = modeDropdown("buffs.mode", "Buffs", BUFF_MODES, 1, BUFF_TIP),
-                debuffmode = modeDropdown("debuffs.mode", "Debuffs", DEBUFF_MODES, 2, DEBUFF_TIP, RETAIL),
-                buffsize = slider("buffs.size", "Buff Size", 10, 50, 1, 2, "Size of target and focus buff icons.", CLASSIC, buffsHidden),
-                buffperrow = slider("buffs.perrow", "Buffs Per Row", 1, 16, 1, 3, "Number of buffs per row.", CLASSIC, buffsHidden),
+                buffsize = slider("buffs.size", "Buff Size", 10, 50, 1, 2, "Size of target and focus buff icons.", nil, buffsHidden),
+                buffperrow = slider("buffs.perrow", "Buffs Per Row", 1, 16, 1, 3, "Number of buffs per row.", nil, buffsHidden),
             },
             {
-                aurasize = slider("buffs.size", "Aura Size", 10, 50, 1, 1, "Size of auras cast by others.", RETAIL, allHidden),
-                ownsize = slider("debuffs.size", "Own Aura Size", 10, 50, 1, 2, "Size of your own auras (at least the Aura Size).", RETAIL, allHidden),
-                auraperrow = slider("buffs.perrow", "Auras Per Row", 1, 16, 1, 3, "Number of auras per row.", RETAIL, allHidden),
-                bufftextsize = slider("buffs.targettextsize", "Buff Text Size", 6, 20, 1, 1, "Font size of the buff stack counts.", CLASSIC, buffsHidden),
-                buffx = slider("buffs.targetx", "Buff X Offset", -50, 50, 1, 2, "Horizontal position of the buffs.", CLASSIC, buffsHidden),
-                buffy = slider("buffs.targety", "Buff Y Offset", -50, 50, 1, 3, "Vertical position of the buffs.", CLASSIC, buffsHidden),
+                bufftextsize = slider("buffs.targettextsize", "Buff Text Size", 6, 20, 1, 1, "Font size of the buff stack counts and timers.", nil, buffsHidden),
+                buffx = slider("buffs.targetx", "Buff X Offset", -50, 50, 1, 2, "Horizontal position of the buffs.", nil, buffsHidden),
+                buffy = slider("buffs.targety", "Buff Y Offset", -50, 50, 1, 3, "Vertical position of the buffs.", nil, buffsHidden),
             },
             {
-                debuffmode = modeDropdown("debuffs.mode", "Debuffs", DEBUFF_MODES, 1, DEBUFF_TIP, CLASSIC),
-                debuffsize = slider("debuffs.size", "Debuff Size", 10, 50, 1, 2, "Size of target and focus debuff icons.", CLASSIC, debuffsHidden),
-                debuffperrow = slider("debuffs.perrow", "Debuffs Per Row", 1, 16, 1, 3, "Number of debuffs per row.", CLASSIC, debuffsHidden),
+                debuffmode = modeDropdown("debuffs.mode", "Debuffs", DEBUFF_MODES, 1, DEBUFF_TIP),
+                debuffsize = slider("debuffs.size", "Debuff Size", 10, 50, 1, 2, "Size of target and focus debuff icons.", nil, debuffsHidden),
+                debuffperrow = slider("debuffs.perrow", "Debuffs Per Row", 1, 16, 1, 3, "Number of debuffs per row.", nil, debuffsHidden),
             },
             {
-                debufftextsize = slider("debuffs.targettextsize", "Debuff Text Size", 6, 20, 1, 1, "Font size of the debuff stack counts.", CLASSIC, debuffsHidden),
-                debuffx = slider("debuffs.targetx", "Debuff X Offset", -50, 50, 1, 2, "Horizontal position of the debuffs.", CLASSIC, debuffsHidden),
-                debuffy = slider("debuffs.targety", "Debuff Y Offset", -50, 50, 1, 3, "Vertical position of the debuffs.", CLASSIC, debuffsHidden),
+                debufftextsize = slider("debuffs.targettextsize", "Debuff Text Size", 6, 20, 1, 1, "Font size of the debuff stack counts and timers.", nil, debuffsHidden),
+                debuffx = slider("debuffs.targetx", "Debuff X Offset", -50, 50, 1, 2, "Horizontal position of the debuffs.", nil, debuffsHidden),
+                debuffy = slider("debuffs.targety", "Debuff Y Offset", -50, 50, 1, 3, "Vertical position of the debuffs.", nil, debuffsHidden),
             },
         }
     end,

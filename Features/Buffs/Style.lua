@@ -1,5 +1,7 @@
 --[[ SUI 2.0 - Features/Buffs/Style.lua
-    Borders, duration and stack texts of the player buff and debuff frames.
+    SUI 1.x look of the player buff and debuff frames: gloss border and soft
+    shadow (theme dependent, repainted on theme change, none for the
+    Blizzard theme), plus duration and stack texts.
     All clients use Blizzard's AuraFrame (BuffFrame/DebuffFrame) with a fixed
     set of aura buttons, so every button is styled once at load. Hooks on the
     button only redo what Blizzard resets: the debuff border colour on
@@ -10,7 +12,7 @@
 local _, ns = ...
 local SUI = ns.SUI
 
-local _G, ceil = _G, math.ceil
+local _G, ceil, CreateFrame = _G, math.ceil, CreateFrame
 local STANDARD_TEXT_FONT = STANDARD_TEXT_FONT
 local CanAccess = SUI.Compat.CanAccess
 
@@ -21,7 +23,10 @@ local F = SUI:NewFeature("Buffs.Style", {
     reload = true, -- borders and fonts are not taken back without a reload
 })
 
-local BORDER = SUI.mediaPath .. [[Textures\Core\gloss_border_w]]
+local GLOSS = SUI.mediaPath .. [[Textures\Core\gloss]]
+local GLOSS_WHITE = SUI.mediaPath .. [[Textures\Core\gloss_border_w]]
+local SHADOW = SUI.mediaPath .. [[Textures\Nameplates\textureShadow]]
+local HOLDER_SIZE = 34 -- 1.x: border and shadow sit on a 34px square centred on the icon
 
 -- Debuff type colours as numbers (1.x palette).
 local TYPE_R = { none = 0.8, Magic = 0.2, Curse = 0.6, Disease = 0.6, Poison = 0 }
@@ -40,7 +45,44 @@ local function colorDebuff(button)
     if not CanAccess(kind) or not kind or not TYPE_R[kind] then
         kind = "none"
     end
-    button.suiBorder:SetVertexColor(TYPE_R[kind], TYPE_G[kind], TYPE_B[kind])
+    button.suiBorder:SetVertexColor(TYPE_R[kind], TYPE_G[kind], TYPE_B[kind], 1)
+end
+
+-- Theme look (1.x): Dark uses the grey gloss and a black shadow, other themes
+-- the white gloss tinted with the theme colour. "Blizzard" shows no SUI art.
+local function paint(button)
+    local Theme = SUI.Theme
+    local shown = Theme.enabled
+    button.suiHolder:SetShown(shown)
+    button.suiBorder:SetShown(shown)
+    if button.DebuffBorder then
+        button.DebuffBorder:SetAlpha(shown and 0 or 1)
+    end
+    if button.TempEnchantBorder then
+        button.TempEnchantBorder:SetAlpha(shown and 0 or 1)
+    end
+    button.Icon:SetTexCoord(shown and 0.08 or 0, shown and 0.92 or 1, shown and 0.08 or 0, shown and 0.92 or 1)
+    if not shown then
+        return
+    end
+    local dark = Theme.name == "Dark"
+    if dark then
+        button.suiShadow:SetVertexColor(0, 0, 0, 0.9)
+    else
+        local r, g, b = Theme:Color(0.2)
+        button.suiShadow:SetVertexColor(r, g, b, 0.9)
+    end
+    if buttons[button] == "debuff" then
+        colorDebuff(button)
+    else
+        button.suiBorder:SetTexture(dark and GLOSS or GLOSS_WHITE)
+        if dark then
+            button.suiBorder:SetVertexColor(0.4, 0.35, 0.35, 1)
+        else
+            local r, g, b = Theme:Color()
+            button.suiBorder:SetVertexColor(r, g, b, 1)
+        end
+    end
 end
 
 local function formatDuration(button, timeLeft)
@@ -80,7 +122,9 @@ local function applyButton(button)
     setDurationFont(button)
     setDurationPoint(button)
     button.Duration:SetAlpha(db.durationtext and 1 or 0)
+    button.Duration:SetDrawLayer("ARTWORK")
     local count = button.Count
+    count:SetDrawLayer("ARTWORK")
     count:SetFont(STANDARD_TEXT_FONT, db.textsize, "OUTLINE")
     count:ClearAllPoints()
     count:SetPoint("TOPRIGHT", button, "TOPRIGHT", db.countx, db.county)
@@ -89,26 +133,36 @@ end
 function F:InitButton(button, kind)
     buttons[button] = kind
     local icon = button.Icon
-    icon:SetTexCoord(0.08, 0.92, 0.08, 0.92)
+
+    local holder = CreateFrame("Frame", nil, button)
+    holder:SetFrameLevel(button:GetFrameLevel())
+    holder:SetPoint("CENTER", icon, "CENTER", 0, 0)
+    holder:SetSize(HOLDER_SIZE, HOLDER_SIZE)
+    holder:SetAlpha(icon:GetAlpha() or 1)
+    button.suiHolder = holder
+
+    local shadow = holder:CreateTexture(nil, "BACKGROUND", nil, -8)
+    shadow:SetTexture(SHADOW)
+    shadow:SetPoint("CENTER", holder, "CENTER", 0, 0)
+    shadow:SetSize(HOLDER_SIZE + 8, HOLDER_SIZE + 8)
+    button.suiShadow = shadow
 
     local border = button:CreateTexture(nil, "OVERLAY", nil, 1)
-    border:SetTexture(BORDER)
-    border:SetPoint("TOPLEFT", icon, "TOPLEFT", -2, 2)
-    border:SetPoint("BOTTOMRIGHT", icon, "BOTTOMRIGHT", 2, -2)
+    border:SetTexture(GLOSS_WHITE)
+    border:SetAllPoints(holder)
     button.suiBorder = border
-    if button.DebuffBorder then
-        button.DebuffBorder:SetAlpha(0)
-    end
-    if button.TempEnchantBorder then
-        button.TempEnchantBorder:SetAlpha(0)
-    end
 
+    self:Hook(icon, "SetAlpha", function(_, alpha)
+        holder:SetAlpha(alpha)
+    end)
     if kind == "debuff" then
-        border:SetDesaturated(true)
-        self:Hook(button, "Update", colorDebuff)
-    else
-        SUI.Theme:Paint(border, true)
+        self:Hook(button, "Update", function()
+            if SUI.Theme.enabled then
+                colorDebuff(button)
+            end
+        end)
     end
+    paint(button)
     if button.UpdateDuration then
         self:Hook(button, "UpdateDuration", formatDuration)
     end
@@ -156,3 +210,9 @@ end
 
 F.OnEnable = F.Apply
 F.OnRefresh = F.Apply
+
+function F:OnThemeChanged()
+    for button in next, buttons do
+        paint(button)
+    end
+end
